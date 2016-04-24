@@ -14,7 +14,7 @@ NAME = Hengband
 APPNAME = $(NAME).app
 EXE = hengband
 VERSION = $(shell ../scripts/version.sh)
-COPYRIGHT = 2012 Hengband Dev Team.
+COPYRIGHT = Hengband Dev Team.
 
 # For now, buggy in 64bit
 #ARCH = -arch i386 -arch x86_64

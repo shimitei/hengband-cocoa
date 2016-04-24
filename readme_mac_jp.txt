@@ -1,9 +1,8 @@
-変愚蛮怒 2.0.0 Mac OS X フロントエンドについて
+変愚蛮怒 2.1.4 Mac OS X
 
-
-このフロントエンドは vanilla Angband 3.3.0 から移植作業中のものです。
-セーブファイル・ハイスコア等が破損する可能性もありますので、
-ご使用は自己責任でお願いします。
+ローグライクゲーム、変愚蛮怒の Mac フロントエンドです。
+Mac OS X 10.9以降をターゲットとしています。
+ビルド・動作の確認は OS X El Capitan 10.11.4, Xcode 7.3 で行なっています。
 
 
 1. コンパイル済アプリケーションについて
@@ -25,6 +24,10 @@ src/makefile.osx
 lib/pref/pref-mac.prf （上書き）
 
 ターミナルで src/ に cd し、
+ソースコードをEUCに変換
+n/f -e -—overwrite *.c
+n/f -e -—overwrite *.h
+メイク
 make -f makefile.osx
 するとツリートップにビルドされます。（要 Xcode）
 
@@ -46,8 +49,10 @@ make -f makefile.osx
 　（ビルド済および makefile は 32bit に制限しています）
 
 
-ビルド・動作の確認は OSX Lion 10.7.4, Xcode 4.3.3 で行なっています。
-メンテナの皆さん、いつもお疲れ様です。
+4. 履歴
 
-2012/7/24
-＠の溜まり場II プログラム関連スレ の445
+変愚蛮怒 2.0.0のフロントエンドは vanilla Angband 3.3.0 から移植されました。
+https://github.com/oddstr/hengband-cocoa
+
+変愚蛮怒 2.1.4以降対応
+https://github.com/shimitei/hengband-cocoa
