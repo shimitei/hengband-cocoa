@@ -1,4 +1,4 @@
-/* File: h-define.h */
+﻿/* File: h-define.h */
 
 #ifndef INCLUDED_H_DEFINE_H
 #define INCLUDED_H_DEFINE_H
@@ -137,6 +137,10 @@
 #  define ESCAPE	'\033'
 #endif
 
+/*
+ * Refer to the member at offset of structure
+ */
+#define atoffset(TYPE, STRUCT_PTR, OFFSET) (*(TYPE*)(((char*)STRUCT_PTR) + (OFFSET)))
 
 #endif
 

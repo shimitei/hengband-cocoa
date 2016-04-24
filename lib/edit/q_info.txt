@@ -71,7 +71,10 @@
 #?:[EQU $QUEST_NUMBER 17]
 #%:q000lyeh.txt
 
-# Quest #18 was removed
+# Quest #18 was returned!
+# Water Cave
+?:[EQU $QUEST_NUMBER 18]
+%:q00water.txt
 
 # Doom Quest 1
 ?:[EQU $QUEST_NUMBER 19]
@@ -132,6 +135,10 @@
 # The Cloning Pits
 ?:[EQU $QUEST_NUMBER 33]
 %:q0clone0.txt
+
+# Locked Room Murder Case
+?:[EQU $QUEST_NUMBER 34]
+%:q0dumpwitness.txt
 
 # Random quests (always adressed with number 40)
 ?:[EQU $QUEST_NUMBER 40]

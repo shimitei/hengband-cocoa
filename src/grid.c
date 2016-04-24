@@ -1,14 +1,15 @@
-/*
- * File: grid.c
- * Purpose: low-level dungeon creation primitives
- */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ * @file grid.c
+ * @brief ダンジョンの生成処理の基幹部分 / low-level dungeon creation primitives
+ * @date 2014/01/04
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ *\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * \n
+ * 2014 Deskull Doxygen向けのコメント整理\n
  */
 
 #include "angband.h"
@@ -16,8 +17,9 @@
 #include "grid.h"
 
 
-/*
- * Returns random co-ordinates for player/monster/object
+/*!
+ * @brief 新規フロアに入りたてのプレイヤーをランダムな場所に配置する / Returns random co-ordinates for player/monster/object
+ * @return 配置に成功したらTRUEを返す
  */
 bool new_player_spot(void)
 {
@@ -76,8 +78,12 @@ bool new_player_spot(void)
 }
 
 
-/*
- * Place an up/down staircase at given location
+
+/*!
+ * @brief 所定の位置に上り階段か下り階段を配置する / Place an up/down staircase at given location
+ * @param y 配置を試みたいマスのY座標
+ * @param x 配置を試みたいマスのX座標
+ * @return なし
  */
 void place_random_stairs(int y, int x)
 {
@@ -122,9 +128,12 @@ void place_random_stairs(int y, int x)
 		place_down_stairs(y, x);
 }
 
-
-/*
- * Place a random type of door at the given location
+/*!
+ * @brief 所定の位置にさまざまな状態や種類のドアを配置する / Place a random type of door at the given location
+ * @param y ドアの配置を試みたいマスのY座標
+ * @param x ドアの配置を試みたいマスのX座標
+ * @param room 部屋に接している場合向けのドア生成か否か
+ * @return なし
  */
 void place_random_door(int y, int x, bool room)
 {
@@ -203,9 +212,12 @@ void place_random_door(int y, int x, bool room)
 	delete_monster(y, x);
 }
 
-
-/*
- * Place a random type of normal door at the given location.
+/*!
+ * @brief 所定の位置に各種の閉じたドアを配置する / Place a random type of normal door at the given location.
+ * @param y ドアの配置を試みたいマスのY座標
+ * @param x ドアの配置を試みたいマスのX座標
+ * @param type ドアの地形ID
+ * @return なし
  */
 void place_closed_door(int y, int x, int type)
 {
@@ -255,9 +267,14 @@ void place_closed_door(int y, int x, int type)
 	}
 }
 
-
-/*
- * Make an empty square floor, for the middle of rooms
+/*!
+ * @brief 長方形の空洞を生成する / Make an empty square floor, for the middle of rooms
+ * @param x1 長方形の左端X座標(-1)
+ * @param x2 長方形の右端X座標(+1)
+ * @param y1 長方形の上端Y座標(-1)
+ * @param y2 長方形の下端Y座標(+1)
+ * @param light 照明の有無
+ * @return なし
  */
 void place_floor(int x1, int x2, int y1, int y2, bool light)
 {
@@ -276,8 +293,14 @@ void place_floor(int x1, int x2, int y1, int y2, bool light)
 }
 
 
-/*
- * Make an empty square room, only floor and wall grids
+/*!
+ * @brief 長方形の部屋を生成する / Make an empty square room, only floor and wall grids
+ * @param x1 長方形の左端X座標(-1)
+ * @param x2 長方形の右端X座標(+1)
+ * @param y1 長方形の上端Y座標(-1)
+ * @param y2 長方形の下端Y座標(+1)
+ * @param light 照明の有無
+ * @return なし
  */
 void place_room(int x1, int x2, int y1, int y2, bool light)
 {
@@ -299,8 +322,13 @@ void place_room(int x1, int x2, int y1, int y2, bool light)
 }
 
 
-/*
- * Create up to "num" objects near the given coordinates
+/*!
+ * @brief 特殊な部屋向けに各種アイテムを配置する / Create up to "num" objects near the given coordinates
+ * @param y 配置したい中心マスのY座標
+ * @param x 配置したい中心マスのX座標
+ * @param num 配置したい数
+ * @return なし
+ * @details
  * Only really called by some of the "vault" routines.
  */
 void vault_objects(int y, int x, int num)
@@ -333,7 +361,7 @@ void vault_objects(int y, int x, int num)
 				if (cheat_room)
 				{
 #ifdef JP
-msg_print("�ٹ��ϲ����Υ����ƥ�����֤Ǥ��ޤ���");
+msg_print("警告！地下室のアイテムを配置できません！");
 #else
 					msg_print("Warning! Could not place vault object!");
 #endif
@@ -364,9 +392,15 @@ msg_print("�ٹ��ϲ����Υ����ƥ�����֤Ǥ��ޤ���");
 	}
 }
 
-
-/*
- * Place a trap with a given displacement of point
+/*!
+ * @brief 特殊な部屋向けに各種アイテムを配置する(vault_trapのサブセット) / Place a trap with a given displacement of point
+ * @param y トラップを配置したいマスの中心Y座標
+ * @param x トラップを配置したいマスの中心X座標
+ * @param yd Y方向の配置分散マス数
+ * @param xd X方向の配置分散マス数
+ * @return なし
+ * @details
+ * Only really called by some of the "vault" routines.
  */
 void vault_trap_aux(int y, int x, int yd, int xd)
 {
@@ -393,7 +427,7 @@ void vault_trap_aux(int y, int x, int yd, int xd)
 			if (cheat_room)
 			{
 #ifdef JP
-msg_print("�ٹ��ϲ����Υȥ�åפ����֤Ǥ��ޤ���");
+msg_print("警告！地下室のトラップを配置できません！");
 #else
 				msg_print("Warning! Could not place vault trap!");
 #endif
@@ -413,9 +447,16 @@ msg_print("�ٹ��ϲ����Υȥ�åפ����֤Ǥ��ޤ���");
 	}
 }
 
-
-/*
- * Place some traps with a given displacement of given location
+/*!
+ * @brief 特殊な部屋向けに各種アイテムを配置する(メインルーチン) / Place some traps with a given displacement of given location
+ * @param y トラップを配置したいマスの中心Y座標
+ * @param x トラップを配置したいマスの中心X座標
+ * @param yd Y方向の配置分散マス数
+ * @param xd X方向の配置分散マス数
+ * @param num 配置したいトラップの数
+ * @return なし
+ * @details
+ * Only really called by some of the "vault" routines.
  */
 void vault_traps(int y, int x, int yd, int xd, int num)
 {
@@ -427,9 +468,14 @@ void vault_traps(int y, int x, int yd, int xd, int num)
 	}
 }
 
-
-/*
- * Hack -- Place some sleeping monsters near the given location
+/*!
+ * @brief 特殊な部屋地形向けにモンスターを配置する / Hack -- Place some sleeping monsters near the given location
+ * @param y1 モンスターを配置したいマスの中心Y座標
+ * @param x1 モンスターを配置したいマスの中心X座標
+ * @param num 配置したいモンスターの数
+ * @return なし
+ * @details
+ * Only really called by some of the "vault" routines.
  */
 void vault_monsters(int y1, int x1, int num)
 {
@@ -460,8 +506,15 @@ void vault_monsters(int y1, int x1, int num)
 }
 
 
-/*
- * Always picks a correct direction
+/*!
+ * @brief build_tunnel用に通路を掘るための方向を位置関係通りに決める / Always picks a correct direction
+ * @param rdir Y方向に取るべきベクトル値を返す参照ポインタ
+ * @param cdir X方向に取るべきベクトル値を返す参照ポインタ
+ * @param y1 始点Y座標
+ * @param x1 始点X座標
+ * @param y2 終点Y座標
+ * @param x2 終点X座標
+ * @return なし
  */
 void correct_dir(int *rdir, int *cdir, int y1, int x1, int y2, int x2)
 {
@@ -479,9 +532,11 @@ void correct_dir(int *rdir, int *cdir, int y1, int x1, int y2, int x2)
 	}
 }
 
-
-/*
- * Pick a random direction
+/*!
+ * @brief build_tunnel用に通路を掘るための方向をランダムに決める / Pick a random direction
+ * @param rdir Y方向に取るべきベクトル値を返す参照ポインタ
+ * @param cdir X方向に取るべきベクトル値を返す参照ポインタ
+ * @return なし
  */
 void rand_dir(int *rdir, int *cdir)
 {
@@ -493,8 +548,12 @@ void rand_dir(int *rdir, int *cdir)
 	*cdir = ddx_ddd[i];
 }
 
-
-/* Function that sees if a square is a floor.  (Includes range checking.) */
+/*!
+ * @brief 指定のマスが床系地形であるかを返す / Function that sees if a square is a floor.  (Includes range checking.)
+ * @param x チェックするマスのX座標
+ * @param y チェックするマスのY座標
+ * @return 床系地形ならばTRUE
+ */
 bool get_is_floor(int x, int y)
 {
 	if (!in_bounds(y, x))
@@ -509,8 +568,12 @@ bool get_is_floor(int x, int y)
 	return (FALSE);
 }
 
-
-/* Set a square to be floor.  (Includes range checking.) */
+/*!
+ * @brief 指定のマスを床地形に変える / Set a square to be floor.  (Includes range checking.)
+ * @param x 地形を変えたいマスのX座標
+ * @param y 地形を変えたいマスのY座標
+ * @return なし
+ */
 void set_floor(int x, int y)
 {
 	if (!in_bounds(y, x))
@@ -531,36 +594,40 @@ void set_floor(int x, int y)
 }
 
 
-
-/*
- * Constructs a tunnel between two points
- *
- * This function must be called BEFORE any streamers are created,
- * since we use the special "granite wall" sub-types to keep track
- * of legal places for corridors to pierce rooms.
- *
- * We use "door_flag" to prevent excessive construction of doors
- * along overlapping corridors.
- *
- * We queue the tunnel grids to prevent door creation along a corridor
- * which intersects itself.
- *
- * We queue the wall piercing grids to prevent a corridor from leaving
- * a room and then coming back in through the same entrance.
- *
- * We "pierce" grids which are "outer" walls of rooms, and when we
- * do so, we change all adjacent "outer" walls of rooms into "solid"
- * walls so that no two corridors may use adjacent grids for exits.
- *
- * The "solid" wall check prevents corridors from "chopping" the
- * corners of rooms off, as well as "silly" door placement, and
- * "excessively wide" room entrances.
- *
- * Kind of walls:
- *   extra -- walls
- *   inner -- inner room walls
- *   outer -- outer room walls
- *   solid -- solid room walls
+/*!
+ * @brief 部屋間のトンネルを生成する / Constructs a tunnel between two points
+ * @param row1 始点Y座標
+ * @param col1 始点X座標
+ * @param row2 終点Y座標
+ * @param col2 終点X座標
+ * @return 生成に成功したらTRUEを返す
+ * @details
+ * This function must be called BEFORE any streamers are created,\n
+ * since we use the special "granite wall" sub-types to keep track\n
+ * of legal places for corridors to pierce rooms.\n
+ *\n
+ * We use "door_flag" to prevent excessive construction of doors\n
+ * along overlapping corridors.\n
+ *\n
+ * We queue the tunnel grids to prevent door creation along a corridor\n
+ * which intersects itself.\n
+ *\n
+ * We queue the wall piercing grids to prevent a corridor from leaving\n
+ * a room and then coming back in through the same entrance.\n
+ *\n
+ * We "pierce" grids which are "outer" walls of rooms, and when we\n
+ * do so, we change all adjacent "outer" walls of rooms into "solid"\n
+ * walls so that no two corridors may use adjacent grids for exits.\n
+ *\n
+ * The "solid" wall check prevents corridors from "chopping" the\n
+ * corners of rooms off, as well as "silly" door placement, and\n
+ * "excessively wide" room entrances.\n
+ *\n
+ * Kind of walls:\n
+ *   extra -- walls\n
+ *   inner -- inner room walls\n
+ *   outer -- outer room walls\n
+ *   solid -- solid room walls\n
  */
 bool build_tunnel(int row1, int col1, int row2, int col2)
 {
@@ -740,16 +807,23 @@ bool build_tunnel(int row1, int col1, int row2, int col2)
 }
 
 
-/*
- * This routine adds the square to the tunnel
- * It also checks for SOLID walls - and returns a nearby
- * non-SOLID square in (x,y) so that a simple avoiding
- * routine can be used. The returned boolean value reflects
- * whether or not this routine hit a SOLID wall.
- *
- * "affectwall" toggles whether or not this new square affects
- * the boundaries of rooms. - This is used by the catacomb
- * routine.
+/*!
+ * @brief トンネル生成のための基準点を指定する。
+ * @param x 基準点を指定するX座標の参照ポインタ、適時値が修正される。
+ * @param y 基準点を指定するY座標の参照ポインタ、適時値が修正される。
+ * @param affectwall (調査中)
+ * @return なし
+ * @details
+ * This routine adds the square to the tunnel\n
+ * It also checks for SOLID walls - and returns a nearby\n
+ * non-SOLID square in (x,y) so that a simple avoiding\n
+ * routine can be used. The returned boolean value reflects\n
+ * whether or not this routine hit a SOLID wall.\n
+ *\n
+ * "affectwall" toggles whether or not this new square affects\n
+ * the boundaries of rooms. - This is used by the catacomb\n
+ * routine.\n
+ * @todo 特に詳細な処理の意味を調査すべし
  */
 static bool set_tunnel(int *x, int *y, bool affectwall)
 {
@@ -860,8 +934,12 @@ static bool set_tunnel(int *x, int *y, bool affectwall)
 }
 
 
-/*
- * This routine creates the catacomb-like tunnels by removing extra rock.
+/*!
+ * @brief 外壁を削って「カタコンベ状」の通路を作成する / This routine creates the catacomb-like tunnels by removing extra rock.
+ * @param x 基準点のX座標
+ * @param y 基準点のY座標
+ * @return なし
+ * @details
  * Note that this routine is only called on "even" squares - so it gives
  * a natural checkerboard pattern.
  */
@@ -888,24 +966,27 @@ static void create_cata_tunnel(int x, int y)
 }
 
 
-/*
- * This routine does the bulk of the work in creating the new types of tunnels.
- * It is designed to use very simple algorithms to go from (x1,y1) to (x2,y2)
- * It doesn't need to add any complexity - straight lines are fine.
- * The SOLID walls are avoided by a recursive algorithm which tries random ways
- * around the obstical until it works.  The number of itterations is counted, and it
- * this gets too large the routine exits. This should stop any crashes - but may leave
- * small gaps in the tunnel where there are too many SOLID walls.
- *
- * Type 1 tunnels are extremely simple - straight line from A to B.  This is only used
- * as a part of the dodge SOLID walls algorithm.
- *
- * Type 2 tunnels are made of two straight lines at right angles. When this is used with
- * short line segments it gives the "cavelike" tunnels seen deeper in the dungeon.
- *
- * Type 3 tunnels are made of two straight lines like type 2, but with extra rock removed.
- * This, when used with longer line segments gives the "catacomb-like" tunnels seen near
- * the surface.
+/*!
+ * @brief トンネル生成処理（詳細調査中）/ This routine does the bulk of the work in creating the new types of tunnels.
+ * @return なし
+ * @todo 詳細用調査
+ * @details
+ * It is designed to use very simple algorithms to go from (x1,y1) to (x2,y2)\n
+ * It doesn't need to add any complexity - straight lines are fine.\n
+ * The SOLID walls are avoided by a recursive algorithm which tries random ways\n
+ * around the obstical until it works.  The number of itterations is counted, and it\n
+ * this gets too large the routine exits. This should stop any crashes - but may leave\n
+ * small gaps in the tunnel where there are too many SOLID walls.\n
+ *\n
+ * Type 1 tunnels are extremely simple - straight line from A to B.  This is only used\n
+ * as a part of the dodge SOLID walls algorithm.\n
+ *\n
+ * Type 2 tunnels are made of two straight lines at right angles. When this is used with\n
+ * short line segments it gives the "cavelike" tunnels seen deeper in the dungeon.\n
+ *\n
+ * Type 3 tunnels are made of two straight lines like type 2, but with extra rock removed.\n
+ * This, when used with longer line segments gives the "catacomb-like" tunnels seen near\n
+ * the surface.\n
  */
 static void short_seg_hack(int x1, int y1, int x2, int y2, int type, int count, bool *fail)
 {
@@ -1020,16 +1101,19 @@ static void short_seg_hack(int x1, int y1, int x2, int y2, int type, int count, 
 }
 
 
-/*
- * This routine maps a path from (x1, y1) to (x2, y2) avoiding SOLID walls.
- * Permanent rock is ignored in this path finding- sometimes there is no
- * path around anyway -so there will be a crash if we try to find one.
- * This routine is much like the river creation routine in Zangband.
- * It works by dividing a line segment into two.  The segments are divided
- * until they are less than "cutoff" - when the corresponding routine from
- * "short_seg_hack" is called.
- * Note it is VERY important that the "stop if hit another passage" logic
- * stays as is.  Without this the dungeon turns into Swiss Cheese...
+/*!
+ * @brief 特定の壁(永久壁など)を避けながら部屋間の通路を作成する / This routine maps a path from (x1, y1) to (x2, y2) avoiding SOLID walls.
+ * @return なし
+ * @todo 詳細用調査
+ * @details
+ * Permanent rock is ignored in this path finding- sometimes there is no\n
+ * path around anyway -so there will be a crash if we try to find one.\n
+ * This routine is much like the river creation routine in Zangband.\n
+ * It works by dividing a line segment into two.  The segments are divided\n
+ * until they are less than "cutoff" - when the corresponding routine from\n
+ * "short_seg_hack" is called.\n
+ * Note it is VERY important that the "stop if hit another passage" logic\n
+ * stays as is.  Without this the dungeon turns into Swiss Cheese...\n
  */
 bool build_tunnel2(int x1, int y1, int x2, int y2, int type, int cutoff)
 {

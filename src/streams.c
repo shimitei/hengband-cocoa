@@ -1,4 +1,4 @@
-/*
+Ôªø/*
  * File: streams.c
  * Purpose: Used by dungeon generation. This file holds all the
  * functions that are applied to a level after the rest has been
@@ -223,7 +223,7 @@ void build_streamer(int feat, int chance)
 	x = rand_spread(cur_wid / 2, cur_wid / 6);
 
 	/* Choose a random compass direction */
-	dir = ddd[randint0(8)];
+	dir = randint0(8);
 
 	/* Place streamer into dungeon */
 	while (dummy < SAFE_MAX_ATTEMPTS)
@@ -291,7 +291,7 @@ void build_streamer(int feat, int chance)
 							char o_name[MAX_NLEN];
 							object_desc(o_name, o_ptr, (OD_NAME_ONLY | OD_STORE));
 #ifdef JP
-							msg_format("≈¡¿‚§Œ•¢•§•∆•‡ (%s) §œ•π•»•Í°º•ﬁ°º§À§Ë§Í∫ÔΩ¸§µ§Ï§ø°£", o_name);
+							msg_format("‰ºùË™¨„ÅÆ„Ç¢„Ç§„ÉÜ„É† (%s) „ÅØ„Çπ„Éà„É™„Éº„Éû„Éº„Å´„Çà„ÇäÂâäÈô§„Åï„Çå„Åü„ÄÇ", o_name);
 #else
 							msg_format("Artifact (%s) was deleted by streamer.", o_name);
 #endif
@@ -300,7 +300,7 @@ void build_streamer(int feat, int chance)
 					else if (cheat_peek && o_ptr->art_name)
 					{
 #ifdef JP
-						msg_print("•È•Û•¿•‡°¶•¢°º•∆•£•’•°•Ø•»§Œ1§ƒ§œ•π•»•Í°º•ﬁ°º§À§Ë§Í∫ÔΩ¸§µ§Ï§ø°£");
+						msg_print("„É©„É≥„ÉÄ„É†„Éª„Ç¢„Éº„ÉÜ„Ç£„Éï„Ç°„ÇØ„Éà„ÅÆ1„Å§„ÅØ„Çπ„Éà„É™„Éº„Éû„Éº„Å´„Çà„ÇäÂâäÈô§„Åï„Çå„Åü„ÄÇ");
 #else
 						msg_print("One of the random artifacts was deleted by streamer.");
 #endif
@@ -339,7 +339,7 @@ void build_streamer(int feat, int chance)
 			if (cheat_room)
 			{
 #ifdef JP
-msg_print("∑Ÿπ°™•π•»•Í°º•ﬁ°º§Ú«€√÷§«§≠§ﬁ§ª§Û°™");
+msg_print("Ë≠¶ÂëäÔºÅ„Çπ„Éà„É™„Éº„Éû„Éº„ÇíÈÖçÁΩÆ„Åß„Åç„Åæ„Åõ„ÇìÔºÅ");
 #else
 				msg_print("Warning! Could not place streamer!");
 #endif
@@ -350,8 +350,14 @@ msg_print("∑Ÿπ°™•π•»•Í°º•ﬁ°º§Ú«€√÷§«§≠§ﬁ§ª§Û°™");
 
 
 		/* Advance the streamer */
-		y += ddy[dir];
-		x += ddx[dir];
+		y += ddy[cdd[dir]];
+		x += ddx[cdd[dir]];
+
+		if(one_in_(10))
+		{
+			if(one_in_(2)) dir = (dir + 1) % 8;
+			else dir = (dir > 0) ? dir - 1 : 7; 
+		}
 
 		/* Quit before leaving the dungeon */
 		if (!in_bounds(y, x)) break;
@@ -423,7 +429,7 @@ void destroy_level(void)
 
 	/* Note destroyed levels */
 #ifdef JP
-	if (cheat_room) msg_print("«À≤ı§µ§Ï§ø≥¨");
+	if (cheat_room) msg_print("Á†¥Â£ä„Åï„Çå„ÅüÈöé");
 #else
 	if (cheat_room) msg_print("Destroyed Level");
 #endif

@@ -1,4 +1,4 @@
-/* File: types.h */
+ï»¿/* File: types.h */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -153,6 +153,8 @@ struct object_kind
 	bool aware;			/* The player is "aware" of the item's effects */
 
 	bool tried;			/* The player has "tried" one of the items */
+
+	byte act_idx;		/* Activative ability index */
 };
 
 
@@ -200,6 +202,8 @@ struct artifact_type
 	byte max_num;		/* Unused (should be "1") */
 
 	s16b floor_id;          /* Leaved on this location last time */
+
+	byte act_idx;		/* Activative ability index */
 };
 
 
@@ -231,6 +235,8 @@ struct ego_item_type
 	u32b flags[TR_FLAG_SIZE];	/* Ego-Item Flags */
 
 	u32b gen_flags;		/* flags for generate */
+
+	byte act_idx;		/* Activative ability index */
 };
 
 
@@ -292,7 +298,7 @@ struct monster_race
 {
 	u32b name;				/* Name (offset) */
 #ifdef JP
-	u32b E_name;                    /* ±Ñ¸ìÌ¾ (offset) */
+	u32b E_name;                    /* è‹±èªå (offset) */
 #endif
 	u32b text;				/* Text (offset) */
 
@@ -323,6 +329,9 @@ struct monster_race
 	u32b flagsr;			/* Flags R (resistances info) */
 
 	monster_blow blow[4];	/* Up to four blows per round */
+	u16b reinforce_id[6];
+	u16b reinforce_dd[6];
+	u16b reinforce_ds[6];
 
 	s16b next_r_idx;
 	u32b next_exp;
@@ -527,10 +536,10 @@ struct object_type
 	byte name2;			/* Ego-Item type, if any */
 
 	byte xtra1;			/* Extra info type (now unused) */
-	byte xtra2;			/* Extra info index */
-	byte xtra3;			/* Extra info */
-	s16b xtra4;			/* Extra info */
-	s16b xtra5;			/* Extra info */
+	byte xtra2;			/* Extra info activation index */
+	byte xtra3;			/* Extra info for weaponsmith */
+	s16b xtra4;			/* Extra info fuel or captured monster's current HP */
+	s16b xtra5;			/* Extra info captured monster's max HP */
 
 	s16b to_h;			/* Plusses to hit */
 	s16b to_d;			/* Plusses to damage */
@@ -585,6 +594,7 @@ struct monster_type
 	s16b hp;		/* Current Hit points */
 	s16b maxhp;		/* Max Hit points */
 	s16b max_maxhp;		/* Max Max Hit points */
+	u32b dealt_damage;		/* Sum of damages dealt by player */
 
 	s16b mtimed[MAX_MTIMED];	/* Timed status counter */
 
@@ -698,6 +708,7 @@ struct quest_type
 	byte dungeon;           /* quest dungeon */
 
 	byte complev;           /* player level (complete) */
+	u32b comptime;          /* quest clear time*/
 };
 
 
@@ -807,8 +818,8 @@ struct player_sex
 	cptr title;			/* Type of sex */
 	cptr winner;		/* Name of winner */
 #ifdef JP
-	cptr E_title;		/* ±Ñ¸ìÀ­ÊÌ */
-	cptr E_winner;		/* ±Ñ¸ìÀ­ÊÌ */
+	cptr E_title;		/* è‹±èªæ€§åˆ¥ */
+	cptr E_winner;		/* è‹±èªæ€§åˆ¥ */
 #endif
 };
 
@@ -824,7 +835,7 @@ struct player_race
 	cptr title;			/* Type of race */
 
 #ifdef JP
-	cptr E_title;		/* ±Ñ¸ì¼ïÂ² */
+	cptr E_title;		/* è‹±èªç¨®æ— */
 #endif
 	s16b r_adj[6];		/* Racial stat bonuses */
 
@@ -871,7 +882,7 @@ struct player_class
 	cptr title;			/* Type of class */
 
 #ifdef JP
-	cptr E_title;		/* ±Ñ¸ì¿¦¶È */
+	cptr E_title;		/* è‹±èªè·æ¥­ */
 #endif
 	s16b c_adj[6];		/* Class stat modifier */
 
@@ -906,7 +917,7 @@ struct player_seikaku
 	cptr title;			/* Type of seikaku */
 
 #ifdef JP
-	cptr E_title;		/* ±Ñ¸ìÀ­³Ê */
+	cptr E_title;		/* è‹±èªæ€§æ ¼ */
 #endif
 
 	s16b a_adj[6];		/* seikaku stat bonuses */
@@ -922,7 +933,7 @@ struct player_seikaku
 
 	s16b a_mhp;			/* Race hit-dice modifier */
 
-	byte no;			/* ¤Î */
+	byte no;			/* ã® */
 	byte sex;			/* seibetu seigen */
 };
 
@@ -1076,6 +1087,7 @@ struct player_type
 	byte recall_dungeon;      /* Dungeon set to be recalled */
 
 	s16b energy_need;	  /* Energy needed for next move */
+	s16b enchant_energy_need;	  /* Energy needed for next upkeep effect	 */
 
 	s16b food;		  /* Current nutrition */
 
@@ -1257,7 +1269,7 @@ struct player_type
 	bool free_act;		/* Never paralyzed */
 	bool see_inv;		/* Can see invisible */
 	bool regenerate;	/* Regenerate hit pts */
-	bool hold_life;		/* Resist life draining */
+	bool hold_exp;		/* Resist exp draining */
 
 	bool telepathy;		/* Telepathy */
 	bool esp_animal;
@@ -1512,7 +1524,7 @@ typedef struct tag_type tag_type;
 struct tag_type
 {
 	int     tag;
-	void    *pointer;
+	int     index;
 };
 
 typedef bool (*monster_hook_type)(int r_idx);
@@ -1698,10 +1710,28 @@ typedef struct
  *  A structure type for travel command
  */
 typedef struct {
-	int run;
+	int run; /* Remaining grid number */
 	int cost[MAX_HGT][MAX_WID];
-	int x;
-	int y;
-	int dir;
+	int x; /* Target X */
+	int y; /* Target Y */
+	int dir; /* Running direction */
 } travel_type;
 #endif
+
+typedef struct {
+	cptr flag;
+	byte index;
+	byte level;
+	s32b value;
+	struct {
+		int constant;
+		int dice;
+	} timeout;
+	cptr desc;
+} activation_type;
+
+typedef struct {
+	int flag;
+	int type;
+	cptr name;
+} dragonbreath_type;

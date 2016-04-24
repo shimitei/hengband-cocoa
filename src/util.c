@@ -1,4 +1,4 @@
-/* File: util.c */
+﻿/* File: util.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -72,13 +72,7 @@ int usleep(huge usecs)
 
 
 	/* Paranoia -- No excessive sleeping */
-#ifdef JP
-	if (usecs > 4000000L) core("������ usleep() �ƤӽФ�");
-#else
-	if (usecs > 4000000L) core("Illegal usleep() call");
-#endif
-
-
+	if (usecs > 4000000L) core(_("不当な usleep() 呼び出し", "Illegal usleep() call"));
 
 	/* Wait for it */
 	Timer.tv_sec = (usecs / 1000000L);
@@ -452,6 +446,10 @@ errr my_fgets(FILE *fff, char *buf, huge n)
 	/* Read a line */
 	if (fgets(tmp, 1024, fff))
 	{
+#ifdef JP
+		guess_convert_to_system_encoding(tmp, sizeof(tmp));
+#endif
+
 		/* Convert weirdness */
 		for (s = tmp; *s; s++)
 		{
@@ -497,7 +495,7 @@ errr my_fgets(FILE *fff, char *buf, huge n)
 				buf[i++] = *s;
 			}
 
-			/* Ⱦ�Ѥ��ʤ��б� */
+			/* 半角かなに対応 */
 			else if (iskana(*s))
 			{
 				buf[i++] = *s;
@@ -661,7 +659,19 @@ errr fd_copy(cptr file, cptr what)
 	/* Copy */
 	while ((read_num = read(src_fd, buf, 1024)) > 0)
 	{
-		write(dst_fd, buf, read_num);
+		int write_num = 0;
+		while (write_num < read_num)
+		{
+			int ret = write(dst_fd, buf + write_num, read_num - write_num);
+			if (ret < 0) {
+				/* Close files */
+				fd_close(src_fd);
+				fd_close(dst_fd);
+
+				return ret;
+			}
+			write_num += ret;
+		}
 	}
 
 	/* Close files */
@@ -1696,6 +1706,103 @@ void sound(int val)
 	Term_xtra(TERM_XTRA_SOUND, val);
 }
 
+/*
+ * Hack -- Play a music
+ */
+errr play_music(int type, int val)
+{
+	/* No sound */
+	if (!use_music) return 1;
+
+	/* Make a sound (if allowed) */
+	return Term_xtra(type , val);
+}
+
+/*
+ * Hack -- Select floor music.
+ */
+void select_floor_music()
+{
+	int i;
+	/* No sound */
+	if (!use_music) return;
+
+	if(p_ptr->wild_mode)
+	{
+		play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_WILD);
+		return;
+	}
+
+	if(p_ptr->inside_arena)
+	{
+		play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_ARENA);
+		return;
+	}
+
+	if(p_ptr->inside_battle)
+	{
+		play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_BATTLE);
+		return;
+	}
+
+	if(p_ptr->inside_quest)
+	{
+		if(play_music(TERM_XTRA_MUSIC_QUEST, p_ptr->inside_quest))
+		{
+			play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_QUEST);
+		}
+		return;
+	}
+
+	for(i = 0; i < max_quests; i++)
+	{ // TODO マクロで類似条件を統合すること
+		if(quest[i].status == QUEST_STATUS_TAKEN &&
+			(quest[i].type == QUEST_TYPE_KILL_LEVEL || quest[i].type == QUEST_TYPE_RANDOM) &&
+			 quest[i].level == dun_level && dungeon_type == quest[i].dungeon)
+		{
+			if(play_music(TERM_XTRA_MUSIC_QUEST, i)) 
+			{
+				play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_QUEST);
+			}
+			return;
+		}
+	}
+
+	if(dungeon_type)
+	{
+		if(play_music(TERM_XTRA_MUSIC_DUNGEON, dungeon_type))
+		{
+			if(p_ptr->feeling == 2) play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_DUN_FEEL2);
+			else if(p_ptr->feeling >= 3 && p_ptr->feeling <= 5) play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_DUN_FEEL1);
+			else
+			{
+				if(dun_level < 40) play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_DUN_LOW);
+				else if(dun_level < 80) play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_DUN_MED);
+				else play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_DUN_HIGH);
+			}
+		}
+		return;
+	}
+
+	if(p_ptr->town_num)
+	{
+		if(play_music(TERM_XTRA_MUSIC_TOWN, p_ptr->town_num))
+		{
+			play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_TOWN);
+		}
+		return;
+	}
+
+	if(!dun_level)
+	{
+		if(p_ptr->lev >= 45) play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_FIELD3);
+		else if(p_ptr->lev >= 25) play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_FIELD2);
+		else play_music(TERM_XTRA_MUSIC_BASIC, MUSIC_BASIC_FIELD1);
+		return;
+	}
+	
+}
+
 
 
 /*
@@ -1725,7 +1832,7 @@ static char inkey_aux(void)
 
 	char *buf = inkey_macro_trigger_string;
 
-	/* Hack : ���������Ԥ��ǻߤޤäƤ���Τǡ�ή�줿�Ԥε��������ס� */
+	/* Hack : キー入力待ちで止まっているので、流れた行の記憶は不要。 */
 	num_more = 0;
 
 	if (parse_macro)
@@ -1792,10 +1899,10 @@ static char inkey_aux(void)
 		else
 		{
 			/* Increase "wait" */
-			w += 10;
+			w += 1;
 
 			/* Excessive delay */
-			if (w >= 100) break;
+			if (w >= 10) break;
 
 			/* Delay */
 			Term_xtra(TERM_XTRA_DELAY, w);
@@ -2388,7 +2495,7 @@ void message_add(cptr str)
 	      t++;
 	      n++;
 	    }
-	  if (n == 81) n = 79; /* �Ǹ��ʸ��������Ⱦʬ */
+	  if (n == 81) n = 79; /* 最後の文字が漢字半分 */
 #else
 	  for (n = 80; n > 60; n--)
 		  if (str[n] == ' ') break;
@@ -2455,7 +2562,7 @@ void message_add(cptr str)
 		}
 
 		/* Limit the multiplier to 1000 */
-		if (buf && streq(buf, str) && (j < 1000))
+		if (streq(buf, str) && (j < 1000))
 		{
 			j++;
 
@@ -2474,7 +2581,7 @@ void message_add(cptr str)
 		}
 		else
 		{
-			num_more++;/*ή�줿�Ԥο�������Ƥ��� */
+			num_more++;/*流れた行の数を数えておく */
 			now_message++;
 		}
 
@@ -2660,25 +2767,20 @@ static void msg_flush(int x)
 	if (!p_ptr->playing || !nagasu)
 	{
 		/* Pause for response */
-#ifdef JP
-		Term_putstr(x, 0, -1, a, "-³��-");
-#else
-		Term_putstr(x, 0, -1, a, "-more-");
-#endif
-
+		Term_putstr(x, 0, -1, a, _("-続く-", "-more-"));
 
 		/* Get an acceptable keypress */
 		while (1)
 		{
 			int cmd = inkey();
 			if (cmd == ESCAPE) {
-			    num_more = -9999; /*auto_more�ΤȤ�������ή���� */
+			    num_more = -9999; /*auto_moreのとき、全て流す。 */
 			    break;
 			} else if (cmd == ' ') {
-			    num_more = 0; /*�����̤���ή���� */
+			    num_more = 0; /*１画面だけ流す。 */
 			    break;
 			} else if ((cmd == '\n') || (cmd == '\r')) {
-			    num_more--; /*���Ԥ���ή���� */
+			    num_more--; /*１行だけ流す。 */
 			    break;
 			}
 			if (quick_messages) break;
@@ -3038,7 +3140,7 @@ void c_roff(byte a, cptr str)
 
 		/* Clean up the char */
 #ifdef JP
-		ch = ((isprint(*s) || k_flag) ? *s : ' ');
+		ch = ((k_flag || isprint(*s)) ? *s : ' ');
 #else
 		ch = (isprint(*s) ? *s : ' ');
 #endif
@@ -3061,7 +3163,7 @@ void c_roff(byte a, cptr str)
 			if (x < w)
 #ifdef JP
 			{
-			/* ���ߤ�Ⱦ��ʸ���ξ�� */
+			/* 現在が半角文字の場合 */
 			if( !k_flag )
 #endif
 			{
@@ -3085,11 +3187,11 @@ void c_roff(byte a, cptr str)
 #ifdef JP
 			else
 			{
-				/* ���ߤ�����ʸ���ΤȤ� */
-				/* ʸƬ���֡��ס֡������ˤʤ�Ȥ��ϡ����Σ������θ�ǲ��� */
-				if (strncmp(s, "��", 2) == 0 || strncmp(s, "��", 2) == 0
-#if 0                   /* ����Ū�ˤϡ֥��ס֡��פ϶�§���оݳ� */
-					|| strncmp(s, "��", 2) == 0 || strncmp(s, "��", 2) == 0
+				/* 現在が全角文字のとき */
+				/* 文頭が「。」「、」等になるときは、その１つ前の語で改行 */
+				if (strncmp(s, "。", 2) == 0 || strncmp(s, "、", 2) == 0
+#if 0                   /* 一般的には「ィ」「ー」は禁則の対象外 */
+					|| strncmp(s, "ィ", 2) == 0 || strncmp(s, "ー", 2) == 0
 #endif
 			       ){
 					Term_what(x  , y, &av[x  ], &cv[x  ]);
@@ -3693,12 +3795,7 @@ s16b get_quantity(cptr prompt, int max)
 	if (!prompt)
 	{
 		/* Build a prompt */
-#ifdef JP
-		sprintf(tmp, "�����ĤǤ��� (1-%d): ", max);
-#else
-		sprintf(tmp, "Quantity (1-%d): ", max);
-#endif
-
+		sprintf(tmp, _("いくつですか (1-%d): ", "Quantity (1-%d): "), max);
 
 		/* Use that prompt */
 		prompt = tmp;
@@ -3757,11 +3854,7 @@ s16b get_quantity(cptr prompt, int max)
 void pause_line(int row)
 {
 	prt("", row, 0);
-#ifdef JP
-	put_str("[ ���������򲡤��Ʋ����� ]", row, 26);
-#else
-	put_str("[Press any key to continue]", row, 23);
-#endif
+	put_str(_("[ 何かキーを押して下さい ]", "[Press any key to continue]"), row, _(26, 23));
 
 	(void)inkey();
 	prt("", row, 0);
@@ -3786,23 +3879,23 @@ typedef struct
 menu_naiyou menu_info[10][10] =
 {
 	{
-		{"��ˡ/�ü�ǽ��", 1, FALSE},
-		{"��ư", 2, FALSE},
-		{"ƻ��(����)", 3, FALSE},
-		{"ƻ��(����¾)", 4, FALSE},
-		{"����", 5, FALSE},
-		{"��/Ȣ", 6, FALSE},
-		{"����", 7, FALSE},
-		{"����", 8, FALSE},
-		{"����¾", 9, FALSE},
+		{"魔法/特殊能力", 1, FALSE},
+		{"行動", 2, FALSE},
+		{"道具(使用)", 3, FALSE},
+		{"道具(その他)", 4, FALSE},
+		{"装備", 5, FALSE},
+		{"扉/箱", 6, FALSE},
+		{"情報", 7, FALSE},
+		{"設定", 8, FALSE},
+		{"その他", 9, FALSE},
 		{"", 0, FALSE},
 	},
 
 	{
-		{"�Ȥ�(m)", 'm', TRUE},
-		{"Ĵ�٤�(b/P)", 'b', TRUE},
-		{"�Ф���(G)", 'G', TRUE},
-		{"�ü�ǽ�Ϥ�Ȥ�(U/O)", 'U', TRUE},
+		{"使う(m)", 'm', TRUE},
+		{"調べる(b/P)", 'b', TRUE},
+		{"覚える(G)", 'G', TRUE},
+		{"特殊能力を使う(U/O)", 'U', TRUE},
 		{"", 0, FALSE},
 		{"", 0, FALSE},
 		{"", 0, FALSE},
@@ -3812,62 +3905,49 @@ menu_naiyou menu_info[10][10] =
 	},
 
 	{
-		{"��©����(R)", 'R', TRUE},
-		{"�ȥ�åײ��(D)", 'D', TRUE},
-		{"õ��(s)", 's', TRUE},
-		{"�����Ĵ�٤�(l/x)", 'l', TRUE},
-		{"�������åȻ���(*)", '*', TRUE},
-		{"��򷡤�(T/^t)", 'T', TRUE},
-		{"���ʤ���(<)", '<', TRUE},
-		{"���ʤ򲼤��(>)", '>', TRUE},
-		{"�ڥåȤ�̿�᤹��(p)", 'p', TRUE},
-		{"õ���⡼�ɤ�ON/OFF(S/#)", 'S', TRUE}
+		{"休息する(R)", 'R', TRUE},
+		{"トラップ解除(D)", 'D', TRUE},
+		{"探す(s)", 's', TRUE},
+		{"周りを調べる(l/x)", 'l', TRUE},
+		{"ターゲット指定(*)", '*', TRUE},
+		{"穴を掘る(T/^t)", 'T', TRUE},
+		{"階段を上る(<)", '<', TRUE},
+		{"階段を下りる(>)", '>', TRUE},
+		{"ペットに命令する(p)", 'p', TRUE},
+		{"探索モードのON/OFF(S/#)", 'S', TRUE}
 	},
 
 	{
-		{"�ɤ�(r)", 'r', TRUE},
-		{"����(q)", 'q', TRUE},
-		{"���Ȥ�(u/Z)", 'u', TRUE},
-		{"��ˡ��������(a/z)", 'a', TRUE},
-		{"���åɤ򿶤�(z/a)", 'z', TRUE},
-		{"��ư����(A)", 'A', TRUE},
-		{"���٤�(E)", 'E', TRUE},
-		{"����ƻ��Ƿ��(f/t)", 'f', TRUE},
-		{"�ꤲ��(v)", 'v', TRUE},
+		{"読む(r)", 'r', TRUE},
+		{"飲む(q)", 'q', TRUE},
+		{"杖を使う(u/Z)", 'u', TRUE},
+		{"魔法棒で狙う(a/z)", 'a', TRUE},
+		{"ロッドを振る(z/a)", 'z', TRUE},
+		{"始動する(A)", 'A', TRUE},
+		{"食べる(E)", 'E', TRUE},
+		{"飛び道具で撃つ(f/t)", 'f', TRUE},
+		{"投げる(v)", 'v', TRUE},
 		{"", 0, FALSE}
 	},
 
 	{
-		{"����(g)", 'g', TRUE},
-		{"��Ȥ�(d)", 'd', TRUE},
-		{"����(k/^d)", 'k', TRUE},
-		{"�ä���({)", '{', TRUE},
-		{"�ä�ä�(})", '}', TRUE},
-		{"Ĵ��(I)", 'I', TRUE},
-		{"�����ƥ����(i)", 'i', TRUE},
-		{"", 0, FALSE},
-		{"", 0, FALSE},
-		{"", 0, FALSE}
-	},
-
-	{
-		{"��������(w)", 'w', TRUE},
-		{"�����򳰤�(t/T)", 't', TRUE},
-		{"ǳ�������(F)", 'F', TRUE},
-		{"��������(e)", 'e', TRUE},
-		{"", 0, FALSE},
-		{"", 0, FALSE},
-		{"", 0, FALSE},
+		{"拾う(g)", 'g', TRUE},
+		{"落とす(d)", 'd', TRUE},
+		{"壊す(k/^d)", 'k', TRUE},
+		{"銘を刻む({)", '{', TRUE},
+		{"銘を消す(})", '}', TRUE},
+		{"調査(I)", 'I', TRUE},
+		{"アイテム一覧(i)", 'i', TRUE},
 		{"", 0, FALSE},
 		{"", 0, FALSE},
 		{"", 0, FALSE}
 	},
 
 	{
-		{"������(o)", 'o', TRUE},
-		{"�Ĥ���(c)", 'c', TRUE},
-		{"�������ꤹ��(B/f)", 'B', TRUE},
-		{"�����Ӥ��Ǥ�(j/S)", 'j', TRUE},
+		{"装備する(w)", 'w', TRUE},
+		{"装備を外す(t/T)", 't', TRUE},
+		{"燃料を補給(F)", 'F', TRUE},
+		{"装備一覧(e)", 'e', TRUE},
 		{"", 0, FALSE},
 		{"", 0, FALSE},
 		{"", 0, FALSE},
@@ -3877,41 +3957,54 @@ menu_naiyou menu_info[10][10] =
 	},
 
 	{
-		{"���󥸥������ο�(M)", 'M', TRUE},
-		{"���֤��ǧ(L/W)", 'L', TRUE},
-		{"����ʷ�ϵ�(^f)", KTRL('F'), TRUE},
-		{"���ơ�����(C)", 'C', TRUE},
-		{"ʸ��������(/)", '/', TRUE},
-		{"��å���������(^p)", KTRL('P'), TRUE},
-		{"���ߤλ���(^t/')", KTRL('T'), TRUE},
-		{"���ߤ��μ�(~)", '~', TRUE},
-		{"�ץ쥤��Ͽ(|)", '|', TRUE},
-		{"", 0, FALSE}
-	},
-
-	{
-		{"���ץ����(=)", '=', TRUE},
-		{"�ޥ���(@)", '@', TRUE},
-		{"����ɽ��(%)", '%', TRUE},
-		{"���顼(&)", '&', TRUE},
-		{"�����ѹ����ޥ��(\")", '\"', TRUE},
-		{"��ư�����������($)", '$', TRUE},
-		{"�����ƥ�(!)", '!', TRUE},
+		{"開ける(o)", 'o', TRUE},
+		{"閉じる(c)", 'c', TRUE},
+		{"体当たりする(B/f)", 'B', TRUE},
+		{"くさびを打つ(j/S)", 'j', TRUE},
+		{"", 0, FALSE},
+		{"", 0, FALSE},
+		{"", 0, FALSE},
 		{"", 0, FALSE},
 		{"", 0, FALSE},
 		{"", 0, FALSE}
 	},
 
 	{
-		{"������&����(^x)", KTRL('X'), TRUE},
-		{"������(^s)", KTRL('S'), TRUE},
-		{"�إ��(?)", '?', TRUE},
-		{"������(^r)", KTRL('R'), TRUE},
-		{"���(:)", ':', TRUE},
-		{"��ǰ����())", ')', TRUE},
-		{"��ǰ���Ƥ�ɽ��(()", '(', TRUE},
-		{"�С���������(V)", 'V', TRUE},
-		{"���ह��(Q)", 'Q', TRUE},
+		{"ダンジョンの全体図(M)", 'M', TRUE},
+		{"位置を確認(L/W)", 'L', TRUE},
+		{"階の雰囲気(^f)", KTRL('F'), TRUE},
+		{"ステータス(C)", 'C', TRUE},
+		{"文字の説明(/)", '/', TRUE},
+		{"メッセージ履歴(^p)", KTRL('P'), TRUE},
+		{"現在の時刻(^t/')", KTRL('T'), TRUE},
+		{"現在の知識(~)", '~', TRUE},
+		{"プレイ記録(|)", '|', TRUE},
+		{"", 0, FALSE}
+	},
+
+	{
+		{"オプション(=)", '=', TRUE},
+		{"マクロ(@)", '@', TRUE},
+		{"画面表示(%)", '%', TRUE},
+		{"カラー(&)", '&', TRUE},
+		{"設定変更コマンド(\")", '\"', TRUE},
+		{"自動拾いをロード($)", '$', TRUE},
+		{"システム(!)", '!', TRUE},
+		{"", 0, FALSE},
+		{"", 0, FALSE},
+		{"", 0, FALSE}
+	},
+
+	{
+		{"セーブ&中断(^x)", KTRL('X'), TRUE},
+		{"セーブ(^s)", KTRL('S'), TRUE},
+		{"ヘルプ(?)", '?', TRUE},
+		{"再描画(^r)", KTRL('R'), TRUE},
+		{"メモ(:)", ':', TRUE},
+		{"記念撮影())", ')', TRUE},
+		{"記念撮影の表示(()", '(', TRUE},
+		{"バージョン情報(V)", 'V', TRUE},
+		{"引退する(Q)", 'Q', TRUE},
 		{"", 0, FALSE}
 	},
 };
@@ -4065,17 +4158,17 @@ typedef struct
 #ifdef JP
 special_menu_naiyou special_menu_info[] =
 {
-	{"Ķǽ��/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_MINDCRAFTER},
-	{"��Τޤ�/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_IMITATOR},
-	{"��/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_BARD},
-	{"ɬ����/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_SAMURAI},
-	{"������/��ˡ/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_FORCETRAINER},
-	{"��/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_BERSERKER},
-	{"����/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_SMITH},
-	{"����ˡ/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_MIRROR_MASTER},
-	{"Ǧ��/�ü�ǽ��", 0, 0, MENU_CLASS, CLASS_NINJA},
-	{"����ޥå�(<)", 2, 6, MENU_WILD, FALSE},
-	{"�̾�ޥå�(>)", 2, 7, MENU_WILD, TRUE},
+	{"超能力/特殊能力", 0, 0, MENU_CLASS, CLASS_MINDCRAFTER},
+	{"ものまね/特殊能力", 0, 0, MENU_CLASS, CLASS_IMITATOR},
+	{"歌/特殊能力", 0, 0, MENU_CLASS, CLASS_BARD},
+	{"必殺技/特殊能力", 0, 0, MENU_CLASS, CLASS_SAMURAI},
+	{"練気術/魔法/特殊能力", 0, 0, MENU_CLASS, CLASS_FORCETRAINER},
+	{"技/特殊能力", 0, 0, MENU_CLASS, CLASS_BERSERKER},
+	{"技術/特殊能力", 0, 0, MENU_CLASS, CLASS_SMITH},
+	{"鏡魔法/特殊能力", 0, 0, MENU_CLASS, CLASS_MIRROR_MASTER},
+	{"忍術/特殊能力", 0, 0, MENU_CLASS, CLASS_NINJA},
+	{"広域マップ(<)", 2, 6, MENU_WILD, FALSE},
+	{"通常マップ(>)", 2, 7, MENU_WILD, TRUE},
 	{"", 0, 0, 0, 0},
 };
 #else
@@ -4155,11 +4248,7 @@ static char inkey_from_menu(void)
 		}
 		max_num = i;
 		kisuu = max_num % 2;
-#ifdef JP
-		put_str("��",basey + 1 + num / 2, basex + 2 + (num % 2) * 24);
-#else
-		put_str("> ",basey + 1 + num / 2, basex + 2 + (num % 2) * 24);
-#endif
+		put_str(_("》", "> "),basey + 1 + num / 2, basex + 2 + (num % 2) * 24);
 
 		/* Place the cursor on the player */
 		move_cursor_relative(py, px);
@@ -4343,12 +4432,7 @@ void request_command(int shopping)
 			command_arg = 0;
 
 			/* Begin the input */
-#ifdef JP
-			prt("���: ", 0, 0);
-#else
-			prt("Count: ", 0, 0);
-#endif
-
+			prt(_("回数: ", "Count: "), 0, 0);
 
 			/* Get a command count */
 			while (1)
@@ -4363,12 +4447,7 @@ void request_command(int shopping)
 					command_arg = command_arg / 10;
 
 					/* Show current count */
-#ifdef JP
-					prt(format("���: %d", command_arg), 0, 0);
-#else
-					prt(format("Count: %d", command_arg), 0, 0);
-#endif
-
+					prt(format(_("回数: %d", "Count: %d"), command_arg), 0, 0);
 				}
 
 				/* Actual numeric data */
@@ -4392,12 +4471,7 @@ void request_command(int shopping)
 					}
 
 					/* Show current count */
-#ifdef JP
-					prt(format("���: %d", command_arg), 0, 0);
-#else
-					prt(format("Count: %d", command_arg), 0, 0);
-#endif
-
+					prt(format(_("回数: %d", "Count: %d"), command_arg), 0, 0);
 				}
 
 				/* Exit on "unusable" input */
@@ -4414,12 +4488,7 @@ void request_command(int shopping)
 				command_arg = 99;
 
 				/* Show current count */
-#ifdef JP
-				prt(format("���: %d", command_arg), 0, 0);
-#else
-				prt(format("Count: %d", command_arg), 0, 0);
-#endif
-
+				prt(format(_("回数: %d", "Count: %d"), command_arg), 0, 0);
 			}
 
 			/* Hack -- Handle "old_arg" */
@@ -4429,24 +4498,14 @@ void request_command(int shopping)
 				command_arg = old_arg;
 
 				/* Show current count */
-#ifdef JP
-prt(format("���: %d", command_arg), 0, 0);
-#else
-				prt(format("Count: %d", command_arg), 0, 0);
-#endif
-
+				prt(format(_("回数: %d", "Count: %d"), command_arg), 0, 0);
 			}
 
 			/* Hack -- white-space means "enter command now" */
 			if ((cmd == ' ') || (cmd == '\n') || (cmd == '\r'))
 			{
 				/* Get a real command */
-#ifdef JP
-				if (!get_com("���ޥ��: ", (char *)&cmd, FALSE))
-#else
-				if (!get_com("Command: ", (char *)&cmd, FALSE))
-#endif
-
+				if (!get_com(_("コマンド: ", "Command: "), (char *)&cmd, FALSE))
 				{
 					/* Clear count */
 					command_arg = 0;
@@ -4462,12 +4521,7 @@ prt(format("���: %d", command_arg), 0, 0);
 		if (cmd == '\\')
 		{
 			/* Get a real command */
-#ifdef JP
-			(void)get_com("���ޥ��: ", (char *)&cmd, FALSE);
-#else
-			(void)get_com("Command: ", (char *)&cmd, FALSE);
-#endif
-
+			(void)get_com(_("コマンド: ", "Command: "), (char *)&cmd, FALSE);
 
 			/* Hack -- bypass keymaps */
 			if (!inkey_next) inkey_next = "";
@@ -4478,12 +4532,7 @@ prt(format("���: %d", command_arg), 0, 0);
 		if (cmd == '^')
 		{
 			/* Get a new command and controlify it */
-#ifdef JP
-			if (get_com("CTRL: ", (char *)&cmd, FALSE)) cmd = KTRL(cmd);
-#else
-			if (get_com("Control: ", (char *)&cmd, FALSE)) cmd = KTRL(cmd);
-#endif
-
+			if (get_com(_("CTRL: ", "Control: "), (char *)&cmd, FALSE)) cmd = KTRL(cmd);
 		}
 
 
@@ -4591,12 +4640,7 @@ prt(format("���: %d", command_arg), 0, 0);
 
 			{
 				/* Hack -- Verify command */
-#ifdef JP
-				if (!get_check("�����Ǥ���? "))
-#else
-				if (!get_check("Are you sure? "))
-#endif
-
+				if (!get_check(_("本当ですか? ", "Are you sure? ")))
 				{
 					/* Hack -- Use space */
 					command_cmd = ' ';
@@ -4853,14 +4897,9 @@ static void swap(tag_type *a, tag_type *b)
 {
 	tag_type temp;
 
-	temp.tag = a->tag;
-	temp.pointer = a->pointer;
-
-	a->tag = b->tag;
-	a->pointer = b->pointer;
-
-	b->tag = temp.tag;
-	b->pointer = temp.pointer;
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
 
@@ -5135,10 +5174,10 @@ void roff_to_buf(cptr str, int maxlen, char *tbuf, size_t bufsize)
 			ch[1] = str[read_pt+1];
 			ch_len = 2;
 
-			if (strcmp(ch, "��") == 0 ||
-			    strcmp(ch, "��") == 0 ||
-			    strcmp(ch, "��") == 0 ||
-			    strcmp(ch, "��") == 0)
+			if (strcmp(ch, "。") == 0 ||
+			    strcmp(ch, "、") == 0 ||
+			    strcmp(ch, "ィ") == 0 ||
+			    strcmp(ch, "ー") == 0)
 				kinsoku = TRUE;
 		}
 		else if (!isprint(ch[0]))
@@ -5416,6 +5455,22 @@ int inkey_special(bool numpad_cursor)
 		{TRUE, "KP_1]", SKEY_BOTTOM},
 		{FALSE, NULL, 0},
 	};
+
+	static const struct {
+		cptr keyname;
+		int keycode;
+	} gcu_special_key_list[] = {
+		{"A", SKEY_UP},
+		{"B", SKEY_DOWN},
+		{"C", SKEY_RIGHT},
+		{"D", SKEY_LEFT},
+		{"1~", SKEY_TOP},
+		{"4~", SKEY_BOTTOM},
+		{"5~", SKEY_PGUP},
+		{"6~", SKEY_PGDOWN},
+		{NULL, 0},
+	};
+
 	char buf[1024];
 	cptr str = buf;
 	char key;
@@ -5501,6 +5556,19 @@ int inkey_special(bool numpad_cursor)
 
 			/* Return special key code and modifier flags */
 			return (skey | modifier);
+		}
+	}
+
+	if (prefix(str, "\\e["))
+	{
+		str += 3;
+
+		for (i = 0; gcu_special_key_list[i].keyname; i++)
+		{
+			if (streq(str, gcu_special_key_list[i].keyname))
+			{
+				return gcu_special_key_list[i].keycode;
+			}
 		}
 	}
 

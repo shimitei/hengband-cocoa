@@ -1,14 +1,39 @@
-/*
- * File: rooms.c
- * Purpose: make rooms. Used by generate.c when creating dungeons.
- */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ * @file rooms.c
+ * @brief ダンジョンフロアの部屋生成処理 / make rooms. Used by generate.c when creating dungeons.
+ * @date 2014/01/06
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen. \n
+ * @details
+ * Room building routines.\n
+ *\n
+ * Room types:\n
+ *   1 -- normal\n
+ *   2 -- overlapping\n
+ *   3 -- cross shaped\n
+ *   4 -- large room with features\n
+ *   5 -- monster nests\n
+ *   6 -- monster pits\n
+ *   7 -- simple vaults\n
+ *   8 -- greater vaults\n
+ *   9 -- fractal caves\n
+ *  10 -- random vaults\n
+ *  11 -- circular rooms\n
+ *  12 -- crypts\n
+ *  13 -- trapped monster pits\n
+ *  14 -- trapped room\n
+ *  15 -- glass room\n
+ *  16 -- underground arcade\n
+ *\n
+ * Some functions are used to determine if the given monster\n
+ * is appropriate for inclusion in a monster nest or monster pit or\n
+ * the given type.\n
+ *\n
+ * None of the pits/nests are allowed to include "unique" monsters.\n
  */
 
 #include "angband.h"
@@ -17,20 +42,21 @@
 #include "rooms.h"
 
 
-/*
- * [from SAngband (originally from OAngband)]
- *
- * Table of values that control how many times each type of room will
- * appear.  Each type of room has its own row, and each column
- * corresponds to dungeon levels 0, 10, 20, and so on.  The final
- * value is the minimum depth the room can appear at.  -LM-
- *
- * Level 101 and below use the values for level 100.
- *
- * Rooms with lots of monsters or loot may not be generated if the
- * object or monster lists are already nearly full.  Rooms will not
- * appear above their minimum depth.  Tiny levels will not have space
- * for all the rooms you ask for.
+/*!
+ * 各部屋タイプの生成比定義
+ *[from SAngband (originally from OAngband)]\n
+ *\n
+ * Table of values that control how many times each type of room will\n
+ * appear.  Each type of room has its own row, and each column\n
+ * corresponds to dungeon levels 0, 10, 20, and so on.  The final\n
+ * value is the minimum depth the room can appear at.  -LM-\n
+ *\n
+ * Level 101 and below use the values for level 100.\n
+ *\n
+ * Rooms with lots of monsters or loot may not be generated if the\n
+ * object or monster lists are already nearly full.  Rooms will not\n
+ * appear above their minimum depth.  Tiny levels will not have space\n
+ * for all the rooms you ask for.\n
  */
 static room_info_type room_info_normal[ROOM_T_MAX] =
 {
@@ -52,12 +78,14 @@ static room_info_type room_info_normal[ROOM_T_MAX] =
 	{{  0,  0,  1,  1,  1,  2,  3,  4,  5,  6,  8}, 20}, /*TRAP_PIT */
 	{{  0,  0,  1,  1,  1,  2,  3,  4,  5,  6,  8}, 20}, /*TRAP     */
 	{{  0,  0,  0,  0,  1,  1,  1,  2,  2,  2,  2}, 40}, /*GLASS    */
+	{{  1,  1,  1,  1,  1,  1,  1,  2,  2,  3,  3},  1}, /*ARCADE   */
 };
 
 
-/* Build rooms in descending order of difficulty. */
+/*! 部屋の生成処理順 / Build rooms in descending order of difficulty. */
 static byte room_build_order[ROOM_T_MAX] = {
 	ROOM_T_GREATER_VAULT,
+	ROOM_T_ARCADE,
 	ROOM_T_RANDOM_VAULT,
 	ROOM_T_LESSER_VAULT,
 	ROOM_T_TRAP_PIT,
@@ -74,7 +102,12 @@ static byte room_build_order[ROOM_T_MAX] = {
 	ROOM_T_NORMAL,
 };
 
-
+/*!
+ * @brief 鍵のかかったドアを配置する
+ * @param y 配置したいフロアのY座標
+ * @param x 配置したいフロアのX座標
+ * @return なし
+ */
 static void place_locked_door(int y, int x)
 {
 	if (d_info[dungeon_type].flags1 & DF1_NO_DOORS)
@@ -89,6 +122,13 @@ static void place_locked_door(int y, int x)
 	}
 }
 
+/*!
+ * @brief 隠しドアを配置する
+ * @param y 配置したいフロアのY座標
+ * @param x 配置したいフロアのX座標
+ * @param type #DOOR_DEFAULT / #DOOR_DOOR / #DOOR_GLASS_DOOR / #DOOR_CURTAIN のいずれか
+ * @return なし
+ */
 static void place_secret_door(int y, int x, int type)
 {
 	if (d_info[dungeon_type].flags1 & DF1_NO_DOORS)
@@ -130,7 +170,11 @@ static void place_secret_door(int y, int x, int type)
 	}
 }
 
-/*
+/*!
+ * @brief 1マスだけの部屋を作成し、上下左右いずれか一つに隠しドアを配置する。
+ * @param y0 配置したい中心のY座標
+ * @param x0 配置したい中心のX座標
+ * @details
  * This funtion makes a very small room centred at (x0, y0)
  * This is used in crypts, and random elemental vaults.
  *
@@ -169,10 +213,15 @@ static void build_small_room(int x0, int y0)
 	place_floor_bold(y0, x0);
 }
 
-
-/*
- * This function tunnels around a room if
- * it will cut off part of a cave system.
+/*!
+ * @brief
+ * 指定範囲に通路が通っていることを確認した上で床で埋める
+ * This function tunnels around a room if it will cut off part of a cave system.
+ * @param x1 範囲の左端
+ * @param y1 範囲の上端
+ * @param x2 範囲の右端
+ * @param y2 範囲の下端
+ * @return なし
  */
 static void check_room_boundary(int x1, int y1, int x2, int y2)
 {
@@ -250,10 +299,15 @@ static void check_room_boundary(int x1, int y1, int x2, int y2)
 }
 
 
-/*
- *  Helper function for find_space().
- *
- *  Is this a good location?
+/*!
+ * @brief
+ * find_space()の予備処理として部屋の生成が可能かを判定する /
+ * Helper function for find_space(). Is this a good location?
+ * @param blocks_high 範囲の高さ
+ * @param blocks_wide 範囲の幅
+ * @param block_y 範囲の上端
+ * @param block_x 範囲の左端
+ * @return なし
  */
 static bool find_space_aux(int blocks_high, int blocks_wide, int block_y, int block_x)
 {
@@ -326,20 +380,25 @@ static bool find_space_aux(int blocks_high, int blocks_wide, int block_y, int bl
 }
 
 
-/*
- * Find a good spot for the next room.  -LM-
- *
- * Find and allocate a free space in the dungeon large enough to hold
- * the room calling this function.
- *
- * We allocate space in 11x11 blocks, but want to make sure that rooms
- * align neatly on the standard screen.  Therefore, we make them use
- * blocks in few 11x33 rectangles as possible.
- *
- * Be careful to include the edges of the room in height and width!
- *
- * Return TRUE and values for the center of the room if all went well.
- * Otherwise, return FALSE.
+/*!
+ * @brief 部屋生成が可能なスペースを確保する / Find a good spot for the next room.  -LM-
+ * @param y 部屋の生成が可能な中心Y座標を返す参照ポインタ
+ * @param x 部屋の生成が可能な中心X座標を返す参照ポインタ
+ * @param height 確保したい領域の高さ
+ * @param width 確保したい領域の幅
+ * @return 所定の範囲が確保できた場合TRUEを返す
+ * @details
+ * Find and allocate a free space in the dungeon large enough to hold\n
+ * the room calling this function.\n
+ *\n
+ * We allocate space in 11x11 blocks, but want to make sure that rooms\n
+ * align neatly on the standard screen.  Therefore, we make them use\n
+ * blocks in few 11x33 rectangles as possible.\n
+ *\n
+ * Be careful to include the edges of the room in height and width!\n
+ *\n
+ * Return TRUE and values for the center of the room if all went well.\n
+ * Otherwise, return FALSE.\n
  */
 static bool find_space(int *y, int *x, int height, int width)
 {
@@ -456,30 +515,9 @@ static bool find_space(int *y, int *x, int height, int width)
 }
 
 
-
-/*
- * Room building routines.
- *
- * Room types:
- *   1 -- normal
- *   2 -- overlapping
- *   3 -- cross shaped
- *   4 -- large room with features
- *   5 -- monster nests
- *   6 -- monster pits
- *   7 -- simple vaults
- *   8 -- greater vaults
- *   9 -- fractal caves
- *  10 -- random vaults
- *  11 -- circular rooms
- *  12 -- crypts
- *  13 -- trapped monster pits
- *  14 -- trapped room
- */
-
-
-/*
- * Type 1 -- normal rectangular rooms
+/*!
+ * @brief タイプ1の部屋…通常可変長方形の部屋を生成する / Type 1 -- normal rectangular rooms
+ * @return なし
  */
 static bool build_type1(void)
 {
@@ -672,9 +710,9 @@ static bool build_type1(void)
 	return TRUE;
 }
 
-
-/*
- * Type 2 -- Overlapping rectangular rooms
+/*!
+ * @brief タイプ2の部屋…二重長方形の部屋を生成する / Type 2 -- Overlapping rectangular rooms
+ * @return なし
  */
 static bool build_type2(void)
 {
@@ -787,17 +825,18 @@ static bool build_type2(void)
 
 
 
-/*
- * Type 3 -- Cross shaped rooms
- *
- * Builds a room at a row, column coordinate
- *
- * Room "a" runs north/south, and Room "b" runs east/east
- * So the "central pillar" runs from x1a, y1b to x2a, y2b.
- *
- * Note that currently, the "center" is always 3x3, but I think that
- * the code below will work (with "bounds checking") for 5x5, or even
- * for unsymetric values like 4x3 or 5x3 or 3x4 or 3x5, or even larger.
+/*!
+ * @brief タイプ2の部屋…十字型の部屋を生成する / Type 3 -- Cross shaped rooms
+ * @return なし
+ * @details
+ * Builds a room at a row, column coordinate\n
+ *\n
+ * Room "a" runs north/south, and Room "b" runs east/east\n
+ * So the "central pillar" runs from x1a, y1b to x2a, y2b.\n
+ *\n
+ * Note that currently, the "center" is always 3x3, but I think that\n
+ * the code below will work (with "bounds checking") for 5x5, or even\n
+ * for unsymetric values like 4x3 or 5x3 or 3x4 or 3x5, or even larger.\n
  */
 static bool build_type3(void)
 {
@@ -1046,15 +1085,16 @@ static bool build_type3(void)
 }
 
 
-/*
- * Type 4 -- Large room with inner features
- *
- * Possible sub-types:
- *	1 - Just an inner room with one door
- *	2 - An inner room within an inner room
- *	3 - An inner room with pillar(s)
- *	4 - Inner room has a maze
- *	5 - A set of four inner rooms
+/*!
+ * @brief タイプ4の部屋…固定サイズの二重構造部屋を生成する / Type 4 -- Large room with inner features
+ * @return なし
+ * @details
+ * Possible sub-types:\n
+ *	1 - Just an inner room with one door\n
+ *	2 - An inner room within an inner room\n
+ *	3 - An inner room with pillar(s)\n
+ *	4 - Inner room has a maze\n
+ *	5 - A set of four inner rooms\n
  */
 static bool build_type4(void)
 {
@@ -1374,17 +1414,9 @@ static bool build_type4(void)
 }
 
 
-/*
- * The following functions are used to determine if the given monster
- * is appropriate for inclusion in a monster nest or monster pit or
- * the given type.
- *
- * None of the pits/nests are allowed to include "unique" monsters.
- */
 
-
-/*
- * Monster validation macro
+/*!
+ * vaultに配置可能なモンスターの条件を指定するマクロ / Monster validation macro
  *
  * Line 1 -- forbid town monsters
  * Line 2 -- forbid uniques
@@ -1398,18 +1430,21 @@ static bool build_type4(void)
 	 !(r_info[I].flags7 & RF7_AQUATIC))
 
 
-/* Race index for "monster pit (clone)" */
+/*! 通常pit生成時のモンスターの構成条件ID / Race index for "monster pit (clone)" */
 static int vault_aux_race;
 
-/* Race index for "monster pit (symbol clone)" */
+/*! 単一シンボルpit生成時の指定シンボル / Race index for "monster pit (symbol clone)" */
 static char vault_aux_char;
 
-/* Breath mask for "monster pit (dragon)" */
+/*! ブレス属性に基づくドラゴンpit生成時条件マスク / Breath mask for "monster pit (dragon)" */
 static u32b vault_aux_dragon_mask4;
 
 
-/*
+/*!
+ * @brief モンスターがVault生成の最低必要条件を満たしているかを返す /
  * Helper monster selection function
+ * @param r_idx 確認したいモンスター種族ID
+ * @return Vault生成の最低必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_simple(int r_idx)
 {
@@ -1418,8 +1453,11 @@ static bool vault_aux_simple(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターがゼリーnestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (jelly)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_jelly(int r_idx)
 {
@@ -1440,9 +1478,11 @@ static bool vault_aux_jelly(int r_idx)
 	return (TRUE);
 }
 
-
-/*
+/*!
+ * @brief モンスターが動物nestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (animal)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_animal(int r_idx)
 {
@@ -1459,8 +1499,11 @@ static bool vault_aux_animal(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターがアンデッドnestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (undead)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_undead(int r_idx)
 {
@@ -1476,9 +1519,11 @@ static bool vault_aux_undead(int r_idx)
 	return (TRUE);
 }
 
-
-/*
+/*!
+ * @brief モンスターが聖堂nestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (chapel)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_chapel_g(int r_idx)
 {
@@ -1508,9 +1553,11 @@ static bool vault_aux_chapel_g(int r_idx)
 	return FALSE;
 }
 
-
-/*
+/*!
+ * @brief モンスターが犬小屋nestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (kennel)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_kennel(int r_idx)
 {
@@ -1526,9 +1573,11 @@ static bool vault_aux_kennel(int r_idx)
 	return (TRUE);
 }
 
-
-/*
+/*!
+ * @brief モンスターがミミックnestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (mimic)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_mimic(int r_idx)
 {
@@ -1544,8 +1593,11 @@ static bool vault_aux_mimic(int r_idx)
 	return (TRUE);
 }
 
-/*
+/*!
+ * @brief モンスターが単一クローンnestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (clone)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_clone(int r_idx)
 {
@@ -1556,8 +1608,11 @@ static bool vault_aux_clone(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターが邪悪属性シンボルクローンnestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (symbol clone)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_symbol_e(int r_idx)
 {
@@ -1578,8 +1633,11 @@ static bool vault_aux_symbol_e(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターが善良属性シンボルクローンnestの生成必要条件を満たしているかを返す /
  * Helper function for "monster nest (symbol clone)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_symbol_g(int r_idx)
 {
@@ -1600,8 +1658,11 @@ static bool vault_aux_symbol_g(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターがオークpitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (orc)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_orc(int r_idx)
 {
@@ -1621,8 +1682,11 @@ static bool vault_aux_orc(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターがトロルpitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (troll)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_troll(int r_idx)
 {
@@ -1642,8 +1706,11 @@ static bool vault_aux_troll(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターが巨人pitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (giant)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_giant(int r_idx)
 {
@@ -1665,8 +1732,11 @@ static bool vault_aux_giant(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターがドラゴンpitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (dragon)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_dragon(int r_idx)
 {
@@ -1689,8 +1759,11 @@ static bool vault_aux_dragon(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターが悪魔pitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (demon)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_demon(int r_idx)
 {
@@ -1709,8 +1782,11 @@ static bool vault_aux_demon(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief モンスターが狂気pitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (lovecraftian)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_cthulhu(int r_idx)
 {
@@ -1729,8 +1805,9 @@ static bool vault_aux_cthulhu(int r_idx)
 }
 
 
-/*
- * Helper function for "monster pit (clone)"
+/*!
+ * @brief pit/nestの基準となる単種モンスターを決める /
+ * @return なし
  */
 static void vault_prep_clone(void)
 {
@@ -1745,8 +1822,9 @@ static void vault_prep_clone(void)
 }
 
 
-/*
- * Helper function for "monster pit (symbol clone)"
+/*!
+ * @brief pit/nestの基準となるモンスターシンボルを決める /
+ * @return なし
  */
 static void vault_prep_symbol(void)
 {
@@ -1765,9 +1843,9 @@ static void vault_prep_symbol(void)
 	vault_aux_char = r_info[r_idx].d_char;
 }
 
-
-/*
- * Helper function for "monster pit (dragon)"
+/*!
+ * @brief pit/nestの基準となるドラゴンの種類を決める /
+ * @return なし
  */
 static void vault_prep_dragon(void)
 {
@@ -1839,8 +1917,11 @@ static void vault_prep_dragon(void)
 }
 
 
-/*
+/*!
+ * @brief モンスターがダークエルフpitの生成必要条件を満たしているかを返す /
  * Helper function for "monster pit (dark elf)"
+ * @param r_idx 確認したいモンスター種族ID
+ * @return 生成必要条件を満たしているならTRUEを返す。
  */
 static bool vault_aux_dark_elf(int r_idx)
 {
@@ -1863,10 +1944,10 @@ static bool vault_aux_dark_elf(int r_idx)
 	return FALSE;
 }
 
-
+/*! pit/nest型情報のtypedef */
 typedef struct vault_aux_type vault_aux_type;
 
-
+/*! pit/nest型情報の構造体定義 */
 struct vault_aux_type
 {
 	cptr name;
@@ -1876,7 +1957,12 @@ struct vault_aux_type
 	int chance;
 };
 
-
+/*!
+ * @brief ダンジョン毎に指定されたピット配列を基準にランダムなpit/nestタイプを決める
+ * @param l_ptr 選択されたpit/nest情報を返す参照ポインタ
+ * @param allow_flag_mask 生成が許されるpit/nestのビット配列
+ * @return 選択されたpit/nestのID、選択失敗した場合-1を返す。
+ */
 static int pick_vault_type(vault_aux_type *l_ptr, s16b allow_flag_mask)
 {
 	int tmp, total, count;
@@ -1924,19 +2010,20 @@ static int pick_vault_type(vault_aux_type *l_ptr, s16b allow_flag_mask)
 	return n_ptr->name ? count : -1;
 }
 
+/*!nest情報テーブル*/
 static vault_aux_type nest_types[] =
 {
 #ifdef JP
-	{"��������",     vault_aux_clone,    vault_prep_clone,   5, 3},
-	{"���꡼",       vault_aux_jelly,    NULL,               5, 6},
-	{"����ܥ�(��)", vault_aux_symbol_g, vault_prep_symbol, 25, 2},
-	{"����ܥ�(��)", vault_aux_symbol_e, vault_prep_symbol, 25, 2},
-	{"�ߥߥå�",     vault_aux_mimic,    NULL,              30, 4},
-	{"����",         vault_aux_cthulhu,  NULL,              70, 2},
-	{"������",       vault_aux_kennel,   NULL,              45, 4},
-	{"ưʪ��",       vault_aux_animal,   NULL,              35, 5},
-	{"����",         vault_aux_chapel_g, NULL,              75, 4},
-	{"����ǥå�",   vault_aux_undead,   NULL,              75, 5},
+	{"クローン",     vault_aux_clone,    vault_prep_clone,   5, 3},
+	{"ゼリー",       vault_aux_jelly,    NULL,               5, 6},
+	{"シンボル(善)", vault_aux_symbol_g, vault_prep_symbol, 25, 2},
+	{"シンボル(悪)", vault_aux_symbol_e, vault_prep_symbol, 25, 2},
+	{"ミミック",     vault_aux_mimic,    NULL,              30, 4},
+	{"狂気",         vault_aux_cthulhu,  NULL,              70, 2},
+	{"犬小屋",       vault_aux_kennel,   NULL,              45, 4},
+	{"動物園",       vault_aux_animal,   NULL,              35, 5},
+	{"教会",         vault_aux_chapel_g, NULL,              75, 4},
+	{"アンデッド",   vault_aux_undead,   NULL,              75, 5},
 	{NULL,           NULL,               NULL,               0, 0},
 #else
 	{"clone",        vault_aux_clone,    vault_prep_clone,   5, 3},
@@ -1953,19 +2040,20 @@ static vault_aux_type nest_types[] =
 #endif
 };
 
+/*!pit情報テーブル*/
 static vault_aux_type pit_types[] =
 {
 #ifdef JP
-	{"������",       vault_aux_orc,      NULL,               5, 6},
-	{"�ȥ���",       vault_aux_troll,    NULL,              20, 6},
-	{"���㥤�����", vault_aux_giant,    NULL,              50, 6},
-	{"����",         vault_aux_cthulhu,  NULL,              80, 2},
-	{"����ܥ�(��)", vault_aux_symbol_g, vault_prep_symbol, 70, 1},
-	{"����ܥ�(��)", vault_aux_symbol_e, vault_prep_symbol, 70, 1},
-	{"����",         vault_aux_chapel_g, NULL,              65, 2},
-	{"�ɥ饴��",     vault_aux_dragon,   vault_prep_dragon, 70, 6},
-	{"�ǡ����",     vault_aux_demon,    NULL,              80, 6},
-	{"�����������", vault_aux_dark_elf, NULL,              45, 4},
+	{"オーク",       vault_aux_orc,      NULL,               5, 6},
+	{"トロル",       vault_aux_troll,    NULL,              20, 6},
+	{"ジャイアント", vault_aux_giant,    NULL,              50, 6},
+	{"狂気",         vault_aux_cthulhu,  NULL,              80, 2},
+	{"シンボル(善)", vault_aux_symbol_g, vault_prep_symbol, 70, 1},
+	{"シンボル(悪)", vault_aux_symbol_e, vault_prep_symbol, 70, 1},
+	{"教会",         vault_aux_chapel_g, NULL,              65, 2},
+	{"ドラゴン",     vault_aux_dragon,   vault_prep_dragon, 70, 6},
+	{"デーモン",     vault_aux_demon,    NULL,              80, 6},
+	{"ダークエルフ", vault_aux_dark_elf, NULL,              45, 4},
 	{NULL,           NULL,               NULL,               0, 0},
 #else
 	{"orc",          vault_aux_orc,      NULL,               5, 6},
@@ -1983,7 +2071,7 @@ static vault_aux_type pit_types[] =
 };
 
 
-/* Nest types code */
+/*! nestのID定義 /  Nest types code */
 #define NEST_TYPE_CLONE        0
 #define NEST_TYPE_JELLY        1
 #define NEST_TYPE_SYMBOL_GOOD  2
@@ -1995,7 +2083,7 @@ static vault_aux_type pit_types[] =
 #define NEST_TYPE_CHAPEL       8
 #define NEST_TYPE_UNDEAD       9
 
-/* Pit types code */
+/*! pitのID定義 / Pit types code */
 #define PIT_TYPE_ORC           0
 #define PIT_TYPE_TROLL         1
 #define PIT_TYPE_GIANT         2
@@ -2008,7 +2096,12 @@ static vault_aux_type pit_types[] =
 #define PIT_TYPE_DARK_ELF      9
 
 
-/*
+/*!
+ * @brief デバッグ時に生成されたpit/nestの型を出力する処理
+ * @param type pit/nestの型ID
+ * @param nest TRUEならばnest、FALSEならばpit
+ * @return デバッグ表示文字列の参照ポインタ
+ * @details
  * Hack -- Get the string describing subtype of pit/nest
  * Determined in prepare function (some pit/nest only)
  */
@@ -2043,14 +2136,14 @@ static cptr pit_subtype_string(int type, bool nest)
 			switch (vault_aux_dragon_mask4)
 			{
 #ifdef JP
-			case RF4_BR_ACID: strcpy(inner_buf, "(��)");   break;
-			case RF4_BR_ELEC: strcpy(inner_buf, "(���)"); break;
-			case RF4_BR_FIRE: strcpy(inner_buf, "(�б�)"); break;
-			case RF4_BR_COLD: strcpy(inner_buf, "(�䵤)"); break;
-			case RF4_BR_POIS: strcpy(inner_buf, "(��)");   break;
+			case RF4_BR_ACID: strcpy(inner_buf, "(酸)");   break;
+			case RF4_BR_ELEC: strcpy(inner_buf, "(稲妻)"); break;
+			case RF4_BR_FIRE: strcpy(inner_buf, "(火炎)"); break;
+			case RF4_BR_COLD: strcpy(inner_buf, "(冷気)"); break;
+			case RF4_BR_POIS: strcpy(inner_buf, "(毒)");   break;
 			case (RF4_BR_ACID | RF4_BR_ELEC | RF4_BR_FIRE | RF4_BR_COLD | RF4_BR_POIS):
-				strcpy(inner_buf, "(����)"); break;
-			default: strcpy(inner_buf, "(̤���)"); break;
+				strcpy(inner_buf, "(万色)"); break;
+			default: strcpy(inner_buf, "(未定義)"); break;
 #else
 			case RF4_BR_ACID: strcpy(inner_buf, "(acid)");      break;
 			case RF4_BR_ELEC: strcpy(inner_buf, "(lightning)"); break;
@@ -2070,7 +2163,7 @@ static cptr pit_subtype_string(int type, bool nest)
 }
 
 
-/* A struct for nest monster information with cheat_hear */
+/*! デバッグ時にnestのモンスター情報を確認するための構造体 / A struct for nest monster information with cheat_hear */
 typedef struct
 {
 	s16b r_idx;
@@ -2080,7 +2173,12 @@ nest_mon_info_type;
 
 
 /*
- * Comp function for sorting nest monster information
+ *! @brief nestのモンスターリストをソートするための関数 /
+ *  Comp function for sorting nest monster information
+ *  @param u ソート処理対象配列ポインタ
+ *  @param v 未使用
+ *  @param a 比較対象参照ID1
+ *  @param b 比較対象参照ID2
  */
 static bool ang_sort_comp_nest_mon_info(vptr u, vptr v, int a, int b)
 {
@@ -2114,9 +2212,13 @@ static bool ang_sort_comp_nest_mon_info(vptr u, vptr v, int a, int b)
 	return w1 <= w2;
 }
 
-
-/*
+/*!
+ * @brief nestのモンスターリストをスワップするための関数 /
  * Swap function for sorting nest monster information
+ * @param u スワップ処理対象配列ポインタ
+ * @param v 未使用
+ * @param a スワップ対象参照ID1
+ * @param b スワップ対象参照ID2
  */
 static void ang_sort_swap_nest_mon_info(vptr u, vptr v, int a, int b)
 {
@@ -2133,26 +2235,28 @@ static void ang_sort_swap_nest_mon_info(vptr u, vptr v, int a, int b)
 }
 
 
-#define NUM_NEST_MON_TYPE 64
+#define NUM_NEST_MON_TYPE 64 /*!<nestの種別数 */
 
-/*
- * Type 5 -- Monster nests
- *
- * A monster nest is a "big" room, with an "inner" room, containing
- * a "collection" of monsters of a given type strewn about the room.
- *
- * The monsters are chosen from a set of 64 randomly selected monster
- * races, to allow the nest creation to fail instead of having "holes".
- *
- * Note the use of the "get_mon_num_prep()" function, and the special
- * "get_mon_num_hook()" restriction function, to prepare the "monster
- * allocation table" in such a way as to optimize the selection of
- * "appropriate" non-unique monsters for the nest.
- *
- * Note that the "get_mon_num()" function may (rarely) fail, in which
- * case the nest will be empty.
- *
- * Note that "monster nests" will never contain "unique" monsters.
+
+/*!
+ * @brief タイプ5の部屋…nestを生成する / Type 5 -- Monster nests
+ * @return なし
+ * @details
+ * A monster nest is a "big" room, with an "inner" room, containing\n
+ * a "collection" of monsters of a given type strewn about the room.\n
+ *\n
+ * The monsters are chosen from a set of 64 randomly selected monster\n
+ * races, to allow the nest creation to fail instead of having "holes".\n
+ *\n
+ * Note the use of the "get_mon_num_prep()" function, and the special\n
+ * "get_mon_num_hook()" restriction function, to prepare the "monster\n
+ * allocation table" in such a way as to optimize the selection of\n
+ * "appropriate" non-unique monsters for the nest.\n
+ *\n
+ * Note that the "get_mon_num()" function may (rarely) fail, in which\n
+ * case the nest will be empty.\n
+ *\n
+ * Note that "monster nests" will never contain "unique" monsters.\n
  */
 static bool build_type5(void)
 {
@@ -2290,11 +2394,7 @@ static bool build_type5(void)
 	if (cheat_room)
 	{
 		/* Room type */
-#ifdef JP
-		msg_format("��󥹥�������(nest)(%s%s)", n_ptr->name, pit_subtype_string(cur_nest_type, TRUE));
-#else
-		msg_format("Monster nest (%s%s)", n_ptr->name, pit_subtype_string(cur_nest_type, TRUE));
-#endif
+		msg_format(_("モンスター部屋(nest)(%s%s)", "Monster nest (%s%s)"), n_ptr->name, pit_subtype_string(cur_nest_type, TRUE));
 	}
 
 	/* Place some monsters */
@@ -2337,41 +2437,42 @@ static bool build_type5(void)
 }
 
 
-/*
- * Type 6 -- Monster pits
- *
- * A monster pit is a "big" room, with an "inner" room, containing
- * a "collection" of monsters of a given type organized in the room.
- *
- * The inside room in a monster pit appears as shown below, where the
- * actual monsters in each location depend on the type of the pit
- *
- *   #####################
- *   #0000000000000000000#
- *   #0112233455543322110#
- *   #0112233467643322110#
- *   #0112233455543322110#
- *   #0000000000000000000#
- *   #####################
- *
- * Note that the monsters in the pit are now chosen by using "get_mon_num()"
- * to request 16 "appropriate" monsters, sorting them by level, and using
- * the "even" entries in this sorted list for the contents of the pit.
- *
- * Hack -- all of the "dragons" in a "dragon" pit must be the same "color",
- * which is handled by requiring a specific "breath" attack for all of the
- * dragons.  This may include "multi-hued" breath.  Note that "wyrms" may
- * be present in many of the dragon pits, if they have the proper breath.
- *
- * Note the use of the "get_mon_num_prep()" function, and the special
- * "get_mon_num_hook()" restriction function, to prepare the "monster
- * allocation table" in such a way as to optimize the selection of
- * "appropriate" non-unique monsters for the pit.
- *
- * Note that the "get_mon_num()" function may (rarely) fail, in which case
- * the pit will be empty.
- *
- * Note that "monster pits" will never contain "unique" monsters.
+/*!
+ * @brief タイプ6の部屋…pitを生成する / Type 6 -- Monster pits
+ * @return なし
+ * @details
+ * A monster pit is a "big" room, with an "inner" room, containing\n
+ * a "collection" of monsters of a given type organized in the room.\n
+ *\n
+ * The inside room in a monster pit appears as shown below, where the\n
+ * actual monsters in each location depend on the type of the pit\n
+ *\n
+ *   XXXXXXXXXXXXXXXXXXXXX\n
+ *   X0000000000000000000X\n
+ *   X0112233455543322110X\n
+ *   X0112233467643322110X\n
+ *   X0112233455543322110X\n
+ *   X0000000000000000000X\n
+ *   XXXXXXXXXXXXXXXXXXXXX\n
+ *\n
+ * Note that the monsters in the pit are now chosen by using "get_mon_num()"\n
+ * to request 16 "appropriate" monsters, sorting them by level, and using\n
+ * the "even" entries in this sorted list for the contents of the pit.\n
+ *\n
+ * Hack -- all of the "dragons" in a "dragon" pit must be the same "color",\n
+ * which is handled by requiring a specific "breath" attack for all of the\n
+ * dragons.  This may include "multi-hued" breath.  Note that "wyrms" may\n
+ * be present in many of the dragon pits, if they have the proper breath.\n
+ *\n
+ * Note the use of the "get_mon_num_prep()" function, and the special\n
+ * "get_mon_num_hook()" restriction function, to prepare the "monster\n
+ * allocation table" in such a way as to optimize the selection of\n
+ * "appropriate" non-unique monsters for the pit.\n
+ *\n
+ * Note that the "get_mon_num()" function may (rarely) fail, in which case\n
+ * the pit will be empty.\n
+ *\n
+ * Note that "monster pits" will never contain "unique" monsters.\n
  */
 static bool build_type6(void)
 {
@@ -2529,11 +2630,7 @@ static bool build_type6(void)
 	if (cheat_room)
 	{
 		/* Room type */
-#ifdef JP
-		msg_format("��󥹥�������(pit)(%s%s)", n_ptr->name, pit_subtype_string(cur_pit_type, FALSE));
-#else
-		msg_format("Monster pit (%s%s)", n_ptr->name, pit_subtype_string(cur_pit_type, FALSE));
-#endif
+		msg_format(_("モンスター部屋(pit)(%s%s)", "Monster pit (%s%s)"), n_ptr->name, pit_subtype_string(cur_pit_type, FALSE));
 	}
 
 	/* Select the entries */
@@ -2602,7 +2699,15 @@ static bool build_type6(void)
 }
 
 
-/* coordinate translation code */
+/*!
+ * @brief Vault地形を回転、上下左右反転するための座標変換を返す / coordinate translation code
+ * @param x 変換したい点のX座標参照ポインタ
+ * @param y 変換したい点のY座標参照ポインタ
+ * @param xoffset Vault生成時の基準X座標
+ * @param yoffset Vault生成時の基準Y座標
+ * @param transno 処理ID
+ * @return なし
+ */
 static void coord_trans(int *x, int *y, int xoffset, int yoffset, int transno)
 {
 	int i;
@@ -2636,9 +2741,17 @@ static void coord_trans(int *x, int *y, int xoffset, int yoffset, int transno)
 	*y += yoffset;
 }
 
-
-/*
- * Hack -- fill in "vault" rooms
+/*!
+ * @brief Vaultをフロアに配置する / Hack -- fill in "vault" rooms
+ * @param yval 生成基準Y座標
+ * @param xval 生成基準X座標
+ * @param ymax VaultのYサイズ
+ * @param xmax VaultのXサイズ
+ * @param data Vaultのデータ文字列
+ * @param xoffset 変換基準X座標
+ * @param yoffset 変換基準Y座標
+ * @param transno 変換ID
+ * @return なし
  */
 static void build_vault(int yval, int xval, int ymax, int xmax, cptr data,
 		int xoffset, int yoffset, int transno)
@@ -2898,8 +3011,9 @@ static void build_vault(int yval, int xval, int ymax, int xmax, cptr data,
 }
 
 
-/*
- * Type 7 -- simple vaults (see "v_info.txt")
+/*!
+ * @brief タイプ7の部屋…v_info.txtより小型vaultを生成する / Type 7 -- simple vaults (see "v_info.txt")
+ * @return なし
  */
 static bool build_type7(void)
 {
@@ -2925,11 +3039,7 @@ static bool build_type7(void)
 	{
 		if (cheat_room)
 		{
-#ifdef JP
-			msg_print("�ٹ𡪾������ϲ��������֤Ǥ��ޤ���");
-#else
-			msg_print("Warning! Could not place lesser vault!");
-#endif
+			msg_print(_("警告！小さな地下室を配置できません！", "Warning! Could not place lesser vault!"));
 		}
 		return FALSE;
 	}
@@ -2976,11 +3086,7 @@ static bool build_type7(void)
 #endif
 
 	/* Message */
-#ifdef JP
-	if (cheat_room) msg_format("�������ϲ���(%s)", v_name + v_ptr->name);
-#else
-	if (cheat_room) msg_format("Lesser vault (%s)", v_name + v_ptr->name);
-#endif
+	if (cheat_room) msg_format(_("小さな地下室(%s)", "Lesser vault (%s)"), v_name + v_ptr->name);
 
 	/* Hack -- Build the vault */
 	build_vault(yval, xval, v_ptr->hgt, v_ptr->wid,
@@ -2989,9 +3095,9 @@ static bool build_type7(void)
 	return TRUE;
 }
 
-
-/*
- * Type 8 -- greater vaults (see "v_info.txt")
+/*!
+ * @brief タイプ8の部屋…v_info.txtより大型vaultを生成する / Type 8 -- greater vaults (see "v_info.txt")
+ * @return なし
  */
 static bool build_type8(void)
 {
@@ -3017,11 +3123,7 @@ static bool build_type8(void)
 	{
 		if (cheat_room)
 		{
-#ifdef JP
-			msg_print("�ٹ𡪵�����ϲ��������֤Ǥ��ޤ���");
-#else
-			msg_print("Warning! Could not place greater vault!");
-#endif
+			msg_print(_("警告！巨大な地下室を配置できません！", "Warning! Could not place greater vault!"));
 		}
 		return FALSE;
 	}
@@ -3074,11 +3176,7 @@ static bool build_type8(void)
 #endif
 
 	/* Message */
-#ifdef JP
-	if (cheat_room) msg_format("������ϲ���(%s)", v_name + v_ptr->name);
-#else
-	if (cheat_room) msg_format("Greater vault (%s)", v_name + v_ptr->name);
-#endif
+	if (cheat_room) msg_format(_("巨大な地下室(%s)", "Greater vault (%s)"), v_name + v_ptr->name);
 
 	/* Hack -- Build the vault */
 	build_vault(yval, xval, v_ptr->hgt, v_ptr->wid,
@@ -3732,8 +3830,9 @@ static bool generate_fracave(int y0, int x0, int xsize, int ysize, int cutoff, b
 }
 
 
-/*
- * Driver routine to create fractal cave system
+/*!
+ * @brief タイプ9の部屋…フラクタルカーブによる洞窟生成 / Type 9 -- Driver routine to create fractal cave system
+ * @return なし
  */
 static bool build_type9(void)
 {
@@ -4250,8 +4349,8 @@ static void build_bubble_vault(int x0, int y0, int xsize, int ysize)
 	if (cheat_room) msg_print("Bubble Vault");
 
 	/* Allocate center of bubbles */
-	center[0].x = randint1(xsize - 3) + 1;
-	center[0].y = randint1(ysize - 3) + 1;
+	center[0].x = (byte)randint1(xsize - 3) + 1;
+	center[0].y = (byte)randint1(ysize - 3) + 1;
 
 	for (i = 1; i < BUBBLENUM; i++)
 	{
@@ -5373,8 +5472,9 @@ static void build_elemental_vault(int x0, int y0, int xsiz, int ysiz)
 #endif /* ALLOW_CAVERNS_AND_LAKES */
 
 
-/*
- * Random vaults
+/*!
+ * @brief タイプ10の部屋…ランダム生成vault / Type 10 -- Random vaults
+ * @return なし
  */
 static bool build_type10(void)
 {
@@ -5428,12 +5528,14 @@ static bool build_type10(void)
 }
 
 
-/*
- * Build an vertical oval room.
- * For every grid in the possible square, check the distance.
- * If it's less than the radius, make it a room square.
- *
- * When done fill from the inside to find the walls,
+/*!
+ * @brief タイプ11の部屋…円形部屋の生成 / Type 11 -- Build an vertical oval room.
+ * @return なし
+ * @details
+ * For every grid in the possible square, check the distance.\n
+ * If it's less than the radius, make it a room square.\n
+ *\n
+ * When done fill from the inside to find the walls,\n
  */
 static bool build_type11(void)
 {
@@ -5473,12 +5575,14 @@ static bool build_type11(void)
 }
 
 
-/*
- * Build crypt room.
- * For every grid in the possible square, check the (fake) distance.
- * If it's less than the radius, make it a room square.
- *
- * When done fill from the inside to find the walls,
+/*!
+ * @brief タイプ12の部屋…ドーム型部屋の生成 / Type 12 -- Build crypt room.
+ * @return なし
+ * @details
+ * For every grid in the possible square, check the (fake) distance.\n
+ * If it's less than the radius, make it a room square.\n
+ *\n
+ * When done fill from the inside to find the walls,\n
  */
 static bool build_type12(void)
 {
@@ -5587,49 +5691,50 @@ static bool vault_aux_trapped_pit(int r_idx)
 }
 
 
-/*
- * Type 13 -- Trapped monster pits
- *
- * A trapped monster pit is a "big" room with a straight corridor in
- * which wall opening traps are placed, and with two "inner" rooms
- * containing a "collection" of monsters of a given type organized in
- * the room.
- *
- * The trapped monster pit appears as shown below, where the actual
- * monsters in each location depend on the type of the pit
- *
- *  #########################
- *  #                       #
- *  ####################### #
- *  #####001123454321100### #
- *  ###0012234567654322100# #
- *  ####################### #
- *  #           ^           #
- *  # #######################
- *  # #0012234567654322100###
- *  # ###001123454321100#####
- *  # #######################
- *  #                       #
- *  #########################
- *
- * Note that the monsters in the pit are now chosen by using "get_mon_num()"
- * to request 16 "appropriate" monsters, sorting them by level, and using
- * the "even" entries in this sorted list for the contents of the pit.
- *
- * Hack -- all of the "dragons" in a "dragon" pit must be the same "color",
- * which is handled by requiring a specific "breath" attack for all of the
- * dragons.  This may include "multi-hued" breath.  Note that "wyrms" may
- * be present in many of the dragon pits, if they have the proper breath.
- *
- * Note the use of the "get_mon_num_prep()" function, and the special
- * "get_mon_num_hook()" restriction function, to prepare the "monster
- * allocation table" in such a way as to optimize the selection of
- * "appropriate" non-unique monsters for the pit.
- *
- * Note that the "get_mon_num()" function may (rarely) fail, in which case
- * the pit will be empty.
- *
- * Note that "monster pits" will never contain "unique" monsters.
+/*!
+ * @brief タイプ13の部屋…トラップpitの生成 / Type 13 -- Trapped monster pits
+ * @return なし
+ * @details
+ * A trapped monster pit is a "big" room with a straight corridor in\n
+ * which wall opening traps are placed, and with two "inner" rooms\n
+ * containing a "collection" of monsters of a given type organized in\n
+ * the room.\n
+ *\n
+ * The trapped monster pit appears as shown below, where the actual\n
+ * monsters in each location depend on the type of the pit\n
+ *\n
+ *  XXXXXXXXXXXXXXXXXXXXXXXXX\n
+ *  X                       X\n
+ *  XXXXXXXXXXXXXXXXXXXXXXX X\n
+ *  XXXXX001123454321100XXX X\n
+ *  XXX0012234567654322100X X\n
+ *  XXXXXXXXXXXXXXXXXXXXXXX X\n
+ *  X           ^           X\n
+ *  X XXXXXXXXXXXXXXXXXXXXXXX\n
+ *  X X0012234567654322100XXX\n
+ *  X XXX001123454321100XXXXX\n
+ *  X XXXXXXXXXXXXXXXXXXXXXXX\n
+ *  X                       X\n
+ *  XXXXXXXXXXXXXXXXXXXXXXXXX\n
+ *\n
+ * Note that the monsters in the pit are now chosen by using "get_mon_num()"\n
+ * to request 16 "appropriate" monsters, sorting them by level, and using\n
+ * the "even" entries in this sorted list for the contents of the pit.\n
+ *\n
+ * Hack -- all of the "dragons" in a "dragon" pit must be the same "color",\n
+ * which is handled by requiring a specific "breath" attack for all of the\n
+ * dragons.  This may include "multi-hued" breath.  Note that "wyrms" may\n
+ * be present in many of the dragon pits, if they have the proper breath.\n
+ *\n
+ * Note the use of the "get_mon_num_prep()" function, and the special\n
+ * "get_mon_num_hook()" restriction function, to prepare the "monster\n
+ * allocation table" in such a way as to optimize the selection of\n
+ * "appropriate" non-unique monsters for the pit.\n
+ *\n
+ * Note that the "get_mon_num()" function may (rarely) fail, in which case\n
+ * the pit will be empty.\n
+ *\n
+ * Note that "monster pits" will never contain "unique" monsters.\n
  */
 static bool build_type13(void)
 {
@@ -5848,11 +5953,7 @@ static bool build_type13(void)
 	if (cheat_room)
 	{
 		/* Room type */
-#ifdef JP
-		msg_format("%s%s��櫥ԥå�", n_ptr->name, pit_subtype_string(cur_pit_type, FALSE));
-#else
-		msg_format("Trapped monster pit (%s%s)", n_ptr->name, pit_subtype_string(cur_pit_type, FALSE));
-#endif
+		msg_format(_("%s%sの罠ピット", "Trapped monster pit (%s%s)"), n_ptr->name, pit_subtype_string(cur_pit_type, FALSE));
 	}
 
 	/* Select the entries */
@@ -5879,9 +5980,10 @@ static bool build_type13(void)
 }
 
 
-/*
- * Type 14 -- trapped rooms
- *
+/*!
+ * @brief タイプ14の部屋…特殊トラップ部屋の生成 / Type 14 -- trapped rooms
+ * @return なし
+ * @details
  * A special trap is placed at center of the room
  */
 static bool build_type14(void)
@@ -5958,11 +6060,7 @@ static bool build_type14(void)
 	/* Message */
 	if (cheat_room)
 	{
-#ifdef JP
-		msg_format("%s������", f_name + f_info[trap].name);
-#else
-		msg_format("Room of %s", f_name + f_info[trap].name);
-#endif
+		msg_format(_("%sの部屋", "Room of %s"), f_name + f_info[trap].name);
 	}
 
 	return TRUE;
@@ -6015,8 +6113,9 @@ static bool kind_is_potion(int k_idx)
 	return k_info[k_idx].tval == TV_POTION;
 }
 
-/*
- * Type 15 -- glass rooms
+/*!
+ * @brief タイプ15の部屋…ガラス部屋の生成 / Type 15 -- glass rooms
+ * @return なし
  */
 static bool build_type15(void)
 {
@@ -6251,12 +6350,300 @@ static bool build_type15(void)
 	/* Message */
 	if (cheat_room)
 	{
-#ifdef JP
-		msg_print("���饹������");
-#else
-		msg_print("Glass room");
-#endif
+		msg_print(_("ガラスの部屋", "Glass room"));
 	}
+
+	return TRUE;
+}
+
+
+/* Create a new floor room with optional light */
+void generate_room_floor(int y1, int x1, int y2, int x2, int light)
+{
+	int y, x;
+	
+	cave_type *c_ptr;
+
+	for (y = y1; y <= y2; y++)
+	{
+		for (x = x1; x <= x2; x++)
+		{
+			/* Point to grid */
+			c_ptr = &cave[y][x];
+			place_floor_grid(c_ptr);
+			c_ptr->info |= (CAVE_ROOM);
+			if (light) c_ptr->info |= (CAVE_GLOW);
+		}
+	}
+}
+
+void generate_fill_perm_bold(int y1, int x1, int y2, int x2)
+{
+	int y, x;
+
+	for (y = y1; y <= y2; y++)
+	{
+		for (x = x1; x <= x2; x++)
+		{
+			/* Point to grid */
+			place_inner_perm_bold(y, x);
+		}
+	}
+}
+
+/* Minimum & maximum town size */
+#define MIN_TOWN_WID ((MAX_WID / 3) / 2)
+#define MIN_TOWN_HGT ((MAX_HGT / 3) / 2)
+#define MAX_TOWN_WID ((MAX_WID / 3) * 2 / 3)
+#define MAX_TOWN_HGT ((MAX_HGT / 3) * 2 / 3)
+
+/* Struct for build underground buildings */
+typedef struct
+{
+	int y0, x0; /* North-west corner (relative) */
+	int y1, x1; /* South-east corner (relative) */
+}
+ugbldg_type;
+
+ugbldg_type *ugbldg;
+
+/*
+ * Precalculate buildings' location of underground arcade
+ */
+static bool precalc_ugarcade(int town_hgt, int town_wid, int n)
+{
+	int i, y, x, center_y, center_x, tmp, attempt = 10000;
+	int max_bldg_hgt = 3 * town_hgt / MAX_TOWN_HGT;
+	int max_bldg_wid = 5 * town_wid / MAX_TOWN_WID;
+	ugbldg_type *cur_ugbldg;
+	bool **ugarcade_used, abort;
+
+	/* Allocate "ugarcade_used" array (2-dimension) */
+	C_MAKE(ugarcade_used, town_hgt, bool *);
+	C_MAKE(*ugarcade_used, town_hgt * town_wid, bool);
+	for (y = 1; y < town_hgt; y++) ugarcade_used[y] = *ugarcade_used + y * town_wid;
+
+	/* Calculate building locations */
+	for (i = 0; i < n; i++)
+	{
+		cur_ugbldg = &ugbldg[i];
+		(void)WIPE(cur_ugbldg, ugbldg_type);
+
+		do
+		{
+			/* Find the "center" of the store */
+			center_y = rand_range(2, town_hgt - 3);
+			center_x = rand_range(2, town_wid - 3);
+
+			/* Determine the store boundaries */
+			tmp = center_y - randint1(max_bldg_hgt);
+			cur_ugbldg->y0 = MAX(tmp, 1);
+			tmp = center_x - randint1(max_bldg_wid);
+			cur_ugbldg->x0 = MAX(tmp, 1);
+			tmp = center_y + randint1(max_bldg_hgt);
+			cur_ugbldg->y1 = MIN(tmp, town_hgt - 2);
+			tmp = center_x + randint1(max_bldg_wid);
+			cur_ugbldg->x1 = MIN(tmp, town_wid - 2);
+
+			/* Scan this building's area */
+			for (abort = FALSE, y = cur_ugbldg->y0; (y <= cur_ugbldg->y1) && !abort; y++)
+			{
+				for (x = cur_ugbldg->x0; x <= cur_ugbldg->x1; x++)
+				{
+					if (ugarcade_used[y][x])
+					{
+						abort = TRUE;
+						break;
+					}
+				}
+			}
+
+			attempt--;
+		}
+		while (abort && attempt); /* Accept this building if no overlapping */
+
+		/* Failed to generate underground arcade */
+		if (!attempt) break;
+
+		/*
+		 * Mark to ugarcade_used[][] as "used"
+		 * Note: Building-adjacent grids are included for preventing
+		 * connected bulidings.
+		 */
+		for (y = cur_ugbldg->y0 - 1; y <= cur_ugbldg->y1 + 1; y++)
+		{
+			for (x = cur_ugbldg->x0 - 1; x <= cur_ugbldg->x1 + 1; x++)
+			{
+				ugarcade_used[y][x] = TRUE;
+			}
+		}
+	}
+
+	/* Free "ugarcade_used" array (2-dimension) */
+	C_KILL(*ugarcade_used, town_hgt * town_wid, bool);
+	C_KILL(ugarcade_used, town_hgt, bool *);
+
+	/* If i < n, generation is not allowed */
+	return i == n;
+}
+
+/*
+ * Actually create buildings
+ * Note: ltcy and ltcx indicate "left top corner".
+ */
+static void build_stores(int ltcy, int ltcx, int stores[], int n)
+{
+	int i, j, y, x;
+	ugbldg_type *cur_ugbldg;
+
+	for (i = 0; i < n; i++)
+	{
+		cur_ugbldg = &ugbldg[i];
+
+		/* Generate new room */
+		generate_room_floor(
+			ltcy + cur_ugbldg->y0 - 2, ltcx + cur_ugbldg->x0 - 2,
+			ltcy + cur_ugbldg->y1 + 2, ltcx + cur_ugbldg->x1 + 2,
+			FALSE);
+	}
+
+	for (i = 0; i < n; i++)
+	{
+		cur_ugbldg = &ugbldg[i];
+
+		/* Build an invulnerable rectangular building */
+		generate_fill_perm_bold(
+			ltcy + cur_ugbldg->y0, ltcx + cur_ugbldg->x0,
+			ltcy + cur_ugbldg->y1, ltcx + cur_ugbldg->x1);
+
+		/* Pick a door direction (S,N,E,W) */
+		switch (randint0(4))
+		{
+		/* Bottom side */
+		case 0:
+			y = cur_ugbldg->y1;
+			x = rand_range(cur_ugbldg->x0, cur_ugbldg->x1);
+			break;
+
+		/* Top side */
+		case 1:
+			y = cur_ugbldg->y0;
+			x = rand_range(cur_ugbldg->x0, cur_ugbldg->x1);
+			break;
+
+		/* Right side */
+		case 2:
+			y = rand_range(cur_ugbldg->y0, cur_ugbldg->y1);
+			x = cur_ugbldg->x1;
+			break;
+
+		/* Left side */
+		default:
+			y = rand_range(cur_ugbldg->y0, cur_ugbldg->y1);
+			x = cur_ugbldg->x0;
+			break;
+		}
+
+		for (j = 0; j < max_f_idx; j++)
+		{
+			if (have_flag(f_info[j].flags, FF_STORE))
+			{
+				if (f_info[j].subtype == stores[i]) break;
+			}
+		}
+
+		/* Clear previous contents, add a store door */
+		if (j < max_f_idx)
+		{
+			cave_set_feat(ltcy + y, ltcx + x, j);
+
+			/* Init store */
+			store_init(NO_TOWN, stores[i]);
+		}
+	}
+}
+
+
+/*!
+ * @brief タイプ16の部屋…地下都市の生成 / Type 16 -- Underground Arcade
+ * @return なし
+ * @details
+ * Town logic flow for generation of new town\n
+ * Originally from Vanilla 3.0.3\n
+ *\n
+ * We start with a fully wiped cave of normal floors.\n
+ *\n
+ * Note that town_gen_hack() plays games with the R.N.G.\n
+ *\n
+ * This function does NOT do anything about the owners of the stores,\n
+ * nor the contents thereof.  It only handles the physical layout.\n
+ */
+static bool build_type16(void)
+{
+	int stores[] =
+	{
+		STORE_GENERAL, STORE_ARMOURY, STORE_WEAPON, STORE_TEMPLE,
+		STORE_ALCHEMIST, STORE_MAGIC, STORE_BLACK, STORE_BOOK,
+	};
+	int n = sizeof stores / sizeof (int);
+	int i, y, x, y1, x1, yval, xval;
+	int town_hgt = rand_range(MIN_TOWN_HGT, MAX_TOWN_HGT);
+	int town_wid = rand_range(MIN_TOWN_WID, MAX_TOWN_WID);
+	bool prevent_bm = FALSE;
+
+	/* Hack -- If already exist black market, prevent building */
+	for (y = 0; (y < cur_hgt) && !prevent_bm; y++)
+	{
+		for (x = 0; x < cur_wid; x++)
+		{
+			if (cave[y][x].feat == FF_STORE)
+			{
+				prevent_bm = (f_info[cave[y][x].feat].subtype == STORE_BLACK);
+				break;
+			}
+		}
+	}
+	for (i = 0; i < n; i++)
+	{
+		if ((stores[i] == STORE_BLACK) && prevent_bm) stores[i] = stores[--n];
+	}
+	if (!n) return FALSE;
+
+	/* Allocate buildings array */
+	C_MAKE(ugbldg, n, ugbldg_type);
+
+	/* If cannot build stores, abort */
+	if (!precalc_ugarcade(town_hgt, town_wid, n))
+	{
+		/* Free buildings array */
+		C_KILL(ugbldg, n, ugbldg_type);
+		return FALSE;
+	}
+
+	/* Find and reserve some space in the dungeon.  Get center of room. */
+	if (!find_space(&yval, &xval, town_hgt + 4, town_wid + 4))
+	{
+		/* Free buildings array */
+		C_KILL(ugbldg, n, ugbldg_type);
+		return FALSE;
+	}
+
+	/* Get top left corner */
+	y1 = yval - (town_hgt / 2);
+	x1 = xval - (town_wid / 2);
+
+	/* Generate new room */
+	generate_room_floor(
+		y1 + town_hgt / 3, x1 + town_wid / 3,
+		y1 + town_hgt * 2 / 3, x1 + town_wid * 2 / 3, FALSE);
+
+	/* Build stores */
+	build_stores(y1, x1, stores, n);
+
+	if (cheat_room) msg_print(_("地下街", "Underground Arcade"));
+
+	/* Free buildings array */
+	C_KILL(ugbldg, n, ugbldg_type);
 
 	return TRUE;
 }
@@ -6289,6 +6676,7 @@ static bool room_build(int typ)
 	case ROOM_T_TRAP_PIT:      return build_type13();
 	case ROOM_T_TRAP:          return build_type14();
 	case ROOM_T_GLASS:         return build_type15();
+	case ROOM_T_ARCADE:        return build_type16();
 	}
 
 	/* Paranoia */
@@ -6388,6 +6776,10 @@ bool generate_rooms(void)
 		prob_list[ROOM_T_GLASS] = 0;
 	}
 
+	if (!(d_info[dungeon_type].flags1 & DF1_ARCADE))
+	{
+		prob_list[ROOM_T_ARCADE] = 0;
+	}
 
 	/*
 	 * Initialize number of rooms,
@@ -6428,6 +6820,7 @@ bool generate_rooms(void)
 		case ROOM_T_LESSER_VAULT:
 		case ROOM_T_TRAP_PIT:
 		case ROOM_T_GLASS:
+		case ROOM_T_ARCADE:
 
 			/* Large room */
 			i -= 2;
@@ -6484,6 +6877,13 @@ bool generate_rooms(void)
 						room_num[ROOM_T_NEST] = 0;
 						room_num[ROOM_T_TRAP_PIT] = 0;
 					}
+					break;
+
+				case ROOM_T_ARCADE:
+
+					/* Avoid double-town */
+					room_num[ROOM_T_ARCADE] = 0;
+					break;
 				}
 			}
 		}
@@ -6492,15 +6892,11 @@ bool generate_rooms(void)
 		if (!remain) break;
 	}
 
-	if (rooms_built < 1) return FALSE;
+	if (rooms_built < 2) return FALSE;
 
 	if (cheat_room)
 	{
-#ifdef JP
-		msg_format("������: %d", rooms_built);
-#else
-		msg_format("Number of Rooms: %d", rooms_built);
-#endif
+		msg_format(_("部屋数: %d", "Number of Rooms: %d"), rooms_built);
 	}
 
 	return TRUE;

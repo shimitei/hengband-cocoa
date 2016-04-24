@@ -1,9 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/main.c)
+AC_INIT(hengband, 2.1.4)
 
-AM_CONFIG_HEADER(src/autoconf.h)
-
-AM_INIT_AUTOMAKE(hengband, 1.7.2)
+AC_CONFIG_HEADERS(src/autoconf.h)
+AC_CONFIG_SRCDIR(src/main.c)
+AM_INIT_AUTOMAKE
 
 AC_ARG_WITH(setgid,
 [  --with-setgid=NAME      install hengband as group NAME],
@@ -49,20 +49,22 @@ AC_ARG_ENABLE(worldscore,
 AC_ARG_ENABLE(chuukei,
 [  --enable-chuukei        enable internet chuukei support], AC_DEFINE(CHUUKEI, 1, [Chuukei mode]))
 
-dnl -fno-strength-reduce prevents a bug in some versions of gcc
-if test "$GCC" = yes; then
-  CFLAGS="$CFLAGS -fno-strength-reduce"
-fi
-
 dnl Checks for libraries.
 dnl Replace `main' with a function in -lncurses:
-AC_CHECK_LIB(ncurses, initscr, [AC_DEFINE(USE_GCU, 1, [Allow -mGCU environment]) AC_DEFINE(USE_NCURSES, 1, [Use ncurses]) LIBS="$LIBS -lncurses"])
-if test "$ac_cv_lib_ncurses_initscr" != yes; then
-  AC_CHECK_LIB(curses, initscr, [AC_DEFINE(USE_GCU, 1, [Allow -mGCU environment]) LIBS="$LIBS -lcurses"])
-  if test "$ac_cv_lib_curses_initscr" != yes; then
-    AC_CHECK_LIB(termcap, tgetent, [AC_DEFINE(USE_CAP, 1, [Allow -mCAP environment]) LIBS="$LIBS -ltermcap"])
+AC_CHECK_LIB(ncursesw, initscr, [AC_DEFINE(USE_GCU, 1, [Allow -mGCU environment]) AC_DEFINE(USE_NCURSES, 1, [Use ncurses]) LIBS="$LIBS -lncursesw"])
+if test "$ac_cv_lib_ncursesw_initscr" != yes; then
+  AC_CHECK_LIB(ncurses, initscr, [AC_DEFINE(USE_GCU, 1, [Allow -mGCU environment]) AC_DEFINE(USE_NCURSES, 1, [Use ncurses]) LIBS="$LIBS -lncurses"])
+  if test "$ac_cv_lib_ncurses_initscr" != yes; then
+    AC_CHECK_LIB(curses, initscr, [AC_DEFINE(USE_GCU, 1, [Allow -mGCU environment]) LIBS="$LIBS -lcurses"])
+    if test "$ac_cv_lib_curses_initscr" != yes; then
+      AC_CHECK_LIB(termcap, tgetent, [AC_DEFINE(USE_CAP, 1, [Allow -mCAP environment]) LIBS="$LIBS -ltermcap"])
+    fi
   fi
 fi
+
+AC_CHECK_LIB(iconv, iconv_open)
+
+AC_CHECK_FILE(/dev/urandom, AC_DEFINE(RNG_DEVICE, "/dev/urandom", [Random Number Generation device file]))
 
 dnl Checks for header files.
 AC_PATH_XTRA
@@ -94,8 +96,15 @@ if test "$have_x" = yes; then
   fi
 fi
 
+if test "$use_japanese" != no; then
+  AC_CHECK_PROG(NKF, nkf, yes)
+  if test x"$NKF" != x"yes"; then
+    AC_MSG_ERROR([nkf is not found. Please install nkf.])
+  fi
+fi
+
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h strings.h sys/file.h sys/ioctl.h sys/time.h termio.h unistd.h)
+AC_CHECK_HEADERS(fcntl.h strings.h sys/file.h sys/ioctl.h sys/time.h termio.h unistd.h stdint.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -110,6 +119,6 @@ AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(gethostname mkdir select socket strtol vasprintf vsnprintf mkstemp usleep)
+AC_CHECK_FUNCS(gethostname mkdir select socket strtol vsnprintf mkstemp usleep)
 
 AC_OUTPUT(Makefile src/Makefile lib/Makefile lib/apex/Makefile lib/bone/Makefile lib/data/Makefile lib/edit/Makefile lib/file/Makefile lib/help/Makefile lib/info/Makefile lib/pref/Makefile lib/save/Makefile lib/script/Makefile lib/user/Makefile lib/xtra/Makefile lib/xtra/font/Makefile lib/xtra/graf/Makefile lib/xtra/music/Makefile lib/xtra/sound/Makefile)

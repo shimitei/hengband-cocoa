@@ -1,4 +1,4 @@
-/* File: report.c */
+Ôªø/* File: report.c */
 
 #define _GNU_SOURCE
 #include "angband.h"
@@ -32,18 +32,18 @@
 #define HTTP_PROXY ""                   /* Default proxy url */
 #define HTTP_PROXY_PORT 0               /* Default proxy port */
 #define HTTP_TIMEOUT    20              /* Timeout length (second) */
-#define SCORE_SERVER "www.kmc.gr.jp"    /* Default score server url */
+#define SCORE_SERVER "moon.kmc.gr.jp"    /* Default score server url */
 #define SCORE_PORT 80                   /* Default score server port */
 
 #ifdef JP
-#define SCORE_PATH "http://www.kmc.gr.jp/~habu/local/hengscore/score.cgi"
+#define SCORE_PATH "http://moon.kmc.gr.jp/hengband/hengscore/score.cgi"
 #else
-#define SCORE_PATH "http://www.kmc.gr.jp/~habu/local/hengscore-en/score.cgi"
+#define SCORE_PATH "http://moon.kmc.gr.jp/hengband/hengscore-en/score.cgi"
 #endif
 
 /* for debug */
 #if 0
-#define SCORE_PATH "http://www.kmc.gr.jp/~habu/local/scoretest/score.cgi"
+#define SCORE_PATH "http://moon.kmc.gr.jp/hengband/scoretest/score.cgi"
 #endif
 
 /*
@@ -57,25 +57,6 @@ typedef struct {
 } BUF;
 
 #define	BUFSIZE	(65536)
-
-#ifndef HAVE_VASPRINTF
-#define vasprintf	Vasprintf
-
-static int Vasprintf(char **buf, const char *fmt, va_list ap)
-{
-	int ret;
-
-	*buf = malloc(1024);
-
-#if defined(HAVE_VSNPRINTF)
-	ret = vsnprintf(*buf, 1024, fmt, ap);
-#else
-	ret = vsprintf(*buf, fmt, ap);
-#endif
-	return ret;
-}
-
-#endif /* ifndef HAVE_VASPRINTF */ 
 
 static BUF* buf_new(void)
 {
@@ -123,14 +104,18 @@ static int buf_append(BUF *buf, const char *data, size_t size)
 static int buf_sprintf(BUF *buf, const char *fmt, ...)
 {
 	int		ret;
-	char	*tmpbuf;
+	char	tmpbuf[8192];
 	va_list	ap;
 
 	va_start(ap, fmt);
-	vasprintf(&tmpbuf, fmt, ap);
+#if defined(HAVE_VSNPRINTF)
+	ret = vsnprintf(tmpbuf, sizeof(tmpbuf), fmt, ap);
+#else
+	ret = vsprintf(tmpbuf, fmt, ap);
+#endif
 	va_end(ap);
 
-	if(!tmpbuf) return -1;
+	if (ret < 0) return -1;
 
 #if ('\r' == 0x0a && '\n' == 0x0d)
 	{
@@ -153,8 +138,6 @@ static int buf_sprintf(BUF *buf, const char *fmt, ...)
 #endif
 
 	ret = buf_append(buf, tmpbuf, strlen(tmpbuf));
-
-	free(tmpbuf);
 
 	return ret;
 }
@@ -232,7 +215,7 @@ static void http_post(int sd, cptr url, BUF *buf)
 }
 
 
-/* •≠•„•È•Ø•ø•¿•Û•◊§Ú∫Ó§√§∆ BUF§À ›¬∏ */
+/* „Ç≠„É£„É©„ÇØ„Çø„ÉÄ„É≥„Éó„Çí‰Ωú„Å£„Å¶ BUF„Å´‰øùÂ≠ò */
 static errr make_dump(BUF* dumpbuf)
 {
 	char		buf[1024];
@@ -244,7 +227,7 @@ static errr make_dump(BUF* dumpbuf)
 	if (!fff)
 	{
 #ifdef JP
-		msg_format("∞Ïª˛•’•°•§•Î %s §Ú∫Ó¿Æ§«§≠§ﬁ§ª§Û§«§∑§ø°£", file_name);
+		msg_format("‰∏ÄÊôÇ„Éï„Ç°„Ç§„É´ %s „Çí‰ΩúÊàê„Åß„Åç„Åæ„Åõ„Çì„Åß„Åó„Åü„ÄÇ", file_name);
 #else
 		msg_format("Failed to create temporary file %s.", file_name);
 #endif
@@ -252,7 +235,7 @@ static errr make_dump(BUF* dumpbuf)
 		return 1;
 	}
 
-	/* ∞Ï√∂∞Ïª˛•’•°•§•Î§Ú∫Ó§Î°£ƒÃæÔ§Œ•¿•Û•◊Ω–Œœ§»∂¶ƒÃ≤Ω§π§Î§ø§·°£ */
+	/* ‰∏ÄÊó¶‰∏ÄÊôÇ„Éï„Ç°„Ç§„É´„Çí‰Ωú„Çã„ÄÇÈÄöÂ∏∏„ÅÆ„ÉÄ„É≥„ÉóÂá∫Âäõ„Å®ÂÖ±ÈÄöÂåñ„Åô„Çã„Åü„ÇÅ„ÄÇ */
 	(void)make_character_dump(fff);
 
 	/* Close the file */
@@ -425,14 +408,14 @@ errr report_score(void)
 	score = buf_new();
 
 #ifdef JP
-	sprintf(seikakutmp, "%s%s", ap_ptr->title, (ap_ptr->no ? "§Œ" : ""));
+	sprintf(seikakutmp, "%s%s", ap_ptr->title, (ap_ptr->no ? "„ÅÆ" : ""));
 #else
 	sprintf(seikakutmp, "%s ", ap_ptr->title);
 #endif
 
 	buf_sprintf(score, "name: %s\n", player_name);
 #ifdef JP
-	buf_sprintf(score, "version:  —∂Ú»⁄≈‹ %d.%d.%d\n",
+	buf_sprintf(score, "version: Â§âÊÑöËõÆÊÄí %d.%d.%d\n",
 		    FAKE_VER_MAJOR-10, FAKE_VER_MINOR, FAKE_VER_PATCH);
 #else
 	buf_sprintf(score, "version: Hengband %d.%d.%d\n",
@@ -489,13 +472,13 @@ errr report_score(void)
 	{
 		char buff[160];
 #ifdef JP
-		prt("¿‹¬≥√Ê...", 0, 0);
+		prt("Êé•Á∂ö‰∏≠...", 0, 0);
 #else
 		prt("connecting...", 0, 0);
 #endif
 		Term_fresh();
 		
-		/* •◊•Ì•≠•∑§Ú¿ﬂƒÍ§π§Î */
+		/* „Éó„É≠„Ç≠„Ç∑„ÇíË®≠ÂÆö„Åô„Çã */
 		set_proxy(HTTP_PROXY, HTTP_PROXY_PORT);
 
 		/* Connect to the score server */
@@ -504,7 +487,7 @@ errr report_score(void)
 
 		if (!(sd < 0)) break;
 #ifdef JP
-		sprintf(buff, "•π•≥•¢°¶•µ°º•–§ÿ§Œ¿‹¬≥§Àº∫«‘§∑§ﬁ§∑§ø°£(%s)", soc_err());
+		sprintf(buff, "„Çπ„Ç≥„Ç¢„Éª„Çµ„Éº„Éê„Å∏„ÅÆÊé•Á∂ö„Å´Â§±Êïó„Åó„Åæ„Åó„Åü„ÄÇ(%s)", soc_err());
 #else
 		sprintf(buff, "Failed to connect to the score server.(%s)", soc_err());
 #endif
@@ -512,7 +495,7 @@ errr report_score(void)
 		(void)inkey();
 		
 #ifdef JP
-		if (!get_check_strict("§‚§¶∞Ï≈Ÿ¿‹¬≥§ÚªÓ§ﬂ§ﬁ§π§´? ", CHECK_NO_HISTORY))
+		if (!get_check_strict("„ÇÇ„ÅÜ‰∏ÄÂ∫¶Êé•Á∂ö„ÇíË©¶„Åø„Åæ„Åô„Åã? ", CHECK_NO_HISTORY))
 #else
 		if (!get_check_strict("Try again? ", CHECK_NO_HISTORY))
 #endif
@@ -522,7 +505,7 @@ errr report_score(void)
 		}
 	}
 #ifdef JP
-	prt("•π•≥•¢¡˜øÆ√Ê...", 0, 0);
+	prt("„Çπ„Ç≥„Ç¢ÈÄÅ‰ø°‰∏≠...", 0, 0);
 #else
 	prt("Sending the score...", 0, 0);
 #endif

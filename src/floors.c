@@ -1,27 +1,29 @@
-/* File: floors.c */
-
-/* Purpose: management of the saved floor */
-
-/*
- * Copyright (c) 2002  Mogami
- *
- * This software may be copied and distributed for educational, research, and
- * not for profit purposes provided that this copyright and statement are
- * included in all such copies.
+﻿/*!
+ * @file floors.c
+ * @brief 保存された階の管理 / management of the saved floor
+ * @date 2014/01/04
+ * @author
+ * Copyright (c) 2002  Mogami \n
+ * This software may be copied and distributed for educational, research, and \n
+ * not for profit purposes provided that this copyright and statement are \n
+ * included in all such copies. \n
+ * 2014 Deskull rearranged comment for Doxygen. \n
  */
 
 #include "angband.h"
 #include "grid.h"
 
 
-static s16b new_floor_id;       /* floor_id of the destination */
-static u32b change_floor_mode;  /* Mode flags for changing floor */
-static u32b latest_visit_mark;  /* Max number of visit_mark */
+static s16b new_floor_id;       /*!<次のフロアのID / floor_id of the destination */
+static u32b change_floor_mode;  /*!<フロア移行処理に関するフラグ / Mode flags for changing floor */
+static u32b latest_visit_mark;  /*!<フロアを渡った回数？(確認中) / Max number of visit_mark */
 
 
-/*
- * Initialize saved_floors array.  Make sure that old temporal files
- * are not remaining as gurbages.
+/*!
+ * @brief 保存フロア配列を初期化する / Initialize saved_floors array. 
+ * @param force テンポラリファイルが残っていた場合も警告なしで強制的に削除する。
+ * @details Make sure that old temporal files are not remaining as gurbages.
+ * @return なし
  */
 void init_saved_floors(bool force)
 {
@@ -59,11 +61,11 @@ void init_saved_floors(bool force)
 			if (!force)
 			{
 #ifdef JP
-				msg_print("���顼���Ť��ƥ�ݥ�ꡦ�ե����뤬�ĤäƤ��ޤ���");
-				msg_print("�Ѷ����ܤ���Ť˵�ư���Ƥ��ʤ�����ǧ���Ƥ���������");
-				msg_print("�����Ѷ����ܤ�����å��夷�����ϰ���ե������");
-				msg_print("����Ū�˺�����Ƽ¹Ԥ�³�����ޤ���");
-				if (!get_check("����Ū�˺�����Ƥ��������Ǥ�����")) quit("�¹����");
+				msg_print("エラー：古いテンポラリ・ファイルが残っています。");
+				msg_print("変愚蛮怒を二重に起動していないか確認してください。");
+				msg_print("過去に変愚蛮怒がクラッシュした場合は一時ファイルを");
+				msg_print("強制的に削除して実行を続けられます。");
+				if (!get_check("強制的に削除してもよろしいですか？")) quit("実行中止");
 #else
 				msg_print("Error: There are old temporal files.");
 				msg_print("Make sure you are not running two game processes simultaneously.");
@@ -115,10 +117,10 @@ void init_saved_floors(bool force)
 #endif
 }
 
-
-/*
- * Kill temporal files
- * Should be called just before the game quit.
+/*!
+ * @brief 保存フロア用テンポラリファイルを削除する / Kill temporal files
+ * @details Should be called just before the game quit.
+ * @return なし
  */
 void clear_saved_floor_files(void)
 {
@@ -161,9 +163,10 @@ void clear_saved_floor_files(void)
 #endif
 }
 
-
-/*
- * Get a pointer for an item of the saved_floors array.
+/*!
+ * @brief 保存フロアIDから参照ポインタを得る / Get a pointer for an item of the saved_floors array.
+ * @param floor_id 保存フロアID
+ * @return IDに対応する保存フロアのポインタ、ない場合はNULLを返す。
  */
 saved_floor_type *get_sf_ptr(s16b floor_id)
 {
@@ -184,8 +187,10 @@ saved_floor_type *get_sf_ptr(s16b floor_id)
 }
 
 
-/*
- * kill a saved floor and get an empty space
+/*!
+ * @brief 参照ポインタ先の保存フロアを抹消する / kill a saved floor and get an empty space
+ * @param sf_ptr 保存フロアの参照ポインタ
+ * @return なし
  */
 static void kill_saved_floor(saved_floor_type *sf_ptr)
 {
@@ -224,9 +229,11 @@ static void kill_saved_floor(saved_floor_type *sf_ptr)
 }
 
 
-/*
- * Initialize new saved floor and get its floor id.  If number of
- * saved floors are already MAX_SAVED_FLOORS, kill the oldest one.
+/*!
+ * @brief 新規に利用可能な保存フロアを返す / Initialize new saved floor and get its floor id.
+ * @return 利用可能な保存フロアID
+ * @details
+ * If number of saved floors are already MAX_SAVED_FLOORS, kill the oldest one.
  */
 s16b get_new_floor_id(void)
 {
@@ -292,17 +299,19 @@ s16b get_new_floor_id(void)
 }
 
 
-/*
- * Prepare mode flags of changing floor
+/*!
+ * @brief フロア切り替え時の処理フラグを追加する / Prepare mode flags of changing floor
+ * @param mode 追加したい所持フラグ
+ * @return なし
  */
 void prepare_change_floor_mode(u32b mode)
 {
 	change_floor_mode |= mode;
 }
 
-
-/*
- * Builds the dead end
+/*!
+ * @brief 階段移動先のフロアが生成できない時に簡単な行き止まりマップを作成する / Builds the dead end
+ * @return なし
  */
 static void build_dead_end(void)
 {
@@ -339,14 +348,13 @@ static void build_dead_end(void)
 }
 
 
-/* Maximum number of preservable pets */
-#define MAX_PARTY_MON 21
 
-static monster_type party_mon[MAX_PARTY_MON];
+#define MAX_PARTY_MON 21 /*!< フロア移動時に先のフロアに連れて行けるペットの最大数 Maximum number of preservable pets */
+static monster_type party_mon[MAX_PARTY_MON]; /*!< フロア移動に保存するペットモンスターの配列 */
 
-
-/*
- * Preserve_pets
+/*!
+ * @brief フロア移動時のペット保存処理 / Preserve_pets
+ * @return なし
  */
 static void preserve_pet(void)
 {
@@ -371,7 +379,7 @@ static void preserve_pet(void)
 		else
 		{
 			/* Preserve the mount */
-			COPY(&party_mon[0], m_ptr, monster_type);
+			(void)COPY(&party_mon[0], m_ptr, monster_type);
 
 			/* Delete from this floor */
 			delete_monster_idx(p_ptr->riding);
@@ -422,7 +430,7 @@ static void preserve_pet(void)
 				}
 			}
 
-			COPY(&party_mon[num], &m_list[i], monster_type);
+			(void)COPY(&party_mon[num], &m_list[i], monster_type);
 
 			num++;
 
@@ -467,7 +475,7 @@ static void preserve_pet(void)
 				monster_desc(m_name, m_ptr, 0);
 
 #ifdef JP
-				msg_format("%s�Ͼä���ä���", m_name);
+				msg_format("%sは消え去った！", m_name);
 #else
 				msg_format("%^s disappears!", m_name);
 #endif
@@ -480,8 +488,10 @@ static void preserve_pet(void)
 }
 
 
-/*
- * Pre-calculate the racial counters of preserved pets
+/*!
+ * @brief フロア移動時にペットを伴った場合の準備処理 / Pre-calculate the racial counters of preserved pets
+ * @return なし
+ * @details
  * To prevent multiple generation of unique monster who is the minion of player
  */
 void precalc_cur_num_of_pet(void)
@@ -502,9 +512,9 @@ void precalc_cur_num_of_pet(void)
 	}
 }
 
-
-/*
- * Place preserved pet monsters on new floor
+/*!
+ * @brief 移動先のフロアに伴ったペットを配置する / Place preserved pet monsters on new floor
+ * @return なし
  */
 static void place_pet(void)
 {
@@ -599,7 +609,7 @@ static void place_pet(void)
 
 			monster_desc(m_name, m_ptr, 0);
 #ifdef JP
-			msg_format("%s�ȤϤ���Ƥ��ޤä���", m_name);
+			msg_format("%sとはぐれてしまった。", m_name);
 #else
 			msg_format("You have lost sight of %s.", m_name);
 #endif
@@ -615,16 +625,18 @@ static void place_pet(void)
 	}
 
 	/* For accuracy of precalc_cur_num_of_pet() */
-	C_WIPE(party_mon, MAX_PARTY_MON, monster_type);
+	(void)C_WIPE(party_mon, MAX_PARTY_MON, monster_type);
 }
 
 
-/*
- * Hack -- Update location of unique monsters and artifacts
- *
- * The r_ptr->floor_id and a_ptr->floor_id are not updated correctly
- * while new floor creation since dungeons may be re-created by
- * auto-scum option.
+/*!
+ * @brief ユニークモンスターやアーティファクトの所在フロアを更新する / Hack -- Update location of unique monsters and artifacts
+ * @param cur_floor_id 現在のフロアID
+ * @return なし
+ * @details 
+ * The r_ptr->floor_id and a_ptr->floor_id are not updated correctly\n
+ * while new floor creation since dungeons may be re-created by\n
+ * auto-scum option.\n
  */
 static void update_unique_artifact(s16b cur_floor_id)
 {
@@ -667,9 +679,9 @@ static void update_unique_artifact(s16b cur_floor_id)
 }
 
 
-/*
- * When a monster is at a place where player will return,
- * Get out of the my way!
+/*!
+ * @brief フロア移動時、プレイヤーの移動先モンスターが既にいた場合ランダムな近隣に移動させる / When a monster is at a place where player will return,
+ * @return なし
  */
 static void get_out_monster(void)
 {
@@ -736,20 +748,16 @@ static void get_out_monster(void)
 	}
 }
 
-
-/*
- * Is this feature has special meaning (except floor_id) with c_ptr->special?
+/*!
+ * マス構造体のspecial要素を利用する地形かどうかを判定するマクロ / Is this feature has special meaning (except floor_id) with c_ptr->special?
  */
 #define feat_uses_special(F) (have_flag(f_info[(F)].flags, FF_SPECIAL))
 
 
-/*
- * Virtually teleport onto the stairs that is connecting between two
- * floors.
- *
- * Teleport level spell and trap doors will always lead the player to
- * the one of the floors connected by the one of the stairs in the
- * current floor.
+/*!
+ * @brief 新フロアに移動元フロアに繋がる階段を配置する / Virtually teleport onto the stairs that is connecting between two floors.
+ * @param sf_ptr 移動元の保存フロア構造体参照ポインタ
+ * @return なし
  */
 static void locate_connected_stairs(saved_floor_type *sf_ptr)
 {
@@ -844,9 +852,10 @@ static void locate_connected_stairs(saved_floor_type *sf_ptr)
 	}
 }
 
-/*
- * Maintain quest monsters, mark next floor_id at stairs, save current
- * floor, and prepare to enter next floor.
+/*!
+ * @brief 現在のフロアを離れるに伴って行なわれる保存処理
+ * / Maintain quest monsters, mark next floor_id at stairs, save current floor, and prepare to enter next floor.
+ * @return なし
  */
 void leave_floor(void)
 {
@@ -1083,10 +1092,13 @@ void leave_floor(void)
 }
 
 
-/*
- * Enter new floor.  If the floor is an old saved floor, it will be
- * restored from the temporal file.  If the floor is new one, new cave
- * will be generated.
+/*!
+ * @brief フロアの切り替え処理 / Enter new floor.
+ * @return なし
+ * @details
+ * If the floor is an old saved floor, it will be\n
+ * restored from the temporal file.  If the floor is new one, new cave\n
+ * will be generated.\n
  */
 void change_floor(void)
 {
@@ -1280,6 +1292,7 @@ void change_floor(void)
 				/* Make a (group of) new monster */
 				(void)alloc_monster(0, 0);
 			}
+
 		}
 
 		/* New floor_id or failed to restore */
@@ -1289,7 +1302,7 @@ void change_floor(void)
 			{
 				/* Temporal file is broken? */
 #ifdef JP
-				msg_print("���ʤϹԤ��ߤޤ���ä���");
+				msg_print("階段は行き止まりだった。");
 #else
 				msg_print("The staircases come to a dead end...");
 #endif
@@ -1360,7 +1373,7 @@ void change_floor(void)
 			if (!p_ptr->blind)
 			{
 #ifdef JP
-				msg_print("�������ʤ��ɤ���Ƥ��ޤä���");
+				msg_print("突然階段が塞がれてしまった。");
 #else
 				msg_print("Suddenly the stairs is blocked!");
 #endif
@@ -1368,7 +1381,7 @@ void change_floor(void)
 			else
 			{
 #ifdef JP
-				msg_print("���ȥ��ȤȲ�������������");
+				msg_print("ゴトゴトと何か音がした。");
 #else
 				msg_print("You hear some noises.");
 #endif
@@ -1388,6 +1401,9 @@ void change_floor(void)
 
 	/* Place preserved pet monsters */
 	place_pet();
+
+	/* Reset travel target place */
+	forget_travel_flow();
 
 	/* Hack -- maintain unique and artifacts */
 	update_unique_artifact(new_floor_id);
@@ -1411,13 +1427,14 @@ void change_floor(void)
 
 	/* Clear all flags */
 	change_floor_mode = 0L;
+
+	select_floor_music();
 }
 
-
-
-/*
- * Create stairs at or move previously created stairs into the player
- * location.
+/*!
+ * @brief プレイヤーの手による能動的な階段生成処理 /
+ * Create stairs at or move previously created stairs into the player location.
+ * @return なし
  */
 void stair_creation(void)
 {
@@ -1442,7 +1459,7 @@ void stair_creation(void)
 	{
 		/* arena or quest */
 #ifdef JP
-		msg_print("���̤�����ޤ���");
+		msg_print("効果がありません！");
 #else
 		msg_print("There is no effect!");
 #endif
@@ -1453,7 +1470,7 @@ void stair_creation(void)
 	if (!cave_valid_bold(py, px))
 	{
 #ifdef JP
-		msg_print("����Υ����ƥब��ʸ��ķ���֤�����");
+		msg_print("床上のアイテムが呪文を跳ね返した。");
 #else
 		msg_print("The object resists the spell.");
 #endif

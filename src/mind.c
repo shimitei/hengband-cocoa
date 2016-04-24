@@ -1,39 +1,45 @@
-/* File: mind.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+ï»¿/*!
+ * @file mind.c
+ * @brief å„è·æ¥­ã®ç‰¹æ®ŠæŠ€èƒ½å®Ÿè£… / Special magics
+ * @date 2014/01/15
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2005 henkma \n
+ * 2014 Deskull rearranged comment for Doxygen.\n
+ * @details
+ * mind.cã¨ã‚ã‚‹ãŒå®Ÿéš›ã«ã¯è¶…èƒ½åŠ›è€…ã€ç·´æ°—è¡“å¸«ã€ç‹‚æˆ¦å£«ã€é¡ä½¿ã„ã€å¿è€…ã¾ã§ã®
+ * ç‰¹æ®ŠæŠ€èƒ½ã‚’æƒãˆã¦å®Ÿè£…ã—ã¦ã„ã‚‹ã€‚
  */
 
-/* Purpose: Mindcrafter code */
+
 
 #include "angband.h"
 #include "mindtips.h"
 
-
+/*! ç‰¹æ®ŠæŠ€èƒ½ã®ä¸€è¦§ãƒ†ãƒ¼ãƒ–ãƒ« */
 mind_power mind_powers[5] =
 {
   {
     {
       /* Level gained,  cost,  %fail,  name */
 #ifdef JP
-      { 1,   1,  15, "Îî»ë"},
-      { 2,   1,  20, "¿À·Ğ¹¶·â"},
-      { 3,   2,  25, "¼¡¸µ¤Î½Ö¤­"},
-      { 7,   6,  35, "µõ¶õ¤Î¸¸±Æ"},
-      { 9,   7,  50, "Àº¿À»ÙÇÛ"},
-      { 11,  7,  30, "Ç°Æ°¾×·âÃÆ"},
-      { 13, 12,  50, "³»²½"},
-      { 15, 12,  60, "¥µ¥¤¥³¥á¥È¥ê¡¼"},
-      { 18, 10,  45, "Àº¿ÀÇÈÆ°"},
-      { 23, 15,  50, "¥¢¥É¥ì¥Ê¥ê¥ó¡¦¥É¡¼¥Ô¥ó¥°"},
-      { 26, 28,  60, "¥Æ¥ì¥­¥Í¥·¥¹"},
-      { 28, 10,  40, "¥µ¥¤¥­¥Ã¥¯¡¦¥É¥ì¥¤¥ó"},
-      { 35, 35,  75, "¸÷¤Î·õ"},
-      { 45,150,  85, "´°Á´¤ÊÀ¤³¦"},
+      { 1,   1,  15, "éœŠè¦–"},
+      { 2,   1,  20, "ç¥çµŒæ”»æ’ƒ"},
+      { 3,   2,  25, "æ¬¡å…ƒã®ç¬ã"},
+      { 7,   6,  35, "è™šç©ºã®å¹»å½±"},
+      { 9,   7,  50, "ç²¾ç¥æ”¯é…"},
+      { 11,  7,  30, "å¿µå‹•è¡æ’ƒå¼¾"},
+      { 13, 12,  50, "é§åŒ–"},
+      { 15, 12,  60, "ã‚µã‚¤ã‚³ãƒ¡ãƒˆãƒªãƒ¼"},
+      { 18, 10,  45, "ç²¾ç¥æ³¢å‹•"},
+      { 23, 15,  50, "ã‚¢ãƒ‰ãƒ¬ãƒŠãƒªãƒ³ãƒ»ãƒ‰ãƒ¼ãƒ”ãƒ³ã‚°"},
+      { 26, 28,  60, "ãƒ†ãƒ¬ã‚­ãƒã‚·ã‚¹"},
+      { 28, 10,  40, "ã‚µã‚¤ã‚­ãƒƒã‚¯ãƒ»ãƒ‰ãƒ¬ã‚¤ãƒ³"},
+      { 35, 35,  75, "å…‰ã®å‰£"},
+      { 45,150,  85, "å®Œå…¨ãªä¸–ç•Œ"},
       { 99,  0,   0, ""},
       { 99,  0,   0, ""},
       { 99,  0,   0, ""},
@@ -72,20 +78,20 @@ mind_power mind_powers[5] =
     {
       /* Level gained,  cost,  %fail,  name */
 #ifdef JP
-      { 1,   1,  15, "¾®Î¶"},
-      { 3,   3,  30, "Á®¸÷"},
-      { 5,   6,  35, "Éñ¶õ½Ñ"},
-      { 8,   5,  40, "¥«¥á¥Ï¥áÇÈ"},
-      { 10,  7,  45, "ÂĞËâË¡ËÉ¸æ"},
-      { 13,  5,  60, "Îıµ¤"},
-      { 17, 17,  50, "Å»Æ®µ¤"},
-      { 20, 20,  50, "¾×ÇÈ"},
-      { 23, 18,  55, "×ÂÎ¶"},
-      { 25, 30,  70, "¤¤¤Æ¤Ä¤¯ÇÈÆ°"},
-      { 28, 26,  50, "¸¸Îî¾¤´­"},
-      { 32, 35,  65, "Îû¹ö²Ğ±ê"},
-      { 38, 42,  75, "Ä¶¥«¥á¥Ï¥áÇÈ"},
-      { 44, 50,  80, "¸÷Â®°ÜÆ°"},
+      { 1,   1,  15, "å°é¾"},
+      { 3,   3,  30, "é–ƒå…‰"},
+      { 5,   6,  35, "èˆç©ºè¡“"},
+      { 8,   5,  40, "ã‚«ãƒ¡ãƒãƒ¡æ³¢"},
+      { 10,  7,  45, "å¯¾é­”æ³•é˜²å¾¡"},
+      { 13,  5,  60, "ç·´æ°—"},
+      { 17, 17,  50, "çºé—˜æ°—"},
+      { 20, 20,  50, "è¡æ³¢"},
+      { 23, 18,  55, "å½—é¾"},
+      { 25, 30,  70, "ã„ã¦ã¤ãæ³¢å‹•"},
+      { 28, 26,  50, "å¹»éœŠå¬å–š"},
+      { 32, 35,  65, "ç…‰ç„ç«ç‚"},
+      { 38, 42,  75, "è¶…ã‚«ãƒ¡ãƒãƒ¡æ³¢"},
+      { 44, 50,  80, "å…‰é€Ÿç§»å‹•"},
       { 99,  0,   0, ""},
       { 99,  0,   0, ""},
       { 99,  0,   0, ""},
@@ -124,11 +130,11 @@ mind_power mind_powers[5] =
     {
       /* Level gained,  cost,  %fail,  name */
 #ifdef JP
-      {  8,  5,  40, "»¦µ¤´¶ÃÎ"},
-      { 15, 20,   0, "ÆÍ·â"},
-      { 20, 15,   0, "¥È¥é¥Ã¥×Ê´ºÕ"},
-      { 25, 20,  60, "ÃÏ¿Ì"},
-      { 30, 80,  75, "³§»¦¤·"},
+      {  8,  5,  40, "æ®ºæ°—æ„ŸçŸ¥"},
+      { 15, 20,   0, "çªæ’ƒ"},
+      { 20, 15,   0, "ãƒˆãƒ©ãƒƒãƒ—ç²‰ç •"},
+      { 25, 20,  60, "åœ°éœ‡"},
+      { 30, 80,  75, "çš†æ®ºã—"},
       { 99,  0,   0, ""},
       { 99,  0,   0, ""},
       { 99,  0,   0, ""},
@@ -176,30 +182,30 @@ mind_power mind_powers[5] =
     {
       /* Level gained,  cost,  %fail,  name */
 #ifdef JP
-      { 1,   1,  15, "¿¿¸«¤Î¶À"},
-      { 1,   2,  40, "¶ÀÀ¸À®"},
-      { 2,   2,  20, "¸÷¤Î¤·¤º¤¯"},
-      { 3,   2,  20, "ÏÄ¤ó¤À¶À"},
-      { 5,   3,  35, "Á®¸÷¶À"},
-      { 6,   5,  35, "×Ç¤¨¤ë¶À"},
+      { 1,   1,  15, "çœŸè¦‹ã®é¡"},
+      { 1,   2,  40, "é¡ç”Ÿæˆ"},
+      { 2,   2,  20, "å…‰ã®ã—ãšã"},
+      { 3,   2,  20, "æ­ªã‚“ã é¡"},
+      { 5,   3,  35, "é–ƒå…‰é¡"},
+      { 6,   5,  35, "å½·ãˆã‚‹é¡"},
 
-      { 10,  5,  30, "Èù¿Ğ±£¤ì"},
-      { 12, 12,  30, "ÄÉÊü¤Î¶À"},
-      { 15, 15,  30, "¶ÀºÕ¤­"},
-      { 19, 13,  30, "ºÅÌ²¶À"},
-      { 23, 18,  50, "¥·¡¼¥«¡¼¥ì¥¤"},
+      { 10,  5,  30, "å¾®å¡µéš ã‚Œ"},
+      { 12, 12,  30, "è¿½æ”¾ã®é¡"},
+      { 15, 15,  30, "é¡ç •ã"},
+      { 19, 13,  30, "å‚¬çœ é¡"},
+      { 23, 18,  50, "ã‚·ãƒ¼ã‚«ãƒ¼ãƒ¬ã‚¤"},
 
-      { 25, 20,  40, "¶À¤ÎÉõ°õ"},
-      { 27, 30,  60, "¿å¶À¤Î½â"},
-      { 29, 30,  60, "¥¹¡¼¥Ñ¡¼¥ì¥¤"},
-      { 31, 35,  60, "¸¸ÏÇ¤Î¸÷"},
-      { 33, 50,  80, "¶À¤Î¹ñ"},
+      { 25, 20,  40, "é¡ã®å°å°"},
+      { 27, 30,  60, "æ°´é¡ã®ç›¾"},
+      { 29, 30,  60, "ã‚¹ãƒ¼ãƒ‘ãƒ¼ãƒ¬ã‚¤"},
+      { 31, 35,  60, "å¹»æƒ‘ã®å…‰"},
+      { 33, 50,  80, "é¡ã®å›½"},
 
-      { 36, 30,  80, "¶ÀÈ´¤±"},
-      { 38, 40,  70, "µ¢´Ô¤Î¶À"},
-      { 40, 50,  55, "±ÆÊ¬¿È"},
-      { 43, 55,  70, "ÉõËâ·ë³¦"},
-      { 46, 70,  75, "¥é¥Õ¥Î¡¼¥ë¤Î¶À"},
+      { 36, 30,  80, "é¡æŠœã‘"},
+      { 38, 40,  70, "å¸°é‚„ã®é¡"},
+      { 40, 50,  55, "å½±åˆ†èº«"},
+      { 43, 55,  70, "å°é­”çµç•Œ"},
+      { 46, 70,  75, "ãƒ©ãƒ•ãƒãƒ¼ãƒ«ã®é¡"},
 #else
       { 1,   1,  15, "Mirror of Seeing"},
       { 1,   2,  40, "Making a Mirror"},
@@ -234,26 +240,26 @@ mind_power mind_powers[5] =
     {
       /* Level gained,  cost,  %fail,  name */
 #ifdef JP
-      {  1,  1,  20, "°Å°ÇÀ¸À®"},
-      {  2,  2,  25, "¼şÊÕÄ´ºº"},
-      {  3,  3,  25, "ÍÕ±£¤ì"},
-      {  5,  3,  30, "ÊÑ¤ï¤ê¿È"},
-      {  7,  8,  35, "¹âÈô¤Ó"},
-      {  8, 10,  35, "°ì·âÎ¥Ã¦"},
-      { 10, 10,  40, "¶âÇû¤ê"},
-      { 12, 12,  70, "¸Å¤Î¸ıÅÁ"},
-      { 15, 10,  50, "Éâ±À"},
-      { 17, 12,  45, "²ĞÆÛ"},
-      { 18, 20,  40, "Æş¿È"},
-      { 20,  5,  50, "È¬Êı¼êÎ¢·õ"},
-      { 22, 15,  55, "º¿³ù"},
-      { 25, 32,  60, "±ì¶Ì"},
-      { 28, 32,  60, "Å¾¿È"},
-      { 30, 30,  70, "ÇúÈ¯¤ÎÌæ¾Ï"},
-      { 32, 40,  40, "ÅÚÆÛ"},
-      { 34, 35,  50, "Ì¸±£¤ì"},
-      { 38, 40,  60, "Îû¹ö²Ğ±ê"},
-      { 41, 50,  55, "Ê¬¿È"},
+      {  1,  1,  20, "æš—é—‡ç”Ÿæˆ"},
+      {  2,  2,  25, "å‘¨è¾ºèª¿æŸ»"},
+      {  3,  3,  25, "è‘‰éš ã‚Œ"},
+      {  5,  3,  30, "å¤‰ã‚ã‚Šèº«"},
+      {  7,  8,  35, "é«˜é£›ã³"},
+      {  8, 10,  35, "ä¸€æ’ƒé›¢è„±"},
+      { 10, 10,  40, "é‡‘ç¸›ã‚Š"},
+      { 12, 12,  70, "å¤ã®å£ä¼"},
+      { 15, 10,  50, "æµ®é›²"},
+      { 17, 12,  45, "ç«é"},
+      { 18, 20,  40, "å…¥èº«"},
+      { 20,  5,  50, "å…«æ–¹æ‰‹è£å‰£"},
+      { 22, 15,  55, "é–éŒ"},
+      { 25, 32,  60, "ç…™ç‰"},
+      { 28, 32,  60, "è»¢èº«"},
+      { 30, 30,  70, "çˆ†ç™ºã®ç´‹ç« "},
+      { 32, 40,  40, "åœŸé"},
+      { 34, 35,  50, "éœ§éš ã‚Œ"},
+      { 38, 40,  60, "ç…‰ç„ç«ç‚"},
+      { 41, 50,  55, "åˆ†èº«"},
       { 99,  0,   0, ""},
 #else
       {  1,  1,  20, "Create Darkness"},
@@ -283,155 +289,153 @@ mind_power mind_powers[5] =
   },
 };
 
-
+/*!
+ * @brief ç‰¹æ®ŠæŠ€èƒ½ã®åŠ¹æœæƒ…å ±ã‚’ã¾ã¨ã‚ãŸãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¿”ã™
+ * @param p æƒ…å ±ã‚’è¿”ã™æ–‡å­—åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param use_mind è·æ¥­æ¯ã®ç‰¹æ®ŠæŠ€èƒ½ID
+ * @param power ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é­”æ³•ã®ID
+ * @return ãªã—
+ */
 void mindcraft_info(char *p, int use_mind, int power)
 {
 #ifdef JP
-	cptr s_dam = "Â»½ı:";
-	cptr s_dur = "´ü´Ö:";
-	cptr s_range = "ÈÏ°Ï:";
+	cptr s_dam = "æå‚·:";
+	cptr s_dur = "æœŸé–“:";
+	cptr s_range = "ç¯„å›²:";
 #else
 	cptr s_dam = "dam ";
 	cptr s_dur = "dur ";
 	cptr s_range = "range ";
 #endif
-  int plev = p_ptr->lev;
+	int plev = p_ptr->lev;
 
-  strcpy(p, "");
+	strcpy(p, "");
 
-  switch (use_mind)
-    {
-    case MIND_MINDCRAFTER:
-      switch (power)
+	switch (use_mind)
 	{
-	case 0:  break;
-	case 1:  sprintf(p, " %s%dd%d", s_dam, 3 + ((plev - 1) / 4), 3 + plev/15); break;
-	case 2:  sprintf(p, " %s10", s_range); break;
-	case 3:  sprintf(p, " %s%d", s_range, plev * 5);  break;
-	case 4:  break;
-	case 5: sprintf(p, " %s%dd8", s_dam, 8 + ((plev - 5) / 4));  break;
-	case 6:  sprintf(p, " %s%d", s_dur, plev);  break;
-	case 7:  break;
-	case 8:  sprintf(p, (plev < 25 ? " %s%d" : " %sd%d"), s_dam, (plev < 25 ? plev * 3 / 2 : plev * ((plev - 5) / 10 + 1))); break;
-	case 9:  sprintf(p, " %s10+d%d", s_dur, plev * 3 / 2);  break;
+	case MIND_MINDCRAFTER:
+		switch (power)
+		{
+		case 0:  break;
+		case 1:  sprintf(p, " %s%dd%d", s_dam, 3 + ((plev - 1) / 4), 3 + plev/15); break;
+		case 2:  sprintf(p, " %s10", s_range); break;
+		case 3:  sprintf(p, " %s%d", s_range, plev * 5);  break;
+		case 4:  break;
+		case 5: sprintf(p, " %s%dd8", s_dam, 8 + ((plev - 5) / 4));  break;
+		case 6:  sprintf(p, " %s%d", s_dur, plev);  break;
+		case 7:  break;
+		case 8:  sprintf(p, (plev < 25 ? " %s%d" : " %sd%d"), s_dam, (plev < 25 ? plev * 3 / 2 : plev * ((plev - 5) / 10 + 1))); break;
+		case 9:  sprintf(p, " %s10+d%d", s_dur, plev * 3 / 2);  break;
 #ifdef JP
-	case 10: sprintf(p, " ºÇÂç½ÅÎÌ:%d.%dkg", lbtokg1(plev * 15),lbtokg2(plev * 15));  break;
+		case 10: sprintf(p, " æœ€å¤§é‡é‡:%d.%dkg", lbtokg1(plev * 15),lbtokg2(plev * 15));  break;
 #else
-	case 10: sprintf(p, " max wgt %d", plev * 15);  break;
+		case 10: sprintf(p, " max wgt %d", plev * 15);  break;
 #endif
-	case 11: sprintf(p, " %s%dd6", s_dam, plev / 2);  break;
-	case 12: sprintf(p, " %sd%d+%d", s_dam, plev * 3, plev * 3); break;
-#ifdef JP
-	case 13: sprintf(p, " ¹ÔÆ°:%ld²ó", (p_ptr->csp + 100-p_ptr->energy_need - 50)/100); break;
-#else
-	case 13: sprintf(p, " %ld acts.", (p_ptr->csp + 100-p_ptr->energy_need - 50)/100); break;
-#endif
-	}
-      break;
-    case MIND_KI:
-      {
-	int boost = p_ptr->magic_num1[0];
-
-	if (heavy_armor()) boost /= 2;
-
-	switch (power)
-	  {
-	  case 0:  sprintf(p, " %s%dd4", s_dam, 3 + ((plev - 1) / 5) + boost / 12); break;
-	  case 1:  break;
-	  case 2:  sprintf(p, " %s%d+d30", s_dur, 30 + boost / 5); break;
-	  case 3:  sprintf(p, " %s%dd5", s_dam, 5 + ((plev - 1) / 5) + boost / 10); break;
-	  case 4:  sprintf(p, " %s%d+d20", s_dur, 20 + boost / 5); break;
-	  case 5:  break;
-	  case 6:  sprintf(p, " %s%d+d%d", s_dur, 15 + boost / 7, plev / 2); break;
-	  case 7:  sprintf(p, " %s%dd8", s_dam, 8 + ((plev - 5) / 5) + boost / 12); break;
-	  case 8:  sprintf(p, " %s10d6+%d", s_dam, plev * 3 / 2 + boost * 3 / 5); break;
-	  case 9:  break;
-#ifdef JP
-	  case 10: sprintf(p, " ºÇÂç%dÂÎ", 1+boost/100); break;
-#else
-	  case 10: sprintf(p, " max %d", 1+boost/100); break;
-#endif
-	  case 11: sprintf(p, " %s%d", s_dam, 100 + plev + boost); break;
-	  case 12: sprintf(p, " %s%dd15", s_dam, 10 + plev / 2 + boost * 3 / 10); break;
-#ifdef JP
-	  case 13: sprintf(p, " ¹ÔÆ°:%d+d16²ó", 16+boost/20); break;
-#else
-	  case 13: sprintf(p, " %d+d16 acts", 16+boost/20); break;
-#endif
-	  }
-	break;
-      case MIND_MIRROR_MASTER:
+		case 11: sprintf(p, " %s%dd6", s_dam, plev / 2);  break;
+		case 12: sprintf(p, " %sd%d+%d", s_dam, plev * 3, plev * 3); break;
+		case 13: sprintf(p, _(" è¡Œå‹•:%ldå›", " %ld acts."), (long int)(p_ptr->csp + 100-p_ptr->energy_need - 50)/100); break;
+		}
+		break;
+	case MIND_KI:
 	{
-	  switch (power)
-	    {
-	    case 0:  break;
-	    case 1:  break;
-	    case 2:  sprintf(p, " %s%dd4", s_dam,  3 + ((plev - 1) / 5) ); break;
-	    case 3:  sprintf(p, " %s10", s_range); break;
-	    case 4:  break;
-	    case 5:  sprintf(p, " %s%d", s_range, plev *5); break;
-	    case 6:  sprintf(p, " %s20+d20", s_dur);  break;
-	    case 7:  break;
-	    case 8:  sprintf(p, " %s%dd8", s_dam, 8+((plev -5)/4) ); break;
-	    case 9:  break;
-	    case 10: sprintf(p, " %s%dd8", s_dam, 11+(plev-5)/4 ); break;
-	    case 11: break;
-	    case 12: sprintf(p, " %s20+d20", s_dur);  break;
-	    case 13: sprintf(p, " %s150+d%d", s_dam, plev*2 ); break;
-	    case 14: break;
-	    case 15: break;
-	    case 16: sprintf(p, " %s%d", s_range, plev/2 +10); break;
-	    case 17: break;
-	    case 18: sprintf(p, " %s6+d6", s_dur);  break;
-	    case 19: sprintf(p, " %s%d", s_dam, plev*11+5 ); break;
-	    case 20: sprintf(p, " %s4+d4", s_dur);  break;
-	    }
-	  break;
+		int boost = p_ptr->magic_num1[0];
+
+		if (heavy_armor()) boost /= 2;
+
+		switch (power)
+		{
+		case 0:  sprintf(p, " %s%dd4", s_dam, 3 + ((plev - 1) / 5) + boost / 12); break;
+		case 1:  break;
+		case 2:  sprintf(p, " %s%d+d30", s_dur, 30 + boost / 5); break;
+		case 3:  sprintf(p, " %s%dd5", s_dam, 5 + ((plev - 1) / 5) + boost / 10); break;
+		case 4:  sprintf(p, " %s%d+d20", s_dur, 20 + boost / 5); break;
+		case 5:  break;
+		case 6:  sprintf(p, " %s%d+d%d", s_dur, 15 + boost / 7, plev / 2); break;
+		case 7:  sprintf(p, " %s%dd8", s_dam, 8 + ((plev - 5) / 5) + boost / 12); break;
+		case 8:  sprintf(p, " %s10d6+%d", s_dam, plev * 3 / 2 + boost * 3 / 5); break;
+		case 9:  break;
+		case 10: sprintf(p, _(" æœ€å¤§%dä½“", " max %d"), 1+boost/100); break;
+		case 11: sprintf(p, " %s%d", s_dam, 100 + plev + boost); break;
+		case 12: sprintf(p, " %s%dd15", s_dam, 10 + plev / 2 + boost * 3 / 10); break;
+		case 13: sprintf(p, _(" è¡Œå‹•:%d+d16å›", " %d+d16 acts"), 16+boost/20); break;
+		}
+		break;
 	}
-      case MIND_NINJUTSU:
+	case MIND_MIRROR_MASTER:
 	{
-	  switch (power)
-	    {
-	    case 0:  break;
-	    case 1:  break;
-	    case 2:  sprintf(p, " %s10", s_range); break;
-	    case 3:  break;
-	    case 4:  sprintf(p, " %s%d", s_range , plev *5); break;
-	    case 5:  sprintf(p, " %s30", s_range); break;
-	    case 6:  break;
-	    case 7:  break;
-	    case 8:  sprintf(p, " %s20+d20", s_dur);  break;
-	    case 9:  sprintf(p, " %s%d", s_dam, (50+plev)/2 ); break;
-	    case 10: break;
-	    case 11: break;
-	    case 12: break;
-	    case 13: break;
-	    case 14: break;
-	    case 15: break;
-	    case 16: sprintf(p, " %s%d+d%d", s_dur, plev/2, plev/2);  break;
-	    case 17: sprintf(p, " %s%d*3", s_dam, (75+plev*2/3)/2 ); break;
-	    case 18: sprintf(p, " %s%dd10", s_dam, 6+plev/8 ); break;
-	    case 19: sprintf(p, " %s6+d6", s_dur);  break;
-	    }
-	  break;
+		switch (power)
+		{
+		case 0:  break;
+		case 1:  break;
+		case 2:  sprintf(p, " %s%dd4", s_dam,  3 + ((plev - 1) / 5) ); break;
+		case 3:  sprintf(p, " %s10", s_range); break;
+		case 4:  break;
+		case 5:  sprintf(p, " %s%d", s_range, plev *5); break;
+		case 6:  sprintf(p, " %s20+d20", s_dur);  break;
+		case 7:  break;
+		case 8:  sprintf(p, " %s%dd8", s_dam, 8+((plev -5)/4) ); break;
+		case 9:  break;
+		case 10: sprintf(p, " %s%dd8", s_dam, 11+(plev-5)/4 ); break;
+		case 11: break;
+		case 12: sprintf(p, " %s20+d20", s_dur);  break;
+		case 13: sprintf(p, " %s150+d%d", s_dam, plev*2 ); break;
+		case 14: break;
+		case 15: break;
+		case 16: sprintf(p, " %s%d", s_range, plev/2 +10); break;
+		case 17: break;
+		case 18: sprintf(p, " %s6+d6", s_dur);  break;
+		case 19: sprintf(p, " %s%d", s_dam, plev*11+5 ); break;
+		case 20: sprintf(p, " %s4+d4", s_dur);  break;
+		}
+		break;
 	}
-      }
-    }
+	case MIND_NINJUTSU:
+	{
+		switch (power)
+		{
+		case 0:  break;
+		case 1:  break;
+		case 2:  sprintf(p, " %s10", s_range); break;
+		case 3:  break;
+		case 4:  sprintf(p, " %s%d", s_range , plev *5); break;
+		case 5:  sprintf(p, " %s30", s_range); break;
+		case 6:  break;
+		case 7:  break;
+		case 8:  sprintf(p, " %s20+d20", s_dur);  break;
+		case 9:  sprintf(p, " %s%d", s_dam, (50+plev)/2 ); break;
+		case 10: break;
+		case 11: break;
+		case 12: break;
+		case 13: break;
+		case 14: break;
+		case 15: break;
+		case 16: sprintf(p, " %s%d+d%d", s_dur, plev/2, plev/2);  break;
+		case 17: sprintf(p, " %s%d*3", s_dam, (75+plev*2/3)/2 ); break;
+		case 18: sprintf(p, " %s%dd10", s_dam, 6+plev/8 ); break;
+		case 19: sprintf(p, " %s6+d6", s_dur);  break;
+		}
+		break;
+	}
+	}
 }
 
-  /*
+/*!
+ * @brief ä½¿ç”¨å¯èƒ½ãªç‰¹æ®ŠæŠ€èƒ½ã‚’é¸æŠã™ã‚‹ /
  * Allow user to choose a mindcrafter power.
- *
- * If a valid spell is chosen, saves it in '*sn' and returns TRUE
- * If the user hits escape, returns FALSE, and set '*sn' to -1
- * If there are no legal choices, returns FALSE, and sets '*sn' to -2
- *
- * The "prompt" should be "cast", "recite", or "study"
- * The "known" should be TRUE for cast/pray, FALSE for study
- *
- * nb: This function has a (trivial) display bug which will be obvious
- * when you run it. It's probably easy to fix but I haven't tried,
- * sorry.
+ * @param sn é¸æŠã—ãŸç‰¹æ®ŠæŠ€èƒ½IDã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã®å ´åˆ-1ã€ä¸æ­£ãªé¸æŠã®å ´åˆ-2ã‚’è¿”ã™
+ * @param only_browse ä¸€è¦§ã‚’è¦‹ã‚‹ã ã‘ã®å ´åˆTRUEã‚’è¿”ã™
+ * @return ç™ºå‹•å¯èƒ½ãªé­”æ³•ã‚’é¸æŠã—ãŸå ´åˆTRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«å‡¦ç†ã‹ä¸æ­£ãªé¸æŠãŒè¡Œã‚ã‚ŒãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ * @details
+ * If a valid spell is chosen, saves it in '*sn' and returns TRUE\n
+ * If the user hits escape, returns FALSE, and set '*sn' to -1\n
+ * If there are no legal choices, returns FALSE, and sets '*sn' to -2\n
+ *\n
+ * The "prompt" should be "cast", "recite", or "study"\n
+ * The "known" should be TRUE for cast/pray, FALSE for study\n
+ *\n
+ * nb: This function has a (trivial) display bug which will be obvious\n
+ * when you run it. It's probably easy to fix but I haven't tried,\n
+ * sorry.\n
  */
   static int get_mind_power(int *sn, bool only_browse)
     {
@@ -459,61 +463,37 @@ void mindcraft_info(char *p, int use_mind, int power)
 	case CLASS_MINDCRAFTER:
 	  {
 	    use_mind = MIND_MINDCRAFTER;
-#ifdef JP
-	    p = "Ä¶Ç½ÎÏ";
-#else
-	    p = "mindcraft";
-#endif
+	    p = _("è¶…èƒ½åŠ›", "mindcraft");
 	    break;
 	  }
 	case CLASS_FORCETRAINER:
 	  {
 	    use_mind = MIND_KI;
-#ifdef JP
-	    p = "Îıµ¤½Ñ";
-#else
-	    p = "Force";
-#endif
+	    p = _("ç·´æ°—è¡“", "Force");
 	    break;
 	  }
 	case CLASS_BERSERKER:
 	  {
 	    use_mind = MIND_BERSERKER;
-#ifdef JP
-	    p = "µ»";
-#else
-	    p = "brutal power";
-#endif
+	    p = _("æŠ€", "brutal power");
 	    break;
 	  }
 	case CLASS_MIRROR_MASTER:
 	  {
 	    use_mind = MIND_MIRROR_MASTER;
-#ifdef JP
-	    p = "¶ÀËâË¡";
-#else
-	    p = "magic";
-#endif
+	    p = _("é¡é­”æ³•", "magic");
 	    break;
 	  }
 	case CLASS_NINJA:
 	  {
 	    use_mind = MIND_NINJUTSU;
-#ifdef JP
-	    p = "Ç¦½Ñ";
-#else
-	    p = "ninjutsu";
-#endif
+	    p = _("å¿è¡“", "ninjutsu");
 	    break;
 	  }
 	default:
 	  {
 	    use_mind = 0;
-#ifdef JP
-	    p = "Ä¶Ç½ÎÏ";
-#else
-	    p = "mindcraft";
-#endif
+	    p = _("è¶…èƒ½åŠ›", "mindcraft");
 	    break;
 	  }
 	}
@@ -540,13 +520,13 @@ void mindcraft_info(char *p, int use_mind, int power)
 
 #endif /* ALLOW_REPEAT -- TNB */
 
-      /* Nothing chosen yet */
-      flag = FALSE;
+    /* Nothing chosen yet */
+    flag = FALSE;
 
-      /* No redraw yet */
-      redraw = FALSE;
+    /* No redraw yet */
+    redraw = FALSE;
 
-      for (i = 0; i < MAX_MIND_POWERS; i++)
+    for (i = 0; i < MAX_MIND_POWERS; i++)
 	{
 	  if (mind_ptr->info[i].min_lev <= plev)
 	    {
@@ -554,24 +534,18 @@ void mindcraft_info(char *p, int use_mind, int power)
 	    }
 	}
 
-      /* Build a prompt (accept all spells) */
-      if (only_browse)
+    /* Build a prompt (accept all spells) */
+    if (only_browse)
 	{
-#ifdef JP
-	  (void) strnfmt(out_val, 78, "(%^s %c-%c, '*'¤Ç°ìÍ÷, ESC) ¤É¤Î%s¤Ë¤Ä¤¤¤ÆÃÎ¤ê¤Ş¤¹¤«¡©",
-#else
-	  (void) strnfmt(out_val, 78, "(%^ss %c-%c, *=List, ESC=exit) Use which %s? ",
-#endif
+		(void) strnfmt(out_val, 78, 
+					_("(%^s %c-%c, '*'ã§ä¸€è¦§, ESC) ã©ã®%sã«ã¤ã„ã¦çŸ¥ã‚Šã¾ã™ã‹ï¼Ÿ", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
 				       p, I2A(0), I2A(num - 1), p);
-	  }
+	}
 	else
-	  {
-#ifdef JP
-(void) strnfmt(out_val, 78, "(%^s %c-%c, '*'¤Ç°ìÍ÷, ESC) ¤É¤Î%s¤ò»È¤¤¤Ş¤¹¤«¡©",
-#else
-		(void)strnfmt(out_val, 78, "(%^ss %c-%c, *=List, ESC=exit) Use which %s? ",
-#endif
-		p, I2A(0), I2A(num - 1), p);
+	{
+		(void) strnfmt(out_val, 78, 
+					_("(%^s %c-%c, '*'ã§ä¸€è¦§, ESC) ã©ã®%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
+						p, I2A(0), I2A(num - 1), p);
 	}
 
 	if (use_menu && !only_browse) screen_save();
@@ -638,14 +612,10 @@ void mindcraft_info(char *p, int use_mind, int power)
 
 				/* Display a list of spells */
 				prt("", y, x);
-#ifdef JP
-put_str("Ì¾Á°", y, x + 5);
-#else
-				put_str("Name", y, x + 5);
-#endif
+				put_str(_("åå‰", "Name"), y, x + 5);
 
 #ifdef JP
-put_str(format("Lv   %s   ¼ºÎ¨ ¸ú²Ì", ((use_mind == MIND_BERSERKER) || (use_mind == MIND_NINJUTSU)) ? "HP" : "MP"), y, x + 35);
+put_str(format("Lv   %s   å¤±ç‡ åŠ¹æœ", ((use_mind == MIND_BERSERKER) || (use_mind == MIND_NINJUTSU)) ? "HP" : "MP"), y, x + 35);
 #else
 put_str(format("Lv   %s   Fail Info", ((use_mind == MIND_BERSERKER) || (use_mind == MIND_NINJUTSU)) ? "HP" : "MP"), y, x + 35);
 #endif
@@ -722,11 +692,7 @@ put_str(format("Lv   %s   Fail Info", ((use_mind == MIND_BERSERKER) || (use_mind
 
 					if (use_menu)
 					{
-#ifdef JP
-						if (i == (menu_line-1)) strcpy(psi_desc, "  ¡Õ ");
-#else
-						if (i == (menu_line-1)) strcpy(psi_desc, "  >  ");
-#endif
+						if (i == (menu_line-1)) strcpy(psi_desc, _("  ã€‹ ", "  >  "));
 						else strcpy(psi_desc, "     ");
 					}
 					else
@@ -736,7 +702,7 @@ put_str(format("Lv   %s   Fail Info", ((use_mind == MIND_BERSERKER) || (use_mind
 					       format("%-30s%2d %4d%s %3d%%%s",
 						      spell.name, spell.min_lev, mana_cost,
 #ifdef JP
-						      (((use_mind == MIND_MINDCRAFTER) && (i == 13)) ? "¡Á" : "  "), 
+						      (((use_mind == MIND_MINDCRAFTER) && (i == 13)) ? "ï½" : "  "), 
 #else
 						      (((use_mind == MIND_MINDCRAFTER) && (i == 13)) ? "~ " : "  "), 
 #endif
@@ -790,12 +756,7 @@ put_str(format("Lv   %s   Fail Info", ((use_mind == MIND_BERSERKER) || (use_mind
 			char tmp_val[160];
 
 			/* Prompt */
-#ifdef JP
-(void) strnfmt(tmp_val, 78, "%s¤ò»È¤¤¤Ş¤¹¤«¡©", spell.name);
-#else
-			(void)strnfmt(tmp_val, 78, "Use %s? ", spell.name);
-#endif
-
+			(void) strnfmt(tmp_val, 78, _("%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "Use %s? "), spell.name);
 
 			/* Belay that order */
 			if (!get_check(tmp_val)) continue;
@@ -830,10 +791,11 @@ put_str(format("Lv   %s   Fail Info", ((use_mind == MIND_BERSERKER) || (use_mind
 	return (TRUE);
 }
 
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'mindcrafter'.
+/*!
+ * @brief è¶…èƒ½åŠ›ã®ç™ºå‹• /
+ * do_cmd_cast calls this function if the player's class is 'mindcrafter'.
+ * @param spell ç™ºå‹•ã™ã‚‹ç‰¹æ®ŠæŠ€èƒ½ã®ID
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 static bool cast_mindcrafter_spell(int spell)
 {
@@ -871,11 +833,7 @@ static bool cast_mindcrafter_spell(int spell)
 		if ((plev > 24) && (plev < 40))
 			set_tim_esp(plev, FALSE);
 
-#ifdef JP
-if (!b) msg_print("°ÂÁ´¤Êµ¤¤¬¤¹¤ë¡£");
-#else
-		if (!b) msg_print("You feel safe.");
-#endif
+		if (!b) msg_print(_("å®‰å…¨ãªæ°—ãŒã™ã‚‹ã€‚", "You feel safe."));
 
 		break;
 	case 1:
@@ -932,11 +890,7 @@ if (!b) msg_print("°ÂÁ´¤Êµ¤¤¬¤¹¤ë¡£");
 			return ident_spell(FALSE);
 	case 8:
 		/* Mindwave */
-#ifdef JP
-msg_print("Àº¿À¤òÇ±¤¸¶Ê¤²¤ëÇÈÆ°¤òÈ¯À¸¤µ¤»¤¿¡ª");
-#else
-		msg_print("Mind-warping forces emanate from your brain!");
-#endif
+		msg_print(_("ç²¾ç¥ã‚’æ»ã˜æ›²ã’ã‚‹æ³¢å‹•ã‚’ç™ºç”Ÿã•ã›ãŸï¼", "Mind-warping forces emanate from your brain!"));
 
 		if (plev < 25)
 			project(0, 2 + plev / 10, py, px,
@@ -990,19 +944,11 @@ msg_print("Àº¿À¤òÇ±¤¸¶Ê¤²¤ëÇÈÆ°¤òÈ¯À¸¤µ¤»¤¿¡ª");
 	{
 		if (world_player)
 		{
-#ifdef JP
-			msg_print("´û¤Ë»ş¤Ï»ß¤Ş¤Ã¤Æ¤¤¤ë¡£");
-#else
-			msg_print("Time is already stopped.");
-#endif
+			msg_print(_("æ—¢ã«æ™‚ã¯æ­¢ã¾ã£ã¦ã„ã‚‹ã€‚", "Time is already stopped."));
 			return (FALSE);
 		}
 		world_player = TRUE;
-#ifdef JP
-		msg_print("¡Ö»ş¤è¡ª¡×");
-#else
-		msg_print("You yell 'Time!'");
-#endif
+		msg_print(_("ã€Œæ™‚ã‚ˆï¼ã€", "You yell 'Time!'"));
 		msg_print(NULL);
 
 		/* Hack */
@@ -1021,21 +967,17 @@ msg_print("Àº¿À¤òÇ±¤¸¶Ê¤²¤ëÇÈÆ°¤òÈ¯À¸¤µ¤»¤¿¡ª");
 		break;
 	}
 	default:
-#ifdef JP
-msg_print("¤Ê¤Ë¡©");
-#else
-		msg_print("Zap?");
-#endif
-
+		msg_print(_("ãªã«ï¼Ÿ", "Zap?"));
 	}
 
 	return TRUE;
 }
 
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'ForceTrainer'.
+/*!
+ * @brief ç·´æ°—è¡“ã®ç™ºå‹• /
+ * do_cmd_cast calls this function if the player's class is 'ForceTrainer'.
+ * @param spell ç™ºå‹•ã™ã‚‹ç‰¹æ®ŠæŠ€èƒ½ã®ID
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 static bool cast_force_spell(int spell)
 {
@@ -1068,26 +1010,14 @@ static bool cast_force_spell(int spell)
 		set_resist_magic(randint1(20) + 20 + boost / 5, FALSE);
 		break;
 	case 5:
-#ifdef JP
-		msg_print("µ¤¤òÎı¤Ã¤¿¡£");
-#else
-		msg_print("You improved the Force.");
-#endif
+		msg_print(_("æ°—ã‚’ç·´ã£ãŸã€‚", "You improved the Force."));
 		p_ptr->magic_num1[0] += (70 + plev);
 		p_ptr->update |= (PU_BONUS);
 		if (randint1(p_ptr->magic_num1[0]) > (plev * 4 + 120))
 		{
-#ifdef JP
-			msg_print("µ¤¤¬Ë½Áö¤·¤¿¡ª");
-#else
-			msg_print("The Force exploded!");
-#endif
+			msg_print(_("æ°—ãŒæš´èµ°ã—ãŸï¼", "The Force exploded!"));
 			fire_ball(GF_MANA, 0, p_ptr->magic_num1[0] / 2, 10);
-#ifdef JP
-			take_hit(DAMAGE_LOSELIFE, p_ptr->magic_num1[0] / 2, "µ¤¤ÎË½Áö", -1);
-#else
-			take_hit(DAMAGE_LOSELIFE, p_ptr->magic_num1[0] / 2, "Explosion of the Force", -1);
-#endif
+			take_hit(DAMAGE_LOSELIFE, p_ptr->magic_num1[0] / 2, _("æ°—ã®æš´èµ°", "Explosion of the Force"), -1);
 		}
 		else return TRUE;
 		break;
@@ -1118,11 +1048,7 @@ static bool cast_force_spell(int spell)
 
 			if (randint1(r_ptr->level * 3 / 2) > randint0(dam / 2) + dam/2)
 			{
-#ifdef JP
-				msg_format("%s¤ÏÈô¤Ğ¤µ¤ì¤Ê¤«¤Ã¤¿¡£", m_name);
-#else
-				msg_format("%^s was not blown away.", m_name);
-#endif
+				msg_format(_("%sã¯é£›ã°ã•ã‚Œãªã‹ã£ãŸã€‚", "%^s was not blown away."), m_name);
 			}
 			else
 			{
@@ -1139,11 +1065,7 @@ static bool cast_force_spell(int spell)
 				}
 				if ((ty != oy) || (tx != ox))
 				{
-#ifdef JP
-					msg_format("%s¤ò¿á¤­Èô¤Ğ¤·¤¿¡ª", m_name);
-#else
-					msg_format("You blow %s away!", m_name);
-#endif
+					msg_format(_("%sã‚’å¹ãé£›ã°ã—ãŸï¼", "You blow %s away!"), m_name);
 					cave[oy][ox].m_idx = 0;
 					cave[ty][tx].m_idx = m_idx;
 					m_ptr->fy = ty;
@@ -1186,19 +1108,11 @@ static bool cast_force_spell(int spell)
 				success = TRUE;
 		if (success)
 		{
-#ifdef JP
-msg_print("¸æÍÑ¤Ç¤´¤¶¤¤¤Ş¤¹¤¬¡¢¸æ¼ç¿ÍÍÍ¡©");
-#else
-			msg_print("'Your wish, master?'");
-#endif
+			msg_print(_("å¾¡ç”¨ã§ã”ã–ã„ã¾ã™ãŒã€å¾¡ä¸»äººæ§˜ï¼Ÿ", "'Your wish, master?'"));
 		}
 		else
 		{
-#ifdef JP
-			msg_print("²¿¤â¸½¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-			msg_print("Nothing happen.");
-#endif
+			msg_print(_("ä½•ã‚‚ç¾ã‚Œãªã‹ã£ãŸã€‚", "Nothing happen."));
 		}
 		break;
 	}
@@ -1214,12 +1128,7 @@ msg_print("¸æÍÑ¤Ç¤´¤¶¤¤¤Ş¤¹¤¬¡¢¸æ¼ç¿ÍÍÍ¡©");
 		set_lightspeed(randint1(16) + 16 + boost / 20, FALSE);
 		break;
 	default:
-#ifdef JP
-msg_print("¤Ê¤Ë¡©");
-#else
-		msg_print("Zap?");
-#endif
-
+		msg_print(_("ãªã«ï¼Ÿ", "Zap?"));
 	}
 	p_ptr->magic_num1[0] = 0;
 	p_ptr->update |= (PU_BONUS);
@@ -1227,8 +1136,11 @@ msg_print("¤Ê¤Ë¡©");
 	return TRUE;
 }
 
-/* by henkma */
-/* calculate mirrors */
+
+/*!
+ * @brief ç¾åœ¨ãƒ•ãƒ­ã‚¢ã«å­˜åœ¨ã—ã¦ã„ã‚‹é¡ã®æ•°ã‚’æ•°ãˆã‚‹ / calculate mirrors
+ * @return é¡ã®æšæ•°
+ */
 static int number_of_mirrors( void )
 {
   int x,y;
@@ -1241,6 +1153,12 @@ static int number_of_mirrors( void )
   return val;
 }
 
+/*!
+ * @brief é¡é­”æ³•ã®ç™ºå‹• /
+ * do_cmd_cast calls this function if the player's class is 'Mirror magic'.
+ * @param spell ç™ºå‹•ã™ã‚‹ç‰¹æ®ŠæŠ€èƒ½ã®ID
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ */
 static bool cast_mirror_spell(int spell)
 {
 	int             dir;
@@ -1259,11 +1177,7 @@ static bool cast_mirror_spell(int spell)
 	  if( plev + tmp > 28 )set_tim_esp(plev,FALSE);
 	  if( plev + tmp > 38 )map_area(DETECT_RAD_MAP);
 	  if( tmp == 0 && plev < 5 ){
-#ifdef JP
-	    msg_print("¶À¤¬¤Ê¤¯¤Æ½¸Ãæ¤Ç¤­¤Ê¤«¤Ã¤¿¡ª");
-#else
-	    msg_print("You need a mirror to concentrate!");
-#endif
+	    msg_print(_("é¡ãŒãªãã¦é›†ä¸­ã§ããªã‹ã£ãŸï¼", "You need a mirror to concentrate!"));
 	  }
 	  break;
 	/* drip of light */
@@ -1272,11 +1186,7 @@ static bool cast_mirror_spell(int spell)
 	    place_mirror();
 	  }
 	  else {
-#ifdef JP
-msg_format("¤³¤ì°Ê¾å¶À¤ÏÀ©¸æ¤Ç¤­¤Ê¤¤¡ª");
-#else
-msg_format("There are too many mirrors to control!");
-#endif
+			msg_format(_("ã“ã‚Œä»¥ä¸Šé¡ã¯åˆ¶å¾¡ã§ããªã„ï¼", "There are too many mirrors to control!"));
 	  }
 	  break;
 	case 2:
@@ -1349,7 +1259,7 @@ msg_format("There are too many mirrors to control!");
 	/* illusion light */
 	case 14:
 	  tmp = is_mirror_grid(&cave[py][px]) ? 4 : 3;
-	  slow_monsters();
+	  slow_monsters(plev);
 	  stun_monsters(plev*tmp);
 	  confuse_monsters(plev*tmp);
 	  turn_monsters(plev*tmp);
@@ -1359,22 +1269,14 @@ msg_format("There are too many mirrors to control!");
 	/* mirror shift */
 	case 15:
 	  if( !is_mirror_grid(&cave[py][px]) ){
-#ifdef JP
-		msg_print("¶À¤Î¹ñ¤Î¾ì½ê¤¬¤ï¤«¤é¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot find out where is the world of mirror!");
-#endif
+		msg_print(_("é¡ã®å›½ã®å ´æ‰€ãŒã‚ã‹ã‚‰ãªã„ï¼", "You cannot find out where is the world of mirror!"));
 		break;
 	  }
 	  alter_reality();
 	  break;
 	/* mirror tunnel */
 	case 16:
-#ifdef JP
-	  msg_print("¶À¤ÎÀ¤³¦¤òÄÌ¤êÈ´¤±¡Ä  ");
-#else
-	  msg_print("Go through the world of mirror...");
-#endif
+	  msg_print(_("é¡ã®ä¸–ç•Œã‚’é€šã‚ŠæŠœã‘â€¦  ", "Go through the world of mirror..."));
 	  return mirror_tunnel();
 
 	/* mirror of recall */
@@ -1386,22 +1288,14 @@ msg_format("There are too many mirrors to control!");
 	  break;
 	/* binding field */
 	case 19:
-#ifdef JP
-	  if( !binding_field(plev*11+5) )msg_print("Å¬Åö¤Ê¶À¤òÁª¤Ù¤Ê¤«¤Ã¤¿¡ª");
-#else
-	  if( !binding_field(plev*11+5) )msg_print("You were not able to choose suitable mirrors!");
-#endif
+	  if( !binding_field(plev*11+5) )msg_print(_("é©å½“ãªé¡ã‚’é¸ã¹ãªã‹ã£ãŸï¼", "You were not able to choose suitable mirrors!"));
 	  break;
 	/* mirror of Ruffnor */
 	case 20:
 	  (void)set_invuln(randint1(4)+4,FALSE);
 	  break;
 	default:
-#ifdef JP
-msg_print("¤Ê¤Ë¡©");
-#else
-		msg_print("Zap?");
-#endif
+		msg_print(_("ãªã«ï¼Ÿ", "Zap?"));
 
 	}
 	p_ptr->magic_num1[0] = 0;
@@ -1409,10 +1303,11 @@ msg_print("¤Ê¤Ë¡©");
 	return TRUE;
 }
 
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'berserker'.
+/*!
+ * @brief æ€’ã‚Šã®ç™ºå‹• /
+ * do_cmd_cast calls this function if the player's class is 'berserker'.
+ * @param spell ç™ºå‹•ã™ã‚‹ç‰¹æ®ŠæŠ€èƒ½ã®ID
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 static bool cast_berserk_spell(int spell)
 {
@@ -1429,11 +1324,7 @@ static bool cast_berserk_spell(int spell)
 	{
 		if (p_ptr->riding)
 		{
-#ifdef JP
-			msg_print("¾èÇÏÃæ¤Ë¤ÏÌµÍı¤À¡£");
-#else
-			msg_print("You cannot do it when riding.");
-#endif
+			msg_print(_("ä¹—é¦¬ä¸­ã«ã¯ç„¡ç†ã ã€‚", "You cannot do it when riding."));
 			return FALSE;
 		}
 
@@ -1445,11 +1336,7 @@ static bool cast_berserk_spell(int spell)
 
 		if (!cave[y][x].m_idx)
 		{
-#ifdef JP
-			msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
-#else
-			msg_print("There is no monster.");
-#endif
+			msg_print(_("ãã®æ–¹å‘ã«ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ã„ã¾ã›ã‚“ã€‚", "There is no monster."));
 			return FALSE;
 		}
 
@@ -1482,41 +1369,20 @@ static bool cast_berserk_spell(int spell)
 		earthquake(py, px, 8+randint0(5));
 		break;
 	case 4:
-	{
-		cave_type       *c_ptr;
-		monster_type    *m_ptr;
-
-		for (dir = 0; dir < 8; dir++)
-		{
-			y = py + ddy_ddd[dir];
-			x = px + ddx_ddd[dir];
-			c_ptr = &cave[y][x];
-
-			/* Get the monster */
-			m_ptr = &m_list[c_ptr->m_idx];
-
-			/* Hack -- attack monsters */
-			if (c_ptr->m_idx && (m_ptr->ml || cave_have_flag_bold(y, x, FF_PROJECT)))
-				py_attack(y, x, 0);
-		}
+		massacre(py, px);
 		break;
-	}
 	default:
-#ifdef JP
-msg_print("¤Ê¤Ë¡©");
-#else
-		msg_print("Zap?");
-#endif
+		msg_print(_("ãªã«ï¼Ÿ", "Zap?"));
 
 	}
 	return TRUE;
 }
 
-
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'ninja'.
+/*!
+ * @brief å¿è¡“ã®ç™ºå‹• /
+ * do_cmd_cast calls this function if the player's class is 'ninja'.
+ * @param spell ç™ºå‹•ã™ã‚‹ç‰¹æ®ŠæŠ€èƒ½ã®ID
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 static bool cast_ninja_spell(int spell)
 {
@@ -1556,12 +1422,7 @@ static bool cast_ninja_spell(int spell)
 	{
 		if (!(p_ptr->special_defense & NINJA_KAWARIMI))
 		{
-#ifdef JP
-			msg_print("Å¨¤Î¹¶·â¤ËÂĞ¤·¤ÆÉÒ´¶¤Ë¤Ê¤Ã¤¿¡£");
-#else
-			msg_print("You are now prepare to evade any attacks.");
-#endif
-
+			msg_print(_("æ•µã®æ”»æ’ƒã«å¯¾ã—ã¦æ•æ„Ÿã«ãªã£ãŸã€‚", "You are now prepare to evade any attacks."));
 			p_ptr->special_defense |= NINJA_KAWARIMI;
 			p_ptr->redraw |= (PR_STATUS);
 		}
@@ -1581,24 +1442,13 @@ static bool cast_ninja_spell(int spell)
 		{
 			py_attack(y, x, 0);
 			if (randint0(p_ptr->skill_dis) < 7)
-#ifdef JP
-msg_print("¤¦¤Ş¤¯Æ¨¤²¤é¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-				msg_print("You failed to run away.");
-#endif
+				msg_print(_("ã†ã¾ãé€ƒã’ã‚‰ã‚Œãªã‹ã£ãŸã€‚", "You failed to run away."));
 			else
-			{
 				teleport_player(30, 0L);
-			}
 		}
 		else
 		{
-#ifdef JP
-msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
-#else
-			msg_print("You don't see any monster in this direction");
-#endif
-
+			msg_print(_("ãã®æ–¹å‘ã«ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ã„ã¾ã›ã‚“ã€‚", "You don't see any monster in this direction"));
 			msg_print(NULL);
 		}
 		break;
@@ -1635,8 +1485,8 @@ msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
 			if (slot == INVEN_PACK)
 			{
 #ifdef JP
-				if (!i) msg_print("¤¯¤µ¤Ó¤ò»ı¤Ã¤Æ¤¤¤Ê¤¤¡£");
-				else msg_print("¤¯¤µ¤Ó¤¬¤Ê¤¯¤Ê¤Ã¤¿¡£");
+				if (!i) msg_print("ãã•ã³ã‚’æŒã£ã¦ã„ãªã„ã€‚");
+				else msg_print("ãã•ã³ãŒãªããªã£ãŸã€‚");
 #else
 				if (!i) msg_print("You have no Iron Spikes.");
 				else msg_print("You have no more Iron Spikes.");
@@ -1669,12 +1519,7 @@ msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
 		if (!projectable(py, px, target_row, target_col)) break;
 		m_ptr = &m_list[m_idx];
 		monster_desc(m_name, m_ptr, 0);
-#ifdef JP
-		msg_format("%s¤ò°ú¤­Ìá¤·¤¿¡£", m_name);
-#else
-		msg_format("You pull back %s.", m_name);
-#endif
-
+		msg_format(_("%sã‚’å¼•ãæˆ»ã—ãŸã€‚", "You pull back %s."), m_name);
 		path_n = project_path(path_g, MAX_RANGE, target_row, target_col, py, px, 0);
 		ty = target_row, tx = target_col;
 		for (i = 1; i < path_n; i++)
@@ -1780,21 +1625,15 @@ msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
 		set_multishadow(6+randint1(6), FALSE);
 		break;
 	default:
-#ifdef JP
-msg_print("¤Ê¤Ë¡©");
-#else
-		msg_print("Zap?");
-#endif
+		msg_print(_("ãªã«ï¼Ÿ", "Zap?"));
 
 	}
 	return TRUE;
 }
 
-
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'mindcrafter'.
+/*!
+ * @brief ç‰¹æ®ŠæŠ€èƒ½ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
+ * @return ãªã—
  */
 void do_cmd_mind(void)
 {
@@ -1806,20 +1645,13 @@ void do_cmd_mind(void)
 	mind_type       spell;
 	bool            cast;
 	int             use_mind, mana_cost;
-#ifdef JP
 	cptr            p;
-#endif
 	bool		on_mirror = FALSE;
 
 	/* not if confused */
 	if (p_ptr->confused)
 	{
-#ifdef JP
-msg_print("º®Íğ¤·¤Æ¤¤¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦é›†ä¸­ã§ããªã„ï¼", "You are too confused!"));
 		return;
 	}
 
@@ -1829,12 +1661,12 @@ msg_print("º®Íğ¤·¤Æ¤¤¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª");
 #ifdef JP
 	switch(p_ptr->pclass)
 	{
-		case CLASS_MINDCRAFTER: use_mind = MIND_MINDCRAFTER;p = "Àº¿À";break;
-		case CLASS_FORCETRAINER:          use_mind = MIND_KI;p = "µ¤";break;
-		case CLASS_BERSERKER:   use_mind = MIND_BERSERKER;p = "ÅÜ¤ê";break;
-		case CLASS_MIRROR_MASTER:   use_mind = MIND_MIRROR_MASTER;p = "¶ÀËâË¡";break;
-		case CLASS_NINJA:       use_mind = MIND_NINJUTSU;p = "Àº¿À";break;
-		default:                use_mind = 0;p = "Ä¶Ç½ÎÏ";break;
+		case CLASS_MINDCRAFTER: use_mind = MIND_MINDCRAFTER;p = "ç²¾ç¥";break;
+		case CLASS_FORCETRAINER:          use_mind = MIND_KI;p = "æ°—";break;
+		case CLASS_BERSERKER:   use_mind = MIND_BERSERKER;p = "æ€’ã‚Š";break;
+		case CLASS_MIRROR_MASTER:   use_mind = MIND_MIRROR_MASTER;p = "é¡é­”æ³•";break;
+		case CLASS_NINJA:       use_mind = MIND_NINJUTSU;p = "ç²¾ç¥";break;
+		default:                use_mind = 0;p = "è¶…èƒ½åŠ›";break;
 	}
 #else
 	switch(p_ptr->pclass)
@@ -1873,32 +1705,19 @@ msg_print("º®Íğ¤·¤Æ¤¤¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª");
 	{
 		if (mana_cost > p_ptr->chp)
 		{
-#ifdef JP
-msg_print("£È£Ğ¤¬Â­¤ê¤Ş¤»¤ó¡£");
-#else
-			msg_print("You do not have enough hp to use this power.");
-#endif
+			msg_print(_("ï¼¨ï¼°ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚", "You do not have enough hp to use this power."));
 			return;
 		}
 	}
 	else if (mana_cost > p_ptr->csp)
 	{
 		/* Warning */
-#ifdef JP
-msg_print("£Í£Ğ¤¬Â­¤ê¤Ş¤»¤ó¡£");
-#else
-		msg_print("You do not have enough mana to use this power.");
-#endif
-
+		msg_print(_("ï¼­ï¼°ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚", "You do not have enough mana to use this power."));
 
 		if (!over_exert) return;
 
 		/* Verify */
-#ifdef JP
-if (!get_check("¤½¤ì¤Ç¤âÄ©Àï¤·¤Ş¤¹¤«? ")) return;
-#else
-		if (!get_check("Attempt it anyway? ")) return;
-#endif
+		if (!get_check(_("ãã‚Œã§ã‚‚æŒ‘æˆ¦ã—ã¾ã™ã‹? ", "Attempt it anyway? "))) return;
 
 	}
 
@@ -1943,11 +1762,7 @@ if (!get_check("¤½¤ì¤Ç¤âÄ©Àï¤·¤Ş¤¹¤«? ")) return;
 	if (randint0(100) < chance)
 	{
 		if (flush_failure) flush();
-#ifdef JP
-msg_format("%s¤Î½¸Ãæ¤Ë¼ºÇÔ¤·¤¿¡ª",p);
-#else
-		msg_format("You failed to concentrate hard enough!");
-#endif
+		msg_format(_("%sã®é›†ä¸­ã«å¤±æ•—ã—ãŸï¼", "You failed to concentrate hard enough!"), p);
 
 		sound(SOUND_FAIL);
 
@@ -1955,11 +1770,7 @@ msg_format("%s¤Î½¸Ãæ¤Ë¼ºÇÔ¤·¤¿¡ª",p);
 		{
 			if ((use_mind == MIND_KI) && (n != 5) && p_ptr->magic_num1[0])
 			{
-#ifdef JP
-				msg_print("µ¤¤¬»¶¤Ã¤Æ¤·¤Ş¤Ã¤¿¡¥¡¥¡¥");
-#else
-				msg_print("Your improved Force has gone away...");
-#endif
+				msg_print(_("æ°—ãŒæ•£ã£ã¦ã—ã¾ã£ãŸï¼ï¼ï¼", "Your improved Force has gone away..."));
 				p_ptr->magic_num1[0] = 0;
 			}
 
@@ -1971,32 +1782,17 @@ msg_format("%s¤Î½¸Ãæ¤Ë¼ºÇÔ¤·¤¿¡ª",p);
 			  if( use_mind == MIND_MINDCRAFTER ){
 				if (b < 5)
 				{
-#ifdef JP
-msg_print("¤Ê¤ó¤Æ¤³¤Ã¤¿¡ªÆ¬¤ÎÃæ¤¬¿¿¤ÃÇò¤Ë¤Ê¤Ã¤¿¡ª");
-#else
-					msg_print("Oh, no! Your mind has gone blank!");
-#endif
-
+					msg_print(_("ãªã‚“ã¦ã“ã£ãŸï¼é ­ã®ä¸­ãŒçœŸã£ç™½ã«ãªã£ãŸï¼", "Oh, no! Your mind has gone blank!"));
 					lose_all_info();
 				}
 				else if (b < 15)
 				{
-#ifdef JP
-msg_print("´ñÌ¯¤Ê¸÷·Ê¤¬ÌÜ¤ÎÁ°¤ÇÍÙ¤Ã¤Æ¤¤¤ë...");
-#else
-					msg_print("Weird visions seem to dance before your eyes...");
-#endif
-
+					msg_print(_("å¥‡å¦™ãªå…‰æ™¯ãŒç›®ã®å‰ã§è¸Šã£ã¦ã„ã‚‹...", "Weird visions seem to dance before your eyes..."));
 					set_image(p_ptr->image + 5 + randint1(10));
 				}
 				else if (b < 45)
 				{
-#ifdef JP
-msg_print("¤¢¤Ê¤¿¤ÎÆ¬¤Ïº®Íğ¤·¤¿¡ª");
-#else
-					msg_print("Your brain is addled!");
-#endif
-
+					msg_print(_("ã‚ãªãŸã®é ­ã¯æ··ä¹±ã—ãŸï¼", "Your brain is addled!"));
 					set_confused(p_ptr->confused + randint1(8));
 				}
 				else if (b < 90)
@@ -2006,11 +1802,7 @@ msg_print("¤¢¤Ê¤¿¤ÎÆ¬¤Ïº®Íğ¤·¤¿¡ª");
 				else
 				{
 					/* Mana storm */
-#ifdef JP
-msg_format("%s¤ÎÎÏ¤¬À©¸æ¤Ç¤­¤Ê¤¤ÈÅÎ®¤È¤Ê¤Ã¤Æ²òÊü¤µ¤ì¤¿¡ª", p);
-#else
-					msg_print("Your mind unleashes its power in an uncontrollable storm!");
-#endif
+					msg_format(_("%sã®åŠ›ãŒåˆ¶å¾¡ã§ããªã„æ°¾æµã¨ãªã£ã¦è§£æ”¾ã•ã‚ŒãŸï¼", "Your mind unleashes its power in an uncontrollable storm!"), p);
 
 					project(PROJECT_WHO_UNCTRL_POWER, 2 + plev / 10, py, px, plev * 2,
 						GF_MANA, PROJECT_JUMP | PROJECT_KILL | PROJECT_GRID | PROJECT_ITEM, -1);
@@ -2024,31 +1816,18 @@ msg_format("%s¤ÎÎÏ¤¬À©¸æ¤Ç¤­¤Ê¤¤ÈÅÎ®¤È¤Ê¤Ã¤Æ²òÊü¤µ¤ì¤¿¡ª", p);
 				}
 				else if (b < 81)
 				{
-#ifdef JP
-msg_print("¶À¤ÎÀ¤³¦¤Î´³¾Ä¤ò¼õ¤±¤¿¡ª");
-#else
-					msg_print("Weird visions seem to dance before your eyes...");
-#endif
+					msg_print(_("é¡ã®ä¸–ç•Œã®å¹²æ¸‰ã‚’å—ã‘ãŸï¼", "Weird visions seem to dance before your eyes..."));
 					teleport_player(10, TELEPORT_PASSIVE);
 				}
 				else if (b < 96)
 				{
-#ifdef JP
-msg_print("¤Ş¤ï¤ê¤Î¤â¤Î¤¬¥­¥é¥­¥éµ±¤¤¤Æ¤¤¤ë¡ª");
-#else
-					msg_print("Your brain is addled!");
-#endif
-
+					msg_print(_("ã¾ã‚ã‚Šã®ã‚‚ã®ãŒã‚­ãƒ©ã‚­ãƒ©è¼ã„ã¦ã„ã‚‹ï¼", "Your brain is addled!"));
 					set_image(p_ptr->image + 5 + randint1(10));
 				}
 				else
 				{
 					/* Mana storm */
-#ifdef JP
-msg_format("%s¤ÎÎÏ¤¬À©¸æ¤Ç¤­¤Ê¤¤ÈÅÎ®¤È¤Ê¤Ã¤Æ²òÊü¤µ¤ì¤¿¡ª", p);
-#else
-					msg_print("Your mind unleashes its power in an uncontrollable storm!");
-#endif
+					msg_format(_("%sã®åŠ›ãŒåˆ¶å¾¡ã§ããªã„æ°¾æµã¨ãªã£ã¦è§£æ”¾ã•ã‚ŒãŸï¼", "Your mind unleashes its power in an uncontrollable storm!"), p);
 
 					project(PROJECT_WHO_UNCTRL_POWER, 2 + plev / 10, py, px, plev * 2,
 						GF_MANA, PROJECT_JUMP | PROJECT_KILL | PROJECT_GRID | PROJECT_ITEM, -1);
@@ -2086,11 +1865,7 @@ msg_format("%s¤ÎÎÏ¤¬À©¸æ¤Ç¤­¤Ê¤¤ÈÅÎ®¤È¤Ê¤Ã¤Æ²òÊü¤µ¤ì¤¿¡ª", p);
 			cast = cast_ninja_spell(n);
 			break;
 		default:
-#ifdef JP
-			msg_format("Ææ¤ÎÇ½ÎÏ:%d, %d",use_mind, n);
-#else
-			msg_format("Mystery power:%d, %d",use_mind, n);
-#endif
+			msg_format(_("è¬ã®èƒ½åŠ›:%d, %d", "Mystery power:%d, %d"),use_mind, n);
 			return;
 		}
 
@@ -2108,11 +1883,7 @@ msg_format("%s¤ÎÎÏ¤¬À©¸æ¤Ç¤­¤Ê¤¤ÈÅÎ®¤È¤Ê¤Ã¤Æ²òÊü¤µ¤ì¤¿¡ª", p);
 
 	if ((use_mind == MIND_BERSERKER) || (use_mind == MIND_NINJUTSU))
 	{
-#ifdef JP
-		take_hit(DAMAGE_USELIFE, mana_cost, "²áÅÙ¤Î½¸Ãæ", -1);
-#else
-		take_hit(DAMAGE_USELIFE, mana_cost, "concentrating too hard", -1);
-#endif
+		take_hit(DAMAGE_USELIFE, mana_cost, _("éåº¦ã®é›†ä¸­", "concentrating too hard"), -1);
 		/* Redraw hp */
 		p_ptr->redraw |= (PR_HP);
 	}
@@ -2144,12 +1915,7 @@ msg_format("%s¤ÎÎÏ¤¬À©¸æ¤Ç¤­¤Ê¤¤ÈÅÎ®¤È¤Ê¤Ã¤Æ²òÊü¤µ¤ì¤¿¡ª", p);
 		p_ptr->csp = MAX(0, p_ptr->csp - mana_cost);
 
 		/* Message */
-#ifdef JP
-msg_format("%s¤ò½¸Ãæ¤·¤¹¤®¤Æµ¤¤ò¼º¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª",p);
-#else
-		msg_print("You faint from the effort!");
-#endif
-
+		msg_format(_("%sã‚’é›†ä¸­ã—ã™ãã¦æ°—ã‚’å¤±ã£ã¦ã—ã¾ã£ãŸï¼", "You faint from the effort!"),p);
 
 		/* Hack -- Bypass free action */
 		(void)set_paralyzed(p_ptr->paralyzed + randint1(5 * oops + 1));
@@ -2160,12 +1926,7 @@ msg_format("%s¤ò½¸Ãæ¤·¤¹¤®¤Æµ¤¤ò¼º¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª",p);
 			bool perm = (randint0(100) < 25);
 
 			/* Message */
-#ifdef JP
-msg_print("¼«Ê¬¤ÎÀº¿À¤ò¹¶·â¤·¤Æ¤·¤Ş¤Ã¤¿¡ª");
-#else
-			msg_print("You have damaged your mind!");
-#endif
-
+			msg_print(_("è‡ªåˆ†ã®ç²¾ç¥ã‚’æ”»æ’ƒã—ã¦ã—ã¾ã£ãŸï¼", "You have damaged your mind!"));
 
 			/* Reduce constitution */
 			(void)dec_stat(A_WIS, 15 + randint1(10), perm);
@@ -2181,9 +1942,9 @@ msg_print("¼«Ê¬¤ÎÀº¿À¤ò¹¶·â¤·¤Æ¤·¤Ş¤Ã¤¿¡ª");
 }
 
 
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'mindcrafter'.
+/*!
+ * @brief ç¾åœ¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä½¿ç”¨å¯èƒ½ãªç‰¹æ®ŠæŠ€èƒ½ã®ä¸€è¦§è¡¨ç¤º /
+ * @return ãªã—
  */
 void do_cmd_mind_browse(void)
 {
@@ -2228,11 +1989,7 @@ void do_cmd_mind_browse(void)
 		{
 		case MIND_MIRROR_MASTER:
 		case MIND_NINJUTSU:
-#ifdef JP
-		  prt("²¿¤«¥­¡¼¤ò²¡¤·¤Æ²¼¤µ¤¤¡£",0,0);
-#else
-		  prt("Hit any key.",0,0);
-#endif
+		  prt(_("ä½•ã‹ã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ä¸‹ã•ã„ã€‚", "Hit any key."),0,0);
 		  (void)inkey();
 		}
 	}

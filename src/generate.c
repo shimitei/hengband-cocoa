@@ -1,101 +1,99 @@
-/* File: generate.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
- */
-
-/* Purpose: Dungeon generation */
-
-/*
- * Note that Level generation is *not* an important bottleneck,
- * though it can be annoyingly slow on older machines...  Thus
- * we emphasize "simplicity" and "correctness" over "speed".
- *
- * This entire file is only needed for generating levels.
- * This may allow smart compilers to only load it when needed.
- *
- * Consider the "v_info.txt" file for vault generation.
- *
- * In this file, we use the "special" granite and perma-wall sub-types,
- * where "basic" is normal, "inner" is inside a room, "outer" is the
- * outer wall of a room, and "solid" is the outer wall of the dungeon
- * or any walls that may not be pierced by corridors.  Thus the only
- * wall type that may be pierced by a corridor is the "outer granite"
- * type.  The "basic granite" type yields the "actual" corridors.
- *
- * Note that we use the special "solid" granite wall type to prevent
- * multiple corridors from piercing a wall in two adjacent locations,
- * which would be messy, and we use the special "outer" granite wall
- * to indicate which walls "surround" rooms, and may thus be "pierced"
- * by corridors entering or leaving the room.
- *
- * Note that a tunnel which attempts to leave a room near the "edge"
- * of the dungeon in a direction toward that edge will cause "silly"
- * wall piercings, but will have no permanently incorrect effects,
- * as long as the tunnel can *eventually* exit from another side.
- * And note that the wall may not come back into the room by the
- * hole it left through, so it must bend to the left or right and
- * then optionally re-enter the room (at least 2 grids away).  This
- * is not a problem since every room that is large enough to block
- * the passage of tunnels is also large enough to allow the tunnel
- * to pierce the room itself several times.
- *
- * Note that no two corridors may enter a room through adjacent grids,
- * they must either share an entryway or else use entryways at least
- * two grids apart.  This prevents "large" (or "silly") doorways.
- *
- * To create rooms in the dungeon, we first divide the dungeon up
- * into "blocks" of 11x11 grids each, and require that all rooms
- * occupy a rectangular group of blocks.  As long as each room type
- * reserves a sufficient number of blocks, the room building routines
- * will not need to check bounds.  Note that most of the normal rooms
- * actually only use 23x11 grids, and so reserve 33x11 grids.
- *
- * Note that the use of 11x11 blocks (instead of the old 33x11 blocks)
- * allows more variability in the horizontal placement of rooms, and
- * at the same time has the disadvantage that some rooms (two thirds
- * of the normal rooms) may be "split" by panel boundaries.  This can
- * induce a situation where a player is in a room and part of the room
- * is off the screen.  It may be annoying enough to go back to 33x11
- * blocks to prevent this visual situation.
- *
- * Note that the dungeon generation routines are much different (2.7.5)
- * and perhaps "DUN_ROOMS" should be less than 50.
- *
- * XXX XXX XXX Note that it is possible to create a room which is only
- * connected to itself, because the "tunnel generation" code allows a
- * tunnel to leave a room, wander around, and then re-enter the room.
- *
- * XXX XXX XXX Note that it is possible to create a set of rooms which
- * are only connected to other rooms in that set, since there is nothing
- * explicit in the code to prevent this from happening.  But this is less
- * likely than the "isolated room" problem, because each room attempts to
- * connect to another room, in a giant cycle, thus requiring at least two
- * bizarre occurances to create an isolated section of the dungeon.
- *
- * Note that (2.7.9) monster pits have been split into monster "nests"
- * and monster "pits".  The "nests" have a collection of monsters of a
- * given type strewn randomly around the room (jelly, animal, or undead),
- * while the "pits" have a collection of monsters of a given type placed
- * around the room in an organized manner (orc, troll, giant, dragon, or
- * demon).  Note that both "nests" and "pits" are now "level dependant",
- * and both make 16 "expensive" calls to the "get_mon_num()" function.
- *
- * Note that the cave grid flags changed in a rather drastic manner
- * for Angband 2.8.0 (and 2.7.9+), in particular, dungeon terrain
- * features, such as doors and stairs and traps and rubble and walls,
- * are all handled as a set of 64 possible "terrain features", and
- * not as "fake" objects (440-479) as in pre-2.8.0 versions.
- *
- * The 64 new "dungeon features" will also be used for "visual display"
- * but we must be careful not to allow, for example, the user to display
- * hidden traps in a different way from floors, or secret doors in a way
- * different from granite walls, or even permanent granite in a different
- * way from granite.  XXX XXX XXX
+﻿/*!
+ * @file generate.c
+ * @brief ダンジョンの生成 / Dungeon generation
+ * @date 2014/01/04
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen. \n
+ * @details
+ * Note that Level generation is *not* an important bottleneck,\n
+ * though it can be annoyingly slow on older machines...  Thus\n
+ * we emphasize "simplicity" and "correctness" over "speed".\n
+ *\n
+ * This entire file is only needed for generating levels.\n
+ * This may allow smart compilers to only load it when needed.\n
+ *\n
+ * Consider the "v_info.txt" file for vault generation.\n
+ *\n
+ * In this file, we use the "special" granite and perma-wall sub-types,\n
+ * where "basic" is normal, "inner" is inside a room, "outer" is the\n
+ * outer wall of a room, and "solid" is the outer wall of the dungeon\n
+ * or any walls that may not be pierced by corridors.  Thus the only\n
+ * wall type that may be pierced by a corridor is the "outer granite"\n
+ * type.  The "basic granite" type yields the "actual" corridors.\n
+ *\n
+ * Note that we use the special "solid" granite wall type to prevent\n
+ * multiple corridors from piercing a wall in two adjacent locations,\n
+ * which would be messy, and we use the special "outer" granite wall\n
+ * to indicate which walls "surround" rooms, and may thus be "pierced"\n
+ * by corridors entering or leaving the room.\n
+ *\n
+ * Note that a tunnel which attempts to leave a room near the "edge"\n
+ * of the dungeon in a direction toward that edge will cause "silly"\n
+ * wall piercings, but will have no permanently incorrect effects,\n
+ * as long as the tunnel can *eventually* exit from another side.\n
+ * And note that the wall may not come back into the room by the\n
+ * hole it left through, so it must bend to the left or right and\n
+ * then optionally re-enter the room (at least 2 grids away).  This\n
+ * is not a problem since every room that is large enough to block\n
+ * the passage of tunnels is also large enough to allow the tunnel\n
+ * to pierce the room itself several times.\n
+ *\n
+ * Note that no two corridors may enter a room through adjacent grids,\n
+ * they must either share an entryway or else use entryways at least\n
+ * two grids apart.  This prevents "large" (or "silly") doorways.\n
+ *\n
+ * To create rooms in the dungeon, we first divide the dungeon up\n
+ * into "blocks" of 11x11 grids each, and require that all rooms\n
+ * occupy a rectangular group of blocks.  As long as each room type\n
+ * reserves a sufficient number of blocks, the room building routines\n
+ * will not need to check bounds.  Note that most of the normal rooms\n
+ * actually only use 23x11 grids, and so reserve 33x11 grids.\n
+ *\n
+ * Note that the use of 11x11 blocks (instead of the old 33x11 blocks)\n
+ * allows more variability in the horizontal placement of rooms, and\n
+ * at the same time has the disadvantage that some rooms (two thirds\n
+ * of the normal rooms) may be "split" by panel boundaries.  This can\n
+ * induce a situation where a player is in a room and part of the room\n
+ * is off the screen.  It may be annoying enough to go back to 33x11\n
+ * blocks to prevent this visual situation.\n
+ *\n
+ * Note that the dungeon generation routines are much different (2.7.5)\n
+ * and perhaps "DUN_ROOMS" should be less than 50.\n
+ *\n
+ * XXX XXX XXX Note that it is possible to create a room which is only\n
+ * connected to itself, because the "tunnel generation" code allows a\n
+ * tunnel to leave a room, wander around, and then re-enter the room.\n
+ *\n
+ * XXX XXX XXX Note that it is possible to create a set of rooms which\n
+ * are only connected to other rooms in that set, since there is nothing\n
+ * explicit in the code to prevent this from happening.  But this is less\n
+ * likely than the "isolated room" problem, because each room attempts to\n
+ * connect to another room, in a giant cycle, thus requiring at least two\n
+ * bizarre occurances to create an isolated section of the dungeon.\n
+ *\n
+ * Note that (2.7.9) monster pits have been split into monster "nests"\n
+ * and monster "pits".  The "nests" have a collection of monsters of a\n
+ * given type strewn randomly around the room (jelly, animal, or undead),\n
+ * while the "pits" have a collection of monsters of a given type placed\n
+ * around the room in an organized manner (orc, troll, giant, dragon, or\n
+ * demon).  Note that both "nests" and "pits" are now "level dependant",\n
+ * and both make 16 "expensive" calls to the "get_mon_num()" function.\n
+ *\n
+ * Note that the cave grid flags changed in a rather drastic manner\n
+ * for Angband 2.8.0 (and 2.7.9+), in particular, dungeon terrain\n
+ * features, such as doors and stairs and traps and rubble and walls,\n
+ * are all handled as a set of 64 possible "terrain features", and\n
+ * not as "fake" objects (440-479) as in pre-2.8.0 versions.\n
+ *\n
+ * The 64 new "dungeon features" will also be used for "visual display"\n
+ * but we must be careful not to allow, for example, the user to display\n
+ * hidden traps in a different way from floors, or secret doors in a way\n
+ * different from granite walls, or even permanent granite in a different\n
+ * way from granite.  XXX XXX XXX\n
  */
 
 #include "angband.h"
@@ -111,18 +109,19 @@ int dun_tun_pen;
 int dun_tun_jct;
 
 
-/*
+/*!
  * Dungeon generation data -- see "cave_gen()"
  */
 dun_data *dun;
 
 
-/*
- * Count the number of walls adjacent to the given grid.
- *
- * Note -- Assumes "in_bounds(y, x)"
- *
- * We count only granite walls and permanent walls.
+/*!
+ * @brief 上下左右の外壁数をカウントする / Count the number of walls adjacent to the given grid.
+ * @param y 基準のy座標
+ * @param x 基準のx座標
+ * @return 隣接する外壁の数
+ * @note Assumes "in_bounds(y, x)"
+ * @details We count only granite walls and permanent walls.
  */
 static int next_to_walls(int y, int x)
 {
@@ -136,11 +135,12 @@ static int next_to_walls(int y, int x)
 	return (k);
 }
 
-
-/*
- *  Helper function for alloc_stairs().
- *
- *  Is this a good location for stairs?
+/*!
+ * @brief alloc_stairs()の補助として指定の位置に階段を生成できるかの判定を行う / Helper function for alloc_stairs(). Is this a good location for stairs?
+ * @param y 基準のy座標
+ * @param x 基準のx座標
+ * @param walls 最低減隣接させたい外壁の数
+ * @return 階段を生成して問題がないならばTRUEを返す。
  */
 static bool alloc_stairs_aux(int y, int x, int walls)
 {
@@ -159,8 +159,12 @@ static bool alloc_stairs_aux(int y, int x, int walls)
 }
 
 
-/*
- * Places some staircases near walls
+/*!
+ * @brief 外壁に隣接させて階段を生成する / Places some staircases near walls
+ * @param feat 配置したい地形ID
+ * @param num 配置したい階段の数
+ * @param walls 最低減隣接させたい外壁の数
+ * @return 規定数通りに生成に成功したらTRUEを返す。
  */
 static bool alloc_stairs(int feat, int num, int walls)
 {
@@ -274,9 +278,12 @@ static bool alloc_stairs(int feat, int num, int walls)
 	return TRUE;
 }
 
-
-/*
- * Allocates some objects (using "place" and "type")
+/*!
+ * @brief フロア上のランダム位置に各種オブジェクトを配置する / Allocates some objects (using "place" and "type")
+ * @param set 配置したい地形の種類
+ * @param typ 配置したいオブジェクトの種類
+ * @param num 配置したい数
+ * @return 規定数通りに生成に成功したらTRUEを返す。
  */
 static void alloc_object(int set, int typ, int num)
 {
@@ -327,7 +334,7 @@ static void alloc_object(int set, int typ, int num)
 			if (cheat_room)
 			{
 #ifdef JP
-msg_print("�ٹ𡪥����ƥ�����֤Ǥ��ޤ���");
+msg_print("警告！アイテムを配置できません！");
 #else
 				msg_print("Warning! Could not place object!");
 #endif
@@ -369,14 +376,15 @@ msg_print("�ٹ𡪥����ƥ�����֤Ǥ��ޤ���");
 	}
 }
 
-
-/*
- * Count the number of "corridor" grids adjacent to the given grid.
- *
- * Note -- Assumes "in_bounds(y1, x1)"
- *
- * XXX XXX This routine currently only counts actual "empty floor"
- * grids which are not in rooms.  We might want to also count stairs,
+/*!
+ * @brief 隣接4マスに存在する通路の数を返す / Count the number of "corridor" grids adjacent to the given grid.
+ * @param y1 基準となるマスのY座標
+ * @param x1 基準となるマスのX座標
+ * @return 通路の数
+ * @note Assumes "in_bounds(y1, x1)"
+ * @details
+ * XXX XXX This routine currently only counts actual "empty floor"\n
+ * grids which are not in rooms.  We might want to also count stairs,\n
  * open doors, closed doors, etc.
  */
 static int next_to_corr(int y1, int x1)
@@ -414,11 +422,15 @@ static int next_to_corr(int y1, int x1)
 }
 
 
-/*
- * Determine if the given location is "between" two walls,
- * and "next to" two corridor spaces.  XXX XXX XXX
- *
- * Assumes "in_bounds(y, x)"
+/*!
+ * @brief ドアを設置可能な地形かを返す / Determine if the given location is "between" two walls, and "next to" two corridor spaces.
+ * @param y 判定を行いたいマスのY座標
+ * @param x 判定を行いたいマスのX座標
+ * @return ドアを設置可能ならばTRUEを返す
+ * @note Assumes "in_bounds(y1, x1)"
+ * @details
+ * XXX XXX XXX\n
+ * Assumes "in_bounds(y, x)"\n
  */
 static bool possible_doorway(int y, int x)
 {
@@ -444,9 +456,11 @@ static bool possible_doorway(int y, int x)
 	return (FALSE);
 }
 
-
-/*
- * Places door at y, x position if at least 2 walls found
+/*!
+ * @brief ドアの設置を試みる / Places door at y, x position if at least 2 walls found
+ * @param y 設置を行いたいマスのY座標
+ * @param x 設置を行いたいマスのX座標
+ * @return なし
  */
 static void try_door(int y, int x)
 {
@@ -468,7 +482,10 @@ static void try_door(int y, int x)
 }
 
 
-/* Place quest monsters */
+/*!
+ * @brief クエストに関わるモンスターの配置を行う / Place quest monsters
+ * @return 成功したならばTRUEを返す
+ */
 bool place_quest_monsters(void)
 {
 	int i;
@@ -555,8 +572,10 @@ bool place_quest_monsters(void)
 }
 
 
-/*
- * Set boundary mimic and add "solid" perma-wall
+/*!
+ * @brief マスにフロア端用の永久壁を配置する / Set boundary mimic and add "solid" perma-wall
+ * @param c_ptr 永久壁を廃止したいマス構造体の参照ポインタ
+ * @return なし
  */
 static void set_bound_perm_wall(cave_type *c_ptr)
 {
@@ -582,11 +601,10 @@ static void set_bound_perm_wall(cave_type *c_ptr)
 	place_solid_perm_grid(c_ptr);
 }
 
-
-/*
- * Generate various caverns and lakes
- *
- * There were moved from cave_gen().
+/*!
+ * @brief フロアに洞窟や湖を配置する / Generate various caverns and lakes
+ * @details There were moved from cave_gen().
+ * @return なし
  */
 static void gen_caverns_and_lakes(void)
 {
@@ -650,7 +668,7 @@ static void gen_caverns_and_lakes(void)
 		{
 			if (cheat_room)
 #ifdef JP
-				msg_print("�Ф�������");
+				msg_print("湖を生成。");
 #else
 				msg_print("Lake on the level.");
 #endif
@@ -669,7 +687,7 @@ static void gen_caverns_and_lakes(void)
 
 		if (cheat_room)
 #ifdef JP
-			msg_print("ƶ����������");
+			msg_print("洞窟を生成。");
 #else
 			msg_print("Cavern on level.");
 #endif
@@ -683,11 +701,10 @@ static void gen_caverns_and_lakes(void)
 }
 
 
-
-/*
- * Generate a new dungeon level
- *
- * Note that "dun_body" adds about 4000 bytes of memory to the stack.
+/*!
+ * @brief ダンジョン生成のメインルーチン / Generate a new dungeon level
+ * @details Note that "dun_body" adds about 4000 bytes of memory to the stack.
+ * @return ダンジョン生成が全て無事に成功したらTRUEを返す。
  */
 static bool cave_gen(void)
 {
@@ -739,7 +756,7 @@ static bool cave_gen(void)
 
 		if (cheat_room)
 #ifdef JP
-			msg_print("���꡼�ʥ�٥�");
+			msg_print("アリーナレベル");
 #else
 			msg_print("Arena level.");
 #endif
@@ -1035,7 +1052,7 @@ static bool cave_gen(void)
 		else if (cheat_hear)
 		{
 #ifdef JP
-msg_format("��󥹥����������ͤ� %d ���� %d �˸��餷�ޤ�", small_tester, i);
+msg_format("モンスター数基本値を %d から %d に減らします", small_tester, i);
 #else
 			msg_format("Reduced monsters base from %d to %d", small_tester, i);
 #endif
@@ -1092,9 +1109,9 @@ msg_format("��󥹥����������ͤ� %d ���� %d �˸��餷�ޤ�", small_tester, i);
 	return TRUE;
 }
 
-
-/*
- * Builds the arena after it is entered -KMW-
+/*!
+ * @brief 闘技場用のアリーナ地形を作成する / Builds the arena after it is entered -KMW-
+ * @return なし
  */
 static void build_arena(void)
 {
@@ -1149,9 +1166,9 @@ static void build_arena(void)
 	player_place(i, j);
 }
 
-
-/*
- * Town logic flow for generation of arena -KMW-
+/*!
+ * @brief 闘技場への入場処理 / Town logic flow for generation of arena -KMW-
+ * @return なし
  */
 static void arena_gen(void)
 {
@@ -1188,14 +1205,22 @@ static void arena_gen(void)
 
 	build_arena();
 
-	place_monster_aux(0, py + 5, px, arena_info[p_ptr->arena_number].r_idx,
-	    (PM_NO_KAGE | PM_NO_PET));
+	if(!place_monster_aux(0, py + 5, px, arena_info[p_ptr->arena_number].r_idx, (PM_NO_KAGE | PM_NO_PET)))
+	{
+		p_ptr->exit_bldg = TRUE;
+		p_ptr->arena_number++;
+#ifdef JP
+		msg_print("相手は欠場した。あなたの不戦勝だ。");
+#else
+		msg_print("The enemy is unable appear. You won by default.");
+#endif
+	}
+
 }
 
-
-
-/*
- * Builds the arena after it is entered -KMW-
+/*!
+ * @brief モンスター闘技場のフロア生成 / Builds the arena after it is entered -KMW-
+ * @return なし
  */
 static void build_battle(void)
 {
@@ -1256,9 +1281,9 @@ static void build_battle(void)
 	player_place(i, j);
 }
 
-
-/*
- * Town logic flow for generation of arena -KMW-
+/*!
+ * @brief モンスター闘技場への導入処理 / Town logic flow for generation of arena -KMW-
+ * @return なし
  */
 static void battle_gen(void)
 {
@@ -1311,9 +1336,9 @@ static void battle_gen(void)
 	}
 }
 
-
-/*
- * Generate a quest level
+/*!
+ * @brief 固定マップクエストのフロア生成 / Generate a quest level
+ * @return なし
  */
 static void quest_gen(void)
 {
@@ -1340,12 +1365,15 @@ static void quest_gen(void)
 	/* Prepare allocation table */
 	get_mon_num_prep(get_monster_hook(), NULL);
 
-	init_flags = INIT_CREATE_DUNGEON | INIT_ASSIGN;
+	init_flags = INIT_CREATE_DUNGEON;
 
 	process_dungeon_file("q_info.txt", 0, 0, MAX_HGT, MAX_WID);
 }
 
-/* Make a real level */
+/*!
+ * @brief ダンジョン時のランダムフロア生成 / Make a real level
+ * @return フロアの生成に成功したらTRUE
+ */
 static bool level_gen(cptr *why)
 {
 	int level_height, level_width;
@@ -1358,7 +1386,7 @@ static bool level_gen(cptr *why)
 	{
 		if (cheat_room)
 #ifdef JP
-			msg_print("�����ʥե���");
+			msg_print("小さなフロア");
 #else
 			msg_print("A 'small' dungeon level.");
 #endif
@@ -1409,7 +1437,7 @@ static bool level_gen(cptr *why)
 	if (!cave_gen())
 	{
 #ifdef JP
-*why = "���󥸥�������˼���";
+*why = "ダンジョン生成に失敗";
 #else
 		*why = "could not place player";
 #endif
@@ -1419,9 +1447,9 @@ static bool level_gen(cptr *why)
 	else return TRUE;
 }
 
-
-/*
- * Wipe all unnecessary flags after cave generation
+/*!
+ * @brief フロアに存在する全マスの記憶状態を初期化する / Wipe all unnecessary flags after cave generation
+ * @return なし
  */
 void wipe_generate_cave_flags(void)
 {
@@ -1449,23 +1477,23 @@ void wipe_generate_cave_flags(void)
 	}
 }
 
-
-/*
- *  Clear and empty the cave
+/*!
+ * @brief フロアの全情報を初期化する / Clear and empty the cave
+ * @return なし
  */
 void clear_cave(void)
 {
 	int x, y, i;
 
 	/* Very simplified version of wipe_o_list() */
-	C_WIPE(o_list, o_max, object_type);
+	(void)C_WIPE(o_list, o_max, object_type);
 	o_max = 1;
 	o_cnt = 0;
 
 	/* Very simplified version of wipe_m_list() */
 	for (i = 1; i < max_r_idx; i++)
 		r_info[i].cur_num = 0;
-	C_WIPE(m_list, m_max, monster_type);
+	(void)C_WIPE(m_list, m_max, monster_type);
 	m_max = 1;
 	m_cnt = 0;
 	for (i = 0; i < MAX_MTIMED; i++) mproc_max[i] = 0;
@@ -1520,10 +1548,10 @@ void clear_cave(void)
 }
 
 
-/*
- * Generates a random dungeon level			-RAK-
- *
- * Hack -- regenerate any "overflow" levels
+/*!
+ * ダンジョンのランダムフロアを生成する / Generates a random dungeon level -RAK-
+ * @return なし
+ * @note Hack -- regenerate any "overflow" levels
  */
 void generate_cave(void)
 {
@@ -1581,7 +1609,7 @@ void generate_cave(void)
 		{
 			/* Message */
 #ifdef JP
-why = "�����ƥब¿������";
+why = "アイテムが多すぎる";
 #else
 			why = "too many objects";
 #endif
@@ -1595,7 +1623,7 @@ why = "�����ƥब¿������";
 		{
 			/* Message */
 #ifdef JP
-why = "��󥹥�����¿������";
+why = "モンスターが多すぎる";
 #else
 			why = "too many monsters";
 #endif
@@ -1610,7 +1638,7 @@ why = "��󥹥�����¿������";
 
 		/* Message */
 #ifdef JP
-if (why) msg_format("�������ľ��(%s)", why);
+if (why) msg_format("生成やり直し(%s)", why);
 #else
 		if (why) msg_format("Generation restarted (%s)", why);
 #endif

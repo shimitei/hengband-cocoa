@@ -1,19 +1,17 @@
-/* File: melee2.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ * @file melee2.c
+ * @brief モンスターの特殊技能と移動処理/ Monster spells and movement
+ * @date 2014/01/17
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen.\n
+ * @details
+ * This file has several additions to it by Keldon Jones (keldon@umr.edu)
+ * to improve the general quality of the AI (version 0.1.1).
  */
-
-/* Purpose: Monster spells and movement */
-
-/*
-* This file has several additions to it by Keldon Jones (keldon@umr.edu)
-* to improve the general quality of the AI (version 0.1.1).
-*/
 
 #include "angband.h"
 
@@ -21,8 +19,12 @@
 #define GRINDNOISE 20
 #define CYBERNOISE 20
 
-/*
+/*!
+ * @brief モンスターが敵に接近するための方向を決める /
  * Calculate the direction to the next enemy
+ * @param m_idx モンスターの参照ID
+ * @param mm 移動するべき方角IDを返す参照ポインタ
+ * @return 方向が確定した場合TRUE、接近する敵がそもそもいない場合FALSEを返す
  */
 static bool get_enemy_dir(int m_idx, int *mm)
 {
@@ -182,9 +184,15 @@ static bool get_enemy_dir(int m_idx, int *mm)
 }
 
 
-/*
- * Hack, based on mon_take_hit... perhaps all monster attacks on
- * other monsters should use this?
+/*!
+ * @brief モンスターが敵モンスターに行う打撃処理 /
+ * Hack, based on mon_take_hit... perhaps all monster attacks on other monsters should use this?
+ * @param m_idx 目標となるモンスターの参照ID
+ * @param dam ダメージ量
+ * @param fear 目標となるモンスターの恐慌状態を返す参照ポインタ
+ * @param note 目標モンスターが死亡した場合の特別メッセージ(NULLならば標準表示を行う)
+ * @param who 打撃を行ったモンスターの参照ID
+ * @return なし
  */
 void mon_take_hit_mon(int m_idx, int dam, bool *fear, cptr note, int who)
 {
@@ -212,18 +220,13 @@ void mon_take_hit_mon(int m_idx, int dam, bool *fear, cptr note, int who)
 	/* Wake it up */
 	(void)set_monster_csleep(m_idx, 0);
 
-	if (p_ptr->riding && (m_idx == p_ptr->riding)) disturb(1, 0);
+	if (p_ptr->riding && (m_idx == p_ptr->riding)) disturb(1, 1);
 
 	if (MON_INVULNER(m_ptr) && randint0(PENETRATE_INVULNERABILITY))
 	{
 		if (seen)
 		{
-#ifdef JP
-msg_format("%^s�ϥ��᡼��������ʤ���", m_name);
-#else
-			msg_format("%^s is unharmed.", m_name);
-#endif
-
+			msg_format(_("%^sはダメージを受けない。", "%^s is unharmed."), m_name);
 		}
 
 		return;
@@ -240,12 +243,7 @@ msg_format("%^s�ϥ��᡼��������ʤ���", m_name);
 		{
 			if (seen)
 			{
-#ifdef JP
-msg_format("%^s�ϥ��᡼��������ʤ���", m_name);
-#else
-				msg_format("%^s is unharmed.", m_name);
-#endif
-
+				msg_format(_("%^sはダメージを受けない。", "%^s is unharmed."), m_name);
 			}
 			return;
 		}
@@ -286,32 +284,17 @@ msg_format("%^s�ϥ��᡼��������ʤ���", m_name);
 				/* Death by special attack */
 				else if (note)
 				{
-#ifdef JP
-msg_format("%^s%s", m_name, note);
-#else
-					msg_format("%^s%s", m_name, note);
-#endif
-
+					msg_format(_("%^s%s", "%^s%s"), m_name, note);
 				}
 				/* Death by normal attack -- nonliving monster */
 				else if (!monster_living(r_ptr))
 				{
-#ifdef JP
-msg_format("%^s���˲����줿��", m_name);
-#else
-					msg_format("%^s is destroyed.", m_name);
-#endif
-
+					msg_format(_("%^sは破壊された。", "%^s is destroyed."), m_name);
 				}
 				/* Death by normal attack -- living monster */
 				else
 				{
-#ifdef JP
-msg_format("%^s�ϻ����줿��", m_name);
-#else
-					msg_format("%^s is killed.", m_name);
-#endif
-
+					msg_format(_("%^sは殺された。", "%^s is killed."), m_name);
 				}
 			}
 
@@ -387,11 +370,7 @@ msg_format("%^s�ϻ����줿��", m_name);
 		if (m_ptr->hp > m_ptr->maxhp/3) dam = (dam + 1) / 2;
 		if (rakuba((dam > 200) ? 200 : dam, FALSE))
 		{
-#ifdef JP
-msg_format("%^s�˿�����Ȥ��줿��", m_name);
-#else
-				msg_format("You have thrown off from %s!", m_name);
-#endif
+			msg_format(_("%^sに振り落とされた！", "You have thrown off from %s!"), m_name);
 		}
 	}
 
@@ -400,18 +379,21 @@ msg_format("%^s�˿�����Ȥ��줿��", m_name);
 }
 
 
-/*
+/*!
+ * @brief モンスターがプレイヤーから逃走するかどうかを返す /
  * Returns whether a given monster will try to run from the player.
- *
- * Monsters will attempt to avoid very powerful players.  See below.
- *
- * Because this function is called so often, little details are important
- * for efficiency.  Like not using "mod" or "div" when possible.  And
- * attempting to check the conditions in an optimal order.  Note that
- * "(x << 2) == (x * 4)" if "x" has enough bits to hold the result.
- *
- * Note that this function is responsible for about one to five percent
- * of the processor use in normal conditions...
+ * @param m_idx 逃走するモンスターの参照ID
+ * @return モンスターがプレイヤーから逃走するならばTRUEを返す。
+ * @details
+ * Monsters will attempt to avoid very powerful players.  See below.\n
+ *\n
+ * Because this function is called so often, little details are important\n
+ * for efficiency.  Like not using "mod" or "div" when possible.  And\n
+ * attempting to check the conditions in an optimal order.  Note that\n
+ * "(x << 2) == (x * 4)" if "x" has enough bits to hold the result.\n
+ *\n
+ * Note that this function is responsible for about one to five percent\n
+ * of the processor use in normal conditions...\n
  */
 static int mon_will_run(int m_idx)
 {
@@ -479,10 +461,13 @@ static int mon_will_run(int m_idx)
 }
 
 
-
-
-/*
+/*!
+ * @brief モンスターがプレイヤーに向けて遠距離攻撃を行うことが可能なマスを走査する /
  * Search spell castable grid
+ * @param m_idx モンスターの参照ID
+ * @param yp 適したマスのY座標を返す参照ポインタ
+ * @param xp 適したマスのX座標を返す参照ポインタ
+ * @return 有効なマスがあった場合TRUEを返す
  */
 static bool get_moves_aux2(int m_idx, int *yp, int *xp)
 {
@@ -561,27 +546,33 @@ static bool get_moves_aux2(int m_idx, int *yp, int *xp)
 }
 
 
-/*
+/*!
+ * @brief モンスターがプレイヤーに向けて接近することが可能なマスを走査する /
  * Choose the "best" direction for "flowing"
- *
- * Note that ghosts and rock-eaters are never allowed to "flow",
- * since they should move directly towards the player.
- *
- * Prefer "non-diagonal" directions, but twiddle them a little
- * to angle slightly towards the player's actual location.
- *
- * Allow very perceptive monsters to track old "spoor" left by
- * previous locations occupied by the player.  This will tend
- * to have monsters end up either near the player or on a grid
- * recently occupied by the player (and left via "teleport").
- *
- * Note that if "smell" is turned on, all monsters get vicious.
- *
- * Also note that teleporting away from a location will cause
- * the monsters who were chasing you to converge on that location
- * as long as you are still near enough to "annoy" them without
- * being close enough to chase directly.  I have no idea what will
- * happen if you combine "smell" with low "aaf" values.
+ * @param m_idx モンスターの参照ID
+ * @param yp 移動先のマスのY座標を返す参照ポインタ
+ * @param xp 移動先のマスのX座標を返す参照ポインタ
+ * @param no_flow モンスターにFLOWフラグが経っていない状態でTRUE
+ * @return 有効なマスがあった場合TRUEを返す
+ * @details
+ * Note that ghosts and rock-eaters are never allowed to "flow",\n
+ * since they should move directly towards the player.\n
+ *\n
+ * Prefer "non-diagonal" directions, but twiddle them a little\n
+ * to angle slightly towards the player's actual location.\n
+ *\n
+ * Allow very perceptive monsters to track old "spoor" left by\n
+ * previous locations occupied by the player.  This will tend\n
+ * to have monsters end up either near the player or on a grid\n
+ * recently occupied by the player (and left via "teleport").\n
+ *\n
+ * Note that if "smell" is turned on, all monsters get vicious.\n
+ *\n
+ * Also note that teleporting away from a location will cause\n
+ * the monsters who were chasing you to converge on that location\n
+ * as long as you are still near enough to "annoy" them without\n
+ * being close enough to chase directly.  I have no idea what will\n
+ * happen if you combine "smell" with low "aaf" values.\n
  */
 static bool get_moves_aux(int m_idx, int *yp, int *xp, bool no_flow)
 {
@@ -690,13 +681,18 @@ static bool get_moves_aux(int m_idx, int *yp, int *xp, bool no_flow)
 }
 
 
-/*
-* Provide a location to flee to, but give the player a wide berth.
-*
-* A monster may wish to flee to a location that is behind the player,
-* but instead of heading directly for it, the monster should "swerve"
-* around the player so that he has a smaller chance of getting hit.
-*/
+/*!
+ * @brief モンスターがプレイヤーから逃走することが可能なマスを走査する /
+ * Provide a location to flee to, but give the player a wide berth.
+ * @param m_idx モンスターの参照ID
+ * @param yp 移動先のマスのY座標を返す参照ポインタ
+ * @param xp 移動先のマスのX座標を返す参照ポインタ
+ * @return 有効なマスがあった場合TRUEを返す
+ * @details
+ * A monster may wish to flee to a location that is behind the player,\n
+ * but instead of heading directly for it, the monster should "swerve"\n
+ * around the player so that he has a smaller chance of getting hit.\n
+ */
 static bool get_fear_moves_aux(int m_idx, int *yp, int *xp)
 {
 	int y, x, y1, x1, fy, fx, gy = 0, gx = 0;
@@ -894,19 +890,24 @@ static sint *dist_offsets_x[10] =
 	d_off_x_5, d_off_x_6, d_off_x_7, d_off_x_8, d_off_x_9
 };
 
-/*
-* Choose a "safe" location near a monster for it to run toward.
-*
-* A location is "safe" if it can be reached quickly and the player
-* is not able to fire into it (it isn't a "clean shot").  So, this will
-* cause monsters to "duck" behind walls.  Hopefully, monsters will also
-* try to run towards corridor openings if they are in a room.
-*
-* This function may take lots of CPU time if lots of monsters are
-* fleeing.
-*
-* Return TRUE if a safe location is available.
-*/
+/*!
+ * @brief モンスターが逃げ込める安全な地点を返す /
+ * Choose a "safe" location near a monster for it to run toward.
+ * @param m_idx モンスターの参照ID
+ * @param yp 移動先のマスのY座標を返す参照ポインタ
+ * @param xp 移動先のマスのX座標を返す参照ポインタ
+ * @return 有効なマスがあった場合TRUEを返す
+ * @details
+ * A location is "safe" if it can be reached quickly and the player\n
+ * is not able to fire into it (it isn't a "clean shot").  So, this will\n
+ * cause monsters to "duck" behind walls.  Hopefully, monsters will also\n
+ * try to run towards corridor openings if they are in a room.\n
+ *\n
+ * This function may take lots of CPU time if lots of monsters are\n
+ * fleeing.\n
+ *\n
+ * Return TRUE if a safe location is available.\n
+ */
 static bool find_safety(int m_idx, int *yp, int *xp)
 {
 	monster_type *m_ptr = &m_list[m_idx];
@@ -988,13 +989,18 @@ static bool find_safety(int m_idx, int *yp, int *xp)
 }
 
 
-/*
+/*!
+ * @brief モンスターが隠れ潜める地点を返す /
  * Choose a good hiding place near a monster for it to run toward.
- *
- * Pack monsters will use this to "ambush" the player and lure him out
- * of corridors into open space so they can swarm him.
- *
- * Return TRUE if a good location is available.
+ * @param m_idx モンスターの参照ID
+ * @param yp 移動先のマスのY座標を返す参照ポインタ
+ * @param xp 移動先のマスのX座標を返す参照ポインタ
+ * @return 有効なマスがあった場合TRUEを返す
+ * @details
+ * Pack monsters will use this to "ambush" the player and lure him out\n
+ * of corridors into open space so they can swarm him.\n
+ *\n
+ * Return TRUE if a good location is available.\n
  */
 static bool find_hiding(int m_idx, int *yp, int *xp)
 {
@@ -1063,8 +1069,12 @@ static bool find_hiding(int m_idx, int *yp, int *xp)
 }
 
 
-/*
+/*!
+ * @brief モンスターの移動方向を返す /
  * Choose "logical" directions for monster movement
+ * @param m_idx モンスターの参照ID
+ * @param mm 移動方向を返す方向IDの参照ポインタ
+ * @return 有効方向があった場合TRUEを返す
  */
 static bool get_moves(int m_idx, int *mm)
 {
@@ -1393,6 +1403,14 @@ static bool get_moves(int m_idx, int *mm)
 }
 
 
+/*!
+ * @brief モンスターから敵モンスターへの命中判定
+ * @param power 打撃属性による基本命中値
+ * @param level 攻撃側モンスターのレベル
+ * @param ac 目標モンスターのAC
+ * @param stun 攻撃側モンスターが朦朧状態ならTRUEを返す
+ * @return 命中ならばTRUEを返す
+ */
 static int check_hit2(int power, int level, int ac, int stun)
 {
 	int i, k;
@@ -1422,7 +1440,12 @@ static int check_hit2(int power, int level, int ac, int stun)
 #define BLOW_EFFECT_TYPE_HEAL  3
 
 
-/* Monster attacks monster */
+/*!
+ * @brief モンスターから敵モンスターへの打撃攻撃処理
+ * @param m_idx 攻撃側モンスターの参照ID
+ * @param t_idx 目標側モンスターの参照ID
+ * @return 実際に打撃処理が行われた場合TRUEを返す
+ */
 static bool monst_attack_monst(int m_idx, int t_idx)
 {
 	monster_type    *m_ptr = &m_list[m_idx];
@@ -1477,7 +1500,7 @@ static bool monst_attack_monst(int m_idx, int t_idx)
 		mon_fight = TRUE;
 	}
 
-	if (p_ptr->riding && (m_idx == p_ptr->riding)) disturb(1, 0);
+	if (p_ptr->riding && (m_idx == p_ptr->riding)) disturb(1, 1);
 
 	/* Scan through all four blows */
 	for (ap_cnt = 0; ap_cnt < 4; ap_cnt++)
@@ -1527,192 +1550,112 @@ static bool monst_attack_monst(int m_idx, int t_idx)
 			{
 			case RBM_HIT:
 				{
-#ifdef JP
-act = "%s�򲥤ä���";
-#else
-					act = "hits %s.";
-#endif
-
+					act = _("%sを殴った。", "hits %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_TOUCH:
 				{
-#ifdef JP
-act = "%s�򿨤ä���";
-#else
-					act = "touches %s.";
-#endif
-
+					act = _("%sを触った。", "touches %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_PUNCH:
 				{
-#ifdef JP
-act = "%s��ѥ��������";
-#else
-					act = "punches %s.";
-#endif
-
+					act = _("%sをパンチした。", "punches %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_KICK:
 				{
-#ifdef JP
-act = "%s�򽳤ä���";
-#else
-					act = "kicks %s.";
-#endif
-
+					act = _("%sを蹴った。", "kicks %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_CLAW:
 				{
-#ifdef JP
-act = "%s��Ҥä�������";
-#else
-					act = "claws %s.";
-#endif
-
+					act = _("%sをひっかいた。", "claws %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_BITE:
 				{
-#ifdef JP
-act = "%s��������";
-#else
-					act = "bites %s.";
-#endif
-
+					act = _("%sを噛んだ。", "bites %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_STING:
 				{
-#ifdef JP
-act = "%s��ɤ�����";
-#else
-					act = "stings %s.";
-#endif
-
+					act = _("%sを刺した。", "stings %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_SLASH:
 				{
-#ifdef JP
-act = "%s��¤ä���";
-#else
-					act = "slashes %s.";
-#endif
-
+					act = _("%sを斬った。", "slashes %s.");
 					break;
 				}
 
 			case RBM_BUTT:
 				{
-#ifdef JP
-act = "%s��Ѥ��ͤ�����";
-#else
-					act = "butts %s.";
-#endif
-
+					act = _("%sを角で突いた。", "butts %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_CRUSH:
 				{
-#ifdef JP
-act = "%s�������ꤷ����";
-#else
-					act = "crushes %s.";
-#endif
-
+					act = _("%sに体当りした。", "crushes %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_ENGULF:
 				{
-#ifdef JP
-act = "%s����߹������";
-#else
-					act = "engulfs %s.";
-#endif
-
+					act = _("%sを飲み込んだ。", "engulfs %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_CHARGE:
 				{
-#ifdef JP
-act = "%s��������褳������";
-#else
-					act = "charges %s.";
-#endif
-
+					act = _("%sに請求書をよこした。", "charges %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_CRAWL:
 				{
-#ifdef JP
-act = "%s���Τξ���礤��ä���";
-#else
-					act = "crawls on %s.";
-#endif
-
+					act = _("%sの体の上を這い回った。", "crawls on %s.");
 					touched = TRUE;
 					break;
 				}
 
 			case RBM_DROOL:
 				{
-#ifdef JP
-act = "%s�ˤ����򤿤餷����";
-#else
-					act = "drools on %s.";
-#endif
-
+					act = _("%sによだれをたらした。", "drools on %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_SPIT:
 				{
-#ifdef JP
-act = "%s���ä��Ǥ�����";
-#else
-					act = "spits on %s.";
-#endif
-
+					act = _("%sに唾を吐いた。", "spits on %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_EXPLODE:
 				{
-					if (see_either) disturb(1, 0);
-#ifdef JP
-act = "��ȯ������";
-#else
-					act = "explodes.";
-#endif
-
+					if (see_either) disturb(1, 1);
+					act = _("爆発した。", "explodes.");
 					explode = TRUE;
 					touched = FALSE;
 					break;
@@ -1720,96 +1663,56 @@ act = "��ȯ������";
 
 			case RBM_GAZE:
 				{
-#ifdef JP
-act = "%s��ˤ�����";
-#else
-					act = "gazes at %s.";
-#endif
-
+					act = _("%sをにらんだ。", "gazes at %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_WAIL:
 				{
-#ifdef JP
-act = "%s�˵㤭�Ĥ�����";
-#else
-					act = "wails at %s.";
-#endif
-
+					act = _("%sに泣きついた。", "wails at %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_SPORE:
 				{
-#ifdef JP
-act = "%s��˦�Ҥ����Ф�����";
-#else
-					act = "releases spores at %s.";
-#endif
-
+					act = _("%sに胞子を飛ばした。", "releases spores at %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_XXX4:
 				{
-#ifdef JP
-act = "%s��XXX4�����Ф�����";
-#else
-					act = "projects XXX4's at %s.";
-#endif
-
+					act = _("%sにXXX4を飛ばした。", "projects XXX4's at %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_BEG:
 				{
-#ifdef JP
-act = "%s�˶�򤻤������";
-#else
-					act = "begs %s for money.";
-#endif
-
+					act = _("%sに金をせがんだ。", "begs %s for money.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_INSULT:
 				{
-#ifdef JP
-act = "%s���������";
-#else
-					act = "insults %s.";
-#endif
-
+					act = _("%sを侮辱した。", "insults %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_MOAN:
 				{
-#ifdef JP
-act = "%s�ˤफ�äƤ��ᤤ����";
-#else
-					act = "moans at %s.";
-#endif
-
+					act = _("%sにむかってうめいた。", "moans at %s.");
 					touched = FALSE;
 					break;
 				}
 
 			case RBM_SHOW:
 				{
-#ifdef JP
-act = "%s�ˤफ�äƲΤä���";
-#else
-					act = "sings to %s.";
-#endif
-
+					act = _("%sにむかって歌った。", "sings to %s.");
 					touched = FALSE;
 					break;
 				}
@@ -1821,7 +1724,7 @@ act = "%s�ˤफ�äƲΤä���";
 #ifdef JP
 				if (do_silly_attack) act = silly_attacks2[randint0(MAX_SILLY_ATTACK)];
 				strfmt(temp, act, t_name);
-				msg_format("%^s��%s", m_name, temp);
+				msg_format("%^sは%s", m_name, temp);
 #else
 				if (do_silly_attack)
 				{
@@ -1937,9 +1840,17 @@ act = "%s�ˤफ�äƲΤä���";
 				pt = GF_TIME;
 				break;
 
-			case RBE_EXP_VAMP:
+			case RBE_DR_LIFE:
 				pt = GF_OLD_DRAIN;
 				effect_type = BLOW_EFFECT_TYPE_HEAL;
+				break;
+
+			case RBE_INERTIA:
+				pt = GF_INERTIA;
+				break;
+
+			case RBE_STUN:
+				pt = GF_SOUND;
 				break;
 
 			default:
@@ -1986,11 +1897,7 @@ act = "%s�ˤफ�äƲΤä���";
 						/* Special message */
 						if (see_m && did_heal)
 						{
-#ifdef JP
-							msg_format("%s�����Ϥ���������褦����", m_name);
-#else
-							msg_format("%^s appears healthier.", m_name);
-#endif
+							msg_format(_("%sは体力を回復したようだ。", "%^s appears healthier."), m_name);
 						}
 					}
 					break;
@@ -2005,11 +1912,7 @@ act = "%s�ˤफ�äƲΤä���";
 						{
 							if (see_either)
 							{
-#ifdef JP
-								msg_format("%^s������Ǯ���ʤä���", m_name);
-#else
-								msg_format("%^s is suddenly very hot!", m_name);
-#endif
+								msg_format(_("%^sは突然熱くなった！", "%^s is suddenly very hot!"), m_name);
 							}
 							if (m_ptr->ml && is_original_ap_and_seen(t_ptr)) tr_ptr->r_flags2 |= RF2_AURA_FIRE;
 							project(t_idx, 0, m_ptr->fy, m_ptr->fx,
@@ -2030,11 +1933,7 @@ act = "%s�ˤफ�äƲΤä���";
 						{
 							if (see_either)
 							{
-#ifdef JP
-								msg_format("%^s�����������ʤä���", m_name);
-#else
-								msg_format("%^s is suddenly very cold!", m_name);
-#endif
+								msg_format(_("%^sは突然寒くなった！", "%^s is suddenly very cold!"), m_name);
 							}
 							if (m_ptr->ml && is_original_ap_and_seen(t_ptr)) tr_ptr->r_flags3 |= RF3_AURA_COLD;
 							project(t_idx, 0, m_ptr->fy, m_ptr->fx,
@@ -2055,11 +1954,7 @@ act = "%s�ˤफ�äƲΤä���";
 						{
 							if (see_either)
 							{
-#ifdef JP
-								msg_format("%^s���ŷ�򿩤�ä���", m_name);
-#else
-								msg_format("%^s gets zapped!", m_name);
-#endif
+								msg_format(_("%^sは電撃を食らった！", "%^s gets zapped!"), m_name);
 							}
 							if (m_ptr->ml && is_original_ap_and_seen(t_ptr)) tr_ptr->r_flags2 |= RF2_AURA_ELEC;
 							project(t_idx, 0, m_ptr->fy, m_ptr->fx,
@@ -2103,7 +1998,7 @@ act = "%s�ˤफ�äƲΤä���";
 					{
 						/* Message */
 #ifdef JP
-						msg_format("%s��%^s�ι���򤫤路����", t_name,m_name);
+						msg_format("%sは%^sの攻撃をかわした。", t_name,m_name);
 #else
 						msg_format("%^s misses %s.", m_name, t_name);
 #endif
@@ -2136,13 +2031,7 @@ act = "%s�ˤफ�äƲΤä���";
 
 		/* Cancel Invulnerability */
 		(void)set_monster_invulner(m_idx, 0, FALSE);
-
-#ifdef JP
-		mon_take_hit_mon(m_idx, m_ptr->hp + 1, &fear, "����ȯ����ʴ���ˤʤä���", m_idx);
-#else
-		mon_take_hit_mon(m_idx, m_ptr->hp + 1, &fear, " explodes into tiny shreds.", m_idx);
-#endif
-
+		mon_take_hit_mon(m_idx, m_ptr->hp + 1, &fear, _("は爆発して粉々になった。", " explodes into tiny shreds."), m_idx);
 		blinked = FALSE;
 	}
 
@@ -2153,11 +2042,7 @@ act = "%s�ˤफ�äƲΤä���";
 		{
 			if (see_m)
 			{
-#ifdef JP
-				msg_print("ť���ϾФä�ƨ��...�褦�Ȥ������Хꥢ���ɤ��줿��");
-#else
-				msg_print("The thief flees laughing...? But magic barrier obstructs it.");
-#endif
+				msg_print(_("泥棒は笑って逃げ...ようとしたがバリアに防がれた。", "The thief flees laughing...? But magic barrier obstructs it."));
 			}
 			else if (known)
 			{
@@ -2168,11 +2053,7 @@ act = "%s�ˤफ�äƲΤä���";
 		{
 			if (see_m)
 			{
-#ifdef JP
-				msg_print("ť���ϾФä�ƨ������");
-#else
-				msg_print("The thief flees laughing!");
-#endif
+				msg_print(_("泥棒は笑って逃げた！", "The thief flees laughing!"));
 			}
 			else if (known)
 			{
@@ -2195,31 +2076,34 @@ static bool check_hp_for_feat_destruction(feature_type *f_ptr, monster_type *m_p
 }
 
 
-/*
+/*!
+ * @brief モンスター単体の１ターン行動処理メインルーチン /
  * Process a monster
- *
- * The monster is known to be within 100 grids of the player
- *
- * In several cases, we directly update the monster lore
- *
- * Note that a monster is only allowed to "reproduce" if there
- * are a limited number of "reproducing" monsters on the current
- * level.  This should prevent the level from being "swamped" by
- * reproducing monsters.  It also allows a large mass of mice to
- * prevent a louse from multiplying, but this is a small price to
- * pay for a simple multiplication method.
- *
- * XXX Monster fear is slightly odd, in particular, monsters will
- * fixate on opening a door even if they cannot open it.  Actually,
- * the same thing happens to normal monsters when they hit a door
- *
- * XXX XXX XXX In addition, monsters which *cannot* open or bash
- * down a door will still stand there trying to open it...
- *
- * XXX Technically, need to check for monster in the way
- * combined with that monster being in a wall (or door?)
- *
- * A "direction" of "5" means "pick a random direction".
+ * @param m_idx 行動モンスターの参照ID
+ * @return なし
+ * @details
+ * The monster is known to be within 100 grids of the player\n
+ *\n
+ * In several cases, we directly update the monster lore\n
+ *\n
+ * Note that a monster is only allowed to "reproduce" if there\n
+ * are a limited number of "reproducing" monsters on the current\n
+ * level.  This should prevent the level from being "swamped" by\n
+ * reproducing monsters.  It also allows a large mass of mice to\n
+ * prevent a louse from multiplying, but this is a small price to\n
+ * pay for a simple multiplication method.\n
+ *\n
+ * XXX Monster fear is slightly odd, in particular, monsters will\n
+ * fixate on opening a door even if they cannot open it.  Actually,\n
+ * the same thing happens to normal monsters when they hit a door\n
+ *\n
+ * XXX XXX XXX In addition, monsters which *cannot* open or bash\n
+ * down a door will still stand there trying to open it...\n
+ *\n
+ * XXX Technically, need to check for monster in the way\n
+ * combined with that monster being in a wall (or door?)\n
+ *\n
+ * A "direction" of "5" means "pick a random direction".\n
  */
 static void process_monster(int m_idx)
 {
@@ -2263,7 +2147,7 @@ static void process_monster(int m_idx)
 		if (rakuba(0, TRUE))
 		{
 #ifdef JP
-			msg_print("���̤���Ȥ��줿��");
+			msg_print("地面に落とされた。");
 #else
 			char m_name[80];
 			monster_desc(m_name, &m_list[p_ptr->riding], 0);
@@ -2300,12 +2184,7 @@ static void process_monster(int m_idx)
 
 			/* Acquire the monster name */
 			monster_desc(m_name, m_ptr, 0);
-
-#ifdef JP
-			msg_format("%s�Ͼä���ä���", m_name);
-#else
-			msg_format("%^s disappears!", m_name);
-#endif
+			msg_format(_("%sは消え去った！", "%^s disappears!"), m_name);
 		}
 
 		if (record_named_pet && is_pet(m_ptr) && m_ptr->nickname)
@@ -2344,11 +2223,7 @@ static void process_monster(int m_idx)
 				monster_desc(m_name, m_ptr, 0);
 
 				/* Oops */
-#ifdef JP
-				msg_format("%s�Ͼä���ä���", m_name);
-#else
-				msg_format("%^s disappears!", m_name);
-#endif
+				msg_format(_("%sは消え去った！", "%^s disappears!"), m_name);
 			}
 
 			/* Generate treasure, etc */
@@ -2359,11 +2234,7 @@ static void process_monster(int m_idx)
 
 			if (sad)
 			{
-#ifdef JP
-				msg_print("�����δ��ᤷ����ʬ�ˤʤä���");
-#else
-				msg_print("You feel sad for a moment.");
-#endif
+				msg_print(_("少しの間悲しい気分になった。", "You feel sad for a moment."));
 			}
 
 			return;
@@ -2371,11 +2242,7 @@ static void process_monster(int m_idx)
 	}
 
 	if (m_ptr->r_idx == MON_SHURYUUDAN)
-#ifdef JP
-		mon_take_hit_mon(m_idx, 1, &fear, "����ȯ����ʴ���ˤʤä���", m_idx);
-#else
-		mon_take_hit_mon(m_idx, 1, &fear, " explodes into tiny shreds.", m_idx);
-#endif
+		mon_take_hit_mon(m_idx, 1, &fear, _("は爆発して粉々になった。", " explodes into tiny shreds."), m_idx);
 
 	if ((is_pet(m_ptr) || is_friendly(m_ptr)) && ((r_ptr->flags1 & RF1_UNIQUE) || (r_ptr->flags7 & RF7_NAZGUL)) && !p_ptr->inside_battle)
 	{
@@ -2388,30 +2255,19 @@ static void process_monster(int m_idx)
 
 			if (is_riding_mon && riding_pinch < 2)
 			{
-#ifdef JP
-				msg_format("%s�Ͻ����ˤ���;�ꤢ�ʤ���«������ƨ��褦�Ȥ��Ƥ��롣", m_name);
-#else
-				msg_format("%^s seems to be in so much pain, and trying to escape from your restriction.", m_name);
-#endif
+				msg_format(_("%sは傷の痛さの余りあなたの束縛から逃れようとしている。",
+							 "%^s seems to be in so much pain, and trying to escape from your restriction."), m_name);
 				riding_pinch++;
-				disturb(1, 0);
+				disturb(1, 1);
 			}
 			else
 			{
 				if (is_riding_mon)
 				{
-#ifdef JP
-					msg_format("%s�Ϥ��ʤ���«������æ�Ф�����", m_name);
-#else
-					msg_format("%^s succeeded to escape from your restriction!", m_name);
-#endif
+					msg_format(_("%sはあなたの束縛から脱出した。", "%^s succeeded to escape from your restriction!"), m_name);
 					if (rakuba(-1, FALSE))
 					{
-#ifdef JP
-						msg_print("���̤���Ȥ��줿��");
-#else
-						msg_print("You have fallen from riding pet.");
-#endif
+						msg_print(_("地面に落とされた。", "You have fallen from riding pet."));
 					}
 				}
 
@@ -2420,28 +2276,15 @@ static void process_monster(int m_idx)
 					if ((r_ptr->flags2 & RF2_CAN_SPEAK) && (m_ptr->r_idx != MON_GRIP) && (m_ptr->r_idx != MON_WOLF) && (m_ptr->r_idx != MON_FANG) &&
 					    player_has_los_bold(m_ptr->fy, m_ptr->fx) && projectable(m_ptr->fy, m_ptr->fx, py, px))
 					{
-#ifdef JP
-						msg_format("%^s�֥ԥ��������Ѥ����Ƥ�餦����", m_name);
-#else
-						msg_format("%^s says 'It is the pinch! I will retreat'.", m_name);
-#endif
+						msg_format(_("%^s「ピンチだ！退却させてもらう！」", "%^s says 'It is the pinch! I will retreat'."), m_name);
 					}
-#ifdef JP
-					msg_format("%^s���ƥ�ݡ��ȡ���٥�δ�ʪ���ɤ����", m_name);
-					msg_format("%^s���ä���ä���", m_name);
-#else
-					msg_format("%^s read a scroll of teleport level.", m_name);
-					msg_format("%^s disappears.", m_name);
-#endif
+					msg_format(_("%^sがテレポート・レベルの巻物を読んだ。", "%^s read a scroll of teleport level."), m_name);
+					msg_format(_("%^sが消え去った。", "%^s disappears."), m_name);
 				}
 
 				if (is_riding_mon && rakuba(-1, FALSE))
 				{
-#ifdef JP
-					msg_print("���̤���Ȥ��줿��");
-#else
-					msg_print("You have fallen from riding pet.");
-#endif
+					msg_print(_("地面に落とされた。", "You have fallen from riding pet."));
 				}
 
 				/* Check for quest completion */
@@ -2479,11 +2322,7 @@ static void process_monster(int m_idx)
 			monster_desc(m_name, m_ptr, 0);
 
 			/* Dump a message */
-#ifdef JP
-			msg_format("%^s���ܤ�Фޤ�����", m_name);
-#else
-			msg_format("%^s wakes up.", m_name);
-#endif
+			msg_format(_("%^sが目を覚ました。", "%^s wakes up."), m_name);
 		}
 
 		/* Hack -- Count the wakings */
@@ -2526,11 +2365,7 @@ static void process_monster(int m_idx)
 		{
 			char m_name[80];
 			monster_desc(m_name, m_ptr, is_pet(m_ptr) ? MD_ASSUME_VISIBLE : 0);
-#ifdef JP
-			msg_format("%^s������Ũ�ˤޤ�ä���", m_name);
-#else
-			msg_format("%^s suddenly becomes hostile!", m_name);
-#endif
+			msg_format(_("%^sは突然敵にまわった！", "%^s suddenly becomes hostile!"), m_name);
 		}
 
 		set_hostile(m_ptr);
@@ -2616,11 +2451,7 @@ static void process_monster(int m_idx)
 		    !m_ptr->ml && (m_ptr->cdis <= MAX_SIGHT))
 		{
 			if (disturb_minor) disturb(FALSE, FALSE);
-#ifdef JP
-			msg_print("�Ÿ���­����ʹ��������");
-#else
-			msg_print("You hear heavy steps.");
-#endif
+			msg_print(_("重厚な足音が聞こえた。", "You hear heavy steps."));
 		}
 
 		/* Some monsters can speak */
@@ -2637,47 +2468,22 @@ static void process_monster(int m_idx)
 			if (m_ptr->ml)
 				monster_desc(m_name, m_ptr, 0);
 			else
-#ifdef JP
-				strcpy(m_name, "����");
-#else
-				strcpy(m_name, "It");
-#endif
+				strcpy(m_name, _("それ", "It"));
 
 			/* Select the file for monster quotes */
 			if (MON_MONFEAR(m_ptr))
-#ifdef JP
-				filename = "monfear_j.txt";
-#else
-				filename = "monfear.txt";
-#endif
+				filename = _("monfear_j.txt", "monfear.txt");
 			else if (is_pet(m_ptr))
-#ifdef JP
-				filename = "monpet_j.txt";
-#else
-				filename = "monpet.txt";
-#endif
+				filename = _("monpet_j.txt", "monpet.txt");
 			else if (is_friendly(m_ptr))
-#ifdef JP
-				filename = "monfrien_j.txt";
-#else
-				filename = "monfrien.txt";
-#endif
+				filename = _("monfrien_j.txt", "monfrien.txt");
 			else
-#ifdef JP
-				filename = "monspeak_j.txt";
-#else
-				filename = "monspeak.txt";
-#endif
+				filename = _("monspeak_j.txt", "monspeak.txt");
 			/* Get the monster line */
 			if (get_rnd_line(filename, m_ptr->ap_r_idx, monmessage) == 0)
 			{
 				/* Say something */
-#ifdef JP
-msg_format("%^s%s", m_name, monmessage);
-#else
-				msg_format("%^s %s", m_name, monmessage);
-#endif
-
+				msg_format(_("%^s%s", "%^s %s"), m_name, monmessage);
 			}
 		}
 	}
@@ -2967,17 +2773,9 @@ msg_format("%^s%s", m_name, monmessage);
 				{
 					/* Message */
 					if (have_flag(f_ptr->flags, FF_GLASS))
-#ifdef JP
-						msg_print("���饹���դ��벻��������");
-#else
-						msg_print("You hear a glass was crashed!");
-#endif
+						msg_print(_("ガラスが砕ける音がした！", "You hear a glass was crashed!"));
 					else
-#ifdef JP
-						msg_print("�ɥ���á�������벻��������");
-#else
-						msg_print("You hear a door burst open!");
-#endif
+						msg_print(_("ドアを叩き開ける音がした！", "You hear a door burst open!"));
 
 					/* Disturb (sometimes) */
 					if (disturb_minor) disturb(0, 0);
@@ -3037,11 +2835,7 @@ msg_format("%^s%s", m_name, monmessage);
 				/* Describe observable breakage */
 				if (c_ptr->info & CAVE_MARK)
 				{
-#ifdef JP
-					msg_print("���Υ롼�󤬲��줿��");
-#else
-					msg_print("The rune of protection is broken!");
-#endif
+					msg_print(_("守りのルーンが壊れた！", "The rune of protection is broken!"));
 				}
 
 				/* Forget the rune */
@@ -3073,22 +2867,13 @@ msg_format("%^s%s", m_name, monmessage);
 					/* Describe observable breakage */
 					if (c_ptr->info & CAVE_MARK)
 					{
-#ifdef JP
-						msg_print("�롼����ȯ������");
-#else
-						msg_print("The rune explodes!");
-#endif
-
+						msg_print(_("ルーンが爆発した！", "The rune explodes!"));
 						project(0, 2, ny, nx, 2 * (p_ptr->lev + damroll(7, 7)), GF_MANA, (PROJECT_GRID | PROJECT_ITEM | PROJECT_KILL | PROJECT_JUMP | PROJECT_NO_HANGEKI), -1);
 					}
 				}
 				else
 				{
-#ifdef JP
-					msg_print("��ȯ�Υ롼��ϲ�����줿��");
-#else
-					msg_print("An explosive rune was disarmed.");
-#endif
+					msg_print(_("爆発のルーンは解除された。", "An explosive rune was disarmed."));
 				}
 
 				/* Forget the rune */
@@ -3219,17 +3004,9 @@ msg_format("%^s%s", m_name, monmessage);
 			if (one_in_(GRINDNOISE))
 			{
 				if (have_flag(f_ptr->flags, FF_GLASS))
-#ifdef JP
-					msg_print("�����κդ��벻��ʹ�����롣");
-#else
-					msg_print("There is a crashing sound.");
-#endif
+					msg_print(_("何かの砕ける音が聞こえる。", "There is a crashing sound."));
 				else
-#ifdef JP
-					msg_print("����������������ʹ�����롣");
-#else
-					msg_print("There is a grinding sound.");
-#endif
+					msg_print(_("ギシギシいう音が聞こえる。", "There is a grinding sound."));
 			}
 
 			cave_alter_feat(ny, nx, FF_HURT_DISI);
@@ -3347,7 +3124,7 @@ msg_format("%^s%s", m_name, monmessage);
 			{
 				/* Disturb */
 				if (is_hostile(m_ptr))
-					disturb(0, 0);
+					disturb(0, 1);
 			}
 
 			/* Take or Kill objects on the floor */
@@ -3431,11 +3208,7 @@ msg_format("%^s%s", m_name, monmessage);
 							if (m_ptr->ml && player_can_see_bold(ny, nx))
 							{
 								/* Dump a message */
-#ifdef JP
-								msg_format("%^s��%s�򽦤����Ȥ�������������ä���", m_name, o_name);
-#else
-								msg_format("%^s tries to pick up %s, but fails.", m_name, o_name);
-#endif
+								msg_format(_("%^sは%sを拾おうとしたが、だめだった。", "%^s tries to pick up %s, but fails."), m_name, o_name);
 							}
 						}
 					}
@@ -3450,11 +3223,7 @@ msg_format("%^s%s", m_name, monmessage);
 						if (player_can_see_bold(ny, nx))
 						{
 							/* Dump a message */
-#ifdef JP
-							msg_format("%^s��%s�򽦤ä���", m_name, o_name);
-#else
-							msg_format("%^s picks up %s.", m_name, o_name);
-#endif
+							msg_format(_("%^sが%sを拾った。", "%^s picks up %s."), m_name, o_name);
 						}
 
 						/* Excise the object */
@@ -3486,11 +3255,7 @@ msg_format("%^s%s", m_name, monmessage);
 						if (player_has_los_bold(ny, nx))
 						{
 							/* Dump a message */
-#ifdef JP
-							msg_format("%^s��%s���˲�������", m_name, o_name);
-#else
-							msg_format("%^s destroys %s.", m_name, o_name);
-#endif
+							msg_format(_("%^sが%sを破壊した。", "%^s destroys %s."), m_name, o_name);
 						}
 
 						/* Delete the object */
@@ -3581,11 +3346,7 @@ msg_format("%^s%s", m_name, monmessage);
 			monster_desc(m_name, m_ptr, 0);
 
 			/* Dump a message */
-#ifdef JP
-			msg_format("%^s���襤���դ�����", m_name);
-#else
-			msg_format("%^s turns to fight!", m_name);
-#endif
+			msg_format(_("%^sは戦いを決意した！", "%^s turns to fight!"), m_name);
 		}
 
 		if (m_ptr->ml) chg_virtue(V_COMPASSION, -1);
@@ -3594,37 +3355,39 @@ msg_format("%^s%s", m_name, monmessage);
 	}
 }
 
-/*
+/*!
+ * @brief 全モンスターのターン管理メインルーチン /
  * Process all the "live" monsters, once per game turn.
- *
- * During each game turn, we scan through the list of all the "live" monsters,
- * (backwards, so we can excise any "freshly dead" monsters), energizing each
- * monster, and allowing fully energized monsters to move, attack, pass, etc.
- *
- * Note that monsters can never move in the monster array (except when the
- * "compact_monsters()" function is called by "dungeon()" or "save_player()").
- *
- * This function is responsible for at least half of the processor time
- * on a normal system with a "normal" amount of monsters and a player doing
- * normal things.
- *
- * When the player is resting, virtually 90% of the processor time is spent
- * in this function, and its children, "process_monster()" and "make_move()".
- *
- * Most of the rest of the time is spent in "update_view()" and "lite_spot()",
- * especially when the player is running.
- *
- * Note the special "MFLAG_BORN" flag, which allows us to ignore "fresh"
- * monsters while they are still being "born".  A monster is "fresh" only
- * during the turn in which it is created, and we use the "hack_m_idx" to
- * determine if the monster is yet to be processed during the current turn.
- *
- * Note the special "MFLAG_NICE" flag, which allows the player to get one
- * move before any "nasty" monsters get to use their spell attacks.
- *
- * Note that when the "knowledge" about the currently tracked monster
- * changes (flags, attacks, spells), we induce a redraw of the monster
- * recall window.
+ * @return なし
+ * @details
+ * During each game turn, we scan through the list of all the "live" monsters,\n
+ * (backwards, so we can excise any "freshly dead" monsters), energizing each\n
+ * monster, and allowing fully energized monsters to move, attack, pass, etc.\n
+ *\n
+ * Note that monsters can never move in the monster array (except when the\n
+ * "compact_monsters()" function is called by "dungeon()" or "save_player()").\n
+ *\n
+ * This function is responsible for at least half of the processor time\n
+ * on a normal system with a "normal" amount of monsters and a player doing\n
+ * normal things.\n
+ *\n
+ * When the player is resting, virtually 90% of the processor time is spent\n
+ * in this function, and its children, "process_monster()" and "make_move()".\n
+ *\n
+ * Most of the rest of the time is spent in "update_view()" and "lite_spot()",\n
+ * especially when the player is running.\n
+ *\n
+ * Note the special "MFLAG_BORN" flag, which allows us to ignore "fresh"\n
+ * monsters while they are still being "born".  A monster is "fresh" only\n
+ * during the turn in which it is created, and we use the "hack_m_idx" to\n
+ * determine if the monster is yet to be processed during the current turn.\n
+ *\n
+ * Note the special "MFLAG_NICE" flag, which allows the player to get one\n
+ * move before any "nasty" monsters get to use their spell attacks.\n
+ *\n
+ * Note that when the "knowledge" about the currently tracked monster\n
+ * changes (flags, attacks, spells), we induce a redraw of the monster\n
+ * recall window.\n
  */
 void process_monsters(void)
 {
@@ -3836,7 +3599,12 @@ void process_monsters(void)
 	}
 }
 
-
+/*!
+ * @brief モンスターの時限ステータスを取得する
+ * @return m_idx モンスターの参照ID
+ * @return mproc_type モンスターの時限ステータスID
+ * @return 残りターン値
+ */
 int get_mproc_idx(int m_idx, int mproc_type)
 {
 	s16b *cur_mproc_list = mproc_list[mproc_type];
@@ -3850,13 +3618,24 @@ int get_mproc_idx(int m_idx, int mproc_type)
 	return -1;
 }
 
-
+/*!
+ * @brief モンスターの時限ステータスリストを追加する
+ * @return m_idx モンスターの参照ID
+ * @return mproc_type 追加したいモンスターの時限ステータスID
+ * @return なし
+ */
 static void mproc_add(int m_idx, int mproc_type)
 {
 	if (mproc_max[mproc_type] < max_m_idx) mproc_list[mproc_type][mproc_max[mproc_type]++] = m_idx;
 }
 
 
+/*!
+ * @brief モンスターの時限ステータスリストを削除
+ * @return m_idx モンスターの参照ID
+ * @return mproc_type 削除したいモンスターの時限ステータスID
+ * @return なし
+ */
 static void mproc_remove(int m_idx, int mproc_type)
 {
 	int mproc_idx = get_mproc_idx(m_idx, mproc_type);
@@ -3864,8 +3643,9 @@ static void mproc_remove(int m_idx, int mproc_type)
 }
 
 
-/*
- * Initialize monster process
+/*!
+ * @brief モンスターの時限ステータスリストを初期化する / Initialize monster process
+ * @return なし
  */
 void mproc_init(void)
 {
@@ -3892,8 +3672,12 @@ void mproc_init(void)
 }
 
 
-/*
+/*!
+ * @brief モンスターの睡眠状態値をセットする /
  * Set "m_ptr->mtimed[MTIMED_CSLEEP]", notice observable changes
+ * @param m_idx モンスター参照ID
+ * @param v セットする値
+ * @return 別途更新処理が必要な場合TRUEを返す
  */
 bool set_monster_csleep(int m_idx, int v)
 {
@@ -3941,8 +3725,12 @@ bool set_monster_csleep(int m_idx, int v)
 }
 
 
-/*
+/*!
+ * @brief モンスターの加速状態値をセット /
  * Set "m_ptr->mtimed[MTIMED_FAST]", notice observable changes
+ * @param m_idx モンスター参照ID
+ * @param v セットする値
+ * @return 別途更新処理が必要な場合TRUEを返す
  */
 bool set_monster_fast(int m_idx, int v)
 {
@@ -4025,8 +3813,12 @@ bool set_monster_slow(int m_idx, int v)
 }
 
 
-/*
+/*!
+ * @brief モンスターの朦朧状態値をセット /
  * Set "m_ptr->mtimed[MTIMED_STUNNED]", notice observable changes
+ * @param m_idx モンスター参照ID
+ * @param v セットする値
+ * @return 別途更新処理が必要な場合TRUEを返す
  */
 bool set_monster_stunned(int m_idx, int v)
 {
@@ -4063,8 +3855,12 @@ bool set_monster_stunned(int m_idx, int v)
 }
 
 
-/*
+/*!
+ * @brief モンスターの混乱状態値をセット /
  * Set "m_ptr->mtimed[MTIMED_CONFUSED]", notice observable changes
+ * @param m_idx モンスター参照ID
+ * @param v セットする値
+ * @return 別途更新処理が必要な場合TRUEを返す
  */
 bool set_monster_confused(int m_idx, int v)
 {
@@ -4101,8 +3897,12 @@ bool set_monster_confused(int m_idx, int v)
 }
 
 
-/*
+/*!
+ * @brief モンスターの恐慌状態値をセット /
  * Set "m_ptr->mtimed[MTIMED_MONFEAR]", notice observable changes
+ * @param m_idx モンスター参照ID
+ * @param v セットする値
+ * @return 別途更新処理が必要な場合TRUEを返す
  */
 bool set_monster_monfear(int m_idx, int v)
 {
@@ -4148,8 +3948,13 @@ bool set_monster_monfear(int m_idx, int v)
 }
 
 
-/*
+/*!
+ * @brief モンスターの無敵状態値をセット /
  * Set "m_ptr->mtimed[MTIMED_INVULNER]", notice observable changes
+ * @param m_idx モンスター参照ID
+ * @param v セットする値
+ * @param energy_need TRUEならば無敵解除時に行動ターン消費を行う
+ * @return 別途更新処理が必要な場合TRUEを返す
  */
 bool set_monster_invulner(int m_idx, int v, bool energy_need)
 {
@@ -4198,6 +4003,12 @@ bool set_monster_invulner(int m_idx, int v, bool energy_need)
 
 static u32b csleep_noise;
 
+/*!
+ * @brief モンスターの各種状態値を時間経過により更新するサブルーチン
+ * @param m_idx モンスター参照ID
+ * @param mtimed_idx 更新するモンスターの時限ステータスID
+ * @return なし
+ */
 static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 {
 	monster_type *m_ptr = &m_list[m_idx];
@@ -4272,11 +4083,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 						monster_desc(m_name, m_ptr, 0);
 
 						/* Dump a message */
-#ifdef JP
-						msg_format("%^s���ܤ�Фޤ�����", m_name);
-#else
-						msg_format("%^s wakes up.", m_name);
-#endif
+						msg_format(_("%^sが目を覚ました。", "%^s wakes up."), m_name);
 					}
 
 					if (is_original_ap_and_seen(m_ptr))
@@ -4302,11 +4109,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 				monster_desc(m_name, m_ptr, 0);
 
 				/* Dump a message */
-#ifdef JP
-				msg_format("%^s�Ϥ⤦��®����Ƥ��ʤ���", m_name);
-#else
-				msg_format("%^s is no longer fast.", m_name);
-#endif
+				msg_format(_("%^sはもう加速されていない。", "%^s is no longer fast."), m_name);
 			}
 		}
 		break;
@@ -4323,11 +4126,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 				monster_desc(m_name, m_ptr, 0);
 
 				/* Dump a message */
-#ifdef JP
-				msg_format("%^s�Ϥ⤦��®����Ƥ��ʤ���", m_name);
-#else
-				msg_format("%^s is no longer slow.", m_name);
-#endif
+				msg_format(_("%^sはもう減速されていない。", "%^s is no longer slow."), m_name);
 			}
 		}
 		break;
@@ -4348,11 +4147,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 				monster_desc(m_name, m_ptr, 0);
 
 				/* Dump a message */
-#ifdef JP
-				msg_format("%^s��ۯ۰���֤���Ω��ľ�ä���", m_name);
-#else
-				msg_format("%^s is no longer stunned.", m_name);
-#endif
+				msg_format(_("%^sは朦朧状態から立ち直った。", "%^s is no longer stunned."), m_name);
 			}
 		}
 		break;
@@ -4371,11 +4166,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 				monster_desc(m_name, m_ptr, 0);
 
 				/* Dump a message */
-#ifdef JP
-				msg_format("%^s�Ϻ��𤫤�Ω��ľ�ä���", m_name);
-#else
-				msg_format("%^s is no longer confused.", m_name);
-#endif
+				msg_format(_("%^sは混乱から立ち直った。", "%^s is no longer confused."), m_name);
 			}
 		}
 		break;
@@ -4400,7 +4191,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 
 				/* Dump a message */
 #ifdef JP
-				msg_format("%^s��ͦ�������ᤷ����", m_name);
+				msg_format("%^sは勇気を取り戻した。", m_name);
 #else
 				msg_format("%^s recovers %s courage.", m_name, m_poss);
 #endif
@@ -4420,11 +4211,7 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 				monster_desc(m_name, m_ptr, 0);
 
 				/* Dump a message */
-#ifdef JP
-				msg_format("%^s�Ϥ⤦̵Ũ�Ǥʤ���", m_name);
-#else
-				msg_format("%^s is no longer invulnerable.", m_name);
-#endif
+				msg_format(_("%^sはもう無敵でない。", "%^s is no longer invulnerable."), m_name);
 			}
 		}
 		break;
@@ -4432,9 +4219,12 @@ static void process_monsters_mtimed_aux(int m_idx, int mtimed_idx)
 }
 
 
-/*
- * Process the counters of monsters (once per 10 game turns)
- *
+/*!
+ * @brief 全モンスターの各種状態値を時間経過により更新するメインルーチン
+ * @param mtimed_idx 更新するモンスターの時限ステータスID
+ * @return なし
+ * @details
+ * Process the counters of monsters (once per 10 game turns)\n
  * These functions are to process monsters' counters same as player's.
  */
 void process_monsters_mtimed(int mtimed_idx)
@@ -4453,7 +4243,11 @@ void process_monsters_mtimed(int mtimed_idx)
 	}
 }
 
-
+/*!
+ * @brief モンスターへの魔力消去処理
+ * @param m_idx 魔力消去を受けるモンスターの参照ID
+ * @return なし
+ */
 void dispel_monster_status(int m_idx)
 {
 	monster_type *m_ptr = &m_list[m_idx];
@@ -4462,31 +4256,25 @@ void dispel_monster_status(int m_idx)
 	monster_desc(m_name, m_ptr, 0);
 	if (set_monster_invulner(m_idx, 0, TRUE))
 	{
-#ifdef JP
-		if (m_ptr->ml) msg_format("%s�Ϥ⤦̵Ũ�ǤϤʤ���", m_name);
-#else
-		if (m_ptr->ml) msg_format("%^s is no longer invulnerable.", m_name);
-#endif
+		if (m_ptr->ml) msg_format(_("%sはもう無敵ではない。", "%^s is no longer invulnerable."), m_name);
 	}
 	if (set_monster_fast(m_idx, 0))
 	{
-#ifdef JP
-		if (m_ptr->ml) msg_format("%s�Ϥ⤦��®����Ƥ��ʤ���", m_name);
-#else
-		if (m_ptr->ml) msg_format("%^s is no longer fast.", m_name);
-#endif
+		if (m_ptr->ml) msg_format(_("%sはもう加速されていない。", "%^s is no longer fast."), m_name);
 	}
 	if (set_monster_slow(m_idx, 0))
 	{
-#ifdef JP
-		if (m_ptr->ml) msg_format("%s�Ϥ⤦��®����Ƥ��ʤ���", m_name);
-#else
-		if (m_ptr->ml) msg_format("%^s is no longer slow.", m_name);
-#endif
+		if (m_ptr->ml) msg_format(_("%sはもう減速されていない。", "%^s is no longer slow."), m_name);
 	}
 }
 
-
+/*!
+ * @brief モンスターの時間停止処理
+ * @param num 時間停止を行った敵が行動できる回数
+ * @param who 時間停止処理の主体ID
+ * @param vs_player TRUEならば時間停止開始処理を行う
+ * @return 時間停止が行われている状態ならばTRUEを返す
+ */
 bool process_the_world(int num, int who, bool vs_player)
 {
 	monster_type *m_ptr = &m_list[hack_m_idx];  /* the world monster */
@@ -4499,17 +4287,9 @@ bool process_the_world(int num, int who, bool vs_player)
 		monster_desc(m_name, m_ptr, 0);
 
 		if (who == 1)
-#ifdef JP
-			msg_print("�֡إ������ɡ١����ϻߤޤä�����");
-#else
-			msg_format("%s yells 'The World! Time has stopped!'", m_name);
-#endif
+			msg_format(_("「『ザ・ワールド』！時は止まった！」", "%s yells 'The World! Time has stopped!'"), m_name);
 		else if (who == 3)
-#ifdef JP
-			msg_print("�ֻ��衪��");
-#else
-			msg_format("%s yells 'Time!'", m_name);
-#endif
+			msg_format(_("「時よ！」", "%s yells 'Time!'"), m_name);
 		else msg_print("hek!");
 
 		msg_print(NULL);
@@ -4555,11 +4335,7 @@ bool process_the_world(int num, int who, bool vs_player)
 	world_monster = 0;
 	if (vs_player || (player_has_los_bold(m_ptr->fy, m_ptr->fx) && projectable(py, px, m_ptr->fy, m_ptr->fx)))
 	{
-#ifdef JP
-		msg_print("�ֻ���ư�������ġ�");
-#else
-		msg_print("You feel time flowing around you once more.");
-#endif
+		msg_print(_("「時は動きだす…」", "You feel time flowing around you once more."));
 		msg_print(NULL);
 	}
 
@@ -4568,7 +4344,12 @@ bool process_the_world(int num, int who, bool vs_player)
 	return (TRUE);
 }
 
-
+/*!
+ * @brief モンスターの経験値取得処理
+ * @param m_idx 経験値を得るモンスターの参照ID
+ * @param s_idx 撃破されたモンスター種族の参照ID
+ * @return なし
+ */
 void monster_gain_exp(int m_idx, int s_idx)
 {
 	monster_type *m_ptr;
@@ -4633,6 +4414,9 @@ void monster_gain_exp(int m_idx, int s_idx)
 		}
 		m_ptr->maxhp = m_ptr->max_maxhp;
 		m_ptr->hp = old_hp * m_ptr->maxhp / old_maxhp;
+		
+		/* dealt damage is 0 at initial*/
+		m_ptr->dealt_damage = 0;
 
 		/* Extract the monster base speed */
 		m_ptr->mspeed = get_mspeed(r_ptr);
@@ -4662,20 +4446,11 @@ void monster_gain_exp(int m_idx, int s_idx)
 						hallu_race = &r_info[randint1(max_r_idx - 1)];
 					}
 					while (!hallu_race->name || (hallu_race->flags1 & RF1_UNIQUE));
-
-#ifdef JP
-					msg_format("%s��%s�˿ʲ�������", m_name, r_name + hallu_race->name);
-#else
-					msg_format("%^s evolved into %s.", m_name, r_name + hallu_race->name);
-#endif
+					msg_format(_("%sは%sに進化した。", "%^s evolved into %s."), m_name, r_name + hallu_race->name);
 				}
 				else
 				{
-#ifdef JP
-					msg_format("%s��%s�˿ʲ�������", m_name, r_name + r_ptr->name);
-#else
-					msg_format("%^s evolved into %s.", m_name, r_name + r_ptr->name);
-#endif
+					msg_format(_("%sは%sに進化した。", "%^s evolved into %s."), m_name, r_name + r_ptr->name);
 				}
 			}
 

@@ -1,34 +1,61 @@
-/* File: mspells3.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+ï»¿/*!
+ * @file mspells3.c
+ * @brief é’é­”æ³•ã®å‡¦ç†å®Ÿè£… / Blue magic
+ * @date 2014/01/15
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen.\n
  */
-
-/* Purpose: Imitation code */
 
 #include "angband.h"
 
-#define pseudo_plev() (((p_ptr->lev + 40) * (p_ptr->lev + 40) - 1550) / 130)
+#define pseudo_plev() (((p_ptr->lev + 40) * (p_ptr->lev + 40) - 1550) / 130) /*!< ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é­”æ³•ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä½¿ç”¨ã™ã‚‹å ´åˆã®æ›ç®—ãƒ¬ãƒ™ãƒ« */
 
+
+/*!
+* @brief æ–‡å­—åˆ—ã«é’é­”å°å¸«ã®å‘ªæ–‡ã®æ”»æ’ƒåŠ›ã‚’åŠ ãˆã‚‹
+* @param r_idx ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ç¨®æ—ID
+* @param SPELL_NUM å‘ªæ–‡ç•ªå·
+* @param msg è¡¨ç¤ºã™ã‚‹æ–‡å­—åˆ—
+* @param tmp è¿”ã™ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ ¼ç´ã™ã‚‹é…åˆ—
+* @return ãªã—
+*/
+void set_bluemage_damage(int SPELL_NUM, int plev, cptr msg, char* tmp)
+{
+    int base_damage = monspell_bluemage_damage(SPELL_NUM, plev, BASE_DAM);
+    int dice_num = monspell_bluemage_damage(SPELL_NUM, plev, DICE_NUM);
+    int dice_side = monspell_bluemage_damage(SPELL_NUM, plev, DICE_SIDE);
+    int dice_mult = monspell_bluemage_damage(SPELL_NUM, plev, DICE_MULT);
+    int dice_div = monspell_bluemage_damage(SPELL_NUM, plev, DICE_DIV);
+    char dmg_str[80];
+    dice_to_string(base_damage, dice_num, dice_side, dice_mult, dice_div, dmg_str);
+    sprintf(tmp, msg, dmg_str);
+}
+
+/*!
+ * @brief å—ã‘å–ã£ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é­”æ³•ã®IDã«å¿œã˜ã¦é’é­”æ³•ã®åŠ¹æœæƒ…å ±ã‚’ã¾ã¨ã‚ãŸãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¿”ã™
+ * @param p æƒ…å ±ã‚’è¿”ã™æ–‡å­—åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param power ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é­”æ³•ã®ID
+ * @return ãªã—
+ */
 static void learned_info(char *p, int power)
 {
 	int plev = pseudo_plev();
 	int hp = p_ptr->chp;
 
 #ifdef JP
-	cptr s_dam = "Â»½ı:";
-	cptr s_dur = "´ü´Ö:";
-	cptr s_range = "ÈÏ°Ï:";
-	cptr s_heal = "²óÉü:";
+	cptr s_dam = " æå‚·:%s";
+	cptr s_dur = "æœŸé–“:";
+	cptr s_range = "ç¯„å›²:";
+	cptr s_heal = " å›å¾©:%s";
 #else
-	cptr s_dam = "dam ";
+	cptr s_dam = " dam %s";
 	cptr s_dur = "dur ";
 	cptr s_range = "range ";
-	cptr s_heal = "heal ";
+	cptr s_heal = " heal %s";
 #endif
 
 	strcpy(p, "");
@@ -71,149 +98,70 @@ static void learned_info(char *p, int power)
 		case MS_S_AMBERITE:
 		case MS_S_UNIQUE:
 			break;
-		case MS_BALL_MANA:
-		case MS_BALL_DARK:
-		case MS_STARBURST:
-			sprintf(p, " %s%d+10d10", s_dam, plev * 8 + 50);
-			break;
+        case MS_BALL_MANA:
+        case MS_BALL_DARK:
+        case MS_STARBURST: 
+            set_bluemage_damage((power), plev, s_dam, p); break;
 		case MS_DISPEL:
 			break;
-		case MS_ROCKET:
-			sprintf(p, " %s%d", s_dam, hp/4);
-			break;
-		case MS_SHOOT:
-		{
-			object_type *o_ptr = NULL;
-			if (buki_motteruka(INVEN_RARM)) o_ptr = &inventory[INVEN_RARM];
-			else if (buki_motteruka(INVEN_LARM)) o_ptr = &inventory[INVEN_LARM];
-			else
-				sprintf(p, " %s1", s_dam);
-			if (o_ptr)
-				sprintf(p, " %s%dd%d+%d", s_dam, o_ptr->dd, o_ptr->ds, o_ptr->to_d);
-			break;
-		}
-		case MS_BR_ACID:
-		case MS_BR_ELEC:
-		case MS_BR_FIRE:
-		case MS_BR_COLD:
-		case MS_BR_POIS:
-		case MS_BR_NUKE:
-			sprintf(p, " %s%d", s_dam, hp/3);
-			break;
-		case MS_BR_NEXUS:
-			sprintf(p, " %s%d", s_dam, MIN(hp/3, 250));
-			break;
-		case MS_BR_TIME:
-			sprintf(p, " %s%d", s_dam, MIN(hp/3, 150));
-			break;
-		case MS_BR_GRAVITY:
-			sprintf(p, " %s%d", s_dam, MIN(hp/3, 200));
-			break;
-		case MS_BR_MANA:
-			sprintf(p, " %s%d", s_dam, MIN(hp/3, 250));
-			break;
-		case MS_BR_NETHER:
-		case MS_BR_LITE:
-		case MS_BR_DARK:
-		case MS_BR_CONF:
-		case MS_BR_SOUND:
-		case MS_BR_CHAOS:
-		case MS_BR_DISEN:
-		case MS_BR_SHARDS:
-		case MS_BR_PLASMA:
-			sprintf(p, " %s%d", s_dam, hp/6);
-			break;
-		case MS_BR_INERTIA:
-		case MS_BR_FORCE:
-			sprintf(p, " %s%d", s_dam, MIN(hp/6, 200));
-			break;
-		case MS_BR_DISI:
-			sprintf(p, " %s%d", s_dam, MIN(hp/6, 150));
-			break;
-		case MS_BALL_NUKE:
-			sprintf(p, " %s%d+10d6", s_dam, plev * 2);
-			break;
-		case MS_BALL_CHAOS:
-			sprintf(p, " %s%d+10d10", s_dam, plev * 4);
-			break;
-		case MS_BALL_ACID:
-			sprintf(p, " %s15+d%d", s_dam, plev * 6);
-			break;
-		case MS_BALL_ELEC:
-			sprintf(p, " %s8+d%d", s_dam, plev * 3);
-			break;
-		case MS_BALL_FIRE:
-			sprintf(p, " %s10+d%d", s_dam, plev * 7);
-			break;
-		case MS_BALL_COLD:
-			sprintf(p, " %s10+d%d", s_dam, plev * 3);
-			break;
-		case MS_BALL_POIS:
-			sprintf(p, " %s12d2", s_dam);
-			break;
-		case MS_BALL_NETHER:
-			sprintf(p, " %s%d+10d10", s_dam, plev * 2 + 50);
-			break;
-		case MS_BALL_WATER:
-			sprintf(p, " %s50+d%d", s_dam, plev * 4);
-			break;
-		case MS_DRAIN_MANA:
-			sprintf(p, " %sd%d+%d", s_heal, plev, plev);
-			break;
-		case MS_MIND_BLAST:
-			sprintf(p, " %s8d8", s_dam);
-			break;
-		case MS_BRAIN_SMASH:
-			sprintf(p, " %s12d15", s_dam);
-			break;
-		case MS_CAUSE_1:
-			sprintf(p, " %s3d8", s_dam);
-			break;
-		case MS_CAUSE_2:
-			sprintf(p, " %s8d8", s_dam);
-			break;
-		case MS_CAUSE_3:
-			sprintf(p, " %s10d15", s_dam);
-			break;
-		case MS_CAUSE_4:
-			sprintf(p, " %s15d15", s_dam);
-			break;
-		case MS_BOLT_ACID:
-			sprintf(p, " %s%d+7d8", s_dam, plev * 2 / 3);
-			break;
-		case MS_BOLT_ELEC:
-			sprintf(p, " %s%d+4d8", s_dam, plev * 2 / 3);
-			break;
-		case MS_BOLT_FIRE:
-			sprintf(p, " %s%d+9d8", s_dam, plev * 2 / 3);
-			break;
-		case MS_BOLT_COLD:
-			sprintf(p, " %s%d+6d8", s_dam, plev * 2 / 3);
-			break;
-		case MS_BOLT_NETHER:
-			sprintf(p, " %s%d+5d5", s_dam, 30 + plev * 8 / 3);
-			break;
-		case MS_BOLT_WATER:
-			sprintf(p, " %s%d+10d10", s_dam, plev * 2);
-			break;
-		case MS_BOLT_MANA:
-			sprintf(p, " %s50+d%d", s_dam, plev * 7);
-			break;
-		case MS_BOLT_PLASMA:
-			sprintf(p, " %s%d+8d7", s_dam, plev * 2 + 10);
-			break;
-		case MS_BOLT_ICE:
-			sprintf(p, " %s%d+6d6", s_dam, plev * 2);
-			break;
-		case MS_MAGIC_MISSILE:
-			sprintf(p, " %s%d+2d6", s_dam, plev * 2 / 3);
-			break;
+        case MS_ROCKET:
+        case MS_SHOOT:
+        case MS_BR_ACID:
+        case MS_BR_ELEC:
+        case MS_BR_FIRE:
+        case MS_BR_COLD:
+        case MS_BR_POIS:
+        case MS_BR_NUKE: 
+        case MS_BR_NEXUS:
+        case MS_BR_TIME:
+        case MS_BR_GRAVITY:
+        case MS_BR_MANA:
+        case MS_BR_NETHER:
+        case MS_BR_LITE:
+        case MS_BR_DARK:
+        case MS_BR_CONF:
+        case MS_BR_SOUND:
+        case MS_BR_CHAOS:
+        case MS_BR_DISEN:
+        case MS_BR_SHARDS:
+        case MS_BR_PLASMA:
+        case MS_BR_INERTIA:
+        case MS_BR_FORCE:
+        case MS_BR_DISI:
+        case MS_BALL_NUKE:
+        case MS_BALL_CHAOS:
+        case MS_BALL_ACID:
+        case MS_BALL_ELEC:
+        case MS_BALL_FIRE:
+        case MS_BALL_COLD:
+        case MS_BALL_POIS:
+        case MS_BALL_NETHER:
+        case MS_BALL_WATER:
+            set_bluemage_damage((power), plev, s_dam, p); break;
+        case MS_DRAIN_MANA:
+            set_bluemage_damage((power), plev, s_heal, p); break;
+        case MS_MIND_BLAST:
+        case MS_BRAIN_SMASH:
+        case MS_CAUSE_1:
+        case MS_CAUSE_2:
+        case MS_CAUSE_3:
+        case MS_CAUSE_4:
+        case MS_BOLT_ACID:
+        case MS_BOLT_ELEC:
+        case MS_BOLT_FIRE:
+        case MS_BOLT_COLD:
+        case MS_BOLT_NETHER:
+        case MS_BOLT_WATER:
+        case MS_BOLT_MANA:
+        case MS_BOLT_PLASMA:
+        case MS_BOLT_ICE: 
+        case MS_MAGIC_MISSILE: 
+            set_bluemage_damage((power), plev, s_dam, p); break;
 		case MS_SPEED:
 			sprintf(p, " %sd%d+%d", s_dur, 20+plev, plev);
 			break;
-		case MS_HEAL:
-			sprintf(p, " %s%d", s_heal, plev*4);
-			break;
+        case MS_HEAL:
+            set_bluemage_damage((power), plev, s_heal, p); break;
 		case MS_INVULNER:
 			sprintf(p, " %sd7+7", s_dur);
 			break;
@@ -223,8 +171,8 @@ static void learned_info(char *p, int power)
 		case MS_TELEPORT:
 			sprintf(p, " %s%d", s_range, plev * 5);
 			break;
-		case MS_PSY_SPEAR:
-			sprintf(p, " %s100+d%d", s_dam, plev * 3);
+        case MS_PSY_SPEAR:
+            set_bluemage_damage((power), plev, s_dam, p); break;
 			break;
 		case MS_RAISE_DEAD:
 			sprintf(p, " %s5", s_range);
@@ -235,19 +183,22 @@ static void learned_info(char *p, int power)
 }
 
 
-/*
+/*!
+ * @brief ä½¿ç”¨å¯èƒ½ãªé’é­”æ³•ã‚’é¸æŠã™ã‚‹ /
  * Allow user to choose a imitation.
- *
- * If a valid spell is chosen, saves it in '*sn' and returns TRUE
- * If the user hits escape, returns FALSE, and set '*sn' to -1
- * If there are no legal choices, returns FALSE, and sets '*sn' to -2
- *
- * The "prompt" should be "cast", "recite", or "study"
- * The "known" should be TRUE for cast/pray, FALSE for study
- *
- * nb: This function has a (trivial) display bug which will be obvious
- * when you run it. It's probably easy to fix but I haven't tried,
- * sorry.
+ * @param sn é¸æŠã—ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼æ”»æ’ƒIDã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã®å ´åˆ-1ã€ä¸æ­£ãªé¸æŠã®å ´åˆ-2ã‚’è¿”ã™
+ * @return ç™ºå‹•å¯èƒ½ãªé­”æ³•ã‚’é¸æŠã—ãŸå ´åˆTRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«å‡¦ç†ã‹ä¸æ­£ãªé¸æŠãŒè¡Œã‚ã‚ŒãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ * @details
+ * If a valid spell is chosen, saves it in '*sn' and returns TRUE\n
+ * If the user hits escape, returns FALSE, and set '*sn' to -1\n
+ * If there are no legal choices, returns FALSE, and sets '*sn' to -2\n
+ *\n
+ * The "prompt" should be "cast", "recite", or "study"\n
+ * The "known" should be TRUE for cast/pray, FALSE for study\n
+ *\n
+ * nb: This function has a (trivial) display bug which will be obvious\n
+ * when you run it. It's probably easy to fix but I haven't tried,\n
+ * sorry.\n
  */
 static int get_learned_power(int *sn)
 {
@@ -265,11 +216,7 @@ static int get_learned_power(int *sn)
 	char            out_val[160];
 	char            comment[80];
 	s32b            f4 = 0, f5 = 0, f6 = 0;
-#ifdef JP
-cptr            p = "ËâË¡";
-#else
-	cptr            p = "magic";
-#endif
+	cptr            p = _("é­”æ³•", "magic");
 
 	monster_power   spell;
 	bool            flag, redraw;
@@ -302,12 +249,12 @@ cptr            p = "ËâË¡";
 		while(!mode)
 		{
 #ifdef JP
-			prt(format(" %s ¥Ü¥ë¥È", (menu_line == 1) ? "¡Õ" : "  "), 2, 14);
-			prt(format(" %s ¥Ü¡¼¥ë", (menu_line == 2) ? "¡Õ" : "  "), 3, 14);
-			prt(format(" %s ¥Ö¥ì¥¹", (menu_line == 3) ? "¡Õ" : "  "), 4, 14);
-			prt(format(" %s ¾¤´­", (menu_line == 4) ? "¡Õ" : "  "), 5, 14);
-			prt(format(" %s ¤½¤ÎÂ¾", (menu_line == 5) ? "¡Õ" : "  "), 6, 14);
-			prt("¤É¤Î¼ïÎà¤ÎËâË¡¤ò»È¤¤¤Ş¤¹¤«¡©", 0, 0);
+			prt(format(" %s ãƒœãƒ«ãƒˆ", (menu_line == 1) ? "ã€‹" : "  "), 2, 14);
+			prt(format(" %s ãƒœãƒ¼ãƒ«", (menu_line == 2) ? "ã€‹" : "  "), 3, 14);
+			prt(format(" %s ãƒ–ãƒ¬ã‚¹", (menu_line == 3) ? "ã€‹" : "  "), 4, 14);
+			prt(format(" %s å¬å–š", (menu_line == 4) ? "ã€‹" : "  "), 5, 14);
+			prt(format(" %s ãã®ä»–", (menu_line == 5) ? "ã€‹" : "  "), 6, 14);
+			prt("ã©ã®ç¨®é¡ã®é­”æ³•ã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", 0, 0);
 #else
 			prt(format(" %s bolt", (menu_line == 1) ? "> " : "  "), 2, 14);
 			prt(format(" %s ball", (menu_line == 2) ? "> " : "  "), 3, 14);
@@ -346,11 +293,7 @@ cptr            p = "ËâË¡";
 	}
 	else
 	{
-#ifdef JP
-	sprintf(comment, "[A]¥Ü¥ë¥È, [B]¥Ü¡¼¥ë, [C]¥Ö¥ì¥¹, [D]¾¤´­, [E]¤½¤ÎÂ¾:");
-#else
-	sprintf(comment, "[A] bolt, [B] ball, [C] breath, [D] summoning, [E] others:");
-#endif
+	sprintf(comment, _("[A]ãƒœãƒ«ãƒˆ, [B]ãƒœãƒ¼ãƒ«, [C]ãƒ–ãƒ¬ã‚¹, [D]å¬å–š, [E]ãã®ä»–:", "[A] bolt, [B] ball, [C] breath, [D] summoning, [E] others:"));
 	while (TRUE)
 	{
 		if (!get_com(comment, &ch, TRUE))
@@ -409,21 +352,13 @@ cptr            p = "ËâË¡";
 	}
 	if (i == num)
 	{
-#ifdef JP
-		msg_print("¤½¤Î¼ïÎà¤ÎËâË¡¤Ï³Ğ¤¨¤Æ¤¤¤Ê¤¤¡ª");
-#else
-		msg_print("You don't know any spell of this type.");
-#endif
+		msg_print(_("ãã®ç¨®é¡ã®é­”æ³•ã¯è¦šãˆã¦ã„ãªã„ï¼", "You don't know any spell of this type."));
 		return (FALSE);
 	}
 
 	/* Build a prompt (accept all spells) */
 	(void)strnfmt(out_val, 78, 
-#ifdef JP
-		      "(%c-%c, '*'¤Ç°ìÍ÷, ESC) ¤É¤Î%s¤ò¾§¤¨¤Ş¤¹¤«¡©",
-#else
-		      "(%c-%c, *=List, ESC=exit) Use which %s? ",
-#endif
+		      _("(%c-%c, '*'ã§ä¸€è¦§, ESC) ã©ã®%sã‚’å”±ãˆã¾ã™ã‹ï¼Ÿ", "(%c-%c, *=List, ESC=exit) Use which %s? "),
 		      I2A(0), I2A(num - 1), p);
 
 	if (use_menu) screen_save();
@@ -514,17 +449,8 @@ cptr            p = "ËâË¡";
 
 				/* Display a list of spells */
 				prt("", y, x);
-#ifdef JP
-put_str("Ì¾Á°", y, x + 5);
-#else
-				put_str("Name", y, x + 5);
-#endif
-
-#ifdef JP
-put_str("MP ¼ºÎ¨ ¸ú²Ì", y, x + 33);
-#else
-				put_str("SP Fail Info", y, x + 32);
-#endif
+				put_str(_("åå‰", "Name"), y, x + 5);
+				put_str(_("MP å¤±ç‡ åŠ¹æœ", "SP Fail Info"), y, x + 33);
 
 
 				/* Dump the spells */
@@ -577,11 +503,7 @@ put_str("MP ¼ºÎ¨ ¸ú²Ì", y, x + 33);
 
 					if (use_menu)
 					{
-#ifdef JP
-						if (i == (menu_line-1)) strcpy(psi_desc, "  ¡Õ");
-#else
-						if (i == (menu_line-1)) strcpy(psi_desc, "  > ");
-#endif
+						if (i == (menu_line-1)) strcpy(psi_desc, _("  ã€‹", "  > "));
 						else strcpy(psi_desc, "    ");
 					}
 					else sprintf(psi_desc, "  %c)", I2A(i));
@@ -639,12 +561,7 @@ put_str("MP ¼ºÎ¨ ¸ú²Ì", y, x + 33);
 			char tmp_val[160];
 
 			/* Prompt */
-#ifdef JP
-			(void) strnfmt(tmp_val, 78, "%s¤ÎËâË¡¤ò¾§¤¨¤Ş¤¹¤«¡©", monster_powers[spellnum[i]].name);
-#else
-			(void)strnfmt(tmp_val, 78, "Use %s? ", monster_powers[spellnum[i]].name);
-#endif
-
+			(void) strnfmt(tmp_val, 78, _("%sã®é­”æ³•ã‚’å”±ãˆã¾ã™ã‹ï¼Ÿ", "Use %s? "), monster_powers[spellnum[i]].name);
 
 			/* Belay that order */
 			if (!get_check(tmp_val)) continue;
@@ -680,9 +597,12 @@ put_str("MP ¼ºÎ¨ ¸ú²Ì", y, x + 33);
 }
 
 
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'imitator'.
+/*!
+ * @brief é’é­”æ³•ã®ç™ºå‹• /
+ * do_cmd_cast calls this function if the player's class is 'blue-mage'.
+ * @param spell ç™ºå‹•ã™ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼æ”»æ’ƒã®ID
+ * @param success TRUEã¯æˆåŠŸæ™‚ã€FALSEã¯å¤±æ•—æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 static bool cast_learned_spell(int spell, bool success)
 {
@@ -712,12 +632,7 @@ static bool cast_learned_spell(int spell, bool success)
 	switch (spell)
 	{
 	case MS_SHRIEK:
-#ifdef JP
-msg_print("¤«¤ó¹â¤¤¶âÀÚ¤êÀ¼¤ò¤¢¤²¤¿¡£");
-#else
-		msg_print("You make a high pitched shriek.");
-#endif
-
+        msg_print(_("ã‹ã‚“é«˜ã„é‡‘åˆ‡ã‚Šå£°ã‚’ã‚ã’ãŸã€‚", "You make a high pitched shriek."));
 		aggravate_monsters(0);
 		break;
 	case MS_XXX1:
@@ -736,38 +651,20 @@ msg_print("¤«¤ó¹â¤¤¶âÀÚ¤êÀ¼¤ò¤¢¤²¤¿¡£");
 	}
 	case MS_ROCKET:
 		if (!get_aim_dir(&dir)) return FALSE;
-		else
-#ifdef JP
-msg_print("¥í¥±¥Ã¥È¤òÈ¯¼Í¤·¤¿¡£");
-#else
-			msg_print("You fire a rocket.");
-#endif
-		damage = hp / 4;
-			fire_rocket(GF_ROCKET, dir, damage, 2);
+		
+        msg_print(_("ãƒ­ã‚±ãƒƒãƒˆã‚’ç™ºå°„ã—ãŸã€‚", "You fire a rocket."));
+        damage = monspell_bluemage_damage((MS_ROCKET), plev, DAM_ROLL);
+		fire_rocket(GF_ROCKET, dir, damage, 2);
 		break;
 	case MS_SHOOT:
 	{
 		object_type *o_ptr = NULL;
 
 		if (!get_aim_dir(&dir)) return FALSE;
-		else
-		{
-#ifdef JP
-msg_print("Ìğ¤òÊü¤Ã¤¿¡£");
-#else
-			msg_print("You fire an arrow.");
-#endif
-			if (buki_motteruka(INVEN_RARM)) o_ptr = &inventory[INVEN_RARM];
-			else if (buki_motteruka(INVEN_LARM)) o_ptr = &inventory[INVEN_LARM];
-			else
-			damage = 1;
-			if (o_ptr)
-			{
-				damage = damroll(o_ptr->dd, o_ptr->ds)+ o_ptr->to_d;
-				if (damage < 1) damage = 1;
-			}
-			fire_bolt(GF_ARROW, dir, damage);
-		}
+		
+        msg_print(_("çŸ¢ã‚’æ”¾ã£ãŸã€‚", "You fire an arrow."));
+        damage = monspell_bluemage_damage((MS_SHOOT), plev, DAM_ROLL);
+		fire_bolt(GF_ARROW, dir, damage);
 		break;
 	}
 	case MS_XXX2:
@@ -778,487 +675,358 @@ msg_print("Ìğ¤òÊü¤Ã¤¿¡£");
 		break;
 	case MS_BR_ACID:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("»À¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe acid.");
-#endif
-		damage = hp / 3;
+
+        msg_print(_("é…¸ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe acid."));
+        damage = monspell_bluemage_damage((MS_BR_ACID), plev, DAM_ROLL);
 		fire_ball(GF_ACID, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_ELEC:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("°ğºÊ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe lightning.");
-#endif
-		damage = hp / 3;
+
+        msg_print(_("ç¨²å¦»ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe lightning."));
+        damage = monspell_bluemage_damage((MS_BR_ELEC), plev, DAM_ROLL);
 		fire_ball(GF_ELEC, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_FIRE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("²Ğ±ê¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe fire.");
-#endif
-		damage = hp / 3;
+
+        msg_print(_("ç«ç‚ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe fire."));
+        damage = monspell_bluemage_damage((MS_BR_FIRE), plev, DAM_ROLL);
 		fire_ball(GF_FIRE, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_COLD:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Îäµ¤¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe frost.");
-#endif
-		damage = hp / 3;
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("å†·æ°—ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe frost."));
+        damage = monspell_bluemage_damage((MS_BR_COLD), plev, DAM_ROLL);
 		fire_ball(GF_COLD, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_POIS:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥¬¥¹¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe gas.");
-#endif
-		damage = hp / 3;
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("ã‚¬ã‚¹ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe gas."));
+        damage = monspell_bluemage_damage((MS_BR_POIS), plev, DAM_ROLL);
 		fire_ball(GF_POIS, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_NETHER:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ÃÏ¹ö¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe nether.");
-#endif
-		damage = hp / 6;
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("åœ°ç„ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe nether."));
+        damage = monspell_bluemage_damage((MS_BR_NETHER), plev, DAM_ROLL);
 		fire_ball(GF_NETHER, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_LITE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Á®¸÷¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe light.");
-#endif
-		damage = hp / 6;
+
+        msg_print(_("é–ƒå…‰ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe light."));
+        damage = monspell_bluemage_damage((MS_BR_LITE), plev, DAM_ROLL);
 		fire_ball(GF_LITE, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_DARK:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("°Å¹õ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe darkness.");
-#endif
-		damage = hp / 6;
+
+        msg_print(_("æš—é»’ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe darkness."));
+        damage = monspell_bluemage_damage((MS_BR_DARK), plev, DAM_ROLL);
 		fire_ball(GF_DARK, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_CONF:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("º®Íğ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe confusion.");
-#endif
-		damage = hp / 6;
+
+        msg_print(_("æ··ä¹±ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe confusion."));
+        damage = monspell_bluemage_damage((MS_BR_CONF), plev, DAM_ROLL);
 		fire_ball(GF_CONFUSION, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_SOUND:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¹ì²»¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe sound.");
-#endif
-		damage = hp / 6;
+
+        msg_print(_("è½ŸéŸ³ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe sound."));
+        damage = monspell_bluemage_damage((MS_BR_SOUND), plev, DAM_ROLL);
 		fire_ball(GF_SOUND, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_CHAOS:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥«¥ª¥¹¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe chaos.");
-#endif
-		damage = hp / 6;
+
+        msg_print(_("ã‚«ã‚ªã‚¹ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe chaos."));
+        damage = monspell_bluemage_damage((MS_BR_CHAOS), plev, DAM_ROLL);
 		fire_ball(GF_CHAOS, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_DISEN:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Îô²½¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe disenchantment.");
-#endif
-		damage = hp / 6;
+
+        msg_print(_("åŠ£åŒ–ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe disenchantment."));
+        damage = monspell_bluemage_damage((MS_BR_DISEN), plev, DAM_ROLL);
 		fire_ball(GF_DISENCHANT, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_NEXUS:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("°ø²Ìº®Íğ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe nexus.");
-#endif
-		damage = MIN(hp / 3, 250);
+
+        msg_print(_("å› æœæ··ä¹±ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe nexus."));
+        damage = monspell_bluemage_damage((MS_BR_NEXUS), plev, DAM_ROLL);
 		fire_ball(GF_NEXUS, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_TIME:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("»ş´ÖµÕÅ¾¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe time.");
-#endif
-		damage = MIN(hp / 3, 150);
+
+        msg_print(_("æ™‚é–“é€†è»¢ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe time."));
+        damage = monspell_bluemage_damage((MS_BR_TIME), plev, DAM_ROLL);
 		fire_ball(GF_TIME, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_INERTIA:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ÃÙÆß¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe inertia.");
-#endif
-		damage = MIN(hp / 6, 200);
+
+        msg_print(_("é…éˆã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe inertia."));
+        damage = monspell_bluemage_damage((MS_BR_INERTIA), plev, DAM_ROLL);
 		fire_ball(GF_INERTIA, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_GRAVITY:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("½ÅÎÏ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe gravity.");
-#endif
-		damage = MIN(hp / 3, 200);
+
+        msg_print(_("é‡åŠ›ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe gravity."));
+        damage = monspell_bluemage_damage((MS_BR_GRAVITY), plev, DAM_ROLL);
 		fire_ball(GF_GRAVITY, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_SHARDS:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ÇËÊÒ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe shards.");
-#endif
-		damage = hp / 6;
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("ç ´ç‰‡ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe shards."));
+        damage = monspell_bluemage_damage((MS_BR_SHARDS), plev, DAM_ROLL);
 		fire_ball(GF_SHARDS, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_PLASMA:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥×¥é¥º¥Ş¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe plasma.");
-#endif
-		damage = MIN(hp / 6, 150);
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("ãƒ—ãƒ©ã‚ºãƒã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe plasma."));
+        damage = monspell_bluemage_damage((MS_BR_PLASMA), plev, DAM_ROLL);
 		fire_ball(GF_PLASMA, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_FORCE:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥Õ¥©¡¼¥¹¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe force.");
-#endif
-		damage = MIN(hp / 6, 200);
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("ãƒ•ã‚©ãƒ¼ã‚¹ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe force."));
+        damage = monspell_bluemage_damage((MS_BR_FORCE), plev, DAM_ROLL);
 		fire_ball(GF_FORCE, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BR_MANA:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ËâÎÏ¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe mana.");
-#endif
-		
-		damage = MIN(hp / 3, 250);
+
+        msg_print(_("é­”åŠ›ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe mana."));
+        damage = monspell_bluemage_damage((MS_BR_MANA), plev, DAM_ROLL);
 		fire_ball(GF_MANA, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BALL_NUKE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Êü¼ÍÇ½µå¤òÊü¤Ã¤¿¡£");
-#else
-			else msg_print("You cast a ball of radiation.");
-#endif
-		damage = plev * 2 + damroll(10, 6);
+
+        msg_print(_("æ”¾å°„èƒ½çƒã‚’æ”¾ã£ãŸã€‚", "You cast a ball of radiation."));
+        damage = monspell_bluemage_damage((MS_BALL_NUKE), plev, DAM_ROLL);
 		fire_ball(GF_NUKE, dir, damage, 2);
 		break;
 	case MS_BR_NUKE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Êü¼ÍÀ­ÇÑ´şÊª¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe toxic waste.");
-#endif
-		damage = hp / 3;
+
+        msg_print(_("æ”¾å°„æ€§å»ƒæ£„ç‰©ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe toxic waste."));
+        damage = monspell_bluemage_damage((MS_BR_NUKE), plev, DAM_ROLL);
 		fire_ball(GF_NUKE, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BALL_CHAOS:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("½ã¥í¥°¥ë¥¹¤òÊü¤Ã¤¿¡£");
-#else
-			else msg_print("You invoke a raw Logrus.");
-#endif
-		damage = plev * 4 + damroll(10, 10);
+
+        msg_print(_("ç´”ãƒ­ã‚°ãƒ«ã‚¹ã‚’æ”¾ã£ãŸã€‚", "You invoke a raw Logrus."));
+        damage = monspell_bluemage_damage((MS_BALL_CHAOS), plev, DAM_ROLL);
 		fire_ball(GF_CHAOS, dir, damage, 4);
 		break;
 	case MS_BR_DISI:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Ê¬²ò¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£");
-#else
-			else msg_print("You breathe disintegration.");
-#endif
-		damage = MIN(hp / 6, 150);
+
+        msg_print(_("åˆ†è§£ã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe disintegration."));
+        damage = monspell_bluemage_damage((MS_BR_DISI), plev, DAM_ROLL);
 		fire_ball(GF_DISINTEGRATE, dir, damage, (plev > 40 ? -3 : -2));
 		break;
 	case MS_BALL_ACID:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥¢¥·¥Ã¥É¡¦¥Ü¡¼¥ë¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast an acid ball.");
-#endif
-		damage = randint1(plev * 6) + 15;
+
+        msg_print(_("ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ¼ãƒ«ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast an acid ball."));
+        damage = monspell_bluemage_damage((MS_BALL_ACID), plev, DAM_ROLL);
 		fire_ball(GF_ACID, dir, damage, 2);
 		break;
 	case MS_BALL_ELEC:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a lightning ball.");
-#endif
-		damage = randint1(plev * 3) + 8;
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a lightning ball."));
+        damage = monspell_bluemage_damage((MS_BALL_ELEC), plev, DAM_ROLL);
 		fire_ball(GF_ELEC, dir, damage, 2);
 		break;
 	case MS_BALL_FIRE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a fire ball.");
-#endif
-		damage = randint1(plev * 7) + 10;
+
+        msg_print(_("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a fire ball."));
+        damage = monspell_bluemage_damage((MS_BALL_FIRE), plev, DAM_ROLL);
 		fire_ball(GF_FIRE, dir, damage, 2);
 		break;
 	case MS_BALL_COLD:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥¢¥¤¥¹¡¦¥Ü¡¼¥ë¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a frost ball.");
-#endif
-		damage = randint1(plev * 3) + 10;
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ«ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a frost ball."));
+        damage = monspell_bluemage_damage((MS_BALL_COLD), plev, DAM_ROLL);
 		fire_ball(GF_COLD, dir, damage, 2);
 		break;
 	case MS_BALL_POIS:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("°­½­±À¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a stinking cloud.");
-#endif
-		damage = damroll(12,2);
+
+        msg_print(_("æ‚ªè‡­é›²ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a stinking cloud."));
+        damage = monspell_bluemage_damage((MS_BALL_POIS), plev, DAM_ROLL);
 		fire_ball(GF_POIS, dir, damage, 2);
 		break;
 	case MS_BALL_NETHER:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ÃÏ¹öµå¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a nether ball.");
-#endif
-		damage = plev * 2 + 50 + damroll(10, 10);
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("åœ°ç„çƒã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a nether ball."));
+        damage = monspell_bluemage_damage((MS_BALL_NETHER), plev, DAM_ROLL);
 		fire_ball(GF_NETHER, dir, damage, 2);
 		break;
 	case MS_BALL_WATER:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Î®¤ì¤ë¤è¤¦¤Ê¿È¿¶¤ê¤ò¤·¤¿¡£");
-#else
-			else msg_print("You gesture fluidly.");
-#endif
-		damage = randint1(plev * 4) + 50;
+
+        msg_print(_("æµã‚Œã‚‹ã‚ˆã†ãªèº«æŒ¯ã‚Šã‚’ã—ãŸã€‚", "You gesture fluidly."));
+        damage = monspell_bluemage_damage((MS_BALL_WATER), plev, DAM_ROLL);
 		fire_ball(GF_WATER, dir, damage, 4);
 		break;
 	case MS_BALL_MANA:
-		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ËâÎÏ¤ÎÍò¤Î¼öÊ¸¤òÇ°¤¸¤¿¡£");
-#else
-			else msg_print("You invoke a mana storm.");
-#endif
-		damage = plev * 8 + 50 + damroll(10, 10);
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        msg_print(_("é­”åŠ›ã®åµã®å‘ªæ–‡ã‚’å¿µã˜ãŸã€‚", "You invoke a mana storm."));
+        damage = monspell_bluemage_damage((MS_BALL_MANA), plev, DAM_ROLL);
 		fire_ball(GF_MANA, dir, damage, 4);
 		break;
 	case MS_BALL_DARK:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("°Å¹õ¤ÎÍò¤Î¼öÊ¸¤òÇ°¤¸¤¿¡£");
-#else
-			else msg_print("You invoke a darkness storm.");
-#endif
-		damage = plev * 8 + 50 + damroll(10, 10);
+
+        msg_print(_("æš—é»’ã®åµã®å‘ªæ–‡ã‚’å¿µã˜ãŸã€‚", "You invoke a darkness storm."));
+        damage = monspell_bluemage_damage((MS_BALL_DARK), plev, DAM_ROLL);
 		fire_ball(GF_DARK, dir, damage, 4);
 		break;
 	case MS_DRAIN_MANA:
 		if (!get_aim_dir(&dir)) return FALSE;
-		fire_ball_hide(GF_DRAIN_MANA, dir, randint1(plev)+plev, 0);
+
+        damage = monspell_bluemage_damage((MS_DRAIN_MANA), plev, DAM_ROLL);
+        fire_ball_hide(GF_DRAIN_MANA, dir, damage, 0);
 		break;
 	case MS_MIND_BLAST:
 		if (!get_aim_dir(&dir)) return FALSE;
-		damage = damroll(7, 7);
+
+        damage = monspell_bluemage_damage((MS_MIND_BLAST), plev, DAM_ROLL);
 		fire_ball_hide(GF_MIND_BLAST, dir, damage, 0);
 		break;
 	case MS_BRAIN_SMASH:
-		if (!get_aim_dir(&dir)) return FALSE;
-		damage = damroll(12, 12);
+        if (!get_aim_dir(&dir)) return FALSE;
+
+        damage = monspell_bluemage_damage((MS_BRAIN_SMASH), plev, DAM_ROLL);
 		fire_ball_hide(GF_BRAIN_SMASH, dir, damage, 0);
 		break;
 	case MS_CAUSE_1:
 		if (!get_aim_dir(&dir)) return FALSE;
-		damage = damroll(3, 8);
+
+        damage = monspell_bluemage_damage((MS_CAUSE_1), plev, DAM_ROLL);
 		fire_ball_hide(GF_CAUSE_1, dir, damage, 0);
 		break;
 	case MS_CAUSE_2:
 		if (!get_aim_dir(&dir)) return FALSE;
-		damage = damroll(8, 8);
+
+        damage = monspell_bluemage_damage((MS_CAUSE_2), plev, DAM_ROLL);
 		fire_ball_hide(GF_CAUSE_2, dir, damage, 0);
 		break;
 	case MS_CAUSE_3:
 		if (!get_aim_dir(&dir)) return FALSE;
-		damage = damroll(10, 15);
+
+        damage = monspell_bluemage_damage((MS_CAUSE_3), plev, DAM_ROLL);
 		fire_ball_hide(GF_CAUSE_3, dir, damage, 0);
 		break;
 	case MS_CAUSE_4:
 		if (!get_aim_dir(&dir)) return FALSE;
-		damage = damroll(15, 15);
+
+        damage = monspell_bluemage_damage((MS_CAUSE_4), plev, DAM_ROLL);
 		fire_ball_hide(GF_CAUSE_4, dir, damage, 0);
 		break;
 	case MS_BOLT_ACID:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥¢¥·¥Ã¥É¡¦¥Ü¥ë¥È¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast an acid bolt.");
-#endif
-		damage = damroll(7, 8) + plev * 2 / 3;
-		fire_bolt(GF_ACID, dir, damage);
+
+        msg_print(_("ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ«ãƒˆã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast an acid bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_ACID), plev, DAM_ROLL);
+        fire_bolt(GF_ACID, dir, damage);
 		break;
 	case MS_BOLT_ELEC:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥µ¥ó¥À¡¼¡¦¥Ü¥ë¥È¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a lightning bolt.");
-#endif
-		damage = damroll(4, 8) + plev * 2 / 3;
+
+        msg_print(_("ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ«ãƒˆã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a lightning bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_ELEC), plev, DAM_ROLL);
 		fire_bolt(GF_ELEC, dir, damage);
 		break;
 	case MS_BOLT_FIRE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a fire bolt.");
-#endif
-		damage = damroll(9, 8) + plev * 2 / 3;
+
+        msg_print(_("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ«ãƒˆã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a fire bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_FIRE), plev, DAM_ROLL);
 		fire_bolt(GF_FIRE, dir, damage);
 		break;
 	case MS_BOLT_COLD:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥¢¥¤¥¹¡¦¥Ü¥ë¥È¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a frost bolt.");
-#endif
-		damage = damroll(6, 8) + plev * 2 / 3;
+
+        msg_print(_("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ«ãƒˆã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a frost bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_COLD), plev, DAM_ROLL);
 		fire_bolt(GF_COLD, dir, damage);
 		break;
 	case MS_STARBURST:
 		if (!get_aim_dir(&dir)) return FALSE;
-		else
-#ifdef JP
-msg_print("¥¹¥¿¡¼¥Ğ¡¼¥¹¥È¤Î¼öÊ¸¤òÇ°¤¸¤¿¡£");
-#else
-			msg_print("You invoke a starburst.");
-#endif
-		damage = plev * 8 + 50 + damroll(10, 10);
+
+        msg_print(_("ã‚¹ã‚¿ãƒ¼ãƒãƒ¼ã‚¹ãƒˆã®å‘ªæ–‡ã‚’å¿µã˜ãŸã€‚", "You invoke a starburst."));
+        damage = monspell_bluemage_damage((MS_STARBURST), plev, DAM_ROLL);
 		fire_ball(GF_LITE, dir, damage, 4);
 		break;
 	case MS_BOLT_NETHER:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ÃÏ¹ö¤ÎÌğ¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a nether bolt.");
-#endif
-		damage = 30 + damroll(5, 5) + plev * 8 / 3;
+
+        msg_print(_("åœ°ç„ã®çŸ¢ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a nether bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_NETHER), plev, DAM_ROLL);
 		fire_bolt(GF_NETHER, dir, damage);
 		break;
 	case MS_BOLT_WATER:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥¦¥©¡¼¥¿¡¼¡¦¥Ü¥ë¥È¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a water bolt.");
-#endif
-		damage = damroll(10, 10) + plev * 2;
+
+        msg_print(_("ã‚¦ã‚©ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒœãƒ«ãƒˆã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a water bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_WATER), plev, DAM_ROLL);
 		fire_bolt(GF_WATER, dir, damage);
 		break;
 	case MS_BOLT_MANA:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("ËâÎÏ¤ÎÌğ¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a mana bolt.");
-#endif
-		damage = randint1(plev * 7) + 50;
+
+        msg_print(_("é­”åŠ›ã®çŸ¢ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a mana bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_MANA), plev, DAM_ROLL);
 		fire_bolt(GF_MANA, dir, damage);
 		break;
 	case MS_BOLT_PLASMA:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥×¥é¥º¥Ş¡¦¥Ü¥ë¥È¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a plasma bolt.");
-#endif
-		damage = 10 + damroll(8, 7) + plev * 2;
+
+        msg_print(_("ãƒ—ãƒ©ã‚ºãƒãƒ»ãƒœãƒ«ãƒˆã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a plasma bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_PLASMA), plev, DAM_ROLL);
 		fire_bolt(GF_PLASMA, dir, damage);
 		break;
 	case MS_BOLT_ICE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¶Ë´¨¤ÎÌğ¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a ice bolt.");
-#endif
-		damage = damroll(6, 6) + plev * 2;
+
+        msg_print(_("æ¥µå¯’ã®çŸ¢ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a ice bolt."));
+        damage = monspell_bluemage_damage((MS_BOLT_ICE), plev, DAM_ROLL);
 		fire_bolt(GF_ICE, dir, damage);
 		break;
 	case MS_MAGIC_MISSILE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			else msg_print("You cast a magic missile.");
-#endif
-		damage = damroll(2, 6) + plev * 2 / 3;
+
+        msg_print(_("ãƒã‚¸ãƒƒã‚¯ãƒ»ãƒŸã‚µã‚¤ãƒ«ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a magic missile."));
+        damage = monspell_bluemage_damage((MS_MAGIC_MISSILE), plev, DAM_ROLL);
 		fire_bolt(GF_MISSILE, dir, damage);
 		break;
 	case MS_SCARE:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("¶²¤í¤·¤²¤Ê¸¸³Ğ¤òºî¤ê½Ğ¤·¤¿¡£");
-#else
-			else msg_print("You cast a fearful illusion.");
-#endif
+
+        msg_print(_("æã‚ã—ã’ãªå¹»è¦šã‚’ä½œã‚Šå‡ºã—ãŸã€‚", "You cast a fearful illusion."));
 		fear_monster(dir, plev+10);
 		break;
 	case MS_BLIND:
@@ -1267,20 +1035,17 @@ else msg_print("¶²¤í¤·¤²¤Ê¸¸³Ğ¤òºî¤ê½Ğ¤·¤¿¡£");
 		break;
 	case MS_CONF:
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("Í¶ÏÇÅª¤Ê¸¸³Ğ¤ò¤Ä¤¯¤ê½Ğ¤·¤¿¡£");
-#else
-			else msg_print("You cast a mesmerizing illusion.");
-#endif
+
+        msg_print(_("èª˜æƒ‘çš„ãªå¹»è¦šã‚’ã¤ãã‚Šå‡ºã—ãŸã€‚", "You cast a mesmerizing illusion."));
 		confuse_monster(dir, plev * 2);
 		break;
 	case MS_SLOW:
 		if (!get_aim_dir(&dir)) return FALSE;
-		slow_monster(dir);
+		slow_monster(dir, plev);
 		break;
 	case MS_SLEEP:
 		if (!get_aim_dir(&dir)) return FALSE;
-		sleep_monster(dir);
+		sleep_monster(dir, plev);
 		break;
 	case MS_SPEED:
 		(void)set_fast(randint1(20 + plev) + plev, FALSE);
@@ -1288,31 +1053,19 @@ else msg_print("Í¶ÏÇÅª¤Ê¸¸³Ğ¤ò¤Ä¤¯¤ê½Ğ¤·¤¿¡£");
 	case MS_HAND_DOOM:
 	{
 		if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-else msg_print("<ÇËÌÇ¤Î¼ê>¤òÊü¤Ã¤¿¡ª");
-#else
-		else msg_print("You invoke the Hand of Doom!");
-#endif
 
+        msg_print(_("<ç ´æ»…ã®æ‰‹>ã‚’æ”¾ã£ãŸï¼", "You invoke the Hand of Doom!"));
 		fire_ball_hide(GF_HAND_DOOM, dir, plev * 3, 0);
 		break;
 	}
 	case MS_HEAL:
-#ifdef JP
-msg_print("¼«Ê¬¤Î½ı¤ËÇ°¤ò½¸Ãæ¤·¤¿¡£");
-#else
-			msg_print("You concentrate on your wounds!");
-#endif
+        msg_print(_("è‡ªåˆ†ã®å‚·ã«å¿µã‚’é›†ä¸­ã—ãŸã€‚", "You concentrate on your wounds!"));
 		(void)hp_player(plev*4);
 		(void)set_stun(0);
 		(void)set_cut(0);
 		break;
 	case MS_INVULNER:
-#ifdef JP
-msg_print("Ìµ½ı¤Îµå¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-			msg_print("You cast a Globe of Invulnerability.");
-#endif
+        msg_print(_("ç„¡å‚·ã®çƒã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a Globe of Invulnerability."));
 		(void)set_invuln(randint1(4) + 4, FALSE);
 		break;
 	case MS_BLINK:
@@ -1322,12 +1075,8 @@ msg_print("Ìµ½ı¤Îµå¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
 		teleport_player(plev * 5, 0L);
 		break;
 	case MS_WORLD:
-		world_player = TRUE;
-#ifdef JP
-		msg_print("¡Ö»ş¤è¡ª¡×");
-#else
-		msg_print("'Time!'");
-#endif
+        world_player = TRUE;
+        msg_print(_("ã€Œæ™‚ã‚ˆï¼ã€", "'Time!'"));
 		msg_print(NULL);
 
 		/* Hack */
@@ -1364,32 +1113,17 @@ msg_print("Ìµ½ı¤Îµå¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
 			if ((r_ptr->flags1 & (RF1_UNIQUE)) || (r_ptr->flagsr & RFR_RES_ALL))
 			{
 				if (is_original_ap_and_seen(m_ptr)) r_ptr->r_flagsr |= RFR_RES_TELE;
-#ifdef JP
-				msg_format("%s¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡ª", m_name);
-#else
-				msg_format("%s is unaffected!", m_name);
-#endif
-
+                msg_format(_("%sã«ã¯åŠ¹æœãŒãªã‹ã£ãŸï¼", "%s is unaffected!"), m_name);
 				break;
 			}
 			else if (r_ptr->level > randint1(100))
 			{
 				if (is_original_ap_and_seen(m_ptr)) r_ptr->r_flagsr |= RFR_RES_TELE;
-#ifdef JP
-				msg_format("%s¤Ë¤ÏÂÑÀ­¤¬¤¢¤ë¡ª", m_name);
-#else
-				msg_format("%s resists!", m_name);
-#endif
-
+                msg_format(_("%sã«ã¯è€æ€§ãŒã‚ã‚‹ï¼", "%s resists!"), m_name);
 				break;
 			}
 		}
-#ifdef JP
-msg_format("%s¤ò°ú¤­Ìá¤·¤¿¡£", m_name);
-#else
-		msg_format("You command %s to return.", m_name);
-#endif
-
+        msg_format(_("%sã‚’å¼•ãæˆ»ã—ãŸã€‚", "You command %s to return."), m_name);
 		teleport_monster_to(cave[target_row][target_col].m_idx, py, px, 100, TELEPORT_PASSIVE);
 		break;
 	}
@@ -1413,20 +1147,12 @@ msg_format("%s¤ò°ú¤­Ìá¤·¤¿¡£", m_name);
 		m_ptr = &m_list[target_m_idx];
 		r_ptr = &r_info[m_ptr->r_idx];
 		monster_desc(m_name, m_ptr, 0);
-#ifdef JP
-		msg_format("%^s¤ÎÂ­¤ò»Ø¤µ¤·¤¿¡£", m_name);
-#else
-		msg_format("You gesture at %^s's feet.", m_name);
-#endif
+        msg_format(_("%^sã®è¶³ã‚’æŒ‡ã•ã—ãŸã€‚", "You gesture at %^s's feet."), m_name);
 
 		if ((r_ptr->flagsr & (RFR_EFF_RES_NEXU_MASK | RFR_RES_TELE)) ||
 			(r_ptr->flags1 & RF1_QUESTOR) || (r_ptr->level + randint1(50) > plev + randint1(60)))
 		{
-#ifdef JP
-			msg_print("¤·¤«¤·¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡ª");
-#else
-			msg_format("%^s is unaffected!", m_name);
-#endif
+            msg_format(_("ã—ã‹ã—åŠ¹æœãŒãªã‹ã£ãŸï¼", "%^s is unaffected!"), m_name);
 		}
 		else teleport_level(target_m_idx);
 		break;
@@ -1434,64 +1160,38 @@ msg_format("%s¤ò°ú¤­Ìá¤·¤¿¡£", m_name);
 	case MS_PSY_SPEAR:
 		if (!get_aim_dir(&dir)) return FALSE;
 
-#ifdef JP
-else msg_print("¸÷¤Î·õ¤òÊü¤Ã¤¿¡£");
-#else
-			else msg_print("You throw a psycho-spear.");
-#endif
-		damage = randint1(plev * 3) + 100;
+        msg_print(_("å…‰ã®å‰£ã‚’æ”¾ã£ãŸã€‚", "You throw a psycho-spear."));
+        damage = monspell_bluemage_damage((MS_PSY_SPEAR), plev, DAM_ROLL);
 		(void)fire_beam(GF_PSY_SPEAR, dir, damage);
 		break;
 	case MS_DARKNESS:
-#ifdef JP
-msg_print("°Å°Ç¤ÎÃæ¤Ç¼ê¤ò¿¶¤Ã¤¿¡£");
-#else
-			msg_print("You gesture in shadow.");
-#endif
+
+        msg_print(_("æš—é—‡ã®ä¸­ã§æ‰‹ã‚’æŒ¯ã£ãŸã€‚", "You gesture in shadow."));
 		(void)unlite_area(10, 3);
 		break;
 	case MS_MAKE_TRAP:
 		if (!target_set(TARGET_KILL)) return FALSE;
-#ifdef JP
-msg_print("¼öÊ¸¤ò¾§¤¨¤Æ¼Ù°­¤ËÈù¾Ğ¤ó¤À¡£");
-#else
-			msg_print("You cast a spell and cackle evilly.");
-#endif
+
+        msg_print(_("å‘ªæ–‡ã‚’å”±ãˆã¦é‚ªæ‚ªã«å¾®ç¬‘ã‚“ã ã€‚", "You cast a spell and cackle evilly."));
 		trap_creation(target_row, target_col);
 		break;
 	case MS_FORGET:
-#ifdef JP
-msg_print("¤·¤«¤·²¿¤âµ¯¤­¤Ê¤«¤Ã¤¿¡£");
-#else
-			msg_print("Nothing happen.");
-#endif
+        msg_print(_("ã—ã‹ã—ä½•ã‚‚èµ·ããªã‹ã£ãŸã€‚", "Nothing happen."));
 		break;
-	case MS_RAISE_DEAD:
-#ifdef JP
-msg_print("»à¼ÔÉü³è¤Î¼öÊ¸¤ò¾§¤¨¤¿¡£");
-#else
-		msg_print("You cast a animate dead.");
-#endif
+    case MS_RAISE_DEAD:
+        msg_print(_("æ­»è€…å¾©æ´»ã®å‘ªæ–‡ã‚’å”±ãˆãŸã€‚", "You cast a animate dead."));
 		(void)animate_dead(0, py, px);
 		break;
 	case MS_S_KIN:
 	{
 		int k;
-#ifdef JP
-msg_print("±ç·³¤ò¾¤´­¤·¤¿¡£");
-#else
-			msg_print("You summon minions.");
-#endif
+
+        msg_print(_("æ´è»ã‚’å¬å–šã—ãŸã€‚", "You summon minions."));
 		for (k = 0;k < 1; k++)
 		{
 			if (summon_kin_player(summon_lev, py, px, (pet ? PM_FORCE_PET : 0L)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿Ãç´Ö¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned fellows are angry!");
-#endif
+				if (!pet) msg_print(_("å¬å–šã•ã‚ŒãŸä»²é–“ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned fellows are angry!"));
 			}
 			else
 			{
@@ -1503,20 +1203,13 @@ msg_print("Summoned fellows are angry!");
 	case MS_S_CYBER:
 	{
 		int k;
-#ifdef JP
-msg_print("¥µ¥¤¥Ğ¡¼¥Ç¡¼¥â¥ó¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon a Cyberdemon!");
-#endif
+
+        msg_print(_("ã‚µã‚¤ãƒãƒ¼ãƒ‡ãƒ¼ãƒ¢ãƒ³ã‚’å¬å–šã—ãŸï¼", "You summon a Cyberdemon!"));
 		for (k = 0 ;k < 1 ; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_CYBER, p_mode))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥µ¥¤¥Ğ¡¼¥Ç¡¼¥â¥ó¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("The summoned Cyberdemon are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸã‚µã‚¤ãƒãƒ¼ãƒ‡ãƒ¼ãƒ¢ãƒ³ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "The summoned Cyberdemon are angry!"));
 			}
 			else
 			{
@@ -1527,20 +1220,12 @@ msg_print("The summoned Cyberdemon are angry!");
 	case MS_S_MONSTER:
 	{
 		int k;
-#ifdef JP
-msg_print("Ãç´Ö¤ò¾¤´­¤·¤¿¡£");
-#else
-			msg_print("You summon help.");
-#endif
+        msg_print(_("ä»²é–“ã‚’å¬å–šã—ãŸã€‚", "You summon help."));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, 0, p_mode))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥â¥ó¥¹¥¿¡¼¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("The summoned monster is angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "The summoned monster is angry!"));
 			}
 			else
 			{
@@ -1551,20 +1236,12 @@ msg_print("The summoned monster is angry!");
 	case MS_S_MONSTERS:
 	{
 		int k;
-#ifdef JP
-msg_print("¥â¥ó¥¹¥¿¡¼¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon monsters!");
-#endif
+        msg_print(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å¬å–šã—ãŸï¼", "You summon monsters!"));
 		for (k = 0;k < plev / 15 + 2; k++)
 			if(summon_specific((pet ? -1 : 0), py, px, summon_lev, 0, (p_mode | u_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥â¥ó¥¹¥¿¡¼¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned monsters are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "The summoned monsters are angry!"));
 			}
 			else
 			{
@@ -1575,20 +1252,12 @@ msg_print("Summoned monsters are angry!");
 	case MS_S_ANT:
 	{
 		int k;
-#ifdef JP
-msg_print("¥¢¥ê¤ò¾¤´­¤·¤¿¡£");
-#else
-			msg_print("You summon ants.");
-#endif
+        msg_print(_("ã‚¢ãƒªã‚’å¬å–šã—ãŸã€‚", "You summon ants."));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_ANT, (PM_ALLOW_GROUP | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥¢¥ê¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned ants are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸã‚¢ãƒªã¯æ€’ã£ã¦ã„ã‚‹ï¼", "The summoned ants are angry!"));
 			}
 			else
 			{
@@ -1599,20 +1268,12 @@ msg_print("Summoned ants are angry!");
 	case MS_S_SPIDER:
 	{
 		int k;
-#ifdef JP
-msg_print("ÃØéá¤ò¾¤´­¤·¤¿¡£");
-#else
-			msg_print("You summon spiders.");
-#endif
+        msg_print(_("èœ˜è››ã‚’å¬å–šã—ãŸã€‚", "You summon spiders."));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_SPIDER, (PM_ALLOW_GROUP | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿ÃØéá¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned spiders are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸèœ˜è››ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned spiders are angry!"));
 			}
 			else
 			{
@@ -1623,20 +1284,12 @@ msg_print("Summoned spiders are angry!");
 	case MS_S_HOUND:
 	{
 		int k;
-#ifdef JP
-msg_print("¥Ï¥¦¥ó¥É¤ò¾¤´­¤·¤¿¡£");
-#else
-			msg_print("You summon hounds.");
-#endif
+        msg_print(_("ãƒã‚¦ãƒ³ãƒ‰ã‚’å¬å–šã—ãŸã€‚", "You summon hounds."));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_HOUND, (PM_ALLOW_GROUP | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥Ï¥¦¥ó¥É¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned hounds are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒã‚¦ãƒ³ãƒ‰ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned hounds are angry!"));
 			}
 			else
 			{
@@ -1647,20 +1300,12 @@ msg_print("Summoned hounds are angry!");
 	case MS_S_HYDRA:
 	{
 		int k;
-#ifdef JP
-msg_print("¥Ò¥É¥é¤ò¾¤´­¤·¤¿¡£");
-#else
-			msg_print("You summon a hydras.");
-#endif
+        msg_print(_("ãƒ’ãƒ‰ãƒ©ã‚’å¬å–šã—ãŸã€‚", "You summon a hydras."));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_HYDRA, (g_mode | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥Ò¥É¥é¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned hydras are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒ’ãƒ‰ãƒ©ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned hydras are angry!"));
 			}
 			else
 			{
@@ -1671,20 +1316,12 @@ msg_print("Summoned hydras are angry!");
 	case MS_S_ANGEL:
 	{
 		int k;
-#ifdef JP
-msg_print("Å·»È¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon an angel!");
-#endif
+        msg_print(_("å¤©ä½¿ã‚’å¬å–šã—ãŸï¼", "You summon an angel!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_ANGEL, (g_mode | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿Å·»È¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned angels are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸå¤©ä½¿ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned angels are angry!"));
 			}
 			else
 			{
@@ -1695,20 +1332,12 @@ msg_print("Summoned angels are angry!");
 	case MS_S_DEMON:
 	{
 		int k;
-#ifdef JP
-msg_print("º®ÆÙ¤ÎµÜÄî¤«¤é°­Ëâ¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon a demon from the Courts of Chaos!");
-#endif
+        msg_print(_("æ··æ²Œã®å®®å»·ã‹ã‚‰æ‚ªé­”ã‚’å¬å–šã—ãŸï¼", "You summon a demon from the Courts of Chaos!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_DEMON, (g_mode | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥Ç¡¼¥â¥ó¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned demons are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒ‡ãƒ¼ãƒ¢ãƒ³ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned demons are angry!"));
 			}
 			else
 			{
@@ -1719,20 +1348,12 @@ msg_print("Summoned demons are angry!");
 	case MS_S_UNDEAD:
 	{
 		int k;
-#ifdef JP
-msg_print("¥¢¥ó¥Ç¥Ã¥É¤Î¶¯Å¨¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon an undead adversary!");
-#endif
+        msg_print(_("ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã®å¼·æ•µã‚’å¬å–šã—ãŸï¼", "You summon an undead adversary!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_UNDEAD, (g_mode | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥¢¥ó¥Ç¥Ã¥É¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned undeads are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned undeads are angry!"));
 			}
 			else
 			{
@@ -1743,20 +1364,12 @@ msg_print("Summoned undeads are angry!");
 	case MS_S_DRAGON:
 	{
 		int k;
-#ifdef JP
-msg_print("¥É¥é¥´¥ó¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon a dragon!");
-#endif
+        msg_print(_("ãƒ‰ãƒ©ã‚´ãƒ³ã‚’å¬å–šã—ãŸï¼", "You summon a dragon!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_DRAGON, (g_mode | p_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥É¥é¥´¥ó¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned dragons are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒ‰ãƒ©ã‚´ãƒ³ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned dragons are angry!"));
 			}
 			else
 			{
@@ -1767,20 +1380,12 @@ msg_print("Summoned dragons are angry!");
 	case MS_S_HI_UNDEAD:
 	{
 		int k;
-#ifdef JP
-msg_print("¶¯ÎÏ¤Ê¥¢¥ó¥Ç¥Ã¥É¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon a greater undead!");
-#endif
+        msg_print(_("å¼·åŠ›ãªã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã‚’å¬å–šã—ãŸï¼", "You summon a greater undead!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_HI_UNDEAD, (g_mode | p_mode | u_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¾åµé¥¢¥ó¥Ç¥Ã¥É¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned greater undeads are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸä¸Šç´šã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned greater undeads are angry!"));
 			}
 			else
 			{
@@ -1791,20 +1396,12 @@ msg_print("Summoned greater undeads are angry!");
 	case MS_S_HI_DRAGON:
 	{
 		int k;
-#ifdef JP
-msg_print("¸ÅÂå¥É¥é¥´¥ó¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon an ancient dragon!");
-#endif
+        msg_print(_("å¤ä»£ãƒ‰ãƒ©ã‚´ãƒ³ã‚’å¬å–šã—ãŸï¼", "You summon an ancient dragon!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_HI_DRAGON, (g_mode | p_mode | u_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¸ÅÂå¥É¥é¥´¥ó¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned ancient dragons are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸå¤ä»£ãƒ‰ãƒ©ã‚´ãƒ³ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned ancient dragons are angry!"));
 			}
 			else
 			{
@@ -1815,20 +1412,12 @@ msg_print("Summoned ancient dragons are angry!");
 	case MS_S_AMBERITE:
 	{
 		int k;
-#ifdef JP
-msg_print("¥¢¥ó¥Ğ¡¼¤Î²¦Â²¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon a Lord of Amber!");
-#endif
+        msg_print(_("ã‚¢ãƒ³ãƒãƒ¼ã®ç‹æ—ã‚’å¬å–šã—ãŸï¼", "You summon a Lord of Amber!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_AMBERITES, (g_mode | p_mode | u_mode)))
 			{
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥¢¥ó¥Ğ¡¼¤Î²¦Â²¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned Lords of Amber are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸã‚¢ãƒ³ãƒãƒ¼ã®ç‹æ—ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned Lords of Amber are angry!"));
 			}
 			else
 			{
@@ -1839,32 +1428,20 @@ msg_print("Summoned Lords of Amber are angry!");
 	case MS_S_UNIQUE:
 	{
 		int k, count = 0;
-#ifdef JP
-msg_print("ÆÃÊÌ¤Ê¶¯Å¨¤ò¾¤´­¤·¤¿¡ª");
-#else
-			msg_print("You summon a special opponent!");
-#endif
+        msg_print(_("ç‰¹åˆ¥ãªå¼·æ•µã‚’å¬å–šã—ãŸï¼", "You summon a special opponent!"));
 		for (k = 0;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_UNIQUE, (g_mode | p_mode | PM_ALLOW_UNIQUE)))
 			{
 				count++;
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¥æ¥Ë¡¼¥¯¡¦¥â¥ó¥¹¥¿¡¼¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned special opponents are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned special opponents are angry!"));
 			}
 		for (k = count;k < 1; k++)
 			if (summon_specific((pet ? -1 : 0), py, px, summon_lev, SUMMON_HI_UNDEAD, (g_mode | p_mode | PM_ALLOW_UNIQUE)))
 			{
 				count++;
-				if (!pet)
-#ifdef JP
-msg_print("¾¤´­¤µ¤ì¤¿¾åµé¥¢¥ó¥Ç¥Ã¥É¤ÏÅÜ¤Ã¤Æ¤¤¤ë¡ª");
-#else
-msg_print("Summoned greater undeads are angry!");
-#endif
+                if (!pet)
+                    msg_print(_("å¬å–šã•ã‚ŒãŸä¸Šç´šã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã¯æ€’ã£ã¦ã„ã‚‹ï¼", "Summoned greater undeads are angry!"));
 			}
 		if (!count)
 		{
@@ -1876,21 +1453,17 @@ msg_print("Summoned greater undeads are angry!");
 		msg_print("hoge?");
 	}
 	if (no_trump)
-	{
-#ifdef JP
-msg_print("²¿¤â¸½¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-msg_print("No one have appeared.");
-#endif
+    {
+        msg_print(_("ä½•ã‚‚ç¾ã‚Œãªã‹ã£ãŸã€‚", "No one have appeared."));
 	}
 
 	return TRUE;
 }
 
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'Blue-Mage'.
+/*!
+ * @brief é’é­”æ³•ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
+ * do_cmd_cast calls this function if the player's class is 'Blue-Mage'.
+ * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 bool do_cmd_cast_learned(void)
 {
@@ -1906,12 +1479,7 @@ bool do_cmd_cast_learned(void)
 	/* not if confused */
 	if (p_ptr->confused)
 	{
-#ifdef JP
-msg_print("º®Íğ¤·¤Æ¤¤¤Æ¾§¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦å”±ãˆã‚‰ã‚Œãªã„ï¼", "You are too confused!"));
 		return TRUE;
 	}
 
@@ -1926,22 +1494,12 @@ msg_print("º®Íğ¤·¤Æ¤¤¤Æ¾§¤¨¤é¤ì¤Ê¤¤¡ª");
 	if (need_mana > p_ptr->csp)
 	{
 		/* Warning */
-#ifdef JP
-msg_print("£Í£Ğ¤¬Â­¤ê¤Ş¤»¤ó¡£");
-#else
-		msg_print("You do not have enough mana to use this power.");
-#endif
-
+		msg_print(_("ï¼­ï¼°ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚", "You do not have enough mana to use this power."));
 
 		if (!over_exert) return FALSE;
 
 		/* Verify */
-#ifdef JP
-if (!get_check("¤½¤ì¤Ç¤âÄ©Àï¤·¤Ş¤¹¤«? ")) return FALSE;
-#else
-		if (!get_check("Attempt it anyway? ")) return FALSE;
-#endif
-
+		if (!get_check(_("ãã‚Œã§ã‚‚æŒ‘æˆ¦ã—ã¾ã™ã‹? ", "Attempt it anyway? "))) return FALSE;
 	}
 
 	/* Spell failure chance */
@@ -1981,11 +1539,7 @@ if (!get_check("¤½¤ì¤Ç¤âÄ©Àï¤·¤Ş¤¹¤«? ")) return FALSE;
 	if (randint0(100) < chance)
 	{
 		if (flush_failure) flush();
-#ifdef JP
-msg_print("ËâË¡¤ò¤¦¤Ş¤¯¾§¤¨¤é¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-		msg_print("You failed to concentrate hard enough!");
-#endif
+		msg_print(_("é­”æ³•ã‚’ã†ã¾ãå”±ãˆã‚‰ã‚Œãªã‹ã£ãŸã€‚", "You failed to concentrate hard enough!"));
 
 		sound(SOUND_FAIL);
 
@@ -2018,12 +1572,7 @@ msg_print("ËâË¡¤ò¤¦¤Ş¤¯¾§¤¨¤é¤ì¤Ê¤«¤Ã¤¿¡£");
 		p_ptr->csp_frac = 0;
 
 		/* Message */
-#ifdef JP
-msg_print("Àº¿À¤ò½¸Ãæ¤·¤¹¤®¤Æµ¤¤ò¼º¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª");
-#else
-		msg_print("You faint from the effort!");
-#endif
-
+		msg_print(_("ç²¾ç¥ã‚’é›†ä¸­ã—ã™ãã¦æ°—ã‚’å¤±ã£ã¦ã—ã¾ã£ãŸï¼", "You faint from the effort!"));
 
 		/* Hack -- Bypass free action */
 		(void)set_paralyzed(p_ptr->paralyzed + randint1(5 * oops + 1));
@@ -2036,12 +1585,7 @@ msg_print("Àº¿À¤ò½¸Ãæ¤·¤¹¤®¤Æµ¤¤ò¼º¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª");
 			bool perm = (randint0(100) < 25);
 
 			/* Message */
-#ifdef JP
-msg_print("ÂÎ¤ò°­¤¯¤·¤Æ¤·¤Ş¤Ã¤¿¡ª");
-#else
-			msg_print("You have damaged your health!");
-#endif
-
+			msg_print(_("ä½“ã‚’æ‚ªãã—ã¦ã—ã¾ã£ãŸï¼", "You have damaged your health!"));
 
 			/* Reduce constitution */
 			(void)dec_stat(A_CON, 15 + randint1(10), perm);
@@ -2059,6 +1603,11 @@ msg_print("ÂÎ¤ò°­¤¯¤·¤Æ¤·¤Ş¤Ã¤¿¡ª");
 	return TRUE;
 }
 
+/*!
+ * @brief é’é­”æ³•ã®ãƒ©ãƒ¼ãƒ‹ãƒ³ã‚°åˆ¤å®šã¨æˆåŠŸã—ãŸå ´åˆã®ãƒ©ãƒ¼ãƒ‹ãƒ³ã‚°å‡¦ç†
+ * @param monspell ãƒ©ãƒ¼ãƒ‹ãƒ³ã‚°ã‚’è©¦ã¿ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼æ”»æ’ƒã®ID
+ * @return ãªã—
+ */
 void learn_spell(int monspell)
 {
 	if (p_ptr->action != ACTION_LEARN) return;
@@ -2068,11 +1617,7 @@ void learn_spell(int monspell)
 	if (randint1(p_ptr->lev + 70) > monster_powers[monspell].level + 40)
 	{
 		p_ptr->magic_num2[monspell] = 1;
-#ifdef JP
-		msg_format("%s¤ò³Ø½¬¤·¤¿¡ª", monster_powers[monspell].name);
-#else
-		msg_format("You have learned %s!", monster_powers[monspell].name);
-#endif
+		msg_format(_("%sã‚’å­¦ç¿’ã—ãŸï¼", "You have learned %s!"), monster_powers[monspell].name);
 		gain_exp(monster_powers[monspell].level * monster_powers[monspell].smana);
 
 		/* Sound */
@@ -2084,8 +1629,16 @@ void learn_spell(int monspell)
 }
 
 
-/*
+/*!
+ * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç‰¹æ®Šèƒ½åŠ›ã®ãƒ•ãƒ©ã‚°é…åˆ—ã‹ã‚‰ç‰¹å®šæ¡ä»¶ã®é­”æ³•ã ã‘ã‚’æŠœãå‡ºã™å‡¦ç†
  * Extract monster spells mask for the given mode
+ * @param f4 ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç‰¹æ®Šèƒ½åŠ›ã®4ç•ªç›®ã®ãƒ•ãƒ©ã‚°é…åˆ—
+ * @param f5 ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç‰¹æ®Šèƒ½åŠ›ã®5ç•ªç›®ã®ãƒ•ãƒ©ã‚°é…åˆ—
+ * @param f6 ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç‰¹æ®Šèƒ½åŠ›ã®6ç•ªç›®ã®ãƒ•ãƒ©ã‚°é…åˆ—
+ * @param mode æŠœãå‡ºã—ãŸã„æ¡ä»¶
+ * @return ãªã—
+ */
+/*
  */
 void set_rf_masks(s32b *f4, s32b *f5, s32b *f6, int mode)
 {

@@ -1,4 +1,4 @@
-/* File: japanese.c */
+ï»¿/* File: japanese.c */
 
 
 #include "angband.h"
@@ -16,44 +16,44 @@ struct convert_key
 static const convert_key s2j_table[] = {
 	{"mb","nb"}, {"mp","np"}, {"mv","nv"}, {"mm","nm"},
 	{"x","ks"},
-	/* sindar:¥·¥ó¥À¡¼¥ë  parantir:¥Ñ¥é¥ó¥Æ¥£¥¢  feanor:¥Õ¥§¥¢¥Î¡¼¥ë */
+	/* sindar:ã‚·ãƒ³ãƒ€ãƒ¼ãƒ«  parantir:ãƒ‘ãƒ©ãƒ³ãƒ†ã‚£ã‚¢  feanor:ãƒ•ã‚§ã‚¢ãƒãƒ¼ãƒ« */
 	{"ar$","a-ru$"}, {"ir$","ia$"}, {"or$","o-ru$"},
-	{"ra","¥é"}, {"ri","¥ê"}, {"ru","¥ë"}, {"re","¥ì"}, {"ro","¥í"},
-	{"ir","ia"}, {"ur","ua"}, {"er","ea"}, {"ar","a¥ë"},
-	{"sha","¥·¥ã"}, {"shi","¥·"}, {"shu","¥·¥å"}, {"she","¥·¥§"}, {"sho","¥·¥ç"},
-	{"tha","¥µ"}, {"thi","¥·"}, {"thu","¥¹"}, {"the","¥»"}, {"tho","¥½"},
-	{"cha","¥Ï"}, {"chi","¥Ò"}, {"chu","¥Õ"}, {"che","¥Ø"}, {"cho","¥Û"},
-	{"dha","¥¶"}, {"dhi","¥¸"}, {"dhu","¥º"}, {"dhe","¥¼"}, {"dho","¥¾"},
-	{"ba","¥Ğ"}, {"bi","¥Ó"}, {"bu","¥Ö"}, {"be","¥Ù"}, {"bo","¥Ü"},
-	{"ca","¥«"}, {"ci","¥­"}, {"cu","¥¯"}, {"ce","¥±"}, {"co","¥³"},
-	{"da","¥À"}, {"di","¥Ç¥£"}, {"du","¥É¥¥"}, {"de","¥Ç"}, {"do","¥É"},
-	{"fa","¥Õ¥¡"}, {"fi","¥Õ¥£"}, {"fu","¥Õ"}, {"fe","¥Õ¥§"}, {"fo","¥Õ¥©"},
-	{"ga","¥¬"}, {"gi","¥®"}, {"gu","¥°"}, {"ge","¥²"}, {"go","¥´"},
-	{"ha","¥Ï"}, {"hi","¥Ò"}, {"hu","¥Õ"}, {"he","¥Ø"}, {"ho","¥Û"},
-	{"ja","¥¸¥ã"}, {"ji","¥¸"}, {"ju","¥¸¥å"}, {"je","¥¸¥§"}, {"jo","¥¸¥ç"},
-	{"ka","¥«"}, {"ki","¥­"}, {"ku","¥¯"}, {"ke","¥±"}, {"ko","¥³"},
-	{"la","¥é"}, {"li","¥ê"}, {"lu","¥ë"}, {"le","¥ì"}, {"lo","¥í"},
-	{"ma","¥Ş"}, {"mi","¥ß"}, {"mu","¥à"}, {"me","¥á"}, {"mo","¥â"},
-	{"na","¥Ê"}, {"ni","¥Ë"}, {"nu","¥Ì"}, {"ne","¥Í"}, {"no","¥Î"},
-	{"pa","¥Ñ"}, {"pi","¥Ô"}, {"pu","¥×"}, {"pe","¥Ú"}, {"po","¥İ"},
-	{"qu","¥¯"},
-	{"sa","¥µ"}, {"si","¥·"}, {"su","¥¹"}, {"se","¥»"}, {"so","¥½"},
-	{"ta","¥¿"}, {"ti","¥Æ¥£"}, {"tu","¥È¥¥"}, {"te","¥Æ"}, {"to","¥È"},
-	{"va","¥ô¥¡"}, {"vi","¥ô¥£"}, {"vu","¥ô"}, {"ve","¥ô¥§"}, {"vo","¥ô¥©"},
-	{"wa","¥ï"}, {"wi","¥¦¥£"}, {"wu","¥¦"}, {"we","¥¦¥§"}, {"wo","¥¦¥©"},
-	{"ya","¥ä"}, {"yu","¥æ"}, {"yo","¥è"},
-	{"za","¥¶"}, {"zi","¥¸"}, {"zu","¥º"}, {"ze","¥¼"}, {"zo","¥¾"},
-	{"dh","¥º"}, {"ch","¥Õ"}, {"th","¥¹"},
-	{"b","¥Ö"}, {"c","¥¯"}, {"d","¥É"}, {"f","¥Õ"}, {"g","¥°"},
-	{"h","¥Õ"}, {"j","¥¸¥å"}, {"k","¥¯"}, {"l","¥ë"}, {"m","¥à"},
-	{"n","¥ó"}, {"p","¥×"}, {"q","¥¯"}, {"r","¥ë"}, {"s","¥¹"},
-	{"t","¥È"}, {"v","¥ô"}, {"w","¥¦"}, {"y","¥¤"},
-	{"a","¥¢"}, {"i","¥¤"}, {"u","¥¦"}, {"e","¥¨"}, {"o","¥ª"},
-	{"-","¡¼"},
+	{"ra","ãƒ©"}, {"ri","ãƒª"}, {"ru","ãƒ«"}, {"re","ãƒ¬"}, {"ro","ãƒ­"},
+	{"ir","ia"}, {"ur","ua"}, {"er","ea"}, {"ar","aãƒ«"},
+	{"sha","ã‚·ãƒ£"}, {"shi","ã‚·"}, {"shu","ã‚·ãƒ¥"}, {"she","ã‚·ã‚§"}, {"sho","ã‚·ãƒ§"},
+	{"tha","ã‚µ"}, {"thi","ã‚·"}, {"thu","ã‚¹"}, {"the","ã‚»"}, {"tho","ã‚½"},
+	{"cha","ãƒ"}, {"chi","ãƒ’"}, {"chu","ãƒ•"}, {"che","ãƒ˜"}, {"cho","ãƒ›"},
+	{"dha","ã‚¶"}, {"dhi","ã‚¸"}, {"dhu","ã‚º"}, {"dhe","ã‚¼"}, {"dho","ã‚¾"},
+	{"ba","ãƒ"}, {"bi","ãƒ“"}, {"bu","ãƒ–"}, {"be","ãƒ™"}, {"bo","ãƒœ"},
+	{"ca","ã‚«"}, {"ci","ã‚­"}, {"cu","ã‚¯"}, {"ce","ã‚±"}, {"co","ã‚³"},
+	{"da","ãƒ€"}, {"di","ãƒ‡ã‚£"}, {"du","ãƒ‰ã‚¥"}, {"de","ãƒ‡"}, {"do","ãƒ‰"},
+	{"fa","ãƒ•ã‚¡"}, {"fi","ãƒ•ã‚£"}, {"fu","ãƒ•"}, {"fe","ãƒ•ã‚§"}, {"fo","ãƒ•ã‚©"},
+	{"ga","ã‚¬"}, {"gi","ã‚®"}, {"gu","ã‚°"}, {"ge","ã‚²"}, {"go","ã‚´"},
+	{"ha","ãƒ"}, {"hi","ãƒ’"}, {"hu","ãƒ•"}, {"he","ãƒ˜"}, {"ho","ãƒ›"},
+	{"ja","ã‚¸ãƒ£"}, {"ji","ã‚¸"}, {"ju","ã‚¸ãƒ¥"}, {"je","ã‚¸ã‚§"}, {"jo","ã‚¸ãƒ§"},
+	{"ka","ã‚«"}, {"ki","ã‚­"}, {"ku","ã‚¯"}, {"ke","ã‚±"}, {"ko","ã‚³"},
+	{"la","ãƒ©"}, {"li","ãƒª"}, {"lu","ãƒ«"}, {"le","ãƒ¬"}, {"lo","ãƒ­"},
+	{"ma","ãƒ"}, {"mi","ãƒŸ"}, {"mu","ãƒ "}, {"me","ãƒ¡"}, {"mo","ãƒ¢"},
+	{"na","ãƒŠ"}, {"ni","ãƒ‹"}, {"nu","ãƒŒ"}, {"ne","ãƒ"}, {"no","ãƒ"},
+	{"pa","ãƒ‘"}, {"pi","ãƒ”"}, {"pu","ãƒ—"}, {"pe","ãƒš"}, {"po","ãƒ"},
+	{"qu","ã‚¯"},
+	{"sa","ã‚µ"}, {"si","ã‚·"}, {"su","ã‚¹"}, {"se","ã‚»"}, {"so","ã‚½"},
+	{"ta","ã‚¿"}, {"ti","ãƒ†ã‚£"}, {"tu","ãƒˆã‚¥"}, {"te","ãƒ†"}, {"to","ãƒˆ"},
+	{"va","ãƒ´ã‚¡"}, {"vi","ãƒ´ã‚£"}, {"vu","ãƒ´"}, {"ve","ãƒ´ã‚§"}, {"vo","ãƒ´ã‚©"},
+	{"wa","ãƒ¯"}, {"wi","ã‚¦ã‚£"}, {"wu","ã‚¦"}, {"we","ã‚¦ã‚§"}, {"wo","ã‚¦ã‚©"},
+	{"ya","ãƒ¤"}, {"yu","ãƒ¦"}, {"yo","ãƒ¨"},
+	{"za","ã‚¶"}, {"zi","ã‚¸"}, {"zu","ã‚º"}, {"ze","ã‚¼"}, {"zo","ã‚¾"},
+	{"dh","ã‚º"}, {"ch","ãƒ•"}, {"th","ã‚¹"},
+	{"b","ãƒ–"}, {"c","ã‚¯"}, {"d","ãƒ‰"}, {"f","ãƒ•"}, {"g","ã‚°"},
+	{"h","ãƒ•"}, {"j","ã‚¸ãƒ¥"}, {"k","ã‚¯"}, {"l","ãƒ«"}, {"m","ãƒ "},
+	{"n","ãƒ³"}, {"p","ãƒ—"}, {"q","ã‚¯"}, {"r","ãƒ«"}, {"s","ã‚¹"},
+	{"t","ãƒˆ"}, {"v","ãƒ´"}, {"w","ã‚¦"}, {"y","ã‚¤"},
+	{"a","ã‚¢"}, {"i","ã‚¤"}, {"u","ã‚¦"}, {"e","ã‚¨"}, {"o","ã‚ª"},
+	{"-","ãƒ¼"},
 	{NULL,NULL}
 };
 
-/* ¥·¥ó¥À¥ê¥ó¤òÆüËÜ¸ì¤ÎÆÉ¤ß¤ËÊÑ´¹¤¹¤ë */
+/* ã‚·ãƒ³ãƒ€ãƒªãƒ³ã‚’æ—¥æœ¬èªã®èª­ã¿ã«å¤‰æ›ã™ã‚‹ */
 void sindarin_to_kana(char *kana, const char *sindarin)
 {
 	char buf[256];
@@ -105,123 +105,63 @@ void sindarin_to_kana(char *kana, const char *sindarin)
 }
 
 
-/*ÆüËÜ¸ìÆ°»ì³èÍÑ (ÂÇ¤Ä¡äÂÇ¤Ã¤Æ,ÂÇ¤Á etc) */
+/*æ—¥æœ¬èªå‹•è©æ´»ç”¨ (æ‰“ã¤ï¼æ‰“ã£ã¦,æ‰“ã¡ etc) */
+/* JVERB_AND: æ®´ã‚‹,è¹´ã‚‹ > æ®´ã‚Š,è¹´ã‚‹ */
+/* JVERB_TO:  æ®´ã‚‹,è¹´ã‚‹ > æ®´ã£ã¦è¹´ã‚‹ */
+/* JVERB_OR:  æ®´ã‚‹,è¹´ã‚‹ > æ®´ã£ãŸã‚Šè¹´ã£ãŸã‚Š */
 
-#define CMPTAIL(y) strncmp(&in[l-strlen(y)],y,strlen(y))
+static const struct jverb_table_t {
+	const char* from;
+	const char* to[3];
+} jverb_table[] = {
+	{ "ã™ã‚‹", {"ã—", "ã—ã¦", "ã—ãŸ"}},
+	{ "ã„ã‚‹", {"ã„ã¦", "ã„ã¦", "ã„ãŸ"}},
 
-/* ²¥¤ë,½³¤ë¡ä²¥¤ê,½³¤ë */
-void jverb1( const char *in , char *out){
-int l=strlen(in);
-strcpy(out,in);
+	{ "ãˆã‚‹", {"ãˆ", "ãˆã¦", "ãˆãŸ"}},
+	{ "ã‘ã‚‹", {"ã‘", "ã‘ã¦", "ã‘ãŸ"}},
+	{ "ã’ã‚‹", {"ã’", "ãˆã¦", "ã’ãŸ"}},
+	{ "ã›ã‚‹", {"ã›", "ã›ã¦", "ã›ãŸ"}},
+	{ "ãœã‚‹", {"ãœ", "ãœã¦", "ãœãŸ"}},
+	{ "ã¦ã‚‹", {"ã¦", "ã¦ã£ã¦", "ã¦ã£ãŸ"}},
+	{ "ã§ã‚‹", {"ã§", "ã§ã¦", "ã§ãŸ"}},
+	{ "ã­ã‚‹", {"ã­", "ã­ã¦", "ã­ãŸ"}},
+	{ "ã¸ã‚‹", {"ã¸", "ã¸ã¦", "ã¸ãŸ"}},
+	{ "ã¹ã‚‹", {"ã¹", "ã¹ã¦", "ã¹ãŸ"}},
+	{ "ã‚ã‚‹", {"ã‚", "ã‚ã¦", "ã‚ãŸ"}},
+	{ "ã‚Œã‚‹", {"ã‚Œ", "ã‚Œã¦", "ã‚ŒãŸ"}},
 
-if( CMPTAIL("¤¹¤ë")==0) sprintf(&out[l-4],"¤·");else
-if( CMPTAIL("¤¤¤ë")==0) sprintf(&out[l-4],"¤¤¤Æ");else
+	{ "ã†", {"ã„", "ã£ã¦", "ã£ãŸ"}},
+	{ "ã", {"ã", "ã„ã¦", "ã„ãŸ"}},
+	{ "ã", {"ã", "ã„ã§", "ã„ã "}},
+	{ "ã™", {"ã—", "ã—ã¦", "ã—ãŸ"}},
+	{ "ãš", {"ã˜", "ã˜ã¦", "ã˜ãŸ"}},
+	{ "ã¤", {"ã¡", "ã£ã¦", "ã£ãŸ"}},
+	{ "ã¥", {"ã¢", "ã£ã¦", "ã£ãŸ"}},
+	{ "ã¬", {"ã«", "ã­ã¦", "ã­ãŸ"}},
+	{ "ãµ", {"ã²", "ã¸ã¦", "ã¸ãŸ"}},
+	{ "ã¶", {"ã³", "ã‚“ã§", "ã‚“ã "}},
+	{ "ã‚€", {"ã¿", "ã‚“ã§", "ã‚“ã "}},
+	{ "ã‚‹", {"ã‚Š", "ã£ã¦", "ã£ãŸ"}},
+	{ NULL, {"ãã—ã¦", "ã“ã¨ã«ã‚ˆã‚Š", "ã“ã¨ã‚„"}},
+};
 
-if( CMPTAIL("¤¨¤ë")==0) sprintf(&out[l-4],"¤¨");else
-if( CMPTAIL("¤±¤ë")==0) sprintf(&out[l-4],"¤±");else
-if( CMPTAIL("¤²¤ë")==0) sprintf(&out[l-4],"¤²");else
-if( CMPTAIL("¤»¤ë")==0) sprintf(&out[l-4],"¤»");else
-if( CMPTAIL("¤¼¤ë")==0) sprintf(&out[l-4],"¤¼");else
-if( CMPTAIL("¤Æ¤ë")==0) sprintf(&out[l-4],"¤Æ");else
-if( CMPTAIL("¤Ç¤ë")==0) sprintf(&out[l-4],"¤Ç");else
-if( CMPTAIL("¤Í¤ë")==0) sprintf(&out[l-4],"¤Í");else
-if( CMPTAIL("¤Ø¤ë")==0) sprintf(&out[l-4],"¤Ø");else
-if( CMPTAIL("¤Ù¤ë")==0) sprintf(&out[l-4],"¤Ù");else
-if( CMPTAIL("¤á¤ë")==0) sprintf(&out[l-4],"¤á");else
-if( CMPTAIL("¤ì¤ë")==0) sprintf(&out[l-4],"¤ì");else
+void jverb(const char *in , char *out , int flag)
+{
+	const struct jverb_table_t * p;
+	int in_len = strlen(in);
 
-if( CMPTAIL("¤¦")==0) sprintf(&out[l-2],"¤¤");else
-if( CMPTAIL("¤¯")==0) sprintf(&out[l-2],"¤­");else
-if( CMPTAIL("¤°")==0) sprintf(&out[l-2],"¤®");else
-if( CMPTAIL("¤¹")==0) sprintf(&out[l-2],"¤·");else
-if( CMPTAIL("¤º")==0) sprintf(&out[l-2],"¤¸");else
-if( CMPTAIL("¤Ä")==0) sprintf(&out[l-2],"¤Á");else
-if( CMPTAIL("¤Å")==0) sprintf(&out[l-2],"¤Â");else
-if( CMPTAIL("¤Ì")==0) sprintf(&out[l-2],"¤Ë");else
-if( CMPTAIL("¤Õ")==0) sprintf(&out[l-2],"¤Ò");else
-if( CMPTAIL("¤Ö")==0) sprintf(&out[l-2],"¤Ó");else
-if( CMPTAIL("¤à")==0) sprintf(&out[l-2],"¤ß");else
-if( CMPTAIL("¤ë")==0) sprintf(&out[l-2],"¤ê");else
+	strcpy(out, in);
 
-  sprintf(&out[l],"¤½¤·¤Æ");}
+	for (p = jverb_table; p->from; p++) {
+		int from_len = strlen(p->from);
+		if (strncmp(&in[in_len-from_len], p->from, from_len) == 0) {
+			strcpy(&out[in_len - from_len], p->to[flag - 1]);
+			break;
+		}
+	}
 
-/* ²¥¤ë,½³¤ë> ²¥¤Ã¤Æ½³¤ë */
-void jverb2( const char *in , char *out){
-int l=strlen(in);
-strcpy(out,in);
-
-if( CMPTAIL("¤¹¤ë")==0) sprintf(&out[l-4],"¤·¤Æ");else
-if( CMPTAIL("¤¤¤ë")==0) sprintf(&out[l-4],"¤¤¤Æ");else
-
-if( CMPTAIL("¤¨¤ë")==0) sprintf(&out[l-4],"¤¨¤Æ");else
-if( CMPTAIL("¤±¤ë")==0) sprintf(&out[l-4],"¤±¤Æ");else
-if( CMPTAIL("¤²¤ë")==0) sprintf(&out[l-4],"¤²¤Æ");else
-if( CMPTAIL("¤»¤ë")==0) sprintf(&out[l-4],"¤»¤Æ");else
-if( CMPTAIL("¤¼¤ë")==0) sprintf(&out[l-4],"¤¼¤Æ");else
-if( CMPTAIL("¤Æ¤ë")==0) sprintf(&out[l-4],"¤Æ¤Ã¤Æ");else
-if( CMPTAIL("¤Ç¤ë")==0) sprintf(&out[l-4],"¤Ç¤Æ");else
-if( CMPTAIL("¤Í¤ë")==0) sprintf(&out[l-4],"¤Í¤Æ");else
-if( CMPTAIL("¤Ø¤ë")==0) sprintf(&out[l-4],"¤Ø¤Æ");else
-if( CMPTAIL("¤Ù¤ë")==0) sprintf(&out[l-4],"¤Ù¤Æ");else
-if( CMPTAIL("¤á¤ë")==0) sprintf(&out[l-4],"¤á¤Æ");else
-if( CMPTAIL("¤ì¤ë")==0) sprintf(&out[l-4],"¤ì¤Æ");else
-
-if( CMPTAIL("¤¦")==0) sprintf(&out[l-2],"¤Ã¤Æ");else
-if( CMPTAIL("¤¯")==0) sprintf(&out[l-2],"¤¤¤Æ");else
-if( CMPTAIL("¤°")==0) sprintf(&out[l-2],"¤¤¤Ç");else
-if( CMPTAIL("¤¹")==0) sprintf(&out[l-2],"¤·¤Æ");else
-if( CMPTAIL("¤º")==0) sprintf(&out[l-2],"¤¸¤Æ");else
-if( CMPTAIL("¤Ä")==0) sprintf(&out[l-2],"¤Ã¤Æ");else
-if( CMPTAIL("¤Å")==0) sprintf(&out[l-2],"¤Ã¤Æ");else
-if( CMPTAIL("¤Ì")==0) sprintf(&out[l-2],"¤Í¤Æ");else
-if( CMPTAIL("¤Õ")==0) sprintf(&out[l-2],"¤Ø¤Æ");else
-if( CMPTAIL("¤Ö")==0) sprintf(&out[l-2],"¤ó¤Ç");else
-if( CMPTAIL("¤à")==0) sprintf(&out[l-2],"¤ó¤Ç");else
-if( CMPTAIL("¤ë")==0) sprintf(&out[l-2],"¤Ã¤Æ");else
-  sprintf(&out[l],"¤³¤È¤Ë¤è¤ê");}
-
-/* ²¥¤ë,½³¤ë > ²¥¤Ã¤¿¤ê½³¤Ã¤¿¤ê */
-void jverb3( const char *in , char *out){
-int l=strlen(in);
-strcpy(out,in);
-
-if( CMPTAIL("¤¹¤ë")==0) sprintf(&out[l-4],"¤·¤¿");else
-if( CMPTAIL("¤¤¤ë")==0) sprintf(&out[l-4],"¤¤¤¿");else
-
-if( CMPTAIL("¤¨¤ë")==0) sprintf(&out[l-4],"¤¨¤¿");else
-if( CMPTAIL("¤±¤ë")==0) sprintf(&out[l-4],"¤±¤¿");else
-if( CMPTAIL("¤²¤ë")==0) sprintf(&out[l-4],"¤²¤¿");else
-if( CMPTAIL("¤»¤ë")==0) sprintf(&out[l-4],"¤»¤¿");else
-if( CMPTAIL("¤¼¤ë")==0) sprintf(&out[l-4],"¤¼¤¿");else
-if( CMPTAIL("¤Æ¤ë")==0) sprintf(&out[l-4],"¤Æ¤Ã¤¿");else
-if( CMPTAIL("¤Ç¤ë")==0) sprintf(&out[l-4],"¤Ç¤¿");else
-if( CMPTAIL("¤Í¤ë")==0) sprintf(&out[l-4],"¤Í¤¿");else
-if( CMPTAIL("¤Ø¤ë")==0) sprintf(&out[l-4],"¤Ø¤¿");else
-if( CMPTAIL("¤Ù¤ë")==0) sprintf(&out[l-4],"¤Ù¤¿");else
-if( CMPTAIL("¤á¤ë")==0) sprintf(&out[l-4],"¤á¤¿");else
-if( CMPTAIL("¤ì¤ë")==0) sprintf(&out[l-4],"¤ì¤¿");else
-
-if( CMPTAIL("¤¦")==0) sprintf(&out[l-2],"¤Ã¤¿");else
-if( CMPTAIL("¤¯")==0) sprintf(&out[l-2],"¤¤¤¿");else
-if( CMPTAIL("¤°")==0) sprintf(&out[l-2],"¤¤¤À");else
-if( CMPTAIL("¤¹")==0) sprintf(&out[l-2],"¤·¤¿");else
-if( CMPTAIL("¤º")==0) sprintf(&out[l-2],"¤¸¤¿");else
-if( CMPTAIL("¤Ä")==0) sprintf(&out[l-2],"¤Ã¤¿");else
-if( CMPTAIL("¤Å")==0) sprintf(&out[l-2],"¤Ã¤¿");else
-if( CMPTAIL("¤Ì")==0) sprintf(&out[l-2],"¤Í¤¿");else
-if( CMPTAIL("¤Õ")==0) sprintf(&out[l-2],"¤Ø¤¿");else
-if( CMPTAIL("¤Ö")==0) sprintf(&out[l-2],"¤ó¤À");else
-if( CMPTAIL("¤à")==0) sprintf(&out[l-2],"¤ó¤À");else
-if( CMPTAIL("¤ë")==0) sprintf(&out[l-2],"¤Ã¤¿");else
-  sprintf(&out[l],"¤³¤È¤ä");}
-
-
-void jverb( const char *in , char *out , int flag){
-  switch (flag){
-  case JVERB_AND:jverb1(in , out);break;
-  case JVERB_TO :jverb2(in , out);break;
-  case JVERB_OR :jverb3(in , out);break;
-  }
+	if (p->from == NULL)
+		strcpy(&out[in_len], p->to[flag - 1]);
 }
 
 
@@ -313,8 +253,8 @@ void euc2sjis(char *str)
 
 
 /*
- * str¤ò´Ä¶­¤Ë¹ç¤Ã¤¿Ê¸»ú¥³¡¼¥É¤ËÊÑ´¹¤·¡¢ÊÑ´¹Á°¤ÎÊ¸»ú¥³¡¼¥É¤òÊÖ¤¹¡£
- * str¤ÎÄ¹¤µ¤ËÀ©¸Â¤Ï¤Ê¤¤¡£
+ * strã‚’ç’°å¢ƒã«åˆã£ãŸæ–‡å­—ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã—ã€å¤‰æ›å‰ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã™ã€‚
+ * strã®é•·ã•ã«åˆ¶é™ã¯ãªã„ã€‚
  *
  * 0: Unknown
  * 1: ASCII (Never known to be ASCII in this function.)
@@ -403,7 +343,7 @@ byte codeconv(char *str)
 	return code;
 }
 
-/* Ê¸»úÎós¤Îx¥Ğ¥¤¥ÈÌÜ¤¬´Á»ú¤Î1¥Ğ¥¤¥ÈÌÜ¤«¤É¤¦¤«È½Äê¤¹¤ë */
+/* æ–‡å­—åˆ—sã®xãƒã‚¤ãƒˆç›®ãŒæ¼¢å­—ã®1ãƒã‚¤ãƒˆç›®ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹ */
 bool iskanji2(cptr s, int x)
 {
 	int i;
@@ -417,5 +357,151 @@ bool iskanji2(cptr s, int x)
 	return FALSE;
 }
 
-#endif /* JP */
+/*!
+ * @brief æ–‡å­—åˆ—ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒASCIIã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹
+ * @param str åˆ¤å®šã™ã‚‹æ–‡å­—åˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+ * @return æ–‡å­—åˆ—ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒASCIIãªã‚‰TRUEã€ãã†ã§ãªã‘ã‚Œã°FALSE
+ */
+static bool is_ascii_str(cptr str)
+{
+	for (;*str; str++) {
+		if (!(0x00 < *str && *str <= 0x7f))
+			return FALSE;
+	}
+	return TRUE;
+}
 
+/*!
+ * @brief æ–‡å­—åˆ—ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒUTF-8ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹
+ * @param str åˆ¤å®šã™ã‚‹æ–‡å­—åˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+ * @return æ–‡å­—åˆ—ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒUTF-8ãªã‚‰TRUEã€ãã†ã§ãªã‘ã‚Œã°FALSE
+ */
+static bool is_utf8_str(cptr str)
+{
+	const unsigned char* p;
+	for (p = (const unsigned char*)str; *p; p++) {
+		int subseq_num = 0;
+		if (0x00 < *p && *p <= 0x7f) continue;
+		
+		if ((*p & 0xe0) == 0xc0) subseq_num = 1;
+		if ((*p & 0xf0) == 0xe0) subseq_num = 2;
+		if ((*p & 0xf8) == 0xf0) subseq_num = 3;
+
+		if (subseq_num == 0) return FALSE;
+		while (subseq_num--) {
+			p++;
+			if (!*p || (*p & 0xc0) != 0x80) return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+#if defined(EUC)
+#include <iconv.h>
+
+static const struct ms_to_jis_unicode_conv_t {
+	char from[3];
+	char to[3];
+} ms_to_jis_unicode_conv[] = {
+	{{0xef, 0xbd, 0x9e}, {0xe3, 0x80, 0x9c}}, /* FULLWIDTH TILDE -> WAVE DASH */
+	{{0xef, 0xbc, 0x8d}, {0xe2, 0x88, 0x92}}, /* FULLWIDTH HYPHEN-MINUS -> MINUS SIGN */
+};
+
+static void ms_to_jis_unicode(char* str)
+{
+	unsigned char* p;
+	for (p = (unsigned char*)str; *p; p++) {
+		int subseq_num = 0;
+		if (0x00 < *p && *p <= 0x7f) continue;
+
+		if ((*p & 0xe0) == 0xc0) subseq_num = 1;
+		if ((*p & 0xf0) == 0xe0) {
+			int i;
+			for (i = 0; i < sizeof(ms_to_jis_unicode_conv) / sizeof(ms_to_jis_unicode_conv[0]); ++ i) {
+				const struct ms_to_jis_unicode_conv_t *c = &ms_to_jis_unicode_conv[i];
+				if (memcmp(p, c->from, 3) == 0) {
+					memcpy(p, c->to, 3);
+				}
+			}
+			subseq_num = 2;
+                }
+		if ((*p & 0xf8) == 0xf0) subseq_num = 3;
+
+		p += subseq_num;
+	}
+}
+
+#elif defined(SJIS) && defined(WINDOWS)
+#include <Windows.h>
+#endif
+/*!
+ * @brief æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒUTF-8ã®æ–‡å­—åˆ—ã‚’ã‚·ã‚¹ãƒ†ãƒ ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
+ * @param utf8_str å¤‰æ›ã™ã‚‹UTF-8ã®æ–‡å­—åˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+ * @param sys_str_buffer å¤‰æ›ã—ãŸã‚·ã‚¹ãƒ†ãƒ ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®æ–‡å­—åˆ—ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+ * @param sys_str_buflen å¤‰æ›ã—ãŸã‚·ã‚¹ãƒ†ãƒ ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®æ–‡å­—åˆ—ã‚’æ ¼ç´ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®é•·ã•
+ * @return å¤‰æ›ã«æˆåŠŸã—ãŸå ´åˆTRUEã€å¤±æ•—ã—ãŸå ´åˆFALSEã‚’è¿”ã™
+ */
+static bool utf8_to_sys(char* utf8_str, char* sys_str_buffer, size_t sys_str_buflen)
+{
+#if defined(EUC)
+
+	iconv_t cd = iconv_open("EUC-JP", "UTF-8");
+	size_t utf8_len = strlen(utf8_str) + 1; /* include termination character */
+	char *from = utf8_str;
+	int ret;
+
+	ms_to_jis_unicode(utf8_str);
+	ret = iconv(cd, &from, &utf8_len, &sys_str_buffer, &sys_str_buflen);
+	iconv_close(cd);
+	return (ret >= 0);
+
+#elif defined(SJIS) && defined(WINDOWS)
+
+	LPWSTR utf16buf;
+	int input_len = strlen(utf8_str) + 1; /* include termination character */
+
+	C_MAKE(utf16buf, input_len, WCHAR);
+
+	/* UTF-8 -> UTF-16 */
+	if (MultiByteToWideChar( CP_UTF8, 0, utf8_str, input_len, utf16buf, input_len) == 0) {
+		C_KILL(utf16buf, input_len, WCHAR);
+		return FALSE;
+	}
+
+	/* UTF-8 -> SJIS(CP932) */
+	if (WideCharToMultiByte( CP_ACP, 0, utf16buf, -1, sys_str_buffer, sys_str_buflen, NULL, NULL ) == 0) {
+		C_KILL(utf16buf, input_len, WCHAR);
+		return FALSE;
+	}
+
+	C_KILL(utf16buf, input_len, WCHAR);
+	return TRUE;
+
+#endif
+}
+
+/*!
+ * @brief å—ã‘å–ã£ãŸæ–‡å­—åˆ—ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’æ¨å®šã—ã€ã‚·ã‚¹ãƒ†ãƒ ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã¸å¤‰æ›ã™ã‚‹
+ * @param strbuf å¤‰æ›ã™ã‚‹æ–‡å­—åˆ—ã‚’æ ¼ç´ã—ãŸãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€‚
+ *               ãƒãƒƒãƒ•ã‚¡ã¯å¤‰æ›ã—ãŸæ–‡å­—åˆ—ã§ä¸Šæ›¸ãã•ã‚Œã‚‹ã€‚
+ *               UTF-8ã‹ã‚‰SJISã‚‚ã—ãã¯EUCã¸ã®å¤‰æ›ã‚’æƒ³å®šã—ã¦ã„ã‚‹ã®ã§ãƒãƒƒãƒ•ã‚¡ã®é•·ã•ãŒè¶³ã‚Šãªããªã‚‹ã“ã¨ã¯ãªã„ã€‚
+ * @param buflen ãƒãƒƒãƒ•ã‚¡ã®é•·ã•ã€‚
+ * @return ãªã—
+ */
+void guess_convert_to_system_encoding(char* strbuf, int buflen)
+{
+	if (is_ascii_str(strbuf)) return;
+
+	if (is_utf8_str(strbuf)) {
+		char* work;
+		C_MAKE(work, buflen, char);
+		my_strcpy(work, strbuf, buflen);
+		if (!utf8_to_sys(work, strbuf, buflen)) {
+			msg_print("è­¦å‘Š:æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®å¤‰æ›ã«å¤±æ•—ã—ã¾ã—ãŸ");
+			msg_print(NULL);
+		}
+		C_KILL(work, buflen, char);
+	}
+}
+
+#endif /* JP */

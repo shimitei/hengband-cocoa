@@ -1,19 +1,23 @@
-/* File: wild.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke,
- * Robert Ruehlmann
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ * @file wild.c
+ * @brief 荒野マップの生成とルール管理 / Wilderness generation
+ * @date 2014/02/13
+ * @author
+ * Copyright (c) 1989 James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research, and\n
+ * not for profit purposes provided that this copyright and statement are\n
+ * included in all such copies.\n
+ * 2013 Deskull rearranged comment for Doxygen.
  */
-
-/* Purpose: Wilderness generation */
 
 #include "angband.h"
 
-
+/*!
+ * @brief 地形生成確率を決める要素100の配列を確率テーブルから作成する
+ * @param feat_type 非一様確率を再現するための要素数100の配列
+ * @param prob 元の確率テーブル
+ * @return なし
+ */
 static void set_floor_and_wall_aux(s16b feat_type[100], feat_prob prob[DUNGEON_FEAT_PROB_NUM])
 {
 	int lim[DUNGEON_FEAT_PROB_NUM], cur = 0, i;
@@ -31,8 +35,11 @@ static void set_floor_and_wall_aux(s16b feat_type[100], feat_prob prob[DUNGEON_F
 	}
 }
 
-/*
- * Fill the arrays of floors and walls in the good proportions
+/*!
+ * @brief ダンジョンの地形を指定確率に応じて各マスへランダムに敷き詰める
+ * / Fill the arrays of floors and walls in the good proportions
+ * @param type ダンジョンID
+ * @return なし
  */
 void set_floor_and_wall(byte type)
 {
@@ -54,8 +61,18 @@ void set_floor_and_wall(byte type)
 }
 
 
-/*
- * Helper for plasma generation.
+/*!
+ * @brief プラズマフラクタル的地形生成の再帰中間処理
+ * / Helper for plasma generation.
+ * @param x1 左上端の深み
+ * @param x2 右上端の深み
+ * @param x3 左下端の深み
+ * @param x4 右下端の深み
+ * @param xmid 中央座標X
+ * @param ymid 中央座標Y
+ * @param rough ランダム幅
+ * @param depth_max 深みの最大値
+ * @return なし
  */
 static void perturb_point_mid(int x1, int x2, int x3, int x4,
 			  int xmid, int ymid, int rough, int depth_max)
@@ -82,6 +99,18 @@ static void perturb_point_mid(int x1, int x2, int x3, int x4,
 }
 
 
+/*!
+ * @brief プラズマフラクタル的地形生成の再帰末端処理
+ * / Helper for plasma generation.
+ * @param x1 中間末端部1の重み
+ * @param x2 中間末端部2の重み
+ * @param x3 中間末端部3の重み
+ * @param xmid 最終末端部座標X
+ * @param ymid 最終末端部座標Y
+ * @param rough ランダム幅
+ * @param depth_max 深みの最大値
+ * @return なし
+ */
 static void perturb_point_end(int x1, int x2, int x3,
 			  int xmid, int ymid, int rough, int depth_max)
 {
@@ -106,12 +135,24 @@ static void perturb_point_end(int x1, int x2, int x3,
 }
 
 
-/*
+/*!
+ * @brief プラズマフラクタル的地形生成の開始処理
+ * / Helper for plasma generation.
+ * @param x1 処理範囲の左上X座標
+ * @param y1 処理範囲の左上Y座標
+ * @param x2 処理範囲の右下X座標
+ * @param y2 処理範囲の右下Y座標
+ * @param depth_max 深みの最大値
+ * @param rough ランダム幅
+ * @return なし
+ * @details
+ * <pre>
  * A generic function to generate the plasma fractal.
  * Note that it uses ``cave_feat'' as temporary storage.
  * The values in ``cave_feat'' after this function
  * are NOT actual features; They are raw heights which
  * need to be converted to features.
+ * </pre>
  */
 static void plasma_recursive(int x1, int y1, int x2, int y2,
 			     int depth_max, int rough)
@@ -154,12 +195,20 @@ static void plasma_recursive(int x1, int y1, int x2, int y2,
  */
 static s16b terrain_table[MAX_WILDERNESS][MAX_FEAT_IN_TERRAIN];
 
-
+/*!
+ * @brief 荒野フロア生成のサブルーチン
+ * @param terrain 荒野地形ID
+ * @param seed 乱数の固定シード
+ * @param border 未使用
+ * @param corner 広域マップの角部分としての生成ならばTRUE
+ * @return なし
+ */
 static void generate_wilderness_area(int terrain, u32b seed, bool border, bool corner)
 {
 	int x1, y1;
 	int table_size = sizeof(terrain_table[0]) / sizeof(s16b);
 	int roughness = 1; /* The roughness of the level. */
+	u32b state_backup[4];
 
 	/* Unused */
 	(void)border;
@@ -181,11 +230,11 @@ static void generate_wilderness_area(int terrain, u32b seed, bool border, bool c
 	}
 
 
-	/* Hack -- Use the "simple" RNG */
-	Rand_quick = TRUE;
+	/* Hack -- Backup the RNG state */
+	Rand_state_backup(state_backup);
 
-	/* Hack -- Induce consistant town layout */
-	Rand_value = seed;
+	/* Hack -- Induce consistant flavors */
+	Rand_state_set(seed);
 
 	if (!corner)
 	{
@@ -242,21 +291,29 @@ static void generate_wilderness_area(int terrain, u32b seed, bool border, bool c
 		cave[MAX_HGT - 2][MAX_WID - 2].feat = terrain_table[terrain][cave[MAX_HGT - 2][MAX_WID - 2].feat];
 	}
 
-	/* Use the complex RNG */
-	Rand_quick = FALSE;
+	/* Hack -- Restore the RNG state */
+	Rand_state_restore(state_backup);
 }
 
 
 
-/*
+/*!
+ * @brief 荒野フロア生成のメインルーチン /
  * Load a town or generate a terrain level using "plasma" fractals.
- *
+ * @param y 広域マップY座標
+ * @param x 広域マップY座標
+ * @param border 広域マップの辺部分としての生成ならばTRUE
+ * @param corner 広域マップの角部分としての生成ならばTRUE
+ * @return なし
+ * @details
+ * <pre>
  * x and y are the coordinates of the area in the wilderness.
  * Border and corner are optimization flags to speed up the
  * generation of the fractal terrain.
  * If border is set then only the border of the terrain should
  * be generated (for initializing the border structure).
  * If corner is set then only the corners of the area are needed.
+ * </pre>
  */
 static void generate_area(int y, int x, bool border, bool corner)
 {
@@ -357,12 +414,13 @@ static void generate_area(int y, int x, bool border, bool corner)
 	if (wilderness[y][x].entrance && !wilderness[y][x].town && (p_ptr->total_winner || !(d_info[wilderness[y][x].entrance].flags1 & DF1_WINNER)))
 	{
 		int dy, dx;
+		u32b state_backup[4];
 
-		/* Hack -- Use the "simple" RNG */
-		Rand_quick = TRUE;
+		/* Hack -- Backup the RNG state */
+		Rand_state_backup(state_backup);
 
-		/* Hack -- Induce consistant town layout */
-		Rand_value = wilderness[y][x].seed;
+		/* Hack -- Induce consistant flavors */
+		Rand_state_set(wilderness[y][x].seed);
 
 		dy = rand_range(6, cur_hgt - 6);
 		dx = rand_range(6, cur_wid - 6);
@@ -370,8 +428,8 @@ static void generate_area(int y, int x, bool border, bool corner)
 		cave[dy][dx].feat = feat_entrance;
 		cave[dy][dx].special = wilderness[y][x].entrance;
 
-		/* Use the complex RNG */
-		Rand_quick = FALSE;
+		/* Hack -- Restore the RNG state */
+		Rand_state_restore(state_backup);
 	}
 }
 
@@ -382,8 +440,10 @@ static void generate_area(int y, int x, bool border, bool corner)
 static border_type border;
 
 
-/*
+/*!
+ * @brief 広域マップの生成 /
  * Build the wilderness area outside of the town.
+ * @return なし
  */
 void wilderness_gen(void)
 {
@@ -628,9 +688,10 @@ void wilderness_gen(void)
 
 static s16b conv_terrain2feat[MAX_WILDERNESS];
 
-/*
- * Build the wilderness area.
- * -DG-
+/*!
+ * @brief 広域マップの生成(簡易処理版) /
+ * Build the wilderness area. -DG-
+ * @return なし
  */
 void wilderness_gen_small()
 {
@@ -699,8 +760,17 @@ struct wilderness_grid
 static wilderness_grid w_letter[255];
 
 
-/*
+/*!
+ * @brief w_info.txtのデータ解析 /
  * Parse a sub-file of the "extra info"
+ * @param buf 読み取ったデータ行のバッファ
+ * @param ymin 未使用
+ * @param xmin 広域地形マップを読み込みたいx座標の開始位置
+ * @param ymax 未使用
+ * @param xmax 広域地形マップを読み込みたいx座標の終了位置
+ * @param y 広域マップの高さを返す参照ポインタ
+ * @param x 広域マップの幅を返す参照ポインタ
+ * @return なし
  */
 errr parse_line_wilderness(char *buf, int ymin, int xmin, int ymax, int xmax, int *y, int *x)
 {
@@ -843,8 +913,11 @@ errr parse_line_wilderness(char *buf, int ymin, int xmin, int ymax, int xmax, in
 }
 
 
-/*
+
+/*!
+ * @brief ゲーム開始時に各荒野フロアの乱数シードを指定する /
  * Generate the random seeds for the wilderness
+ * @return なし
  */
 void seed_wilderness(void)
 {
@@ -867,8 +940,11 @@ void seed_wilderness(void)
  */
 typedef wilderness_type *wilderness_type_ptr;
 
-/*
+
+/*!
+ * @brief ゲーム開始時の荒野初期化メインルーチン /
  * Initialize wilderness array
+ * @return エラーコード
  */
 errr init_wilderness(void)
 {
@@ -887,7 +963,14 @@ errr init_wilderness(void)
 	return 0;
 }
 
-
+/*!
+ * @brief 荒野の地勢設定を初期化する /
+ * Initialize wilderness array
+ * @param terrain 初期化したい地勢ID
+ * @param feat_global 基本的な地形ID
+ * @param fmt 地勢内の地形数を参照するための独自フォーマット
+ * @return なし
+ */
 static void init_terrain_table(int terrain, s16b feat_global, cptr fmt, ...)
 {
 	va_list vp;
@@ -937,8 +1020,10 @@ static void init_terrain_table(int terrain, s16b feat_global, cptr fmt, ...)
 }
 
 
-/*
+/*!
+ * @brief 荒野の地勢設定全体を初期化するメインルーチン /
  * Initialize arrays for wilderness terrains
+ * @return なし
  */
 void init_wilderness_terrains(void)
 {
@@ -1015,7 +1100,11 @@ void init_wilderness_terrains(void)
 		feat_mountain, MAX_FEAT_IN_TERRAIN - 8);
 }
 
-
+/*!
+ * @brief 荒野から広域マップへの切り替え処理 /
+ * Initialize arrays for wilderness terrains
+ * @return 切り替えが行われた場合はTRUEを返す。
+ */
 bool change_wild_mode(void)
 {
 	int i;
@@ -1028,7 +1117,7 @@ bool change_wild_mode(void)
 	if (lite_town || vanilla_town)
 	{
 #ifdef JP
-		msg_print("����ʤ�Ƥʤ���");
+		msg_print("荒野なんてない。");
 #else
 		msg_print("No global map.");
 #endif
@@ -1064,7 +1153,7 @@ bool change_wild_mode(void)
 		if (m_ptr->cdis > MAX_SIGHT) continue;
 		if (!is_hostile(m_ptr)) continue;
 #ifdef JP
-		msg_print("Ũ�������᤯�ˤ���Ȥ��Ϲ���ޥåפ�����ʤ���");
+		msg_print("敵がすぐ近くにいるときは広域マップに入れない！");
 #else
 		msg_print("You cannot enter global map, since there is some monsters nearby!");
 #endif
@@ -1075,7 +1164,7 @@ bool change_wild_mode(void)
 	if (have_pet)
 	{
 #ifdef JP
-		cptr msg = "�ڥåȤ��֤��ƹ���ޥåפ�����ޤ�����";
+		cptr msg = "ペットを置いて広域マップに入りますか？";
 #else
 		cptr msg = "Do you leave your pets behind? ";
 #endif

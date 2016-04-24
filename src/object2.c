@@ -1,22 +1,24 @@
-/* File: object2.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ * @file object2.c
+ * @brief オブジェクトの実装 / Object code, part 2
+ * @date 2014/01/11
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ *\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen.\n
  */
-
-/* Purpose: Object code, part 2 */
 
 #include "angband.h"
 
 #include "kajitips.h"
 
-
-/*
- * Excise a dungeon object from any stacks
+/*!
+ * @brief 床上、モンスター所持でスタックされたアイテムを削除しスタックを補完する / Excise a dungeon object from any stacks
+ * @param o_idx 削除対象のオブジェクト構造体ポインタ
+ * @return なし
  */
 void excise_object_idx(int o_idx)
 {
@@ -140,10 +142,12 @@ void excise_object_idx(int o_idx)
 	}
 }
 
-
-/*
+/*!
+ * @brief オブジェクトを削除する /
  * Delete a dungeon object
- *
+ * @param o_idx 削除対象のオブジェクト構造体ポインタ
+ * @return なし
+ * @details
  * Handle "stacks" of objects correctly.
  */
 void delete_object_idx(int o_idx)
@@ -177,8 +181,12 @@ void delete_object_idx(int o_idx)
 }
 
 
-/*
- * Deletes all objects at given location
+/*!
+ * @brief フロアにマスに落ちているオブジェクトを全て削除する / Deletes all objects at given location
+ * Delete a dungeon object
+ * @param y 削除したフロアマスのY座標
+ * @param x 削除したフロアマスのX座標
+ * @return なし
  */
 void delete_object(int y, int x)
 {
@@ -220,8 +228,12 @@ void delete_object(int y, int x)
 }
 
 
-/*
+/*!
+ * @brief グローバルオブジェクト配列に対し指定範囲のオブジェクトを整理してIDの若い順に寄せる /
  * Move an object from index i1 to index i2 in the object list
+ * @param i1 整理したい配列の始点
+ * @param i2 整理したい配列の終点
+ * @return なし
  */
 static void compact_objects_aux(int i1, int i2)
 {
@@ -303,17 +315,21 @@ static void compact_objects_aux(int i1, int i2)
 }
 
 
-/*
- * Compact and Reorder the object list
- *
- * This function can be very dangerous, use with caution!
- *
- * When actually "compacting" objects, we base the saving throw on a
- * combination of object level, distance from player, and current
- * "desperation".
- *
- * After "compacting" (if needed), we "reorder" the objects into a more
- * compact order, and we reset the allocation info, and the "live" array.
+/*!
+ * @brief グローバルオブジェクト配列から優先度の低いものを削除し、データを圧縮する。 /
+ * Compact and Reorder the object list.
+ * @param size 最低でも減らしたいオブジェクト数の水準
+ * @return なし
+ * @details
+ * （危険なので使用には注意すること）
+ * This function can be very dangerous, use with caution!\n
+ *\n
+ * When actually "compacting" objects, we base the saving throw on a\n
+ * combination of object level, distance from player, and current\n
+ * "desperation".\n
+ *\n
+ * After "compacting" (if needed), we "reorder" the objects into a more\n
+ * compact order, and we reset the allocation info, and the "live" array.\n
  */
 void compact_objects(int size)
 {
@@ -326,12 +342,7 @@ void compact_objects(int size)
 	if (size)
 	{
 		/* Message */
-#ifdef JP
-		msg_print("�����ƥ����򰵽̤��Ƥ��ޤ�...");
-#else
-		msg_print("Compacting objects...");
-#endif
-
+		msg_print(_("アイテム情報を圧縮しています...", "Compacting objects..."));
 
 		/* Redraw map */
 		p_ptr->redraw |= (PR_MAP);
@@ -424,16 +435,17 @@ void compact_objects(int size)
 }
 
 
-/*
+/*!
+ * @brief グローバルオブジェクト配列を初期化する /
  * Delete all the items when player leaves the level
- *
- * Note -- we do NOT visually reflect these (irrelevant) changes
- *
+ * @note we do NOT visually reflect these (irrelevant) changes
+ * @details
  * Hack -- we clear the "c_ptr->o_idx" field for every grid,
  * and the "m_ptr->next_o_idx" field for every monster, since
  * we know we are clearing every object.  Technically, we only
  * clear those fields for grids/monsters containing objects,
  * and we clear it once for every such object.
+ * @return なし
  */
 void wipe_o_list(void)
 {
@@ -498,9 +510,11 @@ void wipe_o_list(void)
 }
 
 
-/*
+/*!
+ * @brief グローバルオブジェクト配列から空きを取得する /
  * Acquires and returns the index of a "free" object.
- *
+ * @return 開いているオブジェクト要素のID
+ * @details
  * This routine should almost never fail, but in case it does,
  * we must be sure to handle "failure" of this routine.
  */
@@ -546,20 +560,18 @@ s16b o_pop(void)
 
 
 	/* Warn the player (except during dungeon creation) */
-#ifdef JP
-	if (character_dungeon) msg_print("�����ƥब¿�����롪");
-#else
-	if (character_dungeon) msg_print("Too many objects!");
-#endif
-
+	if (character_dungeon) msg_print(_("アイテムが多すぎる！", "Too many objects!"));
 
 	/* Oops */
 	return (0);
 }
 
 
-/*
+/*!
+ * @brief オブジェクト生成テーブルに生成制約を加える /
  * Apply a "object restriction function" to the "object allocation table"
+ * @return 常に0を返す。
+ * @details 生成の制約はグローバルのget_obj_num_hook関数ポインタで加える
  */
 static errr get_obj_num_prep(void)
 {
@@ -591,20 +603,23 @@ static errr get_obj_num_prep(void)
 }
 
 
-/*
+/*!
+ * @brief オブジェクト生成テーブルからアイテムを取得する /
  * Choose an object kind that seems "appropriate" to the given level
- *
- * This function uses the "prob2" field of the "object allocation table",
- * and various local information, to calculate the "prob3" field of the
- * same table, which is then used to choose an "appropriate" object, in
- * a relatively efficient manner.
- *
- * It is (slightly) more likely to acquire an object of the given level
- * than one of a lower level.  This is done by choosing several objects
- * appropriate to the given level and keeping the "hardest" one.
- *
- * Note that if no objects are "appropriate", then this function will
- * fail, and return zero, but this should *almost* never happen.
+ * @param level 生成階
+ * @return 選ばれたオブジェクトベースID
+ * @details
+ * This function uses the "prob2" field of the "object allocation table",\n
+ * and various local information, to calculate the "prob3" field of the\n
+ * same table, which is then used to choose an "appropriate" object, in\n
+ * a relatively efficient manner.\n
+ *\n
+ * It is (slightly) more likely to acquire an object of the given level\n
+ * than one of a lower level.  This is done by choosing several objects\n
+ * appropriate to the given level and keeping the "hardest" one.\n
+ *\n
+ * Note that if no objects are "appropriate", then this function will\n
+ * fail, and return zero, but this should *almost* never happen.\n
  */
 s16b get_obj_num(int level)
 {
@@ -728,20 +743,23 @@ s16b get_obj_num(int level)
 }
 
 
-/*
+/*!
+ * @brief オブジェクトを鑑定済にする /
  * Known is true when the "attributes" of an object are "known".
- * These include tohit, todam, toac, cost, and pval (charges).
- *
- * Note that "knowing" an object gives you everything that an "awareness"
- * gives you, and much more.  In fact, the player is always "aware" of any
- * item of which he has full "knowledge".
- *
- * But having full knowledge of, say, one "wand of wonder", does not, by
- * itself, give you knowledge, or even awareness, of other "wands of wonder".
- * It happens that most "identify" routines (including "buying from a shop")
- * will make the player "aware" of the object as well as fully "know" it.
- *
- * This routine also removes any inscriptions generated by "feelings".
+ * @param o_ptr 鑑定済にするオブジェクトの構造体参照ポインタ
+ * @return なし
+ * These include tohit, todam, toac, cost, and pval (charges).\n
+ *\n
+ * Note that "knowing" an object gives you everything that an "awareness"\n
+ * gives you, and much more.  In fact, the player is always "aware" of any\n
+ * item of which he has full "knowledge".\n
+ *\n
+ * But having full knowledge of, say, one "wand of wonder", does not, by\n
+ * itself, give you knowledge, or even awareness, of other "wands of wonder".\n
+ * It happens that most "identify" routines (including "buying from a shop")\n
+ * will make the player "aware" of the object as well as fully "know" it.\n
+ *\n
+ * This routine also removes any inscriptions generated by "feelings".\n
  */
 void object_known(object_type *o_ptr)
 {
@@ -758,9 +776,11 @@ void object_known(object_type *o_ptr)
 	o_ptr->ident |= (IDENT_KNOWN);
 }
 
-
-/*
+/*!
+ * @brief オブジェクトを＊鑑定＊済にする /
  * The player is now aware of the effects of the given object.
+ * @param o_ptr ＊鑑定＊済にするオブジェクトの構造体参照ポインタ
+ * @return なし
  */
 void object_aware(object_type *o_ptr)
 {
@@ -787,8 +807,11 @@ void object_aware(object_type *o_ptr)
 }
 
 
-/*
+/*!
+ * @brief オブジェクトを試行済にする /
  * Something has been "sampled"
+ * @param o_ptr 試行済にするオブジェクトの構造体参照ポインタ
+ * @return なし
  */
 void object_tried(object_type *o_ptr)
 {
@@ -797,9 +820,11 @@ void object_tried(object_type *o_ptr)
 }
 
 
-/*
- * Return the "value" of an "unknown" item
- * Make a guess at the value of non-aware items
+/*!
+ * @brief 未鑑定なベースアイテムの基本価格を返す /
+ * Return the "value" of an "unknown" item Make a guess at the value of non-aware items
+ * @param o_ptr 未鑑定価格を確認したいオブジェクトの構造体参照ポインタ
+ * @return オブジェクトの未鑑定価格
  */
 static s32b object_value_base(object_type *o_ptr)
 {
@@ -855,7 +880,13 @@ static s32b object_value_base(object_type *o_ptr)
 }
 
 
-/* Return the value of the flags the object has... */
+/*!
+ * @brief オブジェクトのフラグ類から価格を算出する /
+ * Return the value of the flags the object has...
+ * @param o_ptr フラグ価格を確認したいオブジェクトの構造体参照ポインタ
+ * @param plusses フラグに与える価格の基本重み
+ * @return オブジェクトのフラグ価格
+ */
 s32b flag_cost(object_type *o_ptr, int plusses)
 {
 	s32b total = 0;
@@ -955,7 +986,7 @@ s32b flag_cost(object_type *o_ptr, int plusses)
 	if (have_flag(flgs, TR_EASY_SPELL)) total += 1500;
 	if (have_flag(flgs, TR_THROW)) total += 5000;
 	if (have_flag(flgs, TR_FREE_ACT)) total += 4500;
-	if (have_flag(flgs, TR_HOLD_LIFE)) total += 8500;
+	if (have_flag(flgs, TR_HOLD_EXP)) total += 8500;
 
 	tmp_cost = 0;
 	count = 0;
@@ -991,7 +1022,12 @@ s32b flag_cost(object_type *o_ptr, int plusses)
 	if (have_flag(flgs, TR_HIDE_TYPE)) total += 0;
 	if (have_flag(flgs, TR_SHOW_MODS)) total += 0;
 	if (have_flag(flgs, TR_LEVITATION)) total += 1250;
-	if (have_flag(flgs, TR_LITE)) total += 1250;
+	if (have_flag(flgs, TR_LITE_1)) total += 1500;
+	if (have_flag(flgs, TR_LITE_2)) total += 2500;
+	if (have_flag(flgs, TR_LITE_3)) total += 4000;
+	if (have_flag(flgs, TR_LITE_M1)) total -= 1500;
+	if (have_flag(flgs, TR_LITE_M2)) total -= 2500;
+	if (have_flag(flgs, TR_LITE_M3)) total -= 4000;
 	if (have_flag(flgs, TR_SEE_INVIS)) total += 2000;
 	if (have_flag(flgs, TR_TELEPATHY)) total += 20000;
 	if (have_flag(flgs, TR_ESP_ANIMAL)) total += 1000;
@@ -1018,6 +1054,18 @@ s32b flag_cost(object_type *o_ptr, int plusses)
 	if (have_flag(flgs, TR_IGNORE_COLD)) total += 100;
 	if (have_flag(flgs, TR_ACTIVATE)) total += 100;
 	if (have_flag(flgs, TR_DRAIN_EXP)) total -= 12500;
+	if (have_flag(flgs, TR_DRAIN_HP)) total -= 12500;
+	if (have_flag(flgs, TR_DRAIN_MANA)) total -= 12500;
+	if (have_flag(flgs, TR_CALL_ANIMAL)) total -= 12500;
+	if (have_flag(flgs, TR_CALL_DEMON)) total -= 10000;
+	if (have_flag(flgs, TR_CALL_DRAGON)) total -= 10000;
+	if (have_flag(flgs, TR_CALL_UNDEAD)) total -= 10000;
+	if (have_flag(flgs, TR_COWARDICE)) total -= 5000;
+	if (have_flag(flgs, TR_LOW_MELEE)) total -= 5000;
+	if (have_flag(flgs, TR_LOW_AC)) total -= 5000;
+	if (have_flag(flgs, TR_LOW_MAGIC)) total -= 15000;
+	if (have_flag(flgs, TR_FAST_DIGEST)) total -= 10000;
+	if (have_flag(flgs, TR_SLOW_REGEN)) total -= 10000;
 	if (have_flag(flgs, TR_TELEPORT))
 	{
 		if (object_is_cursed(o_ptr))
@@ -1027,6 +1075,8 @@ s32b flag_cost(object_type *o_ptr, int plusses)
 	}
 	if (have_flag(flgs, TR_AGGRAVATE)) total -= 10000;
 	if (have_flag(flgs, TR_BLESSED)) total += 750;
+	if (o_ptr->curse_flags & TR_ADD_L_CURSE) total -= 5000;
+	if (o_ptr->curse_flags & TR_ADD_H_CURSE) total -= 12500;
 	if (o_ptr->curse_flags & TRC_CURSED) total -= 5000;
 	if (o_ptr->curse_flags & TRC_HEAVY_CURSE) total -= 12500;
 	if (o_ptr->curse_flags & TRC_PERMA_CURSE) total -= 15000;
@@ -1034,108 +1084,41 @@ s32b flag_cost(object_type *o_ptr, int plusses)
 	/* Also, give some extra for activatable powers... */
 	if (o_ptr->art_name && (have_flag(o_ptr->art_flags, TR_ACTIVATE)))
 	{
-		int type = o_ptr->xtra2;
-
-		if (type == ACT_SUNLIGHT) total += 250;
-		else if (type == ACT_BO_MISS_1) total += 250;
-		else if (type == ACT_BA_POIS_1) total += 300;
-		else if (type == ACT_BO_ELEC_1) total += 250;
-		else if (type == ACT_BO_ACID_1) total += 250;
-		else if (type == ACT_BO_COLD_1) total += 250;
-		else if (type == ACT_BO_FIRE_1) total += 250;
-		else if (type == ACT_BA_COLD_1) total += 750;
-		else if (type == ACT_BA_FIRE_1) total += 1000;
-		else if (type == ACT_DRAIN_1) total += 500;
-		else if (type == ACT_BA_COLD_2) total += 1250;
-		else if (type == ACT_BA_ELEC_2) total += 1500;
-		else if (type == ACT_DRAIN_2) total += 750;
-		else if (type == ACT_VAMPIRE_1) total += 1000;
-		else if (type == ACT_BO_MISS_2) total += 1000;
-		else if (type == ACT_BA_FIRE_2) total += 1750;
-		else if (type == ACT_BA_COLD_3) total += 2500;
-		else if (type == ACT_BA_ELEC_3) total += 2500;
-		else if (type == ACT_WHIRLWIND) total += 7500;
-		else if (type == ACT_VAMPIRE_2) total += 2500;
-		else if (type == ACT_CALL_CHAOS) total += 5000;
-		else if (type == ACT_ROCKET) total += 5000;
-		else if (type == ACT_DISP_EVIL) total += 4000;
-		else if (type == ACT_DISP_GOOD) total += 3500;
-		else if (type == ACT_BA_MISS_3) total += 5000;
-		else if (type == ACT_CONFUSE) total += 500;
-		else if (type == ACT_SLEEP) total += 750;
-		else if (type == ACT_QUAKE) total += 600;
-		else if (type == ACT_TERROR) total += 2500;
-		else if (type == ACT_TELE_AWAY) total += 2000;
-		else if (type == ACT_BANISH_EVIL) total += 2000;
-		else if (type == ACT_GENOCIDE) total += 10000;
-		else if (type == ACT_MASS_GENO) total += 10000;
-		else if (type == ACT_CHARM_ANIMAL) total += 7500;
-		else if (type == ACT_CHARM_UNDEAD) total += 10000;
-		else if (type == ACT_CHARM_OTHER) total += 10000;
-		else if (type == ACT_CHARM_ANIMALS) total += 12500;
-		else if (type == ACT_CHARM_OTHERS) total += 17500;
-		else if (type == ACT_SUMMON_ANIMAL) total += 10000;
-		else if (type == ACT_SUMMON_PHANTOM) total += 12000;
-		else if (type == ACT_SUMMON_ELEMENTAL) total += 15000;
-		else if (type == ACT_SUMMON_DEMON) total += 20000;
-		else if (type == ACT_SUMMON_UNDEAD) total += 20000;
-		else if (type == ACT_CURE_LW) total += 500;
-		else if (type == ACT_CURE_MW) total += 750;
-		else if (type == ACT_CURE_POISON) total += 1000;
-		else if (type == ACT_REST_LIFE) total += 7500;
-		else if (type == ACT_REST_ALL) total += 15000;
-		else if (type == ACT_CURE_700) total += 10000;
-		else if (type == ACT_CURE_1000) total += 15000;
-		else if (type == ACT_ESP) total += 1500;
-		else if (type == ACT_BERSERK) total += 800;
-		else if (type == ACT_PROT_EVIL) total += 5000;
-		else if (type == ACT_RESIST_ALL) total += 5000;
-		else if (type == ACT_SPEED) total += 15000;
-		else if (type == ACT_XTRA_SPEED) total += 25000;
-		else if (type == ACT_WRAITH) total += 25000;
-		else if (type == ACT_INVULN) total += 25000;
-		else if (type == ACT_LIGHT) total += 150;
-		else if (type == ACT_MAP_LIGHT) total += 500;
-		else if (type == ACT_DETECT_ALL) total += 1000;
-		else if (type == ACT_DETECT_XTRA) total += 12500;
-		else if (type == ACT_ID_FULL) total += 10000;
-		else if (type == ACT_ID_PLAIN) total += 1250;
-		else if (type == ACT_RUNE_EXPLO) total += 4000;
-		else if (type == ACT_RUNE_PROT) total += 10000;
-		else if (type == ACT_SATIATE) total += 2000;
-		else if (type == ACT_DEST_DOOR) total += 100;
-		else if (type == ACT_STONE_MUD) total += 1000;
-		else if (type == ACT_RECHARGE) total += 1000;
-		else if (type == ACT_ALCHEMY) total += 10000;
-		else if (type == ACT_DIM_DOOR) total += 10000;
-		else if (type == ACT_TELEPORT) total += 2000;
-		else if (type == ACT_RECALL) total += 7500;
+		const activation_type* const act_ptr = find_activation_info(o_ptr);
+		if (act_ptr) {
+			total += act_ptr->value;
+		}
 	}
 
 	return total;
 }
 
 
-/*
- * Return the "real" price of a "known" item, not including discounts
- *
- * Wand and staffs get cost for each charge
- *
- * Armor is worth an extra 100 gold per bonus point to armor class.
- *
- * Weapons are worth an extra 100 gold per bonus point (AC,TH,TD).
- *
- * Missiles are only worth 5 gold per bonus point, since they
- * usually appear in groups of 20, and we want the player to get
- * the same amount of cash for any "equivalent" item.  Note that
- * missiles never have any of the "pval" flags, and in fact, they
- * only have a few of the available flags, primarily of the "slay"
- * and "brand" and "ignore" variety.
- *
- * Armor with a negative armor bonus is worthless.
- * Weapons with negative hit+damage bonuses are worthless.
- *
- * Every wearable item with a "pval" bonus is worth extra (see below).
+/*!
+ * @brief オブジェクトの真の価格を算出する /
+ * Return the value of the flags the object has...
+ * @param o_ptr 本価格を確認したいオブジェクトの構造体参照ポインタ
+ * @return オブジェクトの本価格
+ * @details
+ * Return the "real" price of a "known" item, not including discounts\n
+ *\n
+ * Wand and staffs get cost for each charge\n
+ *\n
+ * Armor is worth an extra 100 gold per bonus point to armor class.\n
+ *\n
+ * Weapons are worth an extra 100 gold per bonus point (AC,TH,TD).\n
+ *\n
+ * Missiles are only worth 5 gold per bonus point, since they\n
+ * usually appear in groups of 20, and we want the player to get\n
+ * the same amount of cash for any "equivalent" item.  Note that\n
+ * missiles never have any of the "pval" flags, and in fact, they\n
+ * only have a few of the available flags, primarily of the "slay"\n
+ * and "brand" and "ignore" variety.\n
+ *\n
+ * Armor with a negative armor bonus is worthless.\n
+ * Weapons with negative hit+damage bonuses are worthless.\n
+ *\n
+ * Every wearable item with a "pval" bonus is worth extra (see below).\n
  */
 s32b object_value_real(object_type *o_ptr)
 {
@@ -1385,16 +1368,19 @@ s32b object_value_real(object_type *o_ptr)
 }
 
 
-/*
+/*!
+ * @brief オブジェクト価格算出のメインルーチン /
  * Return the price of an item including plusses (and charges)
- *
- * This function returns the "value" of the given item (qty one)
- *
- * Never notice "unknown" bonuses or properties, including "curses",
- * since that would give the player information he did not have.
- *
- * Note that discounted items stay discounted forever, even if
- * the discount is "forgotten" by the player via memory loss.
+ * @param o_ptr 判明している現価格を確認したいオブジェクトの構造体参照ポインタ
+ * @return オブジェクトの判明している現価格
+ * @details
+ * This function returns the "value" of the given item (qty one)\n
+ *\n
+ * Never notice "unknown" bonuses or properties, including "curses",\n
+ * since that would give the player information he did not have.\n
+ *\n
+ * Note that discounted items stay discounted forever, even if\n
+ * the discount is "forgotten" by the player via memory loss.\n
  */
 s32b object_value(object_type *o_ptr)
 {
@@ -1437,8 +1423,12 @@ s32b object_value(object_type *o_ptr)
 }
 
 
-/*
+
+/*!
+ * @brief 破壊可能なアイテムかを返す /
  * Determines whether an object can be destroyed, and makes fake inscription.
+ * @param o_ptr 破壊可能かを確認したいオブジェクトの構造体参照ポインタ
+ * @return オブジェクトが破壊可能ならばTRUEを返す
  */
 bool can_player_destroy_object(object_type *o_ptr)
 {
@@ -1474,21 +1464,21 @@ bool can_player_destroy_object(object_type *o_ptr)
 }
 
 
-/*
+/*!
+ * @brief 魔法棒やロッドのスロット分割時に使用回数を分配する /
  * Distribute charges of rods or wands.
- *
- * o_ptr = source item
- * q_ptr = target item, must be of the same type as o_ptr
- * amt   = number of items that are transfered
+ * @param o_ptr 分割元オブジェクトの構造体参照ポインタ source item
+ * @param q_ptr 分割先オブジェクトの構造体参照ポインタ target item, must be of the same type as o_ptr
+ * @param amt 分割したい回数量 number of items that are transfered
+ * @return なし
+ * @details
+ * Hack -- If rods or wands are dropped, the total maximum timeout or\n
+ * charges need to be allocated between the two stacks.  If all the items\n
+ * are being dropped, it makes for a neater message to leave the original\n
+ * stack's pval alone. -LM-\n
  */
 void distribute_charges(object_type *o_ptr, object_type *q_ptr, int amt)
 {
-	/*
-	 * Hack -- If rods or wands are dropped, the total maximum timeout or
-	 * charges need to be allocated between the two stacks.  If all the items
-	 * are being dropped, it makes for a neater message to leave the original
-	 * stack's pval alone. -LM-
-	 */
 	if ((o_ptr->tval == TV_WAND) || (o_ptr->tval == TV_ROD))
 	{
 		q_ptr->pval = o_ptr->pval * amt / o_ptr->number;
@@ -1510,20 +1500,24 @@ void distribute_charges(object_type *o_ptr, object_type *q_ptr, int amt)
 	}
 }
 
+/*!
+ * @brief 魔法棒やロッドの使用回数を減らす /
+ * @param o_ptr オブジェクトの構造体参照ポインタ source item
+ * @param amt 減らしたい回数量 number of items that are transfered
+ * @return なし
+ * @details
+ * Hack -- If rods or wand are destroyed, the total maximum timeout or\n
+ * charges of the stack needs to be reduced, unless all the items are\n
+ * being destroyed. -LM-\n
+ */
 void reduce_charges(object_type *o_ptr, int amt)
 {
-	/*
-	 * Hack -- If rods or wand are destroyed, the total maximum timeout or
-	 * charges of the stack needs to be reduced, unless all the items are
-	 * being destroyed. -LM-
-	 */
 	if (((o_ptr->tval == TV_WAND) || (o_ptr->tval == TV_ROD)) &&
 		(amt < o_ptr->number))
 	{
 		o_ptr->pval -= o_ptr->pval * amt / o_ptr->number;
 	}
 }
-
 
 /*
  * Determine if an item can "absorb" a second item
@@ -1552,9 +1546,12 @@ void reduce_charges(object_type *o_ptr, int amt)
 #define MAX_STACK_SIZE 99
 
 
-/*
- *  Determine if an item can partly absorb a second item.
- *  Return maximum number of stack.
+/*!
+ * @brief 両オブジェクトをスロットに重ね合わせ可能な最大数を返す。
+ * Determine if an item can partly absorb a second item. Return maximum number of stack.
+ * @param o_ptr 検証したいオブジェクトの構造体参照ポインタ1
+ * @param j_ptr 検証したいオブジェクトの構造体参照ポインタ2
+ * @return 重ね合わせ可能なアイテム数
  */
 int object_similar_part(object_type *o_ptr, object_type *j_ptr)
 {
@@ -1756,8 +1753,12 @@ int object_similar_part(object_type *o_ptr, object_type *j_ptr)
 	return max_num;
 }
 
-/*
- *  Determine if an item can absorb a second item.
+/*!
+ * @brief 両オブジェクトをスロットに重ねることができるかどうかを返す。
+ * Determine if an item can absorb a second item.
+ * @param o_ptr 検証したいオブジェクトの構造体参照ポインタ1
+ * @param j_ptr 検証したいオブジェクトの構造体参照ポインタ2
+ * @return 重ね合わせ可能ならばTRUEを返す。
  */
 bool object_similar(object_type *o_ptr, object_type *j_ptr)
 {
@@ -1779,9 +1780,12 @@ bool object_similar(object_type *o_ptr, object_type *j_ptr)
 }
 
 
-
-/*
+/*!
+ * @brief 両オブジェクトをスロットに重ね合わせる。
  * Allow one item to "absorb" another, assuming they are similar
+ * @param o_ptr 重ね合わせ先のオブジェクトの構造体参照ポインタ
+ * @param j_ptr 重ね合わせ元のオブジェクトの構造体参照ポインタ
+ * @return なし
  */
 void object_absorb(object_type *o_ptr, object_type *j_ptr)
 {
@@ -1831,8 +1835,12 @@ void object_absorb(object_type *o_ptr, object_type *j_ptr)
 }
 
 
-/*
+/*!
+ * @brief tvalとsvalに対応するベースアイテムのIDを返す。
  * Find the index of the object_kind with the given tval and sval
+ * @param tval 検索したいベースアイテムのtval
+ * @param sval 検索したいベースアイテムのsval
+ * @return なし
  */
 s16b lookup_kind(int tval, int sval)
 {
@@ -1869,11 +1877,7 @@ s16b lookup_kind(int tval, int sval)
 
 #if 0
 	/* Oops */
-#ifdef JP
-	msg_format("�����ƥब�ʤ� (%d,%d)", tval, sval);
-#else
-	msg_format("No object (%d,%d)", tval, sval);
-#endif
+	msg_format(_("アイテムがない (%d,%d)", "No object (%d,%d)"), tval, sval);
 #endif
 
 
@@ -1882,8 +1886,11 @@ s16b lookup_kind(int tval, int sval)
 }
 
 
-/*
+/*!
+ * @brief オブジェクトを初期化する
  * Wipe an object clean.
+ * @param o_ptr 初期化したいオブジェクトの構造体参照ポインタ
+ * @return なし
  */
 void object_wipe(object_type *o_ptr)
 {
@@ -1892,18 +1899,26 @@ void object_wipe(object_type *o_ptr)
 }
 
 
-/*
- * Prepare an object based on an existing object
+/*!
+ * @brief オブジェクトを複製する
+ * Wipe an object clean.
+ * @param o_ptr 複製元のオブジェクトの構造体参照ポインタ
+ * @param j_ptr 複製先のオブジェクトの構造体参照ポインタ
+ * @return なし
  */
 void object_copy(object_type *o_ptr, object_type *j_ptr)
 {
 	/* Copy the structure */
-	COPY(o_ptr, j_ptr, object_type);
+	(void)COPY(o_ptr, j_ptr, object_type);
 }
 
 
-/*
+/*!
+ * @brief オブジェクト構造体にベースアイテムを作成する
  * Prepare an object based on an object kind.
+ * @param o_ptr 代入したいオブジェクトの構造体参照ポインタ
+ * @param k_idx 新たに作成したいベースアイテム情報のID
+ * @return なし
  */
 void object_prep(object_type *o_ptr, int k_idx)
 {
@@ -1938,6 +1953,9 @@ void object_prep(object_type *o_ptr, int k_idx)
 	o_ptr->dd = k_ptr->dd;
 	o_ptr->ds = k_ptr->ds;
 
+	/* Default activation */
+	if (k_ptr->act_idx > 0) o_ptr->xtra2 = k_ptr->act_idx;
+
 	/* Hack -- worthless items are always "broken" */
 	if (k_info[o_ptr->k_idx].cost <= 0) o_ptr->ident |= (IDENT_BROKEN);
 
@@ -1951,44 +1969,48 @@ void object_prep(object_type *o_ptr, int k_idx)
 }
 
 
-/*
+/*!
+ * @brief 上質以上のオブジェクトに与えるための各種ボーナスを正規乱数も加えて算出する。
  * Help determine an "enchantment bonus" for an object.
- *
- * To avoid floating point but still provide a smooth distribution of bonuses,
- * we simply round the results of division in such a way as to "average" the
- * correct floating point value.
- *
- * This function has been changed.  It uses "randnor()" to choose values from
- * a normal distribution, whose mean moves from zero towards the max as the
- * level increases, and whose standard deviation is equal to 1/4 of the max,
- * and whose values are forced to lie between zero and the max, inclusive.
- *
- * Since the "level" rarely passes 100 before Morgoth is dead, it is very
- * rare to get the "full" enchantment on an object, even a deep levels.
- *
- * It is always possible (albeit unlikely) to get the "full" enchantment.
- *
- * A sample distribution of values from "m_bonus(10, N)" is shown below:
- *
- *   N       0     1     2     3     4     5     6     7     8     9    10
- * ---    ----  ----  ----  ----  ----  ----  ----  ----  ----  ----  ----
- *   0   66.37 13.01  9.73  5.47  2.89  1.31  0.72  0.26  0.12  0.09  0.03
- *   8   46.85 24.66 12.13  8.13  4.20  2.30  1.05  0.36  0.19  0.08  0.05
- *  16   30.12 27.62 18.52 10.52  6.34  3.52  1.95  0.90  0.31  0.15  0.05
- *  24   22.44 15.62 30.14 12.92  8.55  5.30  2.39  1.63  0.62  0.28  0.11
- *  32   16.23 11.43 23.01 22.31 11.19  7.18  4.46  2.13  1.20  0.45  0.41
- *  40   10.76  8.91 12.80 29.51 16.00  9.69  5.90  3.43  1.47  0.88  0.65
- *  48    7.28  6.81 10.51 18.27 27.57 11.76  7.85  4.99  2.80  1.22  0.94
- *  56    4.41  4.73  8.52 11.96 24.94 19.78 11.06  7.18  3.68  1.96  1.78
- *  64    2.81  3.07  5.65  9.17 13.01 31.57 13.70  9.30  6.04  3.04  2.64
- *  72    1.87  1.99  3.68  7.15 10.56 20.24 25.78 12.17  7.52  4.42  4.62
- *  80    1.02  1.23  2.78  4.75  8.37 12.04 27.61 18.07 10.28  6.52  7.33
- *  88    0.70  0.57  1.56  3.12  6.34 10.06 15.76 30.46 12.58  8.47 10.38
- *  96    0.27  0.60  1.25  2.28  4.30  7.60 10.77 22.52 22.51 11.37 16.53
- * 104    0.22  0.42  0.77  1.36  2.62  5.33  8.93 13.05 29.54 15.23 22.53
- * 112    0.15  0.20  0.56  0.87  2.00  3.83  6.86 10.06 17.89 27.31 30.27
- * 120    0.03  0.11  0.31  0.46  1.31  2.48  4.60  7.78 11.67 25.53 45.72
- * 128    0.02  0.01  0.13  0.33  0.83  1.41  3.24  6.17  9.57 14.22 64.07
+ * @param max ボーナス値の限度
+ * @param level ボーナス値に加味する基準生成階
+ * @return 算出されたボーナス値
+ * @details
+ * To avoid floating point but still provide a smooth distribution of bonuses,\n
+ * we simply round the results of division in such a way as to "average" the\n
+ * correct floating point value.\n
+ *\n
+ * This function has been changed.  It uses "randnor()" to choose values from\n
+ * a normal distribution, whose mean moves from zero towards the max as the\n
+ * level increases, and whose standard deviation is equal to 1/4 of the max,\n
+ * and whose values are forced to lie between zero and the max, inclusive.\n
+ *\n
+ * Since the "level" rarely passes 100 before Morgoth is dead, it is very\n
+ * rare to get the "full" enchantment on an object, even a deep levels.\n
+ *\n
+ * It is always possible (albeit unlikely) to get the "full" enchantment.\n
+ *\n
+ * A sample distribution of values from "m_bonus(10, N)" is shown below:\n
+ *\n
+ *   N       0     1     2     3     4     5     6     7     8     9    10\n
+ * ---    ----  ----  ----  ----  ----  ----  ----  ----  ----  ----  ----\n
+ *   0   66.37 13.01  9.73  5.47  2.89  1.31  0.72  0.26  0.12  0.09  0.03\n
+ *   8   46.85 24.66 12.13  8.13  4.20  2.30  1.05  0.36  0.19  0.08  0.05\n
+ *  16   30.12 27.62 18.52 10.52  6.34  3.52  1.95  0.90  0.31  0.15  0.05\n
+ *  24   22.44 15.62 30.14 12.92  8.55  5.30  2.39  1.63  0.62  0.28  0.11\n
+ *  32   16.23 11.43 23.01 22.31 11.19  7.18  4.46  2.13  1.20  0.45  0.41\n
+ *  40   10.76  8.91 12.80 29.51 16.00  9.69  5.90  3.43  1.47  0.88  0.65\n
+ *  48    7.28  6.81 10.51 18.27 27.57 11.76  7.85  4.99  2.80  1.22  0.94\n
+ *  56    4.41  4.73  8.52 11.96 24.94 19.78 11.06  7.18  3.68  1.96  1.78\n
+ *  64    2.81  3.07  5.65  9.17 13.01 31.57 13.70  9.30  6.04  3.04  2.64\n
+ *  72    1.87  1.99  3.68  7.15 10.56 20.24 25.78 12.17  7.52  4.42  4.62\n
+ *  80    1.02  1.23  2.78  4.75  8.37 12.04 27.61 18.07 10.28  6.52  7.33\n
+ *  88    0.70  0.57  1.56  3.12  6.34 10.06 15.76 30.46 12.58  8.47 10.38\n
+ *  96    0.27  0.60  1.25  2.28  4.30  7.60 10.77 22.52 22.51 11.37 16.53\n
+ * 104    0.22  0.42  0.77  1.36  2.62  5.33  8.93 13.05 29.54 15.23 22.53\n
+ * 112    0.15  0.20  0.56  0.87  2.00  3.83  6.86 10.06 17.89 27.31 30.27\n
+ * 120    0.03  0.11  0.31  0.46  1.31  2.48  4.60  7.78 11.67 25.53 45.72\n
+ * 128    0.02  0.01  0.13  0.33  0.83  1.41  3.24  6.17  9.57 14.22 64.07\n
  */
 s16b m_bonus(int max, int level)
 {
@@ -2033,8 +2055,10 @@ s16b m_bonus(int max, int level)
 }
 
 
-/*
- * Cheat -- describe a created object for the user
+/*!
+ * @brief デバッグ時にアイテム生成情報をメッセージに出力する / Cheat -- describe a created object for the user
+ * @param o_ptr デバッグ出力するオブジェクトの構造体参照ポインタ
+ * @return なし
  */
 static void object_mention(object_type *o_ptr)
 {
@@ -2047,58 +2071,40 @@ static void object_mention(object_type *o_ptr)
 	if (object_is_fixed_artifact(o_ptr))
 	{
 		/* Silly message */
-#ifdef JP
-		msg_format("����Υ����ƥ� (%s)", o_name);
-#else
-		msg_format("Artifact (%s)", o_name);
-#endif
-
+		msg_format(_("伝説のアイテム (%s)", "Artifact (%s)"), o_name);
 	}
 
 	/* Random Artifact */
 	else if (o_ptr->art_name)
 	{
-#ifdef JP
-		msg_print("�����ࡦ�����ƥ��ե�����");
-#else
-		msg_print("Random artifact");
-#endif
-
+		msg_print(_("ランダム・アーティファクト", "Random artifact"));
 	}
 
 	/* Ego-item */
 	else if (object_is_ego(o_ptr))
 	{
 		/* Silly message */
-#ifdef JP
-		msg_format("̾�Τ��륢���ƥ� (%s)", o_name);
-#else
-		msg_format("Ego-item (%s)", o_name);
-#endif
-
+		msg_format(_("名のあるアイテム (%s)", "Ego-item (%s)"), o_name);
 	}
 
 	/* Normal item */
 	else
 	{
 		/* Silly message */
-#ifdef JP
-		msg_format("�����ƥ� (%s)", o_name);
-#else
-		msg_format("Object (%s)", o_name);
-#endif
-
+		msg_format(_("アイテム (%s)", "Object (%s)"), o_name);
 	}
 }
 
-
-/*
+/*!
+ * @brief INSTA_ART型の固定アーティファクトの生成を確率に応じて試行する。
  * Mega-Hack -- Attempt to create one of the "Special Objects"
- *
- * We are only called from "make_object()", and we assume that
- * "apply_magic()" is called immediately after we return.
- *
- * Note -- see "make_artifact()" and "apply_magic()"
+ * @param o_ptr 生成に割り当てたいオブジェクトの構造体参照ポインタ
+ * @return 生成に成功したらTRUEを返す。
+ * @details
+ * We are only called from "make_object()", and we assume that\n
+ * "apply_magic()" is called immediately after we return.\n
+ *\n
+ * Note -- see "make_artifact()" and "apply_magic()"\n
  */
 static bool make_artifact_special(object_type *o_ptr)
 {
@@ -2170,12 +2176,15 @@ static bool make_artifact_special(object_type *o_ptr)
 }
 
 
-/*
- * Attempt to change an object into an artifact
- *
- * This routine should only be called by "apply_magic()"
- *
- * Note -- see "make_artifact_special()" and "apply_magic()"
+/*!
+ * @brief 非INSTA_ART型の固定アーティファクトの生成を確率に応じて試行する。
+ * Mega-Hack -- Attempt to create one of the "Special Objects"
+ * @param o_ptr 生成に割り当てたいオブジェクトの構造体参照ポインタ
+ * @return 生成に成功したらTRUEを返す。
+ * @details
+ * Attempt to change an object into an artifact\n
+ * This routine should only be called by "apply_magic()"\n
+ * Note -- see "make_artifact_special()" and "apply_magic()"\n
  */
 static bool make_artifact(object_type *o_ptr)
 {
@@ -2235,8 +2244,12 @@ static bool make_artifact(object_type *o_ptr)
 }
 
 
-/*
- *  Choose random ego type
+/*!
+ * @brief アイテムのエゴをレア度の重みに合わせてランダムに選択する
+ * Choose random ego type
+ * @param slot 取得したいエゴの装備部位
+ * @param good TRUEならば通常のエゴ、FALSEならば呪いのエゴが選択対象となる。
+ * @return 選択されたエゴ情報のID、万一選択できなかった場合はmax_e_idxが返る。
  */
 static byte get_random_ego(byte slot, bool good)
 {
@@ -2275,11 +2288,16 @@ static byte get_random_ego(byte slot, bool good)
 }
 
 
-/*
+/*!
+ * @brief 武器系オブジェクトに生成ランクごとの強化を与えるサブルーチン
  * Apply magic to an item known to be a "weapon"
- *
- * Hack -- note special base damage dice boosting
- * Hack -- note special processing for weapon/digger
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @param level 生成基準階
+ * @param power 生成ランク
+ * @return なし
+ * @details
+ * Hack -- note special base damage dice boosting\n
+ * Hack -- note special processing for weapon/digger\n
  */
 static void a_m_aux_1(object_type *o_ptr, int level, int power)
 {
@@ -2385,6 +2403,8 @@ static void a_m_aux_1(object_type *o_ptr, int level, int power)
 						continue;
 					if (o_ptr->name2 == EGO_EARTHQUAKES && o_ptr->tval != TV_HAFTED)
 						continue;
+					if (o_ptr->name2 == EGO_WEIRD && o_ptr->tval != TV_SWORD)
+						continue;
 					break;
 				}
 
@@ -2443,7 +2463,7 @@ static void a_m_aux_1(object_type *o_ptr, int level, int power)
 					break;
 				case EGO_PATTERN:
 					if (one_in_(3))
-						add_flag(o_ptr->art_flags, TR_HOLD_LIFE);
+						add_flag(o_ptr->art_flags, TR_HOLD_EXP);
 					if (one_in_(3))
 						add_flag(o_ptr->art_flags, TR_DEX);
 					if (one_in_(5))
@@ -2461,6 +2481,21 @@ static void a_m_aux_1(object_type *o_ptr, int level, int power)
 				case EGO_VAMPIRIC:
 					if (one_in_(5))
 						add_flag(o_ptr->art_flags, TR_SLAY_HUMAN);
+					break;
+				case EGO_DEMON:
+					
+					if(one_in_(3)) o_ptr->curse_flags |= (TRC_HEAVY_CURSE);
+					one_in_(3) ? 
+						add_flag(o_ptr->art_flags, TR_DRAIN_EXP) :
+						one_in_(2) ?
+							add_flag(o_ptr->art_flags, TR_DRAIN_HP) :
+							add_flag(o_ptr->art_flags, TR_DRAIN_MANA);
+						
+					
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_CHAOTIC);
+					if (one_in_(4)) add_flag(o_ptr->art_flags, TR_BLOWS);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_ADD_H_CURSE);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_CALL_DEMON);
 					break;
 				}
 
@@ -2480,11 +2515,27 @@ static void a_m_aux_1(object_type *o_ptr, int level, int power)
 				/* Roll for ego-item */
 				if (randint0(MAX_DEPTH) < level)
 				{
-					o_ptr->name2 = get_random_ego(INVEN_RARM, FALSE);
+					while(1)
+					{
+						o_ptr->name2 = get_random_ego(INVEN_RARM, FALSE);
+						if (o_ptr->name2 == EGO_WEIRD && o_ptr->tval != TV_SWORD)
+						{
+							continue;
+						}
+						break;
+					}
 					switch (o_ptr->name2)
 					{
 					case EGO_MORGUL:
 						if (one_in_(6)) add_flag(o_ptr->art_flags, TR_TY_CURSE);
+						if (one_in_(3)) o_ptr->curse_flags |= (TRC_HEAVY_CURSE);
+					case EGO_WEIRD:
+						if (one_in_(4)) add_flag(o_ptr->art_flags, TR_BRAND_POIS);
+						if (one_in_(4)) add_flag(o_ptr->art_flags, TR_RES_NETHER);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_NO_MAGIC);
+						if (one_in_(6)) add_flag(o_ptr->art_flags, TR_NO_TELE);
+						if (one_in_(6)) add_flag(o_ptr->art_flags, TR_TY_CURSE);
+						if (one_in_(6)) add_flag(o_ptr->art_flags, TR_ADD_H_CURSE);
 					}
 				}
 			}
@@ -2554,7 +2605,11 @@ static void a_m_aux_1(object_type *o_ptr, int level, int power)
 	}
 }
 
-
+/*!
+ * @brief ドラゴン装備にランダムな耐性を与える
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @return なし
+ */
 static void dragon_resist(object_type * o_ptr)
 {
 	do
@@ -2567,7 +2622,11 @@ static void dragon_resist(object_type * o_ptr)
 	while (one_in_(2));
 }
 
-
+/*!
+ * @brief オブジェクトにランダムな強いESPを与える
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @return なし
+ */
 static bool add_esp_strong(object_type *o_ptr)
 {
 	bool nonliv = FALSE;
@@ -2582,52 +2641,51 @@ static bool add_esp_strong(object_type *o_ptr)
 	return nonliv;
 }
 
-
-#define MAX_ESP_WEAK 9
+/*!
+ * @brief オブジェクトにランダムな弱いESPを与える
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @param extra TRUEならばESPの最大付与数が増える(TRUE -> 3+1d6 / FALSE -> 1d3)
+ * @return なし
+ */
 static void add_esp_weak(object_type *o_ptr, bool extra)
 {
-	int i = 0;
-	int idx[MAX_ESP_WEAK];
-	int flg[MAX_ESP_WEAK];
-	int n = (extra) ? (3 + randint1(randint1(6))) : randint1(3);
-	int left = MAX_ESP_WEAK;
+	int i;
+	u32b weak_esp_list[] = {
+		TR_ESP_ANIMAL,
+		TR_ESP_UNDEAD,
+		TR_ESP_DEMON,
+		TR_ESP_ORC,
+		TR_ESP_TROLL,
+		TR_ESP_GIANT,
+		TR_ESP_DRAGON,
+		TR_ESP_HUMAN,
+		TR_ESP_GOOD,
+		TR_ESP_UNIQUE,
+	};
+	const int MAX_ESP_WEAK = sizeof(weak_esp_list) / sizeof(weak_esp_list[0]);
+	const int add_count = MIN(MAX_ESP_WEAK, (extra) ? (3 + randint1(randint1(6))) : randint1(3));
 
-	for (i = 0; i < MAX_ESP_WEAK; i++) flg[i] = i + 1;
-
-	/* Shuffle esp flags */
-	for (i = 0; i < n; i++)
+	/* Add unduplicated weak esp flags randomly */
+	for (i = 0; i < add_count; ++ i)
 	{
-		int k = randint0(left--);
+		int choice = rand_range(i, MAX_ESP_WEAK - 1);
 
-		idx[i] = flg[k];
-
-		while (k < left)
-		{
-			flg[k] = flg[k + 1];
-			k++;
-		}
-	}
-
-	while (n--) switch (idx[n])
-	{
-	case 1: add_flag(o_ptr->art_flags, TR_ESP_ANIMAL); break;
-	case 2: add_flag(o_ptr->art_flags, TR_ESP_UNDEAD); break;
-	case 3: add_flag(o_ptr->art_flags, TR_ESP_DEMON); break;
-	case 4: add_flag(o_ptr->art_flags, TR_ESP_ORC); break;
-	case 5: add_flag(o_ptr->art_flags, TR_ESP_TROLL); break;
-	case 6: add_flag(o_ptr->art_flags, TR_ESP_GIANT); break;
-	case 7: add_flag(o_ptr->art_flags, TR_ESP_DRAGON);   break;
-	case 8: add_flag(o_ptr->art_flags, TR_ESP_HUMAN); break;
-	case 9: add_flag(o_ptr->art_flags, TR_ESP_GOOD); break;
+		add_flag(o_ptr->art_flags, weak_esp_list[choice]);
+		weak_esp_list[choice] = weak_esp_list[i];
 	}
 }
 
 
-/*
+/*!
+ * @brief 防具系オブジェクトに生成ランクごとの強化を与えるサブルーチン
  * Apply magic to an item known to be "armor"
- *
- * Hack -- note special processing for crown/helm
- * Hack -- note special processing for robe of permanence
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @param level 生成基準階
+ * @param power 生成ランク
+ * @return なし
+ * @details
+ * Hack -- note special processing for crown/helm\n
+ * Hack -- note special processing for robe of permanence\n
  */
 static void a_m_aux_2(object_type *o_ptr, int level, int power)
 {
@@ -2721,30 +2779,63 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 
 					switch (o_ptr->name2)
 					{
-					case EGO_RESISTANCE:
-						if (one_in_(4))
-							add_flag(o_ptr->art_flags, TR_RES_POIS);
-						break;
-					case EGO_ELVENKIND:
-						break;
-					case EGO_DWARVEN:
+					  case EGO_DWARVEN:
 						if (o_ptr->tval != TV_HARD_ARMOR)
 						{
 							okay_flag = FALSE;
 							break;
 						}
-						else
+					  case EGO_DRUID:
+						if (o_ptr->tval != TV_SOFT_ARMOR)
 						{
-							o_ptr->weight = (2 * k_info[o_ptr->k_idx].weight / 3);
-							o_ptr->ac = k_info[o_ptr->k_idx].ac + 5;
-							if (one_in_(4))
-								add_flag(o_ptr->art_flags, TR_CON);
+							okay_flag = FALSE;
 							break;
 						}
+					  default:
+						break;
 					}
 
 					if (okay_flag)
 						break;
+				}
+				switch (o_ptr->name2)
+				{
+				  case EGO_RESISTANCE:
+					if (one_in_(4))
+						add_flag(o_ptr->art_flags, TR_RES_POIS);
+						break;
+				  case EGO_DWARVEN:
+					o_ptr->weight = (2 * k_info[o_ptr->k_idx].weight / 3);
+					o_ptr->ac = k_info[o_ptr->k_idx].ac + 5;
+					break;
+					
+				  case EGO_A_DEMON:
+					if(one_in_(3)) o_ptr->curse_flags |= (TRC_HEAVY_CURSE);
+					one_in_(3) ? 
+						add_flag(o_ptr->art_flags, TR_DRAIN_EXP) :
+						one_in_(2) ?
+							add_flag(o_ptr->art_flags, TR_DRAIN_HP) :
+							add_flag(o_ptr->art_flags, TR_DRAIN_MANA);
+						
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_AGGRAVATE);
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_ADD_L_CURSE);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_ADD_H_CURSE);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_DRAIN_HP);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_DRAIN_MANA);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_DRAIN_EXP);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_TY_CURSE);
+					if (one_in_(5)) add_flag(o_ptr->art_flags, TR_CALL_DEMON);
+					break;
+				  case EGO_A_MORGUL:
+					if (one_in_(3)) o_ptr->curse_flags |= (TRC_HEAVY_CURSE);
+					if (one_in_(9)) add_flag(o_ptr->art_flags, TR_TY_CURSE);
+					if (one_in_(4)) add_flag(o_ptr->art_flags, TR_ADD_H_CURSE);
+					if (one_in_(6)) add_flag(o_ptr->art_flags, TR_AGGRAVATE);
+					if (one_in_(9)) add_flag(o_ptr->art_flags, TR_NO_MAGIC);
+					if (one_in_(9)) add_flag(o_ptr->art_flags, TR_NO_TELE);
+					break;
+				  default:
+					break;
 				}
 			}
 
@@ -2770,7 +2861,17 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 					create_artifact(o_ptr, FALSE);
 					break;
 				}
-				o_ptr->name2 = get_random_ego(INVEN_LARM, TRUE);
+				
+				while(1)
+				{
+					o_ptr->name2 = get_random_ego(INVEN_LARM, TRUE);
+					if (o_ptr->sval != SV_SMALL_METAL_SHIELD && o_ptr->sval != SV_LARGE_METAL_SHIELD 
+								&& o_ptr->name2 == EGO_S_DWARVEN)
+					{
+						continue;
+					}
+					break;
+				}
 				
 				switch (o_ptr->name2)
 				{
@@ -2781,6 +2882,11 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 				case EGO_REFLECTION:
 					if (o_ptr->sval == SV_MIRROR_SHIELD)
 						o_ptr->name2 = 0;
+					break;
+					
+				case EGO_S_DWARVEN:
+					o_ptr->weight = (2 * k_info[o_ptr->k_idx].weight / 3);
+					o_ptr->ac = k_info[o_ptr->k_idx].ac + 3;
 					break;
 				}
 			}
@@ -2878,6 +2984,7 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 					case EGO_MIGHT:
 					case EGO_REGENERATION:
 					case EGO_LORDLINESS:
+					case EGO_BASILISK:
 						break;
 					case EGO_SEEING:
 						if (one_in_(3))
@@ -2897,8 +3004,26 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 
 			/* Very cursed */
 			else if (power < -1)
-			{
-				o_ptr->name2 = get_random_ego(INVEN_HEAD, FALSE);
+			{	
+				while (1)
+				{
+					bool ok_flag = TRUE;
+					o_ptr->name2 = get_random_ego(INVEN_HEAD, FALSE);
+
+					switch (o_ptr->name2)
+					{
+					  case EGO_ANCIENT_CURSE:
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_NO_MAGIC);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_NO_TELE);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_TY_CURSE);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_DRAIN_EXP);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_DRAIN_HP);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_DRAIN_MANA);
+						break;
+					}
+					if (ok_flag)
+						break; /* while (1) */
+				}
 			}
 
 			break;
@@ -2929,12 +3054,10 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 
 					switch (o_ptr->name2)
 					{
-					case EGO_INTELLIGENCE:
-					case EGO_WISDOM:
-					case EGO_BEAUTY:
-					case EGO_LITE:
+					case EGO_BRILLIANCE:
 					case EGO_DARK:
 					case EGO_INFRAVISION:
+					case EGO_H_PROTECTION:
 						break;
 					case EGO_SEEING:
 						if (one_in_(7))
@@ -2942,6 +3065,27 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 							if (one_in_(2)) add_esp_strong(o_ptr);
 							else add_esp_weak(o_ptr, FALSE);
 						}
+						break;
+					case EGO_LITE:
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_LITE_1);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_LITE_2);
+						break;
+					case EGO_H_DEMON:
+						if(one_in_(3)) o_ptr->curse_flags |= (TRC_HEAVY_CURSE);
+						one_in_(3) ? 
+							add_flag(o_ptr->art_flags, TR_DRAIN_EXP) :
+							one_in_(2) ?
+								add_flag(o_ptr->art_flags, TR_DRAIN_HP) :
+								add_flag(o_ptr->art_flags, TR_DRAIN_MANA);
+						
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_AGGRAVATE);
+						if (one_in_(3)) add_flag(o_ptr->art_flags, TR_ADD_L_CURSE);
+						if (one_in_(5)) add_flag(o_ptr->art_flags, TR_ADD_H_CURSE);
+						if (one_in_(5)) add_flag(o_ptr->art_flags, TR_DRAIN_HP);
+						if (one_in_(5)) add_flag(o_ptr->art_flags, TR_DRAIN_MANA);
+						if (one_in_(5)) add_flag(o_ptr->art_flags, TR_DRAIN_EXP);
+						if (one_in_(5)) add_flag(o_ptr->art_flags, TR_TY_CURSE);
+						if (one_in_(5)) add_flag(o_ptr->art_flags, TR_CALL_DEMON);
 						break;
 					default:/* not existing helm (Magi, Might, etc...)*/
 						ok_flag = FALSE;
@@ -2954,7 +3098,19 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 			/* Very cursed */
 			else if (power < -1)
 			{
-				o_ptr->name2 = get_random_ego(INVEN_HEAD, FALSE);
+				while (1)
+				{
+					bool ok_flag = TRUE;
+					o_ptr->name2 = get_random_ego(INVEN_HEAD, FALSE);
+
+					switch (o_ptr->name2)
+					{
+					  case EGO_ANCIENT_CURSE:
+						ok_flag = FALSE;
+					}
+					if (ok_flag)
+						break; /* while (1) */
+				}
 			}
 			break;
 		}
@@ -2977,6 +3133,14 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 					o_ptr->to_d -= 6;
 					o_ptr->to_h -= 6;
 					break;
+				  case EGO_NAZGUL:
+					o_ptr->to_d -= 3;
+					o_ptr->to_h -= 3;
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_COWARDICE);
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_CALL_UNDEAD);
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_SLOW_REGEN);
+					if (one_in_(3)) add_flag(o_ptr->art_flags, TR_DRAIN_EXP);
+					break;
 				}
 
 			}
@@ -2993,11 +3157,16 @@ static void a_m_aux_2(object_type *o_ptr, int level, int power)
 }
 
 
-/*
+/*!
+ * @brief 装飾品系オブジェクトに生成ランクごとの強化を与えるサブルーチン
  * Apply magic to an item known to be a "ring" or "amulet"
- *
- * Hack -- note special "pval boost" code for ring of speed
- * Hack -- note that some items must be cursed (or blessed)
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @param level 生成基準階
+ * @param power 生成ランク
+ * @return なし
+ * @details
+ * Hack -- note special "pval boost" code for ring of speed\n
+ * Hack -- note that some items must be cursed (or blessed)\n
  */
 static void a_m_aux_3(object_type *o_ptr, int level, int power)
 {
@@ -3322,7 +3491,7 @@ static void a_m_aux_3(object_type *o_ptr, int level, int power)
 						o_ptr->name2 = EGO_RING_REGEN;
 						break;
 					case 5: case 6:
-						if (have_flag(k_ptr->flags, TR_LITE)) break;
+						if (have_flag(k_ptr->flags, TR_LITE_1)) break;
 						o_ptr->name2 = EGO_RING_LITE;
 						break;
 					case 7: case 8:
@@ -3662,8 +3831,8 @@ static void a_m_aux_3(object_type *o_ptr, int level, int power)
 						o_ptr->name2 = EGO_AMU_SEE_INVIS;
 						break;
 					case 7: case 8:
-						if (have_flag(k_ptr->flags, TR_HOLD_LIFE)) break;
-						o_ptr->name2 = EGO_AMU_HOLD_LIFE;
+						if (have_flag(k_ptr->flags, TR_HOLD_EXP)) break;
+						o_ptr->name2 = EGO_AMU_HOLD_EXP;
 						break;
 					case 9:
 						if (have_flag(k_ptr->flags, TR_LEVITATION)) break;
@@ -3784,9 +3953,10 @@ static void a_m_aux_3(object_type *o_ptr, int level, int power)
 	}
 }
 
-
-/*
- * Hack -- help pick an item type
+/*!
+ * @brief モンスターが人形のベースにできるかを返す
+ * @param r_idx チェックしたいモンスター種族のID
+ * @return 人形にできるならTRUEを返す
  */
 static bool item_monster_okay(int r_idx)
 {
@@ -3805,9 +3975,14 @@ static bool item_monster_okay(int r_idx)
 }
 
 
-/*
+/*!
+ * @brief その他雑多のオブジェクトに生成ランクごとの強化を与えるサブルーチン
  * Apply magic to an item known to be "boring"
- *
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @param level 生成基準階
+ * @param power 生成ランク
+ * @return なし
+ * @details
  * Hack -- note the special code for various items
  */
 static void a_m_aux_4(object_type *o_ptr, int level, int power)
@@ -3890,6 +4065,19 @@ static void a_m_aux_4(object_type *o_ptr, int level, int power)
 				{
 				case EGO_LITE_DARKNESS:
 					o_ptr->xtra4 = 0;
+					
+					if (o_ptr->sval == SV_LITE_TORCH)
+					{
+						add_flag(o_ptr->art_flags, TR_LITE_M1);
+					}
+					else if (o_ptr->sval == SV_LITE_LANTERN)
+					{
+						add_flag(o_ptr->art_flags, TR_LITE_M2);
+					}
+					else if (o_ptr->sval == SV_LITE_FEANOR)
+					{
+						add_flag(o_ptr->art_flags, TR_LITE_M3);
+					}
 					break;
 				}
 			}
@@ -3960,12 +4148,7 @@ static void a_m_aux_4(object_type *o_ptr, int level, int power)
 
 			if (cheat_peek)
 			{
-#ifdef JP
-				msg_format("%s�οͷ�, ���� +%d%s",
-#else
-				msg_format("Figurine of %s, depth +%d%s",
-#endif
-
+				msg_format(_("%sの人形, 深さ +%d%s", "Figurine of %s, depth +%d%s"),
 							  r_name + r_ptr->name, check - 1,
 							  !object_is_cursed(o_ptr) ? "" : " {cursed}");
 			}
@@ -4019,12 +4202,7 @@ static void a_m_aux_4(object_type *o_ptr, int level, int power)
 
 			if (cheat_peek)
 			{
-#ifdef JP
-				msg_format("%s�λ���, ���� +%d",
-#else
-				msg_format("Corpse of %s, depth +%d",
-#endif
-
+				msg_format(_("%sの死体, 深さ +%d", "Corpse of %s, depth +%d"),
 							  r_name + r_ptr->name, check - 1);
 			}
 
@@ -4056,12 +4234,7 @@ static void a_m_aux_4(object_type *o_ptr, int level, int power)
 
 			if (cheat_peek)
 			{
-#ifdef JP
-				msg_format("%s����", r_name + r_ptr->name);
-#else
-				msg_format("Statue of %s", r_name + r_ptr->name);
-#endif
-
+				msg_format(_("%sの像", "Statue of %s"), r_name + r_ptr->name);
 			}
 			object_aware(o_ptr);
 			object_known(o_ptr);
@@ -4090,37 +4263,41 @@ static void a_m_aux_4(object_type *o_ptr, int level, int power)
 	}
 }
 
-
-/*
+/*!
+ * @brief 生成されたベースアイテムに魔法的な強化を与えるメインルーチン
  * Complete the "creation" of an object by applying "magic" to the item
- *
- * This includes not only rolling for random bonuses, but also putting the
- * finishing touches on ego-items and artifacts, giving charges to wands and
- * staffs, giving fuel to lites, and placing traps on chests.
- *
- * In particular, note that "Instant Artifacts", if "created" by an external
- * routine, must pass through this function to complete the actual creation.
- *
- * The base "chance" of the item being "good" increases with the "level"
- * parameter, which is usually derived from the dungeon level, being equal
- * to the level plus 10, up to a maximum of 75.  If "good" is true, then
- * the object is guaranteed to be "good".  If an object is "good", then
- * the chance that the object will be "great" (ego-item or artifact), also
- * increases with the "level", being equal to half the level, plus 5, up to
- * a maximum of 20.  If "great" is true, then the object is guaranteed to be
- * "great".  At dungeon level 65 and below, 15/100 objects are "great".
- *
- * If the object is not "good", there is a chance it will be "cursed", and
- * if it is "cursed", there is a chance it will be "broken".  These chances
- * are related to the "good" / "great" chances above.
- *
- * Otherwise "normal" rings and amulets will be "good" half the time and
- * "cursed" half the time, unless the ring/amulet is always good or cursed.
- *
- * If "okay" is true, and the object is going to be "great", then there is
- * a chance that an artifact will be created.  This is true even if both the
- * "good" and "great" arguments are false.  As a total hack, if "great" is
- * true, then the item gets 3 extra "attempts" to become an artifact.
+ * @param o_ptr 強化を与えたいオブジェクトの構造体参照ポインタ
+ * @param lev 生成基準階
+ * @param mode 生成オプション
+ * @return なし
+ * @details
+ * This includes not only rolling for random bonuses, but also putting the\n
+ * finishing touches on ego-items and artifacts, giving charges to wands and\n
+ * staffs, giving fuel to lites, and placing traps on chests.\n
+ *\n
+ * In particular, note that "Instant Artifacts", if "created" by an external\n
+ * routine, must pass through this function to complete the actual creation.\n
+ *\n
+ * The base "chance" of the item being "good" increases with the "level"\n
+ * parameter, which is usually derived from the dungeon level, being equal\n
+ * to the level plus 10, up to a maximum of 75.  If "good" is true, then\n
+ * the object is guaranteed to be "good".  If an object is "good", then\n
+ * the chance that the object will be "great" (ego-item or artifact), also\n
+ * increases with the "level", being equal to half the level, plus 5, up to\n
+ * a maximum of 20.  If "great" is true, then the object is guaranteed to be\n
+ * "great".  At dungeon level 65 and below, 15/100 objects are "great".\n
+ *\n
+ * If the object is not "good", there is a chance it will be "cursed", and\n
+ * if it is "cursed", there is a chance it will be "broken".  These chances\n
+ * are related to the "good" / "great" chances above.\n
+ *\n
+ * Otherwise "normal" rings and amulets will be "good" half the time and\n
+ * "cursed" half the time, unless the ring/amulet is always good or cursed.\n
+ *\n
+ * If "okay" is true, and the object is going to be "great", then there is\n
+ * a chance that an artifact will be created.  This is true even if both the\n
+ * "good" and "great" arguments are false.  As a total hack, if "great" is\n
+ * true, then the item gets 3 extra "attempts" to become an artifact.\n
  */
 void apply_magic(object_type *o_ptr, int lev, u32b mode)
 {
@@ -4244,6 +4421,15 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 		o_ptr->to_h = a_ptr->to_h;
 		o_ptr->to_d = a_ptr->to_d;
 		o_ptr->weight = a_ptr->weight;
+		o_ptr->xtra2 = a_ptr->act_idx;
+
+		if (o_ptr->name1 == ART_MILIM)
+		{
+		    if(p_ptr->pseikaku == SEIKAKU_SEXY)
+		    {
+			o_ptr->pval = 3;
+		    }
+		}
 
 		/* Hack -- extract the "broken" flag */
 		if (!a_ptr->cost) o_ptr->ident |= (IDENT_BROKEN);
@@ -4370,9 +4556,22 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 		if (e_ptr->gen_flags & (TRG_XTRA_D_RES)) one_dragon_ele_resistance(o_ptr);
 		if (e_ptr->gen_flags & (TRG_XTRA_L_RES)) one_lordly_high_resistance(o_ptr);
 		if (e_ptr->gen_flags & (TRG_XTRA_RES)) one_resistance(o_ptr);
+		if (e_ptr->gen_flags & (TRG_XTRA_DICE))
+		{
+			do
+			{
+				o_ptr->dd++;
+			}
+			while (one_in_(o_ptr->dd));
+
+			if (o_ptr->dd > 9) o_ptr->dd = 9;
+		}
+
+		/* Hack -- apply activatin index if needed */
+		if (e_ptr->act_idx) o_ptr->xtra2 = e_ptr->act_idx;
 
 		/* Hack -- apply extra penalties if needed */
-		if (object_is_cursed(o_ptr) || object_is_broken(o_ptr))
+		if ((object_is_cursed(o_ptr) || object_is_broken(o_ptr)) && !(e_ptr->gen_flags & (TRG_POWERFUL)))
 		{
 			/* Hack -- obtain bonuses */
 			if (e_ptr->max_to_h) o_ptr->to_h -= randint1(e_ptr->max_to_h);
@@ -4405,6 +4604,34 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 					o_ptr->to_a -= randint1(256-e_ptr->max_to_a);
 				else o_ptr->to_a += randint1(e_ptr->max_to_a);
 			}
+			
+			/* Accuracy ego must have high to_h */
+			if(o_ptr->name2 == EGO_ACCURACY)
+			{
+				while(o_ptr->to_h < o_ptr->to_d + 10)
+				{
+					o_ptr->to_h += 5;
+					o_ptr->to_d -= 5;
+				}
+				o_ptr->to_h = MAX(o_ptr->to_h, 15);
+			}
+			
+			/* Accuracy ego must have high to_h */
+			if(o_ptr->name2 == EGO_VELOCITY)
+			{
+				while(o_ptr->to_d < o_ptr->to_h + 10)
+				{
+					o_ptr->to_d += 5;
+					o_ptr->to_h -= 5;
+				}
+				o_ptr->to_d = MAX(o_ptr->to_d, 15);
+			}
+			
+			/* Protection ego must have high to_a */
+			if((o_ptr->name2 == EGO_PROTECTION) || (o_ptr->name2 == EGO_S_PROTECTION) || (o_ptr->name2 == EGO_H_PROTECTION))
+			{
+				o_ptr->to_a = MAX(o_ptr->to_a, 15);
+			}
 
 			/* Hack -- obtain pval */
 			if (e_ptr->max_pval)
@@ -4413,6 +4640,17 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 				{
 					o_ptr->pval++;
 					if ((lev > 60) && one_in_(3) && ((o_ptr->dd*(o_ptr->ds+1)) < 15)) o_ptr->pval++;
+				}
+				else if (o_ptr->name2 == EGO_DEMON)
+				{
+					if(have_flag(o_ptr->art_flags, TR_BLOWS))
+					{
+						o_ptr->pval += randint1(2);
+					}
+					else
+					{
+						o_ptr->pval += randint1(e_ptr->max_pval);
+					}
 				}
 				else if (o_ptr->name2 == EGO_ATTACKS)
 				{
@@ -4426,10 +4664,16 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 					o_ptr->pval = randint1(e_ptr->max_pval);
 					if (o_ptr->sval == SV_ELVEN_CLOAK) o_ptr->pval += randint1(2);
 				}
+				else if (o_ptr->name2 == EGO_A_DEMON || o_ptr->name2 == EGO_DRUID || o_ptr->name2 == EGO_OLOG)
+				{
+					o_ptr->pval = randint1(e_ptr->max_pval);
+				}
 				else
 				{
 					o_ptr->pval += randint1(e_ptr->max_pval);
 				}
+				
+				
 			}
 			if ((o_ptr->name2 == EGO_SPEED) && (lev < 50))
 			{
@@ -4441,7 +4685,7 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 
 		/* Cheat -- describe the item */
 		if (cheat_peek) object_mention(o_ptr);
-
+		
 		/* Done */
 		return;
 	}
@@ -4465,8 +4709,11 @@ void apply_magic(object_type *o_ptr, int lev, u32b mode)
 }
 
 
-/*
+/*!
+ * @brief ベースアイテムが上質として扱われるかどうかを返す。
  * Hack -- determine if a template is "good"
+ * @param k_idx 判定したいベースアイテムのID
+ * @return ベースアイテムが上質ならばTRUEを返す。
  */
 static bool kind_is_good(int k_idx)
 {
@@ -4548,15 +4795,16 @@ static bool kind_is_good(int k_idx)
 	return (FALSE);
 }
 
-
-/*
+/*!
+ * @brief 生成階に応じたベースアイテムの生成を行う。
  * Attempt to make an object (normal or good/great)
- *
- * This routine plays nasty games to generate the "special artifacts".
- *
- * This routine uses "object_level" for the "generation level".
- *
- * We assume that the given object has been "wiped".
+ * @param j_ptr 生成結果を収めたいオブジェクト構造体の参照ポインタ
+ * @param mode オプションフラグ
+ * @return 生成に成功したらTRUEを返す。
+ * @details
+ * This routine plays nasty games to generate the "special artifacts".\n
+ * This routine uses "object_level" for the "generation level".\n
+ * We assume that the given object has been "wiped".\n
  */
 bool make_object(object_type *j_ptr, u32b mode)
 {
@@ -4638,14 +4886,17 @@ bool make_object(object_type *j_ptr, u32b mode)
 }
 
 
-/*
+/*!
+ * @brief フロアの指定位置に生成階に応じたベースアイテムの生成を行う。
  * Attempt to place an object (normal or good/great) at the given location.
- *
- * This routine plays nasty games to generate the "special artifacts".
- *
- * This routine uses "object_level" for the "generation level".
- *
- * This routine requires a clean floor grid destination.
+ * @param y 配置したいフロアのY座標
+ * @param x 配置したいフロアのX座標
+ * @param mode オプションフラグ
+ * @return 生成に成功したらTRUEを返す。
+ * @details
+ * This routine plays nasty games to generate the "special artifacts".\n
+ * This routine uses "object_level" for the "generation level".\n
+ * This routine requires a clean floor grid destination.\n
  */
 void place_object(int y, int x, u32b mode)
 {
@@ -4719,9 +4970,12 @@ void place_object(int y, int x, u32b mode)
 }
 
 
-/*
+/*!
+ * @brief 生成階に応じた財宝オブジェクトの生成を行う。
  * Make a treasure object
- *
+ * @param j_ptr 生成結果を収めたいオブジェクト構造体の参照ポインタ
+ * @return 生成に成功したらTRUEを返す。
+ * @details
  * The location must be a legal, clean, floor grid.
  */
 bool make_gold(object_type *j_ptr)
@@ -4760,9 +5014,13 @@ bool make_gold(object_type *j_ptr)
 }
 
 
-/*
+/*!
+ * @brief フロアの指定位置に生成階に応じた財宝オブジェクトの生成を行う。
  * Places a treasure (Gold or Gems) at given location
- *
+ * @param y 配置したいフロアのY座標
+ * @param x 配置したいフロアのX座標
+ * @return 生成に成功したらTRUEを返す。
+ * @details
  * The location must be a legal, clean, floor grid.
  */
 void place_gold(int y, int x)
@@ -4830,21 +5088,27 @@ void place_gold(int y, int x)
 }
 
 
-/*
+/*!
+ * @brief 生成済のオブジェクトをフロアの所定の位置に落とす。
  * Let an object fall to the ground at or near a location.
- *
- * The initial location is assumed to be "in_bounds()".
- *
- * This function takes a parameter "chance".  This is the percentage
- * chance that the item will "disappear" instead of drop.  If the object
- * has been thrown, then this is the chance of disappearance on contact.
- *
- * Hack -- this function uses "chance" to determine if it should produce
- * some form of "description" of the drop event (under the player).
- *
- * We check several locations to see if we can find a location at which
- * the object can combine, stack, or be placed.  Artifacts will try very
- * hard to be placed, including "teleporting" to a useful grid if needed.
+ * @param j_ptr 落としたいオブジェクト構造体の参照ポインタ
+ * @param chance ドロップの成功率(%)
+ * @param y 配置したいフロアのY座標
+ * @param x 配置したいフロアのX座標
+ * @return 生成に成功したらTRUEを返す。
+ * @details
+ * The initial location is assumed to be "in_bounds()".\n
+ *\n
+ * This function takes a parameter "chance".  This is the percentage\n
+ * chance that the item will "disappear" instead of drop.  If the object\n
+ * has been thrown, then this is the chance of disappearance on contact.\n
+ *\n
+ * Hack -- this function uses "chance" to determine if it should produce\n
+ * some form of "description" of the drop event (under the player).\n
+ *\n
+ * We check several locations to see if we can find a location at which\n
+ * the object can combine, stack, or be placed.  Artifacts will try very\n
+ * hard to be placed, including "teleporting" to a useful grid if needed.\n
  */
 s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 {
@@ -4880,7 +5144,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 	{
 		/* Message */
 #ifdef JP
-		msg_format("%s�Ͼä�����", o_name);
+		msg_format("%sは消えた。", o_name);
 #else
 		msg_format("The %s disappear%s.",
 			   o_name, (plural ? "" : "s"));
@@ -4888,12 +5152,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 
 
 		/* Debug */
-#ifdef JP
-		if (p_ptr->wizard) msg_print("(��»)");
-#else
-		if (p_ptr->wizard) msg_print("(breakage)");
-#endif
-
+		if (p_ptr->wizard) msg_print(_("(破損)", "(breakage)"));
 
 		/* Failure */
 		return (0);
@@ -4997,7 +5256,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 	{
 		/* Message */
 #ifdef JP
-		msg_format("%s�Ͼä�����", o_name);
+		msg_format("%sは消えた。", o_name);
 #else
 		msg_format("The %s disappear%s.",
 			   o_name, (plural ? "" : "s"));
@@ -5005,12 +5264,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 
 
 		/* Debug */
-#ifdef JP
-		if (p_ptr->wizard) msg_print("(�����ڡ������ʤ�)");
-#else
-		if (p_ptr->wizard) msg_print("(no floor space)");
-#endif
-
+		if (p_ptr->wizard) msg_print(_("(床スペースがない)", "(no floor space)"));
 
 		/* Failure */
 		return (0);
@@ -5057,17 +5311,13 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 		{
 			/* Message */
 #ifdef JP
-			msg_format("%s�Ͼä�����", o_name);
+			msg_format("%sは消えた。", o_name);
 #else
 			msg_format("The %s disappear%s.", o_name, (plural ? "" : "s"));
 #endif
 
 			/* Debug */
-#ifdef JP
-			if (p_ptr->wizard) msg_print("(�����ڡ������ʤ�)");
-#else
-			if (p_ptr->wizard) msg_print("(no floor space)");
-#endif
+			if (p_ptr->wizard) msg_print(_("(床スペースがない)", "(no floor space)"));
 
 			/* Mega-Hack -- preserve artifacts */
 			if (preserve_mode)
@@ -5144,7 +5394,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 	{
 		/* Message */
 #ifdef JP
-		msg_format("%s�Ͼä�����", o_name);
+		msg_format("%sは消えた。", o_name);
 #else
 		msg_format("The %s disappear%s.",
 			   o_name, (plural ? "" : "s"));
@@ -5152,12 +5402,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 
 
 		/* Debug */
-#ifdef JP
-		if (p_ptr->wizard) msg_print("(�����ƥब¿�᤮��)");
-#else
-		if (p_ptr->wizard) msg_print("(too many objects)");
-#endif
-
+		if (p_ptr->wizard) msg_print(_("(アイテムが多過ぎる)", "(too many objects)"));
 
 		/* Hack -- Preserve artifacts */
 		if (object_is_fixed_artifact(j_ptr))
@@ -5208,12 +5453,7 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 	/* Message when an object falls under the player */
 	if (chance && player_bold(by, bx))
 	{
-#ifdef JP
-		msg_print("������­����ž���äƤ�����");
-#else
-		msg_print("You feel something roll beneath your feet.");
-#endif
-
+		msg_print(_("何かが足下に転がってきた。", "You feel something roll beneath your feet."));
 	}
 
 	/* XXX XXX XXX */
@@ -5223,14 +5463,22 @@ s16b drop_near(object_type *j_ptr, int chance, int y, int x)
 }
 
 
-/*
+/*!
+ * @brief 獲得ドロップを行う。
  * Scatter some "great" objects near the player
+ * @param y1 配置したいフロアのY座標
+ * @param x1 配置したいフロアのX座標
+ * @param num 獲得の処理回数
+ * @param great TRUEならば必ず高級品以上を落とす
+ * @param special TRUEならば必ず特別品を落とす
+ * @param known TRUEならばオブジェクトが必ず＊鑑定＊済になる
+ * @return なし
  */
-void acquirement(int y1, int x1, int num, bool great, bool known)
+void acquirement(int y1, int x1, int num, bool great, bool special, bool known)
 {
 	object_type *i_ptr;
 	object_type object_type_body;
-	u32b mode = AM_GOOD | (great ? AM_GREAT : 0L);
+	u32b mode = AM_GOOD | (great || special ? AM_GREAT : 0L) | (special ? AM_SPECIAL : 0L) ;
 
 	/* Acquirement */
 	while (num--)
@@ -5255,14 +5503,143 @@ void acquirement(int y1, int x1, int num, bool great, bool known)
 	}
 }
 
+/*
+ * Scatter some "amusing" objects near the player
+ */
+
+#define AMS_NOTHING   0x00 /* No restriction */
+#define AMS_NO_UNIQUE 0x01 /* Don't make the amusing object of uniques */
+#define AMS_FIXED_ART 0x02 /* Make a fixed artifact based on the amusing object */
+#define AMS_MULTIPLE  0x04 /* Drop 1-3 objects for one type */
+#define AMS_PILE      0x08 /* Drop 1-99 pile objects for one type */
+
+typedef struct
+{
+	int tval;
+	int sval;
+	int prob;
+	byte flag;
+} amuse_type;
+
+amuse_type amuse_info[] =
+{
+	{ TV_BOTTLE, SV_ANY, 5, AMS_NOTHING },
+	{ TV_JUNK, SV_ANY, 3, AMS_MULTIPLE },
+	{ TV_SPIKE, SV_ANY, 10, AMS_PILE },
+	{ TV_STATUE, SV_ANY, 15, AMS_NOTHING },
+	{ TV_CORPSE, SV_ANY, 15, AMS_NO_UNIQUE },
+	{ TV_SKELETON, SV_ANY, 10, AMS_NO_UNIQUE },
+	{ TV_FIGURINE, SV_ANY, 10, AMS_NO_UNIQUE },
+	{ TV_PARCHMENT, SV_ANY, 1, AMS_NOTHING },
+	{ TV_POLEARM, SV_TSURIZAO, 3, AMS_NOTHING }, //Fishing Pole of Taikobo
+	{ TV_SWORD, SV_BROKEN_DAGGER, 3, AMS_FIXED_ART }, //Broken Dagger of Magician
+	{ TV_SWORD, SV_BROKEN_DAGGER, 10, AMS_NOTHING },
+	{ TV_SWORD, SV_BROKEN_SWORD, 5, AMS_NOTHING },
+	{ TV_SCROLL, SV_SCROLL_AMUSEMENT, 10, AMS_NOTHING },
+
+	{ 0, 0, 0 }
+};
+
+/*!
+ * @brief 誰得ドロップを行う。
+ * @param y1 配置したいフロアのY座標
+ * @param x1 配置したいフロアのX座標
+ * @param num 誰得の処理回数
+ * @param known TRUEならばオブジェクトが必ず＊鑑定＊済になる
+ * @return なし
+ */
+void amusement(int y1, int x1, int num, bool known)
+{
+	object_type *i_ptr;
+	object_type object_type_body;
+	int n, t = 0;
+
+	for (n = 0; amuse_info[n].tval != 0; n++)
+	{
+		t += amuse_info[n].prob;
+	}
+
+	/* Acquirement */
+	while (num)
+	{
+		int i, k_idx, a_idx = 0;
+		int r = randint0(t);
+		bool insta_art, fixed_art;
+
+		for (i = 0; ; i++)
+		{
+			r -= amuse_info[i].prob;
+			if (r <= 0) break;
+		}
+
+		/* Get local object */
+		i_ptr = &object_type_body;
+
+		/* Wipe the object */
+		object_wipe(i_ptr);
+
+		/* Wipe the object */
+		k_idx = lookup_kind(amuse_info[i].tval, amuse_info[i].sval);
+
+		/* Paranoia - reroll if nothing */
+		if (!k_idx) continue;
+
+		/* Search an artifact index if need */
+		insta_art = (k_info[k_idx].gen_flags & TRG_INSTA_ART);
+		fixed_art = (amuse_info[i].flag & AMS_FIXED_ART);
+
+		if (insta_art || fixed_art)
+		{
+			for (a_idx = 1; a_idx < max_a_idx; a_idx++)
+			{
+				if (insta_art && !(a_info[a_idx].gen_flags & TRG_INSTA_ART)) continue;
+				if (a_info[a_idx].tval != k_info[k_idx].tval) continue;
+				if (a_info[a_idx].sval != k_info[k_idx].sval) continue;
+				if (a_info[a_idx].cur_num > 0) continue;
+				break;
+			}
+
+			if (a_idx >= max_a_idx) continue;
+		}
+
+		/* Make an object (if possible) */
+		object_prep(i_ptr, k_idx);
+		if (a_idx) i_ptr->name1 = a_idx;
+		apply_magic(i_ptr, 1, AM_NO_FIXED_ART);
+
+		if (amuse_info[i].flag & AMS_NO_UNIQUE)
+		{
+			if (r_info[i_ptr->pval].flags1 & RF1_UNIQUE) continue;
+		}
+
+		if (amuse_info[i].flag & AMS_MULTIPLE) i_ptr->number = randint1(3);
+		if (amuse_info[i].flag & AMS_PILE) i_ptr->number = randint1(99);
+
+		if (known)
+		{
+			object_aware(i_ptr);
+			object_known(i_ptr);
+		}
+
+		/* Paranoia - reroll if nothing */
+		if (!(i_ptr->k_idx)) continue;
+
+		/* Drop the object */
+		(void)drop_near(i_ptr, -1, y1, x1);
+
+		num--;
+	}
+}
+
 
 #define MAX_NORMAL_TRAPS 18
 
 /* See init_feat_variables() in init2.c */
 static s16b normal_traps[MAX_NORMAL_TRAPS];
 
-/*
- * Initialize arrays for normal traps
+/*!
+ * @brief タグに従って、基本トラップテーブルを初期化する / Initialize arrays for normal traps
+ * @return なし
  */
 void init_normal_traps(void)
 {
@@ -5288,13 +5665,15 @@ void init_normal_traps(void)
 	normal_traps[cur_trap++] = f_tag_to_index_in_init("TRAP_ALARM");
 }
 
-/*
+/*!
+ * @brief 基本トラップをランダムに選択する /
  * Get random trap
- *
- * XXX XXX XXX This routine should be redone to reflect trap "level".
- * That is, it does not make sense to have spiked pits at 50 feet.
- * Actually, it is not this routine, but the "trap instantiation"
- * code, which should also check for "trap doors" on quest levels.
+ * @return 選択したトラップのID
+ * @details
+ * XXX XXX XXX This routine should be redone to reflect trap "level".\n
+ * That is, it does not make sense to have spiked pits at 50 feet.\n
+ * Actually, it is not this routine, but the "trap instantiation"\n
+ * code, which should also check for "trap doors" on quest levels.\n
  */
 s16b choose_random_trap(void)
 {
@@ -5321,8 +5700,12 @@ s16b choose_random_trap(void)
 	return feat;
 }
 
-/*
+/*!
+ * @brief マスに存在するトラップを秘匿する /
  * Disclose an invisible trap
+ * @param y 秘匿したいマスのY座標
+ * @param x 秘匿したいマスのX座標
+ * @return なし
  */
 void disclose_grid(int y, int x)
 {
@@ -5346,15 +5729,15 @@ void disclose_grid(int y, int x)
 	}
 }
 
-
-/*
- * Places a random trap at the given location.
- *
+/*!
+ * @brief マスをトラップを配置する /
  * The location must be a legal, naked, floor grid.
- *
- * Note that all traps start out as "invisible" and "untyped", and then
- * when they are "discovered" (by detecting them or setting them off),
- * the trap is "instantiated" as a visible, "typed", trap.
+ * @param y 配置したいマスのY座標
+ * @param x 配置したいマスのX座標
+ * @return
+ * Note that all traps start out as "invisible" and "untyped", and then\n
+ * when they are "discovered" (by detecting them or setting them off),\n
+ * the trap is "instantiated" as a visible, "typed", trap.\n
  */
 void place_trap(int y, int x)
 {
@@ -5371,9 +5754,11 @@ void place_trap(int y, int x)
 	c_ptr->feat = choose_random_trap();
 }
 
-
-/*
+/*!
+ * @brief 魔道具の使用回数の残量を示すメッセージを表示する /
  * Describe the charges on an item in the inventory.
+ * @param item 残量を表示したいプレイヤーのアイテム所持スロット
+ * @return なし
  */
 void inven_item_charges(int item)
 {
@@ -5388,11 +5773,11 @@ void inven_item_charges(int item)
 #ifdef JP
 	if (o_ptr->pval <= 0)
 	{
-		msg_print("�⤦���Ϥ��ĤäƤ��ʤ���");
+		msg_print("もう魔力が残っていない。");
 	}
 	else
 	{
-		msg_format("���� %d ��ʬ�����Ϥ��ĤäƤ��롣", o_ptr->pval);
+		msg_format("あと %d 回分の魔力が残っている。", o_ptr->pval);
 	}
 #else
 	/* Multiple charges */
@@ -5412,9 +5797,11 @@ void inven_item_charges(int item)
 
 }
 
-
-/*
+/*!
+ * @brief アイテムの残り所持数メッセージを表示する /
  * Describe an item in the inventory.
+ * @param item 残量を表示したいプレイヤーのアイテム所持スロット
+ * @return なし
  */
 void inven_item_describe(int item)
 {
@@ -5426,16 +5813,16 @@ void inven_item_describe(int item)
 
 	/* Print a message */
 #ifdef JP
-	/* "no more" �ξ��Ϥ������ɽ������ */
+	/* "no more" の場合はこちらで表示する */
 	if (o_ptr->number <= 0)
 	{
-		/*FIRST*//*�����Ϥ⤦�̤�ʤ����� */
-		msg_format("�⤦%s����äƤ��ʤ���", o_name);
+		/*FIRST*//*ここはもう通らないかも */
+		msg_format("もう%sを持っていない。", o_name);
 	}
 	else
 	{
-		/* �����ƥ�̾������ڤ��ؤ���ǽ�б� */
-		msg_format("�ޤ� %s����äƤ��롣", o_name);
+		/* アイテム名を英日切り替え機能対応 */
+		msg_format("まだ %sを持っている。", o_name);
 	}
 #else
 	msg_format("You have %s.", o_name);
@@ -5443,9 +5830,12 @@ void inven_item_describe(int item)
 
 }
 
-
-/*
+/*!
+ * @brief アイテムの残り所持数メッセージを表示する /
  * Increase the "number" of an item in the inventory
+ * @param item 所持数を増やしたいプレイヤーのアイテム所持スロット
+ * @param num 増やしたい量
+ * @return なし
  */
 void inven_item_increase(int item, int num)
 {
@@ -5497,9 +5887,11 @@ void inven_item_increase(int item, int num)
 	}
 }
 
-
-/*
+/*!
+ * @brief 所持アイテムスロットから所持数のなくなったアイテムを消去する /
  * Erase an inventory slot if it has no more items
+ * @param item 消去したいプレイヤーのアイテム所持スロット
+ * @return なし
  */
 void inven_item_optimize(int item)
 {
@@ -5559,9 +5951,11 @@ void inven_item_optimize(int item)
 	p_ptr->window |= (PW_SPELL);
 }
 
-
-/*
+/*!
+ * @brief 床上の魔道具の残り残量メッセージを表示する /
  * Describe the charges on an item on the floor.
+ * @param item メッセージの対象にしたいアイテム所持スロット
+ * @return なし
  */
 void floor_item_charges(int item)
 {
@@ -5576,11 +5970,11 @@ void floor_item_charges(int item)
 #ifdef JP
 	if (o_ptr->pval <= 0)
 	{
-		msg_print("���ξ���Υ����ƥ�ϡ��⤦���Ϥ��ĤäƤ��ʤ���");
+		msg_print("この床上のアイテムは、もう魔力が残っていない。");
 	}
 	else
 	{
-		msg_format("���ξ���Υ����ƥ�ϡ����� %d ��ʬ�����Ϥ��ĤäƤ��롣", o_ptr->pval);
+		msg_format("この床上のアイテムは、あと %d 回分の魔力が残っている。", o_ptr->pval);
 	}
 #else
 	/* Multiple charges */
@@ -5600,9 +5994,11 @@ void floor_item_charges(int item)
 
 }
 
-
-/*
- * Describe an item in the inventory.
+/*!
+ * @brief 床上のアイテムの残り数メッセージを表示する /
+ * Describe the charges on an item on the floor.
+ * @param item メッセージの対象にしたいアイテム所持スロット
+ * @return なし
  */
 void floor_item_describe(int item)
 {
@@ -5614,14 +6010,14 @@ void floor_item_describe(int item)
 
 	/* Print a message */
 #ifdef JP
-	/* "no more" �ξ��Ϥ������ɽ����ʬ���� */
+	/* "no more" の場合はこちらで表示を分ける */
 	if (o_ptr->number <= 0)
 	{
-		msg_format("����ˤϡ��⤦%s�Ϥʤ���", o_name);
+		msg_format("床上には、もう%sはない。", o_name);
 	}
 	else
 	{
-		msg_format("����ˤϡ��ޤ� %s�����롣", o_name);
+		msg_format("床上には、まだ %sがある。", o_name);
 	}
 #else
 	msg_format("You see %s.", o_name);
@@ -5630,8 +6026,12 @@ void floor_item_describe(int item)
 }
 
 
-/*
+/*!
+ * @brief 床上のアイテムの数を増やす /
  * Increase the "number" of an item on the floor
+ * @param item 増やしたいアイテムの所持スロット
+ * @param num 増やしたいアイテムの数
+ * @return なし
  */
 void floor_item_increase(int item, int num)
 {
@@ -5652,8 +6052,11 @@ void floor_item_increase(int item, int num)
 }
 
 
-/*
+/*!
+ * @brief 床上の数の無くなったアイテムスロットを消去する /
  * Optimize an item on the floor (destroy "empty" items)
+ * @param item 消去したいアイテムの所持スロット
+ * @return なし
  */
 void floor_item_optimize(int item)
 {
@@ -5670,8 +6073,11 @@ void floor_item_optimize(int item)
 }
 
 
-/*
+/*!
+ * @brief アイテムを拾う際にザックから溢れずに済むかを判定する /
  * Check if we have space for an item in the pack without overflow
+ * @param o_ptr 拾いたいオブジェクトの構造体参照ポインタ
+ * @return 溢れずに済むならTRUEを返す
  */
 bool inven_carry_okay(object_type *o_ptr)
 {
@@ -5696,7 +6102,14 @@ bool inven_carry_okay(object_type *o_ptr)
 	return (FALSE);
 }
 
-
+/*!
+ * @brief オブジェクトを定義された基準に従いソートするための関数 /
+ * Check if we have space for an item in the pack without overflow
+ * @param o_ptr 比較対象オブジェクトの構造体参照ポインタ1
+ * @param o_value o_ptrのアイテム価値（手動であらかじめ代入する必要がある？）
+ * @param j_ptr 比較対象オブジェクトの構造体参照ポインタ2
+ * @return o_ptrの方が上位ならばTRUEを返す。
+ */
 bool object_sort_comp(object_type *o_ptr, s32b o_value, object_type *j_ptr)
 {
 	int o_type, j_type;
@@ -5778,22 +6191,25 @@ bool object_sort_comp(object_type *o_ptr, s32b o_value, object_type *j_ptr)
 }
 
 
-/*
+/*!
+ * @brief オブジェクトをプレイヤーが拾って所持スロットに納めるメインルーチン /
  * Add an item to the players inventory, and return the slot used.
- *
- * If the new item can combine with an existing item in the inventory,
- * it will do so, using "object_similar()" and "object_absorb()", else,
- * the item will be placed into the "proper" location in the inventory.
- *
- * This function can be used to "over-fill" the player's pack, but only
- * once, and such an action must trigger the "overflow" code immediately.
- * Note that when the pack is being "over-filled", the new item must be
- * placed into the "overflow" slot, and the "overflow" must take place
- * before the pack is reordered, but (optionally) after the pack is
- * combined.  This may be tricky.  See "dungeon.c" for info.
- *
- * Note that this code must remove any location/stack information
- * from the object once it is placed into the inventory.
+ * @param o_ptr 拾うオブジェクトの構造体参照ポインタ
+ * @return 収められた所持スロットのID、拾うことができなかった場合-1を返す。
+ * @details
+ * If the new item can combine with an existing item in the inventory,\n
+ * it will do so, using "object_similar()" and "object_absorb()", else,\n
+ * the item will be placed into the "proper" location in the inventory.\n
+ *\n
+ * This function can be used to "over-fill" the player's pack, but only\n
+ * once, and such an action must trigger the "overflow" code immediately.\n
+ * Note that when the pack is being "over-filled", the new item must be\n
+ * placed into the "overflow" slot, and the "overflow" must take place\n
+ * before the pack is reordered, but (optionally) after the pack is\n
+ * combined.  This may be tricky.  See "dungeon.c" for info.\n
+ *\n
+ * Note that this code must remove any location/stack information\n
+ * from the object once it is placed into the inventory.\n
  */
 s16b inven_carry(object_type *o_ptr)
 {
@@ -5916,15 +6332,17 @@ s16b inven_carry(object_type *o_ptr)
 }
 
 
-/*
+/*!
+ * @brief 装備スロットからオブジェクトを外すメインルーチン /
  * Take off (some of) a non-cursed equipment item
- *
- * Note that only one item at a time can be wielded per slot.
- *
- * Note that taking off an item when "full" may cause that item
- * to fall to the ground.
- *
- * Return the inventory slot into which the item is placed.
+ * @param item オブジェクトを外したい所持テーブルのID
+ * @param amt 外したい個数
+ * @return 収められた所持スロットのID、拾うことができなかった場合-1を返す。
+ * @details
+ * Note that only one item at a time can be wielded per slot.\n
+ * Note that taking off an item when "full" may cause that item\n
+ * to fall to the ground.\n
+ * Return the inventory slot into which the item is placed.\n
  */
 s16b inven_takeoff(int item, int amt)
 {
@@ -5965,45 +6383,25 @@ s16b inven_takeoff(int item, int amt)
 	if (((item == INVEN_RARM) || (item == INVEN_LARM)) &&
 	    object_is_melee_weapon(o_ptr))
 	{
-#ifdef JP
-		act = "����������Ϥ�����";
-#else
-		act = "You were wielding";
-#endif
-
+		act = _("を装備からはずした", "You were wielding");
 	}
 
 	/* Took off bow */
 	else if (item == INVEN_BOW)
 	{
-#ifdef JP
-		act = "����������Ϥ�����";
-#else
-		act = "You were holding";
-#endif
-
+		act = _("を装備からはずした", "You were holding");
 	}
 
 	/* Took off light */
 	else if (item == INVEN_LITE)
 	{
-#ifdef JP
-		act = "���������Ϥ�����";
-#else
-		act = "You were holding";
-#endif
-
+		act = _("を光源からはずした", "You were holding");
 	}
 
 	/* Took off something */
 	else
 	{
-#ifdef JP
-		act = "����������Ϥ�����";
-#else
-		act = "You were wearing";
-#endif
-
+		act = _("を装備からはずした", "You were wearing");
 	}
 
 	/* Modify, Optimize */
@@ -6015,7 +6413,7 @@ s16b inven_takeoff(int item, int amt)
 
 	/* Message */
 #ifdef JP
-	msg_format("%s(%c)%s��", o_name, index_to_label(slot), act);
+	msg_format("%s(%c)%s。", o_name, index_to_label(slot), act);
 #else
 	msg_format("%s %s (%c).", act, o_name, index_to_label(slot));
 #endif
@@ -6026,9 +6424,13 @@ s16b inven_takeoff(int item, int amt)
 }
 
 
-/*
+/*!
+ * @brief 所持スロットから床下にオブジェクトを落とすメインルーチン /
  * Drop (some of) a non-cursed inventory/equipment item
- *
+ * @param item 所持テーブルのID
+ * @param amt 落としたい個数
+ * @return なし
+ * @details
  * The object will be dropped "near" the current location
  */
 void inven_drop(int item, int amt)
@@ -6078,12 +6480,7 @@ void inven_drop(int item, int amt)
 	object_desc(o_name, q_ptr, 0);
 
 	/* Message */
-#ifdef JP
-	msg_format("%s(%c)����Ȥ�����", o_name, index_to_label(item));
-#else
-	msg_format("You drop %s (%c).", o_name, index_to_label(item));
-#endif
-
+	msg_format(_("%s(%c)を落とした。", "You drop %s (%c)."), o_name, index_to_label(item));
 
 	/* Drop it near the player */
 	(void)drop_near(q_ptr, 0, py, px);
@@ -6095,9 +6492,11 @@ void inven_drop(int item, int amt)
 }
 
 
-/*
+/*!
+ * @brief プレイヤーの所持スロットに存在するオブジェクトをまとめなおす /
  * Combine items in the pack
- *
+ * @return なし
+ * @details
  * Note special handling of the "overflow" slot
  */
 void combine_pack(void)
@@ -6202,17 +6601,14 @@ void combine_pack(void)
 	while (combined);
 
 	/* Message */
-#ifdef JP
-	if (flag) msg_print("���å�����Υ����ƥ��ޤȤ�ľ������");
-#else
-	if (flag) msg_print("You combine some items in your pack.");
-#endif
+	if (flag) msg_print(_("ザックの中のアイテムをまとめ直した。", "You combine some items in your pack."));
 }
 
-
-/*
+/*!
+ * @brief プレイヤーの所持スロットに存在するオブジェクトを並び替える /
  * Reorder items in the pack
- *
+ * @return なし
+ * @details
  * Note special handling of the "overflow" slot
  */
 void reorder_pack(void)
@@ -6273,18 +6669,15 @@ void reorder_pack(void)
 	}
 
 	/* Message */
-#ifdef JP
-	if (flag) msg_print("���å�����Υ����ƥ���¤�ľ������");
-#else
-	if (flag) msg_print("You reorder some items in your pack.");
-#endif
-
+	if (flag) msg_print(_("ザックの中のアイテムを並べ直した。", "You reorder some items in your pack."));
 }
 
-
-/*
+/*!
+ * @brief 現在アクティブになっているウィンドウにオブジェクトの詳細を表示する /
  * Hack -- display an object kind in the current window
- *
+ * @param k_idx ベースアイテムの参照ID
+ * @return なし
+ * @details
  * Include list of usable spells for readible books
  */
 void display_koff(int k_idx)
@@ -6359,7 +6752,12 @@ void display_koff(int k_idx)
 	}
 }
 
-/* Choose one of items that have warning flag */
+/*!
+ * @brief 警告を放つアイテムを選択する /
+ * Choose one of items that have warning flag
+ * Calculate spell damages
+ * @return 警告を行う
+ */
 object_type *choose_warning_item(void)
 {
 	int i;
@@ -6387,14 +6785,20 @@ object_type *choose_warning_item(void)
 	return number ? &inventory[choices[randint0(number)]] : NULL;
 }
 
-/* Calculate spell damages */
-static void spell_damcalc(monster_type *m_ptr, int typ, int dam, int limit, int *max)
+/*!
+ * @brief 警告基準を定めるために魔法の効果属性に基づいて最大魔法ダメージを計算する /
+ * Calculate spell damages
+ * @param m_ptr 魔法を行使するモンスターの構造体参照ポインタ
+ * @param typ 効果属性のID
+ * @param dam 基本ダメージ
+ * @param max 算出した最大ダメージを返すポインタ
+ * @return なし
+ */
+static void spell_damcalc(monster_type *m_ptr, int typ, int dam, int *max)
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 	int          rlev = r_ptr->level;
 	bool         ignore_wraith_form = FALSE;
-
-	if (limit) dam = (dam > limit) ? limit : dam;
 
 	/* Vulnerability, resistance and immunity */
 	switch (typ)
@@ -6626,7 +7030,30 @@ static void spell_damcalc(monster_type *m_ptr, int typ, int dam, int limit, int 
 	if (dam > *max) *max = dam;
 }
 
-/* Calculate blow damages */
+/*!
+* @brief 警告基準を定めるために魔法の効果属性に基づいて最大魔法ダメージを計算する。 /
+* Calculate spell damages
+* @param spell_num RF4ならRF4_SPELL_STARTのように32区切りのベースとなる数値
+* @param spell_flag RF4_SHRIEKなどのスペルフラグ
+* @param typ 効果属性のID
+* @param m_idx 魔法を行使するモンスターのID
+* @param max 算出した最大ダメージを返すポインタ
+* @return なし
+*/
+void spell_damcalc_by_spellnum(int spell_num, int typ, int m_idx, int *max)
+{
+    monster_type *m_ptr = &m_list[m_idx];
+    int dam = monspell_damage((spell_num), m_idx, DAM_MAX);
+    spell_damcalc(m_ptr, typ, dam, max);
+}
+
+/*!
+ * @brief 警告基準を定めるためにモンスターの打撃最大ダメージを算出する /
+ * Calculate blow damages
+ * @param m_ptr 打撃を行使するモンスターの構造体参照ポインタ
+ * @param blow_ptr モンスターの打撃能力の構造体参照ポインタ
+ * @return 算出された最大ダメージを返す。
+ */
 static int blow_damcalc(monster_type *m_ptr, monster_blow *blow_ptr)
 {
 	int  dam = blow_ptr->d_dice * blow_ptr->d_side;
@@ -6652,25 +7079,25 @@ static int blow_damcalc(monster_type *m_ptr, monster_blow *blow_ptr)
 			break;
 
 		case RBE_ACID:
-			spell_damcalc(m_ptr, GF_ACID, dam, 0, &dummy_max);
+			spell_damcalc(m_ptr, GF_ACID, dam, &dummy_max);
 			dam = dummy_max;
 			check_wraith_form = FALSE;
 			break;
 
 		case RBE_ELEC:
-			spell_damcalc(m_ptr, GF_ELEC, dam, 0, &dummy_max);
+			spell_damcalc(m_ptr, GF_ELEC, dam, &dummy_max);
 			dam = dummy_max;
 			check_wraith_form = FALSE;
 			break;
 
 		case RBE_FIRE:
-			spell_damcalc(m_ptr, GF_FIRE, dam, 0, &dummy_max);
+			spell_damcalc(m_ptr, GF_FIRE, dam, &dummy_max);
 			dam = dummy_max;
 			check_wraith_form = FALSE;
 			break;
 
 		case RBE_COLD:
-			spell_damcalc(m_ptr, GF_COLD, dam, 0, &dummy_max);
+			spell_damcalc(m_ptr, GF_COLD, dam, &dummy_max);
 			dam = dummy_max;
 			check_wraith_form = FALSE;
 			break;
@@ -6690,14 +7117,20 @@ static int blow_damcalc(monster_type *m_ptr, monster_blow *blow_ptr)
 	else
 	{
 		dam = (dam + 1) / 2;
-		spell_damcalc(m_ptr, mbe_info[blow_ptr->effect].explode_type, dam, 0, &dummy_max);
+		spell_damcalc(m_ptr, mbe_info[blow_ptr->effect].explode_type, dam, &dummy_max);
 		dam = dummy_max;
 	}
 
 	return dam;
 }
 
-/* Examine the grid (xx,yy) and warn the player if there are any danger */
+/*!
+ * @brief プレイヤーが特定地点へ移動した場合に警告を発する処理 /
+ * Examine the grid (xx,yy) and warn the player if there are any danger
+ * @param xx 危険性を調査するマスのX座標
+ * @param yy 危険性を調査するマスのY座標
+ * @return 警告を無視して進むことを選択するかか問題が無ければTRUE、警告に従ったならFALSEを返す。
+ */
 bool process_warning(int xx, int yy)
 {
 	int mx, my;
@@ -6731,49 +7164,43 @@ bool process_warning(int xx, int yy)
 
 			/* Monster spells (only powerful ones)*/
 			if (projectable(my, mx, yy, xx))
-			{
-				int breath_dam_div3 = m_ptr->hp / 3;
-				int breath_dam_div6 = m_ptr->hp / 6;
+            {
 				u32b f4 = r_ptr->flags4;
 				u32b f5 = r_ptr->flags5;
 				u32b f6 = r_ptr->flags6;
 
 				if (!(d_info[dungeon_type].flags1 & DF1_NO_MAGIC))
 				{
-					int rlev = ((r_ptr->level >= 1) ? r_ptr->level : 1);
-					int storm_dam = rlev * 4 + 150;
-					bool powerful = (bool)(r_ptr->flags2 & RF2_POWERFUL);
-
-					if (f4 & RF4_BA_CHAO) spell_damcalc(m_ptr, GF_CHAOS, rlev * (powerful ? 3 : 2) + 100, 0, &dam_max0);
-					if (f5 & RF5_BA_MANA) spell_damcalc(m_ptr, GF_MANA, storm_dam, 0, &dam_max0);
-					if (f5 & RF5_BA_DARK) spell_damcalc(m_ptr, GF_DARK, storm_dam, 0, &dam_max0);
-					if (f5 & RF5_BA_LITE) spell_damcalc(m_ptr, GF_LITE, storm_dam, 0, &dam_max0);
-					if (f6 & RF6_HAND_DOOM) spell_damcalc(m_ptr, GF_HAND_DOOM, p_ptr->chp * 6 / 10, 0, &dam_max0);
-					if (f6 & RF6_PSY_SPEAR) spell_damcalc(m_ptr, GF_PSY_SPEAR, powerful ? (rlev * 2 + 150) : (rlev * 3 / 2 + 100), 0, &dam_max0);
+                    if (f4 & RF4_BA_CHAO) spell_damcalc_by_spellnum(MS_BALL_CHAOS, GF_CHAOS, c_ptr->m_idx,  &dam_max0);
+                    if (f5 & RF5_BA_MANA) spell_damcalc_by_spellnum(MS_BALL_MANA, GF_MANA, c_ptr->m_idx, &dam_max0);
+                    if (f5 & RF5_BA_DARK) spell_damcalc_by_spellnum(MS_BALL_DARK, GF_DARK, c_ptr->m_idx, &dam_max0);
+                    if (f5 & RF5_BA_LITE) spell_damcalc_by_spellnum(MS_STARBURST, GF_LITE, c_ptr->m_idx, &dam_max0);
+                    if (f6 & RF6_HAND_DOOM) spell_damcalc_by_spellnum(MS_HAND_DOOM, GF_HAND_DOOM, c_ptr->m_idx, &dam_max0);
+                    if (f6 & RF6_PSY_SPEAR) spell_damcalc_by_spellnum(MS_PSY_SPEAR, GF_PSY_SPEAR, c_ptr->m_idx, &dam_max0);
 				}
-				if (f4 & RF4_ROCKET) spell_damcalc(m_ptr, GF_ROCKET, m_ptr->hp / 4, 800, &dam_max0);
-				if (f4 & RF4_BR_ACID) spell_damcalc(m_ptr, GF_ACID, breath_dam_div3, 1600, &dam_max0);
-				if (f4 & RF4_BR_ELEC) spell_damcalc(m_ptr, GF_ELEC, breath_dam_div3, 1600, &dam_max0);
-				if (f4 & RF4_BR_FIRE) spell_damcalc(m_ptr, GF_FIRE, breath_dam_div3, 1600, &dam_max0);
-				if (f4 & RF4_BR_COLD) spell_damcalc(m_ptr, GF_COLD, breath_dam_div3, 1600, &dam_max0);
-				if (f4 & RF4_BR_POIS) spell_damcalc(m_ptr, GF_POIS, breath_dam_div3, 800, &dam_max0);
-				if (f4 & RF4_BR_NETH) spell_damcalc(m_ptr, GF_NETHER, breath_dam_div6, 550, &dam_max0);
-				if (f4 & RF4_BR_LITE) spell_damcalc(m_ptr, GF_LITE, breath_dam_div6, 400, &dam_max0);
-				if (f4 & RF4_BR_DARK) spell_damcalc(m_ptr, GF_DARK, breath_dam_div6, 400, &dam_max0);
-				if (f4 & RF4_BR_CONF) spell_damcalc(m_ptr, GF_CONFUSION, breath_dam_div6, 450, &dam_max0);
-				if (f4 & RF4_BR_SOUN) spell_damcalc(m_ptr, GF_SOUND, breath_dam_div6, 450, &dam_max0);
-				if (f4 & RF4_BR_CHAO) spell_damcalc(m_ptr, GF_CHAOS, breath_dam_div6, 600, &dam_max0);
-				if (f4 & RF4_BR_DISE) spell_damcalc(m_ptr, GF_DISENCHANT, breath_dam_div6, 500, &dam_max0);
-				if (f4 & RF4_BR_NEXU) spell_damcalc(m_ptr, GF_NEXUS, breath_dam_div3, 250, &dam_max0);
-				if (f4 & RF4_BR_TIME) spell_damcalc(m_ptr, GF_TIME, breath_dam_div3, 150, &dam_max0);
-				if (f4 & RF4_BR_INER) spell_damcalc(m_ptr, GF_INERTIA, breath_dam_div6, 200, &dam_max0);
-				if (f4 & RF4_BR_GRAV) spell_damcalc(m_ptr, GF_GRAVITY, breath_dam_div3, 200, &dam_max0);
-				if (f4 & RF4_BR_SHAR) spell_damcalc(m_ptr, GF_SHARDS, breath_dam_div6, 500, &dam_max0);
-				if (f4 & RF4_BR_PLAS) spell_damcalc(m_ptr, GF_PLASMA, breath_dam_div6, 150, &dam_max0);
-				if (f4 & RF4_BR_WALL) spell_damcalc(m_ptr, GF_FORCE, breath_dam_div6, 200, &dam_max0);
-				if (f4 & RF4_BR_MANA) spell_damcalc(m_ptr, GF_MANA, breath_dam_div3, 250, &dam_max0);
-				if (f4 & RF4_BR_NUKE) spell_damcalc(m_ptr, GF_NUKE, breath_dam_div3, 800, &dam_max0);
-				if (f4 & RF4_BR_DISI) spell_damcalc(m_ptr, GF_DISINTEGRATE, breath_dam_div6, 150, &dam_max0);
+                if (f4 & RF4_ROCKET) spell_damcalc_by_spellnum(MS_ROCKET, GF_ROCKET, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_ACID) spell_damcalc_by_spellnum(MS_BR_ACID, GF_ACID, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_ELEC) spell_damcalc_by_spellnum(MS_BR_ELEC, GF_ELEC, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_FIRE) spell_damcalc_by_spellnum(MS_BR_FIRE, GF_FIRE, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_COLD) spell_damcalc_by_spellnum(MS_BR_COLD, GF_COLD, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_POIS) spell_damcalc_by_spellnum(MS_BR_POIS, GF_POIS, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_NETH) spell_damcalc_by_spellnum(MS_BR_NETHER, GF_NETHER, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_LITE) spell_damcalc_by_spellnum(MS_BR_LITE, GF_LITE, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_DARK) spell_damcalc_by_spellnum(MS_BR_DARK, GF_DARK, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_CONF) spell_damcalc_by_spellnum(MS_BR_CONF, GF_CONFUSION, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_SOUN) spell_damcalc_by_spellnum(MS_BR_SOUND, GF_SOUND, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_CHAO) spell_damcalc_by_spellnum(MS_BR_CHAOS, GF_CHAOS, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_DISE) spell_damcalc_by_spellnum(MS_BR_DISEN, GF_DISENCHANT, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_NEXU) spell_damcalc_by_spellnum(MS_BR_NEXUS, GF_NEXUS, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_TIME) spell_damcalc_by_spellnum(MS_BR_TIME, GF_TIME, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_INER) spell_damcalc_by_spellnum(MS_BR_INERTIA, GF_INERTIA, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_GRAV) spell_damcalc_by_spellnum(MS_BR_GRAVITY, GF_GRAVITY, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_SHAR) spell_damcalc_by_spellnum(MS_BR_SHARDS, GF_SHARDS, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_PLAS) spell_damcalc_by_spellnum(MS_BR_PLASMA, GF_PLASMA, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_WALL) spell_damcalc_by_spellnum(MS_BR_FORCE, GF_FORCE, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_MANA) spell_damcalc_by_spellnum(MS_BR_MANA, GF_MANA, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_NUKE) spell_damcalc_by_spellnum(MS_BR_NUKE, GF_NUKE, c_ptr->m_idx, &dam_max0);
+                if (f4 & RF4_BR_DISI) spell_damcalc_by_spellnum(MS_BR_DISI, GF_DISINTEGRATE, c_ptr->m_idx, &dam_max0);
 			}
 
 			/* Monster melee attacks */
@@ -6810,20 +7237,14 @@ bool process_warning(int xx, int yy)
 		{
 			object_type *o_ptr = choose_warning_item();
 
-			if (o_ptr) object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
-#ifdef JP
-			else strcpy(o_name, "��"); /* Warning ability without item */
-			msg_format("%s���Ԥ��̤�����", o_name);
-#else
-			else strcpy(o_name, "body"); /* Warning ability without item */
-			msg_format("Your %s pulsates sharply!", o_name);
-#endif
-			disturb(0, 0);
-#ifdef JP
-			return get_check("�����ˤ��Τޤ޿ʤफ��");
-#else
-			return get_check("Really want to go ahead? ");
-#endif
+			if (o_ptr)
+                object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
+            else 
+                strcpy(o_name, _("体", "body")); /* Warning ability without item */
+            msg_format(_("%sが鋭く震えた！", "Your %s pulsates sharply!"), o_name);
+
+			disturb(0, 1);
+            return get_check(_("本当にこのまま進むか？", "Really want to go ahead? "));
 		}
 	}
 	else old_damage = old_damage / 2;
@@ -6834,26 +7255,23 @@ bool process_warning(int xx, int yy)
 	{
 		object_type *o_ptr = choose_warning_item();
 
-		if (o_ptr) object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
-#ifdef JP
-		else strcpy(o_name, "��"); /* Warning ability without item */
-		msg_format("%s���̤�����", o_name);
-#else
-		else strcpy(o_name, "body"); /* Warning ability without item */
-		msg_format("Your %s pulsates!", o_name);
-#endif
-		disturb(0, 0);
-#ifdef JP
-		return get_check("�����ˤ��Τޤ޿ʤफ��");
-#else
-		return get_check("Really want to go ahead? ");
-#endif
+		if (o_ptr) 
+            object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
+        else
+            strcpy(o_name, _("体", "body")); /* Warning ability without item */
+        msg_format(_("%sが鋭く震えた！", "Your %s pulsates sharply!"), o_name);
+		disturb(0, 1);
+        return get_check(_("本当にこのまま進むか？", "Really want to go ahead? "));
 	}
 
 	return TRUE;
 }
 
-
+/*!
+ * @brief エッセンスの付加可能な武器や矢弾かを返す
+ * @param o_ptr チェックしたいオブジェクトの構造体参照ポインタ
+ * @return エッセンスの付加可能な武器か矢弾ならばTRUEを返す。
+ */
 static bool item_tester_hook_melee_ammo(object_type *o_ptr)
 {
 	switch (o_ptr->tval)
@@ -6877,8 +7295,8 @@ static bool item_tester_hook_melee_ammo(object_type *o_ptr)
 }
 
 
-/*
- *  A structure for smithing
+/*!
+ * エッセンス情報の構造体 / A structure for smithing
  */
 typedef struct {
 	int add;       /* TR flag number or special essence id */
@@ -6889,115 +7307,117 @@ typedef struct {
 } essence_type;
 
 
-/*
- *  Smithing type data for Weapon smith
+/*!
+ * エッセンス情報テーブル Smithing type data for Weapon smith
  */
 #ifdef JP
 static essence_type essence_info[] = 
 {
-	{TR_STR, "����", 4, TR_STR, 20},
-	{TR_INT, "��ǽ", 4, TR_INT, 20},
-	{TR_WIS, "����", 4, TR_WIS, 20},
-	{TR_DEX, "���Ѥ�", 4, TR_DEX, 20},
-	{TR_CON, "�ѵ���", 4, TR_CON, 20},
-	{TR_CHR, "̥��", 4, TR_CHR, 20},
-	{TR_MAGIC_MASTERY, "���ϻ���", 4, TR_MAGIC_MASTERY, 20},
-	{TR_STEALTH, "��̩", 4, TR_STEALTH, 40},
-	{TR_SEARCH, "õ��", 4, TR_SEARCH, 15},
-	{TR_INFRA, "�ֳ�������", 4, TR_INFRA, 15},
-	{TR_TUNNEL, "�η�", 4, TR_TUNNEL, 15},
-	{TR_SPEED, "���ԡ���", 4, TR_SPEED, 12},
-	{TR_BLOWS, "�ɲù���", 1, TR_BLOWS, 20},
-	{TR_CHAOTIC, "����������", 1, TR_CHAOTIC, 15},
-	{TR_VAMPIRIC, "�۷칶��", 1, TR_VAMPIRIC, 60},
-	{TR_IMPACT, "�Ͽ�ȯư", 7, TR_IMPACT, 15},
-	{TR_BRAND_POIS, "�ǻ�", 1, TR_BRAND_POIS, 20},
-	{TR_BRAND_ACID, "�ϲ�", 1, TR_BRAND_ACID, 20},
-	{TR_BRAND_ELEC, "�ŷ�", 1, TR_BRAND_ELEC, 20},
-	{TR_BRAND_FIRE, "�ƴ�", 1, TR_BRAND_FIRE, 20},
-	{TR_BRAND_COLD, "���", 1, TR_BRAND_COLD, 20},
-	{TR_SUST_STR, "���ϰݻ�", 3, TR_SUST_STR, 15},
-	{TR_SUST_INT, "��ǽ�ݻ�", 3, TR_SUST_STR, 15},
-	{TR_SUST_WIS, "�����ݻ�", 3, TR_SUST_STR, 15},
-	{TR_SUST_DEX, "���Ѥ��ݻ�", 3, TR_SUST_STR, 15},
-	{TR_SUST_CON, "�ѵ��ϰݻ�", 3, TR_SUST_STR, 15},
-	{TR_SUST_CHR, "̥�ϰݻ�", 3, TR_SUST_STR, 15},
-	{TR_IM_ACID, "���ȱ�", 2, TR_IM_ACID, 20},
-	{TR_IM_ELEC, "�ŷ��ȱ�", 2, TR_IM_ACID, 20},
-	{TR_IM_FIRE, "�б��ȱ�", 2, TR_IM_ACID, 20},
-	{TR_IM_COLD, "�䵤�ȱ�", 2, TR_IM_ACID, 20},
-	{TR_REFLECT, "ȿ��", 2, TR_REFLECT, 20},
-	{TR_FREE_ACT, "�����Τ餺", 3, TR_FREE_ACT, 20},
-	{TR_HOLD_LIFE, "��̿�ϰݻ�", 3, TR_HOLD_LIFE, 20},
-	{TR_RES_ACID, "�ѻ�", 2, TR_RES_ACID, 15},
-	{TR_RES_ELEC, "���ŷ�", 2, TR_RES_ELEC, 15},
-	{TR_RES_FIRE, "�Ѳб�", 2, TR_RES_FIRE, 15},
-	{TR_RES_COLD, "���䵤", 2, TR_RES_COLD, 15},
-	{TR_RES_POIS, "����", 2, TR_RES_POIS, 25},
-	{TR_RES_FEAR, "�Ѷ���", 2, TR_RES_FEAR, 20},
-	{TR_RES_LITE, "������", 2, TR_RES_LITE, 20},
-	{TR_RES_DARK, "�ѰŹ�", 2, TR_RES_DARK, 20},
-	{TR_RES_BLIND, "������", 2, TR_RES_BLIND, 20},
-	{TR_RES_CONF, "�Ѻ���", 2, TR_RES_CONF, 20},
-	{TR_RES_SOUND, "�ѹ첻", 2, TR_RES_SOUND, 20},
-	{TR_RES_SHARDS, "������", 2, TR_RES_SHARDS, 20},
-	{TR_RES_NETHER, "���Ϲ�", 2, TR_RES_NETHER, 20},
-	{TR_RES_NEXUS, "�Ѱ��̺���", 2, TR_RES_NEXUS, 20},
-	{TR_RES_CHAOS, "�ѥ�����", 2, TR_RES_CHAOS, 20},
-	{TR_RES_DISEN, "������", 2, TR_RES_DISEN, 20},
+	{TR_STR, "腕力", 4, TR_STR, 20},
+	{TR_INT, "知能", 4, TR_INT, 20},
+	{TR_WIS, "賢さ", 4, TR_WIS, 20},
+	{TR_DEX, "器用さ", 4, TR_DEX, 20},
+	{TR_CON, "耐久力", 4, TR_CON, 20},
+	{TR_CHR, "魅力", 4, TR_CHR, 20},
+	{TR_MAGIC_MASTERY, "魔力支配", 4, TR_MAGIC_MASTERY, 20},
+	{TR_STEALTH, "隠密", 4, TR_STEALTH, 40},
+	{TR_SEARCH, "探索", 4, TR_SEARCH, 15},
+	{TR_INFRA, "赤外線視力", 4, TR_INFRA, 15},
+	{TR_TUNNEL, "採掘", 4, TR_TUNNEL, 15},
+	{TR_SPEED, "スピード", 4, TR_SPEED, 12},
+	{TR_BLOWS, "追加攻撃", 1, TR_BLOWS, 20},
+	{TR_CHAOTIC, "カオス攻撃", 1, TR_CHAOTIC, 15},
+	{TR_VAMPIRIC, "吸血攻撃", 1, TR_VAMPIRIC, 60},
+	{TR_IMPACT, "地震発動", 7, TR_IMPACT, 15},
+	{TR_BRAND_POIS, "毒殺", 1, TR_BRAND_POIS, 20},
+	{TR_BRAND_ACID, "溶解", 1, TR_BRAND_ACID, 20},
+	{TR_BRAND_ELEC, "電撃", 1, TR_BRAND_ELEC, 20},
+	{TR_BRAND_FIRE, "焼棄", 1, TR_BRAND_FIRE, 20},
+	{TR_BRAND_COLD, "凍結", 1, TR_BRAND_COLD, 20},
+	{TR_SUST_STR, "腕力維持", 3, TR_SUST_STR, 15},
+	{TR_SUST_INT, "知能維持", 3, TR_SUST_STR, 15},
+	{TR_SUST_WIS, "賢さ維持", 3, TR_SUST_STR, 15},
+	{TR_SUST_DEX, "器用さ維持", 3, TR_SUST_STR, 15},
+	{TR_SUST_CON, "耐久力維持", 3, TR_SUST_STR, 15},
+	{TR_SUST_CHR, "魅力維持", 3, TR_SUST_STR, 15},
+	{TR_IM_ACID, "酸免疫", 2, TR_IM_ACID, 20},
+	{TR_IM_ELEC, "電撃免疫", 2, TR_IM_ACID, 20},
+	{TR_IM_FIRE, "火炎免疫", 2, TR_IM_ACID, 20},
+	{TR_IM_COLD, "冷気免疫", 2, TR_IM_ACID, 20},
+	{TR_REFLECT, "反射", 2, TR_REFLECT, 20},
+	{TR_FREE_ACT, "麻痺知らず", 3, TR_FREE_ACT, 20},
+	{TR_HOLD_EXP, "経験値維持", 3, TR_HOLD_EXP, 20},
+	{TR_RES_ACID, "耐酸", 2, TR_RES_ACID, 15},
+	{TR_RES_ELEC, "耐電撃", 2, TR_RES_ELEC, 15},
+	{TR_RES_FIRE, "耐火炎", 2, TR_RES_FIRE, 15},
+	{TR_RES_COLD, "耐冷気", 2, TR_RES_COLD, 15},
+	{TR_RES_POIS, "耐毒", 2, TR_RES_POIS, 25},
+	{TR_RES_FEAR, "耐恐怖", 2, TR_RES_FEAR, 20},
+	{TR_RES_LITE, "耐閃光", 2, TR_RES_LITE, 20},
+	{TR_RES_DARK, "耐暗黒", 2, TR_RES_DARK, 20},
+	{TR_RES_BLIND, "耐盲目", 2, TR_RES_BLIND, 20},
+	{TR_RES_CONF, "耐混乱", 2, TR_RES_CONF, 20},
+	{TR_RES_SOUND, "耐轟音", 2, TR_RES_SOUND, 20},
+	{TR_RES_SHARDS, "耐破片", 2, TR_RES_SHARDS, 20},
+	{TR_RES_NETHER, "耐地獄", 2, TR_RES_NETHER, 20},
+	{TR_RES_NEXUS, "耐因果混乱", 2, TR_RES_NEXUS, 20},
+	{TR_RES_CHAOS, "耐カオス", 2, TR_RES_CHAOS, 20},
+	{TR_RES_DISEN, "耐劣化", 2, TR_RES_DISEN, 20},
 	{TR_SH_FIRE, "", 0, -2, 0},
 	{TR_SH_ELEC, "", 0, -2, 0},
 	{TR_SH_COLD, "", 0, -2, 0},
-	{TR_NO_MAGIC, "ȿ��ˡ", 3, TR_NO_MAGIC, 15},
-	{TR_WARNING, "�ٹ�", 3, TR_WARNING, 20},
-	{TR_LEVITATION, "��ͷ", 3, TR_LEVITATION, 20},
-	{TR_LITE, "�ʵ׸���", 3, TR_LITE, 15},
-	{TR_SEE_INVIS, "�Ļ�Ʃ��", 3, TR_SEE_INVIS, 20},
-	{TR_TELEPATHY, "�ƥ�ѥ���", 6, TR_TELEPATHY, 15},
-	{TR_SLOW_DIGEST, "�پò�", 3, TR_SLOW_DIGEST, 15},
-	{TR_REGEN, "��®����", 3, TR_REGEN, 20},
-	{TR_TELEPORT, "�ƥ�ݡ���", 3, TR_TELEPORT, 25},
+	{TR_NO_MAGIC, "反魔法", 3, TR_NO_MAGIC, 15},
+	{TR_WARNING, "警告", 3, TR_WARNING, 20},
+	{TR_LEVITATION, "浮遊", 3, TR_LEVITATION, 20},
+	{TR_LITE_1, "永久光源", 3, TR_LITE_1, 15},
+	{TR_LITE_2, "", 0, -2, 0},
+	{TR_LITE_3, "", 0, -2, 0},
+	{TR_SEE_INVIS, "可視透明", 3, TR_SEE_INVIS, 20},
+	{TR_TELEPATHY, "テレパシー", 6, TR_TELEPATHY, 15},
+	{TR_SLOW_DIGEST, "遅消化", 3, TR_SLOW_DIGEST, 15},
+	{TR_REGEN, "急速回復", 3, TR_REGEN, 20},
+	{TR_TELEPORT, "テレポート", 3, TR_TELEPORT, 25},
 
-	{TR_SLAY_EVIL, "�ٰ�����", 5, TR_SLAY_EVIL, 100},
-	{TR_KILL_EVIL, "�ٰ�������", 0, TR_SLAY_EVIL, 60},
-	{TR_SLAY_ANIMAL, "ưʪ����", 5, TR_SLAY_ANIMAL, 20},
-	{TR_KILL_ANIMAL, "ưʪ������", 5, TR_SLAY_ANIMAL, 60},
-	{TR_SLAY_UNDEAD, "�Ի�����", 5, TR_SLAY_UNDEAD, 20},
-	{TR_KILL_UNDEAD, "�Ի�������", 5, TR_SLAY_UNDEAD, 60},
-	{TR_SLAY_DEMON, "��������", 5, TR_SLAY_DEMON, 20},
-	{TR_KILL_DEMON, "����������", 5, TR_SLAY_DEMON, 60},
-	{TR_SLAY_ORC, "����������", 5, TR_SLAY_ORC, 15},
-	{TR_KILL_ORC, "������������", 5, TR_SLAY_ORC, 60},
-	{TR_SLAY_TROLL, "�ȥ�������", 5, TR_SLAY_TROLL, 15},
-	{TR_KILL_TROLL, "�ȥ���������", 5, TR_SLAY_TROLL, 60},
-	{TR_SLAY_GIANT, "�������", 5, TR_SLAY_GIANT, 20},
-	{TR_KILL_GIANT, "���������", 5, TR_SLAY_GIANT, 60},       
-	{TR_SLAY_DRAGON, "ε����", 5, TR_SLAY_DRAGON, 20},
-	{TR_KILL_DRAGON, "ε������", 5, TR_SLAY_DRAGON, 60},
-	{TR_SLAY_HUMAN, "�ʹ�����", 5, TR_SLAY_HUMAN, 20},
-	{TR_KILL_HUMAN, "�ʹ�������", 5, TR_SLAY_HUMAN, 60},
+	{TR_SLAY_EVIL, "邪悪倍打", 5, TR_SLAY_EVIL, 100},
+	{TR_KILL_EVIL, "邪悪倍倍打", 0, TR_SLAY_EVIL, 60},
+	{TR_SLAY_ANIMAL, "動物倍打", 5, TR_SLAY_ANIMAL, 20},
+	{TR_KILL_ANIMAL, "動物倍倍打", 5, TR_SLAY_ANIMAL, 60},
+	{TR_SLAY_UNDEAD, "不死倍打", 5, TR_SLAY_UNDEAD, 20},
+	{TR_KILL_UNDEAD, "不死倍倍打", 5, TR_SLAY_UNDEAD, 60},
+	{TR_SLAY_DEMON, "悪魔倍打", 5, TR_SLAY_DEMON, 20},
+	{TR_KILL_DEMON, "悪魔倍倍打", 5, TR_SLAY_DEMON, 60},
+	{TR_SLAY_ORC, "オーク倍打", 5, TR_SLAY_ORC, 15},
+	{TR_KILL_ORC, "オーク倍倍打", 5, TR_SLAY_ORC, 60},
+	{TR_SLAY_TROLL, "トロル倍打", 5, TR_SLAY_TROLL, 15},
+	{TR_KILL_TROLL, "トロル倍倍打", 5, TR_SLAY_TROLL, 60},
+	{TR_SLAY_GIANT, "巨人倍打", 5, TR_SLAY_GIANT, 20},
+	{TR_KILL_GIANT, "巨人倍倍打", 5, TR_SLAY_GIANT, 60},       
+	{TR_SLAY_DRAGON, "竜倍打", 5, TR_SLAY_DRAGON, 20},
+	{TR_KILL_DRAGON, "竜倍倍打", 5, TR_SLAY_DRAGON, 60},
+	{TR_SLAY_HUMAN, "人間倍打", 5, TR_SLAY_HUMAN, 20},
+	{TR_KILL_HUMAN, "人間倍倍打", 5, TR_SLAY_HUMAN, 60},
 
-	{TR_ESP_ANIMAL, "ưʪESP", 6, TR_SLAY_ANIMAL, 40},
-	{TR_ESP_UNDEAD, "�Ի�ESP", 6, TR_SLAY_UNDEAD, 40}, 
-	{TR_ESP_DEMON, "����ESP", 6, TR_SLAY_DEMON, 40},       
-	{TR_ESP_ORC, "������ESP", 6, TR_SLAY_ORC, 40},     
-	{TR_ESP_TROLL, "�ȥ���ESP", 6, TR_SLAY_TROLL, 40},   
-	{TR_ESP_GIANT, "���ESP", 6, TR_SLAY_GIANT, 40},       
-	{TR_ESP_DRAGON, "εESP", 6, TR_SLAY_DRAGON, 40},
-	{TR_ESP_HUMAN, "�ʹ�ESP", 6, TR_SLAY_HUMAN, 40},
+	{TR_ESP_ANIMAL, "動物ESP", 6, TR_SLAY_ANIMAL, 40},
+	{TR_ESP_UNDEAD, "不死ESP", 6, TR_SLAY_UNDEAD, 40}, 
+	{TR_ESP_DEMON, "悪魔ESP", 6, TR_SLAY_DEMON, 40},       
+	{TR_ESP_ORC, "オークESP", 6, TR_SLAY_ORC, 40},     
+	{TR_ESP_TROLL, "トロルESP", 6, TR_SLAY_TROLL, 40},   
+	{TR_ESP_GIANT, "巨人ESP", 6, TR_SLAY_GIANT, 40},       
+	{TR_ESP_DRAGON, "竜ESP", 6, TR_SLAY_DRAGON, 40},
+	{TR_ESP_HUMAN, "人間ESP", 6, TR_SLAY_HUMAN, 40},
 
-	{ESSENCE_ATTACK, "����", 10, TR_ES_ATTACK, 30},
-	{ESSENCE_AC, "�ɸ�", 10, TR_ES_AC, 15},
-	{ESSENCE_TMP_RES_ACID, "������ȯư", 7, TR_RES_ACID, 50},
-	{ESSENCE_TMP_RES_ELEC, "�ŷ�����ȯư", 7, TR_RES_ELEC, 50},
-	{ESSENCE_TMP_RES_FIRE, "�б�����ȯư", 7, TR_RES_FIRE, 50},
-	{ESSENCE_TMP_RES_COLD, "�䵤����ȯư", 7, TR_RES_COLD, 50},
-	{ESSENCE_SH_FIRE, "�бꥪ����", 7, -1, 50},
-	{ESSENCE_SH_ELEC, "�ŷ⥪����", 7, -1, 50},
-	{ESSENCE_SH_COLD, "�䵤������", 7, -1, 50},
-	{ESSENCE_RESISTANCE, "������", 2, -1, 150},
-	{ESSENCE_SUSTAIN, "�����ݻ�", 10, -1, 10},
-	{ESSENCE_SLAY_GLOVE, "��٤�ξ���", 1, TR_ES_ATTACK, 200},
+	{ESSENCE_ATTACK, "攻撃", 10, TR_ES_ATTACK, 30},
+	{ESSENCE_AC, "防御", 10, TR_ES_AC, 15},
+	{ESSENCE_TMP_RES_ACID, "酸耐性発動", 7, TR_RES_ACID, 50},
+	{ESSENCE_TMP_RES_ELEC, "電撃耐性発動", 7, TR_RES_ELEC, 50},
+	{ESSENCE_TMP_RES_FIRE, "火炎耐性発動", 7, TR_RES_FIRE, 50},
+	{ESSENCE_TMP_RES_COLD, "冷気耐性発動", 7, TR_RES_COLD, 50},
+	{ESSENCE_SH_FIRE, "火炎オーラ", 7, -1, 50},
+	{ESSENCE_SH_ELEC, "電撃オーラ", 7, -1, 50},
+	{ESSENCE_SH_COLD, "冷気オーラ", 7, -1, 50},
+	{ESSENCE_RESISTANCE, "全耐性", 2, -1, 150},
+	{ESSENCE_SUSTAIN, "装備保持", 10, -1, 10},
+	{ESSENCE_SLAY_GLOVE, "殺戮の小手", 1, TR_ES_ATTACK, 200},
 
 	{-1, NULL, 0, -1, 0}
 };
@@ -7037,7 +7457,7 @@ static essence_type essence_info[] =
 	{TR_IM_COLD, "cold immunity", 2, TR_IM_ACID, 20},
 	{TR_REFLECT, "reflection", 2, TR_REFLECT, 20},
 	{TR_FREE_ACT, "free action", 3, TR_FREE_ACT, 20},
-	{TR_HOLD_LIFE, "hold life", 3, TR_HOLD_LIFE, 20},
+	{TR_HOLD_EXP, "hold experience", 3, TR_HOLD_EXP, 20},
 	{TR_RES_ACID, "resistance to acid", 2, TR_RES_ACID, 15},
 	{TR_RES_ELEC, "resistance to electric", 2, TR_RES_ELEC, 15},
 	{TR_RES_FIRE, "resistance to fire", 2, TR_RES_FIRE, 15},
@@ -7060,7 +7480,9 @@ static essence_type essence_info[] =
 	{TR_NO_MAGIC, "anti magic", 3, TR_NO_MAGIC, 15},
 	{TR_WARNING, "warning", 3, TR_WARNING, 20},
 	{TR_LEVITATION, "levitation", 3, TR_LEVITATION, 20},
-	{TR_LITE, "permanent light", 3, TR_LITE, 15},
+	{TR_LITE_1, "permanent light", 3, TR_LITE_1, 15},
+	{TR_LITE_2, "", 0, -2, 0},
+	{TR_LITE_3, "", 0, -2, 0},
 	{TR_SEE_INVIS, "see invisible", 3, TR_SEE_INVIS, 20},
 	{TR_TELEPATHY, "telepathy", 6, TR_TELEPATHY, 15},
 	{TR_SLOW_DIGEST, "slow digestion", 3, TR_SLOW_DIGEST, 15},
@@ -7113,94 +7535,45 @@ static essence_type essence_info[] =
 #endif
 
 
-/*
- *  Essense names for Weapon smith
+/*!
+ * エッセンス名テーブル / Essense names for Weapon smith
  */
 #ifdef JP
-static cptr essence_name[] = 
+cptr essence_name[] = 
 {
-	"����",
-	"��ǽ",
-	"����",
-	"���Ѥ�",
-	"�ѵ���",
-	"̥��",
-	"���ϻ���",
+	"腕力",
+	"知能",
+	"賢さ",
+	"器用さ",
+	"耐久力",
+	"魅力",
+	"魔力支配",
 	"",
-	"��̩",
-	"õ��",
-	"�ֳ�������",
-	"�η�",
-	"���ԡ���",
-	"�ɲù���",
-	"����������",
-	"�۷칶��",
-	"ưʪ����",
-	"�ٰ�����",
-	"�Ի�����",
-	"��������",
-	"����������",
-	"�ȥ�������",
-	"�������",
-	"ε����",
-	"",
-	"",
-	"�Ͽ�",
-	"�ǻ�",
-	"�ϲ�",
-	"�ŷ�",
-	"�ƴ�",
-	"���",
-	"ǽ�ϰݻ�",
+	"隠密",
+	"探索",
+	"赤外線視力",
+	"採掘",
+	"スピード",
+	"追加攻撃",
+	"カオス攻撃",
+	"吸血攻撃",
+	"動物倍打",
+	"邪悪倍打",
+	"不死倍打",
+	"悪魔倍打",
+	"オーク倍打",
+	"トロル倍打",
+	"巨人倍打",
+	"竜倍打",
 	"",
 	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"�ȱ�",
-	"",
-	"",
-	"",
-	"",
-	"ȿ��",
-	"�����Τ餺",
-	"��̿�ϰݻ�",
-	"�ѻ�",
-	"���ŷ�",
-	"�Ѳб�",
-	"���䵤",
-	"����",
-	"�Ѷ���",
-	"������",
-	"�ѰŹ�",
-	"������",
-	"�Ѻ���",
-	"�ѹ첻",
-	"������",
-	"���Ϲ�",
-	"�Ѱ��̺���",
-	"�ѥ�����",
-	"������",
-	"",
-	"",
-	"�ʹ�����",
-	"",
-	"",
-	"ȿ��ˡ",
-	"",
-	"",
-	"�ٹ�",
-	"",
-	"",
-	"",
-	"��ͷ",
-	"�ʵ׸���",
-	"�Ļ�Ʃ��",
-	"�ƥ�ѥ���",
-	"�پò�",
-	"��®����",
+	"地震",
+	"毒殺",
+	"溶解",
+	"電撃",
+	"焼棄",
+	"凍結",
+	"能力維持",
 	"",
 	"",
 	"",
@@ -7208,19 +7581,68 @@ static cptr essence_name[] =
 	"",
 	"",
 	"",
+	"免疫",
 	"",
-	"�ƥ�ݡ���",
 	"",
 	"",
-	"����",
-	"�ɸ�",
+	"",
+	"反射",
+	"麻痺知らず",
+	"経験値維持",
+	"耐酸",
+	"耐電撃",
+	"耐火炎",
+	"耐冷気",
+	"耐毒",
+	"耐恐怖",
+	"耐閃光",
+	"耐暗黒",
+	"耐盲目",
+	"耐混乱",
+	"耐轟音",
+	"耐破片",
+	"耐地獄",
+	"耐因果混乱",
+	"耐カオス",
+	"耐劣化",
+	"",
+	"",
+	"人間倍打",
+	"",
+	"",
+	"反魔法",
+	"",
+	"",
+	"警告",
+	"",
+	"",
+	"",
+	"浮遊",
+	"永久光源",
+	"可視透明",
+	"テレパシー",
+	"遅消化",
+	"急速回復",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"テレポート",
+	"",
+	"",
+	"攻撃",
+	"防御",
 
 	NULL
 };
 
 #else
 
-static cptr essence_name[] = 
+cptr essence_name[] = 
 {
 	"strength",
 	"intelligen.",
@@ -7269,7 +7691,7 @@ static cptr essence_name[] =
 	"",
 	"reflection",
 	"free action",
-	"hold life",
+	"hold exp",
 	"res. acid",
 	"res. elec.",
 	"res. fire",
@@ -7322,7 +7744,10 @@ static cptr essence_name[] =
 };
 #endif
 
-
+/*!
+ * @brief 所持しているエッセンス一覧を表示する
+ * @return なし
+ */
 static void display_essence(void)
 {
 	int i, num = 0;
@@ -7332,27 +7757,24 @@ static void display_essence(void)
 	{
 		prt("",i,0);
 	}
-#ifdef JP
-	prt("���å���   �Ŀ�     ���å���   �Ŀ�     ���å���   �Ŀ�", 1, 8);
-#else
-	prt("Essence      Num      Essence      Num      Essence      Num ", 1, 8);
-#endif
+	prt(_("エッセンス   個数     エッセンス   個数     エッセンス   個数", 
+		  "Essence      Num      Essence      Num      Essence      Num "), 1, 8);
 	for (i = 0; essence_name[i]; i++)
 	{
 		if (!essence_name[i][0]) continue;
 		prt(format("%-11s %5d", essence_name[i], p_ptr->magic_num1[i]), 2+num%21, 8+num/21*22);
 		num++;
 	}
-#ifdef JP
-	prt("���߽�����Ƥ��륨�å���", 0, 0);
-#else
-	prt("List of all essences you have.", 0, 0);
-#endif
+	prt(_("現在所持しているエッセンス", "List of all essences you have."), 0, 0);
 	(void)inkey();
 	screen_load();
 	return;
 }
 
+/*!
+ * @brief エッセンスの抽出処理
+ * @return なし
+ */
 static void drain_essence(void)
 {
 	int drain_value[sizeof(p_ptr->magic_num1) / sizeof(s32b)];
@@ -7373,13 +7795,8 @@ static void drain_essence(void)
 	item_tester_no_ryoute = TRUE;
 
 	/* Get an item */
-#ifdef JP
-	q = "�ɤΥ����ƥफ����Ф��ޤ�����";
-	s = "��ФǤ��륢���ƥब����ޤ���";
-#else
-	q = "Extract from which item? ";
-	s = "You have nothing you can extract from.";
-#endif
+	q = _("どのアイテムから抽出しますか？", "Extract from which item? ");
+	s = _("抽出できるアイテムがありません。", "You have nothing you can extract from.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return;
 
@@ -7399,11 +7816,7 @@ static void drain_essence(void)
 	{
 		char o_name[MAX_NLEN];
 		object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
-#ifdef JP
-		if (!get_check(format("������%s������Ф��Ƥ�������Ǥ�����", o_name))) return;
-#else
-		if (!get_check(format("Really extract from %s? ", o_name))) return;
-#endif
+		if (!get_check(format(_("本当に%sから抽出してよろしいですか？", "Really extract from %s? "), o_name))) return;
 	}
 
 	energy_use = 100;
@@ -7429,11 +7842,25 @@ static void drain_essence(void)
 	old_name2 = o_ptr->name2;
 	old_timeout = o_ptr->timeout;
 	if (o_ptr->curse_flags & (TRC_CURSED | TRC_HEAVY_CURSE | TRC_PERMA_CURSE)) dec--;
+	if (have_flag(old_flgs, TR_ADD_L_CURSE)) dec--;
+	if (have_flag(old_flgs, TR_ADD_H_CURSE)) dec--;
 	if (have_flag(old_flgs, TR_AGGRAVATE)) dec--;
 	if (have_flag(old_flgs, TR_NO_TELE)) dec--;
 	if (have_flag(old_flgs, TR_DRAIN_EXP)) dec--;
+	if (have_flag(old_flgs, TR_DRAIN_HP)) dec--;
+	if (have_flag(old_flgs, TR_DRAIN_MANA)) dec--;
+	if (have_flag(old_flgs, TR_CALL_ANIMAL)) dec--;
+	if (have_flag(old_flgs, TR_CALL_DEMON)) dec--;
+	if (have_flag(old_flgs, TR_CALL_DRAGON)) dec--;
+	if (have_flag(old_flgs, TR_CALL_UNDEAD)) dec--;
+	if (have_flag(old_flgs, TR_COWARDICE)) dec--;
+	if (have_flag(old_flgs, TR_LOW_MELEE)) dec--;
+	if (have_flag(old_flgs, TR_LOW_AC)) dec--;
+	if (have_flag(old_flgs, TR_LOW_MAGIC)) dec--;
+	if (have_flag(old_flgs, TR_FAST_DIGEST)) dec--;
+	if (have_flag(old_flgs, TR_SLOW_REGEN)) dec--;
 	if (have_flag(old_flgs, TR_TY_CURSE)) dec--;
-
+	
 	iy = o_ptr->iy;
 	ix = o_ptr->ix;
 	next_o_idx = o_ptr->next_o_idx;
@@ -7491,6 +7918,14 @@ static void drain_essence(void)
 				drain_value[TR_BRAND_COLD] += 10;
 				drain_value[TR_RES_COLD] += 10;
 			}
+			else if (es_ptr->add == TR_LITE_2)
+			{
+				drain_value[TR_LITE_1] += 20;
+			}
+			else if (es_ptr->add == TR_LITE_3)
+			{
+				drain_value[TR_LITE_1] += 30;
+			}
 		}
 	}
 
@@ -7547,19 +7982,12 @@ static void drain_essence(void)
 	}
 	if (!observe)
 	{
-#ifdef JP
-		msg_print("���å��󥹤���ФǤ��ޤ���Ǥ�����");
-#else
-		msg_print("You were not able to extract any essence.");
-#endif
+		msg_print(_("エッセンスは抽出できませんでした。", "You were not able to extract any essence."));
 	}
 	else
 	{
-#ifdef JP
-		msg_print("��Ф������å���:");
-#else
-		msg_print("Extracted essences:");
-#endif
+		msg_print(_("抽出したエッセンス:", "Extracted essences:"));
+
 		for (i = 0; essence_name[i]; i++)
 		{
 			if (!essence_name[i][0]) continue;
@@ -7568,9 +7996,12 @@ static void drain_essence(void)
 			p_ptr->magic_num1[i] += drain_value[i];
 			p_ptr->magic_num1[i] = MIN(20000, p_ptr->magic_num1[i]);
 			msg_print(NULL);
-			msg_format("%s...%d", essence_name[i], drain_value[i]);
+			msg_format("%s...%d%s", essence_name[i], drain_value[i], _("。", ". "));
 		}
 	}
+
+	/* Apply autodestroy/inscription to the drained item */
+	autopick_alter_item(item, TRUE);
 
 	/* Combine the pack */
 	p_ptr->notice |= (PN_COMBINE | PN_REORDER);
@@ -7579,8 +8010,10 @@ static void drain_essence(void)
 	p_ptr->window |= (PW_INVEN);
 }
 
-
-
+/*!
+ * @brief 付加するエッセンスの大別を選択する
+ * @return 選んだエッセンスの大別ID
+ */
 static int choose_essence(void)
 {
 	int mode = 0;
@@ -7589,13 +8022,13 @@ static int choose_essence(void)
 
 #ifdef JP
 	cptr menu_name[] = {
-		"���°��", 
-		"����",
-		"ǽ��",
-		"����",
-		"���쥤",
+		"武器属性", 
+		"耐性",
+		"能力",
+		"数値",
+		"スレイ",
 		"ESP",
-		"����¾"
+		"その他"
 	};
 #else
 	cptr menu_name[] = {
@@ -7625,8 +8058,8 @@ static int choose_essence(void)
 			int i;
 			for (i = 0; i < mode_max; i++)
 #ifdef JP
-				prt(format(" %s %s", (menu_line == 1+i) ? "��" : "  ", menu_name[i]), 2 + i, 14);
-			prt("�ɤμ���Υ��å����ղä�Ԥ��ޤ�����", 0, 0);
+				prt(format(" %s %s", (menu_line == 1+i) ? "》" : "  ", menu_name[i]), 2 + i, 14);
+			prt("どの種類のエッセンス付加を行いますか？", 0, 0);
 #else
 				prt(format(" %s %s", (menu_line == 1+i) ? "> " : "  ", menu_name[i]), 2 + i, 14);
 			prt("Choose from menu.", 0, 0);
@@ -7671,11 +8104,7 @@ static int choose_essence(void)
 			for (i = 0; i < mode_max; i++)
 				prt(format("  %c) %s", 'a' + i, menu_name[i]), 2 + i, 14);
 
-#ifdef JP
-			if (!get_com("�����ղä��ޤ���:", &choice, TRUE))
-#else
-			if (!get_com("Command :", &choice, TRUE))
-#endif
+			if (!get_com(_("何を付加しますか:", "Command :"), &choice, TRUE))
 			{
 				screen_load();
 				return 0;
@@ -7695,6 +8124,11 @@ static int choose_essence(void)
 	return mode;
 }
 
+/*!
+ * @brief エッセンスを実際に付加する
+ * @param mode エッセンスの大別ID
+ * @return なし
+ */
 static void add_essence(int mode)
 {
 	int item, max_num = 0;
@@ -7733,11 +8167,7 @@ static void add_essence(int mode)
 	redraw = FALSE;
 
 	/* Build a prompt */
-#ifdef JP
-	(void) strnfmt(out_val, 78, "('*'�ǰ���, ESC������) �ɤ�ǽ�Ϥ��ղä��ޤ�����");
-#else
-	(void)strnfmt(out_val, 78, "(*=List, ESC=exit) Add which ability? ");
-#endif
+	(void) strnfmt(out_val, 78, _("('*'で一覧, ESCで中断) どの能力を付加しますか？", "(*=List, ESC=exit) Add which ability? "));
 	if (use_menu) screen_save();
 
 	/* Get a spell from the user */
@@ -7826,7 +8256,7 @@ static void add_essence(int mode)
 
 				/* Print header(s) */
 #ifdef JP
-				prt(format("   %-43s %6s/%s", "ǽ��(ɬ�ץ��å���)", "ɬ�׿�", "�����"), 1, x);
+				prt(format("   %-43s %6s/%s", "能力(必要エッセンス)", "必要数", "所持数"), 1, x);
 
 #else
 				prt(format("   %-43s %6s/%s", "Ability (needed essence)", "Needs", "Possess"), 1, x);
@@ -7839,11 +8269,7 @@ static void add_essence(int mode)
 					if (use_menu)
 					{
 						if (ctr == (menu_line-1))
-#ifdef JP
-							strcpy(dummy, "�� ");
-#else
-							strcpy(dummy, ">  ");
-#endif
+							strcpy(dummy, _("》 ", ">  "));
 						else strcpy(dummy, "   ");
 						
 					}
@@ -7868,49 +8294,29 @@ static void add_essence(int mode)
 						switch(es_ptr->add)
 						{
 						case ESSENCE_SH_FIRE:
-#ifdef JP
-							strcat(dummy, "(�ƴ�+�Ѳб�)");
-#else
-							strcat(dummy, "(brand fire + res.fire)");
-#endif
+							strcat(dummy, _("(焼棄+耐火炎)", "(brand fire + res.fire)"));
 							if (p_ptr->magic_num1[TR_BRAND_FIRE] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_FIRE] < es_ptr->value) able[ctr] = FALSE;
 							break;
 						case ESSENCE_SH_ELEC:
-#ifdef JP
-							strcat(dummy, "(�ŷ�+���ŷ�)");
-#else
-							strcat(dummy, "(brand elec. + res. elec.)");
-#endif
+							strcat(dummy, _("(電撃+耐電撃)", "(brand elec. + res. elec.)"));
 							if (p_ptr->magic_num1[TR_BRAND_ELEC] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_ELEC] < es_ptr->value) able[ctr] = FALSE;
 							break;
 						case ESSENCE_SH_COLD:
-#ifdef JP
-							strcat(dummy, "(���+���䵤)");
-#else
-							strcat(dummy, "(brand cold + res. cold)");
-#endif
+							strcat(dummy, _("(凍結+耐冷気)", "(brand cold + res. cold)"));
 							if (p_ptr->magic_num1[TR_BRAND_COLD] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_COLD] < es_ptr->value) able[ctr] = FALSE;
 							break;
 						case ESSENCE_RESISTANCE:
-#ifdef JP
-							strcat(dummy, "(�Ѳб�+���䵤+���ŷ�+�ѻ�)");
-#else
-							strcat(dummy, "(r.fire+r.cold+r.elec+r.acid)");
-#endif
+							strcat(dummy, _("(耐火炎+耐冷気+耐電撃+耐酸)", "(r.fire+r.cold+r.elec+r.acid)"));
 							if (p_ptr->magic_num1[TR_RES_FIRE] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_COLD] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_ELEC] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_ACID] < es_ptr->value) able[ctr] = FALSE;
 							break;
 						case ESSENCE_SUSTAIN:
-#ifdef JP
-							strcat(dummy, "(�Ѳб�+���䵤+���ŷ�+�ѻ�)");
-#else
-							strcat(dummy, "(r.fire+r.cold+r.elec+r.acid)");
-#endif
+							strcat(dummy, _("(耐火炎+耐冷気+耐電撃+耐酸)", "(r.fire+r.cold+r.elec+r.acid)"));
 							if (p_ptr->magic_num1[TR_RES_FIRE] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_COLD] < es_ptr->value) able[ctr] = FALSE;
 							if (p_ptr->magic_num1[TR_RES_ELEC] < es_ptr->value) able[ctr] = FALSE;
@@ -7973,11 +8379,7 @@ static void add_essence(int mode)
 			char tmp_val[160];
 
 			/* Prompt */
-#ifdef JP
-			(void) strnfmt(tmp_val, 78, "%s���ղä��ޤ����� ", essence_info[num[i]].add_name);
-#else
-			(void) strnfmt(tmp_val, 78, "Add the abilitiy of %s? ", essence_info[num[i]].add_name);
-#endif
+			(void) strnfmt(tmp_val, 78, _("%sを付加しますか？ ", "Add the abilitiy of %s? "), essence_info[num[i]].add_name);
 
 			/* Belay that order */
 			if (!get_check(tmp_val)) continue;
@@ -8012,13 +8414,8 @@ static void add_essence(int mode)
 	item_tester_no_ryoute = TRUE;
 
 	/* Get an item */
-#ifdef JP
-	q = "�ɤΥ����ƥ����ɤ��ޤ�����";
-	s = "���ɤǤ��륢���ƥब����ޤ���";
-#else
-	q = "Improve which item? ";
-	s = "You have nothing to improve.";
-#endif
+	q = _("どのアイテムを改良しますか？", "Improve which item? ");
+	s = _("改良できるアイテムがありません。", "You have nothing to improve.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return;
 
@@ -8036,11 +8433,7 @@ static void add_essence(int mode)
 
 	if ((mode != 10) && (object_is_artifact(o_ptr) || object_is_smith(o_ptr)))
 	{
-#ifdef JP
-		msg_print("���Υ����ƥ�Ϥ���ʾ���ɤǤ��ʤ���");
-#else
-		msg_print("This item is no more able to be improved.");
-#endif
+		msg_print(_("そのアイテムはこれ以上改良できない。", "This item is no more able to be improved."));
 		return;
 	}
 
@@ -8051,62 +8444,37 @@ static void add_essence(int mode)
 	if (o_ptr->number > 1)
 	{
 		use_essence *= o_ptr->number;
-#ifdef JP
-		msg_format("%d�Ĥ���Τǥ��å��󥹤�%dɬ�פǤ���", o_ptr->number, use_essence);
-#else
-		msg_format("It will take %d essences.",use_essence);
-#endif
-
+		msg_format(_("%d個あるのでエッセンスは%d必要です。", "It will take %d essences."), o_ptr->number, use_essence);
 	}
 
 	if (es_ptr->essence != -1)
 	{
 		if (p_ptr->magic_num1[es_ptr->essence] < use_essence)
 		{
-#ifdef JP
-			msg_print("���å��󥹤�­��ʤ���");
-#else
-			msg_print("You don't have enough essences.");
-#endif
+			msg_print(_("エッセンスが足りない。", "You don't have enough essences."));
 			return;
 		}
 		if (is_pval_flag(es_ptr->add))
 		{
 			if (o_ptr->pval < 0)
 			{
-#ifdef JP
-				msg_print("���Υ����ƥ��ǽ�Ͻ����򶯲����뤳�ȤϤǤ��ʤ���");
-#else
-				msg_print("You cannot increase magic number of this item.");
-#endif
+				msg_print(_("このアイテムの能力修正を強化することはできない。", "You cannot increase magic number of this item."));
 				return;
 			}
 			else if (es_ptr->add == TR_BLOWS)
 			{
 				if (o_ptr->pval > 1)
 				{
-#ifdef JP
-					if (!get_check("�����ͤ�1�ˤʤ�ޤ�����������Ǥ�����")) return;
-#else
-					if (!get_check("The magic number of this weapon will become 1. Are you sure? ")) return;
-#endif
+					if (!get_check(_("修正値は1になります。よろしいですか？", "The magic number of this weapon will become 1. Are you sure? "))) return;
 				}
 
 				o_ptr->pval = 1;
-#ifdef JP
-				msg_format("���å��󥹤�%d�Ļ��Ѥ��ޤ���", use_essence);
-#else
-				msg_format("It will take %d essences.", use_essence);
-#endif
+				msg_format(_("エッセンスを%d個使用します。", "It will take %d essences."), use_essence);
 			}
 			else if (o_ptr->pval > 0)
 			{
 				use_essence *= o_ptr->pval;
-#ifdef JP
-				msg_format("���å��󥹤�%d�Ļ��Ѥ��ޤ���", use_essence);
-#else
-				msg_format("It will take %d essences.", use_essence);
-#endif
+				msg_format(_("エッセンスを%d個使用します。", "It will take %d essences."), use_essence);
 			}
 			else
 			{
@@ -8115,11 +8483,7 @@ static void add_essence(int mode)
 				int pval;
 				int limit = MIN(5, p_ptr->magic_num1[es_ptr->essence]/es_ptr->value);
 
-#ifdef JP
-				sprintf(tmp, "�������ղä��ޤ����� (1-%d): ", limit);
-#else
-				sprintf(tmp, "Enchant how many? (1-%d): ", limit);
-#endif
+				sprintf(tmp, _("いくつ付加しますか？ (1-%d): ", "Enchant how many? (1-%d): "), limit);
 				strcpy(tmp_val, "1");
 
 				if (!get_string(tmp, tmp_val, 1)) return;
@@ -8128,20 +8492,12 @@ static void add_essence(int mode)
 				else if (pval < 1) pval = 1;
 				o_ptr->pval += pval;
 				use_essence *= pval;
-#ifdef JP
-				msg_format("���å��󥹤�%d�Ļ��Ѥ��ޤ���", use_essence);
-#else
-				msg_format("It will take %d essences.", use_essence);
-#endif
+				msg_format(_("エッセンスを%d個使用します。", "It will take %d essences."), use_essence);
 			}
 
 			if (p_ptr->magic_num1[es_ptr->essence] < use_essence)
 			{
-#ifdef JP
-				msg_print("���å��󥹤�­��ʤ���");
-#else
-				msg_print("You don't have enough essences.");
-#endif
+				msg_print(_("エッセンスが足りない。", "You don't have enough essences."));
 				return;
 			}
 		}
@@ -8152,27 +8508,15 @@ static void add_essence(int mode)
 			int get_to_h, get_to_d;
 
 			strcpy(tmp_val, "1");
-#ifdef JP
-			if (!get_string(format("�������ղä��ޤ����� (1-%d):", p_ptr->lev/7+3), tmp_val, 2)) return;
-#else
-			if (!get_string(format("Enchant how many? (1-%d):", p_ptr->lev/7+3), tmp_val, 2)) return;
-#endif
+			if (!get_string(format(_("いくつ付加しますか？ (1-%d):", "Enchant how many? (1-%d):"), p_ptr->lev/7+3), tmp_val, 2)) return;
 			val = atoi(tmp_val);
 			if (val > p_ptr->lev/7+3) val = p_ptr->lev/7+3;
 			else if (val < 1) val = 1;
 			use_essence *= val;
-#ifdef JP
-			msg_format("���å��󥹤�%d�Ļ��Ѥ��ޤ���", use_essence);
-#else
-			msg_format("It will take %d essences.", use_essence);
-#endif
+			msg_format(_("エッセンスを%d個使用します。", "It will take %d essences."), use_essence);
 			if (p_ptr->magic_num1[es_ptr->essence] < use_essence)
 			{
-#ifdef JP
-				msg_print("���å��󥹤�­��ʤ���");
-#else
-				msg_print("You don't have enough essences.");
-#endif
+				msg_print(_("エッセンスが足りない。", "You don't have enough essences."));
 				return;
 			}
 			get_to_h = ((val+1)/2+randint0(val/2+1));
@@ -8186,11 +8530,7 @@ static void add_essence(int mode)
 		{
 			if ((o_ptr->to_h >= p_ptr->lev/5+5) && (o_ptr->to_d >= p_ptr->lev/5+5))
 			{
-#ifdef JP
-				msg_print("���ɤ˼��Ԥ�����");
-#else
-				msg_print("You failed to enchant.");
-#endif
+				msg_print(_("改良に失敗した。", "You failed to enchant."));
 				energy_use = 100;
 				return;
 			}
@@ -8204,11 +8544,7 @@ static void add_essence(int mode)
 		{
 			if (o_ptr->to_a >= p_ptr->lev/5+5)
 			{
-#ifdef JP
-				msg_print("���ɤ˼��Ԥ�����");
-#else
-				msg_print("You failed to enchant.");
-#endif
+				msg_print(_("改良に失敗した。", "You failed to enchant."));
 				energy_use = 100;
 				return;
 			}
@@ -8270,11 +8606,7 @@ static void add_essence(int mode)
 		}
 		if (!success)
 		{
-#ifdef JP
-			msg_print("���å��󥹤�­��ʤ���");
-#else
-			msg_print("You don't have enough essences.");
-#endif
+			msg_print(_("エッセンスが足りない。", "You don't have enough essences."));
 			return;
 		}
 		if (es_ptr->add == ESSENCE_SUSTAIN)
@@ -8293,7 +8625,7 @@ static void add_essence(int mode)
 	energy_use = 100;
 
 #ifdef JP
-	msg_format("%s��%s��ǽ�Ϥ��ղä��ޤ�����", o_name, es_ptr->add_name);
+	msg_format("%sに%sの能力を付加しました。", o_name, es_ptr->add_name);
 #else
 	msg_format("You have added ability of %s to %s.", es_ptr->add_name, o_name);
 #endif
@@ -8305,7 +8637,10 @@ static void add_essence(int mode)
 	p_ptr->window |= (PW_INVEN);
 }
 
-
+/*!
+ * @brief エッセンスを消去する
+ * @return なし
+ */
 static void erase_essence(void)
 {
 	int item;
@@ -8317,13 +8652,8 @@ static void erase_essence(void)
 	item_tester_hook = object_is_smith;
 
 	/* Get an item */
-#ifdef JP
-	q = "�ɤΥ����ƥ�Υ��å��󥹤�õ�ޤ�����";
-	s = "���å��󥹤��ղä��������ƥब����ޤ���";
-#else
-	q = "Remove from which item? ";
-	s = "You have nothing to remove essence.";
-#endif
+	q = _("どのアイテムのエッセンスを消去しますか？", "Remove from which item? ");
+	s = _("エッセンスを付加したアイテムがありません。", "You have nothing to remove essence.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return;
 
@@ -8340,11 +8670,7 @@ static void erase_essence(void)
 	}
 
 	object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
-#ifdef JP
-	if (!get_check(format("��������Ǥ����� [%s]", o_name))) return;
-#else
-	if (!get_check(format("Are you sure? [%s]", o_name))) return;
-#endif
+	if (!get_check(format(_("よろしいですか？ [%s]", "Are you sure? [%s]"), o_name))) return;
 
 	energy_use = 100;
 
@@ -8359,11 +8685,7 @@ static void erase_essence(void)
 	o_ptr->xtra3 = 0;
 	object_flags(o_ptr, flgs);
 	if (!(have_pval_flags(flgs))) o_ptr->pval = 0;
-#ifdef JP
-	msg_print("���å��󥹤����ä���");
-#else
-	msg_print("You removed all essence you have added.");
-#endif
+	msg_print(_("エッセンスを取り去った。", "You removed all essence you have added."));
 
 	/* Combine the pack */
 	p_ptr->notice |= (PN_COMBINE | PN_REORDER);
@@ -8372,6 +8694,11 @@ static void erase_essence(void)
 	p_ptr->window |= (PW_INVEN);
 }
 
+/*!
+ * @brief 鍛冶コマンドのメインルーチン
+ * @param only_browse TRUEならばエッセンス一覧の表示のみを行う
+ * @return なし
+ */
 void do_cmd_kaji(bool only_browse)
 {
 	int mode = 0;
@@ -8383,32 +8710,17 @@ void do_cmd_kaji(bool only_browse)
 	{
 		if (p_ptr->confused)
 		{
-#ifdef JP
-			msg_print("���𤷤Ƥ��ƺ�ȤǤ��ʤ���");
-#else
-			msg_print("You are too confused!");
-#endif
-
+			msg_print(_("混乱していて作業できない！", "You are too confused!"));
 			return;
 		}
 		if (p_ptr->blind)
 		{
-#ifdef JP
-			msg_print("�ܤ������ʤ��ƺ�ȤǤ��ʤ���");
-#else
-			msg_print("You are blind!");
-#endif
-
+			msg_print(_("目が見えなくて作業できない！", "You are blind!"));
 			return;
 		}
 		if (p_ptr->image)
 		{
-#ifdef JP
-			msg_print("���ޤ������ʤ��ƺ�ȤǤ��ʤ���");
-#else
-			msg_print("You are hallucinating!");
-#endif
-
+			msg_print(_("うまく見えなくて作業できない！", "You are hallucinating!"));
 			return;
 		}
 	}
@@ -8426,12 +8738,12 @@ void do_cmd_kaji(bool only_browse)
 		while(!mode)
 		{
 #ifdef JP
-			prt(format(" %s ���å��󥹰���", (menu_line == 1) ? "��" : "  "), 2, 14);
-			prt(format(" %s ���å������", (menu_line == 2) ? "��" : "  "), 3, 14);
-			prt(format(" %s ���å��󥹾õ�", (menu_line == 3) ? "��" : "  "), 4, 14);
-			prt(format(" %s ���å����ղ�", (menu_line == 4) ? "��" : "  "), 5, 14);
-			prt(format(" %s ���/�ɶ񶯲�", (menu_line == 5) ? "��" : "  "), 6, 14);
-			prt(format("�ɤμ���ε��Ѥ�%s�ޤ�����", only_browse ? "Ĵ��" : "�Ȥ�"), 0, 0);
+			prt(format(" %s エッセンス一覧", (menu_line == 1) ? "》" : "  "), 2, 14);
+			prt(format(" %s エッセンス抽出", (menu_line == 2) ? "》" : "  "), 3, 14);
+			prt(format(" %s エッセンス消去", (menu_line == 3) ? "》" : "  "), 4, 14);
+			prt(format(" %s エッセンス付加", (menu_line == 4) ? "》" : "  "), 5, 14);
+			prt(format(" %s 武器/防具強化", (menu_line == 5) ? "》" : "  "), 6, 14);
+			prt(format("どの種類の技術を%sますか？", only_browse ? "調べ" : "使い"), 0, 0);
 #else
 			prt(format(" %s List essences", (menu_line == 1) ? "> " : "  "), 2, 14);
 			prt(format(" %s Extract essence", (menu_line == 2) ? "> " : "  "), 3, 14);
@@ -8474,12 +8786,12 @@ void do_cmd_kaji(bool only_browse)
 		while (!mode)
 		{
 #ifdef JP
-			prt("  a) ���å��󥹰���", 2, 14);
-			prt("  b) ���å������", 3, 14);
-			prt("  c) ���å��󥹾õ�", 4, 14);
-			prt("  d) ���å����ղ�", 5, 14);
-			prt("  e) ���/�ɶ񶯲�", 6, 14);
-			if (!get_com(format("�ɤ�ǽ�Ϥ�%s�ޤ���:", only_browse ? "Ĵ��" : "�Ȥ�"), &choice, TRUE))
+			prt("  a) エッセンス一覧", 2, 14);
+			prt("  b) エッセンス抽出", 3, 14);
+			prt("  c) エッセンス消去", 4, 14);
+			prt("  d) エッセンス付加", 5, 14);
+			prt("  e) 武器/防具強化", 6, 14);
+			if (!get_com(format("どの能力を%sますか:", only_browse ? "調べ" : "使い"), &choice, TRUE))
 #else
 			prt("  a) List essences", 2, 14);
 			prt("  b) Extract essence", 3, 14);
@@ -8558,5 +8870,61 @@ void do_cmd_kaji(bool only_browse)
 			add_essence(mode);
 			break;
 		case 5: add_essence(10);break;
+	}
+}
+
+
+/*!
+ * @brief 投擲時たいまつに投げやすい/焼棄/アンデッドスレイの特別効果を返す。
+ * Torches have special abilities when they are flaming.
+ * @param o_ptr 投擲するオブジェクトの構造体参照ポインタ
+ * @param flgs 特別に追加するフラグを返す参照ポインタ
+ * @return なし
+ */
+void torch_flags(object_type *o_ptr, u32b *flgs)
+{
+	if ((o_ptr->tval == TV_LITE) && (o_ptr->sval == SV_LITE_TORCH))
+	{
+		if (o_ptr->xtra4 > 0)
+		{
+			add_flag(flgs, TR_BRAND_FIRE);
+			add_flag(flgs, TR_KILL_UNDEAD);
+			add_flag(flgs, TR_THROW);
+		}
+	}
+}
+
+/*!
+ * @brief 投擲時たいまつにダイスを与える。
+ * Torches have special abilities when they are flaming.
+ * @param o_ptr 投擲するオブジェクトの構造体参照ポインタ
+ * @param dd 特別なダイス数を返す参照ポインタ
+ * @param ds 特別なダイス面数を返す参照ポインタ
+ * @return なし
+ */
+void torch_dice(object_type *o_ptr, int *dd, int *ds)
+{
+	if ((o_ptr->tval == TV_LITE) && (o_ptr->sval == SV_LITE_TORCH))
+	{
+		if (o_ptr->xtra4 > 0)
+		{
+			(*dd) = 1;
+			(*ds) = 6;
+		}
+	}
+}
+
+/*!
+ * @brief 投擲時命中したたいまつの寿命を縮める。
+ * Torches have special abilities when they are flaming.
+ * @param o_ptr 投擲するオブジェクトの構造体参照ポインタ
+ * @return なし
+ */
+void torch_lost_fuel(object_type *o_ptr)
+{
+	if ((o_ptr->tval == TV_LITE) && (o_ptr->sval == SV_LITE_TORCH))
+	{
+		o_ptr->xtra4 -= (FUEL_TORCH / 25);
+		if (o_ptr->xtra4 < 0) o_ptr->xtra4 = 0;
 	}
 }

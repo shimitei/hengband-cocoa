@@ -1,72 +1,55 @@
-/* File: avatar.c */
+﻿/*!
+    @file avatar.c
+    @brief ウルティマ４を参考にした徳のシステムの実装 / Enable an Ultima IV style "avatar" game where you try to achieve perfection in various virtues.
+    @date 2013/12/23
+    @author
+    Topi Ylinen 1998\n
+    f1toyl@uta.fi\n
+    topi.ylinen@noodi.fi\n
+    \n
+    Copyright (c) 1989 James E. Wilson, Christopher J. Stuart
+    This software may be copied and distributed for educational, research, and
+    not for profit purposes provided that this copyright and statement are
+    included in all such copies.
+*/
 
-/*
- * Purpose: Enable an Ultima IV style "avatar" game where you try to
- * achieve perfection in various virtues.
- *
- * Topi Ylinen 1998
- * f1toyl@uta.fi
- * topi.ylinen@noodi.fi
- *
- */
-
-/*
- * Copyright (c) 1989 James E. Wilson, Christopher J. Stuart
- *
- * This software may be copied and distributed for educational, research, and
- * not for profit purposes provided that this copyright and statement are
- * included in all such copies.
- */
 
 #include "angband.h"
 
-
-/* The names of the virtues */
-
+/*!
+ * 徳の名称 / The names of the virtues
+ */
 cptr virtue[MAX_VIRTUE] =
 {
-#ifdef JP
-	"��",
-	"��",
-	"��",
-	"��",
-	"��",
-	"��",
-	"��",
-	"��",
-	"��",
-	"��",
-	"Ĵ",
-	"��",
-	"��",
-	"Ǧ",
-	"��",
-	"��",
-	"ͦ",
-	"��",
-#else
-	"Compassion",
-	"Honour",
-	"Justice",
-	"Sacrifice",
-	"Knowledge",
-	"Faith",
-	"Enlightenment",
-	"Mysticism",
-	"Chance",
-	"Nature",
-	"Harmony",
-	"Vitality",
-	"Unlife",
-	"Patience",
-	"Temperance",
-	"Diligence",
-	"Valour",
-	"Individualism",
-#endif
+	_("情", "Compassion"),
+	_("誉", "Honour"),
+	_("正", "Justice"),
+	_("犠", "Sacrifice"),
+	_("識", "Knowledge"),
+	_("誠", "Faith"),
+	_("啓", "Enlightenment"),
+	_("秘", "Mysticism"),
+	_("運", "Chance"),
+	_("然", "Nature"),
+	_("調", "Harmony"),
+	_("活", "Vitality"),
+	_("死", "Unlife"),
+	_("忍", "Patience"),
+	_("節", "Temperance"),
+	_("勤", "Diligence"),
+	_("勇", "Valour"),
+	_("個", "Individualism"),
 };
 
-
+/*!
+ * @brief 該当の徳がプレイヤーに指定されているか否かに応じつつ、大小を比較する。
+ * @details 徳がない場合は値0として比較する。
+ * @param type 比較したい徳のID
+ * @param num 比較基準値
+ * @param tekitou VIRTUE_LARGE = 基準値より大きいか / VIRTUE_SMALL = 基準値より小さいか
+ * @return 比較の真偽値を返す
+ * @todo 引数名を直しておく
+ */
 bool compare_virtue(int type, int num, int tekitou)
 {
 	int vir;
@@ -88,9 +71,11 @@ bool compare_virtue(int type, int num, int tekitou)
 	return FALSE;
 }
 
-
-/* Aux function */
-
+/*!
+ * @brief プレイヤーの指定の徳が何番目のスロットに登録されているかを返す。 / Aux function
+ * @param type 確認したい徳のID
+ * @return スロットがあるならばスロットのID(0～7)+1、ない場合は0を返す。
+ */
 int virtue_number(int type)
 {
 	int i;
@@ -105,8 +90,11 @@ int virtue_number(int type)
 	return 0;
 }
 
-/* Aux function */
-
+/*!
+ * @brief プレイヤーの職業や種族に依存しないランダムな徳を取得する / Aux function
+ * @param which 確認したい徳のID
+ * @return なし
+ */
 static void get_random_virtue(int which)
 {
 	int type = 0;
@@ -150,6 +138,11 @@ static void get_random_virtue(int which)
 	p_ptr->vir_types[which] = type;
 }
 
+/*!
+ * @brief プレイヤーの選んだ魔法領域に応じて対応する徳を返す。
+ * @param realm 魔法領域のID
+ * @return 対応する徳のID
+ */
 static s16b get_realm_virtues(byte realm)
 {
 	switch (realm)
@@ -189,8 +182,12 @@ static s16b get_realm_virtues(byte realm)
 	return 0;
 }
 
-/* Select virtues & reset values for a new character */
 
+/*!
+ * @brief 作成中のプレイヤーキャラクターに徳8種類を与える。 / Select virtues & reset values for a new character
+ * @details 職業に応じて1～4種が固定、種族に応じて1種類が与えられ、後は重複なくランダムに選択される。
+ * @return なし
+ */
 void get_virtues(void)
 {
 	int i = 0, j = 0;
@@ -395,6 +392,13 @@ void get_virtues(void)
 	}
 }
 
+/*!
+ * @brief 対応する徳をプレイヤーがスロットに登録している場合に加減を行う。
+ * @details 範囲は-125～125、基本的に絶対値が大きいほど絶対値が上がり辛くなる。
+ * @param virtue 徳のID
+ * @param amount 加減量
+ * @return なし
+ */
 void chg_virtue(int virtue, int amount)
 {
 	int i = 0;
@@ -453,6 +457,12 @@ void chg_virtue(int virtue, int amount)
 	}
 }
 
+/*!
+ * @brief 対応する徳をプレイヤーがスロットに登録している場合に固定値をセットする。
+ * @param virtue 徳のID
+ * @param amount セットしたい値。
+ * @return なし
+ */
 void set_virtue(int virtue, int amount)
 {
 	int i = 0;
@@ -467,6 +477,11 @@ void set_virtue(int virtue, int amount)
 	}
 }
 
+/*!
+ * @brief 徳のダンプ表示を行う。
+ * @param OutFile ファイルポインタ。
+ * @return なし
+ */
 void dump_virtues(FILE *OutFile)
 {
 	int v_nr = 0;
@@ -481,116 +496,34 @@ void dump_virtues(FILE *OutFile)
 		strcpy(v_name, virtue[(p_ptr->vir_types[v_nr])-1]);
 
 		if (p_ptr->vir_types[v_nr] == 0 || p_ptr->vir_types[v_nr] > MAX_VIRTUE)
-#ifdef JP
-			fprintf(OutFile, "���äȡ�%s�ξ���ʤ���", v_name);
-#else
-			fprintf(OutFile, "Oops. No info about %s.", v_name);
-#endif
+			fprintf(OutFile, _("おっと。%sの情報なし。", "Oops. No info about %s."), v_name);
 
 		else if (tester < -100)
-#ifdef JP
-			fprintf(OutFile, "[%s]���ж�",
-#else
-			fprintf(OutFile, "You are the polar opposite of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile, _("[%s]の対極", "You are the polar opposite of %s."), v_name);
 		else if (tester < -80)
-#ifdef JP
-			fprintf(OutFile, "[%s]����Ũ",
-#else
-			fprintf(OutFile, "You are an arch-enemy of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile, _("[%s]の大敵", "You are an arch-enemy of %s."), v_name);
 		else if (tester < -60)
-#ifdef JP
-			fprintf(OutFile, "[%s]�ζ�Ũ",
-#else
-			fprintf(OutFile, "You are a bitter enemy of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile, _("[%s]の強敵", "You are a bitter enemy of %s."), v_name);
 		else if (tester < -40)
-#ifdef JP
-			fprintf(OutFile, "[%s]��Ũ",
-#else
-			fprintf(OutFile, "You are an enemy of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile, _("[%s]の敵", "You are an enemy of %s."), v_name);
 		else if (tester < -20)
-#ifdef JP
-			fprintf(OutFile, "[%s]�κ��",
-#else
-			fprintf(OutFile, "You have sinned against %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile, _("[%s]の罪者", "You have sinned against %s."), v_name);
 		else if (tester < 0)
-#ifdef JP
-			fprintf(OutFile, "[%s]����ƻ��",
-#else
-			fprintf(OutFile, "You have strayed from the path of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile, _("[%s]の迷道者", "You have strayed from the path of %s."), v_name);
 		else if (tester == 0)
-#ifdef JP
-			fprintf(OutFile,"[%s]����Ω��",
-#else
-			fprintf(OutFile,"You are neutral to %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の中立者", "You are neutral to %s."), v_name);
 		else if (tester < 20)
-#ifdef JP
-			fprintf(OutFile,"[%s]�ξ�����",
-#else
-			fprintf(OutFile,"You are somewhat virtuous in %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の小徳者", "You are somewhat virtuous in %s."), v_name);
 		else if (tester < 40)
-#ifdef JP
-			fprintf(OutFile,"[%s]��������",
-#else
-			fprintf(OutFile,"You are virtuous in %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の中徳者", "You are virtuous in %s."), v_name);
 		else if (tester < 60)
-#ifdef JP
-			fprintf(OutFile,"[%s]�ι�����",
-#else
-			fprintf(OutFile,"You are very virtuous in %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の高徳者", "You are very virtuous in %s."), v_name);
 		else if (tester < 80)
-#ifdef JP
-			fprintf(OutFile,"[%s]���Ƽ�",
-#else
-			fprintf(OutFile,"You are a champion of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の覇者", "You are a champion of %s."), v_name);
 		else if (tester < 100)
-#ifdef JP
-			fprintf(OutFile,"[%s]�ΰ�����Ƽ�",
-#else
-			fprintf(OutFile,"You are a great champion of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の偉大な覇者", "You are a great champion of %s."), v_name);
 		else
-#ifdef JP
-			fprintf(OutFile,"[%s]�ζ񸽼�",
-#else
-			fprintf(OutFile,"You are the living embodiment of %s.",
-#endif
-
-			        v_name);
+			fprintf(OutFile,_("[%s]の具現者", "You are the living embodiment of %s."), v_name);
 
 	    fprintf(OutFile, "\n");
 	}

@@ -1,4 +1,4 @@
-/* File: save.c */
+Ôªø/* File: save.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -112,6 +112,7 @@ static void wr_item(object_type *o_ptr)
 	if (o_ptr->art_flags[1]) flags |= SAVE_ITEM_ART_FLAGS1;
 	if (o_ptr->art_flags[2]) flags |= SAVE_ITEM_ART_FLAGS2;
 	if (o_ptr->art_flags[3]) flags |= SAVE_ITEM_ART_FLAGS3;
+	if (o_ptr->art_flags[4]) flags |= SAVE_ITEM_ART_FLAGS4;
 	if (o_ptr->curse_flags) flags |= SAVE_ITEM_CURSE_FLAGS;
 	if (o_ptr->held_m_idx) flags |= SAVE_ITEM_HELD_M_IDX;
 	if (o_ptr->xtra1) flags |= SAVE_ITEM_XTRA1;
@@ -159,6 +160,7 @@ static void wr_item(object_type *o_ptr)
 	if (flags & SAVE_ITEM_ART_FLAGS1) wr_u32b(o_ptr->art_flags[1]);
 	if (flags & SAVE_ITEM_ART_FLAGS2) wr_u32b(o_ptr->art_flags[2]);
 	if (flags & SAVE_ITEM_ART_FLAGS3) wr_u32b(o_ptr->art_flags[3]);
+	if (flags & SAVE_ITEM_ART_FLAGS4) wr_u32b(o_ptr->art_flags[4]);
 
 	if (flags & SAVE_ITEM_CURSE_FLAGS) wr_u32b(o_ptr->curse_flags);
 
@@ -215,6 +217,8 @@ static void wr_monster(monster_type *m_ptr)
 	wr_s16b(m_ptr->hp);
 	wr_s16b(m_ptr->maxhp);
 	wr_s16b(m_ptr->max_maxhp);
+	wr_u32b(m_ptr->dealt_damage);
+	
 
 	/* Monster race index of its appearance */
 	if (flags & SAVE_MON_AP_R_IDX) wr_s16b(m_ptr->ap_r_idx);
@@ -499,12 +503,7 @@ static void wr_ghost(void)
 	int i;
 
 	/* Name */
-#ifdef JP
-	wr_string("…‘¿µ§ •¥°º•π•»");
-#else
-	wr_string("Broken Ghost");
-#endif
-
+	wr_string(_("‰∏çÊ≠£„Å™„Ç¥„Éº„Çπ„Éà", "Broken Ghost"));
 
 	/* Hack -- stupid data */
 	for (i = 0; i < 60; i++) wr_byte(0);
@@ -680,6 +679,7 @@ static void wr_extra(void)
 	wr_s16b(0);     /* old "food_digested" */
 	wr_s16b(0);     /* old "protection" */
 	wr_s16b(p_ptr->energy_need);
+	wr_s16b(p_ptr->enchant_energy_need);
 	wr_s16b(p_ptr->fast);
 	wr_s16b(p_ptr->slow);
 	wr_s16b(p_ptr->afraid);
@@ -852,7 +852,7 @@ static void ang_sort_swap_cave_temp(vptr u, vptr v, int a, int b)
  */
 static void wr_saved_floor(saved_floor_type *sf_ptr)
 {
-	cave_template_type *template;
+	cave_template_type *templates;
 	u16b max_num_temp;
 	u16b num_temp = 0;
 	int dummy_why;
@@ -915,7 +915,7 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 	max_num_temp = 255;
 
 	/* Allocate the "template" array */
-	C_MAKE(template, max_num_temp, cave_template_type);
+	C_MAKE(templates, max_num_temp, cave_template_type);
 
 	/* Extract template array */
 	for (y = 0; y < cur_hgt; y++)
@@ -926,13 +926,13 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 
 			for (i = 0; i < num_temp; i++)
 			{
-				if (template[i].info == c_ptr->info &&
-				    template[i].feat == c_ptr->feat &&
-				    template[i].mimic == c_ptr->mimic &&
-				    template[i].special == c_ptr->special)
+				if (templates[i].info == c_ptr->info &&
+				    templates[i].feat == c_ptr->feat &&
+				    templates[i].mimic == c_ptr->mimic &&
+				    templates[i].special == c_ptr->special)
 				{
 					/* Same terrain is exist */
-					template[i].occurrence++;
+					templates[i].occurrence++;
 					break;
 				}
 			}
@@ -943,21 +943,21 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 			/* If the max_num_temp is too small, increase it. */
 			if (num_temp >= max_num_temp)
 			{
-				cave_template_type *old_template = template;
+				cave_template_type *old_template = templates;
 
 				/* Re-allocate the "template" array */
-				C_MAKE(template, max_num_temp + 255, cave_template_type);
-				C_COPY(template, old_template, max_num_temp, cave_template_type);
-				C_FREE(old_template, max_num_temp, cave_template_type);
+				C_MAKE(templates, max_num_temp + 255, cave_template_type);
+				(void)C_COPY(templates, old_template, max_num_temp, cave_template_type);
+				C_KILL(old_template, max_num_temp, cave_template_type);
 				max_num_temp += 255;
 			}
 
 			/* Add new template */
-			template[num_temp].info = c_ptr->info;
-			template[num_temp].feat = c_ptr->feat;
-			template[num_temp].mimic = c_ptr->mimic;
-			template[num_temp].special = c_ptr->special;
-			template[num_temp].occurrence = 1;
+			templates[num_temp].info = c_ptr->info;
+			templates[num_temp].feat = c_ptr->feat;
+			templates[num_temp].mimic = c_ptr->mimic;
+			templates[num_temp].special = c_ptr->special;
+			templates[num_temp].occurrence = 1;
 
 			/* Increase number of template */
 			num_temp++;
@@ -969,7 +969,7 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 	ang_sort_swap = ang_sort_swap_cave_temp;
 
 	/* Sort by occurrence */
-	ang_sort(template, &dummy_why, num_temp);
+	ang_sort(templates, &dummy_why, num_temp);
 
 
 	/*** Dump templates ***/
@@ -980,7 +980,7 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 	/* Dump the templates */
 	for (i = 0; i < num_temp; i++)
 	{
-		cave_template_type *ct_ptr = &template[i];
+		cave_template_type *ct_ptr = &templates[i];
 
 		/* Dump it */
 		wr_u16b(ct_ptr->info);
@@ -1006,10 +1006,10 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 
 			for (i = 0; i < num_temp; i++)
 			{
-				if (template[i].info == c_ptr->info &&
-				    template[i].feat == c_ptr->feat &&
-				    template[i].mimic == c_ptr->mimic &&
-				    template[i].special == c_ptr->special)
+				if (templates[i].info == c_ptr->info &&
+				    templates[i].feat == c_ptr->feat &&
+				    templates[i].mimic == c_ptr->mimic &&
+				    templates[i].special == c_ptr->special)
 					break;
 			}
 
@@ -1057,7 +1057,7 @@ static void wr_saved_floor(saved_floor_type *sf_ptr)
 
 
 	/* Free the "template" array */
-	C_FREE(template, max_num_temp, cave_template_type);
+	C_KILL(templates, max_num_temp, cave_template_type);
 
 
 	/*** Dump objects ***/
@@ -1240,7 +1240,7 @@ static bool wr_savefile_new(void)
 	xor_byte = 0;
 
 	/* Initial value of xor_byte */
-	tmp8u = (byte)randint0(256);
+	tmp8u = (byte)Rand_external(256);
 	wr_byte(tmp8u);
 
 
@@ -1332,25 +1332,28 @@ static bool wr_savefile_new(void)
 
 	for (i = 0; i < max_quests; i++)
 	{
+		quest_type* const q_ptr = &quest[i];
+
 		/* Save status for every quest */
-		wr_s16b(quest[i].status);
+		wr_s16b(q_ptr->status);
 
 		/* And the dungeon level too */
 		/* (prevents problems with multi-level quests) */
-		wr_s16b(quest[i].level);
+		wr_s16b(q_ptr->level);
 
-		wr_byte(quest[i].complev);
+		wr_byte(q_ptr->complev);
+		wr_u32b(q_ptr->comptime);
 
 		/* Save quest status if quest is running */
-		if (quest[i].status == QUEST_STATUS_TAKEN || quest[i].status == QUEST_STATUS_COMPLETED || !is_fixed_quest_idx(i))
+		if (q_ptr->status == QUEST_STATUS_TAKEN || q_ptr->status == QUEST_STATUS_COMPLETED || !is_fixed_quest_idx(i))
 		{
-			wr_s16b(quest[i].cur_num);
-			wr_s16b(quest[i].max_num);
-			wr_s16b(quest[i].type);
-			wr_s16b(quest[i].r_idx);
-			wr_s16b(quest[i].k_idx);
-			wr_byte(quest[i].flags);
-			wr_byte(quest[i].dungeon);
+			wr_s16b(q_ptr->cur_num);
+			wr_s16b(q_ptr->max_num);
+			wr_s16b(q_ptr->type);
+			wr_s16b(q_ptr->r_idx);
+			wr_s16b(q_ptr->k_idx);
+			wr_byte(q_ptr->flags);
+			wr_byte(q_ptr->dungeon);
 		}
 	}
 
@@ -1749,11 +1752,7 @@ bool load_player(void)
 	if (access(savefile, 0) < 0)
 	{
 		/* Give a message */
-#ifdef JP
-		msg_print("•ª°º•÷•’•°•§•Î§¨§¢§Í§ﬁ§ª§Û°£");
-#else
-		msg_print("Savefile does not exist.");
-#endif
+		msg_print(_("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„Åå„ÅÇ„Çä„Åæ„Åõ„Çì„ÄÇ", "Savefile does not exist."));
 
 		msg_print(NULL);
 
@@ -1787,12 +1786,7 @@ bool load_player(void)
 			my_fclose(fkk);
 
 			/* Message */
-#ifdef JP
-			msg_print("•ª°º•÷•’•°•§•Î§œ∏Ω∫ﬂª»Õ—√Ê§«§π°£");
-#else
-			msg_print("Savefile is currently in use.");
-#endif
-
+			msg_print(_("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÅØÁèæÂú®‰ΩøÁî®‰∏≠„Åß„Åô„ÄÇ", "Savefile is currently in use."));
 			msg_print(NULL);
 
 			/* Oops */
@@ -1822,12 +1816,7 @@ bool load_player(void)
 		if (fd < 0) err = -1;
 
 		/* Message (below) */
-#ifdef JP
-		if (err) what = "•ª°º•÷•’•°•§•Î§Ú≥´§±§ﬁ§ª§Û°£";
-#else
-		if (err) what = "Cannot open savefile";
-#endif
-
+		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíÈñã„Åë„Åæ„Åõ„Çì„ÄÇ", "Cannot open savefile");
 	}
 
 	/* Process file */
@@ -1843,12 +1832,7 @@ bool load_player(void)
 		if (fd_read(fd, (char*)(vvv), 4)) err = -1;
 
 		/* What */
-#ifdef JP
-		if (err) what = "•ª°º•÷•’•°•§•Î§Ú∆…§·§ﬁ§ª§Û°£";
-#else
-		if (err) what = "Cannot read savefile";
-#endif
-
+		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíË™≠„ÇÅ„Åæ„Åõ„Çì„ÄÇ", "Cannot read savefile");
 
 		/* Close the file */
 		(void)fd_close(fd);
@@ -1872,12 +1856,7 @@ bool load_player(void)
 		err = rd_savefile_new();
 
 		/* Message (below) */
-#ifdef JP
-		if (err) what = "•ª°º•÷•’•°•§•Î§Ú≤Ú¿œΩ–ÕË§ﬁ§ª§Û°£";
-#else
-		if (err) what = "Cannot parse savefile";
-#endif
-
+		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíËß£ÊûêÂá∫Êù•„Åæ„Åõ„Çì„ÄÇ", "Cannot parse savefile");
 	}
 
 	/* Paranoia */
@@ -1887,12 +1866,7 @@ bool load_player(void)
 		if (!turn) err = -1;
 
 		/* Message (below) */
-#ifdef JP
-		if (err) what = "•ª°º•÷•’•°•§•Î§¨≤ı§Ï§∆§§§ﬁ§π";
-#else
-		if (err) what = "Broken savefile";
-#endif
-
+		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÅåÂ£ä„Çå„Å¶„ÅÑ„Åæ„Åô", "Broken savefile");
 	}
 
 #ifdef VERIFY_TIMESTAMP
@@ -1904,12 +1878,7 @@ bool load_player(void)
 		    sf_when < (statbuf.st_ctime - 100))
 		{
 			/* Message */
-#ifdef JP
-			what = "Ãµ∏˙§ •ø•§•‡°¶•π•ø•Û•◊§«§π";
-#else
-			what = "Invalid timestamp";
-#endif
-
+			what = _("ÁÑ°Âäπ„Å™„Çø„Ç§„É†„Éª„Çπ„Çø„É≥„Éó„Åß„Åô", "Invalid timestamp");
 
 			/* Oops */
 			err = -1;
@@ -1928,18 +1897,13 @@ bool load_player(void)
 		{
 			if (z_major == 2 && z_minor == 0 && z_patch == 6)
 			{
-#ifdef JP
-				msg_print("•–°º•∏•Á•Û 2.0.* Õ—§Œ•ª°º•÷•’•°•§•Î§Ú —¥π§∑§ﬁ§∑§ø°£");
-#else
-				msg_print("Converted a 2.0.* savefile.");
-#endif
-
+				msg_print(_("„Éê„Éº„Ç∏„Éß„É≥ 2.0.* Áî®„ÅÆ„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíÂ§âÊèõ„Åó„Åæ„Åó„Åü„ÄÇ", "Converted a 2.0.* savefile."));
 			}
 			else
 			{
 				/* Message */
 #ifdef JP
-				msg_format("•–°º•∏•Á•Û %d.%d.%d Õ—§Œ•ª°º•÷°¶•’•°•§•Î§Ú —¥π§∑§ﬁ§∑§ø°£",
+				msg_format("„Éê„Éº„Ç∏„Éß„É≥ %d.%d.%d Áî®„ÅÆ„Çª„Éº„Éñ„Éª„Éï„Ç°„Ç§„É´„ÇíÂ§âÊèõ„Åó„Åæ„Åó„Åü„ÄÇ",
 				    (z_major > 9) ? z_major-10 : z_major , z_minor, z_patch);
 #else
 				msg_format("Converted a %d.%d.%d savefile.",
@@ -2009,7 +1973,7 @@ bool load_player(void)
 
 	/* Message */
 #ifdef JP
-	msg_format("•®•È°º(%s)§¨•–°º•∏•Á•Û%d.%d.%d Õ—•ª°º•÷•’•°•§•Î∆…§ﬂπ˛√Ê§À»Ø¿∏°£",
+	msg_format("„Ç®„É©„Éº(%s)„Åå„Éê„Éº„Ç∏„Éß„É≥%d.%d.%d Áî®„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´Ë™≠„ÅøËæº‰∏≠„Å´Áô∫Áîü„ÄÇ",
 		   what, (z_major>9) ? z_major - 10 : z_major, z_minor, z_patch);
 #else
 	msg_format("Error (%s) reading %d.%d.%d savefile.",

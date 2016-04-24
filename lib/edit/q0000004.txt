@@ -2,14 +2,18 @@
 
 # Name
 Q:$4:N:The Vault
-Q:4:N:ÊõÊª¸Ë
+Q:4:N:å®ç‰©åº«
 
 # Definition
-Q:$4:Q:3:0:0:0:30:0:88:0:6
-Q:4:Q:3:0:0:0:30:0:88:0:6
+Q:$4:Q:3:0:0:0:30:0:0:0:6
+Q:4:Q:3:0:0:0:30:0:0:0:6
+
+# Random Reward (can set less than 30 items)
+Q:$4:R:88:76:90:93:98:101:102:103:105:106:110:113:114:116:118:119:128:136:145:155:167:202:208:213:227:228
+Q:4:R:88:76:90:93:98:101:102:103:105:106:110:113:114:116:118:119:128:136:145:155:167:202:208:213:227:228
 
 # Description for quest
-?:[LEQ $QUEST4 2]
+?:[AND [LEQ $QUEST4 2] [EQU $QUEST_TYPE4 3]]
 Q:$4:T:The vault was used outside the town as a minor fortress and
 Q:$4:T:stored many valuable items.  It has since been overrun.  Please
 Q:$4:T:find the short sword known as Sting and return it to us!
@@ -17,125 +21,184 @@ Q:$4:T:The moment you find the sword, your quest will be complete.
 Q:$4:T:While the sword could be in any of the chambers, only look
 Q:$4:T:through one at a time. The monsters here are strong and there are
 Q:$4:T:traps to be concerned with as well.
-Q:4:T:³¹¤Î³°¤ÎÂ¢¤Ï¾®µ¬ÌÏ¤ÊÍ×ºÉ¤È¤·¤Æ»È¤ï¤ì¤Æ¤¤¤Æ¡¢Â¿¤¯¤Îµ®½Å¤ÊÉÊÊª¤¬
-Q:4:T:Ãß¤¨¤é¤ì¤Æ¤¤¤Ş¤·¤¿¡£¤·¤«¤·º£¤Ç¤Ï¥â¥ó¥¹¥¿¡¼¤É¤â¤ËÀêµò¤µ¤ì¤Æ¤·¤Ş¤Ã¤Æ¤¤¤Ş¤¹¡£
-Q:4:T:¤É¤¦¤«Â¢¤«¤é¡Ø¤Ä¤é¤Ì¤­´İ¡Ù¤È¸Æ¤Ğ¤ì¤ëÃ»·õ¤ò¸«¤Ä¤±½Ğ¤·¡¢²æ¡¹¤Î¸µ¤Ë»ı¤Áµ¢¤Ã
-Q:4:T:¤Æ²¼¤µ¤¤¡ª·õ¤ò½¦¤Ã¤¿»şÅÀ¤Ç¥¯¥¨¥¹¥ÈÃ£À®¤È¤Ê¤ë¤Ç¤·¤ç¤¦¡£¡Ø¤Ä¤é¤Ì¤­´İ¡Ù¤Ï¤É
-Q:4:T:¤ÎÉô²°¤Ë¤¢¤ë¤«Ê¬¤«¤é¤Ê¤¤¤Î¤Ç¡¢Éô²°¤ò°ì¤Ä¤º¤Ä¸«¤Æ¤Ş¤ï¤Ã¤Æ²¼¤µ¤¤¡£¤³¤³¤Î¥â
-Q:4:T:¥ó¥¹¥¿¡¼¤Ï¼ê¶¯¤¯¡¢¤Ş¤¿æ«¤â¤·¤«¤±¤é¤ì¤Æ¤¤¤Ş¤¹¡£¤¯¤ì¤°¤ì¤âÃí°Õ¤·¤Æ²¼¤µ¤¤¡£
+Q:4:T:è¡—ã®å¤–ã®è”µã¯å°è¦æ¨¡ãªè¦å¡ã¨ã—ã¦ä½¿ã‚ã‚Œã¦ã„ã¦ã€å¤šãã®è²´é‡ãªå“ç‰©ãŒ
+Q:4:T:è“„ãˆã‚‰ã‚Œã¦ã„ã¾ã—ãŸã€‚ã—ã‹ã—ä»Šã§ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã©ã‚‚ã«å æ‹ ã•ã‚Œã¦ã—ã¾ã£ã¦ã„ã¾ã™ã€‚
+Q:4:T:ã¾ã ä¸­ã«ã‚ã‚‹ã¯ãšã®ä¼èª¬ã®æ­¦å…·ã‚’è¦‹ã¤ã‘å‡ºã—ã€æˆ‘ã€…ã®å…ƒã«æŒã¡å¸°ã£ã¦ä¸‹ã•ã„ï¼
+Q:4:T:æ­¦å…·ã‚’æ‹¾ã£ãŸæ™‚ç‚¹ã§ã‚¯ã‚¨ã‚¹ãƒˆé”æˆã¨ãªã‚‹ã§ã—ã‚‡ã†ã€‚ã—ã‹ã—ã€ã©ã®éƒ¨å±‹ã«ã‚ã‚‹ã‹
+Q:4:T:åˆ†ã‹ã‚‰ãªã„ã®ã§ã€éƒ¨å±‹ã‚’ä¸€ã¤ãšã¤è¦‹ã¦ã¾ã‚ã£ã¦ä¸‹ã•ã„ã€‚ã“ã“ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯
+Q:4:T:æ‰‹å¼·ãã€ã¾ãŸç½ ã‚‚ã—ã‹ã‘ã‚‰ã‚Œã¦ã„ã¾ã™ã€‚ãã‚Œãã‚Œã‚‚æ³¨æ„ã—ã¦ä¸‹ã•ã„ã€‚
+?:[AND [LEQ $QUEST4 2] [EQU $QUEST_TYPE4 6]]
+Q:$4:T:The vault was used outside the town as a minor fortress and
+Q:$4:T:stored many valuable items.  It is now occupied by many monsters,
+Q:$4:T:and many items are lost. However, we want to get back at least
+Q:$4:T:the vault. Please kill all monsters in the vault.
+Q:4:T:ç”ºã®å¤–ã®è”µã¯å°è¦æ¨¡ãªè¦å¡ã¨ã—ã¦ä½¿ã‚ã‚Œã¦ã„ã¦ã€å¤šãã®è²´é‡ãªå“ç‰©ãŒ
+Q:4:T:è“„ãˆã‚‰ã‚Œã¦ã„ã¾ã—ãŸã€‚ã—ã‹ã—ä»Šã§ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã©ã‚‚ã«å æ‹ ã•ã‚Œã¦ã—ã¾ã£ã¦ã„ã¾ã™ã€‚
+Q:4:T:å¤šãã®å“ç‰©ãŒå¤±ã‚ã‚Œã¾ã—ãŸãŒã€ã›ã‚ã¦è”µã ã‘ã§ã‚‚å–ã‚Šè¿”ã—ãŸã„ã®ã§ã™ï¼
+Q:4:T:è”µã‚’å æ‹ ã™ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å…¨ã¦æ‰“ã¡å€’ã—ã¦ãã ã•ã„ã€‚
 ?:1
 
 # Description for quest rewarding
-?:[EQU $QUEST4 3]
-Q:$4:T:Please keep the sword, it will aid you in your future quests.
-Q:4:T:¤½¤Î·õ¤Ï¤ª»ı¤Á²¼¤µ¤¤¡£¤³¤ì¤«¤é¤ÎËÁ¸±¤Î½õ¤±¤Ë¤Ê¤ë¤Ç¤·¤ç¤¦¡£
+?:[AND [EQU $QUEST4 3] [EQU $QUEST_TYPE4 3]]
+Q:$4:T:Please keep the weapon, it will aid you in your future quests.
+Q:4:T:ãã®æ­¦å™¨ã¯ãŠæŒã¡ä¸‹ã•ã„ã€‚ã“ã‚Œã‹ã‚‰ã®å†’é™ºã®åŠ©ã‘ã«ãªã‚‹ã§ã—ã‚‡ã†ã€‚
+?:[AND [EQU $QUEST4 3] [EQU $QUEST_TYPE4 6]]
+Q:$4:T:Please keep the items, it will aid you in your future quests.
+Q:4:T:è”µã®ç‰©å“ã¯ãŠç¤¼ã«ãŠæŒã¡ãã ã•ã„ã€‚ç©ºã„ãŸè”µã¯æ¼”åŠ‡å ´ã«ã—ã‚ˆã†ã¨æ€ã„ã¾ã™ã€‚
 ?:1
 
 # Description for quest failed
-?:[EQU $QUEST4 5]
-Q:$4:T:You didn't find the sword?  Well, the monsters have probably
-Q:$4:T:carried it away.  Too bad, Sting would have been quiet helpful
+?:[AND [EQU $QUEST4 5] [EQU $QUEST_TYPE4 3]]
+Q:$4:T:You didn't find the weapon? Well, the monsters have probably
+Q:$4:T:carried it away.  Too bad, it would have been quiet helpful
 Q:$4:T:in driving the evil out of our town.
-Q:4:T:¤¢¤Î·õ¤ò¸«¤Ä¤±¤é¤ì¤Ê¤«¤Ã¤¿¤Î¤Ç¤¹¤«¡©¤ª¤½¤é¤¯¡¢¥â¥ó¥¹¥¿¡¼¤É¤â¤¬»ı¤Ã¤Æ¤¤¤Ã¤Æ
-Q:4:T:¤·¤Ş¤Ã¤¿¤ó¤Ç¤·¤ç¤¦¤Ê¡£¤È¤Æ¤â»ÄÇ°¤Ç¤¹¡£¡Ø¤Ä¤é¤Ì¤­´İ¡Ù¤Ï¤³¤Î³¹¤«¤é°­¤ò°ìÁİ¤¹¤ë
-Q:4:T:¤Î¤Ë¤È¤Æ¤âÌò¤ËÎ©¤Ã¤¿¤Ç¤·¤ç¤¦¤Ë¡£
+Q:4:T:ã‚ã®æ­¦å™¨ã‚’è¦‹ã¤ã‘ã‚‰ã‚Œãªã‹ã£ãŸã®ã§ã™ã‹ï¼ŸãŠãã‚‰ãã€ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã©ã‚‚ãŒæŒã£ã¦ã„ã£ã¦
+Q:4:T:ã—ã¾ã£ãŸã‚“ã§ã—ã‚‡ã†ãªã€‚ã¨ã¦ã‚‚æ®‹å¿µã§ã™ã€‚ã‚¢ãƒ¬ã¯ã“ã®è¡—ã‹ã‚‰æ‚ªã‚’ä¸€æƒã™ã‚‹
+Q:4:T:ã®ã«ã¨ã¦ã‚‚å½¹ã«ç«‹ã£ãŸã§ã—ã‚‡ã†ã«ã€‚
+?:[AND [EQU $QUEST4 5] [EQU $QUEST_TYPE4 6]]
+Q:$4:T:Too bad, we can not get back the vault forever......?
+Q:$4:T:ãªã‚“ã¦ã“ã¨ã â€¦ã‚‚ã†è”µã‚’å–ã‚Šæˆ»ã™è¡“ã¯ãªã„ã®ã‹â€¦ï¼Ÿ
 ?:1
 
-?:[EQU $RANDOM4 0]
-# Floor with "Sting"
-F:a:FLOOR:8:0:0:0:88
+# No-teleport Floor with rewarding artifact e.g."Sting" and Death sword 
+F:a:FLOOR:12:107:0:0:!
 
-# Floor with "Small sword"
-F:b:FLOOR:8:0:46
-
-# Floor with "Small sword"
-F:c:FLOOR:8:0:46
-
-# Floor with "Small sword"
-F:d:FLOOR:8:0:46
-
-?:[EQU $RANDOM4 1]
-# Floor with "Small sword"
-F:a:FLOOR:8:0:46
-
-# Floor with "Sting"
-F:b:FLOOR:8:0:0:0:88
-
-# Floor with "Small sword"
-F:c:FLOOR:8:0:46
-
-# Floor with "Small sword"
-F:d:FLOOR:8:0:46
-
-?:[EQU $RANDOM4 2]
-# Floor with "Small sword"
-F:a:FLOOR:8:0:46
-
-# Floor with "Small sword"
-F:b:FLOOR:8:0:46
-
-# Floor with "Sting"
-F:c:FLOOR:8:0:0:0:88
-
-# Floor with "Small sword"
-F:d:FLOOR:8:0:46
-
-?:[EQU $RANDOM4 3]
-# Floor with "Small sword"
-F:a:FLOOR:8:0:46
-
-# Floor with "Small sword"
-F:b:FLOOR:8:0:46
-
-# Floor with "Small sword"
-F:c:FLOOR:8:0:46
-
-# Floor with "Sting"
-F:d:FLOOR:8:0:0:0:88
-
-?:1
+# No-teleport with base object of artifact e.g."Small sword" and Death sword
+F:b:FLOOR:12:107:!
 
 # Random monster 7 levels out of depth and on no Teleportation grid
-F:5:FLOOR:12:*8
+F:*:FLOOR:12:*8
+
+# Creeping adamantite coins
+F:$:FLOOR:8:423
+# Creeping mithril coins
+F:m:FLOOR:8:239
+
+# Creeping adamantite coins on Alarm Trap
+F:1:TRAP_ALARM:8:423
+
+# Mithril golems
+F:2:FLOOR:8:464
+
+
+# Chest mimic
+F:&:FLOOR:8:353
+# Ring mimic
+F:=:FLOOR:8:457
+# Scroll mimic
+F:?:FLOOR:12:352
+# Floor with Raal's!
+F:!:FLOOR:12:557
+
+# Red dragon with Object 5 levels out of depth
+F:3:FLOOR:8:589:*5
+# fire vortex
+F:f:FLOOR:8:354
+# Fire trolls
+F:F:FLOOR:8:899
+# Fire Elemental
+F:7:FLOOR:8:510
+
+
+
+# White dragon with Object 5 levels out of depth
+F:4:FLOOR:8:549:*5
+# Ice trolls
+F:I:FLOOR:8:454
+# cold vortex
+F:c:FLOOR:8:358
+# White wraith
+F:W:FLOOR:8:416
+# Ice Elemental
+F:8:FLOOR:8:570
+
+
+# Black dragon with Object 5 levels out of depth
+F:5:FLOOR:8:592:*5
+# water vortex
+F:w:FLOOR:8:355
+# Pukelman
+F:P:FLOOR:8:398
+# Black Orc
+F:o:FLOOR:8:244
+# Stone Troll
+F:S:FLOOR:8:401
+# Earth Elemental
+F:9:FLOOR:8:525
+
+
+# Blue dragon with Object 5 levels out of depth
+F:6:FLOOR:8:560:*5
+# young blUe dragon
+F:d:FLOOR:8:459
+# energy vortex
+F:e:FLOOR:8:359
+# Colbran
+F:C:FLOOR:8:435
+# Grave wight 
+F:G:FLOOR:8:470
+# sTorm giant
+F:T:FLOOR:8:487
+# Air Elemental
+F:0:FLOOR:8:526
+
+# Alarm Traps
+F:^:TRAP_ALARM:12
+# Teleport Traps
+F:+:TRAP_TELEPORT:8
 
 # Dungeon
 D:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXXXXX..9a*.....XXXXXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX...5............XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX........*.......XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX..........*.*.....XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX................5.XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX...5....%.%.%.....XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX...........*......XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX............5...XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX....5..5........XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXXXXX.........5XXXXXXXXXXXXXXXXXXXXX
+?:[EQU $RANDOM4 0]
+D:XXXXXXXXXXXXXXXXXXXXX.+b+a+b+..XXXXXXXXXXXXXXXXXXXXX
+?:[NOT [EQU $RANDOM4 0]]
+D:XXXXXXXXXXXXXXXXXXXXX.+b+b+b+..XXXXXXXXXXXXXXXXXXXXX
+?:1
+D:XXXXXXXXXXXXXXXXXX$.*....5..S...S.XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX..w.9...S....m..XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX........=....S....XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX.o%.%.%^%^%.%.%.%.XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX...o.m^...^.......XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX.....^o...P^...w..XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX.o.^.......^....XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX..^o.2....2.^9..XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXXXXX...++++...XXXXXXXXXXXXXXXXXXXXX
 D:XXXXXXXXXXXXXXXXXXXXXXXXXDDXXXXXXXXXXXXXXXXXXXXXXXXX
 D:XXXXXXXXXXXXXXXXXXXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXX
-D:XXXXX.....*....XXXXXXXXXX..XXXXXXXXXX..........XXXXX
-D:XX....5..*...*....XXXXXXX..XXXXXXX5..............*XX
-D:XX............5..5XXXXXXX..XXXXXXX.....%..........XX
-D:X......5...%.......XXXXX....XXXXX..5....%..5.....*9X
-D:X*........%........D.....<......D........%........dX
-D:Xb...5.....%..5....D............D...5.....%.......*X
-D:X9..........%......XXXXX....XXXXX........%.........X
-D:XX......5........5XXXXXXX..XXXXXXX....5...........XX
-D:XX................XXXXXXX..XXXXXXX........5.......XX
-D:XXXXX..........XXXXXXXXXX..XXXXXXXXXX..........XXXXX
+D:XXXXX....8m..^.XXXXXXXXXX..XXXXXXXXXX^.T.......XXXXX
+D:XX...%.I...I^%....XXXXXXX..XXXXXXX.e..^..d...%..m.XX
+D:XX.8.W%....^%...2.XXXXXXX..XXXXXXX.2...^....%...d.XX
+D:X+.....%.I^%...W..+XXXXX++++XXXXX+..G...^..%......+X
+?:[EQU $RANDOM4 1]
+D:Xb.W....%^%.W..c..+D....+<.+....D+.......^%..0...6aX
+?:[NOT [EQU $RANDOM4 1]]
+D:Xb.W....%^%.W..c..+D....+<.+....D+.......^%..0...6bX
+?:[EQU $RANDOM4 2]
+D:Xa4.....?%........+D....+..+....D+..0....%=.......bX
+?:[NOT [EQU $RANDOM4 2]]
+D:Xb4.....?%........+D....+..+....D+..0....%=.......bX
+?:1
+D:X+....W.%^%.......+XXXXX++++XXXXX+...G..%^.G..d.e.+X
+D:XX.c...%.I^%.W..2.XXXXXXX..XXXXXXX.2.m.%^........$XX
+D:XX....%....^%.m...XXXXXXX..XXXXXXX....%^.d....C...XX
+D:XXXXX$.I..I.^..XXXXXXXXXX..XXXXXXXXXX.^........XXXXX
 D:XXXXXXXXXXXXXXXXXXXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXX
 D:XXXXXXXXXXXXXXXXXXXXXXXXXDDXXXXXXXXXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXXXXX..........XXXXXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX................XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX..5.............XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX...........5..5...XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX........5.........XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX.....5............XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXX..................XXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX.5..............XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXX................XXXXXXXXXXXXXXXXXX
-D:XXXXXXXXXXXXXXXXXXXXX.....*c9..XXXXXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXXXXX^..++++...XXXXXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX^1^^......f^^.m.XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX^^%^.2...^^2....XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX^^!%.F..^^....%...XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX^%%%%%^^...F..%...XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX^^.%?^F.....%%%%%.XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXX...%.....F....%...XXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX7.*..F.......%7.XXXXXXXXXXXXXXXXXX
+D:XXXXXXXXXXXXXXXXXX...f...3...m....XXXXXXXXXXXXXXXXXX
+?:[EQU $RANDOM4 3]
+D:XXXXXXXXXXXXXXXXXXXXX.+b+b+a+..XXXXXXXXXXXXXXXXXXXXX
+?:[NOT [EQU $RANDOM4 3]]
+D:XXXXXXXXXXXXXXXXXXXXX.+b+b+b+..XXXXXXXXXXXXXXXXXXXXX
+?:1
 D:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Starting position
-P:16:25
-
+P:17:25

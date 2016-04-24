@@ -1,14 +1,14 @@
-/* File: wizard1.c */
-
-/*
+﻿/*!
+ *  @file wizard1.c
+ *  @brief ウィザードモードの処理(スポイラー出力中心) / Spoiler generation -BEN-
+ *  @date 2014/02/17
+ *  @author
  * Copyright (c) 1997 Ben Harrison, and others
- *
  * This software may be copied and distributed for educational, research,
  * and not for profit purposes provided that this copyright and statement
  * are included in all such copies.  Other copyrights may also apply.
+ * 2013 Deskull rearranged comment for Doxygen.
  */
-
-/* Purpose: Spoiler generation -BEN- */
 
 #include "angband.h"
 
@@ -23,15 +23,18 @@ static FILE *fff = NULL;
 
 
 
-/*
+/*!
+ * @brief シンボル職の記述名を返す /
  * Extract a textual representation of an attribute
+ * @param r_ptr モンスター種族の構造体ポインタ
+ * @return シンボル職の記述名
  */
 static cptr attr_to_text(monster_race *r_ptr)
 {
 #ifdef JP000
-	if (r_ptr->flags1 & RF1_ATTR_CLEAR)    return "Ʃ����";
-	if (r_ptr->flags1 & RF1_ATTR_MULTI)    return "������";
-	if (r_ptr->flags1 & RF1_ATTR_SEMIRAND) return "��������";
+	if (r_ptr->flags1 & RF1_ATTR_CLEAR)    return "透明な";
+	if (r_ptr->flags1 & RF1_ATTR_MULTI)    return "万色の";
+	if (r_ptr->flags1 & RF1_ATTR_SEMIRAND) return "準ランダムな";
 #else
 	if (r_ptr->flags1 & RF1_ATTR_CLEAR)    return "Clear";
 	if (r_ptr->flags1 & RF1_ATTR_MULTI)    return "Multi";
@@ -41,22 +44,22 @@ static cptr attr_to_text(monster_race *r_ptr)
 	switch (r_ptr->d_attr)
 	{
 #ifdef JP000
-	case TERM_DARK:    return "XXX��";
-	case TERM_WHITE:   return "��";
-	case TERM_SLATE:   return "�ĳ�����";
-	case TERM_ORANGE:  return "����󥸤�";
-	case TERM_RED:     return "�֤�";
-	case TERM_GREEN:   return "�Ф�";
-	case TERM_BLUE:    return "�Ĥ�";
-	case TERM_UMBER:   return "���ῧ��";
-	case TERM_L_DARK:  return "������";
-	case TERM_L_WHITE: return "���ĳ�����";
-	case TERM_VIOLET:  return "���";
-	case TERM_YELLOW:  return "������";
-	case TERM_L_RED:   return "�����֤�";
-	case TERM_L_GREEN: return "�����Ф�";
-	case TERM_L_BLUE:  return "�����Ĥ�";
-	case TERM_L_UMBER: return "�������ῧ��";
+	case TERM_DARK:    return "XXXい";
+	case TERM_WHITE:   return "白い";
+	case TERM_SLATE:   return "青灰色の";
+	case TERM_ORANGE:  return "オレンジの";
+	case TERM_RED:     return "赤い";
+	case TERM_GREEN:   return "緑の";
+	case TERM_BLUE:    return "青い";
+	case TERM_UMBER:   return "琥珀色の";
+	case TERM_L_DARK:  return "灰色の";
+	case TERM_L_WHITE: return "明青灰色の";
+	case TERM_VIOLET:  return "紫の";
+	case TERM_YELLOW:  return "黄色い";
+	case TERM_L_RED:   return "明い赤の";
+	case TERM_L_GREEN: return "明い緑の";
+	case TERM_L_BLUE:  return "明い青の";
+	case TERM_L_UMBER: return "明い琥珀色の";
 #else
 	case TERM_DARK:    return "xxx";
 	case TERM_WHITE:   return "White";
@@ -79,7 +82,7 @@ static cptr attr_to_text(monster_race *r_ptr)
 
 	/* Oops */
 #ifdef JP000
-	return "�Ѥ�";
+	return "変な";
 #else
 	return "Icky";
 #endif
@@ -108,46 +111,18 @@ typedef struct
  */
 static grouper group_item[] =
 {
-#ifdef JP
-	{ TV_SHOT,          "�ͷ�ʪ" },
-#else
-	{ TV_SHOT,          "Ammo" },
-#endif
-
+	{ TV_SHOT,          _("射撃物", "Ammo") },
 	{ TV_ARROW,         NULL },
 	{ TV_BOLT,          NULL },
-
-#ifdef JP
-	{ TV_BOW,           "��" },
-#else
-	{ TV_BOW,           "Bows" },
-#endif
-
-#ifdef JP
-	{ TV_DIGGING,       "���" },
-#else
-	{ TV_DIGGING,       "Weapons" },
-#endif
-
+	{ TV_BOW,           _("弓", "Bows") },
+	{ TV_DIGGING,       _("武器", "Weapons") },
 	{ TV_POLEARM,       NULL },
 	{ TV_HAFTED,        NULL },
 	{ TV_SWORD,         NULL },
-
-#ifdef JP
-	{ TV_SOFT_ARMOR,    "�ɶ� (��)" },
-#else
-	{ TV_SOFT_ARMOR,    "Armour (Body)" },
-#endif
-
+	{ TV_SOFT_ARMOR,    _("防具 (体)", "Armour (Body)") },
 	{ TV_HARD_ARMOR,    NULL },
 	{ TV_DRAG_ARMOR,    NULL },
-
-#ifdef JP
-	{ TV_BOOTS,         "�ɶ� (����¾)" },
-#else
-	{ TV_BOOTS,         "Armour (Misc)" },
-#endif
-
+	{ TV_BOOTS,         _("防具 (その他)", "Armour (Misc)") },
 	{ TV_GLOVES,        NULL },
 	{ TV_HELM,          NULL },
 	{ TV_CROWN,         NULL },
@@ -155,9 +130,9 @@ static grouper group_item[] =
 	{ TV_CLOAK,         NULL },
 
 #ifdef JP
-	{ TV_LITE,          "����" },
-	{ TV_AMULET,        "���ߥ��å�" },
-	{ TV_RING,          "����" },
+	{ TV_LITE,          "光源" },
+	{ TV_AMULET,        "アミュレット" },
+	{ TV_RING,          "指輪" },
 #else
 	{ TV_LITE,          "Light Sources" },
 	{ TV_AMULET,        "Amulets" },
@@ -165,9 +140,9 @@ static grouper group_item[] =
 #endif
 
 #ifdef JP
-	{ TV_STAFF,         "��" },
-	{ TV_WAND,          "��ˡ��" },
-	{ TV_ROD,           "���å�" },
+	{ TV_STAFF,         "杖" },
+	{ TV_WAND,          "魔法棒" },
+	{ TV_ROD,           "ロッド" },
 #else
 	{ TV_STAFF,         "Staffs" },
 	{ TV_WAND,          "Wands" },
@@ -175,9 +150,9 @@ static grouper group_item[] =
 #endif
 
 #ifdef JP
-	{ TV_SCROLL,        "��ʪ" },
-	{ TV_POTION,        "��" },
-	{ TV_FOOD,          "����" },
+	{ TV_SCROLL,        "巻物" },
+	{ TV_POTION,        "薬" },
+	{ TV_FOOD,          "食料" },
 #else
 	{ TV_SCROLL,        "Scrolls" },
 	{ TV_POTION,        "Potions" },
@@ -185,19 +160,19 @@ static grouper group_item[] =
 #endif
 
 #ifdef JP
-	{ TV_LIFE_BOOK,     "��ˡ�� (��̿)" },
-	{ TV_SORCERY_BOOK,  "��ˡ�� (���)" },
-	{ TV_NATURE_BOOK,   "��ˡ�� (����)" },
-	{ TV_CHAOS_BOOK,    "��ˡ�� (������)" },
-	{ TV_DEATH_BOOK,    "��ˡ�� (�Ź�)" },
-	{ TV_TRUMP_BOOK,    "��ˡ�� (�ȥ���)" },
-	{ TV_ARCANE_BOOK,   "��ˡ�� (���)" },
-	{ TV_CRAFT_BOOK,    "��ˡ�� (��)" },
-	{ TV_DAEMON_BOOK,   "��ˡ�� (����)" },
-	{ TV_CRUSADE_BOOK,  "��ˡ�� (�˼�)" },
-	{ TV_MUSIC_BOOK,    "�ν�" },
-	{ TV_HISSATSU_BOOK, "��ݤν�" },
-	{ TV_HEX_BOOK,      "��ˡ�� (����)" },
+	{ TV_LIFE_BOOK,     "魔法書 (生命)" },
+	{ TV_SORCERY_BOOK,  "魔法書 (仙術)" },
+	{ TV_NATURE_BOOK,   "魔法書 (自然)" },
+	{ TV_CHAOS_BOOK,    "魔法書 (カオス)" },
+	{ TV_DEATH_BOOK,    "魔法書 (暗黒)" },
+	{ TV_TRUMP_BOOK,    "魔法書 (トランプ)" },
+	{ TV_ARCANE_BOOK,   "魔法書 (秘術)" },
+	{ TV_CRAFT_BOOK,    "魔法書 (匠)" },
+	{ TV_DAEMON_BOOK,   "魔法書 (悪魔)" },
+	{ TV_CRUSADE_BOOK,  "魔法書 (破邪)" },
+	{ TV_MUSIC_BOOK,    "歌集" },
+	{ TV_HISSATSU_BOOK, "武芸の書" },
+	{ TV_HEX_BOOK,      "魔法書 (呪術)" },
 #else
 	{ TV_LIFE_BOOK,     "Books (Life)" },
 	{ TV_SORCERY_BOOK,  "Books (Sorcery)" },
@@ -215,37 +190,28 @@ static grouper group_item[] =
 #endif
 
 #ifdef JP
-	{ TV_WHISTLE,       "ū" },
-	{ TV_CAPTURE,       "����ץ��㡼���ܡ���" },
-	{ TV_CARD,          "�������ץ쥹������" },
+	{ TV_WHISTLE,       "笛" },
+	{ TV_CAPTURE,       "キャプチャー・ボール" },
+	{ TV_CARD,          "エクスプレスカード" },
 #else
 	{ TV_WHISTLE,       "Whistle" },
 	{ TV_CAPTURE,       "Capture Ball" },
 	{ TV_CARD,          "Express Card" },
 #endif
 
-#ifdef JP
-	{ TV_CHEST,         "Ȣ" },
-#else
-	{ TV_CHEST,         "Chests" },
-#endif
+	{ TV_CHEST,         _("箱", "Chests") },
 
 #ifdef JP
-	{ TV_FIGURINE,      "�ͷ�" },
-	{ TV_STATUE,        "��" },
-	{ TV_CORPSE,        "����" },
+	{ TV_FIGURINE,      "人形" },
+	{ TV_STATUE,        "像" },
+	{ TV_CORPSE,        "死体" },
 #else
 	{ TV_FIGURINE,      "Magical Figurines" },
 	{ TV_STATUE,        "Statues" },
 	{ TV_CORPSE,        "Corpses" },
 #endif
 
-#ifdef JP
-	{ TV_SKELETON,      "����¾" },
-#else
-	{ TV_SKELETON,      "Misc" },
-#endif
-
+	{ TV_SKELETON,      _("その他", "Misc") },
 	{ TV_BOTTLE,        NULL },
 	{ TV_JUNK,          NULL },
 	{ TV_SPIKE,         NULL },
@@ -256,8 +222,16 @@ static grouper group_item[] =
 };
 
 
-/*
+/*!
+ * @brief ベースアイテムの各情報を文字列化する /
  * Describe the kind
+ * @param buf 名称を返すバッファ参照ポインタ
+ * @param dam ダメージダイス記述を返すバッファ参照ポインタ
+ * @param wgt 重量記述を返すバッファ参照ポインタ
+ * @param lev 生成階記述を返すバッファ参照ポインタ
+ * @param val 価値を返すバッファ参照ポインタ
+ * @param k ベースアイテムID
+ * @return なし
  */
 static void kind_info(char *buf, char *dam, char *wgt, int *lev, s32b *val, int k)
 {
@@ -349,8 +323,11 @@ static void kind_info(char *buf, char *dam, char *wgt, int *lev, s32b *val, int 
 }
 
 
-/*
+/*!
+ * @brief 各ベースアイテムの情報を一行毎に記述する /
  * Create a spoiler file for items
+ * @param fname ファイル名
+ * @return なし
  */
 static void spoil_obj_desc(cptr fname)
 {
@@ -517,28 +494,29 @@ static void spoil_obj_desc(cptr fname)
 static grouper group_artifact[] =
 {
 #ifdef JP
-	{ TV_SWORD,             "���" },
-	{ TV_POLEARM,           "��/��" },
-	{ TV_HAFTED,            "�ߴ�" },
-	{ TV_DIGGING,           "����٥�/�Ĥ�Ϥ�" },
-	{ TV_BOW,               "����ƻ��" },
-	{ TV_ARROW,             "��" },
+	{ TV_SWORD,             "刀剣" },
+	{ TV_POLEARM,           "槍/斧" },
+	{ TV_HAFTED,            "鈍器" },
+	{ TV_DIGGING,           "シャベル/つるはし" },
+	{ TV_BOW,               "飛び道具" },
+	{ TV_ARROW,             "矢" },
+	{ TV_BOLT,              NULL },
 
-	{ TV_SOFT_ARMOR,        "��" },
+	{ TV_SOFT_ARMOR,        "鎧" },
 	{ TV_HARD_ARMOR,        NULL },
 	{ TV_DRAG_ARMOR,        NULL },
 
-	{ TV_CLOAK,             "��������" },
-	{ TV_SHIELD,            "��" },
+	{ TV_CLOAK,             "クローク" },
+	{ TV_SHIELD,            "盾" },
 	{ TV_CARD,              NULL },
-	{ TV_HELM,              "��/��" },
+	{ TV_HELM,              "兜/冠" },
 	{ TV_CROWN,             NULL },
-	{ TV_GLOVES,            "�Ƽ�" },
-	{ TV_BOOTS,             "��" },
+	{ TV_GLOVES,            "籠手" },
+	{ TV_BOOTS,             "靴" },
 
-	{ TV_LITE,              "����" },
-	{ TV_AMULET,            "���ߥ��å�" },
-	{ TV_RING,              "����" },
+	{ TV_LITE,              "光源" },
+	{ TV_AMULET,            "アミュレット" },
+	{ TV_RING,              "指輪" },
 #else
 	{ TV_SWORD,             "Edged Weapons" },
 	{ TV_POLEARM,           "Polearms" },
@@ -546,6 +524,7 @@ static grouper group_artifact[] =
 	{ TV_DIGGING,           "Shovels/Picks" },
 	{ TV_BOW,               "Bows" },
 	{ TV_ARROW,             "Ammo" },
+	{ TV_BOLT,              NULL },
 
 	{ TV_SOFT_ARMOR,        "Body Armor" },
 	{ TV_HARD_ARMOR,        NULL },
@@ -599,12 +578,12 @@ struct flag_desc
 static flag_desc stat_flags_desc[] =
 {
 #ifdef JP
-	{ TR_STR,        "����" },
-	{ TR_INT,        "��ǽ" },
-	{ TR_WIS,        "����" },
-	{ TR_DEX,        "���Ѥ�" },
-	{ TR_CON,        "�ѵ���" },
-	{ TR_CHR,        "̥��" }
+	{ TR_STR,        "腕力" },
+	{ TR_INT,        "知能" },
+	{ TR_WIS,        "賢さ" },
+	{ TR_DEX,        "器用さ" },
+	{ TR_CON,        "耐久力" },
+	{ TR_CHR,        "魅力" }
 #else
 	{ TR_STR,        "STR" },
 	{ TR_INT,        "INT" },
@@ -623,13 +602,13 @@ static flag_desc stat_flags_desc[] =
 static flag_desc pval_flags1_desc[] =
 {
 #ifdef JP
-	{ TR_MAGIC_MASTERY,    "��ˡƻ�����ǽ��" },
-	{ TR_STEALTH,    "��̩" },
-	{ TR_SEARCH,     "õ��" },
-	{ TR_INFRA,      "�ֳ�������" },
-	{ TR_TUNNEL,     "�η�" },
-	{ TR_BLOWS,      "������" },
-	{ TR_SPEED,      "���ԡ���" }
+	{ TR_MAGIC_MASTERY,    "魔法道具使用能力" },
+	{ TR_STEALTH,    "隠密" },
+	{ TR_SEARCH,     "探索" },
+	{ TR_INFRA,      "赤外線視力" },
+	{ TR_TUNNEL,     "採掘" },
+	{ TR_BLOWS,      "攻撃回数" },
+	{ TR_SPEED,      "スピード" }
 #else
 	{ TR_STEALTH,    "Stealth" },
 	{ TR_SEARCH,     "Searching" },
@@ -647,24 +626,24 @@ static flag_desc pval_flags1_desc[] =
 static flag_desc slay_flags_desc[] =
 {
 #ifdef JP
-	{ TR_SLAY_ANIMAL,        "ưʪ" },
-	{ TR_KILL_ANIMAL,        "*ưʪ*" },
-	{ TR_SLAY_EVIL,          "�ٰ�" },
-	{ TR_KILL_EVIL,          "*�ٰ�*" },
-	{ TR_SLAY_HUMAN,         "�ʹ�" },
-	{ TR_KILL_HUMAN,         "*�ʹ�*" },
-	{ TR_SLAY_UNDEAD,        "����ǥå�" },
-	{ TR_KILL_UNDEAD,        "*����ǥå�*" },
-	{ TR_SLAY_DEMON,         "����" },
-	{ TR_KILL_DEMON,         "*����*" },
-	{ TR_SLAY_ORC,           "������" },
-	{ TR_KILL_ORC,           "*������*" },
-	{ TR_SLAY_TROLL,         "�ȥ���" },
-	{ TR_KILL_TROLL,         "*�ȥ���*" },
-	{ TR_SLAY_GIANT,         "���" },
-	{ TR_KILL_GIANT,         "*���*" },
-	{ TR_SLAY_DRAGON,        "�ɥ饴��" },
-	{ TR_KILL_DRAGON,        "*�ɥ饴��*" },
+	{ TR_SLAY_ANIMAL,        "動物" },
+	{ TR_KILL_ANIMAL,        "*動物*" },
+	{ TR_SLAY_EVIL,          "邪悪" },
+	{ TR_KILL_EVIL,          "*邪悪*" },
+	{ TR_SLAY_HUMAN,         "人間" },
+	{ TR_KILL_HUMAN,         "*人間*" },
+	{ TR_SLAY_UNDEAD,        "アンデッド" },
+	{ TR_KILL_UNDEAD,        "*アンデッド*" },
+	{ TR_SLAY_DEMON,         "悪魔" },
+	{ TR_KILL_DEMON,         "*悪魔*" },
+	{ TR_SLAY_ORC,           "オーク" },
+	{ TR_KILL_ORC,           "*オーク*" },
+	{ TR_SLAY_TROLL,         "トロル" },
+	{ TR_KILL_TROLL,         "*トロル*" },
+	{ TR_SLAY_GIANT,         "巨人" },
+	{ TR_KILL_GIANT,         "*巨人*" },
+	{ TR_SLAY_DRAGON,        "ドラゴン" },
+	{ TR_KILL_DRAGON,        "*ドラゴン*" },
 #else
 	{ TR_SLAY_ANIMAL,        "Animal" },
 	{ TR_KILL_ANIMAL,        "XAnimal" },
@@ -698,17 +677,17 @@ static flag_desc slay_flags_desc[] =
 static flag_desc brand_flags_desc[] =
 {
 #ifdef JP
-	{ TR_BRAND_ACID,         "�ϲ�" },
-	{ TR_BRAND_ELEC,         "�ŷ�" },
-	{ TR_BRAND_FIRE,         "�ƴ�" },
-	{ TR_BRAND_COLD,         "���" },
-	{ TR_BRAND_POIS,         "�ǻ�" },
+	{ TR_BRAND_ACID,         "溶解" },
+	{ TR_BRAND_ELEC,         "電撃" },
+	{ TR_BRAND_FIRE,         "焼棄" },
+	{ TR_BRAND_COLD,         "凍結" },
+	{ TR_BRAND_POIS,         "毒殺" },
 
-	{ TR_FORCE_WEAPON,       "����" },
-	{ TR_CHAOTIC,            "����" },
-	{ TR_VAMPIRIC,           "�۷�" },
-	{ TR_IMPACT,             "�Ͽ�" },
-	{ TR_VORPAL,             "�ڤ�̣" },
+	{ TR_FORCE_WEAPON,       "理力" },
+	{ TR_CHAOTIC,            "混沌" },
+	{ TR_VAMPIRIC,           "吸血" },
+	{ TR_IMPACT,             "地震" },
+	{ TR_VORPAL,             "切れ味" },
 #else
 	{ TR_BRAND_ACID,         "Acid Brand" },
 	{ TR_BRAND_ELEC,         "Lightning Brand" },
@@ -731,22 +710,22 @@ static flag_desc brand_flags_desc[] =
 static const flag_desc resist_flags_desc[] =
 {
 #ifdef JP
-	{ TR_RES_ACID,   "��" },
-	{ TR_RES_ELEC,   "�ŷ�" },
-	{ TR_RES_FIRE,   "�б�" },
-	{ TR_RES_COLD,   "�䵤" },
-	{ TR_RES_POIS,   "��" },
-	{ TR_RES_FEAR,   "����"},
-	{ TR_RES_LITE,   "����" },
-	{ TR_RES_DARK,   "�Ź�" },
-	{ TR_RES_BLIND,  "����" },
-	{ TR_RES_CONF,   "����" },
-	{ TR_RES_SOUND,  "�첻" },
-	{ TR_RES_SHARDS, "����" },
-	{ TR_RES_NETHER, "�Ϲ�" },
-	{ TR_RES_NEXUS,  "���̺���" },
-	{ TR_RES_CHAOS,  "������" },
-	{ TR_RES_DISEN,  "����" },
+	{ TR_RES_ACID,   "酸" },
+	{ TR_RES_ELEC,   "電撃" },
+	{ TR_RES_FIRE,   "火炎" },
+	{ TR_RES_COLD,   "冷気" },
+	{ TR_RES_POIS,   "毒" },
+	{ TR_RES_FEAR,   "恐怖"},
+	{ TR_RES_LITE,   "閃光" },
+	{ TR_RES_DARK,   "暗黒" },
+	{ TR_RES_BLIND,  "盲目" },
+	{ TR_RES_CONF,   "混乱" },
+	{ TR_RES_SOUND,  "轟音" },
+	{ TR_RES_SHARDS, "破片" },
+	{ TR_RES_NETHER, "地獄" },
+	{ TR_RES_NEXUS,  "因果混乱" },
+	{ TR_RES_CHAOS,  "カオス" },
+	{ TR_RES_DISEN,  "劣化" },
 #else
 	{ TR_RES_ACID,   "Acid" },
 	{ TR_RES_ELEC,   "Lightning" },
@@ -774,10 +753,10 @@ static const flag_desc resist_flags_desc[] =
 static const flag_desc immune_flags_desc[] =
 {
 #ifdef JP
-	{ TR_IM_ACID,    "��" },
-	{ TR_IM_ELEC,    "�ŷ�" },
-	{ TR_IM_FIRE,    "�б�" },
-	{ TR_IM_COLD,    "�䵤" },
+	{ TR_IM_ACID,    "酸" },
+	{ TR_IM_ELEC,    "電撃" },
+	{ TR_IM_FIRE,    "火炎" },
+	{ TR_IM_COLD,    "冷気" },
 #else
 	{ TR_IM_ACID,    "Acid" },
 	{ TR_IM_ELEC,    "Lightning" },
@@ -793,12 +772,12 @@ static const flag_desc immune_flags_desc[] =
 static const flag_desc sustain_flags_desc[] =
 {
 #ifdef JP
-	{ TR_SUST_STR,   "����" },
-	{ TR_SUST_INT,   "��ǽ" },
-	{ TR_SUST_WIS,   "����" },
-	{ TR_SUST_DEX,   "���Ѥ�" },
-	{ TR_SUST_CON,   "�ѵ���" },
-	{ TR_SUST_CHR,   "̥��" },
+	{ TR_SUST_STR,   "腕力" },
+	{ TR_SUST_INT,   "知能" },
+	{ TR_SUST_WIS,   "賢さ" },
+	{ TR_SUST_DEX,   "器用さ" },
+	{ TR_SUST_CON,   "耐久力" },
+	{ TR_SUST_CHR,   "魅力" },
 #else
 	{ TR_SUST_STR,   "STR" },
 	{ TR_SUST_INT,   "INT" },
@@ -816,15 +795,15 @@ static const flag_desc sustain_flags_desc[] =
 static const flag_desc misc_flags2_desc[] =
 {
 #ifdef JP
-	{ TR_THROW,      "��ڳ" },
-	{ TR_REFLECT,    "ȿ��" },
-	{ TR_FREE_ACT,   "�����Τ餺" },
-	{ TR_HOLD_LIFE,  "��̿�ϰݻ�" },
+	{ TR_THROW,      "投擲" },
+	{ TR_REFLECT,    "反射" },
+	{ TR_FREE_ACT,   "麻痺知らず" },
+	{ TR_HOLD_EXP,   "経験値維持" },
 #else
 	{ TR_THROW,      "Throwing" },
 	{ TR_REFLECT,    "Reflection" },
 	{ TR_FREE_ACT,   "Free Action" },
-	{ TR_HOLD_LIFE,  "Hold Life" },
+	{ TR_HOLD_EXP,   "Hold Experience" },
 #endif
 };
 
@@ -838,35 +817,35 @@ static const flag_desc misc_flags2_desc[] =
 static const flag_desc misc_flags3_desc[] =
 {
 #ifdef JP
-	{ TR_SH_FIRE,            "�бꥪ����" },
-	{ TR_SH_ELEC,            "�ŷ⥪����" },
-	{ TR_SH_COLD,            "�䵤������" },
-	{ TR_NO_TELE,            "ȿ�ƥ�ݡ���" },
-	{ TR_NO_MAGIC,           "ȿ��ˡ" },
-	{ TR_LEVITATION,            "��ͷ" },
-	{ TR_SEE_INVIS,          "�Ļ�Ʃ��" },
-	{ TR_TELEPATHY,          "�ƥ�ѥ���" },
-	{ TR_ESP_ANIMAL,             "ưʪ����" },
-	{ TR_ESP_UNDEAD,             "�Իശ��" },
-	{ TR_ESP_DEMON,              "���ⴶ��" },
-	{ TR_ESP_ORC,                "����������" },
-	{ TR_ESP_TROLL,              "�ȥ��봶��" },
-	{ TR_ESP_GIANT,              "��ʹ���" },
-	{ TR_ESP_DRAGON,             "�ɥ饴����" },
-	{ TR_ESP_HUMAN,              "�ʹִ���" },
-	{ TR_ESP_EVIL,               "�ٰ�����" },
-	{ TR_ESP_GOOD,               "���ɴ���" },
-	{ TR_ESP_NONLIVING,          "̵��ʪ����" },
-	{ TR_ESP_UNIQUE,             "��ˡ�������" },
-	{ TR_SLOW_DIGEST,        "�پò�" },
-	{ TR_REGEN,              "��®����" },
-	{ TR_WARNING,            "�ٹ�" },
-/*	{ TR_XTRA_MIGHT,         "���ϼͷ�" }, */
-	{ TR_XTRA_SHOTS,         "�ɲüͷ�" },        /* always +1? */
-	{ TR_DRAIN_EXP,          "�и��͵ۼ�" },
-	{ TR_AGGRAVATE,          "ȿ��" },
-	{ TR_BLESSED,            "��ʡ" },
-	{ TR_DEC_MANA,           "�������ϸ���" },
+	{ TR_SH_FIRE,            "火炎オーラ" },
+	{ TR_SH_ELEC,            "電撃オーラ" },
+	{ TR_SH_COLD,            "冷気オーラ" },
+	{ TR_NO_TELE,            "反テレポート" },
+	{ TR_NO_MAGIC,           "反魔法" },
+	{ TR_LEVITATION,         "浮遊" },
+	{ TR_SEE_INVIS,          "可視透明" },
+	{ TR_TELEPATHY,          "テレパシー" },
+	{ TR_ESP_ANIMAL,         "動物感知" },
+	{ TR_ESP_UNDEAD,         "不死感知" },
+	{ TR_ESP_DEMON,          "悪魔感知" },
+	{ TR_ESP_ORC,            "オーク感知" },
+	{ TR_ESP_TROLL,          "トロル感知" },
+	{ TR_ESP_GIANT,          "巨人感知" },
+	{ TR_ESP_DRAGON,         "ドラゴン感知" },
+	{ TR_ESP_HUMAN,          "人間感知" },
+	{ TR_ESP_EVIL,           "邪悪感知" },
+	{ TR_ESP_GOOD,           "善良感知" },
+	{ TR_ESP_NONLIVING,      "無生物感知" },
+	{ TR_ESP_UNIQUE,         "ユニーク感知" },
+	{ TR_SLOW_DIGEST,        "遅消化" },
+	{ TR_REGEN,              "急速回復" },
+	{ TR_WARNING,            "警告" },
+/*	{ TR_XTRA_MIGHT,         "強力射撃" }, */
+	{ TR_XTRA_SHOTS,         "追加射撃" },        /* always +1? */
+	{ TR_DRAIN_EXP,          "経験値吸収" },
+	{ TR_AGGRAVATE,          "反感" },
+	{ TR_BLESSED,            "祝福" },
+	{ TR_DEC_MANA,           "消費魔力減少" },
 #else
 	{ TR_SH_FIRE,            "Fiery Aura" },
 	{ TR_SH_ELEC,            "Electric Aura" },
@@ -876,6 +855,18 @@ static const flag_desc misc_flags3_desc[] =
 	{ TR_LEVITATION,            "Levitation" },
 	{ TR_SEE_INVIS,          "See Invisible" },
 	{ TR_TELEPATHY,          "ESP" },
+	{ TR_ESP_ANIMAL,         "Sense Animal" },
+	{ TR_ESP_UNDEAD,         "Sense Undead" },
+	{ TR_ESP_DEMON,          "Sense Demon" },
+	{ TR_ESP_ORC,            "Sense Orc" },
+	{ TR_ESP_TROLL,          "Sense Troll" },
+	{ TR_ESP_GIANT,          "Sense Giant" },
+	{ TR_ESP_DRAGON,         "Sense Dragon" },
+	{ TR_ESP_HUMAN,          "Sense Human" },
+	{ TR_ESP_EVIL,           "Sense Evil" },
+	{ TR_ESP_GOOD,           "Sense Good" },
+	{ TR_ESP_NONLIVING,      "Sense Nonliving" },
+	{ TR_ESP_UNIQUE,         "Sense Unique" },
 	{ TR_SLOW_DIGEST,        "Slow Digestion" },
 	{ TR_REGEN,              "Regeneration" },
 	{ TR_WARNING,            "Warning" },
@@ -968,8 +959,12 @@ typedef struct
 } obj_desc_list;
 
 
-/*
+/*!
+ * @brief ファイルポインタ先に同じ文字を複数出力する /
  * Write out `n' of the character `c' to the spoiler file
+ * @param n 出力する数
+ * @param c 出力するキャラクタ
+ * @return なし
  */
 static void spoiler_out_n_chars(int n, char c)
 {
@@ -977,8 +972,11 @@ static void spoiler_out_n_chars(int n, char c)
 }
 
 
-/*
+/*!
+ * @brief ファイルポインタ先に改行を複数出力する /
  * Write out `n' blank lines to the spoiler file
+ * @param n 改行を出力する数
+ * @return なし
  */
 static void spoiler_blanklines(int n)
 {
@@ -986,8 +984,11 @@ static void spoiler_blanklines(int n)
 }
 
 
-/*
+/*!
+ * @brief ファイルポインタ先に複数のハイフンで装飾した文字列を出力する /
  * Write a line to the spoiler file and then "underline" it with hypens
+ * @param str 出力したい文字列
+ * @return なし
  */
 static void spoiler_underline(cptr str)
 {
@@ -998,15 +999,24 @@ static void spoiler_underline(cptr str)
 
 
 
-/*
+/*!
+ * @brief アーティファクトの特性一覧を出力する /
+ * Write a line to the spoiler file and then "underline" it with hypens
+ * @param art_flags アーティファクトのフラグ群
+ * @param flag_ptr フラグ記述情報の参照ポインタ
+ * @param desc_ptr 記述内容を返すための文字列参照ポインタ
+ * @param n_elmnts フラグの要素数
+ * @return desc_ptrと同じアドレス
+ * @details
+ * <pre>
  * This function does most of the actual "analysis". Given a set of bit flags
  * (which will be from one of the flags fields from the object in question),
  * a "flag description structure", a "description list", and the number of
  * elements in the "flag description structure", this function sets the
  * "description list" members to the appropriate descriptions contained in
  * the "flag description structure".
- *
  * The possibly updated description pointer is returned.
+ * </pre>
  */
 static cptr *spoiler_flag_aux(const u32b art_flags[TR_FLAG_SIZE],
 			      const flag_desc *flag_ptr,
@@ -1026,8 +1036,12 @@ static cptr *spoiler_flag_aux(const u32b art_flags[TR_FLAG_SIZE],
 }
 
 
-/*
+/*!
+ * @brief アイテムの特定記述内容を返す /
  * Acquire a "basic" description "The Cloak of Death [1,+10]"
+ * @param o_ptr 記述を得たいオブジェクトの参照ポインタ
+ * @param desc_ptr 記述内容を返すための文字列参照ポインタ
+ * @return なし
  */
 static void analyze_general(object_type *o_ptr, char *desc_ptr)
 {
@@ -1036,9 +1050,13 @@ static void analyze_general(object_type *o_ptr, char *desc_ptr)
 }
 
 
-/*
+/*!
+ * @brief アーティファクトがプレイヤーに与えるpval修正を構造体に収める /
  * List "player traits" altered by an artifact's pval. These include stats,
  * speed, infravision, tunneling, stealth, searching, and extra attacks.
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param p_ptr pval修正構造体の参照ポインタ
+ * @return なし
  */
 static void analyze_pval(object_type *o_ptr, pval_info_type *p_ptr)
 {
@@ -1067,11 +1085,7 @@ static void analyze_pval(object_type *o_ptr, pval_info_type *p_ptr)
 	    have_flag(flgs, TR_WIS) && have_flag(flgs, TR_DEX) &&
 	    have_flag(flgs, TR_CON) && have_flag(flgs, TR_CHR))
 	{
-#ifdef JP
-		*affects_list++ = "��ǽ��";
-#else
-		*affects_list++ = "All stats";
-#endif
+		*affects_list++ = _("全能力", "All stats");
 	}
 
 	/* Are any stats affected? */
@@ -1093,8 +1107,13 @@ static void analyze_pval(object_type *o_ptr, pval_info_type *p_ptr)
 	*affects_list = NULL;
 }
 
-
-/* Note the slaying specialties of a weapon */
+/*!
+ * @brief アーティファクトの種族スレイ特性を構造体に収める /
+ * Note the slaying specialties of a weapon
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param slay_list 種族スレイ構造体の参照ポインタ
+ * @return なし
+ */
 static void analyze_slay(object_type *o_ptr, cptr *slay_list)
 {
 	u32b flgs[TR_FLAG_SIZE];
@@ -1108,7 +1127,14 @@ static void analyze_slay(object_type *o_ptr, cptr *slay_list)
 	*slay_list = NULL;
 }
 
-/* Note an object's elemental brands */
+
+/*!
+ * @brief アーティファクトの属性ブランド特性を構造体に収める /
+ * Note an object's elemental brands
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param brand_list 属性ブランド構造体の参照ポインタ
+ * @return なし
+ */
 static void analyze_brand(object_type *o_ptr, cptr *brand_list)
 {
 	u32b flgs[TR_FLAG_SIZE];
@@ -1123,7 +1149,13 @@ static void analyze_brand(object_type *o_ptr, cptr *brand_list)
 }
 
 
-/* Note the resistances granted by an object */
+/*!
+ * @brief アーティファクトの通常耐性を構造体に収める /
+ * Note an object's elemental brands
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param resist_list 通常耐性構造体の参照ポインタ
+ * @return なし
+ */
 static void analyze_resist(object_type *o_ptr, cptr *resist_list)
 {
 	u32b flgs[TR_FLAG_SIZE];
@@ -1138,7 +1170,13 @@ static void analyze_resist(object_type *o_ptr, cptr *resist_list)
 }
 
 
-/* Note the immunities granted by an object */
+/*!
+ * @brief アーティファクトの免疫特性を構造体に収める /
+ * Note the immunities granted by an object
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param immune_list 免疫構造体の参照ポインタ
+ * @return なし
+ */
 static void analyze_immune(object_type *o_ptr, cptr *immune_list)
 {
 	u32b flgs[TR_FLAG_SIZE];
@@ -1153,7 +1191,13 @@ static void analyze_immune(object_type *o_ptr, cptr *immune_list)
 }
 
 
-/* Note which stats an object sustains */
+/*!
+ * @brief アーティファクトの維持特性を構造体に収める /
+ * Note which stats an object sustains
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param sustain_list 維持特性構造体の参照ポインタ
+ * @return なし
+ */
 static void analyze_sustains(object_type *o_ptr, cptr *sustain_list)
 {
 	u32b flgs[TR_FLAG_SIZE];
@@ -1165,11 +1209,7 @@ static void analyze_sustains(object_type *o_ptr, cptr *sustain_list)
 	    have_flag(flgs, TR_SUST_WIS) && have_flag(flgs, TR_SUST_DEX) &&
 	    have_flag(flgs, TR_SUST_CON) && have_flag(flgs, TR_SUST_CHR))
 	{
-#ifdef JP
-		*sustain_list++ = "��ǽ��";
-#else
-		*sustain_list++ = "All stats";
-#endif
+		*sustain_list++ = _("全能力", "All stats");
 	}
 
 	/* Should we bother? */
@@ -1187,13 +1227,19 @@ static void analyze_sustains(object_type *o_ptr, cptr *sustain_list)
 }
 
 
-/*
+/*!
+ * @brief アーティファクトのその他の特性を構造体に収める /
  * Note miscellaneous powers bestowed by an artifact such as see invisible,
  * free action, permanent light, etc.
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param misc_list その他の特性構造体の参照ポインタ
+ * @return なし
  */
 static void analyze_misc_magic(object_type *o_ptr, cptr *misc_list)
 {
 	u32b flgs[TR_FLAG_SIZE];
+	int rad;
+	char desc[256];
 
 	object_flags(o_ptr, flgs);
 
@@ -1204,28 +1250,29 @@ static void analyze_misc_magic(object_type *o_ptr, cptr *misc_list)
 				     N_ELEMENTS(misc_flags3_desc));
 
 	/*
-	 * Artifact lights -- large radius light.
-	 */
-	if ((o_ptr->tval == TV_LITE) && object_is_fixed_artifact(o_ptr))
+	 * Glowing artifacts -- small radius light.
+	*/	
+	rad = 0;
+	if (have_flag(flgs, TR_LITE_1))  rad += 1;
+	if (have_flag(flgs, TR_LITE_2))  rad += 2;
+	if (have_flag(flgs, TR_LITE_3))  rad += 3;
+	if (have_flag(flgs, TR_LITE_M1)) rad -= 1;
+	if (have_flag(flgs, TR_LITE_M2)) rad -= 2;
+	if (have_flag(flgs, TR_LITE_M3)) rad -= 3;
+	
+	if(o_ptr->name2 == EGO_LITE_SHINE) rad++;
+
+	if (have_flag(flgs, TR_LITE_FUEL))
 	{
-#ifdef JP
-		*misc_list++ = "�ʵ׸���(Ⱦ��3)";
-#else
-		*misc_list++ = "Permanent Light(3)";
-#endif
+		if(rad > 0) sprintf(desc, _("それは燃料補給によって明かり(半径 %d)を授ける。", "It provides light (radius %d) when fueled."), rad);	
+	}
+	else
+	{
+		if(rad > 0) sprintf(desc, _("永久光源(半径 %d)", "Permanent Light(radius %d)"), rad);	
+		if(rad < 0) sprintf(desc, _("永久光源(半径-%d)。", "Permanent Light(radius -%d)"), -rad);
 	}
 
-	/*
-	 * Glowing artifacts -- small radius light.
-	 */
-	if (have_flag(flgs, TR_LITE))
-	{
-#ifdef JP
-		*misc_list++ = "�ʵ׸���(Ⱦ��1)";
-#else
-		*misc_list++ = "Permanent Light(1)";
-#endif
-	}
+	if(rad != 0) *misc_list++ = quark_str(quark_add(desc));
 
 	/*
 	 * Handle cursed objects here to avoid redundancies such as noting
@@ -1237,36 +1284,28 @@ static void analyze_misc_magic(object_type *o_ptr, cptr *misc_list)
 	{
 		if (have_flag(flgs, TR_TY_CURSE))
 		{
-#ifdef JP
-			*misc_list++ = "���Ťα�ǰ";
-#else
-			*misc_list++ = "Ancient Curse";
-#endif
+			*misc_list++ = _("太古の怨念", "Ancient Curse");
 		}
 		if (o_ptr->curse_flags & TRC_PERMA_CURSE)
 		{
-#ifdef JP
-			*misc_list++ = "�ʱ�μ���";
-#else
-			*misc_list++ = "Permanently Cursed";
-#endif
+			*misc_list++ = _("永遠の呪い", "Permanently Cursed");
 		}
 		else if (o_ptr->curse_flags & TRC_HEAVY_CURSE)
 		{
-#ifdef JP
-			*misc_list++ = "���Ϥʼ���";
-#else
-			*misc_list++ = "Heavily Cursed";
-#endif
+			*misc_list++ = _("強力な呪い", "Heavily Cursed");
 		}
 /*		else */
 		else if (o_ptr->curse_flags & TRC_CURSED)
 		{
-#ifdef JP
-			*misc_list++ = "����";
-#else
-			*misc_list++ = "Cursed";
-#endif
+			*misc_list++ = _("呪い", "Cursed");
+		}
+		if (have_flag(flgs, TR_ADD_L_CURSE))
+		{
+			*misc_list++ = _("呪いを増やす", "Cursing");
+		}
+		if (have_flag(flgs, TR_ADD_H_CURSE))
+		{
+			*misc_list++ = _("強力な呪いを増やす", "Heavily Cursing");
 		}
 	}
 
@@ -1275,8 +1314,12 @@ static void analyze_misc_magic(object_type *o_ptr, cptr *misc_list)
 }
 
 
-/*
+/*!
+ * @brief アーティファクトの追加ランダム特性を構造体に収める /
  * Note additional ability and/or resistance of fixed artifacts
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param addition 追加ランダム耐性構造体の参照ポインタ
+ * @return なし
  */
 static void analyze_addition(object_type *o_ptr, char *addition)
 {
@@ -1286,18 +1329,18 @@ static void analyze_addition(object_type *o_ptr, char *addition)
 	strcpy(addition, "");
 
 #ifdef JP
-	if ((a_ptr->gen_flags & TRG_XTRA_POWER) && (a_ptr->gen_flags & TRG_XTRA_H_RES)) strcat(addition, "ǽ��and����");
+	if ((a_ptr->gen_flags & TRG_XTRA_POWER) && (a_ptr->gen_flags & TRG_XTRA_H_RES)) strcat(addition, "能力and耐性");
 	else if (a_ptr->gen_flags & TRG_XTRA_POWER)
 	{
-		strcat(addition, "ǽ��");
-		if (a_ptr->gen_flags & TRG_XTRA_RES_OR_POWER) strcat(addition, "(1/2��and����)");
+		strcat(addition, "能力");
+		if (a_ptr->gen_flags & TRG_XTRA_RES_OR_POWER) strcat(addition, "(1/2でand耐性)");
 	}
 	else if (a_ptr->gen_flags & TRG_XTRA_H_RES)
 	{
-		strcat(addition, "����");
-		if (a_ptr->gen_flags & TRG_XTRA_RES_OR_POWER) strcat(addition, "(1/2��andǽ��)");
+		strcat(addition, "耐性");
+		if (a_ptr->gen_flags & TRG_XTRA_RES_OR_POWER) strcat(addition, "(1/2でand能力)");
 	}
-	else if (a_ptr->gen_flags & TRG_XTRA_RES_OR_POWER) strcat(addition, "ǽ��or����");
+	else if (a_ptr->gen_flags & TRG_XTRA_RES_OR_POWER) strcat(addition, "能力or耐性");
 #else
 	if ((a_ptr->gen_flags & TRG_XTRA_POWER) && (a_ptr->gen_flags & TRG_XTRA_H_RES)) strcat(addition, "Ability and Resistance");
 	else if (a_ptr->gen_flags & TRG_XTRA_POWER)
@@ -1315,18 +1358,22 @@ static void analyze_addition(object_type *o_ptr, char *addition)
 }
 
 
-/*
+/*!
+ * @brief アーティファクトの基本情報を文字列に収める /
  * Determine the minimum depth an artifact can appear, its rarity, its weight,
  * and its value in gold pieces
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param misc_desc 基本情報を収める文字列参照ポインタ
+ * @return なし
  */
 static void analyze_misc(object_type *o_ptr, char *misc_desc)
 {
 	artifact_type *a_ptr = &a_info[o_ptr->name1];
 
 #ifdef JP
-	sprintf(misc_desc, "��٥� %u, ������ %u, %d.%d kg, ��%ld",
+	sprintf(misc_desc, "レベル %u, 希少度 %u, %d.%d kg, ＄%ld",
 		a_ptr->level, a_ptr->rarity,
-		lbtokg1(a_ptr->weight), lbtokg2(a_ptr->weight), a_ptr->cost);
+		lbtokg1(a_ptr->weight), lbtokg2(a_ptr->weight), (long int)a_ptr->cost);
 #else
 	sprintf(misc_desc, "Level %u, Rarity %u, %d.%d lbs, %ld Gold",
 		a_ptr->level, a_ptr->rarity,
@@ -1335,8 +1382,13 @@ static void analyze_misc(object_type *o_ptr, char *misc_desc)
 }
 
 
-/*
+/*!
+ * @brief アーティファクトの情報全体を構造体に収める /
  * Fill in an object description structure for a given object
+ * and its value in gold pieces
+ * @param o_ptr オブジェクト構造体の参照ポインタ
+ * @param desc_ptr 全アーティファクト情報を収める文字列参照ポインタ
+ * @return なし
  */
 static void object_analyze(object_type *o_ptr, obj_desc_list *desc_ptr)
 {
@@ -1354,6 +1406,10 @@ static void object_analyze(object_type *o_ptr, obj_desc_list *desc_ptr)
 }
 
 
+/*!
+ * @brief バッファにアーティファクト出力情報ヘッダを収める /
+ * @return なし
+ */
 static void print_header(void)
 {
 	char buf[80];
@@ -1405,6 +1461,13 @@ static void print_header(void)
 #define LIST_SEP ';'
 #endif
 
+/*!
+ * @brief フラグ名称を出力する汎用関数
+ * @param header ヘッダに出力するフラグ群の名前
+ * @param list フラグ名リスト
+ * @param separator フラグ表示の区切り記号
+ * @return なし
+ */
 static void spoiler_outlist(cptr header, cptr *list, char separator)
 {
 	int line_len, buf_len;
@@ -1496,9 +1559,12 @@ static void spoiler_outlist(cptr header, cptr *list, char separator)
 	fprintf(fff, "%s\n", line);
 }
 
-
-/* Create a spoiler file entry for an artifact */
-
+/*!
+ * @brief アーティファクト一件をスポイラー出力する /
+ * Create a spoiler file entry for an artifact
+ * @param art_ptr アーティファクト情報をまとめた構造体の参照ポインタ
+ * @return なし
+ */
 static void spoiler_print_art(obj_desc_list *art_ptr)
 {
 	pval_info_type *pval_ptr = &art_ptr->pval_info;
@@ -1512,22 +1578,18 @@ static void spoiler_print_art(obj_desc_list *art_ptr)
 	if (pval_ptr->pval_desc[0])
 	{
 		/* Mention the effects of pval */
-#ifdef JP
-		sprintf(buf, "%s�ν���:", pval_ptr->pval_desc);
-#else
-		sprintf(buf, "%s to", pval_ptr->pval_desc);
-#endif
+		sprintf(buf, _("%sの修正:", "%s to"), pval_ptr->pval_desc);
 		spoiler_outlist(buf, pval_ptr->pval_affects, ITEM_SEP);
 	}
 
 	/* Now deal with the description lists */
 
 #ifdef JP
-	spoiler_outlist("��:", art_ptr->slays, ITEM_SEP);
-	spoiler_outlist("���°��:", art_ptr->brands, LIST_SEP);
-	spoiler_outlist("�ȱ�:", art_ptr->immunities, ITEM_SEP);
-	spoiler_outlist("����:", art_ptr->resistances, ITEM_SEP);
-	spoiler_outlist("�ݻ�:", art_ptr->sustains, ITEM_SEP);
+	spoiler_outlist("対:", art_ptr->slays, ITEM_SEP);
+	spoiler_outlist("武器属性:", art_ptr->brands, LIST_SEP);
+	spoiler_outlist("免疫:", art_ptr->immunities, ITEM_SEP);
+	spoiler_outlist("耐性:", art_ptr->resistances, ITEM_SEP);
+	spoiler_outlist("維持:", art_ptr->sustains, ITEM_SEP);
 #else
 	spoiler_outlist("Slay", art_ptr->slays, ITEM_SEP);
 	spoiler_outlist("", art_ptr->brands, LIST_SEP);
@@ -1539,21 +1601,13 @@ static void spoiler_print_art(obj_desc_list *art_ptr)
 
 	if (art_ptr->addition[0])
 	{
-#ifdef JP
-		fprintf(fff, "%s�ɲ�: %s\n", INDENT1, art_ptr->addition);
-#else
-		fprintf(fff, "%sAdditional %s\n", INDENT1, art_ptr->addition);
-#endif
+		fprintf(fff, _("%s追加: %s\n", "%sAdditional %s\n"), INDENT1, art_ptr->addition);
 	}
 
 	/* Write out the possible activation at the primary indention level */
 	if (art_ptr->activation)
 	{
-#ifdef JP
-		fprintf(fff, "%sȯư: %s\n", INDENT1, art_ptr->activation);
-#else
-		fprintf(fff, "%sActivates for %s\n", INDENT1, art_ptr->activation);
-#endif
+		fprintf(fff, _("%s発動: %s\n", "%sActivates for %s\n"), INDENT1, art_ptr->activation);
 	}
 
 	/* End with the miscellaneous facts */
@@ -1561,8 +1615,12 @@ static void spoiler_print_art(obj_desc_list *art_ptr)
 }
 
 
-/*
+/*!
+ * @brief アーティファクト情報を出力するためにダミー生成を行う /
  * Hack -- Create a "forged" artifact
+ * @param o_ptr 一時生成先を保管するオブジェクト構造体
+ * @param name1 生成するアーティファクトID
+ * @return 生成が成功した場合TRUEを返す
  */
 static bool make_fake_artifact(object_type *o_ptr, int name1)
 {
@@ -1601,8 +1659,11 @@ static bool make_fake_artifact(object_type *o_ptr, int name1)
 }
 
 
-/*
+/*!
+ * @brief アーティファクト情報のスポイラー出力を行うメインルーチン /
  * Create a spoiler file for artifacts
+ * @param fname 生成ファイル名
+ * @return なし
  */
 static void spoil_artifact(cptr fname)
 {
@@ -1683,11 +1744,11 @@ static void spoil_artifact(cptr fname)
 }
 
 
-
-
-
-/*
+/*!
+ * @brief モンスター簡易情報のスポイラー出力を行うメインルーチン /
  * Create a spoiler file for monsters   -BEN-
+ * @param fname 生成ファイル名
+ * @return なし
  */
 static void spoil_mon_desc(cptr fname)
 {
@@ -1774,11 +1835,7 @@ static void spoil_mon_desc(cptr fname)
 		}
 		else
 		{
-#ifdef JP
-			sprintf(nam, "    %s", name);
-#else
-			sprintf(nam, "The %s", name);
-#endif
+			sprintf(nam, _("    %s", "The %s"), name);
 		}
 
 
@@ -1852,9 +1909,12 @@ static void spoil_mon_desc(cptr fname)
 
 
 
-/*
+/*!
+ * @brief 文字列をファイルポインタに出力する /
  * Buffer text to the given file. (-SHAWN-)
  * This is basically c_roff() from mon-desc.c with a few changes.
+ * @param str 文字列参照ポインタ
+ * @return なし
  */
 static void spoil_out(cptr str)
 {
@@ -2001,10 +2061,10 @@ static void spoil_out(cptr str)
 			else
 			{
 				if (iskanji_flag &&
-				    strncmp(str, "��", 2) != 0 &&
-				    strncmp(str, "��", 2) != 0 &&
-				    strncmp(str, "��", 2) != 0 &&
-				    strncmp(str, "��", 2) != 0) roff_s = roff_p;
+				    strncmp(str, "。", 2) != 0 &&
+				    strncmp(str, "、", 2) != 0 &&
+				    strncmp(str, "ィ", 2) != 0 &&
+				    strncmp(str, "ー", 2) != 0) roff_s = roff_p;
 			}
 #else
 			if (ch == ' ') roff_s = roff_p;
@@ -2017,8 +2077,12 @@ static void spoil_out(cptr str)
 
 
 
-/*
- *  Hook function used in spoil_mon_info()
+/*!
+ * @brief 関数ポインタ用の出力関数 /
+ * Hook function used in spoil_mon_info()
+ * @param attr 未使用
+ * @param str 文字列参照ポインタ
+ * @return なし
  */
 static void roff_func(byte attr, cptr str)
 {
@@ -2029,8 +2093,11 @@ static void roff_func(byte attr, cptr str)
 }
 
 
-/*
+/*!
+ * @brief モンスター詳細情報をスポイラー出力するメインルーチン /
  * Create a spoiler file for monsters (-SHAWN-)
+ * @param fname ファイル名
+ * @return なし
  */
 static void spoil_mon_info(cptr fname)
 {
@@ -2115,11 +2182,7 @@ static void spoil_mon_info(cptr fname)
 		}
 
 		/* Name */
-#ifdef JP
-		sprintf(buf, "%s/%s  (", (r_name + r_ptr->name),(r_name+r_ptr->E_name));  /* ---)--- */
-#else
-		sprintf(buf, "%s  (", (r_name + r_ptr->name));  /* ---)--- */
-#endif
+		sprintf(buf, _("%s/%s  (", "%s  ("), (r_name + r_ptr->name), _(r_name+r_ptr->E_name, ""));  /* ---)--- */
 
 		spoil_out(buf);
 
@@ -2201,8 +2264,13 @@ static void spoil_mon_info(cptr fname)
 #define MAX_EVOL_DEPTH 64
 
 
-/*
+/*!
+ * @brief int配列でstrncmp()と似た比較処理を行う / 
  * Compare two int-type array like strncmp() and return TRUE if equals
+ * @param a 比較するint配列1
+ * @param b 比較するint配列2
+ * @param length 
+ * @return 両者の値が等しければTRUEを返す
  */
 static bool int_n_cmp(int *a, int *b, int length)
 {
@@ -2220,8 +2288,12 @@ static bool int_n_cmp(int *a, int *b, int length)
 }
 
 
-/*
+/*!
+ * @brief ある木が指定された木の部分木かどうかを返す / 
  * Returns TRUE if an evolution tree is "partial tree"
+ * @param tree 元となる木構造リスト
+ * @param partial_tree 部分木かどうか判定したい木構造リスト
+ * @return 部分木ならばTRUEを返す
  */
 static bool is_partial_tree(int *tree, int *partial_tree)
 {
@@ -2242,8 +2314,14 @@ static bool is_partial_tree(int *tree, int *partial_tree)
 }
 
 
-/*
+/*!
+ * @brief 進化ツリーをソートするためモンスター種族の判定関数 / 
  * Sorting hook -- Comp function
+ * @param u 進化木構造データ
+ * @param v 未使用
+ * @param a 比較したいモンスター種族ID1
+ * @param b 比較したいモンスター種族ID2
+ * @return 2が大きければTRUEを返す
  */
 static bool ang_sort_comp_evol_tree(vptr u, vptr v, int a, int b)
 {
@@ -2273,9 +2351,14 @@ static bool ang_sort_comp_evol_tree(vptr u, vptr v, int a, int b)
 	return w1 <= w2;
 }
 
-
-/*
+/*!
+ * @brief 進化ツリーをソートするため木構造のスワップ関数 / 
  * Sorting hook -- Swap function
+ * @param u 進化木構造データ
+ * @param v 未使用
+ * @param a スワップしたい木構造1
+ * @param b スワップしたい木構造2
+ * @return 2が大きければTRUEを返す
  */
 static void ang_sort_swap_evol_tree(vptr u, vptr v, int a, int b)
 {
@@ -2291,9 +2374,11 @@ static void ang_sort_swap_evol_tree(vptr u, vptr v, int a, int b)
 	evol_tree[b] = holder;
 }
 
-
-/*
+/*!
+ * @brief 進化ツリーをスポイラー出力するメインルーチン / 
  * Print monsters' evolution information to file
+ * @param fname 出力ファイル名
+ * @return なし
  */
 static void spoil_mon_evol(cptr fname)
 {
@@ -2394,7 +2479,7 @@ static void spoil_mon_evol(cptr fname)
 		/* Trace the evolution tree */
 		r_ptr = &r_info[r_idx];
 #ifdef JP
-		fprintf(fff, "[%d]: %s (��٥�%d, '%c')\n", r_idx,
+		fprintf(fff, "[%d]: %s (レベル%d, '%c')\n", r_idx,
 			r_name + r_ptr->name, r_ptr->level, r_ptr->d_char);
 #else
 		fprintf(fff, "[%d]: %s (Level %d, '%c')\n", r_idx,
@@ -2402,11 +2487,11 @@ static void spoil_mon_evol(cptr fname)
 #endif
 		for (n = 1; r_ptr->next_exp; n++)
 		{
-			fprintf(fff, "%*s-(%ld)-> ", n * 2, "", r_ptr->next_exp);
+			fprintf(fff, "%*s-(%ld)-> ", n * 2, "", (long int)r_ptr->next_exp);
 			fprintf(fff, "[%d]: ", r_ptr->next_r_idx);
 			r_ptr = &r_info[r_ptr->next_r_idx];
 #ifdef JP
-			fprintf(fff, "%s (��٥�%d, '%c')\n",
+			fprintf(fff, "%s (レベル%d, '%c')\n",
 				r_name + r_ptr->name, r_ptr->level, r_ptr->d_char);
 #else
 			fprintf(fff, "%s (Level %d, '%c')\n",
@@ -2440,8 +2525,10 @@ static void spoil_mon_evol(cptr fname)
  */
 extern void do_cmd_spoilers(void);
 
-/*
+/*!
+ * @brief スポイラー出力を行うコマンドのメインルーチン / 
  * Create Spoiler files -BEN-
+ * @return なし
  */
 void do_cmd_spoilers(void)
 {
@@ -2465,11 +2552,7 @@ void do_cmd_spoilers(void)
 		prt("(5) Monster Evolution Info (mon-evol.spo)", 9, 5);
 
 		/* Prompt */
-#ifdef JP
-		prt("���ޥ��:", 18, 0);
-#else
-		prt("Command: ", 12, 0);
-#endif
+		prt(_("コマンド:", "Command: "), _(18, 12), 0);
 
 		/* Get a choice */
 		switch (inkey())
@@ -2516,8 +2599,12 @@ void do_cmd_spoilers(void)
 	}
 }
 
-/*
+/*!
+ * @brief ランダムアーティファクト１件を解析する / 
  * Fill in an object description structure for a given object
+ * @param o_ptr ランダムアーティファクトのオブジェクト構造体参照ポインタ
+ * @param desc_ptr 記述内容を収める構造体参照ポインタ
+ * @return なし
  */
 static void random_artifact_analyze(object_type *o_ptr, obj_desc_list *desc_ptr)
 {
@@ -2531,7 +2618,7 @@ static void random_artifact_analyze(object_type *o_ptr, obj_desc_list *desc_ptr)
 	analyze_misc_magic(o_ptr, desc_ptr->misc_magic);
 	desc_ptr->activation = item_activation(o_ptr);
 #ifdef JP
-	sprintf(desc_ptr->misc_desc, "�Ť� %d.%d kg",
+	sprintf(desc_ptr->misc_desc, "重さ %d.%d kg",
 		lbtokg1(o_ptr->weight), lbtokg2(o_ptr->weight));
 #else
 	sprintf(desc_ptr->misc_desc, "Weight %d.%d lbs",
@@ -2539,8 +2626,14 @@ static void random_artifact_analyze(object_type *o_ptr, obj_desc_list *desc_ptr)
 #endif
 }
 
-/* Create a spoiler file entry for an artifact */
-
+/*!
+ * @brief ランダムアーティファクト１件をスポイラー出力する / 
+ * Create a spoiler file entry for an artifact
+ * @param o_ptr ランダムアーティファクトのオブジェクト構造体参照ポインタ
+ * @param art_ptr 記述内容を収めた構造体参照ポインタ
+ * Fill in an object description structure for a given object
+ * @return なし
+ */
 static void spoiler_print_randart(object_type *o_ptr, obj_desc_list *art_ptr)
 {
 	pval_info_type *pval_ptr = &art_ptr->pval_info;
@@ -2553,33 +2646,25 @@ static void spoiler_print_randart(object_type *o_ptr, obj_desc_list *art_ptr)
 	/* unidentified */
 	if (!(o_ptr->ident & (IDENT_MENTAL)))
 	{
-#ifdef JP
-		fprintf(fff, "%s����\n",INDENT1);
-#else
-		fprintf(fff, "%sUnknown\n",INDENT1);
-#endif
+		fprintf(fff, _("%s不明\n", "%sUnknown\n"),INDENT1);
 	}
 	else {
 		/* An "empty" pval description indicates that the pval affects nothing */
 		if (pval_ptr->pval_desc[0])
 		{
 			/* Mention the effects of pval */
-#ifdef JP
-			sprintf(buf, "%s�ν���:", pval_ptr->pval_desc);
-#else
-			sprintf(buf, "%s to", pval_ptr->pval_desc);
-#endif
+			sprintf(buf, _("%sの修正:", "%s to"), pval_ptr->pval_desc);
 			spoiler_outlist(buf, pval_ptr->pval_affects, ITEM_SEP);
 		}
 
 		/* Now deal with the description lists */
 
 #ifdef JP
-		spoiler_outlist("��:", art_ptr->slays, ITEM_SEP);
-		spoiler_outlist("���°��:", art_ptr->brands, LIST_SEP);
-		spoiler_outlist("�ȱ�:", art_ptr->immunities, ITEM_SEP);
-		spoiler_outlist("����:", art_ptr->resistances, ITEM_SEP);
-		spoiler_outlist("�ݻ�:", art_ptr->sustains, ITEM_SEP);
+		spoiler_outlist("対:", art_ptr->slays, ITEM_SEP);
+		spoiler_outlist("武器属性:", art_ptr->brands, LIST_SEP);
+		spoiler_outlist("免疫:", art_ptr->immunities, ITEM_SEP);
+		spoiler_outlist("耐性:", art_ptr->resistances, ITEM_SEP);
+		spoiler_outlist("維持:", art_ptr->sustains, ITEM_SEP);
 #else
 		spoiler_outlist("Slay", art_ptr->slays, ITEM_SEP);
 		spoiler_outlist("", art_ptr->brands, LIST_SEP);
@@ -2592,19 +2677,20 @@ static void spoiler_print_randart(object_type *o_ptr, obj_desc_list *art_ptr)
 		/* Write out the possible activation at the primary indention level */
 		if (art_ptr->activation)
 		{
-#ifdef JP
-			fprintf(fff, "%sȯư: %s\n", INDENT1, art_ptr->activation);
-#else
-			fprintf(fff, "%sActivates for %s\n", INDENT1, art_ptr->activation);
-#endif
+			fprintf(fff, _("%s発動: %s\n", "%sActivates for %s\n"), INDENT1, art_ptr->activation);
 		}
 	}
 	/* End with the miscellaneous facts */
 	fprintf(fff, "%s%s\n\n", INDENT1, art_ptr->misc_desc);
 }
 
-/* Create a part of file for random artifacts */
 
+/*!
+ * @brief ランダムアーティファクト内容をスポイラー出力するサブルーチン / 
+ * @param o_ptr ランダムアーティファクトのオブジェクト構造体参照ポインタ
+ * @param i 出力したい記録ランダムアーティファクトID
+ * @return なし
+ */
 static void spoil_random_artifact_aux(object_type *o_ptr, int i)
 {
 	obj_desc_list artifact;
@@ -2620,8 +2706,11 @@ static void spoil_random_artifact_aux(object_type *o_ptr, int i)
 	spoiler_print_randart(o_ptr, &artifact);
 }
 
-/*
+/*!
+ * @brief ランダムアーティファクト内容をスポイラー出力するメインルーチン / 
  * Create a list file for random artifacts
+ * @param fname 出力ファイル名
+ * @return なし
  */
 void spoil_random_artifact(cptr fname)
 {

@@ -1,4 +1,4 @@
-/* File: variable.c */
+﻿/* File: variable.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -16,7 +16,7 @@
 /*
  * Hack -- Link a copyright message into the executable
  */
-cptr copyright[5] =
+const cptr copyright[5] =
 {
 	"Copyright (c) 1989 James E. Wilson, Robert A. Keoneke",
 	"",
@@ -33,7 +33,7 @@ cptr macro_modifier_name[MAX_MACRO_MOD];
 cptr macro_trigger_name[MAX_MACRO_TRIG];
 cptr macro_trigger_keycode[2][MAX_MACRO_TRIG];
 
-/* ��٥륢�åפλ��˾徺�̤�ɽ������Τ˻Ȥ� */
+/* レベルアップの時に上昇量を表示するのに使う */
 int level_up = 0;
 
 /* 
@@ -71,6 +71,7 @@ u16b sf_saves;			/* Number of "saves" during this life */
 bool arg_fiddle;			/* Command arg -- Request fiddle mode */
 bool arg_wizard;			/* Command arg -- Request wizard mode */
 bool arg_sound;				/* Command arg -- Request special sounds */
+bool arg_music;				/* Command arg -- Request special musics */
 byte arg_graphics;			/* Command arg -- Request graphics mode */
 bool arg_monochrome;		/* Command arg -- Request monochrome mode */
 bool arg_force_original;	/* Command arg -- Request original keyset */
@@ -129,6 +130,7 @@ s32b old_turn;			/* Turn when level began */
 s32b old_battle;
 
 bool use_sound;			/* The "sound" mode is enabled */
+bool use_music;			/* The "music" mode is enabled */
 bool use_graphics;		/* The "graphics" mode is enabled */
 bool use_bigtile = FALSE;
 
@@ -306,6 +308,11 @@ bool preserve_mode;	/* Preserve artifacts (*) */
 bool autoroller;	/* Allow use of autoroller for stats (*) */
 bool autochara;	/* Autoroll for weight, height and social status */
 bool powerup_home;	/* Increase capacity of your home (*) */
+bool show_ammo_detail;	/* Show Description of ammo damage */
+bool show_ammo_no_crit;	/* Show No-crit damage of ammo */
+bool show_ammo_crit_ratio;	/* Show critical ratio of ammo */
+
+
 
 
 /*** Easy Object Auto-Destroyer ***/
@@ -337,6 +344,8 @@ bool record_danger;	/* Record hitpoint warning */
 bool record_arena;	/* Record arena victories */
 bool record_ident;	/* Record first identified items */
 bool record_named_pet;	/* Record informations of named pets */
+char record_o_name[MAX_NLEN];
+s32b record_turn;
 
 
 /* Cheating options */
@@ -543,7 +552,7 @@ term *angband_term[8];
 /*
  * Standard window names
  */
-char angband_term_name[8][16] =
+const char angband_term_name[8][16] =
 {
 	"Hengband",
 	"Term-1",
@@ -583,9 +592,9 @@ byte angband_color_table[256][4] =
 /*
  * Standard sound names
  */
-char angband_sound_name[SOUND_MAX][16] =
+const cptr angband_sound_name[SOUND_MAX] =
 {
-	"",
+	"dummy",
 	"hit",
 	"miss",
 	"flee",
@@ -651,6 +660,31 @@ char angband_sound_name[SOUND_MAX][16] =
 	"unused",
 	"explode",
 	"glass",
+};
+
+/*
+ * Standard music names
+ */
+const cptr angband_music_basic_name[MUSIC_BASIC_MAX] =
+{
+	"default",
+	"gameover",
+	"exit",
+	"town",
+	"field1",
+	"field2",
+	"field3",
+	"dun_low",
+	"dun_med",
+	"dun_high",
+	"feel1",
+	"feel2",
+	"winner",
+	"build",
+	"wild",
+	"quest",
+	"arena",
+	"battle",
 };
 
 
@@ -776,11 +810,11 @@ player_type *p_ptr = &p_body;
  * Pointer to the player tables
  * (sex, race, class, magic)
  */
-player_sex *sp_ptr;
-player_race *rp_ptr;
-player_class *cp_ptr;
-player_seikaku *ap_ptr;
-player_magic *mp_ptr;
+const player_sex *sp_ptr;
+const player_race *rp_ptr;
+const player_class *cp_ptr;
+const player_seikaku *ap_ptr;
+const player_magic *mp_ptr;
 
 
 /*
@@ -1006,50 +1040,6 @@ bool (*get_obj_num_hook)(int k_idx);
 bool monk_armour_aux;
 bool monk_notify_aux;
 
-#ifdef ALLOW_EASY_OPEN /* TNB */
-bool easy_open;
-#endif /* ALLOW_EASY_OPEN -- TNB */
-
-#ifdef ALLOW_EASY_DISARM /* TNB */
-bool easy_disarm;
-#endif /* ALLOW_EASY_DISARM -- TNB */
-
-#ifdef ALLOW_EASY_FLOOR /* TNB */
-bool easy_floor;
-#endif /* ALLOW_EASY_FLOOR -- TNB */
-
-bool use_command;
-bool center_player;
-bool center_running;
-
-/* Auto-destruction options */
-bool destroy_items;
-bool destroy_feeling;
-bool destroy_identify;
-bool leave_worth;
-bool leave_equip;
-bool leave_wanted;
-bool leave_corpse;
-bool leave_junk;
-bool leave_chest;
-bool leave_special;
-
-/* Nikki */
-bool record_fix_art;
-bool record_rand_art;
-bool record_destroy_uniq;
-bool record_fix_quest;
-bool record_rand_quest;
-bool record_maxdepth;
-bool record_stair;
-bool record_buy;
-bool record_sell;
-bool record_danger;
-bool record_arena;
-bool record_ident;
-bool record_named_pet;
-char record_o_name[MAX_NLEN];
-s32b record_turn;
 
 /*
  * Wilderness

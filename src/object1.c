@@ -1,14 +1,15 @@
-/* File: object1.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+ï»¿/*!
+ * @file object1.c
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å®Ÿè£… / Object code, part 1
+ * @date 2014/01/10
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ *\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen.\n
  */
-
-/* Purpose: Object code, part 1 */
 
 #include "angband.h"
 
@@ -17,19 +18,20 @@
 #undef verify
 #endif
 #endif
-/*
- * Reset the "visual" lists
- *
- * This involves resetting various things to their "default" state.
- *
- * If the "prefs" flag is TRUE, then we will also load the appropriate
- * "user pref file" based on the current setting of the "use_graphics"
- * flag.  This is useful for switching "graphics" on/off.
- *
- * The features, objects, and monsters, should all be encoded in the
- * relevant "font.pref" and/or "graf.prf" files.  XXX XXX XXX
- *
- * The "prefs" parameter is no longer meaningful.  XXX XXX XXX
+
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€åœ°å½¢ã®è¡¨ç¤ºã‚·ãƒ³ãƒœãƒ«ãªã©åˆæœŸåŒ–ã™ã‚‹ / Reset the "visual" lists
+ * @return ãªã—
+ * This involves resetting various things to their "default" state.\n
+ *\n
+ * If the "prefs" flag is TRUE, then we will also load the appropriate\n
+ * "user pref file" based on the current setting of the "use_graphics"\n
+ * flag.  This is useful for switching "graphics" on/off.\n
+ *\n
+ * The features, objects, and monsters, should all be encoded in the\n
+ * relevant "font.pref" and/or "graf.prf" files.  XXX XXX XXX\n
+ *\n
+ * The "prefs" parameter is no longer meaningful.  XXX XXX XXX\n
  */
 void reset_visuals(void)
 {
@@ -98,9 +100,12 @@ void reset_visuals(void)
 	}
 }
 
-
-/*
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ãƒ©ã‚°é¡ã‚’é…åˆ—ã«ä¸ãˆã‚‹
  * Obtain the "flags" for an item
+ * @param o_ptr ãƒ•ãƒ©ã‚°å–å¾—å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“ãƒã‚¤ãƒ³ã‚¿
+ * @param flgs ãƒ•ãƒ©ã‚°æƒ…å ±ã‚’å—ã‘å–ã‚‹é…åˆ—
+ * @return ãªã—
  */
 void object_flags(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 {
@@ -204,10 +209,12 @@ void object_flags(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 	}
 }
 
-
-
-/*
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ˜ç¤ºã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ©ã‚°é¡ã‚’å–å¾—ã™ã‚‹
  * Obtain the "flags" for an item which are known to the player
+ * @param o_ptr ãƒ•ãƒ©ã‚°å–å¾—å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“ãƒã‚¤ãƒ³ã‚¿
+ * @param flgs ãƒ•ãƒ©ã‚°æƒ…å ±ã‚’å—ã‘å–ã‚‹é…åˆ—
+ * @return ãªã—
  */
 void object_flags_known(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 {
@@ -329,10 +336,140 @@ void object_flags_known(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 	}
 }
 
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç™ºå‹•åŠ¹æœåç§°ã‚’è¿”ã™ï¼ˆã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³/ãƒ–ãƒ¬ã‚¹ï¼‰
+ * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return cptr ç™ºå‹•åç§°ã‚’è¿”ã™æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ */
+static cptr item_activation_dragon_breath(object_type *o_ptr)
+{
+	static char desc[256];
+	u32b flgs[TR_FLAG_SIZE]; /* for resistance flags */
+	int i, n = 0;
 
-/*
- * Determine the "Activation" (if any) for an artifact
- * Return a string, or NULL for "no activation"
+	object_flags(o_ptr, flgs);
+	strcpy(desc, _("", "breath "));
+
+	for (i = 0; dragonbreath_info[i].flag != 0; i++)
+	{
+		if (have_flag(flgs, dragonbreath_info[i].flag))
+		{
+			if (n > 0) strcat(desc, _("ã€", ", "));
+			strcat(desc, dragonbreath_info[i].name);
+			n++;
+		}
+	}
+
+	strcat(desc, _("ã®ãƒ–ãƒ¬ã‚¹(250)", ""));
+
+	return (desc);
+}
+
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç™ºå‹•åŠ¹æœåç§°ã‚’è¿”ã™ï¼ˆã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³/æ±ç”¨ï¼‰
+ * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return cptr ç™ºå‹•åç§°ã‚’è¿”ã™æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ */
+static cptr item_activation_aux(object_type *o_ptr)
+{
+	static char activation_detail[256];
+	cptr desc;
+	char timeout[32];
+	int constant, dice;
+	const activation_type* const act_ptr = find_activation_info(o_ptr);
+
+	if (!act_ptr) return _("æœªå®šç¾©", "something undefined");
+
+	desc = act_ptr->desc;
+
+	/* Overwrite description if it is special */
+	switch (act_ptr->index) {
+	case ACT_BR_FIRE:
+		if ((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_FLAMES))
+			desc = _("ç«ç‚ã®ãƒ–ãƒ¬ã‚¹ (200) ã¨ç«ã¸ã®è€æ€§", "breath of fire (200) and resist fire");
+		break;
+	case ACT_BR_COLD:
+		if ((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ICE))
+			desc = _("å†·æ°—ã®ãƒ–ãƒ¬ã‚¹ (200) ã¨å†·æ°—ã¸ã®è€æ€§", "breath of cold (200) and resist cold");
+		break;
+	case ACT_BR_DRAGON:
+		desc = item_activation_dragon_breath(o_ptr);
+		break;
+	case ACT_AGGRAVATE:
+		if (o_ptr->name1 == ART_HYOUSIGI)
+			desc = _("æ‹å­æœ¨ã‚’æ‰“ã¡ãªã‚‰ã™", "beat wooden clappers");
+		break;
+	case ACT_RESIST_ACID:
+		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ACID)) || (o_ptr->name2 == EGO_BRAND_ACID))
+			desc = _("ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨é…¸ã¸ã®è€æ€§", "ball of acid (100) and resist acid");
+		break;
+	case ACT_RESIST_FIRE:
+		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_FLAMES)) || (o_ptr->name2 == EGO_BRAND_FIRE))
+			desc = _("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨ç«ã¸ã®è€æ€§", "ball of fire (100) and resist fire");
+		break;
+	case ACT_RESIST_COLD:
+		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ICE)) || (o_ptr->name2 == EGO_BRAND_COLD))
+			desc = _("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨å†·æ°—ã¸ã®è€æ€§", "ball of cold (100) and resist cold");
+		break;
+	case ACT_RESIST_ELEC:
+		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ELEC)) || (o_ptr->name2 == EGO_BRAND_ELEC))
+			desc = _("ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨é›»æ’ƒã¸ã®è€æ€§", "ball of elec (100) and resist elec");
+		break;
+	case ACT_RESIST_POIS:
+		if (o_ptr->name2 == EGO_BRAND_POIS)
+			desc = _("æ‚ªè‡­é›² (100) ã¨æ¯’ã¸ã®è€æ€§", "ball of poison (100) and resist elec");
+		break;
+	}
+
+	/* Timeout description */
+	constant = act_ptr->timeout.constant;
+	dice = act_ptr->timeout.dice;
+	if (constant == 0 && dice == 0) {
+		/* We can activate it every turn */
+		strcpy(timeout, _("ã„ã¤ã§ã‚‚", "every turn"));
+	} else if (constant < 0) {
+		/* Activations that have special timeout */
+		switch (act_ptr->index) {
+		case ACT_BR_FIRE:
+			sprintf(timeout, _("%d ã‚¿ãƒ¼ãƒ³æ¯", "every %d turns"),
+				((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_FLAMES)) ? 200 : 250);
+			break;
+		case ACT_BR_COLD:
+			sprintf(timeout, _("%d ã‚¿ãƒ¼ãƒ³æ¯", "every %d turns"),
+				((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ICE)) ? 200 : 250);
+			break;
+		case ACT_TERROR:
+			strcpy(timeout, _("3*(ãƒ¬ãƒ™ãƒ«+10) ã‚¿ãƒ¼ãƒ³æ¯", "every 3 * (level+10) turns"));
+			break;
+		case ACT_MURAMASA:
+			strcpy(timeout, _("ç¢ºç‡50%ã§å£Šã‚Œã‚‹", "(destroyed 50%)"));
+			break;
+		default:
+			strcpy(timeout, "undefined");
+			break;
+		}
+	} else {
+		/* Normal timeout activations */
+		char constant_str[16], dice_str[16];
+		sprintf(constant_str, "%d", constant);
+		sprintf(dice_str, "d%d", dice);
+		sprintf(timeout, _("%s%s%s ã‚¿ãƒ¼ãƒ³æ¯", "every %s%s%s turns"),
+			(constant > 0) ? constant_str : "",
+			(constant > 0 && dice > 0) ? "+" : "",
+			(dice > 0) ? dice_str : "");
+	}
+
+	/* Build detail activate description */
+	sprintf(activation_detail, _("%s : %s", "%s %s"), desc, timeout);
+
+	return activation_detail;
+}
+
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç™ºå‹•åŠ¹æœåç§°ã‚’è¿”ã™ï¼ˆãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ï¼‰ /
+ * Determine the "Activation" (if any) for an artifact Return a string, or NULL for "no activation"
+ * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return cptr ç™ºå‹•åç§°ã‚’è¿”ã™æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
  */
 cptr item_activation(object_type *o_ptr)
 {
@@ -342,2020 +479,36 @@ cptr item_activation(object_type *o_ptr)
 	object_flags(o_ptr, flgs);
 
 	/* Require activation ability */
-#ifdef JP
-if (!(have_flag(flgs, TR_ACTIVATE))) return ("¤Ê¤·");
-#else
-	if (!(have_flag(flgs, TR_ACTIVATE))) return ("nothing");
-#endif
+	if (!(have_flag(flgs, TR_ACTIVATE))) return (_("ãªã—", "nothing"));
 
-
-
-	/*
-	 * We need to deduce somehow that it is a random artifact -- one
-	 * problem: It could be a random artifact which has NOT YET received
-	 * a name. Thus we eliminate other possibilities instead of checking
-	 * for art_name
-	 */
-
-	if (!object_is_fixed_artifact(o_ptr) &&
-	    !object_is_ego(o_ptr) &&
-	    !(o_ptr->xtra1) &&
-	    (o_ptr->xtra2))
+	/* Get an explain of an activation */
+	if (activation_index(o_ptr))
 	{
-		switch (o_ptr->xtra2)
-		{
-			case ACT_SUNLIGHT:
-			{
-#ifdef JP
-return "ÂÀÍÛ¸÷Àş : 10 ¥¿¡¼¥óËè";
-#else
-				return "beam of sunlight every 10 turns";
-#endif
-
-			}
-			case ACT_BO_MISS_1:
-			{
-#ifdef JP
-return "¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë(2d6) : 2 ¥¿¡¼¥óËè";
-#else
-				return "magic missile (2d6) every 2 turns";
-#endif
-
-			}
-			case ACT_BA_POIS_1:
-			{
-#ifdef JP
-return "°­½­±À (12), È¾·Â 3 , 4+d4 ¥¿¡¼¥óËè";
-#else
-				return "stinking cloud (12), rad. 3, every 4+d4 turns";
-#endif
-
-			}
-			case ACT_BO_ELEC_1:
-			{
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¥ë¥È(4d8) : 5+d5 ¥¿¡¼¥óËè";
-#else
-				return "lightning bolt (4d8) every 5+d5 turns";
-#endif
-
-			}
-			case ACT_BO_ACID_1:
-			{
-#ifdef JP
-return "¥¢¥·¥Ã¥É¡¦¥Ü¥ë¥È(5d8) : 6+d6 ¥¿¡¼¥óËè";
-#else
-				return "acid bolt (5d8) every 6+d6 turns";
-#endif
-
-			}
-			case ACT_BO_COLD_1:
-			{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¥ë¥È(6d8) : 7+d7 ¥¿¡¼¥óËè";
-#else
-				return "frost bolt (6d8) every 7+d7 turns";
-#endif
-
-			}
-			case ACT_BO_FIRE_1:
-			{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È(9d8) : 8+d8 ¥¿¡¼¥óËè";
-#else
-				return "fire bolt (9d8) every 8+d8 turns";
-#endif
-
-			}
-			case ACT_BA_COLD_1:
-			{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (48) : 400 ¥¿¡¼¥óËè";
-#else
-				return "ball of cold (48) every 400 turns";
-#endif
-
-			}
-			case ACT_BA_FIRE_1:
-			{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë (72) : 400 ¥¿¡¼¥óËè";
-#else
-				return "ball of fire (72) every 400 turns";
-#endif
-
-			}
-			case ACT_DRAIN_1:
-			{
-#ifdef JP
-return "À¸Ì¿ÎÏµÛ¼ı (100) : 100+d100 ¥¿¡¼¥óËè";
-#else
-				return "drain life (100) every 100+d100 turns";
-#endif
-
-			}
-			case ACT_BA_COLD_2:
-			{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (100) : 300 ¥¿¡¼¥óËè";
-#else
-				return "ball of cold (100) every 300 turns";
-#endif
-
-			}
-			case ACT_BA_ELEC_2:
-			{
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë (100) : 500 ¥¿¡¼¥óËè";
-#else
-				return "ball of lightning (100) every 500 turns";
-#endif
-
-			}
-			case ACT_DRAIN_2:
-			{
-#ifdef JP
-return "À¸Ì¿ÎÏµÛ¼ı(120) : 400 ¥¿¡¼¥óËè";
-#else
-				return "drain life (120) every 400 turns";
-#endif
-
-			}
-			case ACT_VAMPIRE_1:
-			{
-#ifdef JP
-return "µÛ·ì¥É¥ì¥¤¥ó (3*50) : 400 ¥¿¡¼¥óËè";
-#else
-				return "vampiric drain (3*50) every 400 turns";
-#endif
-
-			}
-			case ACT_BO_MISS_2:
-			{
-#ifdef JP
-return "Ìğ (150) : 90+d90 ¥¿¡¼¥óËè";
-#else
-				return "arrows (150) every 90+d90 turns";
-#endif
-
-			}
-			case ACT_BA_FIRE_2:
-			{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë (120) : 225+d225 ¥¿¡¼¥óËè";
-#else
-				return "fire ball (120) every 225+d225 turns";
-#endif
-
-			}
-			case ACT_BA_COLD_3:
-			{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (200) : 325+d325 ¥¿¡¼¥óËè";
-#else
-				return "ball of cold (200) every 325+d325 turns";
-#endif
-
-			}
-			case ACT_BA_ELEC_3:
-			{
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë (250) : 425+d425 ¥¿¡¼¥óËè";
-#else
-				return "ball of lightning (250) every 425+d425 turns";
-#endif
-
-			}
-			case ACT_WHIRLWIND:
-			{
-#ifdef JP
-return "¥«¥Ş¥¤¥¿¥Á : 250 ¥¿¡¼¥óËè";
-#else
-				return "whirlwind attack every 250 turns";
-#endif
-
-			}
-			case ACT_VAMPIRE_2:
-			{
-#ifdef JP
-return "µÛ·ì¥É¥ì¥¤¥ó (3*100) : 400 ¥¿¡¼¥óËè";
-#else
-				return "vampiric drain (3*100) every 400 turns";
-#endif
-
-			}
-			case ACT_CALL_CHAOS:
-			{
-#ifdef JP
-return "º®ÆÙ¾¤Íè : 350 ¥¿¡¼¥óËè"; /*nuke me*/
-#else
-				return "call chaos every 350 turns";
-#endif
-
-			}
-			case ACT_ROCKET:
-			{
-#ifdef JP
-return "¥í¥±¥Ã¥È (120+level) : 400 ¥¿¡¼¥óËè";
-#else
-				return "launch rocket (120+level) every 400 turns";
-#endif
-
-			}
-			case ACT_DISP_EVIL:
-			{
-#ifdef JP
-return "¼Ù°­Âà»¶ (level*5) : 300+d300 ¥¿¡¼¥óËè";
-#else
-				return "dispel evil (level*5) every 300+d300 turns";
-#endif
-
-			}
-			case ACT_BA_MISS_3:
-			{
-#ifdef JP
-return "¥¨¥ì¥á¥ó¥È¤Î¥Ö¥ì¥¹ (300) : 500 ¥¿¡¼¥óËè";
-#else
-				return "elemental breath (300) every 500 turns";
-#endif
-
-			}
-			case ACT_DISP_GOOD:
-			{
-#ifdef JP
-return "Á±ÎÉÂà»¶ (level*5) : 300+d300 ¥¿¡¼¥óËè";
-#else
-				return "dispel good (level*5) every 300+d300 turns";
-#endif
-
-			}
-			case ACT_CONFUSE:
-			{
-#ifdef JP
-return "¥Ñ¥Ë¥Ã¥¯¡¦¥â¥ó¥¹¥¿¡¼ : 15 ¥¿¡¼¥óËè";
-#else
-				return "confuse monster every 15 turns";
-#endif
-
-			}
-			case ACT_SLEEP:
-			{
-#ifdef JP
-return "¼ş°Ï¤Î¥â¥ó¥¹¥¿¡¼¤òÌ²¤é¤»¤ë : 55 ¥¿¡¼¥óËè";
-#else
-				return "sleep nearby monsters every 55 turns";
-#endif
-
-			}
-			case ACT_QUAKE:
-			{
-#ifdef JP
-return "ÃÏ¿Ì (È¾·Â 10) : 50 ¥¿¡¼¥óËè";
-#else
-				return "earthquake (rad 10) every 50 turns";
-#endif
-
-			}
-			case ACT_TERROR:
-			{
-#ifdef JP
-return "¶²¹² : 3 * (level+10) ¥¿¡¼¥óËè";
-#else
-				return "terror every 3 * (level+10) turns";
-#endif
-
-			}
-			case ACT_TELE_AWAY:
-			{
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È¡¦¥¢¥¦¥§¥¤ : 150 ¥¿¡¼¥óËè";
-#else
-				return "teleport away every 200 turns";
-#endif
-
-			}
-			case ACT_BANISH_EVIL:
-			{
-#ifdef JP
-return "¼Ù°­¾ÃÌÇ : 250+d250 ¥¿¡¼¥óËè";
-#else
-				return "banish evil every 250+d250 turns";
-#endif
-
-			}
-			case ACT_GENOCIDE:
-			{
-#ifdef JP
-return "Ëõ»¦ : 500 ¥¿¡¼¥óËè";
-#else
-				return "genocide every 500 turns";
-#endif
-
-			}
-			case ACT_MASS_GENO:
-			{
-#ifdef JP
-return "¼şÊÕËõ»¦ : 1000 ¥¿¡¼¥óËè";
-#else
-				return "mass genocide every 1000 turns";
-#endif
-
-			}
-			case ACT_CHARM_ANIMAL:
-			{
-#ifdef JP
-return "Æ°ÊªÌ¥Î» : 300 ¥¿¡¼¥óËè";
-#else
-				return "charm animal every 300 turns";
-#endif
-
-			}
-			case ACT_CHARM_UNDEAD:
-			{
-#ifdef JP
-return "¥¢¥ó¥Ç¥Ã¥É½¾Â° : 333 ¥¿¡¼¥óËè";
-#else
-				return "enslave undead every 333 turns";
-#endif
-
-			}
-			case ACT_CHARM_OTHER:
-			{
-#ifdef JP
-return "¥â¥ó¥¹¥¿¡¼Ì¥Î» : 400 ¥¿¡¼¥óËè";
-#else
-				return "charm monster every 400 turns";
-#endif
-
-			}
-			case ACT_CHARM_ANIMALS:
-			{
-#ifdef JP
-return "Æ°ÊªÍ§ÏÂ : 500 ¥¿¡¼¥óËè";
-#else
-				return "animal friendship every 500 turns";
-#endif
-
-			}
-			case ACT_CHARM_OTHERS:
-			{
-#ifdef JP
-return "¼şÊÕÌ¥Î» : 750 ¥¿¡¼¥óËè";
-#else
-				return "mass charm every 750 turns";
-#endif
-
-			}
-			case ACT_SUMMON_ANIMAL:
-			{
-#ifdef JP
-return "Æ°Êª¾¤´­ : 200+d300 ¥¿¡¼¥óËè";
-#else
-				return "summon animal every 200+d300 turns";
-#endif
-
-			}
-			case ACT_SUMMON_PHANTOM:
-			{
-#ifdef JP
-return "¸¸Îî¾¤´­ : 200+d200 ¥¿¡¼¥óËè";
-#else
-				return "summon phantasmal servant every 200+d200 turns";
-#endif
-
-			}
-			case ACT_SUMMON_ELEMENTAL:
-			{
-#ifdef JP
-return "¥¨¥ì¥á¥ó¥¿¥ë¾¤´­ : 750 ¥¿¡¼¥óËè";
-#else
-				return "summon elemental every 750 turns";
-#endif
-
-			}
-			case ACT_SUMMON_DEMON:
-			{
-#ifdef JP
-return "°­Ëâ¾¤´­ : 666+d333 ¥¿¡¼¥óËè";
-#else
-				return "summon demon every 666+d333 turns";
-#endif
-
-			}
-			case ACT_SUMMON_UNDEAD:
-			{
-#ifdef JP
-return "¥¢¥ó¥Ç¥Ã¥É¾¤´­ : 666+d333 ¥¿¡¼¥óËè";
-#else
-				return "summon undead every 666+d333 turns";
-#endif
-
-			}
-			case ACT_CURE_LW:
-			{
-#ifdef JP
-return "¶²Éİ½üµî & 30 hp ²óÉü : 10 ¥¿¡¼¥óËè";
-#else
-				return "remove fear & heal 30 hp every 10 turns";
-#endif
-
-			}
-			case ACT_CURE_MW:
-			{
-#ifdef JP
-return "4d8 hp & ½ı²óÉü : 3+d3 ¥¿¡¼¥óËè";
-#else
-				return "heal 4d8 & wounds every 3+d3 turns";
-#endif
-
-			}
-			case ACT_CURE_POISON:
-			{
-#ifdef JP
-return "¶²Éİ½üµî/ÆÇ¾Ã¤· : 5 ¥¿¡¼¥óËè";
-#else
-				return "remove fear and cure poison every 5 turns";
-#endif
-
-			}
-			case ACT_REST_LIFE:
-			{
-#ifdef JP
-return "·Ğ¸³ÃÍÉü³è : 450 ¥¿¡¼¥óËè";
-#else
-				return "restore life levels every 450 turns";
-#endif
-
-			}
-			case ACT_REST_ALL:
-			{
-#ifdef JP
-return "Á´¥¹¥Æ¡¼¥¿¥¹¤È·Ğ¸³ÃÍÉü³è : 750 ¥¿¡¼¥óËè";
-#else
-				return "restore stats and life levels every 750 turns";
-#endif
-
-			}
-			case ACT_CURE_700:
-			{
-#ifdef JP
-return "700 hp ²óÉü : 250 ¥¿¡¼¥óËè";
-#else
-				return "heal 700 hit points every 250 turns";
-#endif
-
-			}
-			case ACT_CURE_1000:
-			{
-#ifdef JP
-return "1000 hp ²óÉü : 888 ¥¿¡¼¥óËè";
-#else
-				return "heal 1000 hit points every 888 turns";
-#endif
-
-			}
-			case ACT_ESP:
-			{
-#ifdef JP
-return "¥Æ¥ì¥Ñ¥·¡¼ (´ü´Ö 25+d30) : 200 ¥¿¡¼¥óËè";
-#else
-				return "telepathy (dur 25+d30) every 200 turns";
-#endif
-
-			}
-			case ACT_BERSERK:
-			{
-#ifdef JP
-return "»Îµ¤¹âÍÈ¤È½ËÊ¡ (´ü´Ö 50+d50) : 100+d100 ¥¿¡¼¥óËè";
-#else
-				return "heroism and blessed (dur 50+d50) every 100+d100 turns";
-#endif
-
-			}
-			case ACT_PROT_EVIL:
-			{
-#ifdef JP
-return "ÂĞ¼Ù°­·ë³¦ (´ü´Ö level*3 + d25) : 225+d225 ¥¿¡¼¥óËè";
-#else
-				return "protect evil (dur level*3 + d25) every 225+d225 turns";
-#endif
-
-			}
-			case ACT_RESIST_ALL:
-			{
-#ifdef JP
-return "Á´ÂÑÀ­ (´ü´Ö 40+d40) : 200 ¥¿¡¼¥óËè";
-#else
-				return "resist elements (dur 40+d40) every 200 turns";
-#endif
-
-			}
-			case ACT_SPEED:
-			{
-#ifdef JP
-return "²ÃÂ® (´ü´Ö 20+d20) : 250 ¥¿¡¼¥óËè";
-#else
-				return "speed (dur 20+d20) every 250 turns";
-#endif
-
-			}
-			case ACT_XTRA_SPEED:
-			{
-#ifdef JP
-return "²ÃÂ® (´ü´Ö 75+d75) : 200+d200 ¥¿¡¼¥óËè";
-#else
-				return "speed (dur 75+d75) every 200+d200 turns";
-#endif
-
-			}
-			case ACT_WRAITH:
-			{
-#ifdef JP
-return "Í©ÂÎ²½ (´ü´Ö level/2 + d(level/2)) : 1000 ¥¿¡¼¥óËè";
-#else
-				return "wraith form (dur level/2 + d(level/2)) every 1000 turns";
-#endif
-
-			}
-			case ACT_INVULN:
-			{
-#ifdef JP
-return "ÌµÅ¨²½ (´ü´Ö 8+d8) : 1000 ¥¿¡¼¥óËè";
-#else
-				return "invulnerability (dur 8+d8) every 1000 turns";
-#endif
-
-			}
-			case ACT_LIGHT:
-			{
-#ifdef JP
-return "¼şÊÕ¾ÈÌÀ (¥À¥á¡¼¥¸ 2d15) : 10+d10 ¥¿¡¼¥óËè";
-#else
-				return "light area (dam 2d15) every 10+d10 turns";
-#endif
-
-			}
-			case ACT_MAP_LIGHT:
-			{
-#ifdef JP
-return "¼şÊÕ¾ÈÌÀ (¥À¥á¡¼¥¸ 2d15) & ¼şÊÕ¥Ş¥Ã¥× : 50+d50 ¥¿¡¼¥óËè";
-#else
-				return "light (dam 2d15) & map area every 50+d50 turns";
-#endif
-
-			}
-			case ACT_DETECT_ALL:
-			{
-#ifdef JP
-return "Á´´¶ÃÎ : 55+d55 ¥¿¡¼¥óËè";
-#else
-				return "detection every 55+d55 turns";
-#endif
-
-			}
-			case ACT_DETECT_XTRA:
-			{
-#ifdef JP
-return "Á´´¶ÃÎ¡¢Ãµº÷¡¢*´ÕÄê* : 1000 ¥¿¡¼¥óËè";
-#else
-				return "detection, probing and identify true every 1000 turns";
-#endif
-
-			}
-			case ACT_ID_FULL:
-			{
-#ifdef JP
-return "*´ÕÄê* : 750 ¥¿¡¼¥óËè";
-#else
-				return "identify true every 750 turns";
-#endif
-
-			}
-			case ACT_ID_PLAIN:
-			{
-#ifdef JP
-return "´ÕÄê : 10 ¥¿¡¼¥óËè";
-#else
-				return "identify spell every 10 turns";
-#endif
-
-			}
-			case ACT_RUNE_EXPLO:
-			{
-#ifdef JP
-return "ÇúÈ¯¤Î¥ë¡¼¥ó : 200 ¥¿¡¼¥óËè";
-#else
-				return "explosive rune every 200 turns";
-#endif
-
-			}
-			case ACT_RUNE_PROT:
-			{
-#ifdef JP
-return "¼é¤ê¤Î¥ë¡¼¥ó : 400 ¥¿¡¼¥óËè";
-#else
-				return "rune of protection every 400 turns";
-#endif
-
-			}
-			case ACT_SATIATE:
-			{
-#ifdef JP
-return "¶õÊ¢½¼Â­ : 200 ¥¿¡¼¥óËè";
-#else
-				return "satisfy hunger every 200 turns";
-#endif
-
-			}
-			case ACT_DEST_DOOR:
-			{
-#ifdef JP
-return "¥É¥¢ÇË²õ : 10 ¥¿¡¼¥óËè";
-#else
-				return "destroy doors every 10 turns";
-#endif
-
-			}
-			case ACT_STONE_MUD:
-			{
-#ifdef JP
-return "´äÀĞÍÏ²ò : 5 ¥¿¡¼¥óËè";
-#else
-				return "stone to mud every 5 turns";
-#endif
-
-			}
-			case ACT_RECHARGE:
-			{
-#ifdef JP
-return "ËâÎÏ½¼Å¶ : 70 ¥¿¡¼¥óËè";
-#else
-				return "recharging every 70 turns";
-#endif
-
-			}
-			case ACT_ALCHEMY:
-			{
-#ifdef JP
-return "Ï£¶â½Ñ : 500 ¥¿¡¼¥óËè";
-#else
-				return "alchemy every 500 turns";
-#endif
-
-			}
-			case ACT_DIM_DOOR:
-			{
-#ifdef JP
-return "¼¡¸µ¤ÎÈâ : 100 ¥¿¡¼¥óËè";
-#else
-				return "dimension door every 100 turns";
-#endif
-
-			}
-			case ACT_TELEPORT:
-			{
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È (range 100) : 45 ¥¿¡¼¥óËè";
-#else
-				return "teleport (range 100) every 45 turns";
-#endif
-
-			}
-			case ACT_RECALL:
-			{
-#ifdef JP
-return "µ¢´Ô¤Î¾Û : 200 ¥¿¡¼¥óËè";
-#else
-				return "word of recall every 200 turns";
-#endif
-
-			}
-			default:
-			{
-#ifdef JP
-return "Ì¤ÄêµÁ";
-#else
-				return "something undefined";
-#endif
-
-			}
-		}
+		return item_activation_aux(o_ptr);
 	}
 
-	/* Some artifacts can be activated */
-	switch (o_ptr->name1)
-	{
-		case ART_NARTHANC:
-		{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È(9d8) : 8+d8 ¥¿¡¼¥óËè";
-#else
-			return "fire bolt (9d8) every 8+d8 turns";
-#endif
-
-		}
-		case ART_NIMTHANC:
-		{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¥ë¥È(6d8) : 7+d7 ¥¿¡¼¥óËè";
-#else
-			return "frost bolt (6d8) every 7+d7 turns";
-#endif
-
-		}
-		case ART_DETHANC:
-		{
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¥ë¥È(4d8) : 5+d5 ¥¿¡¼¥óËè";
-#else
-			return "lightning bolt (4d8) every 6+d6 turns";
-#endif
-
-		}
-		case ART_RILIA:
-		{
-#ifdef JP
-return "°­½­±À(12) : 4+d4 ¥¿¡¼¥óËè";
-#else
-			return "stinking cloud (12) every 4+d4 turns";
-#endif
-
-		}
-		case ART_FIONA:
-		{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë(48) : 5+d5 ¥¿¡¼¥óËè";
-#else
-			return "frost ball (48) every 5+d5 turns";
-#endif
-
-		}
-		case ART_FLORA:
-		{
-#ifdef JP
-return "¶²Éİ½üµî/ÆÇ¾Ã¤· : 5 ¥¿¡¼¥óËè";
-#else
-			return "remove fear and cure poison every 5 turns";
-#endif
-
-		}
-		case ART_RINGIL:
-		{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë(100) : 200 ¥¿¡¼¥óËè";
-#else
-			return "frost ball (100) every 200 turns";
-#endif
-
-		}
-		case ART_DAWN:
-		{
-#ifdef JP
-return "¶Ç¤Î»ÕÃÄ¾¤´­ : 500+d500 ¥¿¡¼¥óËè";
-#else
-			return "summon the Legion of the Dawn every 500+d500 turns";
-#endif
-
-		}
-		case ART_ANDURIL:
-		{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë(72) : 400 ¥¿¡¼¥óËè";
-#else
-			return "fire ball (72) every 400 turns";
-#endif
-
-		}
-		case ART_FIRESTAR:
-		{
-#ifdef JP
-return "µğÂç¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë(72) : 100 ¥¿¡¼¥óËè";
-#else
-			return "large fire ball (72) every 100 turns";
-#endif
-
-		}
-		case ART_GOTHMOG:
-		{
-#ifdef JP
-return "µğÂç¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë(120) : 15 ¥¿¡¼¥óËè";
-#else
-			return "large fire ball (120) every 15 turns";
-#endif
-
-		}
-		case ART_FEANOR:
-		{
-#ifdef JP
-return "¥¹¥Ô¡¼¥É(20+d20¥¿¡¼¥ó) : 200 ¥¿¡¼¥óËè";
-#else
-			return "haste self (20+d20 turns) every 200 turns";
-#endif
-
-		}
-		case ART_THEODEN:
-		{
-#ifdef JP
-return "À¸Ì¿ÎÏµÛ¼ı(120) : 400 ¥¿¡¼¥óËè";
-#else
-			return "drain life (120) every 400 turns";
-#endif
-
-		}
-		case ART_TURMIL:
-		{
-#ifdef JP
-return "À¸Ì¿ÎÏµÛ¼ı(90) : 70 ¥¿¡¼¥óËè";
-#else
-			return "drain life (90) every 70 turns";
-#endif
-
-		}
-		case ART_CASPANION:
-		{
-#ifdef JP
-return "¥É¥¢/¥È¥é¥Ã¥×Ê´ºÕ : 10 ¥¿¡¼¥óËè";
-#else
-			return "door and trap destruction every 10 turns";
-#endif
-
-		}
-		case ART_AVAVIR:
-		case ART_MAGATAMA:
-		case ART_HEAVENLY_MAIDEN:
-		{
-#ifdef JP
-return "µ¢´Ô¤Î¾Û : 200 ¥¿¡¼¥óËè";
-#else
-			return "word of recall every 200 turns";
-#endif
-
-		}
-		case ART_TARATOL:
-		{
-#ifdef JP
-return "¥¹¥Ô¡¼¥É(20+d20¥¿¡¼¥ó) : 100+d100 ¥¿¡¼¥óËè";
-#else
-			return "haste self (20+d20 turns) every 100+d100 turns";
-#endif
-
-		}
-		case ART_ERIRIL:
-		{
-#ifdef JP
-return "´ÕÄê : 10 ¥¿¡¼¥óËè";
-#else
-			return "identify every 10 turns";
-#endif
-
-		}
-		case ART_GANDALF:
-		{
-#ifdef JP
-return "Ä´ºº¡¢Á´´¶ÃÎ¡¢Á´´ÕÄê : 100 ¥¿¡¼¥óËè";
-#else
-			return "probing, detection and full id every 100 turns";
-#endif
-
-		}
-		case ART_EONWE:
-		{
-#ifdef JP
-return "¼şÊÕËõ»¦ : 1000 ¥¿¡¼¥óËè";
-#else
-			return "mass genocide every 1000 turns";
-#endif
-
-		}
-		case ART_LOTHARANG:
-		{
-#ifdef JP
-return "½ı¤Î¼£Ìş(4d8) : 3+d3 ¥¿¡¼¥óËè";
-#else
-			return "cure wounds (4d8) every 3+d3 turns";
-#endif
-
-		}
-		case ART_BRAND:
-		case ART_HELLFIRE:
-		{
-#ifdef JP
-return "¿ÏÀè¤Î¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È : 999 ¥¿¡¼¥óËè";
-#else
-			return "fire branding of bolts every 999 turns";
-#endif
-
-		}
-		case ART_CRIMSON:
-		{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡ª : 15 ¥¿¡¼¥óËè";
-#else
-			return "fire! every 15 turns";
-#endif
-
-		}
-		case ART_KUSANAGI:
-		case ART_WEREWINDLE:
-		{
-#ifdef JP
-return "Æ¨Áö : 35 ¥¿¡¼¥óËè";
-#else
-			return "a getaway every 35 turns";
-#endif
-
-		}
-		case ART_KAMUI:
-		{
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È : 25 ¥¿¡¼¥óËè";
-#else
-			return "a teleport every 25 turns";
-#endif
-
-		}
-		case ART_RUNESPEAR:
-		{
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë (100) : 200 ¥¿¡¼¥óËè";
-#else
-			return "lightning ball (100) every 200 turns";
-#endif
-
-		}
-		case ART_AEGLOS:
-		{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (100) : 200 ¥¿¡¼¥óËè";
-#else
-			return "frost ball (100) every 200 turns";
-#endif
-
-		}
-		case ART_DESTINY:
-		{
-#ifdef JP
-return "´äÀĞÍÏ²ò : 5 ¥¿¡¼¥óËè";
-#else
-			return "stone to mud every 5 turns";
-#endif
-
-		}
-		case ART_NAIN:
-		{
-#ifdef JP
-return "´äÀĞÍÏ²ò : 2 ¥¿¡¼¥óËè";
-#else
-			return "stone to mud every 2 turns";
-#endif
-
-		}
-		case ART_SOULKEEPER:
-		{
-#ifdef JP
-return "ÂÎÎÏ²óÉü(1000) : 888 ¥¿¡¼¥óËè";
-#else
-			return "heal (1000) every 888 turns";
-#endif
-
-		}
-		case ART_LOHENGRIN:
-		{
-#ifdef JP
-return ("²óÉü (777)¡¢Ìş¤·¡¢»Îµ¤¹âÍÈ : 300 ¥¿¡¼¥óËè");
-#else
-			return ("heal (777), curing and heroism every 300 turns");
-#endif
-
-		}
-		case ART_JULIAN:
-		{
-#ifdef JP
-return "Ëõ»¦ : 500 ¥¿¡¼¥óËè";
-#else
-			return "genocide every 500 turns";
-#endif
-
-		}
-		case ART_LUTHIEN:
-		{
-#ifdef JP
-return "·Ğ¸³ÃÍÉü³è : 450 ¥¿¡¼¥óËè";
-#else
-			return "restore life levels every 450 turns";
-#endif
-
-		}
-		case ART_ULMO:
-		{
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È¡¦¥¢¥¦¥§¥¤ : 150 ¥¿¡¼¥óËè";
-#else
-			return "teleport away every 150 turns";
-#endif
-
-		}
-		case ART_COLLUIN:
-		case ART_SEIRYU:
-		{
-#ifdef JP
-return "Á´ÂÑÀ­(20+d20¥¿¡¼¥ó) : 111 ¥¿¡¼¥óËè";
-#else
-			return "resistance (20+d20 turns) every 111 turns";
-#endif
-
-		}
-		case ART_HOLCOLLETH:
-		{
-#ifdef JP
-return "¥¹¥ê¡¼¥×(II) : 55 ¥¿¡¼¥óËè";
-#else
-			return "sleep II every 55 turns";
-#endif
-
-		}
-		case ART_THINGOL:
-		{
-#ifdef JP
-return "ËâÎÏ½¼Å¶ : 70 ¥¿¡¼¥óËè";
-#else
-			return "recharge item I every 70 turns";
-#endif
-
-		}
-		case ART_COLANNON:
-		{
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È : 45 ¥¿¡¼¥óËè";
-#else
-			return "teleport every 45 turns";
-#endif
-
-		}
-		case ART_TOTILA:
-		{
-#ifdef JP
-return "¥Ñ¥Ë¥Ã¥¯¡¦¥â¥ó¥¹¥¿¡¼ : 15 ¥¿¡¼¥óËè";
-#else
-			return "confuse monster every 15 turns";
-#endif
-
-		}
-		case ART_CAMMITHRIM:
-		{
-#ifdef JP
-return "¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë(2d6) : 2 ¥¿¡¼¥óËè";
-#else
-			return "magic missile (2d6) every 2 turns";
-#endif
-
-		}
-		case ART_PAURHACH:
-		{
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È(9d8) : 8+d8 ¥¿¡¼¥óËè";
-#else
-			return "fire bolt (9d8) every 8+d8 turns";
-#endif
-
-		}
-		case ART_PAURNIMMEN:
-		{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¥ë¥È(6d8) : 7+d7 ¥¿¡¼¥óËè";
-#else
-			return "frost bolt (6d8) every 7+d7 turns";
-#endif
-
-		}
-		case ART_PAURAEGEN:
-		{
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¥ë¥È(4d8) : 5+d5 ¥¿¡¼¥óËè";
-#else
-			return "lightning bolt (4d8) every 5+d5 turns";
-#endif
-
-		}
-		case ART_PAURNEN:
-		{
-#ifdef JP
-return "¥¢¥·¥Ã¥É¡¦¥Ü¥ë¥È(5d8) : 6+d6 ¥¿¡¼¥óËè";
-#else
-			return "acid bolt (5d8) every 6+d6 turns";
-#endif
-
-		}
-		case ART_FINGOLFIN:
-		{
-#ifdef JP
-return "ËâË¡¤ÎÌğ(150) : 90+d90 ¥¿¡¼¥óËè";
-#else
-			return "a magical arrow (150) every 90+d90 turns";
-#endif
-
-		}
-		case ART_HOLHENNETH:
-		{
-#ifdef JP
-return "Á´´¶ÃÎ : 55+d55 ¥¿¡¼¥óËè";
-#else
-			return "detection every 55+d55 turns";
-#endif
-
-		}
-		case ART_AMBER:
-		{
-#ifdef JP
-return "ÂÎÎÏ²óÉü(700) : 250 ¥¿¡¼¥óËè";
-#else
-			return "heal (700) every 250 turns";
-#endif
-
-		}
-		case ART_RAZORBACK:
-		{
-#ifdef JP
-return "¥¹¥¿¡¼¡¦¥Ü¡¼¥ë(150) : 1000 ¥¿¡¼¥óËè";
-#else
-			return "star ball (150) every 1000 turns";
-#endif
-
-		}
-		case ART_BLADETURNER:
-		{
-#ifdef JP
-return "¥¨¥ì¥á¥ó¥È¤Î¥Ö¥ì¥¹ (300), »Îµ¤¹âÍÈ¡¢½ËÊ¡¡¢ÂÑÀ­";
-#else
-			return "breathe elements (300), hero, bless, and resistance";
-#endif
-
-		}
-		case ART_GALADRIEL:
-		{
-#ifdef JP
-return "¥¤¥ë¥ß¥Í¡¼¥·¥ç¥ó : 10+d10 ¥¿¡¼¥óËè";
-#else
-			return "illumination every 10+d10 turns";
-#endif
-
-		}
-		case ART_ELENDIL:
-		{
-#ifdef JP
-return "ËâË¡¤ÎÃÏ¿Ş¤È¸÷ : 50+d50 ¥¿¡¼¥óËè";
-#else
-			return "magic mapping and light every 50+d50 turns";
-#endif
-
-		}
-		case ART_JUDGE:
-		{
-#ifdef JP
-return "ÂÎÎÏ¤È°ú¤­ÂØ¤¨¤ËÀéÎ¤´ã¤Èµ¢´Ô : 20+d20 ¥¿¡¼¥óËè";
-#else
-			return "clairvoyance and recall, draining you every 20+d20 turns";
-#endif
-
-		}
-		case ART_INGWE:
-		case ART_YATA:
-		{
-#ifdef JP
-return "¼Ù°­Âà»¶(x5) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "dispel evil (x5) every 200+d200 turns";
-#endif
-
-		}
-		case ART_FUNDIN:
-		{
-#ifdef JP
-return "¼Ù°­Âà»¶(x5) : 100+d100 ¥¿¡¼¥óËè";
-#else
-			return "dispel evil (x5) every 100+d100 turns";
-#endif
-
-		}
-		case ART_CARLAMMAS:
-		case ART_HERMIT:
-		{
-#ifdef JP
-return "ÂĞ¼Ù°­·ë³¦ : 225+d225 ¥¿¡¼¥óËè";
-#else
-			return "protection from evil every 225+d225 turns";
-#endif
-
-		}
-		case ART_FRAKIR:
-		{
-#ifdef JP
-return "ÃâÂ©¹¶·â(100) : 100+d100 ¥¿¡¼¥óËè";
-#else
-			return "a strangling attack (100) every 100+d100 turns";
-#endif
-
-		}
-		case ART_TULKAS:
-		{
-#ifdef JP
-return "¥¹¥Ô¡¼¥É(75+d75¥¿¡¼¥ó) : 100+d100 ¥¿¡¼¥óËè";
-#else
-			return "haste self (75+d75 turns) every 150+d150 turns";
-#endif
-
-		}
-		case ART_NARYA:
-		{
-#ifdef JP
-return "µğÂç¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë(300) : 225+d225 ¥¿¡¼¥óËè";
-#else
-			return "large fire ball (300) every 225+d225 turns";
-#endif
-
-		}
-		case ART_NENYA:
-		{
-#ifdef JP
-return "µğÂç¥¢¥¤¥¹¡¦¥Ü¡¼¥ë(400) : 325+d325 ¥¿¡¼¥óËè";
-#else
-			return "large frost ball (400) every 325+d325 turns";
-#endif
-
-		}
-		case ART_VILYA:
-		case ART_GOURYU:
-		{
-#ifdef JP
-return "µğÂç¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë(500) : 425+d425 ¥¿¡¼¥óËè";
-#else
-			return "large lightning ball (500) every 425+d425 turns";
-#endif
-
-		}
-		case ART_POWER:
-		case ART_AHO:
-		{
-#ifdef JP
-return "¿®¤¸Æñ¤¤¤³¤È : 450+d450 ¥¿¡¼¥óËè";
-#else
-			return "bizarre things every 450+d450 turns";
-#endif
-
-		}
-		case ART_DOR: case ART_TERROR: case ART_STONEMASK:
-		{
-#ifdef JP
-			return "Á´Êı¸ş¤Ø¤Î¶²Éİ¤Î¸÷Àş : 3*(¥ì¥Ù¥ë+10) ¥¿¡¼¥óËè";
-#else
-			return "rays of fear in every direction every 3*(level+10) turns";
-#endif
-
-		}
-		case ART_PALANTIR:
-		{
-#ifdef JP
-return "¤³¤Î³¬¤Ë¤¤¤ë¥æ¥Ë¡¼¥¯¥â¥ó¥¹¥¿¡¼¤òÉ½¼¨ : 200¥¿¡¼¥óËè";
-#else
-			return "list of the uniques on the level every 200 turns";
-#endif
-		}
-		case ART_STONE_LORE:
-		{
-#ifdef JP
-return "´í¸±¤òÈ¼¤¦´ÕÄê : ¤¤¤Ä¤Ç¤â";
-#else
-			return "perilous identify every turn";
-#endif
-		}
-		case ART_FARAMIR:
-		{
-#ifdef JP
-return "³²Ãî¤Î¶î½ü : 55+d55¥¿¡¼¥óËè";
-#else
-			return "dispel small life every 55+d55 turns";
-#endif
-		}
-		case ART_BOROMIR:
-		{
-#ifdef JP
-return "¥â¥ó¥¹¥¿¡¼¶²¹² : 40+d40¥¿¡¼¥óËè";
-#else
-			return "frighten monsters every 40+d40 turns";
-#endif
-		}
-		case ART_HIMRING:
-		{
-#ifdef JP
-return "ÂĞ¼Ù°­·ë³¦ : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "protection from evil every 200 + d200 turns";
-#endif
-		}
-		case ART_ICANUS:
-		{
-#ifdef JP
-return "ËâÎÏ¤ÎÌğ(120) : 120+d120 ¥¿¡¼¥óËè";
-#else
-			return "a mana bolt (120) every 120+d120 turns";
-#endif
-		}
-		case ART_HURIN:
-		{
-#ifdef JP
-return "»Îµ¤¹âÍÈ, ¥¹¥Ô¡¼¥É(50+d50¥¿¡¼¥ó) : 100+d200 ¥¿¡¼¥óËè";
-#else
-			return "hero and +10 to speed (50) every 100+200d turns";
-#endif
-		}
-		case ART_GIL_GALAD:
-		{
-#ifdef JP
-return "âÁ¤·¤¤¸÷ : 250 ¥¿¡¼¥óËè";
-#else
-			return "blinding light every 250 turns";
-#endif
-		}
-		case ART_YENDOR:
-		{
-#ifdef JP
-return "ËâÎÏ½¼Å¶ : 200 ¥¿¡¼¥óËè";
-#else
-			return "recharge item every 200 turns";
-#endif
-		}
-		case ART_MURAMASA:
-		{
-#ifdef JP
-return "ÏÓÎÏ¤Î¾å¾º : ³ÎÎ¨50%¤Ç²õ¤ì¤ë";
-#else
-			return "increase STR (destroyed 50%)";
-#endif
-		}
-		case ART_FLY_STONE:
-		{
-#ifdef JP
-return "ËâÎÏ¤ÎÍò(400) : 250+d250¥¿¡¼¥óËè";
-#else
-			return "a mana storm every 250+d250 turns";
-#endif
-		}
-		case ART_JONES:
-		{
-#ifdef JP
-return "ÊªÂÎ¤ò°ú¤­´ó¤»¤ë(½ÅÎÌ25kg¤Ş¤Ç) : 25+d25¥¿¡¼¥óËè";
-#else
-			return "a telekinesis (500 lb) every 25+d25 turns";
-#endif
-		}
-		case ART_ARRYU:
-		{
-#ifdef JP
-return "¥Ï¥¦¥ó¥É¾¤´­ : 300+d150¥¿¡¼¥óËè";
-#else
-			return "summon hound every 300+d150 turns";
-#endif
-		}
-		case ART_GAEBOLG:
-		{
-#ifdef JP
-return "µğÂç¥¹¥¿¡¼¡¦¥Ü¡¼¥ë(200) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "large star ball (200) every 200+d200 turns";
-#endif
-
-		}
-		case ART_INROU:
-		{
-#ifdef JP
-return "Îã¤Î¥¢¥ì : 150+d150 ¥¿¡¼¥óËè";
-#else
-			return "reveal your identity every 150+d150 turns";
-#endif
-
-		}
-		case ART_HYOUSIGI:
-		{
-#ifdef JP
-return "Çï»ÒÌÚ¤òÂÇ¤Á¤Ê¤é¤¹ : ¤¤¤Ä¤Ç¤â";
-#else
-			return "beat wooden clappers every turn";
-#endif
-
-		}
-		case ART_MATOI:
-		case ART_AEGISFANG:
-		{
-#ifdef JP
-return "»Îµ¤¹âÍÈ : 30+d30¥¿¡¼¥óËè";
-#else
-			return "heroism every 30+d30 turns";
-#endif
-
-		}
-
-		case ART_EARENDIL:
-		{
-#ifdef JP
-return "Ìş¤· : 100¥¿¡¼¥óËè";
-#else
-			return "curing every 100 turns";
-#endif
-
-		}
-
-		case ART_BOLISHOI:
-		{
-#ifdef JP
-return "Æ°ÊªÌ¥Î» : 200¥¿¡¼¥óËè";
-#else
-			return "charm animal every 200 turns";
-#endif
-
-		}
-		case ART_ARUNRUTH:
-		{
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¥ë¥È(12d8) : 50 ¥¿¡¼¥óËè";
-#else
-			return "frost bolt (12d8) every 50 turns";
-#endif
-
-		}
-		case ART_BLOOD:
-		{
-#ifdef JP
-return "Â°À­ÊÑ¹¹ : 3333 ¥¿¡¼¥óËè";
-#else
-			return "change zokusei every 3333 turns";
-#endif
-
-		}
-		case ART_NUMAHOKO:
-		{
-#ifdef JP
-return "¥¦¥©¡¼¥¿¡¼¡¦¥Ü¡¼¥ë(200) : 250 ¥¿¡¼¥óËè";
-#else
-			return "water ball (200) every 250 turns";
-#endif
-
-		}
-		case ART_KESHO:
-		{
-#ifdef JP
-return "»Í¸ÔÆ§¤ß : 100+d100¥¿¡¼¥óËè";
-#else
-			return "shiko every 100+d100 turns";
-#endif
-
-		}
-		case ART_MOOK:
-		{
-#ifdef JP
-return "Îäµ¤¤ÎÂÑÀ­ : 40+d40¥¿¡¼¥óËè";
-#else
-			return "resist cold every 40+d40 turns";
-#endif
-
-		}
-		case ART_JIZO:
-		{
-#ifdef JP
-return "Âı¤ÎÂç·²¾¤´­ : 300+d150¥¿¡¼¥óËè";
-#else
-			return "summon octopus every 300+d150 turns";
-#endif
-		}
-		case ART_NIGHT:
-		case ART_HELL:
-		{
-#ifdef JP
-return "°Å¹õ¤ÎÍò(250) : 150+d150 ¥¿¡¼¥óËè";
-#else
-			return "darkness storm (250) every 150+d150 turns";
-#endif
-
-		}
-		case ART_SACRED_KNIGHTS:
-		{
-#ifdef JP
-return "*²ò¼ö*¤ÈÄ´ºº: ¤¤¤Ä¤Ç¤â";
-#else
-			return "dispel curse and probing every turn";
-#endif
-
-		}
-		case ART_CHARMED:
-		{
-#ifdef JP
-return "ËâÎÏÉü³è: 777 ¥¿¡¼¥óËè";
-#else
-			return "restore mana every 777 turns";
-#endif
-
-		}
-		case ART_AESCULAPIUS:
-		{
-#ifdef JP
-			return "Á´¥¹¥Æ¡¼¥¿¥¹¤È·Ğ¸³ÃÍÉü³è : 750 ¥¿¡¼¥óËè";
-#else
-			return "restore stats and life levels every 750 turns";
-#endif
-		}
-	}
-
-
-	if ((o_ptr->tval == TV_POLEARM) && (o_ptr->sval == SV_TSURIZAO))
-	{
-#ifdef JP
-return "Äà¤ê¤ò¤¹¤ë : ¤¤¤Ä¤Ç¤â";
-#else
-		return "fishing : every time";
-#endif
-
-	}
-
-	if (object_is_smith(o_ptr))
-	{
-		switch (o_ptr->xtra3 - 1)
-		{
-		case ESSENCE_TMP_RES_ACID:
-#ifdef JP
-			return "»À¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-			return "resist acid every 50+d50 turns";
-#endif
-
-		case ESSENCE_TMP_RES_ELEC:
-#ifdef JP
-			return "ÅÅ·â¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-			return "resist elec every 50+d50 turns";
-#endif
-
-		case ESSENCE_TMP_RES_FIRE:
-#ifdef JP
-			return "²Ğ¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-			return "resist fire every 50+d50 turns";
-#endif
-
-		case ESSENCE_TMP_RES_COLD:
-#ifdef JP
-			return "Îäµ¤¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-			return "resist cold every 50+d50 turns";
-#endif
-
-		case TR_IMPACT:
-#ifdef JP
-			return "ÃÏ¿Ì : 100+d100 ¥¿¡¼¥óËè";
-#else
-			return "earthquake every 100+d100 turns";
-#endif
-		}
-	}
-
-	if (o_ptr->name2 == EGO_TRUMP)
-	{
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È : 50+d50 ¥¿¡¼¥óËè";
-#else
-		return "teleport every 50+d50 turns";
-#endif
-
-	}
-
-	if (o_ptr->name2 == EGO_LITE_ILLUMINATION)
-	{
-#ifdef JP
-return "¥¤¥ë¥ß¥Í¡¼¥·¥ç¥ó : 10+d10 ¥¿¡¼¥óËè";
-#else
-			return "illumination every 10+d10 turns";
-#endif
-	}
-
-	else if (o_ptr->name2 == EGO_EARTHQUAKES)
-	{
-#ifdef JP
-return "ÃÏ¿Ì : 100+d100 ¥¿¡¼¥óËè";
-#else
-		return "earthquake every 100+d100 turns";
-#endif
-
-	}
-
-	else if (o_ptr->name2 == EGO_JUMP)
-	{
-#ifdef JP
-return "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È : 10+d10 ¥¿¡¼¥óËè";
-#else
-		return "blink every 10+d10 turns";
-#endif
-
-	}
-
-	if (o_ptr->tval == TV_RING)
-	{
-		if (object_is_ego(o_ptr))
-		{
-			switch (o_ptr->name2)
-			{
-			case EGO_RING_HERO:
-#ifdef JP
-return "»Îµ¤¹âÍÈ : 100+d100¥¿¡¼¥óËè";
-#else
-				return "heroism every 100+d100 turns";
-#endif
-			case EGO_RING_MAGIC_MIS:
-#ifdef JP
-return "¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë(2d6) : 2 ¥¿¡¼¥óËè";
-#else
-			return "magic missile (2d6) every 2 turns";
-#endif
-			case EGO_RING_FIRE_BOLT:
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È(9d8) : 8+d8 ¥¿¡¼¥óËè";
-#else
-			return "fire bolt (9d8) every 8+d8 turns";
-#endif
-			case EGO_RING_COLD_BOLT:
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¥ë¥È(6d8) : 7+d7 ¥¿¡¼¥óËè";
-#else
-				return "frost bolt (6d8) every 7+d7 turns";
-#endif
-			case EGO_RING_ELEC_BOLT:
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¥ë¥È(4d8) : 5+d5 ¥¿¡¼¥óËè";
-#else
-				return "lightning bolt (4d8) every 5+d5 turns";
-#endif
-			case EGO_RING_ACID_BOLT:
-#ifdef JP
-return "¥¢¥·¥Ã¥É¡¦¥Ü¥ë¥È(5d8) : 6+d6 ¥¿¡¼¥óËè";
-#else
-				return "acid bolt (5d8) every 6+d6 turns";
-#endif
-			case EGO_RING_MANA_BOLT:
-#ifdef JP
-return "ËâÎÏ¤ÎÌğ(120) : 120+d120 ¥¿¡¼¥óËè";
-#else
-			return "a mana bolt (120) every 120+d120 turns";
-#endif
-			case EGO_RING_FIRE_BALL:
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë (100) : 80+d80 ¥¿¡¼¥óËè";
-#else
-				return "fire ball (100) every 80+d80 turns";
-#endif
-			case EGO_RING_COLD_BALL:
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (100) : 80+d80 ¥¿¡¼¥óËè";
-#else
-				return "cold ball (100) every 80+d80 turns";
-#endif
-			case EGO_RING_ELEC_BALL:
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë (100) : 80+d80 ¥¿¡¼¥óËè";
-#else
-				return "elec ball (100) every 80+d80 turns";
-#endif
-			case EGO_RING_ACID_BALL:
-#ifdef JP
-return "¥¢¥·¥Ã¥É¡¦¥Ü¡¼¥ë (100) : 80+d80 ¥¿¡¼¥óËè";
-#else
-				return "acid ball (100) every 80+d80 turns";
-#endif
-			case EGO_RING_MANA_BALL:
-#ifdef JP
-return "ËâÎÏ¤ÎÍò (250) : 300 ¥¿¡¼¥óËè";
-#else
-				return "mana storm (250) every 300 turns";
-#endif
-			case EGO_RING_DRAGON_F:
-				if (o_ptr->sval == SV_RING_FLAMES)
-#ifdef JP
-return "²Ğ±ê¤Î¥Ö¥ì¥¹ (200) ¤È²Ğ¤Ø¤ÎÂÑÀ­ : 200 ¥¿¡¼¥óËè";
-#else
-					return "breath of fire (200) and resist fire every 200 turns";
-#endif
-				else
-#ifdef JP
-return "²Ğ±ê¤Î¥Ö¥ì¥¹ (200) : 250 ¥¿¡¼¥óËè";
-#else
-					return "fire breath (200) every 250 turns";
-#endif
-			case EGO_RING_DRAGON_C:
-				if (o_ptr->sval == SV_RING_ICE)
-#ifdef JP
-return "Îäµ¤¤Î¥Ö¥ì¥¹ (200) ¤ÈÎäµ¤¤Ø¤ÎÂÑÀ­ : 200 ¥¿¡¼¥óËè";
-#else
-					return "breath of cold (200) and resist cold every 200 turns";
-#endif
-				else
-#ifdef JP
-return "Îäµ¤¤Î¥Ö¥ì¥¹ (200) : 250 ¥¿¡¼¥óËè";
-#else
-					return "cold breath (200) every 250 turns";
-#endif
-			case EGO_RING_M_DETECT:
-#ifdef JP
-return "Á´¥â¥ó¥¹¥¿¡¼´¶ÃÎ : 150 ¥¿¡¼¥óËè";
-#else
-				return "detect all monsters every 150 turns";
-#endif
-			case EGO_RING_D_SPEED:
-#ifdef JP
-return "¥¹¥Ô¡¼¥É(15+d30¥¿¡¼¥ó) : 100 ¥¿¡¼¥óËè";
-#else
-				return "haste self (15+d30 turns) every 100 turns";
-#endif
-			case EGO_RING_BERSERKER:
-#ifdef JP
-return "¶¸Àï»Î²½(25+d25¥¿¡¼¥ó) : 75+d75 ¥¿¡¼¥óËè";
-#else
-				return "berserk (25+d25 turns) every 75+d75 turns";
-#endif
-			case EGO_RING_TELE_AWAY:
-#ifdef JP
-return "¥Æ¥ì¥İ¡¼¥È¡¦¥¢¥¦¥§¥¤ : 150 ¥¿¡¼¥óËè";
-#else
-			return "teleport away every 150 turns";
-#endif
-			case EGO_RING_TRUE:
-#ifdef JP
-return "»Îµ¤¹âÍÈ¡¢½ËÊ¡¡¢µæ¶Ë¤ÎÂÑÀ­ : 777 ¥¿¡¼¥óËè";
-#else
-			return "hero, bless, and ultimate resistance every 777 turns";
-#endif
-			}
-		}
-		switch (o_ptr->sval)
-		{
-			case SV_RING_FLAMES:
-#ifdef JP
-return "¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë (100) ¤È²Ğ¤Ø¤ÎÂÑÀ­ : 50+d50 ¥¿¡¼¥óËè";
-#else
-				return "ball of fire (100) and resist fire every 50+d50 turns";
-#endif
-
-			case SV_RING_ICE:
-#ifdef JP
-return "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (100) ¤ÈÎäµ¤¤Ø¤ÎÂÑÀ­ : 50+d50 ¥¿¡¼¥óËè";
-#else
-				return "ball of cold (100) and resist cold every 50+d50 turns";
-#endif
-
-			case SV_RING_ACID:
-#ifdef JP
-return "¥¢¥·¥Ã¥É¡¦¥Ü¡¼¥ë (100) ¤È»À¤Ø¤ÎÂÑÀ­ : 50+d50 ¥¿¡¼¥óËè";
-#else
-				return "ball of acid (100) and resist acid every 50+d50 turns";
-#endif
-
-			case SV_RING_ELEC:
-#ifdef JP
-return "¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë (100) ¤ÈÅÅ·â¤Ø¤ÎÂÑÀ­ : 50+d50 ¥¿¡¼¥óËè";
-#else
-				return "ball of elec (100) and resist elec every 50+d50 turns";
-#endif
-
-			default:
-				return NULL;
-		}
-	}
-
-	if (o_ptr->tval == TV_AMULET)
-	{
-		if (object_is_ego(o_ptr))
-		{
-			switch (o_ptr->name2)
-			{
-			case EGO_AMU_IDENT:
-#ifdef JP
-				return "´ÕÄê : 10 ¥¿¡¼¥óËè";
-#else
-				return "identify every 10 turns";
-#endif
-			case EGO_AMU_CHARM:
-#ifdef JP
-				return "¥â¥ó¥¹¥¿¡¼Ì¥Î» : 200 ¥¿¡¼¥óËè";
-#else
-				return "charm monster every 200 turns";
-#endif
-			case EGO_AMU_JUMP:
-#ifdef JP
-				return "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È : 10+d10 ¥¿¡¼¥óËè";
-#else
-				return "blink every 10+d10 turns";
-#endif
-			case EGO_AMU_TELEPORT:
-#ifdef JP
-				return "¥Æ¥ì¥İ¡¼¥È : 50+d50 ¥¿¡¼¥óËè";
-#else
-				return "teleport every 50+d50 turns";
-#endif
-			case EGO_AMU_D_DOOR:
-#ifdef JP
-				return "¼¡¸µ¤ÎÈâ : 200 ¥¿¡¼¥óËè";
-#else
-				return "dimension door every 200 turns";
-#endif
-			case EGO_AMU_RES_FIRE_:
-#ifdef JP
-				return "²Ğ±ê¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-				return "resist fire every 50+d50 turns";
-#endif
-			case EGO_AMU_RES_COLD_:
-#ifdef JP
-				return "Îäµ¤¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-				return "resist cold every 50+d50 turns";
-#endif
-			case EGO_AMU_RES_ELEC_:
-#ifdef JP
-				return "ÅÅ·â¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-				return "resist elec every 50+d50 turns";
-#endif
-			case EGO_AMU_RES_ACID_:
-#ifdef JP
-				return "»À¤Ø¤ÎÂÑÀ­ : 50+d50¥¿¡¼¥óËè";
-#else
-				return "resist acid every 50+d50 turns";
-#endif
-			case EGO_AMU_DETECTION:
-#ifdef JP
-				return "Á´´¶ÃÎ : 55+d55¥¿¡¼¥óËè";
-#else
-				return "detect all floor every 55+d55 turns";
-#endif
-			}
-		}
-	}
-
+	/* Special items */
 	if (o_ptr->tval == TV_WHISTLE)
 	{
-#ifdef JP
-return "¥Ú¥Ã¥È¸Æ¤Ó´ó¤» : 100+d100¥¿¡¼¥óËè";
-#else
-		return "call pet every 100+d100 turns";
-#endif
+		return _("ãƒšãƒƒãƒˆå‘¼ã³å¯„ã› : 100+d100ã‚¿ãƒ¼ãƒ³æ¯", "call pet every 100+d100 turns");
 	}
 
 	if (o_ptr->tval == TV_CAPTURE)
 	{
-#ifdef JP
-return "¥â¥ó¥¹¥¿¡¼¤òÊá¤¨¤ë¡¢Ëô¤Ï²òÊü¤¹¤ë¡£";
-#else
-		return "captures or releases a monster.";
-#endif
-	}
-
-	/* Require dragon scale mail */
-#ifdef JP
-if (o_ptr->tval != TV_DRAG_ARMOR) return ("´ñÌ¯¤Ê¸÷");
-#else
-	if (o_ptr->tval != TV_DRAG_ARMOR) return ("a strange glow");
-#endif
-
-
-	/* Branch on the sub-type */
-	switch (o_ptr->sval)
-	{
-		case SV_DRAGON_BLUE:
-		{
-#ifdef JP
-return "°ğºÊ¤Î¥Ö¥ì¥¹(100) : 150+d150 ¥¿¡¼¥óËè";
-#else
-			return "breathe lightning (100) every 150+d150 turns";
-#endif
-
-		}
-		case SV_DRAGON_WHITE:
-		{
-#ifdef JP
-return "Îäµ¤¤Î¥Ö¥ì¥¹(110) : 150+d150 ¥¿¡¼¥óËè";
-#else
-			return "breathe frost (110) every 150+d150 turns";
-#endif
-
-		}
-		case SV_DRAGON_BLACK:
-		{
-#ifdef JP
-return "»À¤Î¥Ö¥ì¥¹(130) : 150+d150 ¥¿¡¼¥óËè";
-#else
-			return "breathe acid (130) every 150+d150 turns";
-#endif
-
-		}
-		case SV_DRAGON_GREEN:
-		{
-#ifdef JP
-return "ÆÇ¤Î¥¬¥¹¤Î¥Ö¥ì¥¹(150) : 180+d180 ¥¿¡¼¥óËè";
-#else
-			return "breathe poison gas (150) every 180+d180 turns";
-#endif
-
-		}
-		case SV_DRAGON_RED:
-		{
-#ifdef JP
-return "²Ğ±ê¤Î¥Ö¥ì¥¹(200) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe fire (200) every 200+d200 turns";
-#endif
-
-		}
-		case SV_DRAGON_MULTIHUED:
-		{
-#ifdef JP
-return "Ëü¿§¤Î¥Ö¥ì¥¹(250) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe multi-hued (250) every 200+d200 turns";
-#endif
-
-		}
-		case SV_DRAGON_BRONZE:
-		{
-#ifdef JP
-return "º®Íğ¤Î¥Ö¥ì¥¹(120) : 180+d180 ¥¿¡¼¥óËè";
-#else
-			return "breathe confusion (120) every 180+d180 turns";
-#endif
-
-		}
-		case SV_DRAGON_GOLD:
-		{
-#ifdef JP
-return "¹ì²»¤Î¥Ö¥ì¥¹(130) : 180+d180 ¥¿¡¼¥óËè";
-#else
-			return "breathe sound (130) every 180+d180 turns";
-#endif
-
-		}
-		case SV_DRAGON_CHAOS:
-		{
-#ifdef JP
-return "¥«¥ª¥¹/Îô²½¤Î¥Ö¥ì¥¹(220) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe chaos/disenchant (220) every 200+d200 turns";
-#endif
-
-		}
-		case SV_DRAGON_LAW:
-		{
-#ifdef JP
-return "¹ì²»/ÇËÊÒ¤Î¥Ö¥ì¥¹(230) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe sound/shards (230) every 200+d200 turns";
-#endif
-
-		}
-		case SV_DRAGON_BALANCE:
-		{
-#ifdef JP
-return "¥Ğ¥é¥ó¥¹¤Î¥Ö¥ì¥¹ (250) 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe balance (250) every 200+d200 turns";
-#endif
-
-		}
-		case SV_DRAGON_SHINING:
-		{
-#ifdef JP
-return "Á®¸÷/°Å¹õ¤Î¥Ö¥ì¥¹(200) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe light/darkness (200) every 200+d200 turns";
-#endif
-
-		}
-		case SV_DRAGON_POWER:
-		{
-#ifdef JP
-return "¥¨¥ì¥á¥ó¥È¤Î¥Ö¥ì¥¹(300) : 200+d200 ¥¿¡¼¥óËè";
-#else
-			return "breathe the elements (300) every 200+d200 turns";
-#endif
-
-		}
+		return _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’æ•ãˆã‚‹ã€åˆã¯è§£æ”¾ã™ã‚‹ã€‚", "captures or releases a monster.");
 	}
 
 	/* Oops */
-#ifdef JP
-return "¶õµ¤¤ÎÂ©";
-#else
-	return "breathe air";
-#endif
-
+	return _("ä½•ã‚‚èµ·ããªã„", "Nothing");
 }
 
 
-/*
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®*é‘‘å®š*å†…å®¹ã‚’è©³è¿°ã—ã¦è¡¨ç¤ºã™ã‚‹ /
  * Describe a "fully identified" item
+ * @param o_ptr *é‘‘å®š*æƒ…å ±ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param mode è¡¨ç¤ºã‚ªãƒ—ã‚·ãƒ§ãƒ³
+ * @return ç‰¹ç­†ã™ã¹ãæƒ…å ±ãŒä¸€ã¤ã§ã‚‚ã‚ã£ãŸå ´åˆTRUEã€ä¸€ã¤ã‚‚ãªãè¡¨ç¤ºãŒã‚­ãƒ£ãƒ³ã‚»ãƒ«ã•ã‚ŒãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
  */
 bool screen_object(object_type *o_ptr, u32b mode)
 {
@@ -2367,6 +520,8 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	cptr            info[128];
 	char o_name[MAX_NLEN];
 	int wid, hgt;
+	int rad;
+	char desc[256];
 
 	int trivial_info = 0;
 
@@ -2391,112 +546,57 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	/* Mega-Hack -- describe activation */
 	if (have_flag(flgs, TR_ACTIVATE))
 	{
-#ifdef JP
-info[i++] = "»ÏÆ°¤·¤¿¤È¤­¤Î¸ú²Ì...";
-#else
-		info[i++] = "It can be activated for...";
-#endif
-
+		info[i++] = _("å§‹å‹•ã—ãŸã¨ãã®åŠ¹æœ...", "It can be activated for...");
 		info[i++] = item_activation(o_ptr);
-#ifdef JP
-info[i++] = "...¤¿¤À¤·ÁõÈ÷¤·¤Æ¤¤¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤¡£";
-#else
-		info[i++] = "...if it is being worn.";
-#endif
-
+		info[i++] = _("...ãŸã ã—è£…å‚™ã—ã¦ã„ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚", "...if it is being worn.");
 	}
 
 	/* Figurines, a hack */
 	if (o_ptr->tval == TV_FIGURINE)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅê¤²¤¿»ş¥Ú¥Ã¥È¤ËÊÑ²½¤¹¤ë¡£";
-#else
-		info[i++] = "It will transform into a pet when thrown.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æŠ•ã’ãŸæ™‚ãƒšãƒƒãƒˆã«å¤‰åŒ–ã™ã‚‹ã€‚", "It will transform into a pet when thrown.");
 	}
 
 	/* Figurines, a hack */
 	if (o_ptr->name1 == ART_STONEMASK)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤òÁõÈ÷¤·¤¿¼Ô¤ÏµÛ·ìµ´¤Ë¤Ê¤ë¡£";
-#else
-		info[i++] = "It makes you turn into a vampire permanently.";
-#endif
-
+		info[i++] = _("ãã‚Œã‚’è£…å‚™ã—ãŸè€…ã¯å¸è¡€é¬¼ã«ãªã‚‹ã€‚", "It makes you turn into a vampire permanently.");
 	}
 
 	if ((o_ptr->tval == TV_SWORD) && (o_ptr->sval == SV_DOKUBARI))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÁê¼ê¤ò°ì·â¤ÇÅİ¤¹¤³¤È¤¬¤¢¤ë¡£";
-#else
-		info[i++] = "It will attempt to kill a monster instantly.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç›¸æ‰‹ã‚’ä¸€æ’ƒã§å€’ã™ã“ã¨ãŒã‚ã‚‹ã€‚", "It will attempt to kill a monster instantly.");
 	}
 
 	if ((o_ptr->tval == TV_POLEARM) && (o_ptr->sval == SV_DEATH_SCYTHE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼«Ê¬¼«¿È¤Ë¹¶·â¤¬ÊÖ¤Ã¤Æ¤¯¤ë¤³¤È¤¬¤¢¤ë¡£";
-#else
-		info[i++] = "It causes you to strike yourself sometimes.";
-#endif
-
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌµÅ¨¤Î¥Ğ¥ê¥¢¤òÀÚ¤êÎö¤¯¡£";
-#else
-		info[i++] = "It always penetrates invulnerability barriers.";
-#endif
+		info[i++] = _("ãã‚Œã¯è‡ªåˆ†è‡ªèº«ã«æ”»æ’ƒãŒè¿”ã£ã¦ãã‚‹ã“ã¨ãŒã‚ã‚‹ã€‚", "It causes you to strike yourself sometimes.");
+		info[i++] = _("ãã‚Œã¯ç„¡æ•µã®ãƒãƒªã‚¢ã‚’åˆ‡ã‚Šè£‚ãã€‚", "It always penetrates invulnerability barriers.");
 	}
 
 	if (o_ptr->name2 == EGO_2WEAPON)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÆóÅáÎ®¤Ç¤ÎÌ¿ÃæÎ¨¤ò¸ş¾å¤µ¤»¤ë¡£";
-#else
-		info[i++] = "It affects your ability to hit when you are wielding two weapons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯äºŒåˆ€æµã§ã®å‘½ä¸­ç‡ã‚’å‘ä¸Šã•ã›ã‚‹ã€‚", "It affects your ability to hit when you are wielding two weapons.");
 	}
 
 	if (have_flag(flgs, TR_EASY_SPELL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËâË¡¤ÎÆñ°×ÅÙ¤ò²¼¤²¤ë¡£";
-#else
-		info[i++] = "It affects your ability to cast spells.";
-#endif
+		info[i++] = _("ãã‚Œã¯é­”æ³•ã®é›£æ˜“åº¦ã‚’ä¸‹ã’ã‚‹ã€‚", "It affects your ability to cast spells.");
 	}
 
 	if (o_ptr->name2 == EGO_AMU_FOOL)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËâË¡¤ÎÆñ°×ÅÙ¤ò¾å¤²¤ë¡£";
-#else
-		info[i++] = "It interferes with casting spells.";
-#endif
+		info[i++] = _("ãã‚Œã¯é­”æ³•ã®é›£æ˜“åº¦ã‚’ä¸Šã’ã‚‹ã€‚", "It interferes with casting spells.");
 	}
 
 	if (o_ptr->name2 == EGO_RING_THROW)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÊª¤ò¶¯¤¯Åê¤²¤ë¤³¤È¤ò²ÄÇ½¤Ë¤¹¤ë¡£";
-#else
-		info[i++] = "It provides great strength when you throw an item.";
-#endif
+		info[i++] = _("ãã‚Œã¯ç‰©ã‚’å¼·ãæŠ•ã’ã‚‹ã“ã¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚", "It provides great strength when you throw an item.");
 	}
 
 	if (o_ptr->name2 == EGO_AMU_NAIVETY)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËâË¡Äñ¹³ÎÏ¤ò²¼¤²¤ë¡£";
-#else
-		info[i++] = "It decreases your magic resistance.";
-#endif
+		info[i++] = _("ãã‚Œã¯é­”æ³•æŠµæŠ—åŠ›ã‚’ä¸‹ã’ã‚‹ã€‚", "It decreases your magic resistance.");
 	}
 
 	if (o_ptr->tval == TV_STATUE)
@@ -2504,1111 +604,491 @@ info[i++] = "¤½¤ì¤ÏËâË¡Äñ¹³ÎÏ¤ò²¼¤²¤ë¡£";
 		monster_race *r_ptr = &r_info[o_ptr->pval];
 
 		if (o_ptr->pval == MON_BULLGATES)
-#ifdef JP
-			info[i++] = "¤½¤ì¤ÏÉô²°¤Ë¾ş¤ë¤ÈÃÑ¤º¤«¤·¤¤¡£";
-#else
-			info[i++] = "It is shameful.";
-#endif
+			info[i++] = _("ãã‚Œã¯éƒ¨å±‹ã«é£¾ã‚‹ã¨æ¥ãšã‹ã—ã„ã€‚", "It is shameful.");
 		else if ( r_ptr->flags2 & (RF2_ELDRITCH_HORROR))
-#ifdef JP
-			info[i++] = "¤½¤ì¤ÏÉô²°¤Ë¾ş¤ë¤È¶²¤¤¡£";
-#else
-		info[i++] = "It is fearful.";
-#endif
+			info[i++] = _("ãã‚Œã¯éƒ¨å±‹ã«é£¾ã‚‹ã¨æã„ã€‚", "It is fearful.");
 		else
-#ifdef JP
-			info[i++] = "¤½¤ì¤ÏÉô²°¤Ë¾ş¤ë¤È³Ú¤·¤¤¡£";
-#else
-		info[i++] = "It is cheerful.";
-#endif
+			info[i++] = _("ãã‚Œã¯éƒ¨å±‹ã«é£¾ã‚‹ã¨æ¥½ã—ã„ã€‚", "It is cheerful.");
 	}
 	
 	/* Hack -- describe lite's */
-	if (o_ptr->tval == TV_LITE)
+	
+	if (o_ptr->name2 == EGO_LITE_DARKNESS) info[i++] = _("ãã‚Œã¯å…¨ãå…‰ã‚‰ãªã„ã€‚", "It provides no light.");
+	
+	rad = 0;
+	if (have_flag(flgs, TR_LITE_1) && o_ptr->name2 != EGO_LITE_DARKNESS)  rad += 1;
+	if (have_flag(flgs, TR_LITE_2) && o_ptr->name2 != EGO_LITE_DARKNESS)  rad += 2;
+	if (have_flag(flgs, TR_LITE_3) && o_ptr->name2 != EGO_LITE_DARKNESS)  rad += 3;
+	if (have_flag(flgs, TR_LITE_M1)) rad -= 1;
+	if (have_flag(flgs, TR_LITE_M2)) rad -= 2;
+	if (have_flag(flgs, TR_LITE_M3)) rad -= 3;
+	
+	if(o_ptr->name2 == EGO_LITE_SHINE) rad++;
+		
+	if (have_flag(flgs, TR_LITE_FUEL) && o_ptr->name2 != EGO_LITE_DARKNESS)
 	{
-		if (o_ptr->name2 == EGO_LITE_DARKNESS)
-		{
-#ifdef JP
-			info[i++] = "¤½¤ì¤ÏÁ´¤¯¸÷¤é¤Ê¤¤¡£";
-#else
-			info[i++] = "It provides no light.";
-#endif
-
-			if (o_ptr->sval == SV_LITE_FEANOR)
-			{
-#ifdef JP
-				info[i++] = "¤½¤ì¤ÏÌÀ¤«¤ê¤ÎÈ¾·Â¤ò¶¹¤á¤ë(È¾·Â¤Ë-3)¡£";
-#else
-				info[i++] = "It decreases radius of light source by 3.";
-#endif
-			}
-			else if (o_ptr->sval == SV_LITE_LANTERN)
-			{
-#ifdef JP
-				info[i++] = "¤½¤ì¤ÏÌÀ¤«¤ê¤ÎÈ¾·Â¤ò¶¹¤á¤ë(È¾·Â¤Ë-2)¡£";
-#else
-				info[i++] = "It decreases radius of light source by 2.";
-#endif
-			}
-			else
-			{
-#ifdef JP
-				info[i++] = "¤½¤ì¤ÏÌÀ¤«¤ê¤ÎÈ¾·Â¤ò¶¹¤á¤ë(È¾·Â¤Ë-1)¡£";
-#else
-				info[i++] = "It decreases radius of light source by 1.";
-#endif
-			}
-		}
-		else if (object_is_fixed_artifact(o_ptr))
-		{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±Ê±ó¤Ê¤ëÌÀ¤«¤ê(È¾·Â 3)¤ò¼ø¤±¤ë¡£";
-#else
-			info[i++] = "It provides light (radius 3) forever.";
-#endif
-
-		}
-		else if (o_ptr->name2 == EGO_LITE_SHINE)
-		{
-			if (o_ptr->sval == SV_LITE_FEANOR)
-			{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±Ê±ó¤Ê¤ëÌÀ¤«¤ê(È¾·Â 3)¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides light (radius 3) forever.";
-#endif
-
-			}
-			else if (o_ptr->sval == SV_LITE_LANTERN)
-			{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÇ³ÎÁÊäµë¤Ë¤è¤Ã¤ÆÌÀ¤«¤ê(È¾·Â 3)¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides light (radius 3) when fueled.";
-#endif
-
-			}
-			else
-			{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÇ³ÎÁÊäµë¤Ë¤è¤Ã¤ÆÌÀ¤«¤ê(È¾·Â 2)¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides light (radius 2) when fueled.";
-#endif
-
-			}
-		}
-		else
-		{
-			if (o_ptr->sval == SV_LITE_FEANOR)
-			{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±Ê±ó¤Ê¤ëÌÀ¤«¤ê(È¾·Â 2)¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides light (radius 2) forever.";
-#endif
-
-			}
-			else if (o_ptr->sval == SV_LITE_LANTERN)
-			{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÇ³ÎÁÊäµë¤Ë¤è¤Ã¤ÆÌÀ¤«¤ê(È¾·Â 2)¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides light (radius 2) when fueled.";
-#endif
-
-			}
-			else
-			{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÇ³ÎÁÊäµë¤Ë¤è¤Ã¤ÆÌÀ¤«¤ê(È¾·Â 1)¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides light (radius 1) when fueled.";
-#endif
-
-			}
-		}
-		if (o_ptr->name2 == EGO_LITE_LONG)
-		{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÄ¹¤¤¥¿¡¼¥óÌÀ¤«¤ê¤ò¼ø¤±¤ë¡£";
-#else
-			info[i++] = "It provides light for much longer time.";
-#endif
-		}
+		if(rad > 0) sprintf(desc, _("ãã‚Œã¯ç‡ƒæ–™è£œçµ¦ã«ã‚ˆã£ã¦æ˜ã‹ã‚Š(åŠå¾„ %d)ã‚’æˆã‘ã‚‹ã€‚", "It provides light (radius %d) when fueled."), rad);	
 	}
+	else
+	{
+		if(rad > 0) sprintf(desc, _("ãã‚Œã¯æ°¸é ãªã‚‹æ˜ã‹ã‚Š(åŠå¾„ %d)ã‚’æˆã‘ã‚‹ã€‚", "It provides light (radius %d) forever."), rad);	
+		if(rad < 0) sprintf(desc, _("ãã‚Œã¯æ˜ã‹ã‚Šã®åŠå¾„ã‚’ç‹­ã‚ã‚‹(åŠå¾„ã«-%d)ã€‚", "It decreases radius of light source by %d."), -rad);
+	}
+	
+	if(rad != 0) info[i++] = desc;
 
+	
+	if (o_ptr->name2 == EGO_LITE_LONG)
+	{
+		info[i++] = _("ãã‚Œã¯é•·ã„ã‚¿ãƒ¼ãƒ³æ˜ã‹ã‚Šã‚’æˆã‘ã‚‹ã€‚", "It provides light for much longer time.");
+	}
 
 	/* And then describe it fully */
 
 	if (have_flag(flgs, TR_RIDING))
 	{
 		if ((o_ptr->tval == TV_POLEARM) && ((o_ptr->sval == SV_LANCE) || (o_ptr->sval == SV_HEAVY_LANCE)))
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¾èÇÏÃæ¤ÏÈó¾ï¤Ë»È¤¤¤ä¤¹¤¤¡£";
-#else
-			info[i++] = "It is made for use while riding.";
-#endif
+			info[i++] = _("ãã‚Œã¯ä¹—é¦¬ä¸­ã¯éå¸¸ã«ä½¿ã„ã‚„ã™ã„ã€‚", "It is made for use while riding.");
 		else
 		{
-#ifdef JP
-			info[i++] = "¤½¤ì¤Ï¾èÇÏÃæ¤Ç¤â»È¤¤¤ä¤¹¤¤¡£";
-#else
-			info[i++] = "It is suitable for use while riding.";
-#endif
+			info[i++] = _("ãã‚Œã¯ä¹—é¦¬ä¸­ã§ã‚‚ä½¿ã„ã‚„ã™ã„ã€‚", "It is suitable for use while riding.");
 			/* This information is not important enough */
 			trivial_info++;
 		}
 	}
 	if (have_flag(flgs, TR_STR))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÏÓÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your strength.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è…•åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your strength.");
 	}
 	if (have_flag(flgs, TR_INT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÃÎÇ½¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your intelligence.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯çŸ¥èƒ½ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your intelligence.");
 	}
 	if (have_flag(flgs, TR_WIS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¸­¤µ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your wisdom.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è³¢ã•ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your wisdom.");
 	}
 	if (have_flag(flgs, TR_DEX))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï´ïÍÑ¤µ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your dexterity.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å™¨ç”¨ã•ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your dexterity.");
 	}
 	if (have_flag(flgs, TR_CON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÂÑµ×ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your constitution.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è€ä¹…åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your constitution.");
 	}
 	if (have_flag(flgs, TR_CHR))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌ¥ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your charisma.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é­…åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your charisma.");
 	}
 
 	if (have_flag(flgs, TR_MAGIC_MASTERY))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËâË¡Æ»¶ñ»ÈÍÑÇ½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your ability to use magic devices.";
-#endif
+		info[i++] = _("ãã‚Œã¯é­”æ³•é“å…·ä½¿ç”¨èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your ability to use magic devices.");
 
 	}
 	if (have_flag(flgs, TR_STEALTH))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±£Ì©¹ÔÆ°Ç½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your stealth.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯éš å¯†è¡Œå‹•èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your stealth.");
 	}
 	if (have_flag(flgs, TR_SEARCH))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÃµº÷Ç½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your searching.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ¢ç´¢èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your searching.");
 	}
 	if (have_flag(flgs, TR_INFRA))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÀÖ³°Àş»ëÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your infravision.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯èµ¤å¤–ç·šè¦–åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your infravision.");
 	}
 	if (have_flag(flgs, TR_TUNNEL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏºÎ·¡Ç½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your ability to tunnel.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ¡æ˜èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your ability to tunnel.");
 	}
 	if (have_flag(flgs, TR_SPEED))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥¹¥Ô¡¼¥É¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your speed.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚¹ãƒ”ãƒ¼ãƒ‰ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your speed.");
 	}
 	if (have_flag(flgs, TR_BLOWS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÂÇ·â²ó¿ô¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It affects your attack speed.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ‰“æ’ƒå›æ•°ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your attack speed.");
 	}
 
 	if (have_flag(flgs, TR_BRAND_ACID))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï»À¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£";
-#else
-		info[i++] = "It does extra damage from acid.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é…¸ã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from acid.");
 	}
 	if (have_flag(flgs, TR_BRAND_ELEC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅÅ·â¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£";
-#else
-		info[i++] = "It does extra damage from electricity.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é›»æ’ƒã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from electricity.");
 	}
 	if (have_flag(flgs, TR_BRAND_FIRE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï²Ğ±ê¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£";
-#else
-		info[i++] = "It does extra damage from fire.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç«ç‚ã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from fire.");
 	}
 	if (have_flag(flgs, TR_BRAND_COLD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÎäµ¤¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£";
-#else
-		info[i++] = "It does extra damage from frost.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å†·æ°—ã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from frost.");
 	}
 
 	if (have_flag(flgs, TR_BRAND_POIS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅ¨¤òÆÇ¤¹¤ë¡£";
-#else
-		info[i++] = "It poisons your foes.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ•µã‚’æ¯’ã™ã‚‹ã€‚", "It poisons your foes.");
 	}
 
 	if (have_flag(flgs, TR_CHAOTIC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥«¥ª¥¹Åª¤Ê¸ú²Ì¤òµÚ¤Ü¤¹¡£";
-#else
-		info[i++] = "It produces chaotic effects.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚«ã‚ªã‚¹çš„ãªåŠ¹æœã‚’åŠã¼ã™ã€‚", "It produces chaotic effects.");
 	}
 
 	if (have_flag(flgs, TR_VAMPIRIC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅ¨¤«¤é¥Ò¥Ã¥È¥İ¥¤¥ó¥È¤òµÛ¼ı¤¹¤ë¡£";
-#else
-		info[i++] = "It drains life from your foes.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ•µã‹ã‚‰ç”Ÿå‘½åŠ›ã‚’å¸åã™ã‚‹ã€‚", "It drains life from your foes.");
 	}
 
 	if (have_flag(flgs, TR_IMPACT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÃÏ¿Ì¤òµ¯¤³¤¹¤³¤È¤¬¤Ç¤­¤ë¡£";
-#else
-		info[i++] = "It can cause earthquakes.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯åœ°éœ‡ã‚’èµ·ã“ã™ã“ã¨ãŒã§ãã‚‹ã€‚", "It can cause earthquakes.");
 	}
 
 	if (have_flag(flgs, TR_VORPAL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÈó¾ï¤ËÀÚ¤ìÌ£¤¬±Ô¤¯Å¨¤òÀÚÃÇ¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£";
-#else
-		info[i++] = "It is very sharp and can cut your foes.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯éå¸¸ã«åˆ‡ã‚Œå‘³ãŒé‹­ãæ•µã‚’åˆ‡æ–­ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It is very sharp and can cut your foes.");
 	}
 
 	if (have_flag(flgs, TR_KILL_DRAGON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥É¥é¥´¥ó¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of dragons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of dragons.");
 	}
 	else if (have_flag(flgs, TR_SLAY_DRAGON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥É¥é¥´¥ó¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It is especially deadly against dragons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against dragons.");
 	}
 
 	if (have_flag(flgs, TR_KILL_ORC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥ª¡¼¥¯¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of orcs.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ªãƒ¼ã‚¯ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of orcs.");
 	}
 	if (have_flag(flgs, TR_SLAY_ORC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥ª¡¼¥¯¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It is especially deadly against orcs.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ªãƒ¼ã‚¯ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against orcs.");
 	}
 
 	if (have_flag(flgs, TR_KILL_TROLL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥È¥í¥ë¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of trolls.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒˆãƒ­ãƒ«ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of trolls.");
 	}
 	if (have_flag(flgs, TR_SLAY_TROLL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥È¥í¥ë¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It is especially deadly against trolls.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒˆãƒ­ãƒ«ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against trolls.");
 	}
 
 	if (have_flag(flgs, TR_KILL_GIANT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ïµğ¿Í¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of giants.";
-#endif
+		info[i++] = _("ãã‚Œã¯å·¨äººã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of giants.");
 	}
 	else if (have_flag(flgs, TR_SLAY_GIANT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥¸¥ã¥¤¥¢¥ó¥È¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It is especially deadly against giants.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚¸ãƒ£ã‚¤ã‚¢ãƒ³ãƒˆã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against giants.");
 	}
 
 	if (have_flag(flgs, TR_KILL_DEMON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥Ç¡¼¥â¥ó¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of demons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ‡ãƒ¼ãƒ¢ãƒ³ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of demons.");
 	}
 	if (have_flag(flgs, TR_SLAY_DEMON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥Ç¡¼¥â¥ó¤ËÂĞ¤·¤ÆÀ»¤Ê¤ëÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It strikes at demons with holy wrath.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ‡ãƒ¼ãƒ¢ãƒ³ã«å¯¾ã—ã¦è–ãªã‚‹åŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It strikes at demons with holy wrath.");
 	}
 
 	if (have_flag(flgs, TR_KILL_UNDEAD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥¢¥ó¥Ç¥Ã¥É¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of undead.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of undead.");
 	}
 	if (have_flag(flgs, TR_SLAY_UNDEAD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥¢¥ó¥Ç¥Ã¥É¤ËÂĞ¤·¤ÆÀ»¤Ê¤ëÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It strikes at undead with holy wrath.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã«å¯¾ã—ã¦è–ãªã‚‹åŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It strikes at undead with holy wrath.");
 	}
 
 	if (have_flag(flgs, TR_KILL_EVIL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼Ù°­¤Ê¤ëÂ¸ºß¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of evil monsters.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é‚ªæ‚ªãªã‚‹å­˜åœ¨ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of evil monsters.");
 	}
 	if (have_flag(flgs, TR_SLAY_EVIL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼Ù°­¤Ê¤ëÂ¸ºß¤ËÂĞ¤·¤ÆÀ»¤Ê¤ëÎÏ¤Ç¹¶·â¤¹¤ë¡£";
-#else
-		info[i++] = "It fights against evil with holy fury.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é‚ªæ‚ªãªã‚‹å­˜åœ¨ã«å¯¾ã—ã¦è–ãªã‚‹åŠ›ã§æ”»æ’ƒã™ã‚‹ã€‚", "It fights against evil with holy fury.");
 	}
 
 	if (have_flag(flgs, TR_KILL_ANIMAL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼«Á³³¦¤ÎÆ°Êª¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of natural creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è‡ªç„¶ç•Œã®å‹•ç‰©ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of natural creatures.");
 	}
 	if (have_flag(flgs, TR_SLAY_ANIMAL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼«Á³³¦¤ÎÆ°Êª¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It is especially deadly against natural creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è‡ªç„¶ç•Œã®å‹•ç‰©ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against natural creatures.");
 	}
 
 	if (have_flag(flgs, TR_KILL_HUMAN))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¿Í´Ö¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£";
-#else
-		info[i++] = "It is a great bane of humans.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯äººé–“ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of humans.");
 	}
 	if (have_flag(flgs, TR_SLAY_HUMAN))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¿Í´Ö¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£";
-#else
-		info[i++] = "It is especially deadly against humans.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯äººé–“ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against humans.");
 	}
 
 	if (have_flag(flgs, TR_FORCE_WEAPON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï»ÈÍÑ¼Ô¤ÎËâÎÏ¤ò»È¤Ã¤Æ¹¶·â¤¹¤ë¡£";
-#else
-		info[i++] = "It powerfully strikes at a monster using your mana.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ä½¿ç”¨è€…ã®é­”åŠ›ã‚’ä½¿ã£ã¦æ”»æ’ƒã™ã‚‹ã€‚", "It powerfully strikes at a monster using your mana.");
 	}
 	if (have_flag(flgs, TR_DEC_MANA))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËâÎÏ¤Î¾ÃÈñ¤ò²¡¤µ¤¨¤ë¡£";
-#else
-		info[i++] = "It decreases your mana consumption.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é­”åŠ›ã®æ¶ˆè²»ã‚’æŠ¼ã•ãˆã‚‹ã€‚", "It decreases your mana consumption.");
 	}
 	if (have_flag(flgs, TR_SUST_STR))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÏÓÎÏ¤ò°İ»ı¤¹¤ë¡£";
-#else
-		info[i++] = "It sustains your strength.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®è…•åŠ›ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your strength.");
 	}
 	if (have_flag(flgs, TR_SUST_INT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÃÎÇ½¤ò°İ»ı¤¹¤ë¡£";
-#else
-		info[i++] = "It sustains your intelligence.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®çŸ¥èƒ½ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your intelligence.");
 	}
 	if (have_flag(flgs, TR_SUST_WIS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤Î¸­¤µ¤ò°İ»ı¤¹¤ë¡£";
-#else
-		info[i++] = "It sustains your wisdom.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®è³¢ã•ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your wisdom.");
 	}
 	if (have_flag(flgs, TR_SUST_DEX))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤Î´ïÍÑ¤µ¤ò°İ»ı¤¹¤ë¡£";
-#else
-		info[i++] = "It sustains your dexterity.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®å™¨ç”¨ã•ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your dexterity.");
 	}
 	if (have_flag(flgs, TR_SUST_CON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÂÑµ×ÎÏ¤ò°İ»ı¤¹¤ë¡£";
-#else
-		info[i++] = "It sustains your constitution.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®è€ä¹…åŠ›ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your constitution.");
 	}
 	if (have_flag(flgs, TR_SUST_CHR))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÌ¥ÎÏ¤ò°İ»ı¤¹¤ë¡£";
-#else
-		info[i++] = "It sustains your charisma.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®é­…åŠ›ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your charisma.");
 	}
 
 	if (have_flag(flgs, TR_IM_ACID))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï»À¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides immunity to acid.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é…¸ã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to acid.");
 	}
 	if (have_flag(flgs, TR_IM_ELEC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅÅ·â¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides immunity to electricity.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é›»æ’ƒã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to electricity.");
 	}
 	if (have_flag(flgs, TR_IM_FIRE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï²Ğ¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides immunity to fire.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç«ã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to fire.");
 	}
 	if (have_flag(flgs, TR_IM_COLD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï´¨¤µ¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides immunity to cold.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å¯’ã•ã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to cold.");
 	}
 
 	if (have_flag(flgs, TR_THROW))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅ¨¤ËÅê¤²¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¤³¤È¤¬¤Ç¤­¤ë¡£";
-#else
-		info[i++] = "It is perfectly balanced for throwing.";
-#endif
+		info[i++] = _("ãã‚Œã¯æ•µã«æŠ•ã’ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It is perfectly balanced for throwing.");
 	}
 
 	if (have_flag(flgs, TR_FREE_ACT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËãáã¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides immunity to paralysis.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯éº»ç—ºã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to paralysis.");
 	}
-	if (have_flag(flgs, TR_HOLD_LIFE))
+	if (have_flag(flgs, TR_HOLD_EXP))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÀ¸Ì¿ÎÏµÛ¼ı¤ËÂĞ¤¹¤ëÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to life draining.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯çµŒé¨“å€¤å¸åã«å¯¾ã™ã‚‹è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to experience draining.");
 	}
 	if (have_flag(flgs, TR_RES_FEAR))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¶²Éİ¤Ø¤Î´°Á´¤ÊÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It makes you completely fearless.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ææ€–ã¸ã®å®Œå…¨ãªè€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It makes you completely fearless.");
 	}
 	if (have_flag(flgs, TR_RES_ACID))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï»À¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to acid.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é…¸ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to acid.");
 	}
 	if (have_flag(flgs, TR_RES_ELEC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅÅ·â¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to electricity.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é›»æ’ƒã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to electricity.");
 	}
 	if (have_flag(flgs, TR_RES_FIRE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï²Ğ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to fire.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç«ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to fire.");
 	}
 	if (have_flag(flgs, TR_RES_COLD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï´¨¤µ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to cold.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å¯’ã•ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to cold.");
 	}
 	if (have_flag(flgs, TR_RES_POIS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÆÇ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to poison.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ¯’ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to poison.");
 	}
 
 	if (have_flag(flgs, TR_RES_LITE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÁ®¸÷¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to light.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é–ƒå…‰ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to light.");
 	}
 	if (have_flag(flgs, TR_RES_DARK))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï°Å¹õ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to dark.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æš—é»’ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to dark.");
 	}
 
 	if (have_flag(flgs, TR_RES_BLIND))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌÕÌÜ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to blindness.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç›²ç›®ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to blindness.");
 	}
 	if (have_flag(flgs, TR_RES_CONF))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ïº®Íğ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to confusion.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ··ä¹±ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to confusion.");
 	}
 	if (have_flag(flgs, TR_RES_SOUND))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¹ì²»¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to sound.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è½ŸéŸ³ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to sound.");
 	}
 	if (have_flag(flgs, TR_RES_SHARDS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÇËÊÒ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to shards.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç ´ç‰‡ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to shards.");
 	}
 
 	if (have_flag(flgs, TR_RES_NETHER))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÃÏ¹ö¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to nether.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯åœ°ç„ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to nether.");
 	}
 	if (have_flag(flgs, TR_RES_NEXUS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï°ø²Ìº®Íğ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to nexus.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å› æœæ··ä¹±ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to nexus.");
 	}
 	if (have_flag(flgs, TR_RES_CHAOS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥«¥ª¥¹¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to chaos.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚«ã‚ªã‚¹ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to chaos.");
 	}
 	if (have_flag(flgs, TR_RES_DISEN))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÎô²½¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It provides resistance to disenchantment.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯åŠ£åŒ–ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to disenchantment.");
 	}
 
 	if (have_flag(flgs, TR_LEVITATION))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÃè¤ËÉâ¤¯¤³¤È¤ò²ÄÇ½¤Ë¤¹¤ë¡£";
-#else
-		info[i++] = "It allows you to levitate.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å®™ã«æµ®ãã“ã¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚", "It allows you to levitate.");
 	}
-	if (have_flag(flgs, TR_LITE))
-	{
-		if ((o_ptr->name2 == EGO_DARK) || (o_ptr->name1 == ART_NIGHT))
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌÀ¤«¤ê¤ÎÈ¾·Â¤ò¶¹¤á¤ë(È¾·Â¤Ë-1)¡£";
-#else
-			info[i++] = "It decreases radius of your light source by 1.";
-#endif
-		else
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±Ê±ó¤ÎÌÀ¤«¤ê¤ò¼ø¤±¤ë(È¾·Â¤Ë+1)¡£";
-#else
-			info[i++] = "It provides permanent light. (radius +1)";
-#endif
-
-	}
+		
 	if (have_flag(flgs, TR_SEE_INVIS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÆ©ÌÀ¤Ê¥â¥ó¥¹¥¿¡¼¤ò¸«¤ë¤³¤È¤ò²ÄÇ½¤Ë¤¹¤ë¡£";
-#else
-		info[i++] = "It allows you to see invisible monsters.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é€æ˜ãªãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’è¦‹ã‚‹ã“ã¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚", "It allows you to see invisible monsters.");
 	}
 	if (have_flag(flgs, TR_TELEPATHY))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥Æ¥ì¥Ñ¥·¡¼Ç½ÎÏ¤ò¼ø¤±¤ë¡£";
-#else
-		info[i++] = "It gives telepathic powers.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ†ãƒ¬ãƒ‘ã‚·ãƒ¼èƒ½åŠ›ã‚’æˆã‘ã‚‹ã€‚", "It gives telepathic powers.");
 	}
 	if (have_flag(flgs, TR_ESP_ANIMAL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼«Á³³¦¤ÎÀ¸Êª¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses natural creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯è‡ªç„¶ç•Œã®ç”Ÿç‰©ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses natural creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_UNDEAD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥¢¥ó¥Ç¥Ã¥É¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses undead.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses undead.");
 	}
 	if (have_flag(flgs, TR_ESP_DEMON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï°­Ëâ¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses demons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ‚ªé­”ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses demons.");
 	}
 	if (have_flag(flgs, TR_ESP_ORC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥ª¡¼¥¯¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses orcs.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ªãƒ¼ã‚¯ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses orcs.");
 	}
 	if (have_flag(flgs, TR_ESP_TROLL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥È¥í¥ë¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses trolls.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒˆãƒ­ãƒ«ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses trolls.");
 	}
 	if (have_flag(flgs, TR_ESP_GIANT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ïµğ¿Í¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses giants.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å·¨äººã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses giants.");
 	}
 	if (have_flag(flgs, TR_ESP_DRAGON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥É¥é¥´¥ó¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses dragons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses dragons.");
 	}
 	if (have_flag(flgs, TR_ESP_HUMAN))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¿Í´Ö¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses humans.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯äººé–“ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses humans.");
 	}
 	if (have_flag(flgs, TR_ESP_EVIL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼Ù°­¤ÊÂ¸ºß¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses evil creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é‚ªæ‚ªãªå­˜åœ¨ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses evil creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_GOOD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÁ±ÎÉ¤ÊÂ¸ºß¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses good creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å–„è‰¯ãªå­˜åœ¨ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses good creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_NONLIVING))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï³èÆ°¤¹¤ëÌµÀ¸ÊªÂÎ¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses non-living creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ´»å‹•ã™ã‚‹ç„¡ç”Ÿç‰©ä½“ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses non-living creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_UNIQUE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÆÃÊÌ¤Ê¶¯Å¨¤ò´¶ÃÎ¤¹¤ë¡£";
-#else
-		info[i++] = "It senses unique monsters.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç‰¹åˆ¥ãªå¼·æ•µã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses unique monsters.");
 	}
 	if (have_flag(flgs, TR_SLOW_DIGEST))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤Î¿·ÄÄÂå¼Õ¤òÃÙ¤¯¤¹¤ë¡£";
-#else
-		info[i++] = "It slows your metabolism.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®æ–°é™³ä»£è¬ã‚’é…ãã™ã‚‹ã€‚", "It slows your metabolism.");
 	}
 	if (have_flag(flgs, TR_REGEN))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÂÎÎÏ²óÉüÎÏ¤ò¶¯²½¤¹¤ë¡£";
-#else
-		info[i++] = "It speeds your regenerative powers.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ä½“åŠ›å›å¾©åŠ›ã‚’å¼·åŒ–ã™ã‚‹ã€‚", "It speeds your regenerative powers.");
 	}
 	if (have_flag(flgs, TR_WARNING))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï´í¸±¤ËÂĞ¤·¤Æ·Ù¹ğ¤òÈ¯¤¹¤ë¡£";
-#else
-		info[i++] = "It warns you of danger";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å±é™ºã«å¯¾ã—ã¦è­¦å‘Šã‚’ç™ºã™ã‚‹ã€‚", "It warns you of danger");
 	}
 	if (have_flag(flgs, TR_REFLECT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌğ¤ä¥Ü¥ë¥È¤òÈ¿¼Í¤¹¤ë¡£";
-#else
-		info[i++] = "It reflects bolts and arrows.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯çŸ¢ã®å‘ªæ–‡ã‚’åå°„ã™ã‚‹ã€‚", "It reflects bolt spells.");
 	}
 	if (have_flag(flgs, TR_SH_FIRE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±ê¤Î¥Ğ¥ê¥¢¤òÄ¥¤ë¡£";
-#else
-		info[i++] = "It produces a fiery sheath.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç‚ã®ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces a fiery sheath.");
 	}
 	if (have_flag(flgs, TR_SH_ELEC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÅÅµ¤¤Î¥Ğ¥ê¥¢¤òÄ¥¤ë¡£";
-#else
-		info[i++] = "It produces an electric sheath.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é›»æ°—ã®ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces an electric sheath.");
 	}
 	if (have_flag(flgs, TR_SH_COLD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÎäµ¤¤Î¥Ğ¥ê¥¢¤òÄ¥¤ë¡£";
-#else
-		info[i++] = "It produces a sheath of coldness.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å†·æ°—ã®ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces a sheath of coldness.");
 	}
 	if (have_flag(flgs, TR_NO_MAGIC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÈ¿ËâË¡¥Ğ¥ê¥¢¤òÄ¥¤ë¡£";
-#else
-		info[i++] = "It produces an anti-magic shell.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯åé­”æ³•ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces an anti-magic shell.");
 	}
 	if (have_flag(flgs, TR_NO_TELE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥Æ¥ì¥İ¡¼¥È¤ò¼ÙËâ¤¹¤ë¡£";
-#else
-		info[i++] = "It prevents teleportation.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’é‚ªé­”ã™ã‚‹ã€‚", "It prevents teleportation.");
 	}
 	if (have_flag(flgs, TR_XTRA_MIGHT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌğ¡¿¥Ü¥ë¥È¡¿ÃÆ¤ò¤è¤ê¶¯ÎÏ¤ËÈ¯¼Í¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£";
-#else
-		info[i++] = "It fires missiles with extra might.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯çŸ¢ï¼ãƒœãƒ«ãƒˆï¼å¼¾ã‚’ã‚ˆã‚Šå¼·åŠ›ã«ç™ºå°„ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It fires missiles with extra might.");
 	}
 	if (have_flag(flgs, TR_XTRA_SHOTS))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÌğ¡¿¥Ü¥ë¥È¡¿ÃÆ¤òÈó¾ï¤ËÁá¤¯È¯¼Í¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£";
-#else
-		info[i++] = "It fires missiles excessively fast.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯çŸ¢ï¼ãƒœãƒ«ãƒˆï¼å¼¾ã‚’éå¸¸ã«æ—©ãç™ºå°„ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It fires missiles excessively fast.");
 	}
 
 	if (have_flag(flgs, TR_BLESSED))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¿À¤Ë½ËÊ¡¤µ¤ì¤Æ¤¤¤ë¡£";
-#else
-		info[i++] = "It has been blessed by the gods.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ç¥ã«ç¥ç¦ã•ã‚Œã¦ã„ã‚‹ã€‚", "It has been blessed by the gods.");
 	}
 
 	if (object_is_cursed(o_ptr))
 	{
 		if (o_ptr->curse_flags & TRC_PERMA_CURSE)
 		{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï±Ê±ó¤Î¼ö¤¤¤¬¤«¤±¤é¤ì¤Æ¤¤¤ë¡£";
-#else
-			info[i++] = "It is permanently cursed.";
-#endif
-
+			info[i++] = _("ãã‚Œã¯æ°¸é ã®å‘ªã„ãŒã‹ã‘ã‚‰ã‚Œã¦ã„ã‚‹ã€‚", "It is permanently cursed.");
 		}
 		else if (o_ptr->curse_flags & TRC_HEAVY_CURSE)
 		{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¶¯ÎÏ¤Ê¼ö¤¤¤¬¤«¤±¤é¤ì¤Æ¤¤¤ë¡£";
-#else
-			info[i++] = "It is heavily cursed.";
-#endif
-
+			info[i++] = _("ãã‚Œã¯å¼·åŠ›ãªå‘ªã„ãŒã‹ã‘ã‚‰ã‚Œã¦ã„ã‚‹ã€‚", "It is heavily cursed.");
 		}
 		else
 		{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼ö¤ï¤ì¤Æ¤¤¤ë¡£";
-#else
-			info[i++] = "It is cursed.";
-#endif
+			info[i++] = _("ãã‚Œã¯å‘ªã‚ã‚Œã¦ã„ã‚‹ã€‚", "It is cursed.");
 
 			/*
 			 * It's a trivial infomation since there is
@@ -3620,156 +1100,75 @@ info[i++] = "¤½¤ì¤Ï¼ö¤ï¤ì¤Æ¤¤¤ë¡£";
 
 	if ((have_flag(flgs, TR_TY_CURSE)) || (o_ptr->curse_flags & TRC_TY_CURSE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÂÀ¸Å¤Î²Ò¡¹¤·¤¤±åÇ°¤¬½É¤Ã¤Æ¤¤¤ë¡£";
-#else
-		info[i++] = "It carries an ancient foul curse.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å¤ªå¤ã®ç¦ã€…ã—ã„æ€¨å¿µãŒå®¿ã£ã¦ã„ã‚‹ã€‚", "It carries an ancient foul curse.");
 	}
 	if ((have_flag(flgs, TR_AGGRAVATE)) || (o_ptr->curse_flags & TRC_AGGRAVATE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÉÕ¶á¤Î¥â¥ó¥¹¥¿¡¼¤òÅÜ¤é¤»¤ë¡£";
-#else
-		info[i++] = "It aggravates nearby creatures.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ä»˜è¿‘ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’æ€’ã‚‰ã›ã‚‹ã€‚", "It aggravates nearby creatures.");
 	}
 	if ((have_flag(flgs, TR_DRAIN_EXP)) || (o_ptr->curse_flags & TRC_DRAIN_EXP))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï·Ğ¸³ÃÍ¤òµÛ¤¤¼è¤ë¡£";
-#else
-		info[i++] = "It drains experience.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯çµŒé¨“å€¤ã‚’å¸ã„å–ã‚‹ã€‚", "It drains experience.");
 	}
 	if (o_ptr->curse_flags & TRC_SLOW_REGEN)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï²óÉüÎÏ¤ò¼å¤á¤ë¡£";
-#else
-		info[i++] = "It slows your regenerative powers.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å›å¾©åŠ›ã‚’å¼±ã‚ã‚‹ã€‚", "It slows your regenerative powers.");
 	}
-	if (o_ptr->curse_flags & TRC_ADD_L_CURSE)
+	if ((o_ptr->curse_flags & TRC_ADD_L_CURSE) || have_flag(flgs, TR_ADD_L_CURSE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¼å¤¤¼ö¤¤¤òÁı¤ä¤¹¡£";
-#else
-		info[i++] = "It adds weak curses.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å¼±ã„å‘ªã„ã‚’å¢—ã‚„ã™ã€‚","It adds weak curses.");
 	}
-	if (o_ptr->curse_flags & TRC_ADD_H_CURSE)
+	if ((o_ptr->curse_flags & TRC_ADD_H_CURSE) || have_flag(flgs, TR_ADD_H_CURSE))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¶¯ÎÏ¤Ê¼ö¤¤¤òÁı¤ä¤¹¡£";
-#else
-		info[i++] = "It adds heavy curses.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å¼·åŠ›ãªå‘ªã„ã‚’å¢—ã‚„ã™ã€‚","It adds heavy curses.");
 	}
-	if (o_ptr->curse_flags & TRC_CALL_ANIMAL)
+	if ((have_flag(flgs, TR_CALL_ANIMAL)) || (o_ptr->curse_flags & TRC_CALL_ANIMAL))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏÆ°Êª¤ò¸Æ¤Ó´ó¤»¤ë¡£";
-#else
-		info[i++] = "It attracts animals.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯å‹•ç‰©ã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts animals.");
 	}
-	if (o_ptr->curse_flags & TRC_CALL_DEMON)
+	if ((have_flag(flgs, TR_CALL_DEMON)) || (o_ptr->curse_flags & TRC_CALL_DEMON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï°­Ëâ¤ò¸Æ¤Ó´ó¤»¤ë¡£";
-#else
-		info[i++] = "It attracts demons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ‚ªé­”ã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts demons.");
 	}
-	if (o_ptr->curse_flags & TRC_CALL_DRAGON)
+	if ((have_flag(flgs, TR_CALL_DRAGON)) || (o_ptr->curse_flags & TRC_CALL_DRAGON))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥É¥é¥´¥ó¤ò¸Æ¤Ó´ó¤»¤ë¡£";
-#else
-		info[i++] = "It attracts dragons.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts dragons.");
 	}
-	if (o_ptr->curse_flags & TRC_COWARDICE)
+	if ((have_flag(flgs, TR_CALL_UNDEAD)) || (o_ptr->curse_flags & TRC_CALL_UNDEAD))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¶²Éİ´¶¤ò°ú¤­µ¯¤³¤¹¡£";
-#else
-		info[i++] = "It makes you subject to cowardice.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ­»éœŠã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts undeads.");
+	}
+	if ((have_flag(flgs, TR_COWARDICE)) ||  (o_ptr->curse_flags & TRC_COWARDICE))
+	{
+		info[i++] = _("ãã‚Œã¯ææ€–æ„Ÿã‚’å¼•ãèµ·ã“ã™ã€‚", "It makes you subject to cowardice.");
 	}
 	if ((have_flag(flgs, TR_TELEPORT)) || (o_ptr->curse_flags & TRC_TELEPORT))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¥é¥ó¥À¥à¤Ê¥Æ¥ì¥İ¡¼¥È¤ò°ú¤­µ¯¤³¤¹¡£";
-#else
-		info[i++] = "It induces random teleportation.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ãƒ©ãƒ³ãƒ€ãƒ ãªãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’å¼•ãèµ·ã“ã™ã€‚", "It induces random teleportation.");
 	}
-	if (o_ptr->curse_flags & TRC_LOW_MELEE)
+	if ((have_flag(flgs, TR_LOW_MELEE)) || o_ptr->curse_flags & TRC_LOW_MELEE)
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¹¶·â¤ò³°¤·¤ä¤¹¤¤¡£";
-#else
-		info[i++] = "It causes you to miss blows.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ”»æ’ƒã‚’å¤–ã—ã‚„ã™ã„ã€‚", "It causes you to miss blows.");
 	}
-	if (o_ptr->curse_flags & TRC_LOW_AC)
+	if ((have_flag(flgs, TR_LOW_AC)) || (o_ptr->curse_flags & TRC_LOW_AC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¹¶·â¤ò¼õ¤±¤ä¤¹¤¤¡£";
-#else
-		info[i++] = "It helps your enemies' blows.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯æ”»æ’ƒã‚’å—ã‘ã‚„ã™ã„ã€‚", "It helps your enemies' blows.");
 	}
-	if (o_ptr->curse_flags & TRC_LOW_MAGIC)
+	if ((have_flag(flgs, TR_LOW_MAGIC)) || (o_ptr->curse_flags & TRC_LOW_MAGIC))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤ÏËâË¡¤ò¾§¤¨¤Ë¤¯¤¯¤¹¤ë¡£";
-#else
-		info[i++] = "It encumbers you while spellcasting.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯é­”æ³•ã‚’å”±ãˆã«ããã™ã‚‹ã€‚", "It encumbers you while spellcasting.");
 	}
-	if (o_ptr->curse_flags & TRC_FAST_DIGEST)
+	if ((have_flag(flgs, TR_FAST_DIGEST)) || (o_ptr->curse_flags & TRC_FAST_DIGEST))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤Î¿·ÄÄÂå¼Õ¤òÂ®¤¯¤¹¤ë¡£";
-#else
-		info[i++] = "It speeds your metabolism.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®æ–°é™³ä»£è¬ã‚’é€Ÿãã™ã‚‹ã€‚", "It speeds your metabolism.");
 	}
-	if (o_ptr->curse_flags & TRC_DRAIN_HP)
+	if ((have_flag(flgs, TR_DRAIN_HP)) || (o_ptr->curse_flags & TRC_DRAIN_HP))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÂÎÎÏ¤òµÛ¤¤¼è¤ë¡£";
-#else
-		info[i++] = "It drains you.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®ä½“åŠ›ã‚’å¸ã„å–ã‚‹ã€‚", "It drains you.");
 	}
-	if (o_ptr->curse_flags & TRC_DRAIN_MANA)
+	if ((have_flag(flgs, TR_DRAIN_MANA)) || (o_ptr->curse_flags & TRC_DRAIN_MANA))
 	{
-#ifdef JP
-info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎËâÎÏ¤òµÛ¤¤¼è¤ë¡£";
-#else
-		info[i++] = "It drains your mana.";
-#endif
-
+		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®é­”åŠ›ã‚’å¸ã„å–ã‚‹ã€‚", "It drains your mana.");
 	}
 
 	/* Describe about this kind of object instead of THIS fake object */
@@ -3781,18 +1180,10 @@ info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎËâÎÏ¤òµÛ¤¤¼è¤ë¡£";
 			switch (o_ptr->sval)
 			{
 			case SV_RING_LORDLY:
-#ifdef JP
-				info[i++] = "¤½¤ì¤Ï´ö¤Ä¤«¤Î¥é¥ó¥À¥à¤ÊÂÑÀ­¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides some random resistances.";
-#endif
+				info[i++] = _("ãã‚Œã¯å¹¾ã¤ã‹ã®ãƒ©ãƒ³ãƒ€ãƒ ãªè€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides some random resistances.");
 				break;
 			case SV_RING_WARNING:
-#ifdef JP
-				info[i++] = "¤½¤ì¤Ï¤Ò¤È¤Ä¤ÎÄãµé¤ÊESP¤ò¼ø¤±¤ë»ö¤¬¤¢¤ë¡£";
-#else
-				info[i++] = "It may provide a low rank ESP.";
-#endif
+				info[i++] = _("ãã‚Œã¯ã²ã¨ã¤ã®ä½ç´šãªESPã‚’æˆã‘ã‚‹äº‹ãŒã‚ã‚‹ã€‚", "It may provide a low rank ESP.");
 				break;
 			}
 			break;
@@ -3801,23 +1192,11 @@ info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎËâÎÏ¤òµÛ¤¤¼è¤ë¡£";
 			switch (o_ptr->sval)
 			{
 			case SV_AMULET_RESISTANCE:
-#ifdef JP
-				info[i++] = "¤½¤ì¤ÏÆÇ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë»ö¤¬¤¢¤ë¡£";
-#else
-				info[i++] = "It may provides resistance to poison.";
-#endif
-#ifdef JP
-				info[i++] = "¤½¤ì¤Ï¥é¥ó¥À¥à¤ÊÂÑÀ­¤ò¼ø¤±¤ë»ö¤¬¤¢¤ë¡£";
-#else
-				info[i++] = "It may provide a random resistances.";
-#endif
+				info[i++] = _("ãã‚Œã¯æ¯’ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹äº‹ãŒã‚ã‚‹ã€‚", "It may provides resistance to poison.");
+				info[i++] = _("ãã‚Œã¯ãƒ©ãƒ³ãƒ€ãƒ ãªè€æ€§ã‚’æˆã‘ã‚‹äº‹ãŒã‚ã‚‹ã€‚", "It may provide a random resistances.");
 				break;
 			case SV_AMULET_THE_MAGI:
-#ifdef JP
-				info[i++] = "¤½¤ì¤ÏºÇÂç¤Ç£³¤Ä¤Ş¤Ç¤ÎÄãµé¤ÊESP¤ò¼ø¤±¤ë¡£";
-#else
-				info[i++] = "It provides up to three low rank ESPs.";
-#endif
+				info[i++] = _("ãã‚Œã¯æœ€å¤§ã§ï¼“ã¤ã¾ã§ã®ä½ç´šãªESPã‚’æˆã‘ã‚‹ã€‚", "It provides up to three low rank ESPs.");
 				break;
 			}
 			break;
@@ -3829,45 +1208,25 @@ info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎËâÎÏ¤òµÛ¤¤¼è¤ë¡£";
 	    have_flag(flgs, TR_IGNORE_FIRE) &&
 	    have_flag(flgs, TR_IGNORE_COLD))
 	{
-#ifdef JP
-		info[i++] = "¤½¤ì¤Ï»À¡¦ÅÅ·â¡¦²Ğ±ê¡¦Îäµ¤¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£";
-#else
-		info[i++] = "It cannot be harmed by the elements.";
-#endif
+		info[i++] = _("ãã‚Œã¯é…¸ãƒ»é›»æ’ƒãƒ»ç«ç‚ãƒ»å†·æ°—ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by the elements.");
 	}
 	else
 	{
 		if (have_flag(flgs, TR_IGNORE_ACID))
 		{
-#ifdef JP
-			info[i++] = "¤½¤ì¤Ï»À¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£";
-#else
-			info[i++] = "It cannot be harmed by acid.";
-#endif
+			info[i++] = _("ãã‚Œã¯é…¸ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by acid.");
 		}
 		if (have_flag(flgs, TR_IGNORE_ELEC))
 		{
-#ifdef JP
-			info[i++] = "¤½¤ì¤ÏÅÅ·â¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£";
-#else
-			info[i++] = "It cannot be harmed by electricity.";
-#endif
+			info[i++] = _("ãã‚Œã¯é›»æ’ƒã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by electricity.");
 		}
 		if (have_flag(flgs, TR_IGNORE_FIRE))
 		{
-#ifdef JP
-			info[i++] = "¤½¤ì¤Ï²Ğ±ê¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£";
-#else
-			info[i++] = "It cannot be harmed by fire.";
-#endif
+			info[i++] = _("ãã‚Œã¯ç«ç‚ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by fire.");
 		}
 		if (have_flag(flgs, TR_IGNORE_COLD))
 		{
-#ifdef JP
-			info[i++] = "¤½¤ì¤ÏÎäµ¤¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£";
-#else
-			info[i++] = "It cannot be harmed by cold.";
-#endif
+			info[i++] = _("ãã‚Œã¯å†·æ°—ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by cold.");
 		}
 	}
 
@@ -3903,11 +1262,9 @@ info[i++] = "¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎËâÎÏ¤òµÛ¤¤¼è¤ë¡£";
 		prt("'", 1, (use_bigtile ? 20 : 19) + namelen);
 	}
 	else
-#ifdef JP
-prt("     ¥¢¥¤¥Æ¥à¤ÎÇ½ÎÏ:", 1, 15);
-#else
-	prt("     Item Attributes:", 1, 15);
-#endif
+	{
+		prt(_("     ã‚¢ã‚¤ãƒ†ãƒ ã®èƒ½åŠ›:", "     Item Attributes:"), 1, 15);
+	}
 
 	/* We will print on top of the map (column 13) */
 	for (k = 2, j = 0; j < i; j++)
@@ -3918,22 +1275,14 @@ prt("     ¥¢¥¤¥Æ¥à¤ÎÇ½ÎÏ:", 1, 15);
 		/* Every 20 entries (lines 2 to 21), start over */
 		if ((k == hgt - 2) && (j+1 < i))
 		{
-#ifdef JP
-prt("-- Â³¤¯ --", k, 15);
-#else
-			prt("-- more --", k, 15);
-#endif
+			prt(_("-- ç¶šã --", "-- more --"), k, 15);
 			inkey();
 			for (; k > 2; k--) prt("", k, 15);
 		}
 	}
 
 	/* Wait for it */
-#ifdef JP
-prt("[²¿¤«¥­¡¼¤ò²¡¤¹¤È¥²¡¼¥à¤ËÌá¤ê¤Ş¤¹]", k, 15);
-#else
-	prt("[Press any key to continue]", k, 15);
-#endif
+	prt(_("[ä½•ã‹ã‚­ãƒ¼ã‚’æŠ¼ã™ã¨ã‚²ãƒ¼ãƒ ã«æˆ»ã‚Šã¾ã™]", "[Press any key to continue]"), k, 15);
 
 	inkey();
 
@@ -3946,9 +1295,12 @@ prt("[²¿¤«¥­¡¼¤ò²¡¤¹¤È¥²¡¼¥à¤ËÌá¤ê¤Ş¤¹]", k, 15);
 
 
 
-/*
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé¸æŠæ™‚ã®é¸æŠã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒ©ãƒ™ãƒ«ã‚’è¿”ã™ /
  * Convert an inventory index into a one character label
- * Note that the label does NOT distinguish inven/equip.
+ * @param i ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
+ * @return å¯¾å¿œã™ã‚‹ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ
+ * @details Note that the label does NOT distinguish inven/equip.
  */
 char index_to_label(int i)
 {
@@ -3959,10 +1311,11 @@ char index_to_label(int i)
 	return (I2A(i - INVEN_RARM));
 }
 
-
-/*
+/*!
+ * @brief é¸æŠã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒ©ãƒ™ãƒ«ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™ /
  * Convert a label into the index of an item in the "inven"
- * Return "-1" if the label does not indicate a real item
+ * @return å¯¾å¿œã™ã‚‹IDã€‚è©²å½“ã‚¹ãƒ­ãƒƒãƒˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã‹ã£ãŸå ´åˆ-1ã‚’è¿”ã™ / Return "-1" if the label does not indicate a real item
+ * @details Note that the label does NOT distinguish inven/equip.
  */
 s16b label_to_inven(int c)
 {
@@ -3982,19 +1335,25 @@ s16b label_to_inven(int c)
 }
 
 
-/* See cmd5.c */
+/*! See cmd5.c */
 extern bool select_ring_slot;
 
 
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDãŒæŒ‡è¼ªæ ã‹ã‚’è¿”ã™ /
+ * @param i ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
+ * @return æŒ‡è¼ªæ ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ */
 static bool is_ring_slot(int i)
 {
 	return (i == INVEN_RIGHT) || (i == INVEN_LEFT);
 }
 
 
-/*
+/*!
+ * @brief é¸æŠã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒ©ãƒ™ãƒ«ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™ /
  * Convert a label into the index of a item in the "equip"
- * Return "-1" if the label does not indicate a real item
+ * @return å¯¾å¿œã™ã‚‹IDã€‚è©²å½“ã‚¹ãƒ­ãƒƒãƒˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã‹ã£ãŸå ´åˆ-1ã‚’è¿”ã™ / Return "-1" if the label does not indicate a real item
  */
 s16b label_to_equip(int c)
 {
@@ -4017,8 +1376,11 @@ s16b label_to_equip(int c)
 
 
 
-/*
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è©²å½“è£…å‚™éƒ¨ä½IDã‚’è¿”ã™ /
  * Determine which equipment slot (if any) an item likes
+ * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return å¯¾å¿œã™ã‚‹è£…å‚™éƒ¨ä½ID
  */
 s16b wield_slot(object_type *o_ptr)
 {
@@ -4102,9 +1464,11 @@ s16b wield_slot(object_type *o_ptr)
 	return (-1);
 }
 
-
-/*
+/*!
+ * @brief æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã®éƒ¨ä½è¡¨ç¾ã‚’è¿”ã™ /
  * Return a string mentioning how a given item is carried
+ * @param i éƒ¨ä½è¡¨ç¾ã‚’æ±‚ã‚ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
+ * @return éƒ¨ä½è¡¨ç¾ã®æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
  */
 cptr mention_use(int i)
 {
@@ -4114,82 +1478,43 @@ cptr mention_use(int i)
 	switch (i)
 	{
 #ifdef JP
-		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "±¿ÈÂÃæ" : ((p_ptr->ryoute && p_ptr->migite) ? " Î¾¼ê" : (left_hander ? " º¸¼ê" : " ±¦¼ê")); break;
+		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "é‹æ¬ä¸­" : ((p_ptr->ryoute && p_ptr->migite) ? " ä¸¡æ‰‹" : (left_hander ? " å·¦æ‰‹" : " å³æ‰‹")); break;
 #else
 		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "Just lifting" : (p_ptr->migite ? "Wielding" : "On arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "±¿ÈÂÃæ" : ((p_ptr->ryoute && p_ptr->hidarite) ? " Î¾¼ê" : (left_hander ? " ±¦¼ê" : " º¸¼ê")); break;
+		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "é‹æ¬ä¸­" : ((p_ptr->ryoute && p_ptr->hidarite) ? " ä¸¡æ‰‹" : (left_hander ? " å³æ‰‹" : " å·¦æ‰‹")); break;
 #else
 		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "Just lifting" : (p_ptr->hidarite ? "Wielding" : "On arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "±¿ÈÂÃæ" : "¼Í·âÍÑ"; break;
+		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "é‹æ¬ä¸­" : "å°„æ’ƒç”¨"; break;
 #else
 		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "Just holding" : "Shooting"; break;
 #endif
 
 #ifdef JP
-		case INVEN_RIGHT: p = (left_hander ? "º¸¼ê»Ø" : "±¦¼ê»Ø"); break;
+		case INVEN_RIGHT: p = (left_hander ? "å·¦æ‰‹æŒ‡" : "å³æ‰‹æŒ‡"); break;
 #else
 		case INVEN_RIGHT: p = (left_hander ? "On left hand" : "On right hand"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LEFT:  p = (left_hander ? "±¦¼ê»Ø" : "º¸¼ê»Ø"); break;
+		case INVEN_LEFT:  p = (left_hander ? "å³æ‰‹æŒ‡" : "å·¦æ‰‹æŒ‡"); break;
 #else
 		case INVEN_LEFT:  p = (left_hander ? "On right hand" : "On left hand"); break;
 #endif
 
-#ifdef JP
-		case INVEN_NECK:  p = "  ¼ó"; break;
-#else
-		case INVEN_NECK:  p = "Around neck"; break;
-#endif
-
-#ifdef JP
-		case INVEN_LITE:  p = " ¸÷¸»"; break;
-#else
-		case INVEN_LITE:  p = "Light source"; break;
-#endif
-
-#ifdef JP
-		case INVEN_BODY:  p = "  ÂÎ"; break;
-#else
-		case INVEN_BODY:  p = "On body"; break;
-#endif
-
-#ifdef JP
-		case INVEN_OUTER: p = "ÂÎ¤Î¾å"; break;
-#else
-		case INVEN_OUTER: p = "About body"; break;
-#endif
-
-#ifdef JP
-		case INVEN_HEAD:  p = "  Æ¬"; break;
-#else
-		case INVEN_HEAD:  p = "On head"; break;
-#endif
-
-#ifdef JP
-		case INVEN_HANDS: p = "  ¼ê"; break;
-#else
-		case INVEN_HANDS: p = "On hands"; break;
-#endif
-
-#ifdef JP
-		case INVEN_FEET:  p = "  Â­"; break;
-#else
-		case INVEN_FEET:  p = "On feet"; break;
-#endif
-
-#ifdef JP
-		default:          p = "¥¶¥Ã¥¯"; break;
-#else
-		default:          p = "In pack"; break;
-#endif
+		case INVEN_NECK:  p = _("  é¦–", "Around neck"); break;
+		case INVEN_LITE:  p = _(" å…‰æº", "Light source"); break;
+		case INVEN_BODY:  p = _("  ä½“", "On body"); break;
+		case INVEN_OUTER: p = _("ä½“ã®ä¸Š", "About body"); break;
+		case INVEN_HEAD:  p = _("  é ­", "On head"); break;
+		case INVEN_HANDS: p = _("  æ‰‹", "On hands"); break;
+		case INVEN_FEET:  p = _("  è¶³", "On feet"); break;
+		default:          p = _("ã‚¶ãƒƒã‚¯", "In pack"); break;
 	}
 
 	/* Return the result */
@@ -4197,8 +1522,12 @@ cptr mention_use(int i)
 }
 
 
-/*
+/*!
+ * @brief æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã®ç¾åœ¨ã®æ‰±ã„æ–¹ã®çŠ¶æ…‹è¡¨ç¾ã‚’è¿”ã™ /
  * Return a string describing how a given item is being worn.
+ * @param i çŠ¶æ…‹è¡¨ç¾ã‚’æ±‚ã‚ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
+ * @return çŠ¶æ…‹è¡¨ç¾å†…å®¹ã®æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ * @details
  * Currently, only used for items in the equipment, not inventory.
  */
 cptr describe_use(int i)
@@ -4208,82 +1537,43 @@ cptr describe_use(int i)
 	switch (i)
 	{
 #ifdef JP
-		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "±¿ÈÂÃæ¤Î" : ((p_ptr->ryoute && p_ptr->migite) ? "Î¾¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : (left_hander ? "º¸¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : "±¦¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë")); break;
+		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "é‹æ¬ä¸­ã®" : ((p_ptr->ryoute && p_ptr->migite) ? "ä¸¡æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : (left_hander ? "å·¦æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : "å³æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹")); break;
 #else
 		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "just lifting" : (p_ptr->migite ? "attacking monsters with" : "wearing on your arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "±¿ÈÂÃæ¤Î" : ((p_ptr->ryoute && p_ptr->hidarite) ? "Î¾¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : (left_hander ? "±¦¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : "º¸¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë")); break;
+		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "é‹æ¬ä¸­ã®" : ((p_ptr->ryoute && p_ptr->hidarite) ? "ä¸¡æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : (left_hander ? "å³æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : "å·¦æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹")); break;
 #else
 		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "just lifting" : (p_ptr->hidarite ? "attacking monsters with" : "wearing on your arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "»ı¤Ä¤À¤±¤ÇÀº°ìÇÕ¤Î" : "¼Í·âÍÑ¤ËÁõÈ÷¤·¤Æ¤¤¤ë"; break;
+		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "æŒã¤ã ã‘ã§ç²¾ä¸€æ¯ã®" : "å°„æ’ƒç”¨ã«è£…å‚™ã—ã¦ã„ã‚‹"; break;
 #else
 		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "just holding" : "shooting missiles with"; break;
 #endif
 
 #ifdef JP
-		case INVEN_RIGHT: p = (left_hander ? "º¸¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë" : "±¦¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë"); break;
+		case INVEN_RIGHT: p = (left_hander ? "å·¦æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹" : "å³æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹"); break;
 #else
 		case INVEN_RIGHT: p = (left_hander ? "wearing on your left hand" : "wearing on your right hand"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LEFT:  p = (left_hander ? "±¦¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë" : "º¸¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë"); break;
+		case INVEN_LEFT:  p = (left_hander ? "å³æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹" : "å·¦æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹"); break;
 #else
 		case INVEN_LEFT:  p = (left_hander ? "wearing on your right hand" : "wearing on your left hand"); break;
 #endif
 
-#ifdef JP
-		case INVEN_NECK:  p = "¼ó¤Ë¤«¤±¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_NECK:  p = "wearing around your neck"; break;
-#endif
-
-#ifdef JP
-		case INVEN_LITE:  p = "¸÷¸»¤Ë¤·¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_LITE:  p = "using to light the way"; break;
-#endif
-
-#ifdef JP
-		case INVEN_BODY:  p = "ÂÎ¤ËÃå¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_BODY:  p = "wearing on your body"; break;
-#endif
-
-#ifdef JP
-		case INVEN_OUTER: p = "¿È¤Ë¤Ş¤È¤Ã¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_OUTER: p = "wearing on your back"; break;
-#endif
-
-#ifdef JP
-		case INVEN_HEAD:  p = "Æ¬¤Ë¤«¤Ö¤Ã¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_HEAD:  p = "wearing on your head"; break;
-#endif
-
-#ifdef JP
-		case INVEN_HANDS: p = "¼ê¤Ë¤Ä¤±¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_HANDS: p = "wearing on your hands"; break;
-#endif
-
-#ifdef JP
-		case INVEN_FEET:  p = "Â­¤Ë¤Ï¤¤¤Æ¤¤¤ë"; break;
-#else
-		case INVEN_FEET:  p = "wearing on your feet"; break;
-#endif
-
-#ifdef JP
-		default:          p = "¥¶¥Ã¥¯¤ËÆş¤Ã¤Æ¤¤¤ë"; break;
-#else
-		default:          p = "carrying in your pack"; break;
-#endif
+		case INVEN_NECK:  p = _("é¦–ã«ã‹ã‘ã¦ã„ã‚‹", "wearing around your neck"); break;
+		case INVEN_LITE:  p = _("å…‰æºã«ã—ã¦ã„ã‚‹", "using to light the way"); break;
+		case INVEN_BODY:  p = _("ä½“ã«ç€ã¦ã„ã‚‹", "wearing on your body"); break;
+		case INVEN_OUTER: p = _("èº«ã«ã¾ã¨ã£ã¦ã„ã‚‹", "wearing on your back"); break;
+		case INVEN_HEAD:  p = _("é ­ã«ã‹ã¶ã£ã¦ã„ã‚‹", "wearing on your head"); break;
+		case INVEN_HANDS: p = _("æ‰‹ã«ã¤ã‘ã¦ã„ã‚‹", "wearing on your hands"); break;
+		case INVEN_FEET:  p = _("è¶³ã«ã¯ã„ã¦ã„ã‚‹", "wearing on your feet"); break;
+		default:          p = _("ã‚¶ãƒƒã‚¯ã«å…¥ã£ã¦ã„ã‚‹", "carrying in your pack"); break;
 	}
 
 	/* Return the result */
@@ -4291,7 +1581,13 @@ cptr describe_use(int i)
 }
 
 
-/* Hack: Check if a spellbook is one of the realms we can use. -- TY */
+/*!
+ * @brief tval/svalæŒ‡å®šã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½¿ç”¨å¯èƒ½ãªé­”æ³•æ›¸ã‹ã©ã†ã‹ã‚’è¿”ã™ /
+ * Hack: Check if a spellbook is one of the realms we can use. -- TY
+ * @param book_tval ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ã®tval
+ * @param book_sval ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ã®sval
+ * @return ä½¿ç”¨å¯èƒ½ãªé­”æ³•æ›¸ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ */
 
 bool check_book_realm(const byte book_tval, const byte book_sval)
 {
@@ -4308,9 +1604,11 @@ bool check_book_realm(const byte book_tval, const byte book_sval)
 	return (REALM1_BOOK == book_tval || REALM2_BOOK == book_tval);
 }
 
-
-/*
+/*!
+ * @brief ã‚¢ã‚¤ãƒ†ãƒ ãŒitem_tester_hookã‚°ãƒ­ãƒ¼ãƒãƒ«é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®æ¡ä»¶ã‚’æº€ãŸã—ã¦ã„ã‚‹ã‹ã‚’è¿”ã™æ±ç”¨é–¢æ•°
  * Check an item against the item tester info
+ * @param o_ptr åˆ¤å®šã‚’è¡Œã„ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return item_tester_hookã®å‚ç…§å…ˆã€ãã®ä»–ã„ãã¤ã‹ã®ä¾‹å¤–ã«å¿œã˜ã¦TRUE/FALSEã‚’è¿”ã™ã€‚
  */
 bool item_tester_okay(object_type *o_ptr)
 {
@@ -4351,10 +1649,10 @@ bool item_tester_okay(object_type *o_ptr)
 }
 
 
-
-
-/*
+/*!
+ * @brief æ‰€æŒã‚¢ã‚¤ãƒ†ãƒ ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ /
  * Choice window "shadow" of the "show_inven()" function
+ * @return ãªã—
  */
 void display_inven(void)
 {
@@ -4447,8 +1745,10 @@ void display_inven(void)
 
 
 
-/*
+/*!
+ * @brief è£…å‚™ã‚¢ã‚¤ãƒ†ãƒ ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ /
  * Choice window "shadow" of the "show_equip()" function
+ * @return ãªã—
  */
 void display_equip(void)
 {
@@ -4487,11 +1787,7 @@ void display_equip(void)
 		/* Obtain an item description */
 		if ((((i == INVEN_RARM) && p_ptr->hidarite) || ((i == INVEN_LARM) && p_ptr->migite)) && p_ptr->ryoute)
 		{
-#ifdef JP
-			strcpy(o_name, "(Éğ´ï¤òÎ¾¼ê»ı¤Á)");
-#else
-			strcpy(o_name, "(wielding with two-hands)");
-#endif
+			strcpy(o_name, _("(æ­¦å™¨ã‚’ä¸¡æ‰‹æŒã¡)", "(wielding with two-hands)"));
 			attr = TERM_WHITE;
 		}
 		else
@@ -4545,15 +1841,20 @@ void display_equip(void)
 }
 
 
-/*
+/*!
+ * @brief æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«é¸æŠã‚¿ã‚°ã‚’ä¸ãˆã‚‹/ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’è¿”ã™ /
  * Find the "first" inventory object with the given "tag".
- *
- * A "tag" is a numeral "n" appearing as "@n" anywhere in the
- * inscription of an object.  Alphabetical characters don't work as a
- * tag in this form.
- *
- * Also, the tag "@xn" will work as well, where "n" is a any tag-char,
- * and "x" is the "current" command_cmd code.
+ * @param cp å¯¾å¿œã™ã‚‹ã‚¿ã‚°IDã‚’ä¸ãˆã‚‹å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param tag è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’èª¿ã¹ãŸã„ã‚¿ã‚°
+ * @param mode æ‰€æŒã€è£…å‚™ã®åˆ‡ã‚Šæ›¿ãˆ
+ * @return ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ãªã‚‰TRUEã‚’è¿”ã™
+ * @details
+ * A "tag" is a numeral "n" appearing as "@n" anywhere in the\n
+ * inscription of an object.  Alphabetical characters don't work as a\n
+ * tag in this form.\n
+ *\n
+ * Also, the tag "@xn" will work as well, where "n" is a any tag-char,\n
+ * and "x" is the "current" command_cmd code.\n
  */
 static bool get_tag(int *cp, char tag, int mode)
 {
@@ -4664,15 +1965,21 @@ static bool get_tag(int *cp, char tag, int mode)
 }
 
 
-/*
- * Find the "first" floor object with the given "tag".
- *
- * A "tag" is a numeral "n" appearing as "@n" anywhere in the
- * inscription of an object.  Alphabetical characters don't work as a
- * tag in this form.
- *
- * Also, the tag "@xn" will work as well, where "n" is a any tag-char,
- * and "x" is the "current" command_cmd code.
+/*!
+ * @brief åºŠã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«é¸æŠã‚¿ã‚°ã‚’ä¸ãˆã‚‹/ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’è¿”ã™ /
+ * Find the "first" inventory object with the given "tag".
+ * @param cp å¯¾å¿œã™ã‚‹ã‚¿ã‚°IDã‚’ä¸ãˆã‚‹å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param tag è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’èª¿ã¹ãŸã„ã‚¿ã‚°
+ * @param floor_list åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—
+ * @param floor_num  åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—ID
+ * @return ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ãªã‚‰TRUEã‚’è¿”ã™
+ * @details
+ * A "tag" is a numeral "n" appearing as "@n" anywhere in the\n
+ * inscription of an object.  Alphabetical characters don't work as a\n
+ * tag in this form.\n
+ *\n
+ * Also, the tag "@xn" will work as well, where "n" is a any tag-char,\n
+ * and "x" is the "current" command_cmd code.\n
  */
 static bool get_tag_floor(int *cp, char tag, int floor_list[], int floor_num)
 {
@@ -4754,8 +2061,12 @@ static bool get_tag_floor(int *cp, char tag, int floor_list[], int floor_num)
 }
 
 
-/*
+/*!
+ * @brief ã‚¿ã‚°IDã«ã‚ã‚ã›ã¦ã‚¿ã‚°ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ /
  * Move around label characters with correspond tags
+ * @param label ãƒ©ãƒ™ãƒ«ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹æ–‡å­—åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param mode æ‰€æŒå“ãƒªã‚¹ãƒˆã‹è£…å‚™å“ãƒªã‚¹ãƒˆã‹ã®åˆ‡ã‚Šæ›¿ãˆ
+ * @return ãªã—
  */
 static void prepare_label_string(char *label, int mode)
 {
@@ -4785,8 +2096,15 @@ static void prepare_label_string(char *label, int mode)
 }
 
 
-/*
+/*!
+ * @brief ã‚¿ã‚°IDã«ã‚ã‚ã›ã¦ã‚¿ã‚°ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™(åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ç”¨) /
  * Move around label characters with correspond tags (floor version)
+ * @param label ãƒ©ãƒ™ãƒ«ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹æ–‡å­—åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param floor_list åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—
+ * @param floor_num  åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—ID
+ * @return ãªã—
+ */
+/*
  */
 static void prepare_label_string_floor(char *label, int floor_list[], int floor_num)
 {
@@ -4815,9 +2133,12 @@ static void prepare_label_string_floor(char *label, int floor_list[], int floor_
 }
 
 
-/*
+/*!
+ * @brief æ‰€æŒã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºã‚’è¡Œã† /
  * Display the inventory.
- *
+ * @param target_item ã‚¢ã‚¤ãƒ†ãƒ ã®é¸æŠå‡¦ç†ã‚’è¡Œã†ã‹å¦ã‹ã€‚
+ * @return é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ã‚¿ã‚°
+ * @details
  * Hack -- do not display "trailing" empty slots
  */
 int show_inven(int target_item)
@@ -4920,11 +2241,7 @@ int show_inven(int target_item)
 		{
 			if (j == (target_item-1))
 			{
-#ifdef JP
-				strcpy(tmp_val, "¡Õ");
-#else
-				strcpy(tmp_val, "> ");
-#endif
+				strcpy(tmp_val, _("ã€‹", "> "));
 				target_item_label = i;
 			}
 			else strcpy(tmp_val, "  ");
@@ -4989,9 +2306,11 @@ int show_inven(int target_item)
 }
 
 
-
-/*
+/*!
+ * @brief è£…å‚™ã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºã‚’è¡Œã† /
  * Display the equipment.
+ * @param target_item ã‚¢ã‚¤ãƒ†ãƒ ã®é¸æŠå‡¦ç†ã‚’è¡Œã†ã‹å¦ã‹ã€‚
+ * @return é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ã‚¿ã‚°
  */
 int show_equip(int target_item)
 {
@@ -5033,7 +2352,7 @@ int show_equip(int target_item)
 		if ((((i == INVEN_RARM) && p_ptr->hidarite) || ((i == INVEN_LARM) && p_ptr->migite)) && p_ptr->ryoute)
 		{
 #ifdef JP
-			(void)strcpy(out_desc[k],"(Éğ´ï¤òÎ¾¼ê»ı¤Á)");
+			(void)strcpy(out_desc[k],"(æ­¦å™¨ã‚’ä¸¡æ‰‹æŒã¡)");
 #else
 			(void)strcpy(out_desc[k],"(wielding with two-hands)");
 #endif
@@ -5105,11 +2424,7 @@ int show_equip(int target_item)
 		{
 			if (j == (target_item-1))
 			{
-#ifdef JP
-				strcpy(tmp_val, "¡Õ");
-#else
-				strcpy(tmp_val, "> ");
-#endif
+				strcpy(tmp_val, _("ã€‹", "> "));
 				target_item_label = i;
 			}
 			else strcpy(tmp_val, "  ");
@@ -5150,20 +2465,12 @@ int show_equip(int target_item)
 		if (show_labels)
 		{
 			/* Mention the use */
-#ifdef JP
-			(void)sprintf(tmp_val, "%-7s: ", mention_use(i));
-#else
-			(void)sprintf(tmp_val, "%-14s: ", mention_use(i));
-#endif
+			(void)sprintf(tmp_val, _("%-7s: ", "%-14s: "), mention_use(i));
 
 			put_str(tmp_val, j+1, cur_col);
 
 			/* Display the entry itself */
-#ifdef JP
-			c_put_str(out_color[j], out_desc[j], j+1, cur_col + 9);
-#else
-			c_put_str(out_color[j], out_desc[j], j+1, cur_col + 16);
-#endif
+			c_put_str(out_color[j], out_desc[j], j+1, _(cur_col + 9, cur_col + 16));
 		}
 
 		/* No labels */
@@ -5196,11 +2503,10 @@ int show_equip(int target_item)
 	return target_item_label;
 }
 
-
-
-
-/*
+/*!
+ * @brief ã‚µãƒ–ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«æ‰€æŒå“ã€è£…å‚™å“ãƒªã‚¹ãƒˆã®è¡¨ç¤ºã‚’è¡Œã† /
  * Flip "inven" and "equip" in any sub-windows
+ * @return ãªã—
  */
 void toggle_inven_equip(void)
 {
@@ -5236,12 +2542,13 @@ void toggle_inven_equip(void)
 	}
 }
 
-
-
-/*
+/*!
+ * @brief é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ç¢ºèªå‡¦ç†ã®è£œåŠ© /
  * Verify the choice of an item.
- *
- * The item can be negative to mean "item on floor".
+ * @param prompt ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤ºã®ä¸€éƒ¨
+ * @param item é¸æŠã‚¢ã‚¤ãƒ†ãƒ ID
+ * @return ç¢ºèªãŒYesãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ * @details The item can be negative to mean "item on floor".
  */
 static bool verify(cptr prompt, int item)
 {
@@ -5266,22 +2573,19 @@ static bool verify(cptr prompt, int item)
 	object_desc(o_name, o_ptr, 0);
 
 	/* Prompt */
-#ifdef JP
-(void)sprintf(out_val, "%s%s¤Ç¤¹¤«? ", prompt, o_name);
-#else
-	(void)sprintf(out_val, "%s %s? ", prompt, o_name);
-#endif
-
+	(void)sprintf(out_val, _("%s%sã§ã™ã‹? ", "%s %s? "), prompt, o_name);
 
 	/* Query */
 	return (get_check(out_val));
 }
 
 
-/*
+/*!
+ * @brief é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ç¢ºèªå‡¦ç†ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
+ * @param item é¸æŠã‚¢ã‚¤ãƒ†ãƒ ID
+ * @return ç¢ºèªãŒYesãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ * @details The item can be negative to mean "item on floor".
  * Hack -- allow user to "prevent" certain choices
- *
- * The item can be negative to mean "item on floor".
  */
 static bool get_item_allow(int item)
 {
@@ -5316,12 +2620,7 @@ static bool get_item_allow(int item)
 		if ((s[1] == command_cmd) || (s[1] == '*'))
 		{
 			/* Verify the choice */
-#ifdef JP
-if (!verify("ËÜÅö¤Ë", item)) return (FALSE);
-#else
-			if (!verify("Really try", item)) return (FALSE);
-#endif
-
+			if (!verify(_("æœ¬å½“ã«", "Really try"), item)) return (FALSE);
 		}
 
 		/* Find another '!' */
@@ -5333,9 +2632,11 @@ if (!verify("ËÜÅö¤Ë", item)) return (FALSE);
 }
 
 
-
-/*
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ­£è¦ã®ã‚‚ã®ã‹ã‚’è¿”ã™ /
  * Auxiliary function for "get_item()" -- test an index
+ * @param i é¸æŠã‚¢ã‚¤ãƒ†ãƒ ID
+ * @return æ­£è¦ã®IDãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
  */
 static bool get_item_okay(int i)
 {
@@ -5351,11 +2652,11 @@ static bool get_item_okay(int i)
 	return (TRUE);
 }
 
-
-
-/*
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ‹¾ã†ã“ã¨ãŒã§ãã‚‹çŠ¶æ…‹ã‹ã‚’è¿”ã™ /
  * Determine whether get_item() can get some item or not
- * assuming mode = (USE_EQUIP | USE_INVEN | USE_FLOOR).
+ * @return ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ãˆã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @details assuming mode = (USE_EQUIP | USE_INVEN | USE_FLOOR).
  */
 bool can_get_item(void)
 {
@@ -5372,55 +2673,60 @@ bool can_get_item(void)
 	return FALSE;
 }
 
-/*
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé¸æŠã®æ±ç”¨é–¢æ•° /
  * Let the user select an item, save its "index"
- *
- * Return TRUE only if an acceptable item was chosen by the user.
- *
- * The selected item must satisfy the "item_tester_hook()" function,
- * if that hook is set, and the "item_tester_tval", if that value is set.
- *
- * All "item_tester" restrictions are cleared before this function returns.
- *
- * The user is allowed to choose acceptable items from the equipment,
- * inventory, or floor, respectively, if the proper flag was given,
- * and there are any acceptable items in that location.
- *
- * The equipment or inventory are displayed (even if no acceptable
- * items are in that location) if the proper flag was given.
- *
- * If there are no acceptable items available anywhere, and "str" is
- * not NULL, then it will be used as the text of a warning message
- * before the function returns.
- *
- * Note that the user must press "-" to specify the item on the floor,
- * and there is no way to "examine" the item on the floor, while the
- * use of "capital" letters will "examine" an inventory/equipment item,
- * and prompt for its use.
- *
- * If a legal item is selected from the inventory, we save it in "cp"
- * directly (0 to 35), and return TRUE.
- *
- * If a legal item is selected from the floor, we save it in "cp" as
- * a negative (-1 to -511), and return TRUE.
- *
- * If no item is available, we do nothing to "cp", and we display a
- * warning message, using "str" if available, and return FALSE.
- *
- * If no item is selected, we do nothing to "cp", and return FALSE.
- *
- * Global "p_ptr->command_new" is used when viewing the inventory or equipment
- * to allow the user to enter a command while viewing those screens, and
- * also to induce "auto-enter" of stores, and other such stuff.
- *
- * Global "p_ptr->command_see" may be set before calling this function to start
- * out in "browse" mode.  It is cleared before this function returns.
- *
- * Global "p_ptr->command_wrk" is used to choose between equip/inven listings.
- * If it is TRUE then we are viewing inventory, else equipment.
- *
- * We always erase the prompt when we are done, leaving a blank line,
- * or a warning message, if appropriate, if no items are available.
+ * @param cp é¸æŠã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®IDã‚’è¿”ã™ã€‚
+ * @param pmt é¸æŠç›®çš„ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ * @param str é¸æŠã§ãã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãªã„å ´åˆã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
+ * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ˆã‚Šã‚¢ã‚¤ãƒ†ãƒ ãŒé¸æŠã•ã‚ŒãŸãªã‚‰TRUEã‚’è¿”ã™ã€‚/
+ * Return TRUE only if an acceptable item was chosen by the user.\n
+ * @details
+ * The selected item must satisfy the "item_tester_hook()" function,\n
+ * if that hook is set, and the "item_tester_tval", if that value is set.\n
+ *\n
+ * All "item_tester" restrictions are cleared before this function returns.\n
+ *\n
+ * The user is allowed to choose acceptable items from the equipment,\n
+ * inventory, or floor, respectively, if the proper flag was given,\n
+ * and there are any acceptable items in that location.\n
+ *\n
+ * The equipment or inventory are displayed (even if no acceptable\n
+ * items are in that location) if the proper flag was given.\n
+ *\n
+ * If there are no acceptable items available anywhere, and "str" is\n
+ * not NULL, then it will be used as the text of a warning message\n
+ * before the function returns.\n
+ *\n
+ * Note that the user must press "-" to specify the item on the floor,\n
+ * and there is no way to "examine" the item on the floor, while the\n
+ * use of "capital" letters will "examine" an inventory/equipment item,\n
+ * and prompt for its use.\n
+ *\n
+ * If a legal item is selected from the inventory, we save it in "cp"\n
+ * directly (0 to 35), and return TRUE.\n
+ *\n
+ * If a legal item is selected from the floor, we save it in "cp" as\n
+ * a negative (-1 to -511), and return TRUE.\n
+ *\n
+ * If no item is available, we do nothing to "cp", and we display a\n
+ * warning message, using "str" if available, and return FALSE.\n
+ *\n
+ * If no item is selected, we do nothing to "cp", and return FALSE.\n
+ *\n
+ * Global "p_ptr->command_new" is used when viewing the inventory or equipment\n
+ * to allow the user to enter a command while viewing those screens, and\n
+ * also to induce "auto-enter" of stores, and other such stuff.\n
+ *\n
+ * Global "p_ptr->command_see" may be set before calling this function to start\n
+ * out in "browse" mode.  It is cleared before this function returns.\n
+ *\n
+ * Global "p_ptr->command_wrk" is used to choose between equip/inven listings.\n
+ * If it is TRUE then we are viewing inventory, else equipment.\n
+ *\n
+ * We always erase the prompt when we are done, leaving a blank line,\n
+ * or a warning message, if appropriate, if no items are available.\n
  */
 bool get_item(int *cp, cptr pmt, cptr str, int mode)
 {
@@ -5673,7 +2979,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 
 
 	/*
-	 * ÄÉ²Ã¥ª¥×¥·¥ç¥ó(always_show_list)¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¾ï¤Ë°ìÍ÷¤òÉ½¼¨¤¹¤ë
+	 * è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³(always_show_list)ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯å¸¸ã«ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹
 	 */
 	if ((always_show_list == TRUE) || use_menu) command_see = TRUE;
 
@@ -5743,21 +3049,13 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 		if (!command_wrk)
 		{
 			/* Begin the prompt */
-#ifdef JP
-			sprintf(out_val, "»ı¤ÁÊª:");
-#else
-			sprintf(out_val, "Inven:");
-#endif
+			sprintf(out_val, _("æŒã¡ç‰©:", "Inven:"));
 
 			/* Some legal items */
 			if ((i1 <= i2) && !use_menu)
 			{
 				/* Build the prompt */
-#ifdef JP
-				sprintf(tmp_val, "%c-%c,'(',')',",
-#else
-				sprintf(tmp_val, " %c-%c,'(',')',",
-#endif
+				sprintf(tmp_val, _("%c-%c,'(',')',", " %c-%c,'(',')',"),
 					index_to_label(i1), index_to_label(i2));
 
 				/* Append */
@@ -5765,15 +3063,11 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-#ifdef JP
-			if (!command_see && !use_menu) strcat(out_val, " '*'°ìÍ÷,");
-#else
-			if (!command_see && !use_menu) strcat(out_val, " * to see,");
-#endif
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
 
 			/* Append */
 #ifdef JP
-			if (equip) strcat(out_val, format(" %s ÁõÈ÷ÉÊ,", use_menu ? "'4'or'6'" : "'/'"));
+			if (equip) strcat(out_val, format(" %s è£…å‚™å“,", use_menu ? "'4'or'6'" : "'/'"));
 #else
 			if (equip) strcat(out_val, format(" %s for Equip,", use_menu ? "4 or 6" : "/"));
 #endif
@@ -5783,21 +3077,13 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 		else
 		{
 			/* Begin the prompt */
-#ifdef JP
-			sprintf(out_val, "ÁõÈ÷ÉÊ:");
-#else
-			sprintf(out_val, "Equip:");
-#endif
+			sprintf(out_val, _("è£…å‚™å“:", "Equip:"));
 
 			/* Some legal items */
 			if ((e1 <= e2) && !use_menu)
 			{
 				/* Build the prompt */
-#ifdef JP
-				sprintf(tmp_val, "%c-%c,'(',')',",
-#else
-				sprintf(tmp_val, " %c-%c,'(',')',",
-#endif
+				sprintf(tmp_val, _("%c-%c,'(',')',", " %c-%c,'(',')',"),
 					index_to_label(e1), index_to_label(e2));
 
 				/* Append */
@@ -5805,28 +3091,19 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-#ifdef JP
-			if (!command_see && !use_menu) strcat(out_val, " '*'°ìÍ÷,");
-#else
-			if (!command_see) strcat(out_val, " * to see,");
-#endif
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
 
 			/* Append */
 #ifdef JP
-			if (inven) strcat(out_val, format(" %s »ı¤ÁÊª,", use_menu ? "'4'or'6'" : "'/'"));
+			if (inven) strcat(out_val, format(" %s æŒã¡ç‰©,", use_menu ? "'4'or'6'" : "'/'"));
 #else
 			if (inven) strcat(out_val, format(" %s for Inven,", use_menu ? "4 or 6" : "'/'"));
 #endif
 		}
 
 		/* Indicate legality of the "floor" item */
-#ifdef JP
-		if (allow_floor) strcat(out_val, " '-'¾²¾å,");
-		if (select_the_force) strcat(out_val, " 'w'Îıµ¤½Ñ,");
-#else
-		if (allow_floor) strcat(out_val, " - for floor,");
-		if (select_the_force) strcat(out_val, " w for the Force,");
-#endif
+		if (allow_floor) strcat(out_val, _(" '-'åºŠä¸Š,", " - for floor,"));
+		if (select_the_force) strcat(out_val, _(" 'w'ç·´æ°—è¡“,", " w for the Force,"));
 
 		/* Finish the prompt */
 		strcat(out_val, " ESC");
@@ -6035,12 +3312,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 						k = 0 - this_o_idx;
 
 						/* Verify the item (if required) */
-#ifdef JP
-if (other_query_flag && !verify("ËÜÅö¤Ë", k)) continue;
-#else
-						if (other_query_flag && !verify("Try", k)) continue;
-#endif
-
+						if (other_query_flag && !verify(_("æœ¬å½“ã«", "Try"), k)) continue;
 
 						/* Allow player to "refuse" certain actions */
 						if (!get_item_allow(k)) continue;
@@ -6217,12 +3489,7 @@ if (other_query_flag && !verify("ËÜÅö¤Ë", k)) continue;
 				}
 
 				/* Verify the item */
-#ifdef JP
-if (ver && !verify("ËÜÅö¤Ë", k))
-#else
-				if (ver && !verify("Try", k))
-#endif
-
+				if (ver && !verify(_("æœ¬å½“ã«", "Try"), k))
 				{
 					done = TRUE;
 					break;
@@ -6300,9 +3567,14 @@ if (ver && !verify("ËÜÅö¤Ë", k))
 
 #ifdef ALLOW_EASY_FLOOR
 
-/*
- * scan_floor --
- *
+/*!
+ * @brief åºŠä¸‹ã«è½ã¡ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’è¿”ã™ / scan_floor
+ * @param items ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®IDãƒªã‚¹ãƒˆã‚’è¿”ã™ãŸã‚ã®é…åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param y èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Yåº§æ¨™
+ * @param x èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Xåº§æ¨™
+ * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
+ * @return å¯¾è±¡ã®ãƒã‚¹ã«è½ã¡ã¦ã„ã‚‹ã‚¢ã‚¤ãƒ†ãƒ æ•°
+ * @details
  * Return a list of o_list[] indexes of items at the given cave
  * location. Valid flags are:
  *
@@ -6352,8 +3624,14 @@ int scan_floor(int *items, int y, int x, int mode)
 }
 
 
-/*
- * Display a list of the items on the floor at the given location.
+/*!
+ * @brief åºŠä¸‹ã«è½ã¡ã¦ã„ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã®ä¸€è¦§ã‚’è¿”ã™ / Display a list of the items on the floor at the given location.
+ * @param target_item ã‚«ãƒ¼ã‚½ãƒ«ã®åˆæœŸå€¤
+ * @param y èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Yåº§æ¨™
+ * @param x èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Xåº§æ¨™
+ * @param min_width è¡¨ç¤ºã®é•·ã•
+ * @return é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ID
+ * @details
  */
 int show_floor(int target_item, int y, int x, int *min_width)
 {
@@ -6445,11 +3723,7 @@ int show_floor(int target_item, int y, int x, int *min_width)
 		{
 			if (j == (target_item-1))
 			{
-#ifdef JP
-				strcpy(tmp_val, "¡Õ");
-#else
-				strcpy(tmp_val, "> ");
-#endif
+				strcpy(tmp_val, _("ã€‹", "> "));
 				target_item_label = i;
 			}
 			else strcpy(tmp_val, "   ");
@@ -6486,9 +3760,14 @@ int show_floor(int target_item, int y, int x, int *min_width)
 	return target_item_label;
 }
 
-/*
- * This version of get_item() is called by get_item() when
- * the easy_floor is on.
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé¸æŠã®æ±ç”¨é–¢æ•°(åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ç”¨) /
+ * Let the user select an item, save its "index"
+ * @param cp é¸æŠã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®IDã‚’è¿”ã™ã€‚
+ * @param pmt é¸æŠç›®çš„ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ * @param str é¸æŠã§ãã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãªã„å ´åˆã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
+ * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ˆã‚Šã‚¢ã‚¤ãƒ†ãƒ ãŒé¸æŠã•ã‚ŒãŸãªã‚‰TRUEã‚’è¿”ã™ã€‚/
  */
 bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 {
@@ -6744,7 +4023,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 	}
 
 	/*
-	 * ÄÉ²Ã¥ª¥×¥·¥ç¥ó(always_show_list)¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¾ï¤Ë°ìÍ÷¤òÉ½¼¨¤¹¤ë
+	 * è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³(always_show_list)ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯å¸¸ã«ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹
 	 */
 	if ((always_show_list == TRUE) || use_menu) command_see = TRUE;
 
@@ -6834,20 +4113,12 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 		if (command_wrk == (USE_INVEN))
 		{
 			/* Begin the prompt */
-#ifdef JP
-			sprintf(out_val, "»ı¤ÁÊª:");
-#else
-			sprintf(out_val, "Inven:");
-#endif
+			sprintf(out_val, _("æŒã¡ç‰©:", "Inven:"));
 
 			if (!use_menu)
 			{
 				/* Build the prompt */
-#ifdef JP
-				sprintf(tmp_val, "%c-%c,'(',')',",
-#else
-				sprintf(tmp_val, " %c-%c,'(',')',",
-#endif
+				sprintf(tmp_val, _("%c-%c,'(',')',", " %c-%c,'(',')',"),
 					index_to_label(i1), index_to_label(i2));
 
 				/* Append */
@@ -6855,22 +4126,18 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-#ifdef JP
-			if (!command_see && !use_menu) strcat(out_val, " '*'°ìÍ÷,");
-#else
-			if (!command_see && !use_menu) strcat(out_val, " * to see,");
-#endif
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
 
 			/* Append */
 			if (allow_equip)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '/' ÁõÈ÷ÉÊ,");
+					strcat(out_val, " '/' è£…å‚™å“,");
 				else if (allow_floor)
-					strcat(out_val, " '6' ÁõÈ÷ÉÊ,");
+					strcat(out_val, " '6' è£…å‚™å“,");
 				else
-					strcat(out_val, " '4'or'6' ÁõÈ÷ÉÊ,");
+					strcat(out_val, " '4'or'6' è£…å‚™å“,");
 #else
 				if (!use_menu)
 					strcat(out_val, " / for Equip,");
@@ -6886,11 +4153,11 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '-'¾²¾å,");
+					strcat(out_val, " '-'åºŠä¸Š,");
 				else if (allow_equip)
-					strcat(out_val, " '4' ¾²¾å,");
+					strcat(out_val, " '4' åºŠä¸Š,");
 				else
-					strcat(out_val, " '4'or'6' ¾²¾å,");
+					strcat(out_val, " '4'or'6' åºŠä¸Š,");
 #else
 				if (!use_menu)
 					strcat(out_val, " - for floor,");
@@ -6906,20 +4173,12 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 		else if (command_wrk == (USE_EQUIP))
 		{
 			/* Begin the prompt */
-#ifdef JP
-			sprintf(out_val, "ÁõÈ÷ÉÊ:");
-#else
-			sprintf(out_val, "Equip:");
-#endif
+			sprintf(out_val, _("è£…å‚™å“:", "Equip:"));
 
 			if (!use_menu)
 			{
 				/* Build the prompt */
-#ifdef JP
-				sprintf(tmp_val, "%c-%c,'(',')',",
-#else
-				sprintf(tmp_val, " %c-%c,'(',')',",
-#endif
+				sprintf(tmp_val, _("%c-%c,'(',')',", " %c-%c,'(',')',"),
 					index_to_label(e1), index_to_label(e2));
 
 				/* Append */
@@ -6927,22 +4186,18 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-#ifdef JP
-			if (!command_see && !use_menu) strcat(out_val, " '*'°ìÍ÷,");
-#else
-			if (!command_see && !use_menu) strcat(out_val, " * to see,");
-#endif
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
 
 			/* Append */
 			if (allow_inven)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '/' »ı¤ÁÊª,");
+					strcat(out_val, " '/' æŒã¡ç‰©,");
 				else if (allow_floor)
-					strcat(out_val, " '4' »ı¤ÁÊª,");
+					strcat(out_val, " '4' æŒã¡ç‰©,");
 				else
-					strcat(out_val, " '4'or'6' »ı¤ÁÊª,");
+					strcat(out_val, " '4'or'6' æŒã¡ç‰©,");
 #else
 				if (!use_menu)
 					strcat(out_val, " / for Inven,");
@@ -6958,11 +4213,11 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '-'¾²¾å,");
+					strcat(out_val, " '-'åºŠä¸Š,");
 				else if (allow_inven)
-					strcat(out_val, " '6' ¾²¾å,");
+					strcat(out_val, " '6' åºŠä¸Š,");
 				else
-					strcat(out_val, " '4'or'6' ¾²¾å,");
+					strcat(out_val, " '4'or'6' åºŠä¸Š,");
 #else
 				if (!use_menu)
 					strcat(out_val, " - for floor,");
@@ -6978,94 +4233,54 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 		else if (command_wrk == (USE_FLOOR))
 		{
 			/* Begin the prompt */
-#ifdef JP
-			sprintf(out_val, "¾²¾å:");
-#else
-			sprintf(out_val, "Floor:");
-#endif
+			sprintf(out_val, _("åºŠä¸Š:", "Floor:"));
 
 			if (!use_menu)
 			{
 				/* Build the prompt */
-#ifdef JP
-				sprintf(tmp_val, "%c-%c,'(',')',", n1, n2);
-#else
-				sprintf(tmp_val, " %c-%c,'(',')',", n1, n2);
-#endif
+				sprintf(tmp_val, _("%c-%c,'(',')',", " %c-%c,'(',')',"), n1, n2);
 
 				/* Append */
 				strcat(out_val, tmp_val);
 			}
 
 			/* Indicate ability to "view" */
-#ifdef JP
-			if (!command_see && !use_menu) strcat(out_val, " '*'°ìÍ÷,");
-#else
-			if (!command_see && !use_menu) strcat(out_val, " * to see,");
-#endif
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
 
 			if (use_menu)
 			{
 				if (allow_inven && allow_equip)
 				{
-#ifdef JP
-					strcat(out_val, " '4' ÁõÈ÷ÉÊ, '6' »ı¤ÁÊª,");
-#else
-					strcat(out_val, " 4 for Equip, 6 for Inven,");
-#endif
+					strcat(out_val, _(" '4' è£…å‚™å“, '6' æŒã¡ç‰©,", " 4 for Equip, 6 for Inven,"));
 				}
 				else if (allow_inven)
 				{
-#ifdef JP
-					strcat(out_val, " '4'or'6' »ı¤ÁÊª,");
-#else
-					strcat(out_val, " 4 or 6 for Inven,");
-#endif
+					strcat(out_val, _(" '4'or'6' æŒã¡ç‰©,", " 4 or 6 for Inven,"));
 				}
 				else if (allow_equip)
 				{
-#ifdef JP
-					strcat(out_val, " '4'or'6' ÁõÈ÷ÉÊ,");
-#else
-					strcat(out_val, " 4 or 6 for Equip,");
-#endif
+					strcat(out_val, _(" '4'or'6' è£…å‚™å“,", " 4 or 6 for Equip,"));
 				}
 			}
 			/* Append */
 			else if (allow_inven)
 			{
-#ifdef JP
-				strcat(out_val, " '/' »ı¤ÁÊª,");
-#else
-				strcat(out_val, " / for Inven,");
-#endif
+				strcat(out_val, _(" '/' æŒã¡ç‰©,", " / for Inven,"));
 			}
 			else if (allow_equip)
 			{
-#ifdef JP
-				strcat(out_val, " '/'ÁõÈ÷ÉÊ,");
-#else
-				strcat(out_val, " / for Equip,");
-#endif
+				strcat(out_val, _(" '/'è£…å‚™å“,", " / for Equip,"));
 			}
 
 			/* Append */
 			if (command_see && !use_menu)
 			{
-#ifdef JP
-				strcat(out_val, " Enter ¼¡,");
-#else
-				strcat(out_val, " Enter for scroll down,");
-#endif
+				strcat(out_val, _(" Enter æ¬¡,", " Enter for scroll down,"));
 			}
 		}
 
 		/* Append */
-#ifdef JP
-		if (select_the_force) strcat(out_val, " 'w'Îıµ¤½Ñ,");
-#else
-		if (select_the_force) strcat(out_val, " w for the Force,");
-#endif
+		if (select_the_force) strcat(out_val, _(" 'w'ç·´æ°—è¡“,", " w for the Force,"));
 
 		/* Finish the prompt */
 		strcat(out_val, " ESC");
@@ -7697,12 +4912,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 				}
 
 				/* Verify the item */
-#ifdef JP
-if (ver && !verify("ËÜÅö¤Ë", k))
-#else
-				if (ver && !verify("Try", k))
-#endif
-
+				if (ver && !verify(_("æœ¬å½“ã«", "Try"), k))
 				{
 					done = TRUE;
 					break;
@@ -7774,7 +4984,10 @@ if (ver && !verify("ËÜÅö¤Ë", k))
 	return (item);
 }
 
-
+/*!
+ * @brief åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†é¸æŠç”¨ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ 
+ * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ˆã‚Šã‚¢ã‚¤ãƒ†ãƒ ãŒé¸æŠã•ã‚ŒãŸãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ */
 static bool py_pickup_floor_aux(void)
 {
 	s16b this_o_idx;
@@ -7787,13 +5000,8 @@ static bool py_pickup_floor_aux(void)
 	item_tester_hook = inven_carry_okay;
 
 	/* Get an object */
-#ifdef JP
-	q = "¤É¤ì¤ò½¦¤¤¤Ş¤¹¤«¡©";
-	s = "¤â¤¦¥¶¥Ã¥¯¤Ë¤Ï¾²¤Ë¤¢¤ë¤É¤Î¥¢¥¤¥Æ¥à¤âÆş¤é¤Ê¤¤¡£";
-#else
-	q = "Get which item? ";
-	s = "You no longer have any room for the objects on the floor.";
-#endif
+	q = _("ã©ã‚Œã‚’æ‹¾ã„ã¾ã™ã‹ï¼Ÿ", "Get which item? ");
+	s = _("ã‚‚ã†ã‚¶ãƒƒã‚¯ã«ã¯åºŠã«ã‚ã‚‹ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚‚å…¥ã‚‰ãªã„ã€‚", "You no longer have any room for the objects on the floor.");
 
 	if (get_item(&item, q, s, (USE_FLOOR)))
 	{
@@ -7810,12 +5018,11 @@ static bool py_pickup_floor_aux(void)
 	return (TRUE);
 }
 
-
-/*
- * Make the player carry everything in a grid
- *
- * If "pickup" is FALSE then only gold will be picked up
- *
+/*!
+ * @brief åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†ãƒ¡ã‚¤ãƒ³å‡¦ç†
+ * @param pickup FALSEãªã‚‰é‡‘éŠ­ã®è‡ªå‹•æ‹¾ã„ã®ã¿ã‚’è¡Œã†/ FALSE then only gold will be picked up
+ * @return ãªã—
+ * @details
  * This is called by py_pickup() when easy_floor is TRUE.
  */
 void py_pickup_floor(bool pickup)
@@ -7825,7 +5032,7 @@ void py_pickup_floor(bool pickup)
 	char o_name[MAX_NLEN];
 	object_type *o_ptr;
 
-	int floor_num = 0, floor_list[23], floor_o_idx = 0;
+	int floor_num = 0, floor_o_idx = 0;
 
 	int can_pickup = 0;
 
@@ -7851,7 +5058,7 @@ void py_pickup_floor(bool pickup)
 		{
 			/* Message */
 #ifdef JP
-		msg_format(" $%ld ¤Î²ÁÃÍ¤¬¤¢¤ë%s¤ò¸«¤Ä¤±¤¿¡£",
+		msg_format(" $%ld ã®ä¾¡å€¤ãŒã‚ã‚‹%sã‚’è¦‹ã¤ã‘ãŸã€‚",
 			   (long)o_ptr->pval, o_name);
 #else
 			msg_format("You have found %ld gold pieces worth of %s.",
@@ -7888,10 +5095,6 @@ void py_pickup_floor(bool pickup)
 			can_pickup++;
 		}
 
-		/* Remember this object index */
-		if (floor_num < 23)
-			floor_list[floor_num] = this_o_idx;
-
 		/* Count non-gold objects */
 		floor_num++;
 
@@ -7927,24 +5130,14 @@ void py_pickup_floor(bool pickup)
 			object_desc(o_name, o_ptr, 0);
 
 			/* Message */
-#ifdef JP
-				msg_format("%s¤¬¤¢¤ë¡£", o_name);
-#else
-			msg_format("You see %s.", o_name);
-#endif
-
+			msg_format(_("%sãŒã‚ã‚‹ã€‚", "You see %s."), o_name);
 		}
 
 		/* Multiple objects */
 		else
 		{
 			/* Message */
-#ifdef JP
-			msg_format("%d ¸Ä¤Î¥¢¥¤¥Æ¥à¤Î»³¤¬¤¢¤ë¡£", floor_num);
-#else
-			msg_format("You see a pile of %d items.", floor_num);
-#endif
-
+			msg_format(_("%d å€‹ã®ã‚¢ã‚¤ãƒ†ãƒ ã®å±±ãŒã‚ã‚‹ã€‚", "You see a pile of %d items."), floor_num);
 		}
 
 		/* Done */
@@ -7975,23 +5168,14 @@ void py_pickup_floor(bool pickup)
 			object_desc(o_name, o_ptr, 0);
 
 			/* Message */
-#ifdef JP
-				msg_format("¥¶¥Ã¥¯¤Ë¤Ï%s¤òÆş¤ì¤ë·ä´Ö¤¬¤Ê¤¤¡£", o_name);
-#else
-			msg_format("You have no room for %s.", o_name);
-#endif
-
+			msg_format(_("ã‚¶ãƒƒã‚¯ã«ã¯%sã‚’å…¥ã‚Œã‚‹éš™é–“ãŒãªã„ã€‚", "You have no room for %s."), o_name);
 		}
 
 		/* Multiple objects */
 		else
 		{
 			/* Message */
-#ifdef JP
-			msg_format("¥¶¥Ã¥¯¤Ë¤Ï¾²¤Ë¤¢¤ë¤É¤Î¥¢¥¤¥Æ¥à¤âÆş¤é¤Ê¤¤¡£", o_name);
-#else
-			msg_print("You have no room for any of the objects on the floor.");
-#endif
+			msg_print(_("ã‚¶ãƒƒã‚¯ã«ã¯åºŠã«ã‚ã‚‹ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚‚å…¥ã‚‰ãªã„ã€‚", "You have no room for any of the objects on the floor."));
 
 		}
 
@@ -8025,12 +5209,7 @@ void py_pickup_floor(bool pickup)
 			object_desc(o_name, o_ptr, 0);
 
 			/* Build a prompt */
-#ifdef JP
-			(void) sprintf(out_val, "%s¤ò½¦¤¤¤Ş¤¹¤«? ", o_name);
-#else
-			(void) sprintf(out_val, "Pick up %s? ", o_name);
-#endif
-
+			(void) sprintf(out_val, _("%sã‚’æ‹¾ã„ã¾ã™ã‹? ", "Pick up %s? "), o_name);
 
 			/* Ask the user to confirm */
 			if (!get_check(out_val))

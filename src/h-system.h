@@ -1,4 +1,4 @@
-/* File: h-system.h */
+﻿/* File: h-system.h */
 
 #ifndef INCLUDED_H_SYSTEM_H
 #define INCLUDED_H_SYSTEM_H
@@ -19,7 +19,9 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <wctype.h>
 #include <errno.h>
+#include <stddef.h>
 
 
 #if defined(NeXT)

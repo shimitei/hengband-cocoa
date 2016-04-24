@@ -1,4 +1,4 @@
-/* File: tables.c */
+ï»¿/* File: tables.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -18,41 +18,41 @@
 /*
  * Global array for looping through the "keypad directions"
  */
-s16b ddd[9] =
+const s16b ddd[9] =
 { 2, 8, 6, 4, 3, 1, 9, 7, 5 };
 
 /*
  * Global arrays for converting "keypad direction" into offsets
  */
-s16b ddx[10] =
+const s16b ddx[10] =
 { 0, -1, 0, 1, -1, 0, 1, -1, 0, 1 };
 
-s16b ddy[10] =
+const s16b ddy[10] =
 { 0, 1, 1, 1, 0, 0, 0, -1, -1, -1 };
 
 /*
  * Global arrays for optimizing "ddx[ddd[i]]" and "ddy[ddd[i]]"
  */
-s16b ddx_ddd[9] =
+const s16b ddx_ddd[9] =
 { 0, 0, 1, -1, 1, -1, 1, -1, 0 };
 
-s16b ddy_ddd[9] =
+const s16b ddy_ddd[9] =
 { 1, -1, 0, 0, 1, 1, -1, -1, 0 };
 
 
 /*
  * Circular keypad direction array
  */
-s16b cdd[8] =
+const s16b cdd[8] =
 { 2, 3, 6, 9, 8, 7, 4, 1 };
 
 /*
  * Global arrays for optimizing "ddx[cdd[i]]" and "ddy[cdd[i]]"
  */
-s16b ddx_cdd[8] =
+const s16b ddx_cdd[8] =
 { 0, 1, 1, 1, 0, -1, -1, -1 };
 
-s16b ddy_cdd[8] =
+const s16b ddy_cdd[8] =
 { 1, 1, 0, -1, -1, -1, 0, 1 };
 
 
@@ -61,7 +61,7 @@ s16b ddy_cdd[8] =
  * Global array for converting numbers to uppercase hecidecimal digit
  * This array can also be used to convert a number to an octal digit
  */
-char hexsym[16] =
+const char hexsym[16] =
 {
 	'0', '1', '2', '3', '4', '5', '6', '7',
 	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
@@ -71,7 +71,7 @@ char hexsym[16] =
 /*
  * Global array for converting numbers to a logical list symbol
  */
-char listsym[] =
+const char listsym[] =
 {
 	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -85,13 +85,13 @@ char listsym[] =
 /*
  * Encode the screen colors
  */
-cptr color_char = "dwsorgbuDWvyRGBU";
+const cptr color_char = "dwsorgbuDWvyRGBU";
 
 
 /*
  * Stat Table (INT/WIS) -- Number of half-spells per level
  */
-byte adj_mag_study[] =
+const byte adj_mag_study[] =
 {
 	0	/* 3 */,
 	0	/* 4 */,
@@ -137,7 +137,7 @@ byte adj_mag_study[] =
 /*
  * Stat Table (INT/WIS) -- extra 1/4-mana-points per level
  */
-byte adj_mag_mana[] =
+const byte adj_mag_mana[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -183,7 +183,7 @@ byte adj_mag_mana[] =
 /*
  * Stat Table (INT/WIS) -- Minimum failure rate (percentage)
  */
-byte adj_mag_fail[] =
+const byte adj_mag_fail[] =
 {
 	99      /* 3 */,
 	99      /* 4 */,
@@ -229,7 +229,7 @@ byte adj_mag_fail[] =
 /*
  * Stat Table (INT/WIS) -- Various things
  */
-byte adj_mag_stat[] =
+const byte adj_mag_stat[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -275,7 +275,7 @@ byte adj_mag_stat[] =
 /*
  * Stat Table (CHR) -- payment percentages
  */
-byte adj_chr_gold[] =
+const byte adj_chr_gold[] =
 {
 	130     /* 3 */,
 	125     /* 4 */,
@@ -321,7 +321,7 @@ byte adj_chr_gold[] =
 /*
  * Stat Table (INT) -- Magic devices
  */
-byte adj_int_dev[] =
+const byte adj_int_dev[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -367,7 +367,7 @@ byte adj_int_dev[] =
 /*
  * Stat Table (WIS) -- Saving throw
  */
-byte adj_wis_sav[] =
+const byte adj_wis_sav[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -413,7 +413,7 @@ byte adj_wis_sav[] =
 /*
  * Stat Table (DEX) -- disarming
  */
-byte adj_dex_dis[] =
+const byte adj_dex_dis[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -459,7 +459,7 @@ byte adj_dex_dis[] =
 /*
  * Stat Table (INT) -- disarming
  */
-byte adj_int_dis[] =
+const byte adj_int_dis[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -505,7 +505,7 @@ byte adj_int_dis[] =
 /*
  * Stat Table (DEX) -- bonus to ac (plus 128)
  */
-byte adj_dex_ta[] =
+const byte adj_dex_ta[] =
 {
 	128 + -4    /*  3 */,
 	128 + -3    /*  4 */,
@@ -551,7 +551,7 @@ byte adj_dex_ta[] =
 /*
  * Stat Table (STR) -- bonus to dam (plus 128)
  */
-byte adj_str_td[] =
+const byte adj_str_td[] =
 {
 	128 + -2    /*  3 */,
 	128 + -2    /*  4 */,
@@ -597,7 +597,7 @@ byte adj_str_td[] =
 /*
  * Stat Table (DEX) -- bonus to hit (plus 128)
  */
-byte adj_dex_th[] =
+const byte adj_dex_th[] =
 {
 	128 + -3        /* 3 */,
 	128 + -2        /* 4 */,
@@ -643,7 +643,7 @@ byte adj_dex_th[] =
 /*
  * Stat Table (STR) -- bonus to hit (plus 128)
  */
-byte adj_str_th[] =
+const byte adj_str_th[] =
 {
 	128 + -3        /* 3 */,
 	128 + -2        /* 4 */,
@@ -689,7 +689,7 @@ byte adj_str_th[] =
 /*
  * Stat Table (STR) -- weight limit in deca-pounds
  */
-byte adj_str_wgt[] =
+const byte adj_str_wgt[] =
 {
 	10      /* 3 */,
 	11      /* 4 */,
@@ -735,7 +735,7 @@ byte adj_str_wgt[] =
 /*
  * Stat Table (STR) -- weapon weight limit in pounds
  */
-byte adj_str_hold[] =
+const byte adj_str_hold[] =
 {
 	4       /* 3 */,
 	5       /* 4 */,
@@ -781,7 +781,7 @@ byte adj_str_hold[] =
 /*
  * Stat Table (STR) -- digging value
  */
-byte adj_str_dig[] =
+const byte adj_str_dig[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -827,7 +827,7 @@ byte adj_str_dig[] =
 /*
  * Stat Table (STR) -- help index into the "blow" table
  */
-byte adj_str_blow[] =
+const byte adj_str_blow[] =
 {
 	3       /* 3 */,
 	4       /* 4 */,
@@ -873,7 +873,7 @@ byte adj_str_blow[] =
 /*
  * Stat Table (DEX) -- index into the "blow" table
  */
-byte adj_dex_blow[] =
+const byte adj_dex_blow[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -919,7 +919,7 @@ byte adj_dex_blow[] =
 /*
  * Stat Table (DEX) -- chance of avoiding "theft" and "falling"
  */
-byte adj_dex_safe[] =
+const byte adj_dex_safe[] =
 {
 	0       /* 3 */,
 	1       /* 4 */,
@@ -965,7 +965,7 @@ byte adj_dex_safe[] =
 /*
  * Stat Table (CON) -- base regeneration rate
  */
-byte adj_con_fix[] =
+const byte adj_con_fix[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -1011,7 +1011,7 @@ byte adj_con_fix[] =
 /*
  * Stat Table (CON) -- extra 1/4-hitpoints per level (plus 128)
  */
-byte adj_con_mhp[] =
+const byte adj_con_mhp[] =
 {
 	128 + -8        /* 3 */,
 	128 + -6        /* 4 */,
@@ -1057,7 +1057,7 @@ byte adj_con_mhp[] =
 /*
  * Stat Table (CHR) -- charm
  */
-byte adj_chr_chm[] =
+const byte adj_chr_chm[] =
 {
 	0       /* 3 */,
 	0       /* 4 */,
@@ -1145,7 +1145,7 @@ byte adj_chr_chm[] =
  * The player gets "blows_table[P][D]" blows/round, as shown below,
  * up to a maximum of "num" blows/round, plus any "bonus" blows/round.
  */
-byte blows_table[12][12] =
+const byte blows_table[12][12] =
 {
 	/* P/D */
 	/*      0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11+ */
@@ -1166,46 +1166,49 @@ byte blows_table[12][12] =
 };
 
 
-arena_type arena_info[MAX_ARENA_MONS + 2] =
+const arena_type arena_info[MAX_ARENA_MONS + 2] =
 {
-	{ MON_NOBORTA,       0,         0                             },
-	{ MON_MORI_TROLL,    0,         0                             },
-	{ MON_TIGER,         0,         0                             },
-	{ MON_DRUID,         0,         0                             },
-	{ MON_HILL_GIANT,    TV_POTION, SV_POTION_SPEED               },
-	{ MON_WERERAT,       0,         0                             },
-	{ MON_ORC_CAPTAIN,   0,         0                             },
-	{ MON_BERSERKER,     0,         0                             },
-	{ MON_STONE_GIANT,   0,         0                             },
-	{ MON_D_ELF_LORD,    TV_POTION, SV_POTION_HEALING             },
-	{ MON_IRON_GOLEM,    0,         0                             },
-	{ MON_C_CRAWLER,     0,         0                             },
-	{ MON_XICLOTLAN,     0,         0                             },
-	{ MON_TROLL_PRIEST,  0,         0                             },
-	{ MON_ANGEL,         TV_ROD,    SV_ROD_STONE_TO_MUD           },
-	{ MON_SPIRIT_NAGA,   0,         0                             },
-	{ MON_BASILISK,      0,         0                             },
-	{ MON_MITHRIL_GOLEM, 0,         0                             },
-	{ MON_SHADOW_DRAKE,  0,         0                             },
-	{ MON_OGRE_SHAMAN,   TV_SCROLL, SV_SCROLL_ACQUIREMENT         },
-	{ MON_BICLOPS,       0,         0                             },
-	{ MON_ETHER_DRAKE,   TV_SCROLL, SV_SCROLL_RUNE_OF_PROTECTION  },
-	{ MON_HALFLING_S,    0,         0                             },
-	{ MON_ELDER_THING,   TV_ROD,    SV_ROD_DRAIN_LIFE             },
-	{ MON_M_MH_DRAGON,   0,         0                             },
-	{ MON_ETTIN,         TV_SCROLL, SV_SCROLL_STAR_ENCHANT_WEAPON },
-	{ MON_VAMPIRE_LORD,  0,         0                             },
-	{ MON_BARNEY,        TV_SCROLL, SV_SCROLL_GENOCIDE            },
-	{ MON_GROO,          0,         0                             },
-	{ MON_D_ELF_SORC,    TV_WAND,   SV_WAND_STRIKING              },
-	{ MON_IRON_LICH,     0,         0                             },
-	{ MON_G_TITAN,       TV_POTION, SV_POTION_STAR_ENLIGHTENMENT  },
-	{ MON_G_BALROG,      0,         0                             },
-	{ MON_NIGHTWALKER,   TV_ROD,    SV_ROD_IDENTIFY               },
-	{ MON_SHAMBLER,      TV_STAFF,  SV_STAFF_HOLINESS             },
-	{ MON_BLACK_REAVER,  TV_SCROLL, SV_SCROLL_STAR_ACQUIREMENT    },
+	{ MON_NOBORTA,       TV_AMULET, SV_AMULET_ADORNMENT           },
+	{ MON_MORI_TROLL,    TV_FOOD,   SV_FOOD_PINT_OF_WINE          },
+	{ MON_IMP,           TV_POTION, SV_POTION_SPEED               },
+	{ MON_LION_HEART,    0,         0                             },
+	{ MON_MASTER_YEEK,   TV_POTION, SV_POTION_CURING              },
+	{ MON_SABRE_TIGER,   TV_WAND,   SV_WAND_STONE_TO_MUD          },
+	{ MON_LIZARD_KING,   TV_WAND,   SV_WAND_TELEPORT_AWAY         },
+	{ MON_WYVERN,        TV_POTION, SV_POTION_HEALING             },
+	{ MON_ARCH_VILE,     TV_POTION, SV_POTION_RESISTANCE          },
+	{ MON_ELF_LORD   ,   TV_POTION, SV_POTION_ENLIGHTENMENT       },
+	{ MON_GHOUL_KING,    TV_FOOD,   SV_FOOD_RESTORING             },
+	{ MON_COLBRAN,       TV_RING,   SV_RING_ELEC                  },
+	{ MON_BICLOPS,       TV_WAND,   SV_WAND_ACID_BALL             },
+	{ MON_M_MINDCRAFTER, TV_POTION, SV_POTION_SELF_KNOWLEDGE      },
+	{ MON_GROO,          TV_SCROLL, SV_SCROLL_ACQUIREMENT         },
+	{ MON_RAAL,          TV_SCROLL, SV_SCROLL_STAR_DESTRUCTION    },
+	{ MON_DREADMASTER,   TV_WAND,   SV_WAND_DRAIN_LIFE            },
+	{ MON_ULTRA_PALADIN, TV_STAFF,  SV_STAFF_DISPEL_EVIL          },
+	{ MON_BARNEY,        TV_RING,   SV_RING_RES_CHAOS             },
+	{ MON_TROLL_KING,    TV_SCROLL, SV_SCROLL_MASS_GENOCIDE       },
+	{ MON_BARON_HELL,    TV_POTION, SV_POTION_AUGMENTATION        },
+	{ MON_F_ANGEL,       TV_SCROLL, SV_SCROLL_RUNE_OF_PROTECTION  },
+	{ MON_G_C_DRAKE,     TV_WAND,   SV_WAND_DRAGON_FIRE           },
+	{ MON_IRON_LICH,     TV_STAFF,  SV_STAFF_DESTRUCTION          },
+	{ MON_DROLEM,        TV_POTION, SV_POTION_STAR_HEALING        },
+	{ MON_G_TITAN,       TV_WAND,   SV_WAND_GENOCIDE              },
+	{ MON_G_BALROG,      TV_POTION, SV_POTION_EXPERIENCE          },
+	{ MON_ELDER_VAMPIRE, TV_RING,   SV_RING_SUSTAIN               },
+	{ MON_NIGHTWALKER,   TV_WAND,   SV_WAND_STRIKING              },
+	{ MON_S_TYRANNO,     TV_SCROLL, SV_SCROLL_STAR_ACQUIREMENT    },
+	{ MON_G_MASTER_MYS,  TV_ROD,    SV_ROD_IDENTIFY               },
+	{ MON_LORD_CHAOS,    TV_POTION, SV_POTION_LIFE                },
+	{ MON_SHADOWLORD,    TV_POTION, SV_POTION_STAR_ENLIGHTENMENT  },
+	{ MON_ULT_BEHOLDER,  TV_AMULET, SV_AMULET_REFLECTION          },
+	{ MON_JABBERWOCK,    TV_ROD,    SV_ROD_HEALING                },
+	{ MON_LOCKE_CLONE,   TV_WAND,   SV_WAND_DISINTEGRATE          },
+	{ MON_WYRM_SPACE,    TV_ROD,    SV_ROD_RESTORATION            },
+	{ MON_SHAMBLER,      TV_SCROLL, SV_SCROLL_STAR_ACQUIREMENT    },
+	{ MON_BLACK_REAVER,  TV_RING,   SV_RING_LORDLY                },
 	{ MON_FENGHUANG,     TV_STAFF,  SV_STAFF_THE_MAGI             },
-	{ MON_WYRM_POWER,    TV_ROD,    SV_ROD_HEALING                },
+	{ MON_WYRM_POWER,    TV_SCROLL, SV_SCROLL_ARTIFACT            },
 	{ 0,                 0,         0                             }, /* Victory prizing */
 	{ MON_HAGURE,        TV_SCROLL, SV_SCROLL_ARTIFACT            },
 };
@@ -1224,1135 +1227,544 @@ arena_type arena_info[MAX_ARENA_MONS + 2] =
  * I want to do 50k owners, but the purse is currently s16b. Perhaps
  * we should just store 1/10th of the purse?
  */
-owner_type owners[MAX_STORES][MAX_OWNERS] =
+const owner_type owners[MAX_STORES][MAX_OWNERS] =
 {
 	{
 		/* General store - 32 unique names */
-/*
-   Raistlin ¤Ï dragonlance ¤Î powerful wizard ¡£
-   Rincewind the Chicken ¤Ï Terry Pratchett ¤Î Discworld ¤ÎÅĞ¾ì¿ÍÊª ¾åµ­¤Î¥Ñ¥í¥Ç¥£¡©¡¢
- */
+		/*
+		  Raistlin ã¯ dragonlance ã® powerful wizard ã€‚
+		  Rincewind the Chicken ã¯ Terry Pratchett ã® Discworld ã®ç™»å ´äººç‰© ä¸Šè¨˜ã®ãƒ‘ãƒ­ãƒ‡ã‚£ï¼Ÿã€
+		  { "æ†¶ç—…è€…ãƒ©ã‚¹ãƒˆãƒªãƒ³",       200,    175,  108,   4,  12,  RACE_HUMAN},
+		  { "Raistlin the Chicken",       200,    175, 108,  4, 12, RACE_HUMAN},
+		*/
 
 #ifdef JP
-		{ "¥Õ¥ì¥ó¥É¥ê¡¼¤Ê¥Ó¥ë¥Ü",       200,    170,  108,   5,  15,  RACE_HOBBIT},
-/*                { "²±ÉÂ¼Ô¥é¥¹¥È¥ê¥ó",       200,    175,  108,   4,  12,  RACE_HUMAN},  */
-		{ "²±ÉÂ¼Ô¥ê¥ó¥¹¥¦¥£¥ó¥É",       200,    175,  108,   4,  12,  RACE_HUMAN}, 
-		{ "ÇØ¤ÎÄã¤¤¥µ¥ë¥¿¥ó",             300,    170,  107,   5,  15,  RACE_GNOME},
-		{ "¥Ï¥ó¥µ¥à¤Ê¥é¥¤¥¢=¥¨¥ë",      300,    165,  107,   6,  18,  RACE_ELF},
+		{ "ãƒ•ãƒ¬ãƒ³ãƒ‰ãƒªãƒ¼ãªãƒ“ãƒ«ãƒœ",       200,    170,  108,   5,  15,  RACE_HOBBIT},
+		{ "æ†¶ç—…è€…ãƒªãƒ³ã‚¹ã‚¦ã‚£ãƒ³ãƒ‰",       200,    175,  108,   4,  12,  RACE_HUMAN}, 
+		{ "èƒŒã®ä½ã„ã‚µãƒ«ã‚¿ãƒ³",             300,    170,  107,   5,  15,  RACE_GNOME},
+		{ "ãƒãƒ³ã‚µãƒ ãªãƒ©ã‚¤ã‚¢=ã‚¨ãƒ«",      300,    165,  107,   6,  18,  RACE_ELF},
+		{ "è¦ªåˆ‡ãªãƒ•ã‚¡ãƒªãƒ«ãƒã‚¦ã‚¨ãƒ³",         250,    170, 108,  5, 15, RACE_HOBBIT},
+		{ "è‡†ç—…è€…ãƒ´ã‚©ãƒ¯ãƒ©ãƒ³",       500,    175, 108,  4, 12, RACE_HUMAN},
+		{ "ãƒãƒ“ã®ã‚¨ãƒ©ã‚·ãƒ¥ãƒŠã‚¯",          750,    170, 107,  5, 15, RACE_BEASTMAN},
+		{ "ãƒãƒ³ã‚µãƒ ãªã‚°ãƒ©ãƒƒã‚°",        1000,    165, 107,  6, 18, RACE_HALF_TITAN},
+		{ "ã‚±ãƒãªãƒ•ã‚©ãƒ­ãƒ“ã‚¢",         250,    170, 108,  5, 15, RACE_HUMAN},
+		{ "é¦¬é¹¿ã®ã‚¨ãƒªã‚¹",       500,    175, 108,  4, 12, RACE_HUMAN},
+		{ "è…¹ãƒšã‚³ã®ãƒ•ã‚£ãƒ«ãƒãƒ¼ãƒˆ",          750,    170, 107,  5, 15, RACE_VAMPIRE},
+		{ "ã‚¹ãƒŠãƒ¼ã‚°ãƒ«ãƒ»ã‚µã‚·ã‚°ã‚¢",        1000,    165, 107,  6, 18, RACE_MIND_FLAYER},
+		{ "é•·æ­»ãã‚¨ãƒ­ãƒ¯ãƒ¼ã‚º",         250,    170, 108,  5, 15, RACE_SPECTRE},
+		{ "ãƒãƒ­ãƒã®ãƒ•ãƒ³ãƒ‡ã‚£",       500,    175, 108,  4, 12, RACE_ZOMBIE},
+		{ "ã‚°ãƒ©ãƒ³ã‚µã‚¹",          750,    170, 107,  5, 15, RACE_SKELETON},
+		{ "ä¸å¯§ãªãƒ­ãƒ©ãƒƒã‚¯ã‚¹",        1000,    165, 107,  6, 18, RACE_VAMPIRE},
+		{ "ãƒ–ãƒƒãƒ",         250,    170, 108,  5, 15, RACE_HALF_ORC},
+		{ "ç¾ã—ãã‚¨ãƒ«ãƒ™ãƒ¬ã‚¹",       500,    175, 108,  4, 12, RACE_HIGH_ELF},
+		{ "ã“ãã“ãã‚µãƒ¼ãƒ¬ã‚¹",          750,    170, 107,  5, 15, RACE_GNOME},
+		{ "ãƒŠãƒ¼ãƒ­ãƒƒã‚¯",        1000,    165, 107,  6, 18, RACE_DWARF},
+		{ "ãƒãƒ“ã®ãƒ˜ã‚¤ãƒãƒƒã‚«",         250,    170, 108,  5, 15, RACE_GNOME},
+		{ "ãã¡ãŒã„ãƒ­ãƒ¯ãƒ©ãƒ³",       500,    175, 108,  4, 12, RACE_HALF_GIANT},
+		{ "æ¯’æ¯ã®ã‚¦ãƒ¼ãƒˆ",          750,    170, 107,  5, 15, RACE_DRACONIAN},
+		{ "ã§ã¶ã£ã¡ã‚‡ã‚¢ãƒ©ã‚¡ã‚«",        1000,    165, 107,  6, 18, RACE_DRACONIAN},
+		{ "ä½èƒ½ãªãƒ—ãƒ¼ã‚´ãƒ¼",         250,    170, 108,  5, 15, RACE_BEASTMAN},
+		{ "ãƒ•ã‚§ãƒ­ãƒ¼ãƒ«ãƒ•ã‚£ãƒªã‚¢ãƒ³",       500,    175, 108,  4, 12, RACE_ELF},
+		{ "å¹´å¯„ã‚Šãƒãƒ­ã‚«",          750,    170, 107,  5, 15, RACE_GNOME},
+		{ "å‹‡æ•¢ãªã‚µã‚·ãƒ³",        1000,    165, 107,  6, 18, RACE_HALF_GIANT},
+		{ "ç”°èˆè€…ã‚¢ãƒ“ã‚¨ãƒãƒ¼ãƒ«",         250,    170, 108,  5, 15, RACE_HUMAN},
+		{ "è²§ä¹ãªãƒãƒ¼ã‚¯",       500,    175, 108,  4, 12, RACE_HALF_ORC},
+		{ "ã¿ã˜ã‚ãªã‚½ã‚¢ãƒªãƒ³",          750,    170, 107,  5, 15, RACE_ZOMBIE},
+		{ "è³ªç´ ãªãƒ¡ãƒ«ãƒ©",        1000,    165, 107,  6, 18, RACE_ELF},
 #else
 		{ "Bilbo the Friendly",         200,    170, 108,  5, 15, RACE_HOBBIT},
-/*		{ "Raistlin the Chicken",       200,    175, 108,  4, 12, RACE_HUMAN}, */
 		{ "Rincewind the Chicken",       200,    175, 108,  4, 12, RACE_HUMAN},
 		{ "Sultan the Midget",          300,    170, 107,  5, 15, RACE_GNOME},
 		{ "Lyar-el the Comely",         300,    165, 107,  6, 18, RACE_ELF},
-#endif
-
-#ifdef JP
-{ "¿ÆÀÚ¤Ê¥Õ¥¡¥ê¥ë¥Ş¥¦¥¨¥ó",         250,    170, 108,  5, 15, RACE_HOBBIT},
-#else
 		{ "Falilmawen the Friendly",         250,    170, 108,  5, 15, RACE_HOBBIT},
-#endif
-#ifdef JP
-{ "²²ÉÂ¼Ô¥ô¥©¥ï¥é¥ó",       500,    175, 108,  4, 12, RACE_HUMAN},
-#else
 		{ "Voirin the Cowardly",       500,    175, 108,  4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥Á¥Ó¤Î¥¨¥é¥·¥å¥Ê¥¯",          750,    170, 107,  5, 15, RACE_BEASTMAN},
-#else
 		{ "Erashnak the Midget",          750,    170, 107,  5, 15, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "¥Ï¥ó¥µ¥à¤Ê¥°¥é¥Ã¥°",        1000,    165, 107,  6, 18, RACE_HALF_TITAN},
-#else
 		{ "Grug the Comely",        1000,    165, 107,  6, 18, RACE_HALF_TITAN},
-#endif
-#ifdef JP
-{ "¥±¥Á¤Ê¥Õ¥©¥í¥Ó¥¢",         250,    170, 108,  5, 15, RACE_HUMAN},
-#else
 		{ "Forovir the Cheap",         250,    170, 108,  5, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "ÇÏ¼¯¤Î¥¨¥ê¥¹",       500,    175, 108,  4, 12, RACE_HUMAN},
-#else
 		{ "Ellis the Fool",       500,    175, 108,  4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "Ê¢¥Ú¥³¤Î¥Õ¥£¥ë¥Ğ¡¼¥È",          750,    170, 107,  5, 15, RACE_VAMPIRE},
-#else
 		{ "Filbert the Hungry",          750,    170, 107,  5, 15, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "¥¹¥Ê¡¼¥°¥ë¡¦¥µ¥·¥°¥¢",        1000,    165, 107,  6, 18, RACE_MIND_FLAYER},
-#else
 		{ "Fthnargl Psathiggua",        1000,    165, 107,  6, 18, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-{ "Ä¹»à¤­¥¨¥í¥ï¡¼¥º",         250,    170, 108,  5, 15, RACE_SPECTRE},
-#else
 		{ "Eloise Long-Dead",         250,    170, 108,  5, 15, RACE_SPECTRE},
-#endif
-#ifdef JP
-{ "¥Î¥í¥Ş¤Î¥Õ¥ó¥Ç¥£",       500,    175, 108,  4, 12, RACE_ZOMBIE},
-#else
 		{ "Fundi the Slow",       500,    175, 108,  4, 12, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "¥°¥é¥ó¥µ¥¹",          750,    170, 107,  5, 15, RACE_SKELETON},
-#else
 		{ "Granthus",          750,    170, 107,  5, 15, RACE_SKELETON},
-#endif
-#ifdef JP
-{ "ÃúÇ«¤Ê¥í¥é¥Ã¥¯¥¹",        1000,    165, 107,  6, 18, RACE_VAMPIRE},
-#else
 		{ "Lorax the Suave",        1000,    165, 107,  6, 18, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "¥Ö¥Ã¥Á",         250,    170, 108,  5, 15, RACE_HALF_ORC},
-#else
 		{ "Butch",         250,    170, 108,  5, 15, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "Èş¤·¤­¥¨¥ë¥Ù¥ì¥¹",       500,    175, 108,  4, 12, RACE_HIGH_ELF},
-#else
 		{ "Elbereth the Beautiful",       500,    175, 108,  4, 12, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¤³¤½¤³¤½¥µ¡¼¥ì¥¹",          750,    170, 107,  5, 15, RACE_GNOME},
-#else
 		{ "Sarleth the Sneaky",          750,    170, 107,  5, 15, RACE_GNOME},
-#endif
-#ifdef JP
-{ "¥Ê¡¼¥í¥Ã¥¯",        1000,    165, 107,  6, 18, RACE_DWARF},
-#else
 		{ "Narlock",        1000,    165, 107,  6, 18, RACE_DWARF},
-#endif
-#ifdef JP
-{ "¥Á¥Ó¤Î¥Ø¥¤¥Í¥Ã¥«",         250,    170, 108,  5, 15, RACE_GNOME},
-#else
 		{ "Haneka the Small",         250,    170, 108,  5, 15, RACE_GNOME},
-#endif
-#ifdef JP
-{ "¤­¤Á¤¬¤¤¥í¥ï¥é¥ó",       500,    175, 108,  4, 12, RACE_HALF_GIANT},
-#else
 		{ "Loirin the Mad",       500,    175, 108,  4, 12, RACE_HALF_GIANT},
-#endif
-#ifdef JP
-{ "ÆÇÂ©¤Î¥¦¡¼¥È",          750,    170, 107,  5, 15, RACE_DRACONIAN},
-#else
 		{ "Wuto Poisonbreath",          750,    170, 107,  5, 15, RACE_DRACONIAN},
-#endif
-#ifdef JP
-{ "¤Ç¤Ö¤Ã¤Á¤ç¥¢¥é¥¡¥«",        1000,    165, 107,  6, 18, RACE_DRACONIAN},
-#else
 		{ "Araaka the Rotund",        1000,    165, 107,  6, 18, RACE_DRACONIAN},
-#endif
-#ifdef JP
-{ "ÄãÇ½¤Ê¥×¡¼¥´¡¼",         250,    170, 108,  5, 15, RACE_BEASTMAN},
-#else
 		{ "Poogor the Dumb",         250,    170, 108,  5, 15, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "¥Õ¥§¥í¡¼¥ë¥Õ¥£¥ê¥¢¥ó",       500,    175, 108,  4, 12, RACE_ELF},
-#else
 		{ "Felorfiliand",       500,    175, 108,  4, 12, RACE_ELF},
-#endif
-#ifdef JP
-{ "Ç¯´ó¤ê¥Ş¥í¥«",          750,    170, 107,  5, 15, RACE_GNOME},
-#else
 		{ "Maroka the Aged",          750,    170, 107,  5, 15, RACE_GNOME},
-#endif
-#ifdef JP
-{ " Í¦´º¤Ê¥µ¥·¥ó",        1000,    165, 107,  6, 18, RACE_HALF_GIANT},
-#else
 		{ "Sasin the Bold",        1000,    165, 107,  6, 18, RACE_HALF_GIANT},
-#endif
-#ifdef JP
-{ "ÅÄ¼Ë¼Ô¥¢¥Ó¥¨¥Ş¡¼¥ë",         250,    170, 108,  5, 15, RACE_HUMAN},
-#else
 		{ "Abiemar the Peasant",         250,    170, 108,  5, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "ÉÏË³¤Ê¥Ï¡¼¥¯",       500,    175, 108,  4, 12, RACE_HALF_ORC},
-#else
 		{ "Hurk the Poor",       500,    175, 108,  4, 12, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "¤ß¤¸¤á¤Ê¥½¥¢¥ê¥ó",          750,    170, 107,  5, 15, RACE_ZOMBIE},
-#else
 		{ "Soalin the Wretched",          750,    170, 107,  5, 15, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "¼ÁÁÇ¤Ê¥á¥ë¥é",        1000,    165, 107,  6, 18, RACE_ELF},
-#else
 		{ "Merulla the Humble",        1000,    165, 107,  6, 18, RACE_ELF},
 #endif
 	},
 	{
 		/* Armoury - 28 unique names */
 #ifdef JP
-		{ "½¹°­¥³¥ó=¥À¡¼",      5000,   210,  115,   5,   7,  RACE_HALF_ORC},
-		{ "´è¸Ç¼Ô¥À¡¼¥°=¥í¥¦",  10000,  190,  111,   4,   9,  RACE_HUMAN},
-		{ "¸­¼Ô¥Ç¥«¥É",                 25000,  200,  112,   4,  10,  RACE_DUNADAN},
-		{ "ÃÃÌê²°¤Î¥¦¥£¡¼¥é¥ó¥É",   30000,  200,  112,   4,   5,  RACE_DWARF},
+		{ "é†œæ‚ªã‚³ãƒ³=ãƒ€ãƒ¼",      5000,   210,  115,   5,   7,  RACE_HALF_ORC},
+		{ "é ‘å›ºè€…ãƒ€ãƒ¼ã‚°=ãƒ­ã‚¦",  10000,  190,  111,   4,   9,  RACE_HUMAN},
+		{ "è³¢è€…ãƒ‡ã‚«ãƒ‰",                 25000,  200,  112,   4,  10,  RACE_DUNADAN},
+		{ "é›å†¶å±‹ã®ã‚¦ã‚£ãƒ¼ãƒ©ãƒ³ãƒ‰",   30000,  200,  112,   4,   5,  RACE_DWARF},
+		{ "é†œæ‚ªã‚³ãƒ³=ãƒ€ãƒ¼",           10000,   210, 115,  5,  7, RACE_HALF_ORC},
+		{ "é ‘å›ºè€…ãƒ€ãƒ¼ã‚°=ãƒ­ã‚¦",          15000,  190, 111,  4,  9, RACE_HUMAN},
+		{ "ãƒãƒ³ã‚µãƒ ãªãƒ‡ã‚«ãƒ‰",            25000,  200, 112,  4, 10, RACE_AMBERITE},
+		{ "ã‚¨ãƒ­ãƒ¼ãƒ»ãƒ‰ãƒ©ã‚´ãƒ³ã‚¹ã‚±ã‚¤ãƒ«",          30000,  200, 112,  4,  5, RACE_ELF},
+		{ "ãƒ‡ãƒªã‚«ãƒˆã‚¹",           10000,   210, 115,  5,  7, RACE_SPRITE},
+		{ "å·¨å¤§ãªã‚°ãƒ«ãƒ¼ã‚¹",          15000,  190, 111,  4,  9, RACE_HALF_GIANT},
+		{ "ã‚¢ãƒ‹ãƒ ã‚¹",            25000,  200, 112,  4, 10, RACE_GOLEM},
+		{ "ãƒãƒ«ãƒ´ã‚¡ã‚¹",          30000,  200, 112,  4,  5, RACE_HALF_TITAN},
+		{ "ã‚»ãƒ©ã‚¯ã‚·ã‚¹",           10000,   210, 115,  5,  7, RACE_ZOMBIE},
+		{ "ãƒ‡ã‚¹ãƒ»ãƒãƒ«",          5000,  190, 111,  4,  9, RACE_SPECTRE},
+		{ "å¾®ã‹ãªãƒ‰ãƒªã‚ªã‚¹",            25000,  200, 112,  4, 10, RACE_SPECTRE},
+		{ "å†·ãŸã„ãƒã‚¹ãƒªãƒƒã‚¯",          30000,  200, 112,  4,  5, RACE_VAMPIRE},
+		{ "å†·é…·ãƒ´ã‚§ãƒ³ã‚¸ã‚§ãƒ©",           10000,   210, 115,  5,  7, RACE_HALF_TROLL},
+		{ "å¼·è€…ã‚¦ã‚£ãƒ©ãƒŠ",          15000,  190, 111,  4,  9, RACE_HUMAN},
+		{ "ãƒ¨ã‚¸ãƒ§äºŒä¸–",            25000,  200, 112,  4, 10, RACE_DWARF},
+		{ "å„ªã—ã„ãƒ©ãƒŠãƒ©ãƒ¼",          30000,  200, 112,  4,  5, RACE_AMBERITE},
+		{ "ä¸æµ„ã®ãƒ›ãƒ«ãƒã‚°",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
+		{ "ãƒ†ãƒ¬ãƒ‘ã‚¹ã®ã‚¨ãƒ¬ãƒ¬ãƒ³",          15000,  190, 111,  4,  9, RACE_DARK_ELF},
+		{ "ã‚¤ã‚¹ãƒ‰ãƒªãƒªã‚¢ã‚¹",            25000,  200, 112,  4, 10, RACE_SPRITE},
+		{ "ä¸€ã¤ç›®ãƒ´ã‚§ã‚°ãƒŠãƒ¼",          5000,  200, 112,  4,  5, RACE_CYCLOPS},
+		{ "æ··æ²Œã®ãƒ­ãƒ‡ã‚£ãƒƒã‚·ãƒ¥",           10000,   210, 115,  5,  7, RACE_BEASTMAN},
+		{ "å‰£è±ªãƒ˜ã‚¸ãƒ³",          15000,  190, 111,  4,  9, RACE_NIBELUNG},
+		{ "ãšã‚‹å±‹ã®ã‚¨ãƒ«ãƒ™ãƒ¬ãƒªã‚¹",           10000,  200, 112,  4, 10, RACE_DARK_ELF},
+		{ "ã‚¤ãƒ³ãƒ—ã®ã‚¶ã‚µã‚¹",          30000,  200, 112,  4,  5, RACE_IMP},
+		{ "é†œæ‚ªã‚³ãƒ³=ãƒ€ãƒ¼",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
+		{ "é ‘å›ºè€…ãƒ€ãƒ¼ã‚°=ãƒ­ã‚¦",          10000,  190, 111,  4,  9, RACE_HUMAN},
+		{ "ãƒãƒ³ã‚µãƒ ãªãƒ‡ã‚«ãƒ‰",            25000,  200, 112,  4, 10, RACE_AMBERITE},
+		{ "é›å†¶å±‹ã®ã‚¦ã‚£ãƒ¼ãƒ©ãƒ³ãƒ‰",          30000,  200, 112,  4,  5, RACE_DWARF},
 #else
 		{ "Kon-Dar the Ugly",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
 		{ "Darg-Low the Grim",          10000,  190, 111,  4,  9, RACE_HUMAN},
 		{ "Decado the Handsome",            25000,  200, 112,  4, 10, RACE_DUNADAN},
 		{ "Wieland the Smith",          30000,  200, 112,  4,  5, RACE_DWARF},
-#endif
-
-#ifdef JP
-{ "½¹°­¥³¥ó=¥À¡¼",           10000,   210, 115,  5,  7, RACE_HALF_ORC},
-#else
 		{ "Kon-Dar the Ugly",           10000,   210, 115,  5,  7, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "´è¸Ç¼Ô¥À¡¼¥°=¥í¥¦",          15000,  190, 111,  4,  9, RACE_HUMAN},
-#else
 		{ "Darg-Low the Grim",          15000,  190, 111,  4,  9, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥Ï¥ó¥µ¥à¤Ê¥Ç¥«¥É",            25000,  200, 112,  4, 10, RACE_AMBERITE},
-#else
 		{ "Decado the Handsome",            25000,  200, 112,  4, 10, RACE_AMBERITE},
-#endif
-#ifdef JP
-	{ "¥¨¥í¡¼¡¦¥É¥é¥´¥ó¥¹¥±¥¤¥ë",          30000,  200, 112,  4,  5, RACE_ELF},
-#else
-	{ "Elo Dragonscale",          30000,  200, 112,  4,  5, RACE_ELF},
-#endif
-#ifdef JP
-{ "¥Ç¥ê¥«¥È¥¹",           10000,   210, 115,  5,  7, RACE_SPRITE},
-#else
+		{ "Elo Dragonscale",          30000,  200, 112,  4,  5, RACE_ELF},
 		{ "Delicatus",           10000,   210, 115,  5,  7, RACE_SPRITE},
-#endif
-#ifdef JP
-{ "µğÂç¤Ê¥°¥ë¡¼¥¹",          15000,  190, 111,  4,  9, RACE_HALF_GIANT},
-#else
 		{ "Gruce the Huge",          15000,  190, 111,  4,  9, RACE_HALF_GIANT},
-#endif
-#ifdef JP
-{ "¥¢¥Ë¥à¥¹",            25000,  200, 112,  4, 10, RACE_GOLEM},
-#else
 		{ "Animus",            25000,  200, 112,  4, 10, RACE_GOLEM},
-#endif
-#ifdef JP
-	{ "¥Ş¥ë¥ô¥¡¥¹",          30000,  200, 112,  4,  5, RACE_HALF_TITAN},
-#else
-	{ "Malvus",          30000,  200, 112,  4,  5, RACE_HALF_TITAN},
-#endif
-#ifdef JP
-{ "¥»¥é¥¯¥·¥¹",           10000,   210, 115,  5,  7, RACE_ZOMBIE},
-#else
+		{ "Malvus",          30000,  200, 112,  4,  5, RACE_HALF_TITAN},
 		{ "Selaxis",           10000,   210, 115,  5,  7, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "¥Ç¥¹¡¦¥Á¥ë",          5000,  190, 111,  4,  9, RACE_SPECTRE},
-#else
 		{ "Deathchill",          5000,  190, 111,  4,  9, RACE_SPECTRE},
-#endif
-#ifdef JP
-{ "Èù¤«¤Ê¥É¥ê¥ª¥¹",            25000,  200, 112,  4, 10, RACE_SPECTRE},
-#else
 		{ "Drios the Faint",            25000,  200, 112,  4, 10, RACE_SPECTRE},
-#endif
-#ifdef JP
-	{ "Îä¤¿¤¤¥Ğ¥¹¥ê¥Ã¥¯",          30000,  200, 112,  4,  5, RACE_VAMPIRE},
-#else
-	{ "Bathric the Cold",          30000,  200, 112,  4,  5, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "Îä¹ó¥ô¥§¥ó¥¸¥§¥é",           10000,   210, 115,  5,  7, RACE_HALF_TROLL},
-#else
+		{ "Bathric the Cold",          30000,  200, 112,  4,  5, RACE_VAMPIRE},
 		{ "Vengella the Cruel",           10000,   210, 115,  5,  7, RACE_HALF_TROLL},
-#endif
-#ifdef JP
-{ "¶¯¼Ô¥¦¥£¥é¥Ê",          15000,  190, 111,  4,  9, RACE_HUMAN},
-#else
 		{ "Wyrana the Mighty",          15000,  190, 111,  4,  9, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥è¥¸¥çÆóÀ¤",            25000,  200, 112,  4, 10, RACE_DWARF},
-#else
 		{ "Yojo II",            25000,  200, 112,  4, 10, RACE_DWARF},
-#endif
-#ifdef JP
-	{ "Í¥¤·¤¤¥é¥Ê¥é¡¼",          30000,  200, 112,  4,  5, RACE_AMBERITE},
-#else
-	{ "Ranalar the Sweet",          30000,  200, 112,  4,  5, RACE_AMBERITE},
-#endif
-#ifdef JP
-{ "ÉÔ¾ô¤Î¥Û¥ë¥Ğ¥°",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
-#else
+		{ "Ranalar the Sweet",          30000,  200, 112,  4,  5, RACE_AMBERITE},
 		{ "Horbag the Unclean",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "¥Æ¥ì¥Ñ¥¹¤Î¥¨¥ì¥ì¥ó",          15000,  190, 111,  4,  9, RACE_DARK_ELF},
-#else
 		{ "Elelen the Telepath",          15000,  190, 111,  4,  9, RACE_DARK_ELF},
-#endif
-#ifdef JP
-{ "¥¤¥¹¥É¥ê¥ê¥¢¥¹",            25000,  200, 112,  4, 10, RACE_SPRITE},
-#else
 		{ "Isedrelias",            25000,  200, 112,  4, 10, RACE_SPRITE},
-#endif
-#ifdef JP
-	{ "°ì¤ÄÌÜ¥ô¥§¥°¥Ê¡¼",          5000,  200, 112,  4,  5, RACE_CYCLOPS},
-#else
-	{ "Vegnar One-eye",          5000,  200, 112,  4,  5, RACE_CYCLOPS},
-#endif
-#ifdef JP
-{ "º®ÆÙ¤Î¥í¥Ç¥£¥Ã¥·¥å",           10000,   210, 115,  5,  7, RACE_BEASTMAN},
-#else
+		{ "Vegnar One-eye",          5000,  200, 112,  4,  5, RACE_CYCLOPS},
 		{ "Rodish the Chaotic",           10000,   210, 115,  5,  7, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "·õ¹ë¥Ø¥¸¥ó",          15000,  190, 111,  4,  9, RACE_NIBELUNG},
-#else
 		{ "Hesin Swordmaster",          15000,  190, 111,  4,  9, RACE_NIBELUNG},
-#endif
-#ifdef JP
-{ "¤º¤ë²°¤Î¥¨¥ë¥Ù¥ì¥ê¥¹",           10000,  200, 112,  4, 10, RACE_DARK_ELF},
-#else
 		{ "Elvererith the Cheat",           10000,  200, 112,  4, 10, RACE_DARK_ELF},
-#endif
-#ifdef JP
-	{ "¥¤¥ó¥×¤Î¥¶¥µ¥¹",          30000,  200, 112,  4,  5, RACE_IMP},
-#else
-	{ "Zzathath the Imp",          30000,  200, 112,  4,  5, RACE_IMP},
-#endif
-#ifdef JP
-{ "½¹°­¥³¥ó=¥À¡¼",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
-#else
+		{ "Zzathath the Imp",          30000,  200, 112,  4,  5, RACE_IMP},
 		{ "Kon-Dar the Ugly",           5000,   210, 115,  5,  7, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "´è¸Ç¼Ô¥À¡¼¥°=¥í¥¦",          10000,  190, 111,  4,  9, RACE_HUMAN},
-#else
 		{ "Darg-Low the Grim",          10000,  190, 111,  4,  9, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥Ï¥ó¥µ¥à¤Ê¥Ç¥«¥É",            25000,  200, 112,  4, 10, RACE_AMBERITE},
-#else
 		{ "Decado the Handsome",            25000,  200, 112,  4, 10, RACE_AMBERITE},
-#endif
-#ifdef JP
-{ "ÃÃÌê²°¤Î¥¦¥£¡¼¥é¥ó¥É",          30000,  200, 112,  4,  5, RACE_DWARF},
-#else
 		{ "Wieland the Smith",          30000,  200, 112,  4,  5, RACE_DWARF},
 #endif
 	},
+
 	{
 		/* Weapon Smith - 28 unique names */
 #ifdef JP
-		{ "»ÄÇ¦¤Ê¤ë¥¢¡¼¥Î¥ë¥É",        5000,   210,  115,   6,   6,  RACE_HALF_TROLL},
-		{ "½Ã»¦¤·¤Î¥¢¡¼¥ó¥À¥ë", 10000,  185,  110,   5,   9,  RACE_HALF_ELF},
-		{ "½Ã¥Ş¥¹¥¿¡¼¤Î¥¨¥Ç¥£¡¼", 25000,  190,  115,   5,   7,  RACE_HOBBIT},
-		{ "Îµ»¦¤·¤Î¥ª¥°¥é¥¤¥ó", 30000,  195,  112,   4,   8,  RACE_DWARF},
+		{ "æ®‹å¿ãªã‚‹ã‚¢ãƒ¼ãƒãƒ«ãƒ‰",        5000,   210,  115,   6,   6,  RACE_HALF_TROLL},
+		{ "ç£æ®ºã—ã®ã‚¢ãƒ¼ãƒ³ãƒ€ãƒ«", 10000,  185,  110,   5,   9,  RACE_HALF_ELF},
+		{ "ç£ãƒã‚¹ã‚¿ãƒ¼ã®ã‚¨ãƒ‡ã‚£ãƒ¼", 25000,  190,  115,   5,   7,  RACE_HOBBIT},
+		{ "ç«œæ®ºã—ã®ã‚ªã‚°ãƒ©ã‚¤ãƒ³", 30000,  195,  112,   4,   8,  RACE_DWARF},
+		{ "ç†Ÿç·´è€…ãƒ‰ãƒªãƒ¥ãƒ¼",      10000,   210, 115,  6,  6, RACE_HUMAN},
+		{"é¾ã®å­ã‚ªãƒ©ãƒƒã‚¯ã‚¹",        15000,  185, 110,  5,  9, RACE_DRACONIAN},
+		{ "ç—…æ°—æŒã¡ã®ã‚¢ãƒ³ã‚¹ãƒ©ãƒƒã‚¯ã‚¹",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
+		{ "é ‘ä¸ˆè€…ã‚¢ãƒ«ã‚³ã‚¹",       30000,  195, 112,  4,  8, RACE_DWARF},
+		{ "è…ã‚Œè€…ã®ã‚µãƒªã‚¢ã‚¹",      5000,   210, 115,  6,  6, RACE_ZOMBIE},
+		{"æ™’ã—éª¨ã®ãƒˆã‚¥ã‚¨ã‚·ã‚¯",        15000,  185, 110,  5,  9, RACE_SKELETON},
+		{ "ãƒ“ãƒªã‚ªã‚¹",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
+		{ "ãƒ•ã‚¡ã‚¹ã‚¬ãƒ«",       30000,  195, 112,  4,  8, RACE_ZOMBIE},
+		{ "ãƒ‘ãƒ©ãƒ‡ã‚£ãƒ³ã®ã‚¨ãƒ¬ãƒ•ãƒªã‚¹",      10000,   210, 115,  6,  6, RACE_BARBARIAN},
+		{"ã‚­'ãƒˆãƒªãƒƒ'ã‚¯",        15000,  185, 110,  5,  9, RACE_KLACKON},
+		{ "èœ˜è››ã®å‹ãƒ‰ã‚¥ãƒ­ã‚«ã‚¹",         25000,  190, 115,  5,  7, RACE_DARK_ELF},
+		{ "å·¨äººæ®ºã—ã®ãƒ•ãƒ³ã‚°ã‚¹",       30000,  195, 112,  4,  8, RACE_DWARF},
+		{ "ãƒ‡ãƒ©ãƒ³ã‚µ",      10000,   210, 115,  6,  6, RACE_ELF},
+		{"ãƒ¬ãƒ³ã‚¸ãƒ£ãƒ¼ã®ã‚½ãƒ«ãƒ“ã‚¹ã‚¿ãƒ‹",        15000,  185, 110,  5,  9, RACE_HALF_ELF},
+		{ "ãƒãƒ­ãƒã®ã‚¾ãƒªãƒ«",         25000,  190, 115,  5,  7, RACE_GOLEM},
+		{ "ã‚¤ãƒ¼ã‚ªãƒ³ãƒ»ãƒ•ãƒ©ãƒƒã‚¯ã‚¹",       20000,  195, 112,  4,  8, RACE_HALF_ELF},
+		{ "å¼·è€…ãƒŠãƒ‰ãƒƒã‚¯",      10000,   210, 115,  6,  6, RACE_HOBBIT},
+		{"å¼±è™«ã‚¨ãƒ©ãƒ¢ã‚°",        15000,  185, 110,  5,  9, RACE_KOBOLD},
+		{ "å…¬æ­£ãªã‚¨ã‚ªã‚¦ã‚£ãƒªã‚¹",         25000,  190, 115,  5,  7, RACE_VAMPIRE},
+		{ "ãƒãƒ«ãƒ­ã‚°æ®ºã—ã®ãƒ’ãƒ¥ã‚¤ãƒ¢ã‚°",       30000,  195, 112,  4,  8, RACE_HALF_ORC},
+		{ "å†·é…·ãƒ”ãƒ¼ãƒ€ã‚¹",      5000,   210, 115,  6,  6, RACE_HUMAN},
+		{ "ãƒ´ã‚¡ãƒ¢ã‚° ã‚¹ãƒ¬ã‚¤ãƒ¤ãƒ¼",        15000,  185, 110,  5,  9, RACE_HALF_OGRE},
+		{ "æ€§æ‚ªãƒ•ãƒ¼ã‚·ãƒ¥ãƒŠã‚¯",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
+		{ "èˆé—˜ãƒãƒ¬ãƒ³",       30000,  195, 112,  4,  8, RACE_BARBARIAN},
+		{ " æ®‹å¿ãªã‚‹ã‚¢ãƒ¼ãƒãƒ«ãƒ‰",      5000,   210, 115,  6,  6, RACE_BARBARIAN},
+		{ "ç£æ®ºã—ã®ã‚¢ãƒ¼ãƒ³ãƒ€ãƒ«",        10000,  185, 110,  5,  9, RACE_HALF_ELF},
+		{ "ãƒ“ãƒ¼ã‚¹ãƒˆãƒã‚¹ã‚¿ãƒ¼ãƒ»ã‚¨ãƒ‡ã‚£ãƒ¼",         25000,  190, 115,  5,  7, RACE_HALF_ORC},
+		{ "ç«œæ®ºã—ã®ã‚ªã‚°ãƒ©ã‚¤ãƒ³",       30000,  195, 112,  4,  8, RACE_DWARF},
 #else
 		{ "Arnold the Beastly",      5000,   210, 115,  6,  6, RACE_BARBARIAN},
 		{ "Arndal Beast-Slayer",        10000,  185, 110,  5,  9, RACE_HALF_ELF},
 		{ "Eddie Beast-Master",         25000,  190, 115,  5,  7, RACE_HALF_ORC},
 		{ "Oglign Dragon-Slayer",       30000,  195, 112,  4,  8, RACE_DWARF},
-#endif
-
-#ifdef JP
-{ "½ÏÎı¼Ô¥É¥ê¥å¡¼",      10000,   210, 115,  6,  6, RACE_HUMAN},
-#else
 		{ "Drew the Skilled",      10000,   210, 115,  6,  6, RACE_HUMAN},
-#endif
-#ifdef JP
-{"Î¶¤Î»Ò¥ª¥é¥Ã¥¯¥¹",        15000,  185, 110,  5,  9, RACE_DRACONIAN},
-#else
 		{"Orrax Dragonson",        15000,  185, 110,  5,  9, RACE_DRACONIAN},
-#endif
-#ifdef JP
-{ "ÉÂµ¤»ı¤Á¤Î¥¢¥ó¥¹¥é¥Ã¥¯¥¹",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
-#else
 		{ "Anthrax Disease-Carrier",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "´è¾æ¼Ô¥¢¥ë¥³¥¹",       30000,  195, 112,  4,  8, RACE_DWARF},
-#else
 		{ "Arkhoth the Stout",       30000,  195, 112,  4,  8, RACE_DWARF},
-#endif
-#ifdef JP
-{ "Éå¤ì¼Ô¤Î¥µ¥ê¥¢¥¹",      5000,   210, 115,  6,  6, RACE_ZOMBIE},
-#else
 		{ "Sarlyas the Rotten",      5000,   210, 115,  6,  6, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{"»¯¤·¹ü¤Î¥È¥¥¥¨¥·¥¯",        15000,  185, 110,  5,  9, RACE_SKELETON},
-#else
 		{"Tuethic Bare-Bones",        15000,  185, 110,  5,  9, RACE_SKELETON},
-#endif
-#ifdef JP
-{ "¥Ó¥ê¥ª¥¹",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
-#else
 		{ "Bilious",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "¥Õ¥¡¥¹¥¬¥ë",       30000,  195, 112,  4,  8, RACE_ZOMBIE},
-#else
 		{ "Fasgul",       30000,  195, 112,  4,  8, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "¥Ñ¥é¥Ç¥£¥ó¤Î¥¨¥ì¥Õ¥ê¥¹",      10000,   210, 115,  6,  6, RACE_BARBARIAN},
-#else
 		{ "Ellefris the Paladin",      10000,   210, 115,  6,  6, RACE_BARBARIAN},
-#endif
-#ifdef JP
-{"¥­'¥È¥ê¥Ã'¥¯",        15000,  185, 110,  5,  9, RACE_KLACKON},
-#else
 		{"K'trrik'k",        15000,  185, 110,  5,  9, RACE_KLACKON},
-#endif
-#ifdef JP
-{ "ÃØéá¤ÎÍ§¥É¥¥¥í¥«¥¹",         25000,  190, 115,  5,  7, RACE_DARK_ELF},
-#else
 		{ "Drocus Spiderfriend",         25000,  190, 115,  5,  7, RACE_DARK_ELF},
-#endif
-#ifdef JP
-{ "µğ¿Í»¦¤·¤Î¥Õ¥ó¥°¥¹",       30000,  195, 112,  4,  8, RACE_DWARF},
-#else
 		{ "Fungus Giant-Slayer",       30000,  195, 112,  4,  8, RACE_DWARF},
-#endif
-#ifdef JP
-{ "¥Ç¥é¥ó¥µ",      10000,   210, 115,  6,  6, RACE_ELF},
-#else
 		{ "Delantha",      10000,   210, 115,  6,  6, RACE_ELF},
-#endif
-#ifdef JP
-{"¥ì¥ó¥¸¥ã¡¼¤Î¥½¥ë¥Ó¥¹¥¿¥Ë",        15000,  185, 110,  5,  9, RACE_HALF_ELF},
-#else
 		{"Solvistani the Ranger",        15000,  185, 110,  5,  9, RACE_HALF_ELF},
-#endif
-#ifdef JP
-{ "¥Î¥í¥Ş¤Î¥¾¥ê¥ë",         25000,  190, 115,  5,  7, RACE_GOLEM},
-#else
 		{ "Xoril the Slow",         25000,  190, 115,  5,  7, RACE_GOLEM},
-#endif
-#ifdef JP
-{ "¥¤¡¼¥ª¥ó¡¦¥Õ¥é¥Ã¥¯¥¹",       20000,  195, 112,  4,  8, RACE_HALF_ELF},
-#else
 		{ "Aeon Flux",       20000,  195, 112,  4,  8, RACE_HALF_ELF},
-#endif
-#ifdef JP
-{ "¶¯¼Ô¥Ê¥É¥Ã¥¯",      10000,   210, 115,  6,  6, RACE_HOBBIT},
-#else
 		{ "Nadoc the Strong",      10000,   210, 115,  6,  6, RACE_HOBBIT},
-#endif
-#ifdef JP
-{"¼åÃî¥¨¥é¥â¥°",        15000,  185, 110,  5,  9, RACE_KOBOLD},
-#else
 		{"Eramog the Weak",        15000,  185, 110,  5,  9, RACE_KOBOLD},
-#endif
-#ifdef JP
-{ "¸øÀµ¤Ê¥¨¥ª¥¦¥£¥ê¥¹",         25000,  190, 115,  5,  7, RACE_VAMPIRE},
-#else
 		{ "Eowilith the Fair",         25000,  190, 115,  5,  7, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "¥Ğ¥ë¥í¥°»¦¤·¤Î¥Ò¥å¥¤¥â¥°",       30000,  195, 112,  4,  8, RACE_HALF_ORC},
-#else
 		{ "Huimog Balrog-Slayer",       30000,  195, 112,  4,  8, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "Îä¹ó¥Ô¡¼¥À¥¹",      5000,   210, 115,  6,  6, RACE_HUMAN},
-#else
 		{ "Peadus the Cruel",      5000,   210, 115,  6,  6, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥ô¥¡¥â¥° ¥¹¥ì¥¤¥ä¡¼",        15000,  185, 110,  5,  9, RACE_HALF_OGRE},
-#else
 		{ "Vamog Slayer",        15000,  185, 110,  5,  9, RACE_HALF_OGRE},
-#endif
-#ifdef JP
-{ "À­°­¥Õ¡¼¥·¥å¥Ê¥¯",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
-#else
 		{ "Hooshnak the Vicious",         25000,  190, 115,  5,  7, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "ÉñÆ®¥Ğ¥ì¥ó",       30000,  195, 112,  4,  8, RACE_BARBARIAN},
-#else
 		{ "Balenn War-Dancer",       30000,  195, 112,  4,  8, RACE_BARBARIAN},
-#endif
-#ifdef JP
-{ " »ÄÇ¦¤Ê¤ë¥¢¡¼¥Î¥ë¥É",      5000,   210, 115,  6,  6, RACE_BARBARIAN},
-#else
 		{ "Arnold the Beastly",      5000,   210, 115,  6,  6, RACE_BARBARIAN},
-#endif
-#ifdef JP
-{ "½Ã»¦¤·¤Î¥¢¡¼¥ó¥À¥ë",        10000,  185, 110,  5,  9, RACE_HALF_ELF},
-#else
 		{ "Arndal Beast-Slayer",        10000,  185, 110,  5,  9, RACE_HALF_ELF},
-#endif
-#ifdef JP
-{ "¥Ó¡¼¥¹¥È¥Ş¥¹¥¿¡¼¡¦¥¨¥Ç¥£¡¼",         25000,  190, 115,  5,  7, RACE_HALF_ORC},
-#else
 		{ "Eddie Beast-Master",         25000,  190, 115,  5,  7, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "Îµ»¦¤·¤Î¥ª¥°¥é¥¤¥ó",       30000,  195, 112,  4,  8, RACE_DWARF},
-#else
 		{ "Oglign Dragon-Slayer",       30000,  195, 112,  4,  8, RACE_DWARF},
 #endif
 	},
 	{
 		/* Temple - 22 unique names */
 #ifdef JP
-		{ "¼ÁÁÇ¤Ê¥ë¡¼¥É¥ô¥£¥Ò",         5000,   175,  109,   6,  15,  RACE_HUMAN},
-		{ "¥Ñ¥é¥Ç¥£¥ó¤Î¥¬¥ó¥Ê¡¼",       10000,  185,  110,   5,  23,  RACE_HUMAN},
-		{ "Áª¤Ğ¤ì¤·¥È¥ê¥ó",                     25000,  180,  107,   6,  20,  RACE_ELF},
-		{ "¸­ÌÀ¤Ê¤ë¥µ¥é¥¹¥È¥í",                     30000,  185,  109,   5,  15,  RACE_DWARF},
+		{ "è³ªç´ ãªãƒ«ãƒ¼ãƒ‰ãƒ´ã‚£ãƒ’",         5000,   175,  109,   6,  15,  RACE_HUMAN},
+		{ "ãƒ‘ãƒ©ãƒ‡ã‚£ãƒ³ã®ã‚¬ãƒ³ãƒŠãƒ¼",       10000,  185,  110,   5,  23,  RACE_HUMAN},
+		{ "é¸ã°ã‚Œã—ãƒˆãƒªãƒ³",                     25000,  180,  107,   6,  20,  RACE_ELF},
+		{ "è³¢æ˜ãªã‚‹ã‚µãƒ©ã‚¹ãƒˆãƒ­",                     30000,  185,  109,   5,  15,  RACE_DWARF},
+		{ "ãƒ‘ãƒ¼ã‚·ãƒ´ã‚¡ãƒ«å¿",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
+		{ "ç¥è–ãªã‚‹ã‚¢ã‚»ãƒŠã‚¹",          30000,  185, 109,  5, 15, RACE_HUMAN},
+		{ "ãƒãƒƒã‚­ãƒãƒ³",         10000,   175, 109,  6, 15, RACE_HUMAN},
+		{ "è¬¹ã¿å©¦äºº",         15000,  185, 110,  5, 23, RACE_HIGH_ELF},
+		{ "ãƒ‰ãƒ«ã‚¤ãƒ‰ã®ãƒã‚·ãƒ¥ãƒ‹ãƒƒã‚¯",           25000,  180, 107,  6, 20, RACE_HOBBIT},
+		{ "ãƒ•ã‚£ãƒŠã‚¯",          30000,  185, 109,  5, 15, RACE_YEEK},
+		{ "ã‚¯ãƒªã‚­ãƒƒã‚¯",         10000,   175, 109,  6, 15, RACE_KLACKON},
+		{ "è’ãã‚Œè€…ãƒ¢ãƒªãƒ´ã‚¡ãƒ«",         15000,  185, 110,  5, 23, RACE_ELF},
+		{ "æš—ããƒ›ã‚·ãƒ£ãƒƒã‚¯",           25000,  180, 107,  6, 20, RACE_IMP},
+		{ "è³¢è€…ã‚¢ã‚¿ãƒ¼ãƒ«",          30000,  185, 109,  5, 15, RACE_HUMAN},
+		{ "æ¸…ãã‚¤ãƒ™ãƒ‹ãƒƒãƒ‰",         10000,   175, 109,  6, 15, RACE_HUMAN},
+		{ "ã‚¨ãƒªãƒ‡ã‚£ã‚·ãƒ¥",         15000,  185, 110,  5, 23, RACE_HALF_TROLL},
+		{ "å‘ªè¡“å¸«ãƒ´ãƒ«ãƒ‰ã‚¥ã‚·ãƒ¥",           25000,  180, 107,  6, 20, RACE_HALF_OGRE},
+		{ "ç‹‚æˆ¦å£«ãƒã‚ªãƒ–",          30000,  185, 109,  5, 15, RACE_BARBARIAN},
+		{ "è‹¥ããƒ—ãƒ«ãƒ¼ã‚°ãƒ‡ã‚£ã‚·ãƒ¥",         10000,   175, 109,  6, 15, RACE_HALF_OGRE},
+		{ "ãã¡ãŒã„ãƒ©ãƒ ãƒ¯ã‚¤ã‚º",         15000,  185, 110,  5, 23, RACE_YEEK},
+		{ "æœ‰å¾³è€…ãƒ ãƒ¯ãƒ¼ãƒˆ",           25000,  180, 107,  6, 20, RACE_KOBOLD},
+		{ "å¼±è™«ãƒ€ãƒ¼ãƒ‰ãƒãƒ¼ãƒ‰",          30000,  185, 109,  5, 15, RACE_SPECTRE},
+		{ "è³ªç´ ãªãƒ«ãƒ¼ãƒ‰ãƒ´ã‚£ãƒ’",         5000,   175,  109,   6,  15,  RACE_HUMAN},
+		{ "ãƒ‘ãƒ©ãƒ‡ã‚£ãƒ³ã®ã‚¬ãƒ³ãƒŠãƒ¼",       10000,  185,  110,   5,  23,  RACE_HUMAN},
+		{ "é¸ã°ã‚Œã—ãƒˆãƒªãƒ³",                     25000,  180,  107,   6,  20,  RACE_ELF},
+		{ "è³¢æ˜ãªã‚‹ã‚µãƒ©ã‚¹ãƒˆãƒ­",                     30000,  185,  109,   5,  15,  RACE_DWARF},
+		{ "ãƒ‘ãƒ¼ã‚·ãƒ´ã‚¡ãƒ«å¿",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
+		{ "ç¥è–ãªã‚‹ã‚¢ã‚»ãƒŠã‚¹",          30000,  185, 109,  5, 15, RACE_HUMAN},
+		{ "ãƒãƒƒã‚­ãƒãƒ³",         10000,   175, 109,  6, 15, RACE_HUMAN},
+		{ "è¬¹ã¿å©¦äºº",         15000,  185, 110,  5, 23, RACE_HIGH_ELF},
+		{ "ãƒ‰ãƒ«ã‚¤ãƒ‰ã®ãƒã‚·ãƒ¥ãƒ‹ãƒƒã‚¯",           25000,  180, 107,  6, 20, RACE_HOBBIT},
+		{ "ãƒ•ã‚£ãƒŠã‚¯",          30000,  185, 109,  5, 15, RACE_YEEK},
 #else
 		{ "Ludwig the Humble",          5000,   175, 109,  6, 15, RACE_DWARF},
 		{ "Gunnar the Paladin",         10000,  185, 110,  5, 23, RACE_HALF_TROLL},
 		{ "Torin the Chosen",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
 		{ "Sarastro the Wise",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#endif
-
-#ifdef JP
-{ "¥Ñ¡¼¥·¥ô¥¡¥ë¶ª",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
-#else
 		{ "Sir Parsival the Pure",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¿ÀÀ»¤Ê¤ë¥¢¥»¥Ê¥¹",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#else
 		{ "Asenath the Holy",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥Ş¥Ã¥­¥Î¥ó",         10000,   175, 109,  6, 15, RACE_HUMAN},
-#else
 		{ "McKinnon",         10000,   175, 109,  6, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¶à¤ßÉØ¿Í",         15000,  185, 110,  5, 23, RACE_HIGH_ELF},
-#else
 		{ "Mistress Chastity",         15000,  185, 110,  5, 23, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¥É¥ë¥¤¥É¤Î¥Ï¥·¥å¥Ë¥Ã¥¯",           25000,  180, 107,  6, 20, RACE_HOBBIT},
-#else
 		{ "Hashnik the Druid",           25000,  180, 107,  6, 20, RACE_HOBBIT},
-#endif
-#ifdef JP
-{ "¥Õ¥£¥Ê¥¯",          30000,  185, 109,  5, 15, RACE_YEEK},
-#else
 		{ "Finak",          30000,  185, 109,  5, 15, RACE_YEEK},
-#endif
-#ifdef JP
-{ "¥¯¥ê¥­¥Ã¥¯",         10000,   175, 109,  6, 15, RACE_KLACKON},
-#else
 		{ "Krikkik",         10000,   175, 109,  6, 15, RACE_KLACKON},
-#endif
-#ifdef JP
-{ "¹Ó¤¯¤ì¼Ô¥â¥ê¥ô¥¡¥ë",         15000,  185, 110,  5, 23, RACE_ELF},
-#else
 		{ "Morival the Wild",         15000,  185, 110,  5, 23, RACE_ELF},
-#endif
-#ifdef JP
-{ "°Å¤­¥Û¥·¥ã¥Ã¥¯",           25000,  180, 107,  6, 20, RACE_IMP},
-#else
 		{ "Hoshak the Dark",           25000,  180, 107,  6, 20, RACE_IMP},
-#endif
-#ifdef JP
-{ "¸­¼Ô¥¢¥¿¡¼¥ë",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#else
 		{ "Atal the Wise",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "À¶¤­¥¤¥Ù¥Ë¥Ã¥É",         10000,   175, 109,  6, 15, RACE_HUMAN},
-#else
 		{ "Ibenidd the Chaste",         10000,   175, 109,  6, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥¨¥ê¥Ç¥£¥·¥å",         15000,  185, 110,  5, 23, RACE_HALF_TROLL},
-#else
 		{ "Eridish",         15000,  185, 110,  5, 23, RACE_HALF_TROLL},
-#endif
-#ifdef JP
-{ "¼ö½Ñ»Õ¥ô¥ë¥É¥¥¥·¥å",           25000,  180, 107,  6, 20, RACE_HALF_OGRE},
-#else
 		{ "Vrudush the Shaman",           25000,  180, 107,  6, 20, RACE_HALF_OGRE},
-#endif
-#ifdef JP
-{ "¶¸Àï»Î¥Ï¥ª¥Ö",          30000,  185, 109,  5, 15, RACE_BARBARIAN},
-#else
 		{ "Haob the Berserker",          30000,  185, 109,  5, 15, RACE_BARBARIAN},
-#endif
-#ifdef JP
-{ "¼ã¤­¥×¥ë¡¼¥°¥Ç¥£¥·¥å",         10000,   175, 109,  6, 15, RACE_HALF_OGRE},
-#else
 		{ "Proogdish the Youthfull",         10000,   175, 109,  6, 15, RACE_HALF_OGRE},
-#endif
-#ifdef JP
-{ "¤­¤Á¤¬¤¤¥é¥à¥ï¥¤¥º",         15000,  185, 110,  5, 23, RACE_YEEK},
-#else
 		{ "Lumwise the Mad",         15000,  185, 110,  5, 23, RACE_YEEK},
-#endif
-#ifdef JP
-{ "Í­ÆÁ¼Ô¥à¥ï¡¼¥È",           25000,  180, 107,  6, 20, RACE_KOBOLD},
-#else
 		{ "Muirt the Virtuous",           25000,  180, 107,  6, 20, RACE_KOBOLD},
-#endif
-#ifdef JP
-{ "¼åÃî¥À¡¼¥É¥Ğ¡¼¥É",          30000,  185, 109,  5, 15, RACE_SPECTRE},
-#else
 		{ "Dardobard the Weak",          30000,  185, 109,  5, 15, RACE_SPECTRE},
-#endif
-#ifdef JP
-{ "¼ÁÁÇ¤Ê¥ë¡¼¥É¥ô¥£¥Ò",          5000,   175, 109,  6, 15, RACE_DWARF},
-#else
 		{ "Ludwig the Humble",          5000,   175, 109,  6, 15, RACE_DWARF},
-#endif
-#ifdef JP
-{ "¥Ñ¥é¥Ç¥£¥ó¤Î¥¬¥ó¥Ê¡¼",         10000,  185, 110,  5, 23, RACE_HALF_TROLL},
-#else
 		{ "Gunnar the Paladin",         10000,  185, 110,  5, 23, RACE_HALF_TROLL},
-#endif
-#ifdef JP
-{ "Áª¤Ğ¤ì¤·¥È¥ê¥ó",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
-#else
 		{ "Torin the Chosen",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¸­ÌÀ¤Ê¤ë¥µ¥é¥¹¥È¥í",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#else
 		{ "Sarastro the Wise",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "À¶¤­¥Ñ¡¼¥·¥ô¥¡¥ë¶ª",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
-#else
 		{ "Sir Parsival the Pure",           25000,  180, 107,  6, 20, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¿ÀÀ»¤Ê¤ë¥¢¥»¥Ê¥¹",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#else
 		{ "Asenath the Holy",          30000,  185, 109,  5, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¥Ş¥Ã¥­¥Î¥ó",         10000,   175, 109,  6, 15, RACE_HUMAN},
-#else
 		{ "McKinnon",         10000,   175, 109,  6, 15, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¶à¤ßÉØ¿Í",         15000,  185, 110,  5, 23, RACE_HIGH_ELF},
-#else
 		{ "Mistress Chastity",         15000,  185, 110,  5, 23, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¥É¥ë¥¤¥É ¥Ï¥·¥å¥Ë¥Ã¥¯",           25000,  180, 107,  6, 20, RACE_HOBBIT},
-#else
 		{ "Hashnik the Druid",           25000,  180, 107,  6, 20, RACE_HOBBIT},
-#endif
-#ifdef JP
-{ "¥Õ¥£¥Ê¥¯",        15000,  200, 110,  7,  8, RACE_BARBARIAN},
-#else
 		{ "Finak",          30000,  185, 109,  5, 15, RACE_YEEK},
 #endif
 	},
 	{
 		/* Alchemist - 26 unique names */
 #ifdef JP
-		{ "²½³Ø¼Ô¥Ş¥¦¥¶¡¼",             10000,  190,  111,   5,   8,  RACE_HALF_ELF},
-		{ "¥«¥ª¥¹¤Î¥¦¥£¥º¥ë",   10000,  190,  110,   6,   8,  RACE_HOBBIT},
-		{ "¶¯Íß¥ß¥À¥¹",              15000,  200,  116,   6,   9,  RACE_GNOME},
-		{ "ÉÏ¼å¥¸¥ã=¥Õ¥¡¡¼",                   15000,  220,  111,   4,   9,  RACE_ELF},/*FIRST*/
-#else
-		{ "Mauser the Chemist",         10000,  190, 111,  5,  8, RACE_HALF_ELF},
-		{ "Wizzle the Chaotic",         10000,  190, 110,  6,  8, RACE_HOBBIT},
-		{ "Midas the Greedy",           15000,  200, 116,  6,  9, RACE_GNOME},
-		{ "Ja-Far the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
-#endif
+		{ "åŒ–å­¦è€…ãƒã‚¦ã‚¶ãƒ¼",             10000,  190,  111,   5,   8,  RACE_HALF_ELF},
+		{ "ã‚«ã‚ªã‚¹ã®ã‚¦ã‚£ã‚ºãƒ«",   10000,  190,  110,   6,   8,  RACE_HOBBIT},
+		{ "å¼·æ¬²ãƒŸãƒ€ã‚¹",              15000,  200,  116,   6,   9,  RACE_GNOME},
+		{ "è²§å¼±ã‚¸ãƒ£=ãƒ•ã‚¡ãƒ¼",                   15000,  220,  111,   4,   9,  RACE_ELF},/*FIRST*/
+		{ "ã‚«ã‚«ãƒ«ãƒ©ã‚«ã‚«ãƒ«",           15000,  200, 116,  6,  9, RACE_KLACKON},
+		{ "éŒ¬é‡‘è¡“å¸«ã‚¸ãƒ£ãƒ«=ã‚¨ã‚¹",       15000,  220, 111,  4,  9, RACE_ELF},
+		{ "ç”¨å¿ƒæ·±ã„ãƒ•ã‚¡ãƒãƒ©ã‚¹",         10000,  190, 111,  5,  8, RACE_DWARF},
+		{ "ã‚­ãƒã‚¬ã‚¤ã®ãƒ«ãƒ³ã‚·ãƒ¼",         10000,  190, 110,  6,  8, RACE_HUMAN},
+		{ "ã‚°ãƒ©ãƒ³ãƒ–ãƒ«ãƒ¯ãƒ¼ã‚¹",           15000,  200, 116,  6,  9, RACE_GNOME},
+		{ "ãƒ•ãƒªãƒƒã‚¿ãƒ¼",       15000,  220, 111,  4,  9, RACE_SPRITE},
+		{ "ã‚¶ãƒªãƒ«ã‚¹",         10000,  190, 111,  5,  8, RACE_HUMAN},
+		{ "å¤ãã‚¨ã‚°ãƒãƒ¼ãƒˆ",         10000,  190, 110,  6,  8, RACE_DWARF},
+		{ "èª‡ã‚Šé«˜ããƒ´ã‚¡ãƒªãƒ³ãƒ‰ãƒ©",           15000,  200, 116,  6,  9, RACE_HIGH_ELF},
+		{ "éŒ¬é‡‘è¡“å¸«ã‚¿ã‚¨ãƒ³",       15000,  220, 111,  4,  9, RACE_HUMAN},
+		{ "å·§è¨€ã‚«ã‚¤ãƒ‰",         10000,  190, 111,  5,  8, RACE_VAMPIRE},
+		{ "æš—ããƒ•ãƒªã‚¢",         10000,  190, 110,  6,  8, RACE_NIBELUNG},
+		{ "è³ªç´ ãªãƒ‰ãƒ ãƒª",           15000,  200, 116,  6,  9, RACE_DWARF},
+		{ "é­”ã®å­ãƒ¤ã‚¡ã‚¸ãƒ¥ãƒƒã‚«",       15000,  220, 111,  4,  9, RACE_IMP},
+		{ "è–¬è‰å¸«ã‚¸ã‚§ãƒ©ãƒ©ãƒ«ãƒ‰ãƒ¼ãƒ«",         10000,  190, 111,  5,  8, RACE_HIGH_ELF},
+		{ "è³¢è€…ã‚ªãƒ¬ãƒ©ãƒ«ãƒ€ãƒ³",         10000,  190, 110,  6,  8, RACE_BARBARIAN},
+		{ "ãƒ‡ãƒ¢ãƒ‹ã‚·ã‚¹ãƒˆã®ãƒ•ã‚¾ã‚°ãƒ­",           15000,  200, 116,  6,  9, RACE_IMP},
+		{ "éŒ¬é‡‘è¡“å¸«ãƒ‰ã‚¥ãƒªã‚¢ã‚·ãƒ¥",       15000,  220, 111,  4,  9, RACE_HALF_ORC},
+		{ "å¼·è€…ãƒãƒªã‚¢",         10000,  190, 111,  5,  8, RACE_CYCLOPS},
+		{ "è¾›å£ãƒªã‚°ãƒŠã‚¹",         10000,  190, 110,  6,  8, RACE_HALF_ORC},
+		{ "ãƒ†ã‚£ãƒ«ãƒ",           15000,  200, 116,  6,  9, RACE_HOBBIT},
+		{ "é‡‘æŒã¡ãƒŸãƒªãƒ«ãƒ‰ãƒªãƒƒã‚¯",       15000,  220, 111,  4,  9, RACE_HUMAN},
 
-#ifdef JP
-	{ "¥«¥«¥ë¥é¥«¥«¥ë",           15000,  200, 116,  6,  9, RACE_KLACKON},
-#else
-	{ "Kakalrakakal",           15000,  200, 116,  6,  9, RACE_KLACKON},
-#endif
-#ifdef JP
-	{ "Ï£¶â½Ñ»Õ¥¸¥ã¥ë=¥¨¥¹",       15000,  220, 111,  4,  9, RACE_ELF},
-#else
-	{ "Jal-Eth the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
-#endif
-#ifdef JP
-{ "ÍÑ¿´¿¼¤¤¥Õ¥¡¥Í¥é¥¹",         10000,  190, 111,  5,  8, RACE_DWARF},
-#else
-		{ "Fanelath the Cautious",         10000,  190, 111,  5,  8, RACE_DWARF},
-#endif
-#ifdef JP
-{ "¥­¥Á¥¬¥¤¤Î¥ë¥ó¥·¡¼",         10000,  190, 110,  6,  8, RACE_HUMAN},
-#else
-		{ "Runcie the Insane",         10000,  190, 110,  6,  8, RACE_HUMAN},
-#endif
-#ifdef JP
-	{ "¥°¥é¥ó¥Ö¥ë¥ï¡¼¥¹",           15000,  200, 116,  6,  9, RACE_GNOME},
-#else
-	{ "Grumbleworth",           15000,  200, 116,  6,  9, RACE_GNOME},
-#endif
-#ifdef JP
-	{ "¥Õ¥ê¥Ã¥¿¡¼",       15000,  220, 111,  4,  9, RACE_SPRITE},
-#else
-	{ "Flitter",       15000,  220, 111,  4,  9, RACE_SPRITE},
-#endif
-#ifdef JP
-{ "¥¶¥ê¥ë¥¹",         10000,  190, 111,  5,  8, RACE_HUMAN},
-#else
-		{ "Xarillus",         10000,  190, 111,  5,  8, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¸Å¤­¥¨¥°¥Ğ¡¼¥È",         10000,  190, 110,  6,  8, RACE_DWARF},
-#else
-		{ "Egbert the Old",         10000,  190, 110,  6,  8, RACE_DWARF},
-#endif
-#ifdef JP
-	{ "¸Ø¤ê¹â¤­¥ô¥¡¥ê¥ó¥É¥é",           15000,  200, 116,  6,  9, RACE_HIGH_ELF},
-#else
-	{ "Valindra the Proud",           15000,  200, 116,  6,  9, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-	{ "Ï£¶â½Ñ»Õ¥¿¥¨¥ó",       15000,  220, 111,  4,  9, RACE_HUMAN},
-#else
-	{ "Taen the Alchemist",       15000,  220, 111,  4,  9, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¹ª¸À¥«¥¤¥É",         10000,  190, 111,  5,  8, RACE_VAMPIRE},
-#else
-		{ "Cayd the Sweet",         10000,  190, 111,  5,  8, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "°Å¤­¥Õ¥ê¥¢",         10000,  190, 110,  6,  8, RACE_NIBELUNG},
-#else
-		{ "Fulir the Dark",         10000,  190, 110,  6,  8, RACE_NIBELUNG},
-#endif
-#ifdef JP
-	{ "¼ÁÁÇ¤Ê¥É¥à¥ê",           15000,  200, 116,  6,  9, RACE_DWARF},
-#else
-	{ "Domli the Humble",           15000,  200, 116,  6,  9, RACE_DWARF},
-#endif
-#ifdef JP
-	{ "Ëâ¤Î»Ò¥ä¥¡¥¸¥å¥Ã¥«",       15000,  220, 111,  4,  9, RACE_IMP},
-#else
-	{ "Yaarjukka Demonspawn",       15000,  220, 111,  4,  9, RACE_IMP},
-#endif
-#ifdef JP
-{ "ÌôÁğ»Õ¥¸¥§¥é¥é¥ë¥É¡¼¥ë",         10000,  190, 111,  5,  8, RACE_HIGH_ELF},
-#else
-		{ "Gelaraldor the Herbmaster",         10000,  190, 111,  5,  8, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¸­¼Ô¥ª¥ì¥é¥ë¥À¥ó",         10000,  190, 110,  6,  8, RACE_BARBARIAN},
-#else
-		{ "Olelaldan the Wise",         10000,  190, 110,  6,  8, RACE_BARBARIAN},
-#endif
-#ifdef JP
-	{ "¥Ç¥â¥Ë¥·¥¹¥È¤Î¥Õ¥¾¥°¥í",           15000,  200, 116,  6,  9, RACE_IMP},
-#else
-	{ "Fthoglo the Demonicist",           15000,  200, 116,  6,  9, RACE_IMP},
-#endif
-#ifdef JP
-	{ "Ï£¶â½Ñ»Õ¥É¥¥¥ê¥¢¥·¥å",       15000,  220, 111,  4,  9, RACE_HALF_ORC},
-#else
-	{ "Dridash the Alchemist",       15000,  220, 111,  4,  9, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "¶¯¼Ô¥Í¥ê¥¢",         10000,  190, 111,  5,  8, RACE_CYCLOPS},
-#else
-		{ "Nelir the Strong",         10000,  190, 111,  5,  8, RACE_CYCLOPS},
-#endif
-#ifdef JP
-{ "¿É¸ı¥ê¥°¥Ê¥¹",         10000,  190, 110,  6,  8, RACE_HALF_ORC},
-#else
-		{ "Lignus the Pungent",         10000,  190, 110,  6,  8, RACE_HALF_ORC},
-#endif
-#ifdef JP
-	{ "¥Æ¥£¥ë¥Ğ",           15000,  200, 116,  6,  9, RACE_HOBBIT},
-#else
-	{ "Tilba",           15000,  200, 116,  6,  9, RACE_HOBBIT},
-#endif
-#ifdef JP
-	{ "¶â»ı¤Á¥ß¥ê¥ë¥É¥ê¥Ã¥¯",       15000,  220, 111,  4,  9, RACE_HUMAN},
-#else
-	{ "Myrildric the Wealthy",       15000,  220, 111,  4,  9, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "²Ê³Ø¼Ô¥Ş¥¦¥¶¡¼",         10000,  190, 111,  5,  8, RACE_HALF_ELF},
+		{ "ç§‘å­¦è€…ãƒã‚¦ã‚¶ãƒ¼",         10000,  190, 111,  5,  8, RACE_HALF_ELF},
+		{ "ã‚«ã‚ªã‚¹ã®ã‚¦ã‚£ã‚ºãƒ«",         10000,  190, 110,  6,  8, RACE_HOBBIT},
+		{ "å¼·æ¬²ãƒŸãƒ€ã‚¹",           15000,  200, 116,  6,  9, RACE_GNOME},
+		{ "éŒ¬é‡‘è¡“å¸«ã‚¸ãƒ£=ãƒ•ã‚¡ãƒ¼",       15000,  220, 111,  4,  9, RACE_ELF},
+		{ "ã‚«ã‚«ãƒ«ãƒ©ã‚«ã‚«ãƒ«",           15000,  200, 116,  6,  9, RACE_KLACKON},
+		{ "éŒ¬é‡‘è¡“å¸«ã‚¸ãƒ£ãƒ«=ã‚¨ã‚¹",       15000,  220, 111,  4,  9, RACE_ELF},
 #else
 		{ "Mauser the Chemist",         10000,  190, 111,  5,  8, RACE_HALF_ELF},
-#endif
-#ifdef JP
-{ "¥«¥ª¥¹¤Î¥¦¥£¥º¥ë",         10000,  190, 110,  6,  8, RACE_HOBBIT},
-#else
 		{ "Wizzle the Chaotic",         10000,  190, 110,  6,  8, RACE_HOBBIT},
-#endif
-#ifdef JP
-{ "¶¯Íß¥ß¥À¥¹",           15000,  200, 116,  6,  9, RACE_GNOME},
-#else
 		{ "Midas the Greedy",           15000,  200, 116,  6,  9, RACE_GNOME},
-#endif
-#ifdef JP
-{ "Ï£¶â½Ñ»Õ¥¸¥ã=¥Õ¥¡¡¼",       15000,  220, 111,  4,  9, RACE_ELF},
-#else
 		{ "Ja-Far the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
-#endif
-#ifdef JP
-	{ "¥«¥«¥ë¥é¥«¥«¥ë",           15000,  200, 116,  6,  9, RACE_KLACKON},
-#else
-	{ "Kakalrakakal",           15000,  200, 116,  6,  9, RACE_KLACKON},
-#endif
-#ifdef JP
-	{ "Ï£¶â½Ñ»Õ¥¸¥ã¥ë=¥¨¥¹",       15000,  220, 111,  4,  9, RACE_ELF},
-#else
-	{ "Jal-Eth the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
+		{ "Kakalrakakal",           15000,  200, 116,  6,  9, RACE_KLACKON},
+		{ "Jal-Eth the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
+		{ "Fanelath the Cautious",         10000,  190, 111,  5,  8, RACE_DWARF},
+		{ "Runcie the Insane",         10000,  190, 110,  6,  8, RACE_HUMAN},
+		{ "Grumbleworth",           15000,  200, 116,  6,  9, RACE_GNOME},
+		{ "Flitter",       15000,  220, 111,  4,  9, RACE_SPRITE},
+		{ "Xarillus",         10000,  190, 111,  5,  8, RACE_HUMAN},
+		{ "Egbert the Old",         10000,  190, 110,  6,  8, RACE_DWARF},
+		{ "Valindra the Proud",           15000,  200, 116,  6,  9, RACE_HIGH_ELF},
+		{ "Taen the Alchemist",       15000,  220, 111,  4,  9, RACE_HUMAN},
+		{ "Cayd the Sweet",         10000,  190, 111,  5,  8, RACE_VAMPIRE},
+		{ "Fulir the Dark",         10000,  190, 110,  6,  8, RACE_NIBELUNG},
+		{ "Domli the Humble",           15000,  200, 116,  6,  9, RACE_DWARF},
+		{ "Yaarjukka Demonspawn",       15000,  220, 111,  4,  9, RACE_IMP},
+		{ "Gelaraldor the Herbmaster",         10000,  190, 111,  5,  8, RACE_HIGH_ELF},
+		{ "Olelaldan the Wise",         10000,  190, 110,  6,  8, RACE_BARBARIAN},
+		{ "Fthoglo the Demonicist",           15000,  200, 116,  6,  9, RACE_IMP},
+		{ "Dridash the Alchemist",       15000,  220, 111,  4,  9, RACE_HALF_ORC},
+		{ "Nelir the Strong",         10000,  190, 111,  5,  8, RACE_CYCLOPS},
+		{ "Lignus the Pungent",         10000,  190, 110,  6,  8, RACE_HALF_ORC},
+		{ "Tilba",           15000,  200, 116,  6,  9, RACE_HOBBIT},
+		{ "Myrildric the Wealthy",       15000,  220, 111,  4,  9, RACE_HUMAN},
+
+		{ "Mauser the Chemist",         10000,  190, 111,  5,  8, RACE_HALF_ELF},
+		{ "Wizzle the Chaotic",         10000,  190, 110,  6,  8, RACE_HOBBIT},
+		{ "Midas the Greedy",           15000,  200, 116,  6,  9, RACE_GNOME},
+		{ "Ja-Far the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
+		{ "Kakalrakakal",           15000,  200, 116,  6,  9, RACE_KLACKON},
+		{ "Jal-Eth the Alchemist",       15000,  220, 111,  4,  9, RACE_ELF},
 #endif
 	},
+
 	{
 		/* Magic Shop - 23 unique names */
 #ifdef JP
-		{ "¥½¡¼¥µ¥é¡¼¤Î¥í=¥Ñ¥ó",       20000,  200,  110,   7,   8,  RACE_HALF_ELF},
-		{ "°ÎÂç¤Ê¤ë¥Ö¥¬¡¼¥Ó¥¤",         20000,  215,  113,   6,  10,  RACE_GNOME},
-		{ "¥¤¥§¥ó¥À¡¼¤ÎËâË¡»È¤¤",     30000,  200,  110,   7,  10,  RACE_HUMAN},
-		{ "»àÎî»È¤¤¥ê¥ã¥¯",30000,      175,  110,   5,  11,  RACE_HIGH_ELF},
+		{ "ã‚½ãƒ¼ã‚µãƒ©ãƒ¼ã®ãƒ­=ãƒ‘ãƒ³",       20000,  200,  110,   7,   8,  RACE_HALF_ELF},
+		{ "å‰å¤§ãªã‚‹ãƒ–ã‚¬ãƒ¼ãƒ“ã‚¤",         20000,  215,  113,   6,  10,  RACE_GNOME},
+		{ "ã‚¤ã‚§ãƒ³ãƒ€ãƒ¼ã®é­”æ³•ä½¿ã„",     30000,  200,  110,   7,  10,  RACE_HUMAN},
+		{ "æ­»éœŠä½¿ã„ãƒªãƒ£ã‚¯",30000,      175,  110,   5,  11,  RACE_HIGH_ELF},
+		{ "é­”è¡“å¸«ã‚¹ã‚­ãƒ‰ã‚¥ãƒ‹ãƒ¼",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
+		{ "å¹»è¡“å¸«ã‚­ãƒªã‚¢",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "æ­»éœŠè¡“å¸«ãƒ‹ãƒƒã‚­",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "ã‚½ãƒ­ã‚¹ãƒˆãƒ©ãƒ³",        15000,  200, 110,  7,  8, RACE_SPRITE},
+		{ "çƒè³Šå£ã‚¢ãƒã‚·ã‚§",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
+		{ "è²´æ—ã®ã‚«ã‚¶",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
+		{ "æš—ããƒ•ã‚¡ã‚¸ãƒ«",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "å‰å¤§ãªã‚‹ã‚±ãƒ«ãƒ‰ãƒ¼ãƒ³",        15000,  200, 110,  7,  8, RACE_DWARF},
+		{ "ãƒ•ã‚£ãƒ©ãƒ³ã‚¹ãƒ­ãƒ—ã‚¹",         20000,  215, 113,  6, 10, RACE_HOBBIT},
+		{ "é­”å¥³ã®ã‚¢ã‚°ãƒŠãƒ¼",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "æ­»éœŠè¡“å¸«ãƒ“ãƒ¥ãƒªã‚¢ãƒ³ã‚¹",       30000,  175, 110,  5, 11, RACE_BEASTMAN},
+		{ "ãƒã‚¤ãƒ¡ã‚¤ã‚¸ã®ãƒ´ã‚¤ãƒ©ã‚¯",        15000,  200, 110,  7,  8, RACE_BEASTMAN},
+		{ "çŸ¥æµè€…ãƒãƒ‡ã‚£ãƒƒã‚·ãƒ¥",         20000,  215, 113,  6, 10, RACE_BEASTMAN},
+		{ "ãƒ•ã‚¡ãƒ¬ãƒ–ãƒªãƒ³ãƒœãƒ¼ãƒ«",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
+		{ "é™°é™ºãƒ•ã‚§ãƒªãƒ«=ã‚¬ãƒ³ãƒ‰",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "å‘ªè¡“å¸«ã‚µãƒ¬ã‚´ãƒ¼ãƒ‰",        15000,  200, 110,  7,  8, RACE_BARBARIAN},
+		{ "ç¥ç§˜å®¶ã‚¯ãƒˆã‚¥ã‚¢ãƒ­ã‚¹",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
+		{ "å¹»è¡“å¸«ã‚¤ãƒ™ãƒª",       30000,  200, 110,  7, 10, RACE_SKELETON},
+		{ "æ­»éœŠè¡“å¸«ãƒ˜ãƒˆãƒ¼",       30000,  175, 110,  5, 11, RACE_YEEK},
+		{ "é­”è¡“å¸«ãƒ­=ãƒ‘ãƒ³",        20000,  200, 110,  7,  8, RACE_HALF_ELF},
+		{ "å‰å¤§ãªã‚‹ãƒ–ã‚¬ãƒ¼ãƒ“ã‚¤",         20000,  215, 113,  6, 10, RACE_GNOME},
+		{ "ã‚¤ã‚§ãƒ³ãƒ€ãƒ¼ã®é­”æ³•ä½¿ã„",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "æ­»éœŠè¡“å¸«ãƒªãƒ£ã‚¯",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "é­”è¡“å¸«ã‚¹ã‚­ãƒ‰ã‚¥ãƒ‹ãƒ¼",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
+		{ "å¹»è¡“å¸«ã‚­ãƒªã‚¢",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "æ­»éœŠè¡“å¸«ãƒ‹ãƒƒã‚­",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "ã‚½ãƒ­ã‚¹ãƒˆãƒ©ãƒ³",        15000,  200, 110,  7,  8, RACE_SPRITE},
+		{ "çƒè³Šå£ã‚¢ãƒã‚·ã‚§",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
 #else
 		{ "Lo Pan the Sorcerer",        20000,  200, 110,  7,  8, RACE_HALF_ELF},
 		{ "Buggerby the Great",         20000,  215, 113,  6, 10, RACE_GNOME},
 		{ "The Wizard of Yendor",       30000,  200, 110,  7, 10, RACE_HUMAN},
 		{ "Rjak the Necromancer",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#endif
-
-#ifdef JP
-	{ "Ëâ½Ñ»Õ¥¹¥­¥É¥¥¥Ë¡¼",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
-#else
-	{ "Skidney the Sorcerer",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
-#endif
-#ifdef JP
-	{ "¸¸½Ñ»Õ¥­¥ê¥¢",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#else
-	{ "Kyria the Illusionist",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#endif
-#ifdef JP
-	{ "»àÎî½Ñ»Õ¥Ë¥Ã¥­",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#else
-	{ "Nikki the Necromancer",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#endif
-#ifdef JP
-	{ "¥½¥í¥¹¥È¥é¥ó",        15000,  200, 110,  7,  8, RACE_SPRITE},
-#else
-	{ "Solostoran",        15000,  200, 110,  7,  8, RACE_SPRITE},
-#endif
-#ifdef JP
-{ "±¨Â±¸ı¥¢¥Á¥·¥§",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
-#else
+		{ "Skidney the Sorcerer",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
+		{ "Kyria the Illusionist",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "Nikki the Necromancer",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "Solostoran",        15000,  200, 110,  7,  8, RACE_SPRITE},
 		{ "Achshe the Tentacled",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-	{ "µ®Â²¤Î¥«¥¶",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
-#else
-	{ "Kaza the Noble",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-	{ "°Å¤­¥Õ¥¡¥¸¥ë",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#else
-	{ "Fazzil the Dark",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#endif
-#ifdef JP
-	{ "°ÎÂç¤Ê¤ë¥±¥ë¥É¡¼¥ó",        15000,  200, 110,  7,  8, RACE_DWARF},
-#else
-	{ "Keldorn the Grand",        15000,  200, 110,  7,  8, RACE_DWARF},
-#endif
-#ifdef JP
-{ "¥Õ¥£¥é¥ó¥¹¥í¥×¥¹",         20000,  215, 113,  6, 10, RACE_HOBBIT},
-#else
+		{ "Kaza the Noble",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
+		{ "Fazzil the Dark",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "Keldorn the Grand",        15000,  200, 110,  7,  8, RACE_DWARF},
 		{ "Philanthropus",         20000,  215, 113,  6, 10, RACE_HOBBIT},
-#endif
-#ifdef JP
-	{ "Ëâ½÷¤Î¥¢¥°¥Ê¡¼",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#else
-	{ "Agnar the Enchantress",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#endif
-#ifdef JP
-	{ "»àÎî½Ñ»Õ¥Ó¥å¥ê¥¢¥ó¥¹",       30000,  175, 110,  5, 11, RACE_BEASTMAN},
-#else
-	{ "Buliance the Necromancer",       30000,  175, 110,  5, 11, RACE_BEASTMAN},
-#endif
-#ifdef JP
-	{ "¥Ï¥¤¥á¥¤¥¸¤Î¥ô¥¤¥é¥¯",        15000,  200, 110,  7,  8, RACE_BEASTMAN},
-#else
-	{ "Vuirak the High-Mage",        15000,  200, 110,  7,  8, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "ÃÎ·Ã¼Ô¥Ş¥Ç¥£¥Ã¥·¥å",         20000,  215, 113,  6, 10, RACE_BEASTMAN},
-#else
+		{ "Agnar the Enchantress",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "Buliance the Necromancer",       30000,  175, 110,  5, 11, RACE_BEASTMAN},
+		{ "Vuirak the High-Mage",        15000,  200, 110,  7,  8, RACE_BEASTMAN},
 		{ "Madish the Smart",         20000,  215, 113,  6, 10, RACE_BEASTMAN},
-#endif
-#ifdef JP
-	{ "¥Õ¥¡¥ì¥Ö¥ê¥ó¥Ü¡¼¥ë",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
-#else
-	{ "Falebrimbor",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-	{ "±¢¸±¥Õ¥§¥ê¥ë=¥¬¥ó¥É",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#else
-	{ "Felil-Gand the Subtle",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#endif
-#ifdef JP
-	{ "¼ö½Ñ»Õ¥µ¥ì¥´¡¼¥É",        15000,  200, 110,  7,  8, RACE_BARBARIAN},
-#else
-	{ "Thalegord the Shaman",        15000,  200, 110,  7,  8, RACE_BARBARIAN},
-#endif
-#ifdef JP
-{ "¿ÀÈë²È¥¯¥È¥¥¥¢¥í¥¹",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
-#else
+		{ "Falebrimbor",       30000,  200, 110,  7, 10, RACE_HIGH_ELF},
+		{ "Felil-Gand the Subtle",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "Thalegord the Shaman",        15000,  200, 110,  7,  8, RACE_BARBARIAN},
 		{ "Cthoaloth the Mystic",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-	{ "¸¸½Ñ»Õ¥¤¥Ù¥ê",       30000,  200, 110,  7, 10, RACE_SKELETON},
-#else
-	{ "Ibeli the Illusionist",       30000,  200, 110,  7, 10, RACE_SKELETON},
-#endif
-#ifdef JP
-	{ "»àÎî½Ñ»Õ¥Ø¥È¡¼",       30000,  175, 110,  5, 11, RACE_YEEK},
-#else
-	{ "Heto the Necromancer",       30000,  175, 110,  5, 11, RACE_YEEK},
-#endif
-#ifdef JP
-{ "Ëâ½Ñ»Õ¥í=¥Ñ¥ó",        20000,  200, 110,  7,  8, RACE_HALF_ELF},
-#else
+		{ "Ibeli the Illusionist",       30000,  200, 110,  7, 10, RACE_SKELETON},
+		{ "Heto the Necromancer",       30000,  175, 110,  5, 11, RACE_YEEK},
 		{ "Lo Pan the Sorcerer",        20000,  200, 110,  7,  8, RACE_HALF_ELF},
-#endif
-#ifdef JP
-{ "°ÎÂç¤Ê¤ë¥Ö¥¬¡¼¥Ó¥¤",         20000,  215, 113,  6, 10, RACE_GNOME},
-#else
 		{ "Buggerby the Great",         20000,  215, 113,  6, 10, RACE_GNOME},
-#endif
-#ifdef JP
-{ "¥¤¥§¥ó¥À¡¼¤ÎËâË¡»È¤¤",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#else
 		{ "The Wizard of Yendor",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "»àÎî½Ñ»Õ¥ê¥ã¥¯",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#else
 		{ "Rjak the Necromancer",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#endif
-#ifdef JP
-	{ "Ëâ½Ñ»Õ¥¹¥­¥É¥¥¥Ë¡¼",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
-#else
-	{ "Skidney the Sorcerer",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
-#endif
-#ifdef JP
-	{ "¸¸½Ñ»Õ¥­¥ê¥¢",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#else
-	{ "Kyria the Illusionist",       30000,  200, 110,  7, 10, RACE_HUMAN},
-#endif
-#ifdef JP
-	{ "»àÎî½Ñ»Õ¥Ë¥Ã¥­",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#else
-	{ "Nikki the Necromancer",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
-#endif
-#ifdef JP
-	{ "¥½¥í¥¹¥È¥é¥ó",        15000,  200, 110,  7,  8, RACE_SPRITE},
-#else
-	{ "Solostoran",        15000,  200, 110,  7,  8, RACE_SPRITE},
-#endif
-#ifdef JP
-{ "±¨Â±¸ı¥¢¥Á¥·¥§",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
-#else
+		{ "Skidney the Sorcerer",        15000,  200, 110,  7,  8, RACE_HALF_ELF},
+		{ "Kyria the Illusionist",       30000,  200, 110,  7, 10, RACE_HUMAN},
+		{ "Nikki the Necromancer",       30000,  175, 110,  5, 11, RACE_DARK_ELF},
+		{ "Solostoran",        15000,  200, 110,  7,  8, RACE_SPRITE},
 		{ "Achshe the Tentacled",         20000,  215, 113,  6, 10, RACE_MIND_FLAYER},
 #endif
 	},
 	{
 		/* Black Market - 32 unique names */
 #ifdef JP
-		{ "¥¬¥ê¡¼=¥®¥¬¥º",            20000,  250,  150,  10,   5,  RACE_HALF_TROLL},
-		{ "¥´¥Ö¥ê¥ó¤Î¥Ò¥¹¥È¡¼¥¢",       20000,  250,  150,  10,   5,  RACE_HALF_ORC},
-		{ "¥Õ¥§¥ì¥ó¥®¿Í¥¯¥¢¡¼¥¯",           30000,  250,  150,  10,   5,  RACE_HUMAN},
-		{ "¸øÀµ¤Ê¤ë(?)¥È¥Ã¥Ô",                     30000,  250,  150,  10,   5,  RACE_ELF},
+		{ "ã‚¬ãƒªãƒ¼=ã‚®ã‚¬ã‚º",            20000,  250,  150,  10,   5,  RACE_HALF_TROLL},
+		{ "ã‚´ãƒ–ãƒªãƒ³ã®ãƒ’ã‚¹ãƒˆãƒ¼ã‚¢",       20000,  250,  150,  10,   5,  RACE_HALF_ORC},
+		{ "ãƒ•ã‚§ãƒ¬ãƒ³ã‚®äººã‚¯ã‚¢ãƒ¼ã‚¯",           30000,  250,  150,  10,   5,  RACE_HUMAN},
+		{ "å…¬æ­£ãªã‚‹(?)ãƒˆãƒƒãƒ”",                     30000,  250,  150,  10,   5,  RACE_ELF},
+		{ "æ­»äººãƒ´ã‚¡ãƒƒã‚µ",             20000,  250, 150, 10,  5, RACE_ZOMBIE},
+		{ "è£åˆ‡ã‚Šè€…ã‚«ã‚¤ãƒ³",          20000,  250, 150, 10,  5, RACE_VAMPIRE},
+		{ "ãƒ–ãƒœãƒ‹ã‚«ã‚¹",          30000,  250, 150, 10,  5, RACE_BEASTMAN},
+		{ "ã‚³ãƒ¼ãƒ—ã‚¹ãƒ©ã‚¤ãƒˆ",           30000,  250, 150, 10,  5, RACE_SPECTRE},
+		{ "è¡€ã«é£¢ãˆã—ãƒ‘ãƒªãƒƒã‚·ãƒ¥",                 20000,  250, 150, 10,  5, RACE_VAMPIRE},
+		{ "ãƒ´ã‚¡ã‚¤ãƒ«",          20000,  250, 150, 10,  5, RACE_SKELETON},
+		{ "ä¿¡é ¼ã®ãƒ—ãƒ¬ãƒ³ãƒ†ã‚£ã‚¹",          30000,  250, 150, 10,  5, RACE_SKELETON},
+		{ "äººé–“æ®ºã—ã®ã‚°ãƒªã‚¨ãƒ©",           30000,  250, 150, 10,  5, RACE_IMP},
+		{ "ã‚¨ãƒ³ã‚¸ã‚§ãƒ«",                 20000,  250, 150, 10,  5, RACE_VAMPIRE},
+		{ "æ°´è†¨ã‚Œãƒ•ãƒ­ãƒ„ã‚¡ãƒ ",          20000,  250, 150, 10,  5, RACE_ZOMBIE},
+		{ "ãƒ‹ãƒ¼ãƒ´ã‚¡ãƒ«",          30000,  250, 150, 10,  5, RACE_VAMPIRE},
+		{ "æ˜ã‚‹ã„ã‚¢ãƒŠã‚¹ã‚¿ã‚·ã‚¢",           30000,  250, 150, 10,  5, RACE_SPECTRE},
+		{ "æ­»éœŠè¡“å¸«ãƒãƒ£ãƒªãƒ†ã‚£ãƒ¼", 20000,  250, 150, 10,  5, RACE_DARK_ELF},
+		{ "ãƒœã‚¯ã‚µãƒ¼ã®ãƒ—ã‚°ãƒŠã‚·ã‚ªã‚¹",          20000,  250, 150, 10,  5, RACE_HALF_ORC},
+		{ "å¹¸é‹ãªãƒ•ãƒƒãƒˆã‚½ã‚¢",          30000,  250, 150, 10,  5, RACE_BEASTMAN},
+		{ "å…‰æŒ‡ã®ã‚·ãƒ‰ãƒªã‚¢",           30000,  250, 150, 10,  5, RACE_HUMAN},
+		{ "æ‰‹å“å¸«ãƒªã‚¢ã‚½ãƒ¼",                 20000,  250, 150, 10,  5, RACE_HOBBIT},
+		{ "ã‚„ã‚Šãã‚Šä¸Šæ‰‹ã®ã‚¸ãƒ£ãƒŠãƒƒã‚«",          20000,  250, 150, 10,  5, RACE_GNOME},
+		{ "æ‚ªå…šã‚·ãƒ¼ãƒŠ",          30000,  250, 150, 10,  5, RACE_GNOME},
+		{ "å¤§çˆªã‚¢ãƒ«ãƒ‹ãƒƒã‚­",           30000,  250, 150, 10,  5, RACE_DRACONIAN},
+		{ "è²§ä¹ãƒãƒ£ã‚¨ã‚¢ãƒ³ãƒ‰",                 20000,  250, 150, 10,  5, RACE_HUMAN},
+		{ "å±±è³Šã‚¢ãƒ•ã‚¡ãƒ¼ãƒ‰ãƒ¼ãƒ•",          20000,  250, 150, 10,  5, RACE_BARBARIAN},
+		{ "å¼·æ¬²ãƒ©ã‚¶ã‚¯ã‚¹ãƒ«",          30000,  250, 150, 10,  5, RACE_MIND_FLAYER},
+		{ "ãƒ•ã‚¡ãƒ©ãƒ¬ã‚¦ã‚£ãƒ³",           30000,  250, 150, 10,  5, RACE_SPRITE},
+		{ "ã—ã‚ã—ã‚ãƒ´ã‚©ã‚¹ãƒ¼ãƒ«",                 20000,  250, 150, 10,  5, RACE_NIBELUNG},
+		{ "ãƒãƒ³ã‚µãƒ ãªã‚¢ãƒ©ã‚ªãƒ¼ãƒ‰",          20000,  250, 150, 10,  5, RACE_AMBERITE},
+		{ "è² ã‘çŠ¬ã‚»ãƒ©ãƒ‰ãƒ•ãƒªãƒ‰",          30000,  250, 150, 10,  5, RACE_HUMAN},
+		{ "ç‰‡è¶³ã®ã‚¨ãƒ«ãƒ¼ãƒ­",           30000,  250, 150, 10,  5, RACE_HALF_OGRE},
 #else
 		{ "Gary Gygaz",                 20000,  250, 150, 10,  5, RACE_HALF_TROLL},
 		{ "Histor the Goblin",          20000,  250, 150, 10,  5, RACE_HALF_ORC},
 		{ "Quark the Ferengi",          30000,  250, 150, 10,  5, RACE_DWARF},
 		{ "Topi the Fair(?)",           30000,  250, 150, 10,  5, RACE_HUMAN},
-#endif
-
-#ifdef JP
-{ "»à¿Í¥ô¥¡¥Ã¥µ",             20000,  250, 150, 10,  5, RACE_ZOMBIE},
-#else
 		{ "Vhassa the Dead",             20000,  250, 150, 10,  5, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "Î¢ÀÚ¤ê¼Ô¥«¥¤¥ó",          20000,  250, 150, 10,  5, RACE_VAMPIRE},
-#else
 		{ "Kyn the Treacherous",          20000,  250, 150, 10,  5, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "¥Ö¥Ü¥Ë¥«¥¹",          30000,  250, 150, 10,  5, RACE_BEASTMAN},
-#else
 		{ "Bubonicus",          30000,  250, 150, 10,  5, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "¥³¡¼¥×¥¹¥é¥¤¥È",           30000,  250, 150, 10,  5, RACE_SPECTRE},
-#else
 		{ "Corpselight",           30000,  250, 150, 10,  5, RACE_SPECTRE},
-#endif
-#ifdef JP
-{ "·ì¤Ëµ²¤¨¤·¥Ñ¥ê¥Ã¥·¥å",                 20000,  250, 150, 10,  5, RACE_VAMPIRE},
-#else
 		{ "Parrish the Bloodthirsty",                 20000,  250, 150, 10,  5, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "¥ô¥¡¥¤¥ë",          20000,  250, 150, 10,  5, RACE_SKELETON},
-#else
 		{ "Vile",          20000,  250, 150, 10,  5, RACE_SKELETON},
-#endif
-#ifdef JP
-{ "¿®Íê¤Î¥×¥ì¥ó¥Æ¥£¥¹",          30000,  250, 150, 10,  5, RACE_SKELETON},
-#else
 		{ "Prentice the Trusted",          30000,  250, 150, 10,  5, RACE_SKELETON},
-#endif
-#ifdef JP
-{ "¿Í´Ö»¦¤·¤Î¥°¥ê¥¨¥é",           30000,  250, 150, 10,  5, RACE_IMP},
-#else
 		{ "Griella Humanslayer",           30000,  250, 150, 10,  5, RACE_IMP},
-#endif
-#ifdef JP
-{ "¥¨¥ó¥¸¥§¥ë",                 20000,  250, 150, 10,  5, RACE_VAMPIRE},
-#else
 		{ "Angel",                 20000,  250, 150, 10,  5, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "¿åËÄ¤ì¥Õ¥í¥Ä¥¡¥à",          20000,  250, 150, 10,  5, RACE_ZOMBIE},
-#else
 		{ "Flotsam the Bloated",          20000,  250, 150, 10,  5, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "¥Ë¡¼¥ô¥¡¥ë",          30000,  250, 150, 10,  5, RACE_VAMPIRE},
-#else
 		{ "Nieval",          30000,  250, 150, 10,  5, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "ÌÀ¤ë¤¤¥¢¥Ê¥¹¥¿¥·¥¢",           30000,  250, 150, 10,  5, RACE_SPECTRE},
-#else
 		{ "Anastasia the Luminous",           30000,  250, 150, 10,  5, RACE_SPECTRE},
-#endif
-#ifdef JP
-{ "»àÎî½Ñ»Õ¥Á¥ã¥ê¥Æ¥£¡¼", 20000,  250, 150, 10,  5, RACE_DARK_ELF},
-#else
 		{ "Charity the Necromancer", 20000,  250, 150, 10,  5, RACE_DARK_ELF},
-#endif
-#ifdef JP
-{ "¥Ü¥¯¥µ¡¼¤Î¥×¥°¥Ê¥·¥ª¥¹",          20000,  250, 150, 10,  5, RACE_HALF_ORC},
-#else
 		{ "Pugnacious the Pugilist",          20000,  250, 150, 10,  5, RACE_HALF_ORC},
-#endif
-#ifdef JP
-{ "¹¬±¿¤Ê¥Õ¥Ã¥È¥½¥¢",          30000,  250, 150, 10,  5, RACE_BEASTMAN},
-#else
 		{ "Footsore the Lucky",          30000,  250, 150, 10,  5, RACE_BEASTMAN},
-#endif
-#ifdef JP
-{ "¸÷»Ø¤Î¥·¥É¥ê¥¢",           30000,  250, 150, 10,  5, RACE_HUMAN},
-#else
 		{ "Sidria Lighfingered",           30000,  250, 150, 10,  5, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¼êÉÊ»Õ¥ê¥¢¥½¡¼",                 20000,  250, 150, 10,  5, RACE_HOBBIT},
-#else
 		{ "Riatho the Juggler",                 20000,  250, 150, 10,  5, RACE_HOBBIT},
-#endif
-#ifdef JP
-{ "¤ä¤ê¤¯¤ê¾å¼ê¤Î¥¸¥ã¥Ê¥Ã¥«",          20000,  250, 150, 10,  5, RACE_GNOME},
-#else
 		{ "Janaaka the Shifty",          20000,  250, 150, 10,  5, RACE_GNOME},
-#endif
-#ifdef JP
-{ "°­ÅŞ¥·¡¼¥Ê",          30000,  250, 150, 10,  5, RACE_GNOME},
-#else
 		{ "Cina the Rogue",          30000,  250, 150, 10,  5, RACE_GNOME},
-#endif
-#ifdef JP
-{ "ÂçÄŞ¥¢¥ë¥Ë¥Ã¥­",           30000,  250, 150, 10,  5, RACE_DRACONIAN},
-#else
 		{ "Arunikki Greatclaw",           30000,  250, 150, 10,  5, RACE_DRACONIAN},
-#endif
-#ifdef JP
-{ "ÉÏË³¥Á¥ã¥¨¥¢¥ó¥É",                 20000,  250, 150, 10,  5, RACE_HUMAN},
-#else
 		{ "Chaeand the Poor",                 20000,  250, 150, 10,  5, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "»³Â±¥¢¥Õ¥¡¡¼¥É¡¼¥Õ",          20000,  250, 150, 10,  5, RACE_BARBARIAN},
-#else
 		{ "Afardorf the Brigand",          20000,  250, 150, 10,  5, RACE_BARBARIAN},
-#endif
-#ifdef JP
-{ "¶¯Íß¥é¥¶¥¯¥¹¥ë",          30000,  250, 150, 10,  5, RACE_MIND_FLAYER},
-#else
 		{ "Lathaxl the Greedy",          30000,  250, 150, 10,  5, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-{ "¥Õ¥¡¥é¥ì¥¦¥£¥ó",           30000,  250, 150, 10,  5, RACE_SPRITE},
-#else
 		{ "Falarewyn",           30000,  250, 150, 10,  5, RACE_SPRITE},
-#endif
-#ifdef JP
-{ "¤·¤ï¤·¤ï¥ô¥©¥¹¡¼¥ë",                 20000,  250, 150, 10,  5, RACE_NIBELUNG},
-#else
 		{ "Vosur the Wrinkled",                 20000,  250, 150, 10,  5, RACE_NIBELUNG},
-#endif
-#ifdef JP
-{ "¥Ï¥ó¥µ¥à¤Ê¥¢¥é¥ª¡¼¥É",          20000,  250, 150, 10,  5, RACE_AMBERITE},
-#else
 		{ "Araord the Handsome",          20000,  250, 150, 10,  5, RACE_AMBERITE},
-#endif
-#ifdef JP
-{ "Éé¤±¸¤¥»¥é¥É¥Õ¥ê¥É",          30000,  250, 150, 10,  5, RACE_HUMAN},
-#else
 		{ "Theradfrid the Loser",          30000,  250, 150, 10,  5, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "ÊÒÂ­¤Î¥¨¥ë¡¼¥í",           30000,  250, 150, 10,  5, RACE_HALF_OGRE},
-#else
 		{ "One-Legged Eroolo",           30000,  250, 150, 10,  5, RACE_HALF_OGRE},
 #endif
 	},
 	{
 		/* Home */
 #ifdef JP
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
-		{ "²æ¤¬²È",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
+		{ "æˆ‘ãŒå®¶",                          0,      100, 100,  0, 99, 99},
 #else
 		{ "Your home",                          0,      100, 100,  0, 99, 99},
 		{ "Your home",                          0,      100, 100,  0, 99, 99},
@@ -2393,155 +1805,73 @@ owner_type owners[MAX_STORES][MAX_OWNERS] =
 	{
 		/* Bookstore - 21 unique names */
 #ifdef JP
-		{ "¶¯Íß¥É¥é¥Õ", 10000, 175, 108, 4, 12, RACE_HUMAN},
-		{ "¸­¼Ô¥ª¥É¥Ê¡¼", 15000, 120, 105, 6, 16, RACE_HIGH_ELF},
-		{ "ÃæÎ©¤Î¥¬¥ó¥À¡¼", 25000, 120, 110, 7, 19, RACE_DARK_ELF},
-		{ "Ç¦ÂÑ¤Î¿Í¥í=¥·¥ã", 30000, 140, 105, 6, 12, RACE_ELF},
+		{ "å¼·æ¬²ãƒ‰ãƒ©ãƒ•", 10000, 175, 108, 4, 12, RACE_HUMAN},
+		{ "è³¢è€…ã‚ªãƒ‰ãƒŠãƒ¼", 15000, 120, 105, 6, 16, RACE_HIGH_ELF},
+		{ "ä¸­ç«‹ã®ã‚¬ãƒ³ãƒ€ãƒ¼", 25000, 120, 110, 7, 19, RACE_DARK_ELF},
+		{ "å¿è€ã®äººãƒ­=ã‚·ãƒ£", 30000, 140, 105, 6, 12, RACE_ELF},
+		{ "ãƒ©ãƒ³ãƒ‰ãƒ«ãƒ•ãƒ»ã‚«ãƒ¼ã‚¿ãƒ¼", 15000, 175, 108, 4, 12, RACE_HUMAN},
+		{ "éš¼ã®ã‚µãƒ©ã‚¤", 15000, 175, 108, 4, 12, RACE_HUMAN},
+		{ "åƒé‡Œçœ¼ãƒœãƒ‰ãƒªãƒ«", 20000, 120, 105, 6, 16, RACE_HIGH_ELF},
+		{ "æ²ˆé»™ã®ãƒ´ã‚§ã‚ªãƒ­ã‚¤ãƒ³", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
+		{ "å­¦è€…ã®ãƒ´ã‚¡ãƒ³ã‚·ãƒ©ã‚¹", 30000, 140, 105, 6, 12, RACE_MIND_FLAYER},
+		{ "ç‰©æ›¸ãã‚ªã‚»ã‚¤ãƒ³", 15000, 175, 108, 4, 12, RACE_SKELETON},
+		{ "æœ¬ã®è™«ã‚ªãƒ«ãƒ´ã‚¡ãƒ¼", 20000, 120, 105, 6, 16, RACE_VAMPIRE},
+		{ "æµ…äº•å¢“ç”·", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
+		{ "ãƒ‡ã‚¹ãƒã‚¹ã‚¯", 30000, 140, 105, 6, 12, RACE_ZOMBIE},
+		{ "å­¦è€…ã®ã‚¢ã‚¹ãƒ¼ãƒŒ", 15000, 175, 108, 4, 12, RACE_MIND_FLAYER},
+		{ "æ­»äººã®ãƒ—ãƒªãƒ©ãƒ³ãƒ‰", 20000, 120, 105, 6, 16, RACE_ZOMBIE},
+		{ "é‰„ã®ãƒ­ãƒŠãƒ¼ãƒ«", 25000, 120, 110, 7, 19, RACE_GOLEM},
 #else
 		{ "Dolaf the Greedy", 10000, 175, 108, 4, 12, RACE_HUMAN},
 		{ "Odnar the Sage", 15000, 120, 105, 6, 16, RACE_HIGH_ELF},
 		{ "Gandar the Neutral", 25000, 120, 110, 7, 19, RACE_DARK_ELF},
 		{ "Ro-sha the Patient", 30000, 140, 105, 6, 12, RACE_ELF},
-#endif
-
-#ifdef JP
-{ "¥é¥ó¥É¥ë¥Õ¡¦¥«¡¼¥¿¡¼", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#else
 		{ "Randolph Carter", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "È»¤Î¥µ¥é¥¤", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#else
 		{ "Sarai the Swift", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "ÀéÎ¤´ã¥Ü¥É¥ê¥ë", 20000, 120, 105, 6, 16, RACE_HIGH_ELF},
-#else
 		{ "Bodril the Seer", 20000, 120, 105, 6, 16, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "ÄÀÌÛ¤Î¥ô¥§¥ª¥í¥¤¥ó", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
-#else
 		{ "Veloin the Quiet", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "³Ø¼Ô¤Î¥ô¥¡¥ó¥·¥é¥¹", 30000, 140, 105, 6, 12, RACE_MIND_FLAYER},
-#else
 		{ "Vanthylas the Learned", 30000, 140, 105, 6, 12, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-{ "Êª½ñ¤­¥ª¥»¥¤¥ó", 15000, 175, 108, 4, 12, RACE_SKELETON},
-#else
 		{ "Ossein the Literate", 15000, 175, 108, 4, 12, RACE_SKELETON},
-#endif
-#ifdef JP
-{ "ËÜ¤ÎÃî¥ª¥ë¥ô¥¡¡¼", 20000, 120, 105, 6, 16, RACE_VAMPIRE},
-#else
 		{ "Olvar Bookworm", 20000, 120, 105, 6, 16, RACE_VAMPIRE},
-#endif
-#ifdef JP
-{ "Àõ°æÊèÃË", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
-#else
 		{ "Shallowgrave", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "¥Ç¥¹¥Ş¥¹¥¯", 30000, 140, 105, 6, 12, RACE_ZOMBIE},
-#else
 		{ "Death Mask", 30000, 140, 105, 6, 12, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "³Ø¼Ô¤Î¥¢¥¹¡¼¥Ì", 15000, 175, 108, 4, 12, RACE_MIND_FLAYER},
-#else
 		{ "Asuunu the Learned", 15000, 175, 108, 4, 12, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-{ "»à¿Í¤Î¥×¥ê¥é¥ó¥É", 20000, 120, 105, 6, 16, RACE_ZOMBIE},
-#else
 		{ "Prirand the Dead", 20000, 120, 105, 6, 16, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "Å´¤Î¥í¥Ê¡¼¥ë", 25000, 120, 110, 7, 19, RACE_GOLEM},
-#else
 		{ "Ronar the Iron", 25000, 120, 110, 7, 19, RACE_GOLEM},
 #endif
 #ifdef JP
-{ "¥¬¥ê¥ë=¥¬¥ß¥ë", 30000, 140, 105, 6, 12, RACE_ELF},
+		{ "ã‚¬ãƒªãƒ«=ã‚¬ãƒŸãƒ«", 30000, 140, 105, 6, 12, RACE_ELF},
+		{ "æœ¬é£Ÿã„ãƒ­ãƒ¼ãƒã‚°", 15000, 175, 108, 4, 12, RACE_KOBOLD},
+		{ "ã‚­ãƒªã‚¢ãƒªã‚­ãƒ¼ã‚¯", 20000, 120, 105, 6, 16, RACE_KLACKON},
+		{ "é™ã‹ãªã‚‹ãƒªãƒªãƒ³", 25000, 120, 110, 7, 19, RACE_DWARF},
+		{ "ç‹è€…ã‚¤ã‚µãƒ³ã‚°", 30000, 140, 105, 6, 12, RACE_HIGH_ELF},
+		{ "å¼·æ¬²ãƒ‰ãƒ©ãƒ•", 10000, 175, 108, 4, 12, RACE_HUMAN},
+		{ "è³¢è€…ã‚ªãƒ‰ãƒŠãƒ¼", 15000, 120, 105, 6, 16, RACE_HIGH_ELF},
+		{ "ä¸­ç«‹ã®ã‚¬ãƒ³ãƒ€ãƒ¼", 25000, 120, 110, 7, 19, RACE_DARK_ELF},
+		{ "å¿è€ã®äººãƒ­=ã‚·ãƒ£", 30000, 140, 105, 6, 12, RACE_ELF},
+		{ "ãƒ©ãƒ³ãƒ‰ãƒ«ãƒ•ãƒ»ã‚«ãƒ¼ã‚¿ãƒ¼", 15000, 175, 108, 4, 12, RACE_HUMAN},
+		{ "éš¼ã‚µãƒ©ã‚¤", 15000, 175, 108, 4, 12, RACE_HUMAN},
+		{ "åƒé‡Œçœ¼ãƒœãƒ‰ãƒªãƒ«", 20000, 120, 105, 6, 16, RACE_HIGH_ELF},
+		{ "æ²ˆé»™ã®ãƒ´ã‚§ã‚ªãƒ­ã‚¤ãƒ³", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
+		{ "å­¦è€…ã®ãƒ´ã‚¡ãƒ³ã‚·ãƒ©ã‚¹", 30000, 140, 105, 6, 12, RACE_MIND_FLAYER},
+		{ "ç‰©æ›¸ãã‚ªã‚»ã‚¤ãƒ³", 15000, 175, 108, 4, 12, RACE_SKELETON},
+		{ "æœ¬ã®è™«ã‚ªãƒ«ãƒ´ã‚¡ãƒ¼", 20000, 120, 105, 6, 16, RACE_VAMPIRE},
 #else
 		{ "Galil-Gamir", 30000, 140, 105, 6, 12, RACE_ELF},
-#endif
-#ifdef JP
-{ "ËÜ¿©¤¤¥í¡¼¥Ğ¥°", 15000, 175, 108, 4, 12, RACE_KOBOLD},
-#else
 		{ "Rorbag Book-Eater", 15000, 175, 108, 4, 12, RACE_KOBOLD},
-#endif
-#ifdef JP
-{ "¥­¥ê¥¢¥ê¥­¡¼¥¯", 20000, 120, 105, 6, 16, RACE_KLACKON},
-#else
 		{ "Kiriarikirk", 20000, 120, 105, 6, 16, RACE_KLACKON},
-#endif
-#ifdef JP
-{ "ÀÅ¤«¤Ê¤ë¥ê¥ê¥ó", 25000, 120, 110, 7, 19, RACE_DWARF},
-#else
 		{ "Rilin the Quiet", 25000, 120, 110, 7, 19, RACE_DWARF},
-#endif
-#ifdef JP
-{ "²¦¼Ô¥¤¥µ¥ó¥°", 30000, 140, 105, 6, 12, RACE_HIGH_ELF},
-#else
 		{ "Isung the Lord", 30000, 140, 105, 6, 12, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "¶¯Íß¥É¥é¥Õ", 10000, 175, 108, 4, 12, RACE_HUMAN},
-#else
 		{ "Dolaf the Greedy", 10000, 175, 108, 4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "¸­¼Ô¥ª¥É¥Ê¡¼", 15000, 120, 105, 6, 16, RACE_HIGH_ELF},
-#else
 		{ "Odnar the Sage", 15000, 120, 105, 6, 16, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "ÃæÎ©¤Î¥¬¥ó¥À¡¼", 25000, 120, 110, 7, 19, RACE_DARK_ELF},
-#else
 		{ "Gandar the Neutral", 25000, 120, 110, 7, 19, RACE_DARK_ELF},
-#endif
-#ifdef JP
-{ "Ç¦ÂÑ¤Î¿Í¥í=¥·¥ã", 30000, 140, 105, 6, 12, RACE_ELF},
-#else
 		{ "Ro-sha the Patient", 30000, 140, 105, 6, 12, RACE_ELF},
-#endif
-#ifdef JP
-{ "¥é¥ó¥É¥ë¥Õ¡¦¥«¡¼¥¿¡¼", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#else
 		{ "Randolph Carter", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "È»¥µ¥é¥¤", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#else
 		{ "Sarai the Swift", 15000, 175, 108, 4, 12, RACE_HUMAN},
-#endif
-#ifdef JP
-{ "ÀéÎ¤´ã¥Ü¥É¥ê¥ë", 20000, 120, 105, 6, 16, RACE_HIGH_ELF},
-#else
 		{ "Bodril the Seer", 20000, 120, 105, 6, 16, RACE_HIGH_ELF},
-#endif
-#ifdef JP
-{ "ÄÀÌÛ¤Î¥ô¥§¥ª¥í¥¤¥ó", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
-#else
 		{ "Veloin the Quiet", 25000, 120, 110, 7, 19, RACE_ZOMBIE},
-#endif
-#ifdef JP
-{ "³Ø¼Ô¤Î¥ô¥¡¥ó¥·¥é¥¹", 30000, 140, 105, 6, 12, RACE_MIND_FLAYER},
-#else
 		{ "Vanthylas the Learned", 30000, 140, 105, 6, 12, RACE_MIND_FLAYER},
-#endif
-#ifdef JP
-{ "Êª½ñ¤­¥ª¥»¥¤¥ó", 15000, 175, 108, 4, 12, RACE_SKELETON},
-#else
 		{ "Ossein the Literate", 15000, 175, 108, 4, 12, RACE_SKELETON},
-#endif
-#ifdef JP
-{ "ËÜ¤ÎÃî¥ª¥ë¥ô¥¡¡¼", 20000, 120, 105, 6, 16, RACE_VAMPIRE},
-#else
 		{ "Olvar Bookworm", 20000, 120, 105, 6, 16, RACE_VAMPIRE},
 #endif
 	},
@@ -2549,38 +1879,38 @@ owner_type owners[MAX_STORES][MAX_OWNERS] =
 	{
 		/* Museum */
 #ifdef JP
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
-		{ "ÇîÊª´Û",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
+		{ "åšç‰©é¤¨",                          0,      100, 100,  0, 99, 99},
 #else
 		{ "Museum",                          0,      100, 100,  0, 99, 99},
 		{ "Museum",                          0,      100, 100,  0, 99, 99},
@@ -2646,7 +1976,7 @@ owner_type owners[MAX_STORES][MAX_OWNERS] =
  * the (compiled out) small random energy boost code.  It may
  * also tend to cause more "clumping" at high speeds.
  */
-byte extract_energy[200] =
+const byte extract_energy[200] =
 {
 	/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
 	/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
@@ -2676,7 +2006,7 @@ byte extract_energy[200] =
 /*
  * Base experience levels, may be adjusted up for race and/or class
  */
-s32b player_exp[PY_MAX_LEVEL] =
+const s32b player_exp[PY_MAX_LEVEL] =
 {
 	10,
 	25,
@@ -2731,7 +2061,7 @@ s32b player_exp[PY_MAX_LEVEL] =
 };
 
 
-s32b player_exp_a[PY_MAX_LEVEL] =
+const s32b player_exp_a[PY_MAX_LEVEL] =
 {
 	20,
 	50,
@@ -2792,20 +2122,20 @@ s32b player_exp_a[PY_MAX_LEVEL] =
  *      Title,
  *      Winner
  */
-player_sex sex_info[MAX_SEXES] =
+const player_sex sex_info[MAX_SEXES] =
 {
 	{
 #ifdef JP
-		"½÷À­",
-		"¥¯¥¤¡¼¥ó",
+		"å¥³æ€§",
+		"ã‚¯ã‚¤ãƒ¼ãƒ³",
 #endif
 		"Female",
 		"Queen"
 	},
 	{
 #ifdef JP
-		"ÃËÀ­",
-		"¥­¥ó¥°",
+		"ç”·æ€§",
+		"ã‚­ãƒ³ã‚°",
 #endif
 		"Male",
 		"King"
@@ -2826,11 +2156,11 @@ player_sex sex_info[MAX_SEXES] =
  *      infra,
  *      class-choices
  */
-player_race race_info[MAX_RACES] =
+const player_race race_info[MAX_RACES] =
 {
 	{
 #ifdef JP
-		"¿Í´Ö",
+		"äººé–“",
 #endif
 		"Human",
 
@@ -2845,7 +2175,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ï¡¼¥Õ¥¨¥ë¥Õ",
+		"ãƒãƒ¼ãƒ•ã‚¨ãƒ«ãƒ•",
 #endif
 		"Half-Elf",
 
@@ -2860,7 +2190,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¨¥ë¥Õ",
+		"ã‚¨ãƒ«ãƒ•",
 #endif
 		"Elf",
 
@@ -2876,7 +2206,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Û¥Ó¥Ã¥È",
+		"ãƒ›ãƒ“ãƒƒãƒˆ",
 #endif
 		"Hobbit",
 
@@ -2891,7 +2221,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Î¡¼¥à",
+		"ãƒãƒ¼ãƒ ",
 #endif
 		"Gnome",
 
@@ -2906,7 +2236,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥É¥ï¡¼¥Õ",
+		"ãƒ‰ãƒ¯ãƒ¼ãƒ•",
 #endif
 		"Dwarf",
 
@@ -2921,7 +2251,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ï¡¼¥Õ¥ª¡¼¥¯",
+		"ãƒãƒ¼ãƒ•ã‚ªãƒ¼ã‚¯",
 #endif
 		"Half-Orc",
 
@@ -2936,7 +2266,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ï¡¼¥Õ¥È¥í¥ë",
+		"ãƒãƒ¼ãƒ•ãƒˆãƒ­ãƒ«",
 #endif
 		"Half-Troll",
 
@@ -2951,7 +2281,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¢¥ó¥Ğ¥é¥¤¥È",
+		"ã‚¢ãƒ³ãƒãƒ©ã‚¤ãƒˆ",
 #endif
 		"Amberite",
 
@@ -2966,7 +2296,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ï¥¤¥¨¥ë¥Õ",
+		"ãƒã‚¤ã‚¨ãƒ«ãƒ•",
 #endif
 		"High-Elf",
 
@@ -2981,7 +2311,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"ÌîÈÚ¿Í",
+		"é‡è›®äºº",
 #endif
 		"Barbarian",
 
@@ -2996,7 +2326,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ï¡¼¥Õ¥ª¡¼¥¬",
+		"ãƒãƒ¼ãƒ•ã‚ªãƒ¼ã‚¬",
 #endif
 		"Half-Ogre",
 
@@ -3011,7 +2341,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"È¾µğ¿Í",
+		"åŠå·¨äºº",
 #endif
 		"Half-Giant",
 
@@ -3026,7 +2356,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"È¾¥¿¥¤¥¿¥ó",
+		"åŠã‚¿ã‚¤ã‚¿ãƒ³",
 #endif
 		"Half-Titan",
 
@@ -3041,7 +2371,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥µ¥¤¥¯¥í¥×¥¹",
+		"ã‚µã‚¤ã‚¯ãƒ­ãƒ—ã‚¹",
 #endif
 		"Cyclops",
 
@@ -3056,7 +2386,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¤¡¼¥¯",
+		"ã‚¤ãƒ¼ã‚¯",
 #endif
 		"Yeek",
 
@@ -3071,7 +2401,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¯¥é¥Ã¥³¥ó",
+		"ã‚¯ãƒ©ãƒƒã‚³ãƒ³",
 #endif
 		"Klackon",
 
@@ -3086,7 +2416,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥³¥Ü¥ë¥É",
+		"ã‚³ãƒœãƒ«ãƒ‰",
 #endif
 		"Kobold",
 
@@ -3101,7 +2431,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ë¡¼¥Ù¥ë¥ó¥°",
+		"ãƒ‹ãƒ¼ãƒ™ãƒ«ãƒ³ã‚°",
 #endif
 		"Nibelung",
 
@@ -3116,7 +2446,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥À¡¼¥¯¥¨¥ë¥Õ",
+		"ãƒ€ãƒ¼ã‚¯ã‚¨ãƒ«ãƒ•",
 #endif
 		"Dark-Elf",
 
@@ -3131,7 +2461,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥É¥é¥³¥Ë¥¢¥ó",
+		"ãƒ‰ãƒ©ã‚³ãƒ‹ã‚¢ãƒ³",
 #endif
 		"Draconian",
 
@@ -3146,7 +2476,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ş¥¤¥ó¥É¥Õ¥ì¥¢",
+		"ãƒã‚¤ãƒ³ãƒ‰ãƒ•ãƒ¬ã‚¢",
 #endif
 		"Mindflayer",
 
@@ -3161,7 +2491,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¤¥ó¥×",
+		"ã‚¤ãƒ³ãƒ—",
 #endif
 		"Imp",
 
@@ -3176,7 +2506,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥´¡¼¥ì¥à",
+		"ã‚´ãƒ¼ãƒ¬ãƒ ",
 #endif
 		"Golem",
 
@@ -3191,7 +2521,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"³¼¹ü",
+		"éª¸éª¨",
 #endif
 		"Skeleton",
 
@@ -3206,7 +2536,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¾¥ó¥Ó",
+		"ã‚¾ãƒ³ãƒ“",
 #endif
 		"Zombie",
 
@@ -3221,7 +2551,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"µÛ·ìµ´",
+		"å¸è¡€é¬¼",
 #endif
 		"Vampire",
 
@@ -3236,7 +2566,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"Í©Îî",
+		"å¹½éœŠ",
 #endif
 		"Spectre",
 
@@ -3251,7 +2581,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"ÍÅÀº",
+		"å¦–ç²¾",
 #endif
 		"Sprite",
 
@@ -3266,7 +2596,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"½Ã¿Í",  
+		"ç£äºº",  
 #endif
 		"Beastman",
 
@@ -3281,7 +2611,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¨¥ó¥È",
+		"ã‚¨ãƒ³ãƒˆ",
 #endif
 		"Ent",
 		{ 2,  0,  2, -3,  2,  0 },
@@ -3295,7 +2625,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¢¥ë¥³¥ó",
+		"ã‚¢ãƒ«ã‚³ãƒ³",
 #endif
 		"Archon",
 
@@ -3310,7 +2640,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥Ğ¥ë¥í¥°",
+		"ãƒãƒ«ãƒ­ã‚°",
 		"Balrog",
 #else
 		"Balrog",
@@ -3327,7 +2657,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥É¥¥¥Ê¥À¥ó",
+		"ãƒ‰ã‚¥ãƒŠãƒ€ãƒ³",
 #endif
 		"Dunadan",
 
@@ -3342,7 +2672,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"±Æ¥Õ¥§¥¢¥ê¡¼",
+		"å½±ãƒ•ã‚§ã‚¢ãƒªãƒ¼",
 #endif
 		"Shadow-Fairy",
 		{-2,  2,  2,  1, -1,  0 },
@@ -3356,7 +2686,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¯¥¿¡¼",
+		"ã‚¯ã‚¿ãƒ¼",
 #endif
 		"Kutar",
 
@@ -3371,7 +2701,7 @@ player_race race_info[MAX_RACES] =
 	},
 	{
 #ifdef JP
-		"¥¢¥ó¥É¥í¥¤¥É",
+		"ã‚¢ãƒ³ãƒ‰ãƒ­ã‚¤ãƒ‰",
 #endif
 		"Android",
 
@@ -3396,11 +2726,11 @@ player_race race_info[MAX_RACES] =
  *      x_dis, x_dev, x_sav, x_stl, x_srh, x_fos, x_thn, x_thb,
  *      HD, Exp, pet_upkeep_div
  */
-player_class class_info[MAX_CLASS] =
+const player_class class_info[MAX_CLASS] =
 {
 	{
 #ifdef JP
-		"Àï»Î",
+		"æˆ¦å£«",
 #endif
 		"Warrior",
 
@@ -3412,7 +2742,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥á¥¤¥¸",
+		"ãƒ¡ã‚¤ã‚¸",
 #endif
 		"Mage",
 
@@ -3424,7 +2754,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥×¥ê¡¼¥¹¥È",
+		"ãƒ—ãƒªãƒ¼ã‚¹ãƒˆ",
 #endif
 		"Priest",
 
@@ -3436,7 +2766,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"ÅğÂ±",
+		"ç›—è³Š",
 #endif
 		"Rogue",
 
@@ -3448,7 +2778,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥ì¥ó¥¸¥ã¡¼",
+		"ãƒ¬ãƒ³ã‚¸ãƒ£ãƒ¼",
 #endif
 		"Ranger",
 
@@ -3460,7 +2790,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥Ñ¥é¥Ç¥£¥ó",
+		"ãƒ‘ãƒ©ãƒ‡ã‚£ãƒ³",
 #endif
 		"Paladin",
 
@@ -3472,7 +2802,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"ËâË¡Àï»Î",
+		"é­”æ³•æˆ¦å£«",
 #endif
 		"Warrior-Mage",
 
@@ -3484,7 +2814,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"º®ÆÙ¤ÎÀï»Î",
+		"æ··æ²Œã®æˆ¦å£«",
 #endif
 		"Chaos-Warrior",
 
@@ -3496,7 +2826,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"½¤¹ÔÁÎ",
+		"ä¿®è¡Œåƒ§",
 #endif
 		"Monk",
 
@@ -3508,7 +2838,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"Ä¶Ç½ÎÏ¼Ô",
+		"è¶…èƒ½åŠ›è€…",
 #endif
 		"Mindcrafter",
 
@@ -3520,7 +2850,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥Ï¥¤=¥á¥¤¥¸",
+		"ãƒã‚¤=ãƒ¡ã‚¤ã‚¸",
 #endif
 		"High-Mage",
 
@@ -3532,7 +2862,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"´Ñ¸÷µÒ",
+		"è¦³å…‰å®¢",
 #endif
 		"Tourist",
 		{ -1, -1, -1, -1, -1, -1},
@@ -3543,7 +2873,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¤â¤Î¤Ş¤Í»Õ",
+		"ã‚‚ã®ã¾ã­å¸«",
 #endif
 		"Imitator",
 		{ 0, 1, -1, 2, 0, 1},
@@ -3554,7 +2884,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"Ëâ½Ã»È¤¤",
+		"é­”ç£ä½¿ã„",
 #endif
 		"BeastMaster",
 		{ 1, -1, -1, 1, 0, 2},
@@ -3565,7 +2895,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥¹¥Ú¥ë¥Ş¥¹¥¿¡¼",
+		"ã‚¹ãƒšãƒ«ãƒã‚¹ã‚¿ãƒ¼",
 #endif
 		"Sorcerer",
 
@@ -3577,7 +2907,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥¢¡¼¥Á¥ã¡¼",
+		"ã‚¢ãƒ¼ãƒãƒ£ãƒ¼",
 #endif
 		"Archer",
 
@@ -3589,7 +2919,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"ËâÆ»¶ñ½Ñ»Õ",
+		"é­”é“å…·è¡“å¸«",
 #endif
 		"Magic-Eater",
 
@@ -3601,7 +2931,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¶ãÍ·»í¿Í",
+		"åŸéŠè©©äºº",
 #endif
 		"Bard",              /* Note : spell stat is Charisma */
 		{-2, 1, 2, -1, -2, 4},
@@ -3612,7 +2942,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"ÀÖËâÆ»»Õ",
+		"èµ¤é­”é“å¸«",
 #endif
 		"Red-Mage",
 
@@ -3624,7 +2954,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"·õ½Ñ²È",
+		"å‰£è¡“å®¶",
 #endif
 		"Samurai",
 
@@ -3636,7 +2966,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"Îıµ¤½Ñ»Õ",
+		"ç·´æ°—è¡“å¸«",
 #endif
 		"ForceTrainer",
 
@@ -3648,7 +2978,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"ÀÄËâÆ»»Õ",
+		"é’é­”é“å¸«",
 #endif
 		"Blue-Mage",
 
@@ -3660,7 +2990,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"µ³Ê¼",
+		"é¨å…µ",
 #endif
 		"Cavalry",
 		{ 2, -2, -2, 2, 2, 0},
@@ -3671,7 +3001,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¶¸Àï»Î",
+		"ç‹‚æˆ¦å£«",
 #endif
 		"Berserker",
 
@@ -3683,7 +3013,7 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"ÃÃÌê»Õ",
+		"é›å†¶å¸«",
 #endif
 		"Weaponsmith",
 
@@ -3694,7 +3024,7 @@ player_class class_info[MAX_CLASS] =
 	},
 	{
 #ifdef JP
-		"¶À»È¤¤",
+		"é¡ä½¿ã„",
 #endif
 		"Mirror-Master",
 
@@ -3705,7 +3035,7 @@ player_class class_info[MAX_CLASS] =
 	},
 	{
 #ifdef JP
-		"Ç¦¼Ô",
+		"å¿è€…",
 #endif
 		"Ninja",
 
@@ -3717,22 +3047,22 @@ player_class class_info[MAX_CLASS] =
 
 	{
 #ifdef JP
-		"¥¹¥Ê¥¤¥Ñ¡¼",
+		"ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼",
 #endif
 		"Sniper",
 
 		{ 2, -1, -1, 2, 1, 0},
-		25, 24, 28, 5, 32, 18, 35,  72,
-		12, 10, 10, 0,  0,  0, 12,  28,
+		25, 24, 28, 5, 32, 18, 56,  72,
+		12, 10, 10, 0,  0,  0, 18,  28,
 		2, 20, 40,
 	},
 };
 
-player_seikaku seikaku_info[MAX_SEIKAKU] =
+const player_seikaku seikaku_info[MAX_SEIKAKU] =
 {
 	{
 #ifdef JP
-		"¤Õ¤Ä¤¦",
+		"ãµã¤ã†",
 #endif
 		"Ordinary",
 		{  0,  0,  0,  0,  0,  0 },
@@ -3742,7 +3072,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤Á¤«¤é¤¸¤Ş¤ó",
+		"ã¡ã‹ã‚‰ã˜ã¾ã‚“",
 #endif
 		"Mighty",
 		{  2,  -2,  -1,  0,  1,  0 },
@@ -3752,7 +3082,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤­¤ì¤â¤Î",
+		"ãã‚Œã‚‚ã®",
 #endif
 		"Shrewd",
 		{  -2,  2,  0,  1,  -1,  -1 },
@@ -3762,7 +3092,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤·¤¢¤ï¤»¤â¤Î",
+		"ã—ã‚ã‚ã›ã‚‚ã®",
 #endif
 		"Pious",
 		{  0,  -1,  2,  -1,  0,  1 },
@@ -3772,7 +3102,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤¹¤Ğ¤·¤Ã¤³¤¤",
+		"ã™ã°ã—ã£ã“ã„",
 #endif
 		"Nimble",
 		{  -1,  1,  -1,  2,  -1,  -1 },
@@ -3782,7 +3112,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤¤¤Î¤Á¤·¤é¤º",
+		"ã„ã®ã¡ã—ã‚‰ãš",
 #endif
 		"Fearless",
 		{  2,  1,  1,  -1,  -1,  0 },
@@ -3792,7 +3122,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¥³¥ó¥Ğ¥Ã¥È",
+		"ã‚³ãƒ³ãƒãƒƒãƒˆ",
 #endif
 		"Combat",
 		{  1,  -1,  -2,  2,  0,  1 },
@@ -3802,7 +3132,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤Ê¤Ş¤±¤â¤Î",
+		"ãªã¾ã‘ã‚‚ã®",
 #endif
 		"Lazy",
 		{  -2,  -2,  -2,  -2,  -2,  -2 },
@@ -3812,7 +3142,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¥»¥¯¥·¡¼¥®¥ã¥ë",
+		"ã‚»ã‚¯ã‚·ãƒ¼ã‚®ãƒ£ãƒ«",
 #endif
 		"Sexy",
 		{  1,  1,  1,  1,  1,  3 },
@@ -3822,7 +3152,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¥é¥Ã¥­¡¼¥Ş¥ó",
+		"ãƒ©ãƒƒã‚­ãƒ¼ãƒãƒ³",
 #endif
 		"Lucky",
 		{  -2,  -2,  -2,  -2,  -2,  2 },
@@ -3832,7 +3162,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤¬¤Ş¤ó¤Å¤è¤¤",
+		"ãŒã¾ã‚“ã¥ã‚ˆã„",
 #endif
 		"Patient",
 		{  -1,  -1,  1,  -2,  2,  0 },
@@ -3842,7 +3172,7 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 	{
 #ifdef JP
-		"¤¤¤«¤µ¤Ş",
+		"ã„ã‹ã•ã¾",
 #endif
 		"Munchkin",
 		{ 10,  10,  10,  10,  10,  10 },
@@ -3853,11 +3183,11 @@ player_seikaku seikaku_info[MAX_SEIKAKU] =
 
 
 
-player_race mimic_info[] =
+const player_race mimic_info[] =
 {
 	{
 #ifdef JP
-		"[É¸½à·ÁÂÖ]",
+		"[æ¨™æº–å½¢æ…‹]",
 #endif
 		"Default",
 
@@ -3872,7 +3202,7 @@ player_race mimic_info[] =
 	},
 	{
 #ifdef JP
-		"[°­Ëâ]",
+		"[æ‚ªé­”]",
 #endif
 		"[Demon]",
 
@@ -3887,7 +3217,7 @@ player_race mimic_info[] =
 	},
 	{
 #ifdef JP
-		"[Ëâ²¦]",
+		"[é­”ç‹]",
 #endif
 		"[Demon lord]",
 
@@ -3902,7 +3232,7 @@ player_race mimic_info[] =
 	},
 	{
 #ifdef JP
-		"[µÛ·ìµ´]",
+		"[å¸è¡€é¬¼]",
 #endif
 		"[Vampire]",
 
@@ -3919,7 +3249,7 @@ player_race mimic_info[] =
 
 
 
-magic_type technic_info[NUM_TECHNIC][32] =
+const magic_type technic_info[NUM_TECHNIC][32] =
 {
 	{
 		/* Music */
@@ -4044,7 +3374,7 @@ magic_type technic_info[NUM_TECHNIC][32] =
  * Zangband uses this array instead of the spell flags table, as there
  * are 5 realms of magic, each with 4 spellbooks and 8 spells per book -- TY
  */
-u32b fake_spell_flags[4]=
+const u32b fake_spell_flags[4]=
 {
 	0x000000ff,
 	0x0000ff00,
@@ -4053,7 +3383,7 @@ u32b fake_spell_flags[4]=
 };
 
 
-s32b realm_choices1[MAX_CLASS] =
+const s32b realm_choices1[MAX_CLASS] =
 {
 	(CH_NONE),				/* Warrior */
 	(CH_LIFE | CH_SORCERY | CH_NATURE |
@@ -4096,7 +3426,7 @@ s32b realm_choices1[MAX_CLASS] =
 };
 
 
-s32b realm_choices2[MAX_CLASS] =
+const s32b realm_choices2[MAX_CLASS] =
 {
 	(CH_NONE),                              /* Warrior */
 	(CH_LIFE | CH_SORCERY | CH_NATURE |
@@ -4140,35 +3470,35 @@ s32b realm_choices2[MAX_CLASS] =
 
 
 #ifdef JP
-cptr realm_names[] =
+const cptr realm_names[] =
 {
-	"ËâË¡¤Ê¤·",
-	"À¸Ì¿",
-	"Àç½Ñ",
-	"¼«Á³",
-	"¥«¥ª¥¹",
-	"°Å¹õ",
-	"¥È¥é¥ó¥×",
-	"Èë½Ñ",
-	"¾¢",
-	"°­Ëâ",
-	"ÇË¼Ù",
-	"ÉÔÌÀ",
-	"ÉÔÌÀ",
-	"ÉÔÌÀ",
-	"ÉÔÌÀ",
-	"ÉÔÌÀ",
-	"²Î",
-	"Éğ·İ",
-	"¼ö½Ñ",
-	"ÉÔÌÀ"
+	"é­”æ³•ãªã—",
+	"ç”Ÿå‘½",
+	"ä»™è¡“",
+	"è‡ªç„¶",
+	"ã‚«ã‚ªã‚¹",
+	"æš—é»’",
+	"ãƒˆãƒ©ãƒ³ãƒ—",
+	"ç§˜è¡“",
+	"åŒ ",
+	"æ‚ªé­”",
+	"ç ´é‚ª",
+	"ä¸æ˜",
+	"ä¸æ˜",
+	"ä¸æ˜",
+	"ä¸æ˜",
+	"ä¸æ˜",
+	"æ­Œ",
+	"æ­¦èŠ¸",
+	"å‘ªè¡“",
+	"ä¸æ˜"
 };
 #endif
 
 #ifdef JP
-cptr E_realm_names[]
+const cptr E_realm_names[]
 #else
-cptr realm_names[]
+const cptr realm_names[]
 #endif
 = {
 	"none",
@@ -4201,7 +3531,7 @@ cptr realm_names[]
  * The "pval" of a chest determines the quality of its treasure
  * Note that disarming a trap on a chest also removes the lock.
  */
-int chest_traps[64] =
+const int chest_traps[64] =
 {
 	0,                                      /* 0 == empty */
 	(CHEST_POISON),
@@ -4277,409 +3607,409 @@ int chest_traps[64] =
  * needs only ten titles total.
  */
 #ifdef JP
-cptr player_title[MAX_CLASS][PY_MAX_LEVEL / 5] =
+const cptr player_title[MAX_CLASS][PY_MAX_LEVEL / 5] =
 {
 	/* Warrior */
 	{
-		"¿·»²Ê¼",
-		"Ê¼»Î",
-		"ÍÃÊ¼",
-		"¸Å»²Ê¼",
-		"·õ»Î",
-		"Æ®»Î",
-		"±ÑÍº",
-		"ÃË¼ß",
-		"Çì¼ß",
-		"·¯¼ç",
+		"æ–°å‚å…µ",
+		"å…µå£«",
+		"å‚­å…µ",
+		"å¤å‚å…µ",
+		"å‰£å£«",
+		"é—˜å£«",
+		"è‹±é›„",
+		"ç”·çˆµ",
+		"ä¼¯çˆµ",
+		"å›ä¸»",
 	},
 
 	/* Mage */
 	{
-				/*"¸«½¬¤¤",*/
-		"Îı½¬À¸",                 /*ÃúÃÕ¡¢Îı½¬À¸ */
-		"´ñ½Ñ»Õ",               /*º¾µ½»Õ¡¢¥Ú¥Æ¥ó»Õ */
-		"¸¸½Ñ»Õ",
-		"¼ö½Ñ»Õ",
-		"¾¤Îî»Õ",
-		"¾¤Ëâ»Õ",
-		"Ëâ½Ñ»Õ",
-		"ËâÆ»»Õ",
-		"¥¤¥×¥·¥·¥Ş¥¹",
-		"ÂçËâÆ»»Õ",
+				/*"è¦‹ç¿’ã„",*/
+		"ç·´ç¿’ç”Ÿ",                 /*ä¸ç¨šã€ç·´ç¿’ç”Ÿ */
+		"å¥‡è¡“å¸«",               /*è©æ¬ºå¸«ã€ãƒšãƒ†ãƒ³å¸« */
+		"å¹»è¡“å¸«",
+		"å‘ªè¡“å¸«",
+		"å¬éœŠå¸«",
+		"å¬é­”å¸«",
+		"é­”è¡“å¸«",
+		"é­”é“å¸«",
+		"ã‚¤ãƒ—ã‚·ã‚·ãƒã‚¹",
+		"å¤§é­”é“å¸«",
 	},
 
 	/* Priest */
 	{
-		"¿®¼Ô",                 /*¿®ÅÌ */
-		"»øÁÎ",             /*¶µ²ñÊô»Å¼Ô¡¢¸«½¬¤¤ÁÎ¡¢È¼ÁÎ¡¢½¾¼Ô */
-		"½ÏÎıÁÎ",
-		"À»¿¦¼Ô",                 /*À»¿¦¼Ô */
-		"ÅÁÆ»»Õ",               /*»Êº×É¾µÄ°÷¡¢½¤Æ»²ñ²ñ°÷ */
-		"ËÒ»Õ",               /*¥é¥Ş¶µ¤ÎÁÎ */
-		"À»¿Í",               /*Âç»Ê¶µ¡¢Áí¼ç¶µ¡¢ÁíÂç»Ê¶µ */
-		"º×»Ê",                 /*º×»Ê¡¢»Êº× */
-		"º×»ÊÄ¹",               /*Âçº×»Ê¡¢º×»ÊÄ¹ */
-		"¶µ¹Ä",
+		"ä¿¡è€…",                 /*ä¿¡å¾’ */
+		"ä¾åƒ§",             /*æ•™ä¼šå¥‰ä»•è€…ã€è¦‹ç¿’ã„åƒ§ã€ä¼´åƒ§ã€å¾“è€… */
+		"ç†Ÿç·´åƒ§",
+		"è–è·è€…",                 /*è–è·è€… */
+		"ä¼é“å¸«",               /*å¸ç¥­è©•è­°å“¡ã€ä¿®é“ä¼šä¼šå“¡ */
+		"ç‰§å¸«",               /*ãƒ©ãƒæ•™ã®åƒ§ */
+		"è–äºº",               /*å¤§å¸æ•™ã€ç·ä¸»æ•™ã€ç·å¤§å¸æ•™ */
+		"ç¥­å¸",                 /*ç¥­å¸ã€å¸ç¥­ */
+		"ç¥­å¸é•·",               /*å¤§ç¥­å¸ã€ç¥­å¸é•· */
+		"æ•™çš‡",
 	},
 
 	/* Rogues */
 	{
-		/* "¤´¤í¤Ä¤­",*/                     /*¤´¤í¤Ä¤­¡¢É÷ÍèË·¡¢ÉâÏ²¼Ô */
-		"¤¹¤ê",
-		"ÄÉ¤¤¤Ï¤®",                     /*ÄÉ¤¤Çí¤®¡¢¶¯Åğ¡¢Å¥ËÀ */
-		"ÌëÅğ",                         /*¶¯Åğ¡¢ÌëÅğ¡¢Å¥ËÀ */
-		"¤³¤½Å¥",                       /*¤³¤½Å¥¡¢¾®Å¥ËÀ */
-		"¥Ú¥Æ¥ó»Õ",                     /*ÇîÅÌ¡¢¥Ú¥Æ¥ó»Õ¡¢º¾µ½»Õ */
-		"¥í¥¦¥·¡¼¥Õ",
-		"¥Ï¥¤¥·¡¼¥Õ",
-		"¥Ş¥¹¥¿¡¼", /* "¥Ş¥¹¥¿¡¼¥·¡¼¥Õ", */
-		"¥¢¥µ¥·¥ó",						/* °Å»¦¼Ô */
-		"Æ¬ÎÎ", /*"¥®¥ë¥É¥Ş¥¹¥¿¡¼",*/
+		/* "ã”ã‚ã¤ã",*/                     /*ã”ã‚ã¤ãã€é¢¨æ¥åŠã€æµ®æµªè€… */
+		"ã™ã‚Š",
+		"è¿½ã„ã¯ã",                     /*è¿½ã„å‰¥ãã€å¼·ç›—ã€æ³¥æ£’ */
+		"å¤œç›—",                         /*å¼·ç›—ã€å¤œç›—ã€æ³¥æ£’ */
+		"ã“ãæ³¥",                       /*ã“ãæ³¥ã€å°æ³¥æ£’ */
+		"ãƒšãƒ†ãƒ³å¸«",                     /*åšå¾’ã€ãƒšãƒ†ãƒ³å¸«ã€è©æ¬ºå¸« */
+		"ãƒ­ã‚¦ã‚·ãƒ¼ãƒ•",
+		"ãƒã‚¤ã‚·ãƒ¼ãƒ•",
+		"ãƒã‚¹ã‚¿ãƒ¼", /* "ãƒã‚¹ã‚¿ãƒ¼ã‚·ãƒ¼ãƒ•", */
+		"ã‚¢ã‚µã‚·ãƒ³",						/* æš—æ®ºè€… */
+		"é ­é ˜", /*"ã‚®ãƒ«ãƒ‰ãƒã‚¹ã‚¿ãƒ¼",*/
 	},
 
 	/* Rangers */
 	{
-		"»È¤¤Áö¤ê",
-		"ÃÚÉ×",
-		"ÀÍ¸õ",                         /*ÀÍ¸õ¡¢¸«Ä¥¤ê¡¢Äå»¡Ê¼ */
-		"¼í¿Í",
-		"ÄÉÀ×¼Ô",
-		"ÀèÆ³¼Ô",
-		"Ãµ¸±¼Ô",                       /*³«Âó¼Ô¡¢Ãµ¸±¼Ô */
-		"ÌîÉú",
-		"ÌîÉúÆ¬",
-		"ÌîÉú¤ÎÁíÎÎ",
+		"ä½¿ã„èµ°ã‚Š",
+		"é¦³å¤«",
+		"æ–¥å€™",                         /*æ–¥å€™ã€è¦‹å¼µã‚Šã€åµå¯Ÿå…µ */
+		"ç‹©äºº",
+		"è¿½è·¡è€…",
+		"å…ˆå°è€…",
+		"æ¢é™ºè€…",                       /*é–‹æ‹“è€…ã€æ¢é™ºè€… */
+		"é‡ä¼",
+		"é‡ä¼é ­",
+		"é‡ä¼ã®ç·é ˜",
 	},
 
 	/* Paladins */
 	{
-		"Í¦»Î",                 /*¿§ÃË¡¢°¦¿Í¡¢¤·¤ã¤ì¼Ô¡¢Í¦´º¤Ê¿Í */
-		"±Ò»Î",
-		"Êİ¸î¼Ô",
-		"ËÉ±Ò¼Ô",
-		"¸î±Ò¼Ô",
-		"µ³»Î",
-		"½Åµ³»Î",
-		"À»µ³»Î",
-		"¾åµéÀ»µ³»Î",
-		"À»µ³»ÎÃÄÄ¹",
+		"å‹‡å£«",                 /*è‰²ç”·ã€æ„›äººã€ã—ã‚ƒã‚Œè€…ã€å‹‡æ•¢ãªäºº */
+		"è¡›å£«",
+		"ä¿è­·è€…",
+		"é˜²è¡›è€…",
+		"è­·è¡›è€…",
+		"é¨å£«",
+		"é‡é¨å£«",
+		"è–é¨å£«",
+		"ä¸Šç´šè–é¨å£«",
+		"è–é¨å£«å›£é•·",
 	},
 
 	/* Warrior-Mage */
 	{
-		"¸«½¬¤¤",
-		"ÅÌÄï",			/*ÃúÃÕ¡¢Îı½¬À¸ */
-		"°ì¿ÍÁ°",
-		"¸Å»²Ê¼",
-		"Ëâ½ÑÊ¼»Î",
-		"Ëâ½ÑÆ®»Î",
-		"Ëâ½Ñ¤Î±ÑÍº", /* Mage-Hero */
-		"ËâÃË¼ß",
-		/* "Ëâ¸ø¼ß", */
-		"ÀïÆ®Ëâ½Ñ»Î",
-		"ÃÎ¼±¤Î¼é¸î¼Ô", /* "¥¦¥£¥¶¡¼¥É¥í¡¼¥É", */
+		"è¦‹ç¿’ã„",
+		"å¾’å¼Ÿ",			/*ä¸ç¨šã€ç·´ç¿’ç”Ÿ */
+		"ä¸€äººå‰",
+		"å¤å‚å…µ",
+		"é­”è¡“å…µå£«",
+		"é­”è¡“é—˜å£«",
+		"é­”è¡“ã®è‹±é›„", /* Mage-Hero */
+		"é­”ç”·çˆµ",
+		/* "é­”å…¬çˆµ", */
+		"æˆ¦é—˜é­”è¡“å£«",
+		"çŸ¥è­˜ã®å®ˆè­·è€…", /* "ã‚¦ã‚£ã‚¶ãƒ¼ãƒ‰ãƒ­ãƒ¼ãƒ‰", */
 	},
 
 	/* Chaos Warrior */
 	{
-		"¿·»²Ê¼",
-		"Ê¼»Î",
-		"ÍÃÊ¼",
-		"¸Å»²Ê¼",
-		"·õ»Î",
-		"Æ®»Î",
-		"º®ÆÙ¤Î±ÑÍº",
-		"º®ÆÙ¤ÎÃË¼ß",
-		"º®ÆÙ¤Î¸ø¼ß",
-		"º®ÆÙ¤Î²¦¼Ô",
+		"æ–°å‚å…µ",
+		"å…µå£«",
+		"å‚­å…µ",
+		"å¤å‚å…µ",
+		"å‰£å£«",
+		"é—˜å£«",
+		"æ··æ²Œã®è‹±é›„",
+		"æ··æ²Œã®ç”·çˆµ",
+		"æ··æ²Œã®å…¬çˆµ",
+		"æ··æ²Œã®ç‹è€…",
 	},
 
 	/* Monk */
 	{
-		"ÆşÌç¼Ô",
-		"Äï»Ò",
-		"Ä¾Äï»Ò",
-		"»ÕÈÏÂå",
-		"»ÕÈÏ",
-		"Æ»¾ì¼ç",
-		"Ì¾¿Í",
-		"ÂçÌ¾¿Í",
-		"·ıÀ»",
-		"·ı¿À",
+		"å…¥é–€è€…",
+		"å¼Ÿå­",
+		"ç›´å¼Ÿå­",
+		"å¸«ç¯„ä»£",
+		"å¸«ç¯„",
+		"é“å ´ä¸»",
+		"åäºº",
+		"å¤§åäºº",
+		"æ‹³è–",
+		"æ‹³ç¥",
 	},
 
 	/* Mindcrafter */
 	{
-		"Îı½¬À¸",
-		"¸«½¬¤¤",
-		"½ÏÎı»Î",
-		"½ÏÃ£»Î",
-		"ÌÛÁÛ»Î",
-		"¿´½Ñ»Î",
-		"¥µ¥¤¥­¥Ã¥¯",
-		"¥µ¥¤¥ª¥Ë¥Ã¥¯",
-		"Ä¶Ç½ÎÏ¼Ô",
-		"Àº¿À¤Î»ÙÇÛ¼Ô", /* "¥Ş¥¤¥ó¥É¥Ş¥¹¥¿¡¼", */
+		"ç·´ç¿’ç”Ÿ",
+		"è¦‹ç¿’ã„",
+		"ç†Ÿç·´å£«",
+		"ç†Ÿé”å£«",
+		"é»™æƒ³å£«",
+		"å¿ƒè¡“å£«",
+		"ã‚µã‚¤ã‚­ãƒƒã‚¯",
+		"ã‚µã‚¤ã‚ªãƒ‹ãƒƒã‚¯",
+		"è¶…èƒ½åŠ›è€…",
+		"ç²¾ç¥ã®æ”¯é…è€…", /* "ãƒã‚¤ãƒ³ãƒ‰ãƒã‚¹ã‚¿ãƒ¼", */
 	},
 
 	/* High Mage; same as Mage */
 	{
-				/*"¸«½¬¤¤",*/
-		"Îı½¬À¸",                 /*ÃúÃÕ¡¢Îı½¬À¸ */
-		"´ñ½Ñ»Õ",               /*º¾µ½»Õ¡¢¥Ú¥Æ¥ó»Õ */
-		"¸¸½Ñ»Õ",
-		"¼ö½Ñ»Õ",
-		"¾¤Îî»Õ",
-		"¾¤Ëâ»Õ",
-		"Ëâ½Ñ»Õ",
-		"ËâÆ»»Õ",
-		"¥¤¥×¥·¥·¥Ş¥¹",
-		"ÂçËâÆ»»Õ",
+				/*"è¦‹ç¿’ã„",*/
+		"ç·´ç¿’ç”Ÿ",                 /*ä¸ç¨šã€ç·´ç¿’ç”Ÿ */
+		"å¥‡è¡“å¸«",               /*è©æ¬ºå¸«ã€ãƒšãƒ†ãƒ³å¸« */
+		"å¹»è¡“å¸«",
+		"å‘ªè¡“å¸«",
+		"å¬éœŠå¸«",
+		"å¬é­”å¸«",
+		"é­”è¡“å¸«",
+		"é­”é“å¸«",
+		"ã‚¤ãƒ—ã‚·ã‚·ãƒã‚¹",
+		"å¤§é­”é“å¸«",
 	},
 
 	/* Tourist */
 	{
-		"¥×¡¼ÂÀÏº",
-		"´Ñ¸÷µÒ",
-		"¼şÍ·Î¹¹Ô¼Ô",
-		"Ê×Îò¼Ô",
-		"Î¹¹Ô¼Ô",
-		"ÊüÏ²¼Ô", /* "Î¹¿Í", */
-		"¹Ò³¤¼Ô",
-		"Ãµ¸¡²È",
-		"ËÁ¸±²È",
-		"¥¹¥Ú¥é¥ó¥«¡¼",
+		"ãƒ—ãƒ¼å¤ªéƒ",
+		"è¦³å…‰å®¢",
+		"å‘¨éŠæ—…è¡Œè€…",
+		"éæ­´è€…",
+		"æ—…è¡Œè€…",
+		"æ”¾æµªè€…", /* "æ—…äºº", */
+		"èˆªæµ·è€…",
+		"æ¢æ¤œå®¶",
+		"å†’é™ºå®¶",
+		"ã‚¹ãƒšãƒ©ãƒ³ã‚«ãƒ¼",
 	},
 
 	/* Imitator */
 	{
-		"¤³¤ì¤«¤é",
-		"¤¤¤Ş¤¤¤Á",
-		"¤Ş¤À¤Ş¤À",
-		"¤Ü¤Á¤Ü¤Á",
-		"¤½¤³¤½¤³",
-		"¤Ş¤¢¤Ş¤¢",
-		"¤Ê¤«¤Ê¤«",
-		"¤¤¤±¤¤¤±",
-		"¤½¤¦¤È¤¦",
-		"¤¨¤é¤¤",
+		"ã“ã‚Œã‹ã‚‰",
+		"ã„ã¾ã„ã¡",
+		"ã¾ã ã¾ã ",
+		"ã¼ã¡ã¼ã¡",
+		"ãã“ãã“",
+		"ã¾ã‚ã¾ã‚",
+		"ãªã‹ãªã‹",
+		"ã„ã‘ã„ã‘",
+		"ãã†ã¨ã†",
+		"ãˆã‚‰ã„",
 	},
 
 	/* Beastmaster */
 	{
-		"¥¤¥â¥ê»È¤¤",
-		"¥Ø¥Ó»È¤¤",
-		"¥¯¥â»È¤¤",
-		"Ïµ»È¤¤",
-		"¥È¥é»È¤¤",
-		"¹ÃÃî»È¤¤",
-		"¥Ò¥É¥é»È¤¤",
-		"¥Ï¥¦¥ó¥É»È¤¤",
-		"¥à¡¼¥Ş¥¯»È¤¤",
-		"¥É¥é¥´¥ó»È¤¤",
+		"ã‚¤ãƒ¢ãƒªä½¿ã„",
+		"ãƒ˜ãƒ“ä½¿ã„",
+		"ã‚¯ãƒ¢ä½¿ã„",
+		"ç‹¼ä½¿ã„",
+		"ãƒˆãƒ©ä½¿ã„",
+		"ç”²è™«ä½¿ã„",
+		"ãƒ’ãƒ‰ãƒ©ä½¿ã„",
+		"ãƒã‚¦ãƒ³ãƒ‰ä½¿ã„",
+		"ãƒ ãƒ¼ãƒã‚¯ä½¿ã„",
+		"ãƒ‰ãƒ©ã‚´ãƒ³ä½¿ã„",
 	},
 
 	/* Sorcerer; same as Mage */
 	{
-				/*"¸«½¬¤¤",*/
-		"Îı½¬À¸",                 /*ÃúÃÕ¡¢Îı½¬À¸ */
-		"´ñ½Ñ»Õ",               /*º¾µ½»Õ¡¢¥Ú¥Æ¥ó»Õ */
-		"¸¸½Ñ»Õ",
-		"¼ö½Ñ»Õ",
-		"¾¤Îî»Õ",
-		"¾¤Ëâ»Õ",
-		"Ëâ½Ñ»Õ",
-		"ËâÆ»»Õ",
-		"¥¤¥×¥·¥·¥Ş¥¹",
-		"ÂçËâÆ»»Õ",
+				/*"è¦‹ç¿’ã„",*/
+		"ç·´ç¿’ç”Ÿ",                 /*ä¸ç¨šã€ç·´ç¿’ç”Ÿ */
+		"å¥‡è¡“å¸«",               /*è©æ¬ºå¸«ã€ãƒšãƒ†ãƒ³å¸« */
+		"å¹»è¡“å¸«",
+		"å‘ªè¡“å¸«",
+		"å¬éœŠå¸«",
+		"å¬é­”å¸«",
+		"é­”è¡“å¸«",
+		"é­”é“å¸«",
+		"ã‚¤ãƒ—ã‚·ã‚·ãƒã‚¹",
+		"å¤§é­”é“å¸«",
 	},
 
 	/* Archer */
 	{
-		"¿·»²Ê¼",
-		"Ê¼»Î",
-		"ÍÃÊ¼",
-		"¸Å»²Ê¼",
-		"·õ»Î",
-		"Æ®»Î",
-		"±ÑÍº",
-		"ÃË¼ß",
-		"Çì¼ß",
-		"ÎÎ¼ç",
+		"æ–°å‚å…µ",
+		"å…µå£«",
+		"å‚­å…µ",
+		"å¤å‚å…µ",
+		"å‰£å£«",
+		"é—˜å£«",
+		"è‹±é›„",
+		"ç”·çˆµ",
+		"ä¼¯çˆµ",
+		"é ˜ä¸»",
 	},
 
 	/* Magic eater */
 	{
-		"ÌµÃÎ¤Ê¤ë¼Ô",
-		"ÆşÌç¼Ô",
-		"´ñ½Ñ»Õ",
-		"Èë½Ñ»Õ",
-		"Èë½Ñ»Õ",
-		"½ÏÎı¼Ô",
-		"Ã£¿Í",
-		"Ã£¿Í",
-		"ËâÆ»»Õ",
-		"Á´¤Æ¤òÃÎ¤ë¼Ô",
+		"ç„¡çŸ¥ãªã‚‹è€…",
+		"å…¥é–€è€…",
+		"å¥‡è¡“å¸«",
+		"ç§˜è¡“å¸«",
+		"ç§˜è¡“å¸«",
+		"ç†Ÿç·´è€…",
+		"é”äºº",
+		"é”äºº",
+		"é­”é“å¸«",
+		"å…¨ã¦ã‚’çŸ¥ã‚‹è€…",
 	},
 
 	/* Bard */
 	{
-		"¸«½¬¤¤",	/*"Apprentice"*/
-		"ºî¶Ê²È",	/*"Songsmith"*/
-		"¶ãÍ·»í¿Í",	/*"Bard"*/
-		"¥³¥ó¥Ñ¥Ë¥ª¥ó",	/*"Companion"*/
-		"¿´¤ÎÌş¤·¼ê",	/*"Minstrel"*/
-		"Ã¨¶×»Õ",	/*"Harper"*/
-		"ÅÁ¾µ¤ÎËÂ¤®¼ê",	/*"Loreweaver"*/
-		"»í¿À¤Î¿½¤·»Ò",	/*"Muse"*/
-		"Ì´ËÂ¤®",	/*"Dreamweaver"*/
-		"¥Ş¥¹¥¿¡¼",	/*"Master Harper"*/
+		"è¦‹ç¿’ã„",	/*"Apprentice"*/
+		"ä½œæ›²å®¶",	/*"Songsmith"*/
+		"åŸéŠè©©äºº",	/*"Bard"*/
+		"ã‚³ãƒ³ãƒ‘ãƒ‹ã‚ªãƒ³",	/*"Companion"*/
+		"å¿ƒã®ç™’ã—æ‰‹",	/*"Minstrel"*/
+		"ç«ªç´å¸«",	/*"Harper"*/
+		"ä¼æ‰¿ã®ç´¡ãæ‰‹",	/*"Loreweaver"*/
+		"è©©ç¥ã®ç”³ã—å­",	/*"Muse"*/
+		"å¤¢ç´¡ã",	/*"Dreamweaver"*/
+		"ãƒã‚¹ã‚¿ãƒ¼",	/*"Master Harper"*/
 	},
 
 	/* Red Mage; same as Warrior-Mage */
 	{
-		"¸«½¬¤¤",
-		"ÅÌÄï",			/*ÃúÃÕ¡¢Îı½¬À¸ */
-		"°ì¿ÍÁ°",
-		"¸Å»²Ê¼",
-		"Ëâ½ÑÊ¼»Î",
-		"Ëâ½ÑÆ®»Î",
-		"Ëâ½Ñ¤Î±ÑÍº", /* Mage-Hero */
-		"ËâÃË¼ß",
-		/* "Ëâ¸ø¼ß", */
-		"ÀïÆ®Ëâ½Ñ»Î",
-		"ÃÎ¼±¤Î¼é¸î¼Ô", /* "¥¦¥£¥¶¡¼¥É¥í¡¼¥É", */
+		"è¦‹ç¿’ã„",
+		"å¾’å¼Ÿ",			/*ä¸ç¨šã€ç·´ç¿’ç”Ÿ */
+		"ä¸€äººå‰",
+		"å¤å‚å…µ",
+		"é­”è¡“å…µå£«",
+		"é­”è¡“é—˜å£«",
+		"é­”è¡“ã®è‹±é›„", /* Mage-Hero */
+		"é­”ç”·çˆµ",
+		/* "é­”å…¬çˆµ", */
+		"æˆ¦é—˜é­”è¡“å£«",
+		"çŸ¥è­˜ã®å®ˆè­·è€…", /* "ã‚¦ã‚£ã‚¶ãƒ¼ãƒ‰ãƒ­ãƒ¼ãƒ‰", */
 	},
 
 	/* Samurai */
 	{
-		"ÆşÌç¼Ô",
-		"Äï»Ò",
-		"Ä¾Äï»Ò",
-		"»ÕÈÏÂå",
-		"»ÕÈÏ",
-		"Æ»¾ì¼ç",
-		"Ì¾¿Í",
-		"ÂçÌ¾¿Í",
-		"·õÀ»",
-		"·õ¿À",
+		"å…¥é–€è€…",
+		"å¼Ÿå­",
+		"ç›´å¼Ÿå­",
+		"å¸«ç¯„ä»£",
+		"å¸«ç¯„",
+		"é“å ´ä¸»",
+		"åäºº",
+		"å¤§åäºº",
+		"å‰£è–",
+		"å‰£ç¥",
 	},
 
 	/* ForceTrainer; same as Monk(?) */
 	{
-		"ÆşÌç¼Ô",
-		"Äï»Ò",
-		"Ä¾Äï»Ò",
-		"»ÕÈÏÂå",
-		"»ÕÈÏ",
-		"Æ»¾ì¼ç",
-		"Ì¾¿Í",
-		"ÂçÌ¾¿Í",
-		"·ıÀ»",
-		"·ı¿À",
+		"å…¥é–€è€…",
+		"å¼Ÿå­",
+		"ç›´å¼Ÿå­",
+		"å¸«ç¯„ä»£",
+		"å¸«ç¯„",
+		"é“å ´ä¸»",
+		"åäºº",
+		"å¤§åäºº",
+		"æ‹³è–",
+		"æ‹³ç¥",
 	},
 
 	/* Blue Mage; same as Mage */
 	{
-				/*"¸«½¬¤¤",*/
-		"Îı½¬À¸",                 /*ÃúÃÕ¡¢Îı½¬À¸ */
-		"´ñ½Ñ»Õ",               /*º¾µ½»Õ¡¢¥Ú¥Æ¥ó»Õ */
-		"¸¸½Ñ»Õ",
-		"¼ö½Ñ»Õ",
-		"¾¤Îî»Õ",
-		"¾¤Ëâ»Õ",
-		"Ëâ½Ñ»Õ",
-		"ËâÆ»»Õ",
-		"¥¤¥×¥·¥·¥Ş¥¹",
-		"ÂçËâÆ»»Õ",
+				/*"è¦‹ç¿’ã„",*/
+		"ç·´ç¿’ç”Ÿ",                 /*ä¸ç¨šã€ç·´ç¿’ç”Ÿ */
+		"å¥‡è¡“å¸«",               /*è©æ¬ºå¸«ã€ãƒšãƒ†ãƒ³å¸« */
+		"å¹»è¡“å¸«",
+		"å‘ªè¡“å¸«",
+		"å¬éœŠå¸«",
+		"å¬é­”å¸«",
+		"é­”è¡“å¸«",
+		"é­”é“å¸«",
+		"ã‚¤ãƒ—ã‚·ã‚·ãƒã‚¹",
+		"å¤§é­”é“å¸«",
 	},
 
 	/* Cavalry */
 	{
-		"¿·»²Ê¼",
-		"Ê¼»Î",
-		"ÍÃÊ¼",
-		"¸Å»²Ê¼",
-		"·õ»Î",
-		"Æ®»Î",
-		"±ÑÍº",
-		"ÃË¼ß",
-		"Çì¼ß",
-		"ÎÎ¼ç",
+		"æ–°å‚å…µ",
+		"å…µå£«",
+		"å‚­å…µ",
+		"å¤å‚å…µ",
+		"å‰£å£«",
+		"é—˜å£«",
+		"è‹±é›„",
+		"ç”·çˆµ",
+		"ä¼¯çˆµ",
+		"é ˜ä¸»",
 	},
 
 	/* Berserker */
 	{
-		"¥Ğ¡¼¥µ¡¼¥«¡¼",
-		"¥Ğ¡¼¥µ¡¼¥«¡¼",
-		"¥Ğ¡¼¥µ¡¼¥«¡¼",
-		"ÅÜ¤ê¤Î¸ø¼ß",
-		"ÅÜ¤ê¤Î¸ø¼ß",
-		"ÅÜ¤ê¤Î¸ø¼ß",
-		"ÅÜ¤ê¤Î²¦",
-		"ÅÜ¤ê¤Î²¦",
-		"ÅÜ¤ê¤Î²¦",
-		"ÅÜ¤ê¤Î²½¿È",
+		"ãƒãƒ¼ã‚µãƒ¼ã‚«ãƒ¼",
+		"ãƒãƒ¼ã‚µãƒ¼ã‚«ãƒ¼",
+		"ãƒãƒ¼ã‚µãƒ¼ã‚«ãƒ¼",
+		"æ€’ã‚Šã®å…¬çˆµ",
+		"æ€’ã‚Šã®å…¬çˆµ",
+		"æ€’ã‚Šã®å…¬çˆµ",
+		"æ€’ã‚Šã®ç‹",
+		"æ€’ã‚Šã®ç‹",
+		"æ€’ã‚Šã®ç‹",
+		"æ€’ã‚Šã®åŒ–èº«",
 	},
 
 	/* Weaponsmith */
 	{
-		"Æ¼¤òÃÃ¤¨¤·¼Ô",
-		"Å´¤òÃÃ¤¨¤·¼Ô",
-		"¹İ¤òÃÃ¤¨¤·¼Ô",
-		"¶ä¤òÃÃ¤¨¤·¼Ô",
-		"Îµ¤òÃÃ¤¨¤·¼Ô",
-		"Îî¤òÃÃ¤¨¤·¼Ô",
-		"Ëâ¤òÃÃ¤¨¤·¼Ô",
-		"º²¤òÃÃ¤¨¤·¼Ô",
-		"¿À¤òÃÃ¤¨¤·¼Ô",
-		"Á´¤òÃÃ¤¨¤·¼Ô",
+		"éŠ…ã‚’é›ãˆã—è€…",
+		"é‰„ã‚’é›ãˆã—è€…",
+		"é‹¼ã‚’é›ãˆã—è€…",
+		"éŠ€ã‚’é›ãˆã—è€…",
+		"ç«œã‚’é›ãˆã—è€…",
+		"éœŠã‚’é›ãˆã—è€…",
+		"é­”ã‚’é›ãˆã—è€…",
+		"é­‚ã‚’é›ãˆã—è€…",
+		"ç¥ã‚’é›ãˆã—è€…",
+		"å…¨ã‚’é›ãˆã—è€…",
 	},
 
 	/* Mirror Master */
 	{
-		"¶À¤ò¸«¤ë¿Í",
-		"¶ÀËá¤­",
-		"¶À¿¦¿Í",
-		"¶À½Ñ»Õ",
-		"¶ÀÆ³»Õ",
-		"¶À¤Î¸­¼Ô",
-		"¶À¤Î²¦",
-		"¶À¤Î¹ÄÄë",
-		"¶À¤Î²½¿È",
-		"¥é¥Õ¥Î¡¼¥ë²¦",
+		"é¡ã‚’è¦‹ã‚‹äºº",
+		"é¡ç£¨ã",
+		"é¡è·äºº",
+		"é¡è¡“å¸«",
+		"é¡å°å¸«",
+		"é¡ã®è³¢è€…",
+		"é¡ã®ç‹",
+		"é¡ã®çš‡å¸",
+		"é¡ã®åŒ–èº«",
+		"ãƒ©ãƒ•ãƒãƒ¼ãƒ«ç‹",
 	},
 	/* Ninja */
 	{
-		"·±ÎıÀ¸",
-		"»Å¼ê",
-		"½ÏÃ£¼Ô",
-		"Ã»Åá»È¤¤",
-		"ÀÚ¤êÎö¤­",
-		"À¨ÏÓ",
-		"¼¿¹õ¤Î¿Ï",
-		"°Ç¤Î°ì·â",
-		"°Å»¦¼Ô",
-		"»à¤ÎÄ¹¤­ÏÓ",
+		"è¨“ç·´ç”Ÿ",
+		"ä»•æ‰‹",
+		"ç†Ÿé”è€…",
+		"çŸ­åˆ€ä½¿ã„",
+		"åˆ‡ã‚Šè£‚ã",
+		"å‡„è…•",
+		"æ¼†é»’ã®åˆƒ",
+		"é—‡ã®ä¸€æ’ƒ",
+		"æš—æ®ºè€…",
+		"æ­»ã®é•·ãè…•",
 	},
 
 	/* Sniper */
 	{
-		"¿·»²Ê¼",
-		"Ê¼»Î",
-		"ÍÃÊ¼",
-		"¸Å»²Ê¼",
-		"·õ»Î",
-		"Æ®»Î",
-		"±ÑÍº",
-		"ÃË¼ß",
-		"Çì¼ß",
-		"ÎÎ¼ç",
+		"æ–°å‚å…µ",
+		"å…µå£«",
+		"å‚­å…µ",
+		"å¤å‚å…µ",
+		"å‰£å£«",
+		"é—˜å£«",
+		"è‹±é›„",
+		"ç”·çˆµ",
+		"ä¼¯çˆµ",
+		"é ˜ä¸»",
 	},
 };
 
 #else
-cptr player_title[MAX_CLASS][PY_MAX_LEVEL / 5] =
+const cptr player_title[MAX_CLASS][PY_MAX_LEVEL / 5] =
 {
 	/* Warrior */
 	{
@@ -5075,106 +4405,106 @@ cptr player_title[MAX_CLASS][PY_MAX_LEVEL / 5] =
 };
 #endif
 
-monster_power monster_powers[MAX_MONSPELLS] =
+const monster_power monster_powers[MAX_MONSPELLS] =
 {
 /* level,  smana,  %fail,  manedam,  %manefail,  use_stat, name */
 #ifdef JP
-{  1,   1,  10,    0,  15, A_CON,  "¶«¤Ö"},
-{ 10,   4,  35,   89,  40, A_INT,  "²¿¤«"},
-{ 40,  35,  85,    0,  40, A_INT,  "ËâÎÏ¾Ãµî"},
-{ 35,  30,  80,  800,  70, A_STR,  "¥í¥±¥Ã¥È"},
-{  5,   1,  20,   18,  15, A_DEX,  "¼Í·â"},
-{ 10,   4,  35,   89,  40, A_INT,  "²¿¤«"},
-{ 10,   4,  35,   89,  40, A_INT,  "²¿¤«"},
-{ 10,   4,  35,   89,  40, A_INT,  "²¿¤«"},
-{ 20,  15,  55, 1600,  95, A_CON,  "»À¤Î¥Ö¥ì¥¹"},
-{ 20,  15,  55, 1600,  95, A_CON,  "ÅÅ·â¤Î¥Ö¥ì¥¹"},
-{ 20,  15,  55, 1600,  95, A_CON,  "±ê¤Î¥Ö¥ì¥¹"},
-{ 20,  15,  55, 1600,  95, A_CON,  "Îäµ¤¤Î¥Ö¥ì¥¹"},
-{ 20,  15,  55,  800,  95, A_CON,  "ÆÇ¤Î¥Ö¥ì¥¹"},
-{ 20,  15,  70,  550,  95, A_CON,  "ÃÏ¹ö¤Î¥Ö¥ì¥¹"},
-{ 20,  16,  70,  400,  95, A_CON,  "Á®¸÷¤Î¥Ö¥ì¥¹"},
-{ 20,  16,  70,  400,  95, A_CON,  "°Å¹õ¤Î¥Ö¥ì¥¹"},
-{ 20,  20,  70,  450,  95, A_CON,  "º®Íğ¤Î¥Ö¥ì¥¹"},
-{ 20,  20,  70,  450,  95, A_CON,  "¹ì²»¤Î¥Ö¥ì¥¹"},
-{ 20,  20,  70,  600,  95, A_CON,  "¥«¥ª¥¹¤Î¥Ö¥ì¥¹"},
-{ 20,  16,  70,  500,  95, A_CON,  "Îô²½¤Î¥Ö¥ì¥¹"},
-{ 30,  25,  80,  250,  95, A_CON,  "°ø²Ìº®Íğ¤Î¥Ö¥ì¥¹"},
-{ 35,  18,  80,  150,  95, A_CON,  "»ş´ÖµÕÅ¾¤Î¥Ö¥ì¥¹"},
-{ 30,  25,  80,  200,  95, A_CON,  "ÃÙÆß¤Î¥Ö¥ì¥¹"},
-{ 30,  28,  90,  200,  95, A_CON,  "½ÅÎÏ¤Î¥Ö¥ì¥¹"},
-{ 20,  15,  70,  500,  95, A_CON,  "ÇËÊÒ¤Î¥Ö¥ì¥¹"},
-{ 35,  15,  80,  150,  95, A_CON,  "¥×¥é¥º¥Ş¤Î¥Ö¥ì¥¹"},
-{ 30,  18,  70,  200,  95, A_CON,  "¥Õ¥©¡¼¥¹¤Î¥Ö¥ì¥¹"},
-{ 30,  28,  80,  250,  95, A_CON,  "ËâÎÏ¤Î¥Ö¥ì¥¹"},
-{ 25,  20,  95,  320,  80, A_INT,  "Êü¼ÍÇ½µå"},
-{ 25,  15,  70,  800,  95, A_CON,  "Êü¼ÍÀ­ÇÑ´şÊª¤Î¥Ö¥ì¥¹"},
-{ 30,  32,  85,  400,  80, A_INT,  "½ã¥í¥°¥ë¥¹"},
-{ 35,  40,  95,  150,  95, A_CON,  "Ê¬²ò¤Î¥Ö¥ì¥¹"},
-{ 18,  13,  55,  630,  80, A_INT,  "¥¢¥·¥Ã¥É¡¦¥Ü¡¼¥ë"},
-{ 14,  10,  45,  316,  60, A_INT,  "¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë"},
-{ 20,  14,  60,  720,  80, A_INT,  "¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë"},
-{ 15,  11,  50,  320,  60, A_INT,  "¥¢¥¤¥¹¡¦¥Ü¡¼¥ë"},
-{  5,   3,  40,   48,  20, A_INT,  "°­½­±À"},
-{ 25,  18,  70,  350,  80, A_INT,  "ÃÏ¹öµå"},
-{ 30,  22,  75,  350,  80, A_INT,  "¥¦¥©¡¼¥¿¡¼¡¦¥Ü¡¼¥ë"},
-{ 44,  45,  85,  550,  95, A_INT,  "ËâÎÏ¤ÎÍò"},
-{ 40,  42,  90,  550,  95, A_INT,  "°Å¹õ¤ÎÍò"},
-{ 10,   5,  50,    0,  25, A_INT,  "ËâÎÏµÛ¼ı"},
-{ 25,  10,  60,    0,  30, A_INT,  "Àº¿À¹¶·â"},
-{ 30,  14,  65,    0,  30, A_INT,  "Ç¾¹¶·â"},
-{  3,   1,  25,   24,  20, A_INT,  "·Ú½ı"},
-{ 12,   2,  35,   64,  25, A_INT,  "½Å½ı"},
-{ 22,   6,  50,  150,  30, A_INT,  "Ã×Ì¿½ı"},
-{ 32,  10,  70,  225,  35, A_INT,  "Èë¹¦¤òÆÍ¤¯"},
-{ 13,   7,  40,  178,  40, A_INT,  "¥¢¥·¥Ã¥É¡¦¥Ü¥ë¥È"},
-{ 10,   5,  35,  130,  35, A_INT,  "¥µ¥ó¥À¡¼¡¦¥Ü¥ë¥È"},
-{ 15,   9,  50,  210,  45, A_INT,  "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È"},
-{ 12,   6,  35,  162,  40, A_INT,  "¥¢¥¤¥¹¡¦¥Ü¥ë¥È"},
-{ 40,  42,  90,  550,  95, A_INT,  "¥¹¥¿¡¼¡¦¥Ğ¡¼¥¹¥È"},
-{ 25,  17,  60,  255,  60, A_INT,  "ÃÏ¹ö¤ÎÌğ"},
-{ 25,  20,  65,  250,  60, A_INT,  "¥¦¥©¡¼¥¿¡¼¡¦¥Ü¥ë¥È"},
-{ 25,  24,  90,  400,  80, A_INT,  "ËâÎÏ¤ÎÌğ"},
-{ 25,  20,  80,  216,  60, A_INT,  "¥×¥é¥º¥Ş¡¦¥Ü¥ë¥È"},
-{ 25,  16,  60,  186,  60, A_INT,  "¶Ë´¨¤ÎÌğ"},
-{  3,   1,  25,   12,  20, A_INT,  "¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë"},
-{  5,   3,  35,    0,  20, A_INT,  "¶²¹²"},
-{ 10,   5,  40,    0,  20, A_INT,  "ÌÕÌÜ"},
-{ 10,   5,  40,    0,  20, A_INT,  "¥Ñ¥Ë¥Ã¥¯¡¦¥â¥ó¥¹¥¿¡¼"},
-{ 10,   5,  40,    0,  20, A_INT,  "¥¹¥í¥¦¡¦¥â¥ó¥¹¥¿¡¼"},
-{ 10,   5,  40,    0,  20, A_INT,  "¥¹¥ê¡¼¥×¡¦¥â¥ó¥¹¥¿¡¼"},
-{ 20,  10,  70,    0,  40, A_INT,  "¥¹¥Ô¡¼¥É"},
-{ 45, 120,  95,    0,  60, A_INT,  "ÇËÌÇ¤Î¼ê"},
-{ 20,  15,  70,    0,  20, A_WIS,  "ÂÎÎÏ²óÉü"},
-{ 45,  65,  80,    0,  60, A_INT,  "Ìµ½ı¤Îµå"},
-{  5,   1,  30,    0,  20, A_INT,  "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È"},
-{ 15,   8,  40,    0,  30, A_INT,  "¥Æ¥ì¥İ¡¼¥È"},
-{ 40, 999,  99,    0,  80, A_INT,  "¥¶¡¦¥ï¡¼¥ë¥É"},
-{  1,   0,   0,    0,  15, A_INT,  "²¿¤«"},
-{ 15,   8,  50,    0,  30, A_INT,  "°ú¤­¤è¤»¤ë"},
-{ 20,  13,  80,    0,  30, A_INT,  "¥Æ¥ì¥İ¡¼¥È¡¦¥¢¥¦¥§¥¤"},
-{ 30,  40,  95,    0,  40, A_INT,  "¥Æ¥ì¥İ¡¼¥È¡¦¥ì¥Ù¥ë"},
-{ 35,  30,  80,  350,  70, A_INT,  "¸÷¤Î·õ"},
-{  5,   1,  20,    0,  15, A_INT,  "°Å°Ç"},
-{  5,   1,  20,    0,  15, A_DEX,  "¥È¥é¥Ã¥×ÁÏÂ¤"},
-{ 15,   3,  40,    0,  30, A_INT,  "µ­²±ÁÓ¼º"},
-{ 30,  30,  70,    0,  40, A_INT,  "»à¼ÔÉü³è"},
-{ 40,  70,  85,    0,  45, A_INT,  "±ç·³¤ò¸Æ¤Ö"},
-{ 45,  90,  90,    0,  50, A_INT,  "¥µ¥¤¥Ğ¡¼¥Ç¡¼¥â¥ó¤Î¾¤´­"},
-{ 25,  20,  65,    0,  30, A_INT,  "¥â¥ó¥¹¥¿¡¼¤Î¾¤´­"},
-{ 35,  30,  75,    0,  40, A_INT,  "Ê£¿ô¤Î¥â¥ó¥¹¥¿¡¼¤Î¾¤´­"},
-{ 25,  25,  65,    0,  25, A_INT,  "¥¢¥ê¤Î¾¤´­"},
-{ 25,  20,  60,    0,  25, A_INT,  "ÃØéá¤Î¾¤´­"},
-{ 35,  26,  75,    0,  40, A_INT,  "¥Ï¥¦¥ó¥É¤Î¾¤´­"},
-{ 30,  23,  70,    0,  35, A_INT,  "¥Ò¥É¥é¤Î¾¤´­"},
-{ 40,  50,  85,    0,  40, A_INT,  "Å·»È¤Î¾¤´­"},
-{ 35,  50,  80,    0,  35, A_INT,  "¥Ç¡¼¥â¥ó¤Î¾¤´­"},
-{ 30,  30,  75,    0,  35, A_INT,  "¥¢¥ó¥Ç¥Ã¥É¤Î¾¤´­"},
-{ 39,  70,  80,    0,  40, A_INT,  "¥É¥é¥´¥ó¤Î¾¤´­"},
-{ 43,  85,  85,    0,  45, A_INT,  "¾åµé¥¢¥ó¥Ç¥Ã¥É¤Î¾¤´­"},
-{ 46,  90,  85,    0,  45, A_INT,  "¸ÅÂå¥É¥é¥´¥ó¤Î¾¤´­"},
-{ 48, 120,  90,    0,  50, A_INT,  "¥¢¥ó¥Ğ¡¼¤Î²¦Â²¤Î¾¤´­"},
-{ 50, 150,  95,    0,  50, A_INT,  "¥æ¥Ë¡¼¥¯¥â¥ó¥¹¥¿¡¼¤Î¾¤´­"},
+{  1,   1,  10,    0,  15, A_CON,  "å«ã¶"},
+{ 10,   4,  35,   89,  40, A_INT,  "ä½•ã‹"},
+{ 40,  35,  85,    0,  40, A_INT,  "é­”åŠ›æ¶ˆå»"},
+{ 35,  30,  80,  800,  70, A_STR,  "ãƒ­ã‚±ãƒƒãƒˆ"},
+{  5,   1,  20,   18,  15, A_DEX,  "å°„æ’ƒ"},
+{ 10,   4,  35,   89,  40, A_INT,  "ä½•ã‹"},
+{ 10,   4,  35,   89,  40, A_INT,  "ä½•ã‹"},
+{ 10,   4,  35,   89,  40, A_INT,  "ä½•ã‹"},
+{ 20,  15,  55, 1600,  95, A_CON,  "é…¸ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  15,  55, 1600,  95, A_CON,  "é›»æ’ƒã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  15,  55, 1600,  95, A_CON,  "ç‚ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  15,  55, 1600,  95, A_CON,  "å†·æ°—ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  15,  55,  800,  95, A_CON,  "æ¯’ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  15,  70,  550,  95, A_CON,  "åœ°ç„ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  16,  70,  400,  95, A_CON,  "é–ƒå…‰ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  16,  70,  400,  95, A_CON,  "æš—é»’ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  20,  70,  450,  95, A_CON,  "æ··ä¹±ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  20,  70,  450,  95, A_CON,  "è½ŸéŸ³ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  20,  70,  600,  95, A_CON,  "ã‚«ã‚ªã‚¹ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  16,  70,  500,  95, A_CON,  "åŠ£åŒ–ã®ãƒ–ãƒ¬ã‚¹"},
+{ 30,  25,  80,  250,  95, A_CON,  "å› æœæ··ä¹±ã®ãƒ–ãƒ¬ã‚¹"},
+{ 35,  18,  80,  150,  95, A_CON,  "æ™‚é–“é€†è»¢ã®ãƒ–ãƒ¬ã‚¹"},
+{ 30,  25,  80,  200,  95, A_CON,  "é…éˆã®ãƒ–ãƒ¬ã‚¹"},
+{ 30,  28,  90,  200,  95, A_CON,  "é‡åŠ›ã®ãƒ–ãƒ¬ã‚¹"},
+{ 20,  15,  70,  500,  95, A_CON,  "ç ´ç‰‡ã®ãƒ–ãƒ¬ã‚¹"},
+{ 35,  15,  80,  150,  95, A_CON,  "ãƒ—ãƒ©ã‚ºãƒã®ãƒ–ãƒ¬ã‚¹"},
+{ 30,  18,  70,  200,  95, A_CON,  "ãƒ•ã‚©ãƒ¼ã‚¹ã®ãƒ–ãƒ¬ã‚¹"},
+{ 30,  28,  80,  250,  95, A_CON,  "é­”åŠ›ã®ãƒ–ãƒ¬ã‚¹"},
+{ 25,  20,  95,  320,  80, A_INT,  "æ”¾å°„èƒ½çƒ"},
+{ 25,  15,  70,  800,  95, A_CON,  "æ”¾å°„æ€§å»ƒæ£„ç‰©ã®ãƒ–ãƒ¬ã‚¹"},
+{ 30,  32,  85,  400,  80, A_INT,  "ç´”ãƒ­ã‚°ãƒ«ã‚¹"},
+{ 35,  40,  95,  150,  95, A_CON,  "åˆ†è§£ã®ãƒ–ãƒ¬ã‚¹"},
+{ 18,  13,  55,  630,  80, A_INT,  "ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ¼ãƒ«"},
+{ 14,  10,  45,  316,  60, A_INT,  "ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«"},
+{ 20,  14,  60,  720,  80, A_INT,  "ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«"},
+{ 15,  11,  50,  320,  60, A_INT,  "ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ«"},
+{  5,   3,  40,   48,  20, A_INT,  "æ‚ªè‡­é›²"},
+{ 25,  18,  70,  350,  80, A_INT,  "åœ°ç„çƒ"},
+{ 30,  22,  75,  350,  80, A_INT,  "ã‚¦ã‚©ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«"},
+{ 44,  45,  85,  550,  95, A_INT,  "é­”åŠ›ã®åµ"},
+{ 40,  42,  90,  550,  95, A_INT,  "æš—é»’ã®åµ"},
+{ 10,   5,  50,    0,  25, A_INT,  "é­”åŠ›å¸å"},
+{ 25,  10,  60,    0,  30, A_INT,  "ç²¾ç¥æ”»æ’ƒ"},
+{ 30,  14,  65,    0,  30, A_INT,  "è„³æ”»æ’ƒ"},
+{  3,   1,  25,   24,  20, A_INT,  "è»½å‚·"},
+{ 12,   2,  35,   64,  25, A_INT,  "é‡å‚·"},
+{ 22,   6,  50,  150,  30, A_INT,  "è‡´å‘½å‚·"},
+{ 32,  10,  70,  225,  35, A_INT,  "ç§˜å­”ã‚’çªã"},
+{ 13,   7,  40,  178,  40, A_INT,  "ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ«ãƒˆ"},
+{ 10,   5,  35,  130,  35, A_INT,  "ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ«ãƒˆ"},
+{ 15,   9,  50,  210,  45, A_INT,  "ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ«ãƒˆ"},
+{ 12,   6,  35,  162,  40, A_INT,  "ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ«ãƒˆ"},
+{ 40,  42,  90,  550,  95, A_INT,  "ã‚¹ã‚¿ãƒ¼ãƒ»ãƒãƒ¼ã‚¹ãƒˆ"},
+{ 25,  17,  60,  255,  60, A_INT,  "åœ°ç„ã®çŸ¢"},
+{ 25,  20,  65,  250,  60, A_INT,  "ã‚¦ã‚©ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒœãƒ«ãƒˆ"},
+{ 25,  24,  90,  400,  80, A_INT,  "é­”åŠ›ã®çŸ¢"},
+{ 25,  20,  80,  216,  60, A_INT,  "ãƒ—ãƒ©ã‚ºãƒãƒ»ãƒœãƒ«ãƒˆ"},
+{ 25,  16,  60,  186,  60, A_INT,  "æ¥µå¯’ã®çŸ¢"},
+{  3,   1,  25,   12,  20, A_INT,  "ãƒã‚¸ãƒƒã‚¯ãƒ»ãƒŸã‚µã‚¤ãƒ«"},
+{  5,   3,  35,    0,  20, A_INT,  "ææ…Œ"},
+{ 10,   5,  40,    0,  20, A_INT,  "ç›²ç›®"},
+{ 10,   5,  40,    0,  20, A_INT,  "ãƒ‘ãƒ‹ãƒƒã‚¯ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼"},
+{ 10,   5,  40,    0,  20, A_INT,  "ã‚¹ãƒ­ã‚¦ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼"},
+{ 10,   5,  40,    0,  20, A_INT,  "ã‚¹ãƒªãƒ¼ãƒ—ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼"},
+{ 20,  10,  70,    0,  40, A_INT,  "ã‚¹ãƒ”ãƒ¼ãƒ‰"},
+{ 45, 120,  95,    0,  60, A_INT,  "ç ´æ»…ã®æ‰‹"},
+{ 20,  15,  70,    0,  20, A_WIS,  "ä½“åŠ›å›å¾©"},
+{ 45,  65,  80,    0,  60, A_INT,  "ç„¡å‚·ã®çƒ"},
+{  5,   1,  30,    0,  20, A_INT,  "ã‚·ãƒ§ãƒ¼ãƒˆãƒ»ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ"},
+{ 15,   8,  40,    0,  30, A_INT,  "ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ"},
+{ 40, 999,  99,    0,  80, A_INT,  "ã‚¶ãƒ»ãƒ¯ãƒ¼ãƒ«ãƒ‰"},
+{  1,   0,   0,    0,  15, A_INT,  "ä½•ã‹"},
+{ 15,   8,  50,    0,  30, A_INT,  "å¼•ãã‚ˆã›ã‚‹"},
+{ 20,  13,  80,    0,  30, A_INT,  "ãƒ†ãƒ¬ãƒãƒ¼ãƒˆãƒ»ã‚¢ã‚¦ã‚§ã‚¤"},
+{ 30,  40,  95,    0,  40, A_INT,  "ãƒ†ãƒ¬ãƒãƒ¼ãƒˆãƒ»ãƒ¬ãƒ™ãƒ«"},
+{ 35,  30,  80,  350,  70, A_INT,  "å…‰ã®å‰£"},
+{  5,   1,  20,    0,  15, A_INT,  "æš—é—‡"},
+{  5,   1,  20,    0,  15, A_DEX,  "ãƒˆãƒ©ãƒƒãƒ—å‰µé€ "},
+{ 15,   3,  40,    0,  30, A_INT,  "è¨˜æ†¶å–ªå¤±"},
+{ 30,  30,  70,    0,  40, A_INT,  "æ­»è€…å¾©æ´»"},
+{ 40,  70,  85,    0,  45, A_INT,  "æ´è»ã‚’å‘¼ã¶"},
+{ 45,  90,  90,    0,  50, A_INT,  "ã‚µã‚¤ãƒãƒ¼ãƒ‡ãƒ¼ãƒ¢ãƒ³ã®å¬å–š"},
+{ 25,  20,  65,    0,  30, A_INT,  "ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®å¬å–š"},
+{ 35,  30,  75,    0,  40, A_INT,  "è¤‡æ•°ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®å¬å–š"},
+{ 25,  25,  65,    0,  25, A_INT,  "ã‚¢ãƒªã®å¬å–š"},
+{ 25,  20,  60,    0,  25, A_INT,  "èœ˜è››ã®å¬å–š"},
+{ 35,  26,  75,    0,  40, A_INT,  "ãƒã‚¦ãƒ³ãƒ‰ã®å¬å–š"},
+{ 30,  23,  70,    0,  35, A_INT,  "ãƒ’ãƒ‰ãƒ©ã®å¬å–š"},
+{ 40,  50,  85,    0,  40, A_INT,  "å¤©ä½¿ã®å¬å–š"},
+{ 35,  50,  80,    0,  35, A_INT,  "ãƒ‡ãƒ¼ãƒ¢ãƒ³ã®å¬å–š"},
+{ 30,  30,  75,    0,  35, A_INT,  "ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã®å¬å–š"},
+{ 39,  70,  80,    0,  40, A_INT,  "ãƒ‰ãƒ©ã‚´ãƒ³ã®å¬å–š"},
+{ 43,  85,  85,    0,  45, A_INT,  "ä¸Šç´šã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã®å¬å–š"},
+{ 46,  90,  85,    0,  45, A_INT,  "å¤ä»£ãƒ‰ãƒ©ã‚´ãƒ³ã®å¬å–š"},
+{ 48, 120,  90,    0,  50, A_INT,  "ã‚¢ãƒ³ãƒãƒ¼ã®ç‹æ—ã®å¬å–š"},
+{ 50, 150,  95,    0,  50, A_INT,  "ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®å¬å–š"},
 #else
 {  1,   1,  10,    0,  15, A_CON,  "shriek"},
 { 10,   4,  35,   89,  40, A_INT,  "something"},
@@ -5277,23 +4607,23 @@ monster_power monster_powers[MAX_MONSPELLS] =
 };
 
 
-cptr monster_powers_short[MAX_MONSPELLS] = {
+const cptr monster_powers_short[MAX_MONSPELLS] = {
 #ifdef JP
 
-	"¶«¤Ö", "²¿¤«", "ËâÎÏ¾Ãµî", "¥í¥±¥Ã¥È", "¼Í·â", "²¿¤«", "²¿¤«", "²¿¤«",
-	"»À", "ÅÅ·â", "²Ğ±ê", "Îäµ¤", "ÆÇ", "ÃÏ¹ö", "Á®¸÷", "°Å¹õ",
-	"º®Íğ", "¹ì²»", "¥«¥ª¥¹", "Îô²½", "°ø²Ìº®Íğ", "»ş´ÖµÕÅ¾", "ÃÙÆß", "½ÅÎÏ",
-	"ÇËÊÒ", "¥×¥é¥º¥Ş", "¥Õ¥©¡¼¥¹", "ËâÎÏ", "Êü¼ÍÇ½µå", "Êü¼ÍÀ­ÇÑ´şÊª", "½ã¥í¥°¥ë¥¹", "Ê¬²ò",
+	"å«ã¶", "ä½•ã‹", "é­”åŠ›æ¶ˆå»", "ãƒ­ã‚±ãƒƒãƒˆ", "å°„æ’ƒ", "ä½•ã‹", "ä½•ã‹", "ä½•ã‹",
+	"é…¸", "é›»æ’ƒ", "ç«ç‚", "å†·æ°—", "æ¯’", "åœ°ç„", "é–ƒå…‰", "æš—é»’",
+	"æ··ä¹±", "è½ŸéŸ³", "ã‚«ã‚ªã‚¹", "åŠ£åŒ–", "å› æœæ··ä¹±", "æ™‚é–“é€†è»¢", "é…éˆ", "é‡åŠ›",
+	"ç ´ç‰‡", "ãƒ—ãƒ©ã‚ºãƒ", "ãƒ•ã‚©ãƒ¼ã‚¹", "é­”åŠ›", "æ”¾å°„èƒ½çƒ", "æ”¾å°„æ€§å»ƒæ£„ç‰©", "ç´”ãƒ­ã‚°ãƒ«ã‚¹", "åˆ†è§£",
 
-	"»À", "ÅÅ·â", "²Ğ±ê", "Îäµ¤", "°­½­±À", "ÃÏ¹öµå", "¥¦¥©¡¼¥¿¡¼", "ËâÎÏ¤ÎÍò",
-	"°Å¹õ¤ÎÍò", "ËâÎÏµÛ¼ı", "Àº¿À¹¶·â", "Ç¾¹¶·â", "·Ú½ı", "½Å½ı", "Ã×Ì¿½ı", "Èë¹¦¤òÆÍ¤¯",
-	"»À", "ÅÅ·â", "²Ğ±ê", "Îäµ¤", "¥¹¥¿¡¼¥Ğ¡¼¥¹¥È", "ÃÏ¹ö¤ÎÌğ", "¥¦¥©¡¼¥¿¡¼", "ËâÎÏ¤ÎÌğ",
-	"¥×¥é¥º¥Ş", "¶Ë´¨", "¥Ş¥¸¥Ã¥¯¥ß¥µ¥¤¥ë", "¶²¹²", "ÌÕÌÜ", "º®Íğ", "¸ºÂ®", "¿çÌ²",
+	"é…¸", "é›»æ’ƒ", "ç«ç‚", "å†·æ°—", "æ‚ªè‡­é›²", "åœ°ç„çƒ", "ã‚¦ã‚©ãƒ¼ã‚¿ãƒ¼", "é­”åŠ›ã®åµ",
+	"æš—é»’ã®åµ", "é­”åŠ›å¸å", "ç²¾ç¥æ”»æ’ƒ", "è„³æ”»æ’ƒ", "è»½å‚·", "é‡å‚·", "è‡´å‘½å‚·", "ç§˜å­”ã‚’çªã",
+	"é…¸", "é›»æ’ƒ", "ç«ç‚", "å†·æ°—", "ã‚¹ã‚¿ãƒ¼ãƒãƒ¼ã‚¹ãƒˆ", "åœ°ç„ã®çŸ¢", "ã‚¦ã‚©ãƒ¼ã‚¿ãƒ¼", "é­”åŠ›ã®çŸ¢",
+	"ãƒ—ãƒ©ã‚ºãƒ", "æ¥µå¯’", "ãƒã‚¸ãƒƒã‚¯ãƒŸã‚µã‚¤ãƒ«", "ææ…Œ", "ç›²ç›®", "æ··ä¹±", "æ¸›é€Ÿ", "ç¡çœ ",
 
-	"²ÃÂ®", "ÇËÌÇ¤Î¼ê", "ÂÎÎÏ²óÉü", "Ìµ½ı¤Îµå", "¥·¥ç¡¼¥È¥Æ¥ì¥İ¡¼¥È", "¥Æ¥ì¥İ¡¼¥È", "»ş¤ò»ß¤á¤ë", "²¿¤«",
-	"°ú¤­¤è¤»¤ë", "¥Æ¥ì¥İ¡¼¥È¥¢¥¦¥§¥¤", "¥Æ¥ì¥İ¡¼¥È¥ì¥Ù¥ë", "¸÷¤Î·õ", "°Å°Ç", "¥È¥é¥Ã¥×ÁÏÂ¤", "µ­²±ÁÓ¼º", "»à¼ÔÉü³è",
-	"±ç·³", "¥µ¥¤¥Ğ¡¼¥Ç¡¼¥â¥ó", "¥â¥ó¥¹¥¿¡¼", "Ê£¿ô¤Î¥â¥ó¥¹¥¿¡¼", "µÂ", "ÃØéá", "¥Ï¥¦¥ó¥É", "¥Ò¥É¥é",
-	"Å·»È", "°­Ëâ", "¥¢¥ó¥Ç¥Ã¥É", "¥É¥é¥´¥ó", "¾åµé¥¢¥ó¥Ç¥Ã¥É", "¸ÅÂå¥É¥é¥´¥ó", "¥¢¥ó¥Ğ¡¼¤Î²¦Â²", "¥æ¥Ë¡¼¥¯"
+	"åŠ é€Ÿ", "ç ´æ»…ã®æ‰‹", "ä½“åŠ›å›å¾©", "ç„¡å‚·ã®çƒ", "ã‚·ãƒ§ãƒ¼ãƒˆãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "æ™‚ã‚’æ­¢ã‚ã‚‹", "ä½•ã‹",
+	"å¼•ãã‚ˆã›ã‚‹", "ãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚¢ã‚¦ã‚§ã‚¤", "ãƒ†ãƒ¬ãƒãƒ¼ãƒˆãƒ¬ãƒ™ãƒ«", "å…‰ã®å‰£", "æš—é—‡", "ãƒˆãƒ©ãƒƒãƒ—å‰µé€ ", "è¨˜æ†¶å–ªå¤±", "æ­»è€…å¾©æ´»",
+	"æ´è»", "ã‚µã‚¤ãƒãƒ¼ãƒ‡ãƒ¼ãƒ¢ãƒ³", "ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼", "è¤‡æ•°ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼", "èŸ»", "èœ˜è››", "ãƒã‚¦ãƒ³ãƒ‰", "ãƒ’ãƒ‰ãƒ©",
+	"å¤©ä½¿", "æ‚ªé­”", "ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰", "ãƒ‰ãƒ©ã‚´ãƒ³", "ä¸Šç´šã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰", "å¤ä»£ãƒ‰ãƒ©ã‚´ãƒ³", "ã‚¢ãƒ³ãƒãƒ¼ã®ç‹æ—", "ãƒ¦ãƒ‹ãƒ¼ã‚¯"
 
 #else
 
@@ -5319,25 +4649,25 @@ cptr monster_powers_short[MAX_MONSPELLS] = {
 /*
  * Hack -- the "basic" color names (see "TERM_xxx")
  */
-cptr color_names[16] =
+const cptr color_names[16] =
 {
 #ifdef JP
-	"¹õ",
-	"Çò",
-	"ÀÄ³¥¿§",
-	"¥ª¥ì¥ó¥¸",
-	"ÀÖ",
-	"ÎĞ",
-	"ÀÄ",
-	"àèàá¿§",
-	"³¥¿§",
-	"ÌÀÀÄ³¥¿§",
-	"»ç",
-	"²«",
-	"ÌÀ¤ë¤¤ÀÖ",
-	"ÌÀ¤ë¤¤ÎĞ",
-	"ÌÀ¤ë¤¤ÀÄ",
-	"ÌÀàèàá¿§",
+	"é»’",
+	"ç™½",
+	"é’ç°è‰²",
+	"ã‚ªãƒ¬ãƒ³ã‚¸",
+	"èµ¤",
+	"ç·‘",
+	"é’",
+	"ç¥ç€è‰²",
+	"ç°è‰²",
+	"æ˜é’ç°è‰²",
+	"ç´«",
+	"é»„",
+	"æ˜ã‚‹ã„èµ¤",
+	"æ˜ã‚‹ã„ç·‘",
+	"æ˜ã‚‹ã„é’",
+	"æ˜ç¥ç€è‰²",
 #else
 	"Dark",
 	"White",
@@ -5363,10 +4693,10 @@ cptr color_names[16] =
 /*
  * Abbreviations of healthy stats
  */
-cptr stat_names[6] =
+const cptr stat_names[6] =
 {
 #ifdef JP
-	"ÏÓÎÏ :", "ÃÎÇ½ :", "¸­¤µ :", "´ïÍÑ :", "ÂÑµ× :", "Ì¥ÎÏ :"
+	"è…•åŠ› :", "çŸ¥èƒ½ :", "è³¢ã• :", "å™¨ç”¨ :", "è€ä¹… :", "é­…åŠ› :"
 #else
 	"STR : ", "INT : ", "WIS : ", "DEX : ", "CON : ", "CHR : "
 #endif
@@ -5376,10 +4706,10 @@ cptr stat_names[6] =
 /*
  * Abbreviations of damaged stats
  */
-cptr stat_names_reduced[6] =
+const cptr stat_names_reduced[6] =
 {
 #ifdef JP
-	"ÏÓÎÏx:", "ÃÎÇ½x:", "¸­¤µx:", "´ïÍÑx:", "ÂÑµ×x:", "Ì¥ÎÏx:"
+	"è…•åŠ›x:", "çŸ¥èƒ½x:", "è³¢ã•x:", "å™¨ç”¨x:", "è€ä¹…x:", "é­…åŠ›x:"
 #else
 	"Str : ", "Int : ", "Wis : ", "Dex : ", "Con : ", "Chr : "
 #endif
@@ -5401,66 +4731,71 @@ cptr stat_names_reduced[6] =
  * The "ctrl-g" command (or pseudo-command) should perhaps grab a snapshot
  * of the main screen into any interested windows.
  */
-cptr window_flag_desc[32] =
+const cptr window_flag_desc[32] =
 {
 #ifdef JP
-	"»ı¤ÁÊª/ÁõÈ÷°ìÍ÷",
+	"æŒã¡ç‰©/è£…å‚™ä¸€è¦§",
 #else
 	"Display inven/equip",
 #endif
 
 #ifdef JP
-	"ÁõÈ÷/»ı¤ÁÊª°ìÍ÷",
+	"è£…å‚™/æŒã¡ç‰©ä¸€è¦§",
 #else
 	"Display equip/inven",
 #endif
 
 #ifdef JP
-	"¼öÊ¸°ìÍ÷",
+	"å‘ªæ–‡ä¸€è¦§",
 #else
 	"Display spell list",
 #endif
 
 #ifdef JP
-	"¥­¥ã¥é¥¯¥¿¾ğÊó",
+	"ã‚­ãƒ£ãƒ©ã‚¯ã‚¿æƒ…å ±",
 #else
 	"Display character",
 #endif
+		
+#ifdef JP
+	"è¦–ç•Œå†…ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼è¡¨ç¤º",
+#else
+	"Display monsters in sight",
+#endif		
 
 	NULL,
-	NULL,
 #ifdef JP
-	"¥á¥Ã¥»¡¼¥¸",
+	"ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸",
 #else
 	"Display messages",
 #endif
 
 #ifdef JP
-	"¥À¥ó¥¸¥ç¥óÁ´ÂÎ¿Ş",
+	"ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³å…¨ä½“å›³",
 #else
 	"Display overhead view",
 #endif
 
 #ifdef JP
-	"¥â¥ó¥¹¥¿¡¼¤Î»×¤¤½Ğ",
+	"ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ€ã„å‡º",
 #else
 	"Display monster recall",
 #endif
 
 #ifdef JP
-	"¥¢¥¤¥Æ¥à¤Î¾ÜºÙ",
+	"ã‚¢ã‚¤ãƒ†ãƒ ã®è©³ç´°",
 #else
 	"Display object recall",
 #endif
 
 #ifdef JP
-	"¼«Ê¬¤Î¼ş°Ï¤òÉ½¼¨", 
+	"è‡ªåˆ†ã®å‘¨å›²ã‚’è¡¨ç¤º", 
 #else
 	"Display dungeon view",
 #endif
 
 #ifdef JP
-	"µ­Ç°»£±Æ",
+	"è¨˜å¿µæ’®å½±",
 #else
 	"Display snap-shot",
 #endif
@@ -5468,13 +4803,13 @@ cptr window_flag_desc[32] =
 	NULL,
 	NULL,
 #ifdef JP
-	"¥Ü¡¼¥°¡¦¥á¥Ã¥»¡¼¥¸",
+	"ãƒœãƒ¼ã‚°ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸",
 #else
 	"Display borg messages",
 #endif
 
 #ifdef JP
-	"¥Ü¡¼¥°¡¦¥¹¥Æ¡¼¥¿¥¹",
+	"ãƒœãƒ¼ã‚°ãƒ»ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹",
 #else
 	"Display borg status",
 #endif
@@ -5502,943 +4837,382 @@ cptr window_flag_desc[32] =
  * Available Options
  *
  */
-option_type option_info[] =
+const option_type option_info[] =
 {
 	/*** Input Options ***/
 
-#ifdef JP
 	{ &rogue_like_commands,         FALSE, OPT_PAGE_INPUT, 0, 0,
-	"rogue_like_commands",          "¥í¡¼¥°É÷¥­¡¼ÇÛÃÖ¤ò»ÈÍÑ¤¹¤ë" },
-#else
-	{ &rogue_like_commands,         FALSE, OPT_PAGE_INPUT, 0, 0,
-	"rogue_like_commands",          "Rogue-like commands" },
-#endif
+	"rogue_like_commands",          _("ãƒ­ãƒ¼ã‚°é¢¨ã‚­ãƒ¼é…ç½®ã‚’ä½¿ç”¨ã™ã‚‹", "Rogue-like commands") },
 
-#ifdef JP
 	{ &always_pickup,               FALSE, OPT_PAGE_INPUT, 0, 5,
-	"always_pickup",                "¾ï¤Ë¥¢¥¤¥Æ¥à¤ò½¦¤¦" },
-#else
-	{ &always_pickup,               FALSE, OPT_PAGE_INPUT, 0, 5,
-	"always_pickup",                "Pick things up by default" },
-#endif
+	"always_pickup",                _("å¸¸ã«ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†" , "Pick things up by default") },
 
-#ifdef JP
 	{ &carry_query_flag,            FALSE, OPT_PAGE_INPUT, 0, 3,
-	"carry_query_flag",             "¥¢¥¤¥Æ¥à¤ò½¦¤¦Á°¤Ë³ÎÇ§¤¹¤ë" },
-#else
-	{ &carry_query_flag,            FALSE, OPT_PAGE_INPUT, 0, 3,
-	"carry_query_flag",             "Prompt before picking things up" },
-#endif
-
-#ifdef JP
+	"carry_query_flag",             _("ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†å‰ã«ç¢ºèªã™ã‚‹", "Prompt before picking things up") },
+		
 	{ &quick_messages,              TRUE,  OPT_PAGE_INPUT, 0, 1,
-	"quick_messages",               "¥¯¥¤¥Ã¥¯¡¦¥á¥Ã¥»¡¼¥¸¤ò»ÈÍÑ¤¹¤ë" },
-#else
-	{ &quick_messages,              TRUE,  OPT_PAGE_INPUT, 0, 1,
-	"quick_messages",               "Activate quick messages" },
-#endif
-
-#ifdef JP
+	"quick_messages",               _("ã‚¯ã‚¤ãƒƒã‚¯ãƒ»ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½¿ç”¨ã™ã‚‹", "Activate quick messages") },
+		
 	{ &auto_more,                   FALSE, OPT_PAGE_INPUT, 2, 6,
-	"auto_more",                    "¥­¡¼ÂÔ¤Á¤·¤Ê¤¤¤ÇÏ¢Â³¤Ç¥á¥Ã¥»¡¼¥¸¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &auto_more,                   FALSE, OPT_PAGE_INPUT, 2, 6,
-	"auto_more",                    "Automatically clear '-more-' prompts" },
-#endif
-
-#ifdef JP
+	"auto_more",                    _("ã‚­ãƒ¼å¾…ã¡ã—ãªã„ã§é€£ç¶šã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹", "Automatically clear '-more-' prompts") },
+	
 	{ &command_menu,                TRUE,  OPT_PAGE_INPUT, 2, 7,
-	"command_menu",                 "¥á¥Ë¥å¡¼¤Ë¤è¤ê¥³¥Ş¥ó¥ÉÁªÂò¤òÍ­¸ú¤Ë¤¹¤ë" },
-#else
-	{ &command_menu,                TRUE,  OPT_PAGE_INPUT, 2, 7,
-	"command_menu",                 "Enable command selection menu" },
-#endif
-
-#ifdef JP
+	"command_menu",                 _("ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«ã‚ˆã‚Šã‚³ãƒãƒ³ãƒ‰é¸æŠã‚’æœ‰åŠ¹ã«ã™ã‚‹", "Enable command selection menu") },
+	
 	{ &other_query_flag,            FALSE, OPT_PAGE_INPUT, 0, 2,
-	"other_query_flag",             "¾²¾å¤Î¥¢¥¤¥Æ¥à¤ò»ÈÍÑ¤¹¤ë¤È¤­¤Ë³ÎÇ§¤¹¤ë" },
-#else
-	{ &other_query_flag,            FALSE, OPT_PAGE_INPUT, 0, 2,
-	"other_query_flag",             "Prompt for floor item selection" },
-#endif
-
-#ifdef JP
+	"other_query_flag",             _("åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ä½¿ç”¨ã™ã‚‹ã¨ãã«ç¢ºèªã™ã‚‹", "Prompt for floor item selection") },
+	
 	{ &use_old_target,              FALSE, OPT_PAGE_INPUT, 0, 4,
-	"use_old_target",               "¾ï¤Ë°ÊÁ°¤Î¥¿¡¼¥²¥Ã¥È¤ò»ØÄê¤¹¤ë" },
-#else
-	{ &use_old_target,              FALSE, OPT_PAGE_INPUT, 0, 4,
-	"use_old_target",               "Use old target by default" },
-#endif
+	"use_old_target",               _("å¸¸ã«ä»¥å‰ã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’æŒ‡å®šã™ã‚‹", "Use old target by default") },
 
-#ifdef JP
 	{ &always_repeat,               TRUE,  OPT_PAGE_INPUT, 0, 6,
-	"always_repeat",                "¥³¥Ş¥ó¥É¼«Æ°·«¤êÊÖ¤·" },
-#else
-	{ &always_repeat,               TRUE,  OPT_PAGE_INPUT, 0, 6,
-	"always_repeat",                "Repeat obvious commands" },
-#endif
+	"always_repeat",                _("ã‚³ãƒãƒ³ãƒ‰è‡ªå‹•ç¹°ã‚Šè¿”ã—", "Repeat obvious commands") },
 
-#ifdef JP
 	{ &confirm_destroy,             FALSE, OPT_PAGE_INPUT, 5, 3,
-	"confirm_destroy",              "¡ÖÌµ²ÁÃÍ¡×¤Ê¥¢¥¤¥Æ¥à¤òÇË²õ¤¹¤ë»ş³ÎÇ§¤¹¤ë" },
-#else
-	{ &confirm_destroy,             FALSE, OPT_PAGE_INPUT, 5, 3,
-	"confirm_destroy",              "Prompt for destruction of known worthless items" },
-#endif
+	"confirm_destroy",              _("ã€Œç„¡ä¾¡å€¤ã€ãªã‚¢ã‚¤ãƒ†ãƒ ã‚’ç ´å£Šã™ã‚‹æ™‚ç¢ºèªã™ã‚‹", "Prompt for destruction of known worthless items") },
 
-#ifdef JP
 	{ &confirm_wear,                TRUE,  OPT_PAGE_INPUT, 5, 4,
-	"confirm_wear",                 "¼ö¤ï¤ì¤¿Êª¤òÁõÈ÷¤¹¤ë»ş³ÎÇ§¤¹¤ë" },
-#else
-	{ &confirm_wear,                TRUE,  OPT_PAGE_INPUT, 5, 4,
-	"confirm_wear",                 "Confirm to wear/wield known cursed items" },
-#endif
+	"confirm_wear",                 _("å‘ªã‚ã‚ŒãŸç‰©ã‚’è£…å‚™ã™ã‚‹æ™‚ç¢ºèªã™ã‚‹", "Confirm to wear/wield known cursed items") },
 
-#ifdef JP
 	{ &confirm_quest,               TRUE,  OPT_PAGE_INPUT, 1, 9,
-	"confirm_quest",                "¥¯¥¨¥¹¥È¤òÄü¤á¤Æ³¬ÃÊ¤ÇÆ¨¤²¤ëÁ°¤Ë³ÎÇ§¤¹¤ë" },
-#else
-	{ &confirm_quest,               TRUE,  OPT_PAGE_INPUT, 1, 9,
-	"confirm_quest",                "Prompt before exiting a quest level" },
-#endif
+	"confirm_quest",                _("ã‚¯ã‚¨ã‚¹ãƒˆã‚’è«¦ã‚ã¦éšæ®µã§é€ƒã’ã‚‹å‰ã«ç¢ºèªã™ã‚‹", "Prompt before exiting a quest level") },
 
-#ifdef JP
 	{ &target_pet,                  FALSE, OPT_PAGE_INPUT, 2, 5,
-	"target_pet",                   "¥Ú¥Ã¥È¤ò¥¿¡¼¥²¥Ã¥È¤Ë¤¹¤ë" },
-#else
-	{ &target_pet,                  FALSE, OPT_PAGE_INPUT, 2, 5,
-	"target_pet",                   "Allow targetting pets" },
-#endif
+	"target_pet",                   _("ãƒšãƒƒãƒˆã‚’ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ã™ã‚‹", "Allow targetting pets") },
 
 #ifdef ALLOW_EASY_OPEN
-#ifdef JP
 	{ &easy_open,                   TRUE,  OPT_PAGE_INPUT, 5, 7,
-	"easy_open",                    "¼«Æ°Åª¤Ë¥É¥¢¤ò³«¤±¤ë" },
-#else
-	{ &easy_open,                   TRUE,  OPT_PAGE_INPUT, 5, 7,
-	"easy_open",                    "Automatically open doors" },
-#endif
+	"easy_open",                    _("è‡ªå‹•çš„ã«ãƒ‰ã‚¢ã‚’é–‹ã‘ã‚‹", "Automatically open doors") },
 #endif /* ALLOW_EASY_OPEN */
 
 #ifdef ALLOW_EASY_DISARM
-#ifdef JP
 	{ &easy_disarm,                 TRUE,  OPT_PAGE_INPUT, 5, 8,
-	"easy_disarm",                  "¼«Æ°Åª¤Ëæ«¤ò²ò½ü¤¹¤ë" },
-#else
-	{ &easy_disarm,                 TRUE,  OPT_PAGE_INPUT, 5, 8,
-	"easy_disarm",                  "Automatically disarm traps" },
-#endif
+	"easy_disarm",                  _("è‡ªå‹•çš„ã«ç½ ã‚’è§£é™¤ã™ã‚‹", "Automatically disarm traps") },
 #endif /* ALLOW_EASY_DISARM */
 
 #ifdef ALLOW_EASY_FLOOR /* TNB */
-#ifdef JP
 	{ &easy_floor,                  FALSE, OPT_PAGE_INPUT, 5, 9,
-	"easy_floor",                   "¾²¾å¤Ç½Å¤Ê¤Ã¤¿¥¢¥¤¥Æ¥à¤ò¥ê¥¹¥È¤¹¤ë" },
-#else
-	{ &easy_floor,                  FALSE, OPT_PAGE_INPUT, 5, 9,
-	"easy_floor",                   "Display floor stacks in a list" },
-#endif
+	"easy_floor",                   _("åºŠä¸Šã§é‡ãªã£ãŸã‚¢ã‚¤ãƒ†ãƒ ã‚’ãƒªã‚¹ãƒˆã™ã‚‹", "Display floor stacks in a list") },
 #endif /* ALLOW_EASY_FLOOR -- TNB */
 
-#ifdef JP
 	{ &use_command,                 FALSE, OPT_PAGE_INPUT, 5, 10,
-	"use_command",                  "¡Ö»È¤¦(a)¡×¥³¥Ş¥ó¥É¤Ç¥¢¥¤¥Æ¥à¤ò²¿¤Ç¤â»È¤¨¤ë" },
-#else
-	{ &use_command,                 FALSE, OPT_PAGE_INPUT, 5, 10,
-	"use_command",                  "Allow unified use command" },
-#endif
+	"use_command",                  _("ã€Œä½¿ã†(a)ã€ã‚³ãƒãƒ³ãƒ‰ã§ã‚¢ã‚¤ãƒ†ãƒ ã‚’ä½•ã§ã‚‚ä½¿ãˆã‚‹", "Allow unified use command") },
 
-#ifdef JP
 	{ &over_exert,                  FALSE, OPT_PAGE_INPUT, 0, 29,
-	"over_exert",                   "MP¤¬Â­¤ê¤Ê¤¯¤Æ¤âËâË¡¤ËÄ©Àï¤¹¤ë" },
-#else
-	{ &over_exert,                  FALSE, OPT_PAGE_INPUT, 0, 29,
-	"over_exert",                   "Allow casting spells when short of mana" },
-#endif
+	"over_exert",                   _("MPãŒè¶³ã‚Šãªãã¦ã‚‚é­”æ³•ã«æŒ‘æˆ¦ã™ã‚‹", "Allow casting spells when short of mana") },
 
-#ifdef JP
 	{ &numpad_as_cursorkey,         TRUE, OPT_PAGE_INPUT, 2, 31,
-	"numpad_as_cursorkey",          "¥¨¥Ç¥£¥¿Æâ¤Ç¥Æ¥ó¥­¡¼¤ò¥«¡¼¥½¥ë¥­¡¼¤È¤·¤Æ»È¤¦" },
-#else
-	{ &numpad_as_cursorkey,         TRUE, OPT_PAGE_INPUT, 2, 31,
-	"numpad_as_cursorkey",          "Use numpad keys as cursor keys in editor mode" },
-#endif
+	"numpad_as_cursorkey",          _("ã‚¨ãƒ‡ã‚£ã‚¿å†…ã§ãƒ†ãƒ³ã‚­ãƒ¼ã‚’ã‚«ãƒ¼ã‚½ãƒ«ã‚­ãƒ¼ã¨ã—ã¦ä½¿ã†", "Use numpad keys as cursor keys in editor mode") },
 
 	/*** Map Screen Options ***/
 
-#ifdef JP
 	{ &center_player,               FALSE, OPT_PAGE_MAPSCREEN, 5, 11,
-	"center_player",                "¾ï¤Ë¥×¥ì¥¤¥ä¡¼¤òÃæ¿´¤ËÃÖ¤¯(*ÃÙ¤¤*)" },
-#else
-	{ &center_player,               FALSE, OPT_PAGE_MAPSCREEN, 5, 11,
-	"center_player",                "Center map while walking (*slow*)" },
-#endif
+	"center_player",                _("å¸¸ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ä¸­å¿ƒã«ç½®ã(*é…ã„*)", "Center map while walking (*slow*)") },
 
-#ifdef JP
 	{ &center_running,              TRUE,  OPT_PAGE_MAPSCREEN, 5, 12,
-	"center_running",               "Áö¤Ã¤Æ¤¤¤ë»ş¤Ç¤âÃæ¿´¤ËÃÖ¤¯" },
-#else
-	{ &center_running,              TRUE,  OPT_PAGE_MAPSCREEN, 5, 12,
-	"center_running",               "Centering even while running" },
-#endif
+	"center_running",               _("èµ°ã£ã¦ã„ã‚‹æ™‚ã§ã‚‚ä¸­å¿ƒã«ç½®ã", "Centering even while running") },
 
-#ifdef JP
 	{ &view_yellow_lite,            TRUE,  OPT_PAGE_MAPSCREEN, 1, 28,
-	"view_yellow_lite",             "ÌÀ¤«¤ê¤ÎÈÏ°Ï¤òÆÃÊÌ¤Ê¿§¤ÇÉ½¼¨¤¹¤ë" },
-#else
-	{ &view_yellow_lite,            TRUE,  OPT_PAGE_MAPSCREEN, 1, 28,
-	"view_yellow_lite",             "Use special colors for torch-lit grids" },
-#endif
+	"view_yellow_lite",             _("æ˜ã‹ã‚Šã®ç¯„å›²ã‚’ç‰¹åˆ¥ãªè‰²ã§è¡¨ç¤ºã™ã‚‹", "Use special colors for torch-lit grids") },
 
-#ifdef JP
 	{ &view_bright_lite,            TRUE,  OPT_PAGE_MAPSCREEN, 1, 29,
-	"view_bright_lite",             "»ë³¦¤ÎÈÏ°Ï¤òÆÃÊÌ¤Ê¿§¤ÇÉ½¼¨¤¹¤ë" },
-#else
-	{ &view_bright_lite,            TRUE,  OPT_PAGE_MAPSCREEN, 1, 29,
-	"view_bright_lite",             "Use special colors for 'viewable' grids" },
-#endif
+	"view_bright_lite",             _("è¦–ç•Œã®ç¯„å›²ã‚’ç‰¹åˆ¥ãªè‰²ã§è¡¨ç¤ºã™ã‚‹", "Use special colors for 'viewable' grids") },
 
-#ifdef JP
 	{ &view_granite_lite,           TRUE,  OPT_PAGE_MAPSCREEN, 1, 30,
-	"view_granite_lite",            "ÊÉ¤òÆÃÊÌ¤Ê¿§¤ÇÉ½¼¨¤¹¤ë(½Å¤¤)" },
-#else
-	{ &view_granite_lite,           TRUE,  OPT_PAGE_MAPSCREEN, 1, 30,
-	"view_granite_lite",            "Use special colors for wall grids (slow)" },
-#endif
+	"view_granite_lite",            _("å£ã‚’ç‰¹åˆ¥ãªè‰²ã§è¡¨ç¤ºã™ã‚‹(é‡ã„)", "Use special colors for wall grids (slow)") },
 
-#ifdef JP
 	{ &view_special_lite,           TRUE,  OPT_PAGE_MAPSCREEN, 1, 31,
-	"view_special_lite",            "¾²¤òÆÃÊÌ¤Ê¿§¤ÇÉ½¼¨¤¹¤ë(½Å¤¤)" },
-#else
-	{ &view_special_lite,           TRUE,  OPT_PAGE_MAPSCREEN, 1, 31,
-	"view_special_lite",            "Use special colors for floor grids (slow)" },
-#endif
+	"view_special_lite",            _("åºŠã‚’ç‰¹åˆ¥ãªè‰²ã§è¡¨ç¤ºã™ã‚‹(é‡ã„)", "Use special colors for floor grids (slow)") },
 
-#ifdef JP
 	{ &view_perma_grids,            TRUE,  OPT_PAGE_MAPSCREEN, 1, 6,
-	"view_perma_grids",             "ÌÀ¤ë¤¤¾ì½ê¤Ï¤½¤Î¤Ş¤Ş¤Ë¤¹¤ë" },
-#else
-	{ &view_perma_grids,            TRUE,  OPT_PAGE_MAPSCREEN, 1, 6,
-	"view_perma_grids",             "Map remembers all perma-lit grids" },
-#endif
+	"view_perma_grids",             _("æ˜ã‚‹ã„å ´æ‰€ã¯ãã®ã¾ã¾ã«ã™ã‚‹", "Map remembers all perma-lit grids") },
 
-#ifdef JP
 	{ &view_torch_grids,            FALSE, OPT_PAGE_MAPSCREEN, 1, 7,
-	"view_torch_grids",             "ÌÀ¤«¤ê¤Ç¾È¤é¤·¤¿¾ì½ê¤Ï¤½¤Î¤Ş¤Ş¤Ë¤¹¤ë" },
-#else
-	{ &view_torch_grids,            FALSE, OPT_PAGE_MAPSCREEN, 1, 7,
-	"view_torch_grids",             "Map remembers all torch-lit grids" },
-#endif
+	"view_torch_grids",             _("æ˜ã‹ã‚Šã§ç…§ã‚‰ã—ãŸå ´æ‰€ã¯ãã®ã¾ã¾ã«ã™ã‚‹", "Map remembers all torch-lit grids") },
 
-#ifdef JP
 	{ &view_unsafe_grids,           FALSE, OPT_PAGE_MAPSCREEN, 1, 8,
-	"view_unsafe_grids",            "¥È¥é¥Ã¥×´¶ÃÎºÑ¤ß¤Ç¤Ê¤¤¾ì½ê¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &view_unsafe_grids,           FALSE, OPT_PAGE_MAPSCREEN, 1, 8,
-	"view_unsafe_grids",            "Map marked by detect traps" },
-#endif
+	"view_unsafe_grids",            _("ãƒˆãƒ©ãƒƒãƒ—æ„ŸçŸ¥æ¸ˆã¿ã§ãªã„å ´æ‰€ã‚’è¡¨ç¤ºã™ã‚‹", "Map marked by detect traps") },
 
-#ifdef JP
 	{ &view_reduce_view,            FALSE, OPT_PAGE_MAPSCREEN, 1, 17,
-	"view_reduce_view",             "³¹¤Ç¤Ï»ëÌî¤ò¶¹¤¯¤¹¤ë" },
-#else
-	{ &view_reduce_view,            FALSE, OPT_PAGE_MAPSCREEN, 1, 17,
-	"view_reduce_view",             "Reduce view-radius in town" },
-#endif
+	"view_reduce_view",             _("è¡—ã§ã¯è¦–é‡ã‚’ç‹­ãã™ã‚‹", "Reduce view-radius in town") },
 
-#ifdef JP
 	{ &fresh_before,                TRUE,  OPT_PAGE_MAPSCREEN, 1, 23,
-	"fresh_before",                 "Ï¢Â³¥³¥Ş¥ó¥ÉÃæ¤Ë²èÌÌ¤òºÆÉÁ²è¤·Â³¤±¤ë" },
-#else
-	{ &fresh_before,                TRUE,  OPT_PAGE_MAPSCREEN, 1, 23,
-	"fresh_before",                 "Flush output while continuous command" },
-#endif
+	"fresh_before",                 _("é€£ç¶šã‚³ãƒãƒ³ãƒ‰ä¸­ã«ç”»é¢ã‚’å†æç”»ã—ç¶šã‘ã‚‹", "Flush output while continuous command") },
 
-#ifdef JP
 	{ &fresh_after,                 FALSE, OPT_PAGE_MAPSCREEN, 1, 24,
-	"fresh_after",                  "¥³¥Ş¥ó¥É¸å¤Ë²èÌÌ¤ò¾ï¤ËºÆÉÁ²è¤·Â³¤±¤ë" },
-#else
-	{ &fresh_after,                 FALSE, OPT_PAGE_MAPSCREEN, 1, 24,
-	"fresh_after",                  "Flush output after monster's move" },
-#endif
+	"fresh_after",                  _("ã‚³ãƒãƒ³ãƒ‰å¾Œã«ç”»é¢ã‚’å¸¸ã«å†æç”»ã—ç¶šã‘ã‚‹", "Flush output after monster's move") },
 
-#ifdef JP
 	{ &fresh_message,               FALSE, OPT_PAGE_MAPSCREEN, 1, 25,
-	"fresh_message",                "¥á¥Ã¥»¡¼¥¸¤Î¸å¤Ë²èÌÌ¤òºÆÉÁ²è¤¹¤ë" },
-#else
-	{ &fresh_message,               FALSE, OPT_PAGE_MAPSCREEN, 1, 25,
-	"fresh_message",                "Flush output after every message" },
-#endif
+	"fresh_message",                _("ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¾Œã«ç”»é¢ã‚’å†æç”»ã™ã‚‹", "Flush output after every message") },
 
-#ifdef JP
 	{ &hilite_player,               FALSE, OPT_PAGE_MAPSCREEN, 1, 27,
-	"hilite_player",                "¥×¥ì¥¤¥ä¡¼¤Ë¥«¡¼¥½¥ë¤ò¹ç¤ï¤»¤ë" },
-#else
-	{ &hilite_player,               FALSE, OPT_PAGE_MAPSCREEN, 1, 27,
-	"hilite_player",                "Hilite the player with the cursor" },
-#endif
+	"hilite_player",                _("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚«ãƒ¼ã‚½ãƒ«ã‚’åˆã‚ã›ã‚‹", "Hilite the player with the cursor") },
 
-#ifdef JP
 	{ &display_path,                FALSE, OPT_PAGE_MAPSCREEN, 2, 8,
-	"display_path",                 "ËâË¡¤äÌğ¤Îµ°À×¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &display_path,                FALSE, OPT_PAGE_MAPSCREEN, 2, 8,
-	"display_path",                 "Display actual path before shooting" },
-#endif
+	"display_path",                 _("é­”æ³•ã‚„çŸ¢ã®è»Œè·¡ã‚’è¡¨ç¤ºã™ã‚‹", "Display actual path before shooting") },
 
 	/*** Text Display Options ***/
 
-#ifdef JP
 	{ &plain_descriptions,          TRUE,  OPT_PAGE_TEXT, 5, 1,
-	"plain_descriptions",           "¥¢¥¤¥Æ¥à¤Îµ­½Ò¤ò´ÊÎ¬¤Ë¤¹¤ë" },
-#else
-	{ &plain_descriptions,          TRUE,  OPT_PAGE_TEXT, 5, 1,
-	"plain_descriptions",           "Plain object descriptions" },
-#endif
+	"plain_descriptions",           _("ã‚¢ã‚¤ãƒ†ãƒ ã®è¨˜è¿°ã‚’ç°¡ç•¥ã«ã™ã‚‹", "Plain object descriptions") },
 
-#ifdef JP
 	{ &plain_pickup,                FALSE, OPT_PAGE_TEXT, 6, 6,
-	"plain_pickup",                 "¡Ö½¦¤Ã¤¿¡×¥á¥Ã¥»¡¼¥¸¤ò´ÊÎ¬²½¤¹¤ë" },
-#else
-	{ &plain_pickup,                FALSE, OPT_PAGE_JAPANESE_ONLY, 6, 6,
-	"plain_pickup",                 "Plain pickup messages(japanese only)" },
-#endif
+	"plain_pickup",                 _("ã€Œæ‹¾ã£ãŸã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç°¡ç•¥åŒ–ã™ã‚‹", "Plain pickup messages(japanese only)") },
 
-#ifdef JP
 	{ &always_show_list,            TRUE,  OPT_PAGE_TEXT, 4, 0,
-	"always_show_list",             "ÁªÂò»ş¤Ë¤Ï¾ï¤Ë°ìÍ÷¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &always_show_list,            TRUE,  OPT_PAGE_TEXT, 4, 0,
-	"always_show_list",             "Always show list when choosing items" },
-#endif
+	"always_show_list",             _("é¸æŠæ™‚ã«ã¯å¸¸ã«ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹", "Always show list when choosing items") },
 
-#ifdef JP
 	{ &depth_in_feet,               FALSE, OPT_PAGE_TEXT, 0, 7,
-	"depth_in_feet",                "¥À¥ó¥¸¥ç¥ó¤Î¿¼¤µ¤ò¥Õ¥£¡¼¥È¤ÇÉ½¼¨¤¹¤ë" },
-#else
-	{ &depth_in_feet,               FALSE, OPT_PAGE_TEXT, 0, 7,
-	"depth_in_feet",                "Show dungeon level in feet" },
-#endif
+	"depth_in_feet",                _("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ã®æ·±ã•ã‚’ãƒ•ã‚£ãƒ¼ãƒˆã§è¡¨ç¤ºã™ã‚‹", "Show dungeon level in feet") },
 
-#ifdef JP
 	{ &show_labels,                 TRUE,  OPT_PAGE_TEXT, 0, 10,
-	"show_labels",                  "ÁõÈ÷°ìÍ÷¤ÇÁõÈ÷¾ì½ê¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &show_labels,                 TRUE,  OPT_PAGE_TEXT, 0, 10,
-	"show_labels",                  "Show labels in object listings" },
-#endif
+	"show_labels",                  _("è£…å‚™ä¸€è¦§ã§è£…å‚™å ´æ‰€ã‚’è¡¨ç¤ºã™ã‚‹", "Show labels in object listings") },
 
-#ifdef JP
 	{ &show_weights,                TRUE,  OPT_PAGE_TEXT, 0, 11,
-	"show_weights",                 "¥¢¥¤¥Æ¥à°ìÍ÷¤Ç½ÅÎÌ¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &show_weights,                TRUE,  OPT_PAGE_TEXT, 0, 11,
-	"show_weights",                 "Show weights in object listings" },
-#endif
+	"show_weights",                 _("ã‚¢ã‚¤ãƒ†ãƒ ä¸€è¦§ã§é‡é‡ã‚’è¡¨ç¤ºã™ã‚‹", "Show weights in object listings") },
 
-#ifdef JP
 	{ &show_item_graph,             TRUE,  OPT_PAGE_TEXT, 2, 0,
-	"show_item_graph",              "¥¢¥¤¥Æ¥à¤Î¥·¥ó¥Ü¥ë¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &show_item_graph,             TRUE,  OPT_PAGE_TEXT, 2, 0,
-	"show_item_graph",              "Show items graphics" },
-#endif
+	"show_item_graph",              _("ã‚¢ã‚¤ãƒ†ãƒ ã®ã‚·ãƒ³ãƒœãƒ«ã‚’è¡¨ç¤ºã™ã‚‹", "Show items graphics") },
 
-#ifdef JP
 	{ &equippy_chars,               TRUE,  OPT_PAGE_TEXT, 1, 12,
-	"equippy_chars",                "¥¹¥Æ¡¼¥¿¥¹¤ËÊ¸»ú¤ÇÁõÈ÷¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &equippy_chars,               TRUE,  OPT_PAGE_TEXT, 1, 12,
-	"equippy_chars",                "Display 'equippy' chars" },
-#endif
+	"equippy_chars",                _("ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã«æ–‡å­—ã§è£…å‚™ã‚’è¡¨ç¤ºã™ã‚‹", "Display 'equippy' chars") },
 
-#ifdef JP
 	{ &display_mutations,           FALSE, OPT_PAGE_TEXT, 5, 0,
-	"display_mutations",            "'C'¥³¥Ş¥ó¥É¤ÇÆÍÁ³ÊÑ°Û¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &display_mutations,           FALSE, OPT_PAGE_TEXT, 5, 0,
-	"display_mutations",            "Display mutations in 'C'haracter Display" },
-#endif
+	"display_mutations",            _("'C'ã‚³ãƒãƒ³ãƒ‰ã§çªç„¶å¤‰ç•°ã‚’è¡¨ç¤ºã™ã‚‹", "Display mutations in 'C'haracter Display") },
 
-#ifdef JP
 	{ &compress_savefile,           FALSE, OPT_PAGE_TEXT, 1, 26,
-	"compress_savefile",            "¥»¡¼¥Ö¡¦¥Õ¥¡¥¤¥ëÃæ¤Î¥á¥Ã¥»¡¼¥¸¤ò°µ½Ì¤¹¤ë" },
-#else
-	{ &compress_savefile,           FALSE, OPT_PAGE_TEXT, 1, 26,
-	"compress_savefile",            "Compress messages in savefiles" },
-#endif
+	"compress_savefile",            _("ã‚»ãƒ¼ãƒ–ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’åœ§ç¸®ã™ã‚‹", "Compress messages in savefiles") },
 
-#ifdef JP
 	{ &abbrev_extra,                FALSE, OPT_PAGE_TEXT, 2, 10,
-	"abbrev_extra",                 "¥¢¥¤¥Æ¥à¤ËÄÉ²ÃÂÑÀ­/Ç½ÎÏ¤ÎÎ¬¾Î¤ò¹ï¤à" },
-#else
-	{ &abbrev_extra,                FALSE, OPT_PAGE_TEXT, 2, 10,
-	"abbrev_extra",                 "Describe obj's extra resistances by abbreviation" },
-#endif
+	"abbrev_extra",                 _("ã‚¢ã‚¤ãƒ†ãƒ ã«è¿½åŠ è€æ€§/èƒ½åŠ›ã®ç•¥ç§°ã‚’åˆ»ã‚€", "Describe obj's extra resistances by abbreviation") },
 
-#ifdef JP
 	{ &abbrev_all,                  FALSE, OPT_PAGE_TEXT, 2, 11,
-	"abbrev_all",                   "¥¢¥¤¥Æ¥à¤ËÁ´¤Æ¤ÎÂÑÀ­/Ç½ÎÏ¤ÎÎ¬¾Î¤ò¹ï¤à" },
-#else
-	{ &abbrev_all,                  FALSE, OPT_PAGE_TEXT, 2, 11,
-	"abbrev_all",                   "Describe obj's all resistances by abbreviation" },
-#endif
+	"abbrev_all",                   _("ã‚¢ã‚¤ãƒ†ãƒ ã«å…¨ã¦ã®è€æ€§/èƒ½åŠ›ã®ç•¥ç§°ã‚’åˆ»ã‚€", "Describe obj's all resistances by abbreviation") },
 
-#ifdef JP
 	{ &exp_need,                    FALSE, OPT_PAGE_TEXT, 2, 12,
-	"exp_need",                     "¼¡¤Î¥ì¥Ù¥ë¤ËÉ¬Í×¤Ê·Ğ¸³ÃÍ¤òÉ½¼¨¤¹¤ë" },
-#else
-	{ &exp_need,                    FALSE, OPT_PAGE_TEXT, 2, 12,
-	"exp_need",                     "Show the experience needed for next level" },
-#endif
+	"exp_need",                     _("æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã«å¿…è¦ãªçµŒé¨“å€¤ã‚’è¡¨ç¤ºã™ã‚‹", "Show the experience needed for next level") },
 
-#ifdef JP
 	{ &ignore_unview,               FALSE, OPT_PAGE_TEXT, 2, 13,
-	"ignore_unview",                "»ë³¦³°¤Î¥â¥ó¥¹¥¿¡¼¤Î¹ÔÆ°¤òÉ½¼¨¤·¤Ê¤¤" },
-#else
-	{ &ignore_unview,               FALSE, OPT_PAGE_TEXT, 2, 13,
-	"ignore_unview",                "Ignore whenever any monster does" },
-#endif
+	"ignore_unview",                _("è¦–ç•Œå¤–ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®è¡Œå‹•ã‚’è¡¨ç¤ºã—ãªã„", "Ignore whenever any monster does") },
+	
+	{ &show_ammo_detail,            TRUE, OPT_PAGE_TEXT, 2, 14,
+	"show_ammo_detail",             _("çŸ¢å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ã®èª¬æ˜ã‚’è¡¨ç¤ºã™ã‚‹", "Show description of ammo damage") },
+		
+	{ &show_ammo_no_crit,           FALSE, OPT_PAGE_TEXT, 2, 15,
+	"show_ammo_no_crit",            _("ä¼šå¿ƒã‚’è€ƒæ…®ã—ãªã„å ´åˆã®çŸ¢å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹", "Show ammo damage with no critical") },
+
+	{ &show_ammo_crit_ratio,           FALSE, OPT_PAGE_TEXT, 2, 16,
+	"show_ammo_crit_ratio",            _("çŸ¢å¼¾ã®ä¼šå¿ƒç™ºç”Ÿç‡ã‚’è¡¨ç¤ºã™ã‚‹", "Show critical ratio of ammo") },
+		
 
 	/*** Game-Play ***/
 
-#ifdef JP
 	{ &stack_force_notes,           TRUE,  OPT_PAGE_GAMEPLAY, 0, 8,
-	"stack_force_notes",            "°Û¤Ê¤ëÌÃ¤Î¥¢¥¤¥Æ¥à¤ò¤Ş¤È¤á¤ë" },
-#else
-	{ &stack_force_notes,           TRUE,  OPT_PAGE_GAMEPLAY, 0, 8,
-	"stack_force_notes",            "Merge inscriptions when stacking" },
-#endif
+	"stack_force_notes",            _("ç•°ãªã‚‹éŠ˜ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ã¾ã¨ã‚ã‚‹", "Merge inscriptions when stacking") },
 
-#ifdef JP
 	{ &stack_force_costs,           FALSE, OPT_PAGE_GAMEPLAY, 0, 9,
-	"stack_force_costs",            "°Û¤Ê¤ë³ä°úÉ½¼¨¤Î¥¢¥¤¥Æ¥à¤ò¤Ş¤È¤á¤ë" },
-#else
-	{ &stack_force_costs,           FALSE, OPT_PAGE_GAMEPLAY, 0, 9,
-	"stack_force_costs",            "Merge discounts when stacking" },
-#endif
+	"stack_force_costs",            _("ç•°ãªã‚‹å‰²å¼•è¡¨ç¤ºã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ã¾ã¨ã‚ã‚‹", "Merge discounts when stacking") },
 
-#ifdef JP
 	{ &expand_list,                 TRUE,  OPT_PAGE_GAMEPLAY, 1, 5,
-	"expand_list",                  "¡Ö°ìÍ÷¡×¥³¥Ş¥ó¥É¤ò³ÈÄ¥¤¹¤ë" },
-#else
-	{ &expand_list,                 TRUE,  OPT_PAGE_GAMEPLAY, 1, 5,
-	"expand_list",                  "Expand the power of the list commands" },
-#endif
+	"expand_list",                  _("ã€Œä¸€è¦§ã€ã‚³ãƒãƒ³ãƒ‰ã‚’æ‹¡å¼µã™ã‚‹", "Expand the power of the list commands") },
 
-#ifdef JP
 	{ &small_levels,                TRUE,  OPT_PAGE_GAMEPLAY, 0, 30,
-	"small_levels",                 "Èó¾ï¤Ë¾®¤µ¤¤¥Õ¥í¥¢¤ÎÀ¸À®¤ò²ÄÇ½¤Ë¤¹¤ë" },
-#else
-	{ &small_levels,                TRUE,  OPT_PAGE_GAMEPLAY, 0, 30,
-	"small_levels",                 "Allow unusually small dungeon levels" },
-#endif
+	"small_levels",                 _("éå¸¸ã«å°ã•ã„ãƒ•ãƒ­ã‚¢ã®ç”Ÿæˆã‚’å¯èƒ½ã«ã™ã‚‹", "Allow unusually small dungeon levels") },
 
-#ifdef JP
 	{ &always_small_levels,         FALSE, OPT_PAGE_GAMEPLAY, 2, 3,
-	"always_small_levels",          "¾ï¤ËÈó¾ï¤Ë¾®¤µ¤¤¥Õ¥í¥¢¤òÀ¸À®¤¹¤ë" },
-#else
-	{ &always_small_levels,         FALSE, OPT_PAGE_GAMEPLAY, 2, 3,
-	"always_small_levels",          "Always create unusually small dungeon levels" },
-#endif
+	"always_small_levels",          _("å¸¸ã«éå¸¸ã«å°ã•ã„ãƒ•ãƒ­ã‚¢ã‚’ç”Ÿæˆã™ã‚‹", "Always create unusually small dungeon levels") },
 
-#ifdef JP
 	{ &empty_levels,                TRUE,  OPT_PAGE_GAMEPLAY, 0, 31,
-	"empty_levels",                 "¶õ¤Ã¤İ¤Î¡Ö¥¢¥ê¡¼¥Ê¡×¥ì¥Ù¥ë¤ÎÀ¸À®¤ò²ÄÇ½¤Ë¤¹¤ë" },
-#else
-	{ &empty_levels,                TRUE,  OPT_PAGE_GAMEPLAY, 0, 31,
-	"empty_levels",                 "Allow empty 'arena' levels" },
-#endif
+	"empty_levels",                 _("ç©ºã£ã½ã®ã€Œã‚¢ãƒªãƒ¼ãƒŠã€ãƒ¬ãƒ™ãƒ«ã®ç”Ÿæˆã‚’å¯èƒ½ã«ã™ã‚‹", "Allow empty 'arena' levels") },
 
-#ifdef JP
 	{ &bound_walls_perm,            FALSE, OPT_PAGE_GAMEPLAY, 2, 1,
-	"bound_walls_perm",             "¥À¥ó¥¸¥ç¥ó¤Î³°ÊÉ¤ò±Êµ×´ä¤Ë¤¹¤ë" },
-#else
-	{ &bound_walls_perm,            FALSE, OPT_PAGE_GAMEPLAY, 2, 1,
-	"bound_walls_perm",             "Boundary walls become 'permanent wall'" },
-#endif
+	"bound_walls_perm",             _("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ã®å¤–å£ã‚’æ°¸ä¹…å²©ã«ã™ã‚‹", "Boundary walls become 'permanent wall'") },
 
-#ifdef JP
 	{ &last_words,                  TRUE,  OPT_PAGE_GAMEPLAY, 0, 28,
-	"last_words",                   "¥­¥ã¥é¥¯¥¿¡¼¤¬»à¤ó¤À»ş°ä¸À¤ò¤Î¤³¤¹" },
-#else
-	{ &last_words,                  TRUE,  OPT_PAGE_GAMEPLAY, 0, 28,
-	"last_words",                   "Leave last words when your character dies" },
-#endif
+	"last_words",                   _("ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ãŒæ­»ã‚“ã æ™‚éºè¨€ã‚’ã®ã“ã™", "Leave last words when your character dies") },
 
 #ifdef WORLD_SCORE
-#ifdef JP
 	{ &send_score,                  TRUE,  OPT_PAGE_GAMEPLAY, 4, 6,
-	"send_score",                   "¥¹¥³¥¢¥µ¡¼¥Ğ¤Ë¥¹¥³¥¢¤òÁ÷¤ë" },
-#else
-	{ &send_score,                  TRUE,  OPT_PAGE_GAMEPLAY, 4, 6,
-	"send_score",                   "Send score dump to the world score server" },
+	"send_score",                   _("ã‚¹ã‚³ã‚¢ã‚µãƒ¼ãƒã«ã‚¹ã‚³ã‚¢ã‚’é€ã‚‹", "Send score dump to the world score server") },
 #endif
-#endif
-
-#ifdef JP
+	
 	{ &allow_debug_opts,            FALSE, OPT_PAGE_GAMEPLAY, 6, 11,
-	"allow_debug_opts",             "¥Ç¥Ğ¥Ã¥°/º¾µ½¥ª¥×¥·¥ç¥ó¤òµö²Ä¤¹¤ë" },
-#else
-	{ &allow_debug_opts,            FALSE, OPT_PAGE_GAMEPLAY, 6, 11,
-	"allow_debug_opts",             "Allow use of debug/cheat options" },
-#endif
+	"allow_debug_opts",             _("ãƒ‡ãƒãƒƒã‚°/è©æ¬ºã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨±å¯ã™ã‚‹", "Allow use of debug/cheat options") },
 
 	/*** Disturbance ***/
 
-#ifdef JP
 	{ &find_ignore_stairs,          FALSE, OPT_PAGE_DISTURBANCE, 0, 16,
-	"find_ignore_stairs",           "³¬ÃÊ¤ÏÄÌ²á¤¹¤ë" },
-#else
-	{ &find_ignore_stairs,          FALSE, OPT_PAGE_DISTURBANCE, 0, 16,
-	"find_ignore_stairs",           "Run past stairs" },
-#endif
+	"find_ignore_stairs",           _("éšæ®µã¯é€šéã™ã‚‹", "Run past stairs") },
 
-#ifdef JP
 	{ &find_ignore_doors,           TRUE,  OPT_PAGE_DISTURBANCE, 0, 17,
-	"find_ignore_doors",            "¥É¥¢¤ÏÄÌ²á¤¹¤ë" },
-#else
-	{ &find_ignore_doors,           TRUE,  OPT_PAGE_DISTURBANCE, 0, 17,
-	"find_ignore_doors",            "Run through open doors" },
-#endif
+	"find_ignore_doors",            _("ãƒ‰ã‚¢ã¯é€šéã™ã‚‹", "Run through open doors") },
 
-#ifdef JP
 	{ &find_cut,                    FALSE, OPT_PAGE_DISTURBANCE, 0, 18,
-	"find_cut",                     "¶Ê¤ê³Ñ¤ò¼Ğ¤á¤ËºÇÃ»µ÷Î¥¤ÇÄÌ²á¤¹¤ë" },
-#else
-	{ &find_cut,                    FALSE, OPT_PAGE_DISTURBANCE, 0, 18,
-	"find_cut",                     "Run past known corners" },
-#endif
+	"find_cut",                     _("æ›²ã‚Šè§’ã‚’æ–œã‚ã«æœ€çŸ­è·é›¢ã§é€šéã™ã‚‹", "Run past known corners") },
 
-#ifdef JP
 	{ &check_abort,                 TRUE,  OPT_PAGE_DISTURBANCE, 1, 18,
-	"check_abort",                  "Ï¢Â³¥³¥Ş¥ó¥É¤Ï¥­¡¼ÆşÎÏ¤ÇÃæÃÇ¤¹¤ë" },
-#else
-	{ &check_abort,                 TRUE,  OPT_PAGE_DISTURBANCE, 1, 18,
-	"check_abort",                  "Check for user abort while continuous command" },
-#endif
+	"check_abort",                  _("é€£ç¶šã‚³ãƒãƒ³ãƒ‰ã¯ã‚­ãƒ¼å…¥åŠ›ã§ä¸­æ–­ã™ã‚‹", "Check for user abort while continuous command") },
 
-#ifdef JP
 	{ &flush_failure,               TRUE,  OPT_PAGE_DISTURBANCE, 1, 20,
-	"flush_failure",                "ÍÍ¡¹¤Ê¥ß¥¹È¯À¸»ş¤ËÆşÎÏ¤ò¥¯¥ê¥¢¤¹¤ë" },
-#else
-	{ &flush_failure,               TRUE,  OPT_PAGE_DISTURBANCE, 1, 20,
-	"flush_failure",                "Flush input on various failures" },
-#endif
+	"flush_failure",                _("æ§˜ã€…ãªãƒŸã‚¹ç™ºç”Ÿæ™‚ã«å…¥åŠ›ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹", "Flush input on various failures") },
 
-#ifdef JP
 	{ &flush_disturb,               FALSE, OPT_PAGE_DISTURBANCE, 1, 21,
-	"flush_disturb",                "¾ã³²È¯À¸»ş¤ËÆşÎÏ¤ò¥¯¥ê¥¢¤¹¤ë" },
-#else
-	{ &flush_disturb,               FALSE, OPT_PAGE_DISTURBANCE, 1, 21,
-	"flush_disturb",                "Flush input whenever disturbed" },
-#endif
+	"flush_disturb",                _("éšœå®³ç™ºç”Ÿæ™‚ã«å…¥åŠ›ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹", "Flush input whenever disturbed") },
 
-#ifdef JP
 	{ &disturb_move,                FALSE, OPT_PAGE_DISTURBANCE, 0, 20,
-	"disturb_move",                 "¤É¤³¤Î¥â¥ó¥¹¥¿¡¼¤¬Æ°¤¤¤Æ¤â¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_move,                FALSE, OPT_PAGE_DISTURBANCE, 0, 20,
-	"disturb_move",                 "Disturb whenever any monster moves" },
-#endif
+	"disturb_move",                 _("ã©ã“ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒå‹•ã„ã¦ã‚‚è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb whenever any monster moves") },
 
-#ifdef JP
 	{ &disturb_high,                FALSE, OPT_PAGE_DISTURBANCE, 1, 3,
-	"disturb_high",                 "¥ì¥Ù¥ë¤Î¹â¤¤¥â¥ó¥¹¥¿¡¼¤¬Æ°¤¤¤¿¤é¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_high,                FALSE, OPT_PAGE_DISTURBANCE, 1, 3,
-	"disturb_high",                 "Disturb whenever high-level monster moves" },
-#endif
+	"disturb_high",                 _("ãƒ¬ãƒ™ãƒ«ã®é«˜ã„ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒå‹•ã„ãŸã‚‰è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb whenever high-level monster moves") },
 
-#ifdef JP
 	{ &disturb_near,                TRUE,  OPT_PAGE_DISTURBANCE, 0, 21,
-	"disturb_near",                 "»ë³¦Æâ¤Î¥â¥ó¥¹¥¿¡¼¤¬Æ°¤¤¤¿¤é¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_near,                TRUE,  OPT_PAGE_DISTURBANCE, 0, 21,
-	"disturb_near",                 "Disturb whenever viewable monster moves" },
-#endif
+	"disturb_near",                 _("è¦–ç•Œå†…ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒå‹•ã„ãŸã‚‰è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb whenever viewable monster moves") },
 
-#ifdef JP
 	{ &disturb_pets,                FALSE, OPT_PAGE_DISTURBANCE, 5, 6,
-	"disturb_pets",                 "»ë³¦Æâ¤Î¥Ú¥Ã¥È¤¬Æ°¤¤¤¿¤é¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_pets,                FALSE, OPT_PAGE_DISTURBANCE, 5, 6,
-	"disturb_pets",                 "Disturb when visible pets move" },
-#endif
+	"disturb_pets",                 _("è¦–ç•Œå†…ã®ãƒšãƒƒãƒˆãŒå‹•ã„ãŸã‚‰è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb when visible pets move") },
 
-#ifdef JP
 	{ &disturb_panel,               TRUE,  OPT_PAGE_DISTURBANCE, 0, 22,
-	"disturb_panel",                "²èÌÌ¥¹¥¯¥í¡¼¥ë»ş¤Ë¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_panel,               TRUE,  OPT_PAGE_DISTURBANCE, 0, 22,
-	"disturb_panel",                "Disturb whenever map panel changes" },
-#endif
+	"disturb_panel",                _("ç”»é¢ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«æ™‚ã«è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb whenever map panel changes") },
 
-#ifdef JP
 	{ &disturb_state,               TRUE,  OPT_PAGE_DISTURBANCE, 0, 23,
-	"disturb_state",                "¼«Ê¬¤Î¥¹¥Æ¡¼¥¿¥¹ÊÑ²½»ş¤Ë¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_state,               TRUE,  OPT_PAGE_DISTURBANCE, 0, 23,
-	"disturb_state",                "Disturb whenever player state changes" },
-#endif
+	"disturb_state",                _("è‡ªåˆ†ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å¤‰åŒ–æ™‚ã«è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb whenever player state changes") },
 
-#ifdef JP
 	{ &disturb_minor,               TRUE,  OPT_PAGE_DISTURBANCE, 0, 24,
-	"disturb_minor",                "º³ºÙ¤Ê¤³¤È¤¬µ¯¤­¤Æ¤â¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_minor,               TRUE,  OPT_PAGE_DISTURBANCE, 0, 24,
-	"disturb_minor",                "Disturb whenever boring things happen" },
-#endif
+	"disturb_minor",                _("äº›ç´°ãªã“ã¨ãŒèµ·ãã¦ã‚‚è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb whenever boring things happen") },
 
-#ifdef JP
 	{ &ring_bell,                   FALSE, OPT_PAGE_DISTURBANCE, 0, 14,
-	"ring_bell",                    "¥¨¥é¡¼»ş¤Ë¥Ó¡¼¥×²»¤òÌÄ¤é¤¹" },
-#else
-	{ &ring_bell,                   FALSE, OPT_PAGE_DISTURBANCE, 0, 14,
-	"ring_bell",                    "Audible bell (on errors, etc)" },
-#endif
+	"ring_bell",                    _("ã‚¨ãƒ©ãƒ¼æ™‚ã«ãƒ“ãƒ¼ãƒ—éŸ³ã‚’é³´ã‚‰ã™", "Audible bell (on errors, etc)") },
 
-#ifdef JP
 	{ &disturb_trap_detect,         TRUE,  OPT_PAGE_DISTURBANCE, 0, 27,
-	"disturb_trap_detect",          "¥È¥é¥Ã¥×´¶ÃÎÈÏ°Ï³°¤Ë½Ğ¤ëÄ¾Á°¤Ë¹ÔÆ°¤òÃæ»ß¤¹¤ë" },
-#else
-	{ &disturb_trap_detect,         TRUE,  OPT_PAGE_DISTURBANCE, 0, 27,
-	"disturb_trap_detect",          "Disturb when leaving trap detected area" },
-#endif
+	"disturb_trap_detect",          _("ãƒˆãƒ©ãƒƒãƒ—æ„ŸçŸ¥ç¯„å›²å¤–ã«å‡ºã‚‹ç›´å‰ã«è¡Œå‹•ã‚’ä¸­æ­¢ã™ã‚‹", "Disturb when leaving trap detected area") },
 
-#ifdef JP
 	{ &alert_trap_detect,           FALSE, OPT_PAGE_DISTURBANCE, 0, 25,
-	"alert_trap_detect",            "¥È¥é¥Ã¥×´¶ÃÎÈÏ°Ï³°¤Ë½Ğ¤ëÄ¾Á°¤Ë·Ù¹ğ¤¹¤ë" },
-#else
-	{ &alert_trap_detect,           FALSE, OPT_PAGE_DISTURBANCE, 0, 25,
-	"alert_trap_detect",            "Alert when leaving trap detected area" },
-#endif
+	"alert_trap_detect",            _("ãƒˆãƒ©ãƒƒãƒ—æ„ŸçŸ¥ç¯„å›²å¤–ã«å‡ºã‚‹ç›´å‰ã«è­¦å‘Šã™ã‚‹", "Alert when leaving trap detected area") },
 
 	/*** Birth Options ***/
-
-#ifdef JP
 	{ &manual_haggle,               FALSE, OPT_PAGE_BIRTH, 1, 0,
-	"manual_haggle",                "Å¹¤ÇÃÍÀÚ¤ê¸ò¾Ä¤ò¤¹¤ë" },
-#else
-	{ &manual_haggle,               FALSE, OPT_PAGE_BIRTH, 1, 0,
-	"manual_haggle",                "Manually haggle in stores" },
-#endif
+	"manual_haggle",                _("åº—ã§å€¤åˆ‡ã‚Šäº¤æ¸‰ã‚’ã™ã‚‹", "Manually haggle in stores") },
 
-#ifdef JP
 	{ &easy_band,                   FALSE, OPT_PAGE_BIRTH, 6, 31,
-	"easy_band",                    "½é¿´¼ÔÍÑ´ÊÃ±¥â¡¼¥É(*)" },
-#else
-	{ &easy_band,                   FALSE, OPT_PAGE_BIRTH, 6, 31,
-	"easy_band",                    "Easy Mode (*)" },
-#endif
+	"easy_band",                    _("åˆå¿ƒè€…ç”¨ç°¡å˜ãƒ¢ãƒ¼ãƒ‰(*)", "Easy Mode (*)") },
 
-#ifdef JP
 	{ &smart_learn,                 TRUE,  OPT_PAGE_BIRTH, 1, 14,
-	"smart_learn",                  "¥â¥ó¥¹¥¿¡¼¤Ï¼ºÇÔ¤ò³Ø½¬¤¹¤ë(*)" },
-#else
-	{ &smart_learn,                 TRUE,  OPT_PAGE_BIRTH, 1, 14,
-	"smart_learn",                  "Monsters learn from their mistakes (*)" },
-#endif
-
-#ifdef JP
+	"smart_learn",                  _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯å¤±æ•—ã‚’å­¦ç¿’ã™ã‚‹(*)", "Monsters learn from their mistakes (*)") },
+	
 	{ &smart_cheat,                 FALSE, OPT_PAGE_BIRTH, 1, 15,
-	"smart_cheat",                  "¥â¥ó¥¹¥¿¡¼¤Ï¥×¥ì¥¤¥ä¡¼¤Î¼å¤ß¤òÆÍ¤¯(*)" },
-#else
-	{ &smart_cheat,                 FALSE, OPT_PAGE_BIRTH, 1, 15,
-	"smart_cheat",                  "Monsters exploit players weaknesses (*)" },
-#endif
+	"smart_cheat",                  _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼±ã¿ã‚’çªã(*)", "Monsters exploit players weaknesses (*)") },
 
-#ifdef JP
 	{ &vanilla_town,                FALSE, OPT_PAGE_BIRTH, 6, 0,
-	"vanilla_town",                 "¸µÁÄ¤Î³¹/¥¯¥¨¥¹¥È¤È¹ÓÌî¤Ê¤·" },
-#else
-	{ &vanilla_town,                FALSE, OPT_PAGE_BIRTH, 6, 0,
-	"vanilla_town",                 "Use 'vanilla' town without quests and wilderness" },
-#endif
+	"vanilla_town",                 _("å…ƒç¥–ã®è¡—/ã‚¯ã‚¨ã‚¹ãƒˆã¨è’é‡ãªã—", "Use 'vanilla' town without quests and wilderness") },
 
-#ifdef JP
 	{ &lite_town,                   FALSE, OPT_PAGE_BIRTH, 6, 1,
-	"lite_town",                    "¾®µ¬ÌÏ¤Ê³¹/¹ÓÌî¤Ê¤·" },
-#else
-	{ &lite_town,                   FALSE, OPT_PAGE_BIRTH, 6, 1,
-	"lite_town",                    "Use 'lite' town without a wilderness" },
-#endif
+	"lite_town",                    _("å°è¦æ¨¡ãªè¡—/è’é‡ãªã—", "Use 'lite' town without a wilderness") },
 
-#ifdef JP
 	{ &ironman_shops,               FALSE, OPT_PAGE_BIRTH, 6, 2,
-	"ironman_shops",                "(Å´¿ÍÍÑ)Å¹¤ò»ÈÍÑ¤·¤Ê¤¤(*)" },
-#else
-	{ &ironman_shops,               FALSE, OPT_PAGE_BIRTH, 6, 2,
-	"ironman_shops",                "Stores are permanently closed (*)" },
-#endif
+	"ironman_shops",                _("(é‰„äººç”¨)åº—ã‚’ä½¿ç”¨ã—ãªã„(*)", "Stores are permanently closed (*)") },
 
-#ifdef JP
 	{ &ironman_small_levels,        FALSE, OPT_PAGE_BIRTH, 6, 3,
-	"ironman_small_levels",         "(Å´¿ÍÍÑ)¾ï¤ËÈó¾ï¤Ë¾®¤µ¤¤¥Õ¥í¥¢¤òÀ¸À®(*)" },
-#else
-	{ &ironman_small_levels,        FALSE, OPT_PAGE_BIRTH, 6, 3,
-	"ironman_small_levels",         "Always create unusually small dungeon levels (*)" },
-#endif
+	"ironman_small_levels",         _("(é‰„äººç”¨)å¸¸ã«éå¸¸ã«å°ã•ã„ãƒ•ãƒ­ã‚¢ã‚’ç”Ÿæˆ(*)", "Always create unusually small dungeon levels (*)") },
 
-#ifdef JP
 	{ &ironman_downward,            FALSE, OPT_PAGE_BIRTH, 6, 4,
-	"ironman_downward",             "(Å´¿ÍÍÑ)µ¢´Ô¤È¾å¤ê³¬ÃÊ¤Ê¤·(*)" },
-#else
-	{ &ironman_downward,            FALSE, OPT_PAGE_BIRTH, 6, 4,
-	"ironman_downward",             "Disable recall and use of up stairs (*)" },
-#endif
+	"ironman_downward",             _("(é‰„äººç”¨)å¸°é‚„ã¨ä¸Šã‚Šéšæ®µãªã—(*)", "Disable recall and use of up stairs (*)") },
 
-#ifdef JP
 	{ &ironman_empty_levels,        FALSE, OPT_PAGE_BIRTH, 6, 8,
-	"ironman_empty_levels",         "(Å´¿ÍÍÑ)¾ï¤Ë¶õ¤Ã¤İ¤Î¥¢¥ê¡¼¥Ê¥ì¥Ù¥ë¤òÀ¸À®(*)" },
-#else
-	{ &ironman_empty_levels,        FALSE, OPT_PAGE_BIRTH, 6, 8,
-	"ironman_empty_levels",         "Always create empty 'arena' levels (*)" },
-#endif
+	"ironman_empty_levels",         _("(é‰„äººç”¨)å¸¸ã«ç©ºã£ã½ã®ã‚¢ãƒªãƒ¼ãƒŠãƒ¬ãƒ™ãƒ«ã‚’ç”Ÿæˆ(*)", "Always create empty 'arena' levels (*)") },
 
-#ifdef JP
 	{ &ironman_rooms,               FALSE, OPT_PAGE_BIRTH, 6, 12,
-	"ironman_rooms",                "(Å´¿ÍÍÑ)¾ï¤ËÉáÄÌ¤Ç¤Ê¤¤Éô²°¤òÀ¸À®¤¹¤ë(*)" },
-#else
-	{ &ironman_rooms,               FALSE, OPT_PAGE_BIRTH, 6, 12,
-	"ironman_rooms",                "Always generate very unusual rooms (*)" },
-#endif
+	"ironman_rooms",                _("(é‰„äººç”¨)å¸¸ã«æ™®é€šã§ãªã„éƒ¨å±‹ã‚’ç”Ÿæˆã™ã‚‹(*)", "Always generate very unusual rooms (*)") },
 
-#ifdef JP
 	{ &ironman_nightmare,           FALSE, OPT_PAGE_BIRTH, 6, 18,
-	"ironman_nightmare",            "(Å´¿ÍÍÑ)°­Ì´¥â¡¼¥É(¤³¤ì¤ÏÁ´¤¯ÉÔ¾òÍı¤Ç¤¹¡ª)(*)" },
-#else
-	{ &ironman_nightmare,           FALSE, OPT_PAGE_BIRTH, 6, 18,
-	"ironman_nightmare",            "Nightmare mode(it isn't even remotely fair!)(*)" },
-#endif
+	"ironman_nightmare",            _("(é‰„äººç”¨)æ‚ªå¤¢ãƒ¢ãƒ¼ãƒ‰(ã“ã‚Œã¯å…¨ãä¸æ¡ç†ã§ã™ï¼)(*)", "Nightmare mode(it isn't even remotely fair!)(*)") },
 
-#ifdef JP
 	{ &left_hander,                 FALSE, OPT_PAGE_BIRTH, 6, 13,
-	"left_hander",                  "º¸Íø¤­¤Ç¤¢¤ë" },
-#else
-	{ &left_hander,                 FALSE, OPT_PAGE_BIRTH, 6, 13,
-	"left_hander",                  "Left-Hander" },
-#endif
+	"left_hander",                  _("å·¦åˆ©ãã§ã‚ã‚‹", "Left-Hander") },
 
-#ifdef JP
 	{ &preserve_mode,               TRUE,  OPT_PAGE_BIRTH, 6, 14,
-	"preserve_mode",                "ÅÁÀâ¤Î¥¢¥¤¥Æ¥à¤ò¼è¤êÆ¨¤·¤Æ¤âºÆÀ¸À®¤µ¤ì¤ë(*)" },
-#else
-	{ &preserve_mode,               TRUE,  OPT_PAGE_BIRTH, 6, 14,
-	"preserve_mode",                "Preserve artifacts (*)" },
-#endif
+	"preserve_mode",                _("ä¼èª¬ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’å–ã‚Šé€ƒã—ã¦ã‚‚å†ç”Ÿæˆã•ã‚Œã‚‹(*)", "Preserve artifacts (*)") },
 
-#ifdef JP
 	{ &autoroller,                  TRUE,  OPT_PAGE_BIRTH, 6, 15,
-	"autoroller",                   "Ç½ÎÏÃÍ¤Ë¥ª¡¼¥È¥í¡¼¥é¡¼»ÈÍÑ(*)" },
-#else
-	{ &autoroller,                  TRUE,  OPT_PAGE_BIRTH, 6, 15,
-	"autoroller",                   "Allow use of autoroller for stats (*)" },
-#endif
+	"autoroller",                   _("èƒ½åŠ›å€¤ã«ã‚ªãƒ¼ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ä½¿ç”¨(*)", "Allow use of autoroller for stats (*)") },
 
-#ifdef JP
 	{ &autochara,                   FALSE, OPT_PAGE_BIRTH, 6, 16,
-	"autochara",                   "ÂÎ³Ê/ÃÏ°Ì¤Ë¥ª¡¼¥È¥í¡¼¥é¡¼»ÈÍÑ" },
-#else
-	{ &autochara,                   FALSE, OPT_PAGE_BIRTH, 6, 16,
-	"autochara",                    "Autoroll for weight, height and social status" },
-#endif
+	"autochara",                   _("ä½“æ ¼/åœ°ä½ã«ã‚ªãƒ¼ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ä½¿ç”¨", "Autoroll for weight, height and social status") },
 
-#ifdef JP
 	{ &powerup_home,                TRUE,  OPT_PAGE_BIRTH, 4, 3,
-	"powerup_home",                 "²æ¤¬²È¤ò³ÈÄ¥¤¹¤ë(*)" },
-#else
-	{ &powerup_home,                TRUE,  OPT_PAGE_BIRTH, 4, 3,
-	"powerup_home",                 "Increase capacity of your home (*)" },
-#endif
+	"powerup_home",                 _("æˆ‘ãŒå®¶ã‚’æ‹¡å¼µã™ã‚‹(*)", "Increase capacity of your home (*)") },
 
 	/*** Easy Object Auto-Destroyer ***/
 
-#ifdef JP
 	{ &destroy_items,               FALSE, OPT_PAGE_AUTODESTROY, 7, 0,
-	"destroy_items",                "¥¢¥¤¥Æ¥à¤Î´Ê°×¼«Æ°ÇË²õ¤ò»ÈÍÑ¤¹¤ë" },
-#else
-	{ &destroy_items,               FALSE, OPT_PAGE_AUTODESTROY, 7, 0,
-	"destroy_items",                "Use easy auto-destroyer" },
-#endif
+	"destroy_items",                _("ã‚¢ã‚¤ãƒ†ãƒ ã®ç°¡æ˜“è‡ªå‹•ç ´å£Šã‚’ä½¿ç”¨ã™ã‚‹", "Use easy auto-destroyer") },
 
-#ifdef JP
 	{ &destroy_feeling,             FALSE, OPT_PAGE_AUTODESTROY, 7, 8,
-	"destroy_feeling",              "´Ê°×´ÕÄê¤·¤¿¤È¤­¼«Æ°ÇË²õ¤òÅ¬ÍÑ¤¹¤ë" },
-#else
-	{ &destroy_feeling,             FALSE, OPT_PAGE_AUTODESTROY, 7, 8,
-	"destroy_feeling",              "Apply auto-destroy as sense feeling" },
-#endif
+	"destroy_feeling",              _("ç°¡æ˜“é‘‘å®šã—ãŸã¨ãè‡ªå‹•ç ´å£Šã‚’é©ç”¨ã™ã‚‹", "Apply auto-destroy as sense feeling") },
 
-#ifdef JP
 	{ &destroy_identify,            FALSE, OPT_PAGE_AUTODESTROY, 7, 9,
-	"destroy_identify",             "´ÕÄê¤·¤¿¤È¤­¼«Æ°ÇË²õ¤òÅ¬ÍÑ¤¹¤ë" },
-#else
-	{ &destroy_identify,            FALSE, OPT_PAGE_AUTODESTROY, 7, 9,
-	"destroy_identify",             "Apply auto-destroy as identify an item" },
-#endif
+	"destroy_identify",             _("é‘‘å®šã—ãŸã¨ãè‡ªå‹•ç ´å£Šã‚’é©ç”¨ã™ã‚‹", "Apply auto-destroy as identify an item") },
 
-#ifdef JP
 	{ &leave_worth,                 TRUE,  OPT_PAGE_AUTODESTROY, 7, 2,
-	"leave_worth",                  "²ÁÃÍ¤¬¤¢¤ë¥¢¥¤¥Æ¥à¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_worth,                 TRUE,  OPT_PAGE_AUTODESTROY, 7, 2,
-	"leave_worth",                  "Auto-destroyer leaves known worthy items" },
-#endif
+	"leave_worth",                  _("ä¾¡å€¤ãŒã‚ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã¯å£Šã•ãªã„", "Auto-destroyer leaves known worthy items") },
 
-#ifdef JP
 	{ &leave_equip,                 FALSE, OPT_PAGE_AUTODESTROY, 7, 3,
-	"leave_equip",                  "Éğ´ï/ËÉ¶ñ¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_equip,                 FALSE, OPT_PAGE_AUTODESTROY, 7, 3,
-	"leave_equip",                  "Auto-destroyer leaves weapons and armour" },
-#endif
+	"leave_equip",                  _("æ­¦å™¨/é˜²å…·ã¯å£Šã•ãªã„", "Auto-destroyer leaves weapons and armour") },
 
-#ifdef JP
 	{ &leave_chest,                 TRUE,  OPT_PAGE_AUTODESTROY, 7, 7,
-	"leave_chest",                  "³«Éõ¤µ¤ì¤Æ¤¤¤Ê¤¤È¢¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_chest,                 TRUE,  OPT_PAGE_AUTODESTROY, 7, 7,
-	"leave_chest",                  "Auto-destroyer leaves closed chests" },
-#endif
+	"leave_chest",                  _("é–‹å°ã•ã‚Œã¦ã„ãªã„ç®±ã¯å£Šã•ãªã„", "Auto-destroyer leaves closed chests") },
 
-#ifdef JP
 	{ &leave_wanted,                TRUE,  OPT_PAGE_AUTODESTROY, 7, 4,
-	"leave_wanted",                 "¾Ş¶â¼ó¤Î»àÂÎ/¹ü¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_wanted,                TRUE,  OPT_PAGE_AUTODESTROY, 7, 4,
-	"leave_wanted",                 "Auto-destroyer leaves wanted corpses" },
-#endif
+	"leave_wanted",                 _("è³é‡‘é¦–ã®æ­»ä½“/éª¨ã¯å£Šã•ãªã„", "Auto-destroyer leaves wanted corpses") },
 
-#ifdef JP
 	{ &leave_corpse,                FALSE, OPT_PAGE_AUTODESTROY, 7, 5,
-	"leave_corpse",                 "»àÂÎ/¹ü¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_corpse,                FALSE, OPT_PAGE_AUTODESTROY, 7, 5,
-	"leave_corpse",                 "Auto-destroyer leaves corpses and skeletons" },
-#endif
+	"leave_corpse",                 _("æ­»ä½“/éª¨ã¯å£Šã•ãªã„", "Auto-destroyer leaves corpses and skeletons") },
 
-#ifdef JP
 	{ &leave_junk,                  FALSE, OPT_PAGE_AUTODESTROY, 7, 6,
-	"leave_junk",                   "¤¬¤é¤¯¤¿¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_junk,                  FALSE, OPT_PAGE_AUTODESTROY, 7, 6,
-	"leave_junk",                   "Auto-destroyer leaves junk" },
-#endif
+	"leave_junk",                   _("ãŒã‚‰ããŸã¯å£Šã•ãªã„", "Auto-destroyer leaves junk") },
 
-#ifdef JP
 	{ &leave_special,               TRUE,  OPT_PAGE_AUTODESTROY, 7, 1,
-	"leave_special",                "¼ïÂ²/¿¦¶È¤ÇÆÃÊÌ¤ËÉ¬Í×¤Ê¥¢¥¤¥Æ¥à¤Ï²õ¤µ¤Ê¤¤" },
-#else
-	{ &leave_special,               TRUE,  OPT_PAGE_AUTODESTROY, 7, 1,
-	"leave_special",                "Auto-destroyer leaves items your race/class needs" },
-#endif
+	"leave_special",                _("ç¨®æ—/è·æ¥­ã§ç‰¹åˆ¥ã«å¿…è¦ãªã‚¢ã‚¤ãƒ†ãƒ ã¯å£Šã•ãªã„", "Auto-destroyer leaves items your race/class needs") },
 
 	/*** Play-record Options ***/
 
-#ifdef JP
 	{ &record_fix_art,              TRUE,  OPT_PAGE_PLAYRECORD, 4, 11,
-	"record_fix_art",               "¸ÇÄê¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤ÎÆş¼ê¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_fix_art,              TRUE,  OPT_PAGE_PLAYRECORD, 4, 11,
-	"record_fix_art",               "Record fixed artifacts" },
-#endif
+	"record_fix_art",               _("å›ºå®šã‚¢ãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¯ãƒˆã®å…¥æ‰‹ã‚’è¨˜éŒ²ã™ã‚‹", "Record fixed artifacts") },
 
-#ifdef JP
 	{ &record_rand_art,             TRUE,  OPT_PAGE_PLAYRECORD, 4, 12,
-	"record_rand_art",              "¥é¥ó¥À¥à¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤ÎÆş¼ê¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_rand_art,             TRUE,  OPT_PAGE_PLAYRECORD, 4, 12,
-	"record_rand_art",              "Record random artifacts" },
-#endif
+	"record_rand_art",              _("ãƒ©ãƒ³ãƒ€ãƒ ã‚¢ãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¯ãƒˆã®å…¥æ‰‹ã‚’è¨˜éŒ²ã™ã‚‹", "Record random artifacts") },
 
-#ifdef JP
 	{ &record_destroy_uniq,         TRUE,  OPT_PAGE_PLAYRECORD, 4, 13,
-	"record_destroy_uniq",          "¥æ¥Ë¡¼¥¯¥â¥ó¥¹¥¿¡¼¤òÅİ¤·¤¿¤È¤­¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_destroy_uniq,         TRUE,  OPT_PAGE_PLAYRECORD, 4, 13,
-	"record_destroy_uniq",          "Record when destroy unique monster" },
-#endif
+	"record_destroy_uniq",          _("ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å€’ã—ãŸã¨ãã‚’è¨˜éŒ²ã™ã‚‹", "Record when destroy unique monster") },
 
-#ifdef JP
 	{ &record_fix_quest,            TRUE,  OPT_PAGE_PLAYRECORD, 4, 14,
-	"record_fix_quest",             "¸ÇÄê¥¯¥¨¥¹¥È¤ÎÃ£À®¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_fix_quest,            TRUE,  OPT_PAGE_PLAYRECORD, 4, 14,
-	"record_fix_quest",             "Record fixed quests" },
-#endif
+	"record_fix_quest",             _("å›ºå®šã‚¯ã‚¨ã‚¹ãƒˆã®é”æˆã‚’è¨˜éŒ²ã™ã‚‹", "Record fixed quests") },
 
-#ifdef JP
 	{ &record_rand_quest,           TRUE,  OPT_PAGE_PLAYRECORD, 4, 15,
-	"record_rand_quest",            "¥é¥ó¥À¥à¥¯¥¨¥¹¥È¤ÎÃ£À®¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_rand_quest,           TRUE,  OPT_PAGE_PLAYRECORD, 4, 15,
-	"record_rand_quest",            "Record random quests" },
-#endif
+	"record_rand_quest",            _("ãƒ©ãƒ³ãƒ€ãƒ ã‚¯ã‚¨ã‚¹ãƒˆã®é”æˆã‚’è¨˜éŒ²ã™ã‚‹", "Record random quests") },
 
-#ifdef JP
 	{ &record_maxdepth,             TRUE,  OPT_PAGE_PLAYRECORD, 4, 16,
-	"record_maxdepth",              "ºÇ¿¼³¬¤ò¹¹¿·¤·¤¿¤È¤­¤Ëµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_maxdepth,             TRUE,  OPT_PAGE_PLAYRECORD, 4, 16,
-	"record_maxdepth",              "Record movements to deepest level" },
-#endif
+	"record_maxdepth",              _("æœ€æ·±éšã‚’æ›´æ–°ã—ãŸã¨ãã«è¨˜éŒ²ã™ã‚‹", "Record movements to deepest level") },
 
-#ifdef JP
 	{ &record_stair,                TRUE,  OPT_PAGE_PLAYRECORD, 4, 17,
-	"record_stair",                 "³¬¤Î°ÜÆ°¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_stair,                TRUE,  OPT_PAGE_PLAYRECORD, 4, 17,
-	"record_stair",                 "Record recall and stair movements" },
-#endif
+	"record_stair",                 _("éšã®ç§»å‹•ã‚’è¨˜éŒ²ã™ã‚‹", "Record recall and stair movements") },
 
-#ifdef JP
 	{ &record_buy,                  TRUE,  OPT_PAGE_PLAYRECORD, 4, 18,
-	"record_buy",                   "¥¢¥¤¥Æ¥à¤Î¹ØÆş¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_buy,                  TRUE,  OPT_PAGE_PLAYRECORD, 4, 18,
-	"record_buy",                   "Record purchased items" },
-#endif
+	"record_buy",                   _("ã‚¢ã‚¤ãƒ†ãƒ ã®è³¼å…¥ã‚’è¨˜éŒ²ã™ã‚‹", "Record purchased items") },
 
-#ifdef JP
 	{ &record_sell,                 FALSE, OPT_PAGE_PLAYRECORD, 4, 19,
-	"record_sell",                  "¥¢¥¤¥Æ¥à¤ÎÇäµÑ¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_sell,                 FALSE, OPT_PAGE_PLAYRECORD, 4, 19,
-	"record_sell",                  "Record sold items" },
-#endif
+	"record_sell",                  _("ã‚¢ã‚¤ãƒ†ãƒ ã®å£²å´ã‚’è¨˜éŒ²ã™ã‚‹", "Record sold items") },
 
-#ifdef JP
 	{ &record_danger,               TRUE,  OPT_PAGE_PLAYRECORD, 4, 20,
-	"record_danger",                "¥Ô¥ó¥Á¤Ë¤Ê¤Ã¤¿¤È¤­¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_danger,               TRUE,  OPT_PAGE_PLAYRECORD, 4, 20,
-	"record_danger",                "Record hitpoint warning" },
-#endif
+	"record_danger",                _("ãƒ”ãƒ³ãƒã«ãªã£ãŸã¨ãã‚’è¨˜éŒ²ã™ã‚‹", "Record hitpoint warning") },
 
-#ifdef JP
 	{ &record_arena,                TRUE,  OPT_PAGE_PLAYRECORD, 4, 21,
-	"record_arena",                 "¥¢¥ê¡¼¥Ê¤Ç¤Î¾¡Íø¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_arena,                TRUE,  OPT_PAGE_PLAYRECORD, 4, 21,
-	"record_arena",                 "Record arena victories" },
-#endif
+	"record_arena",                 _("ã‚¢ãƒªãƒ¼ãƒŠã§ã®å‹åˆ©ã‚’è¨˜éŒ²ã™ã‚‹", "Record arena victories") },
 
-#ifdef JP
 	{ &record_ident,                TRUE,  OPT_PAGE_PLAYRECORD, 4, 22,
-	"record_ident",                 "Ì¤È½ÌÀ¤Î¥¢¥¤¥Æ¥à¤Î¼±ÊÌ¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_ident,                TRUE,  OPT_PAGE_PLAYRECORD, 4, 22,
-	"record_ident",                 "Record first identified items" },
-#endif
+	"record_ident",                 _("æœªåˆ¤æ˜ã®ã‚¢ã‚¤ãƒ†ãƒ ã®è­˜åˆ¥ã‚’è¨˜éŒ²ã™ã‚‹", "Record first identified items") },
 
-#ifdef JP
 	{ &record_named_pet,            FALSE, OPT_PAGE_PLAYRECORD, 4, 23,
-	"record_named_pet",             "Ì¾Á°¤Ä¤­¥Ú¥Ã¥È¤Î¾ğÊó¤òµ­Ï¿¤¹¤ë" },
-#else
-	{ &record_named_pet,            FALSE, OPT_PAGE_PLAYRECORD, 4, 23,
-	"record_named_pet",             "Record informations of named pets" },
-#endif
+	"record_named_pet",             _("åå‰ã¤ããƒšãƒƒãƒˆã®æƒ…å ±ã‚’è¨˜éŒ²ã™ã‚‹", "Record informations of named pets") },
 
 	/*** End of Table ***/
 
@@ -6448,30 +5222,30 @@ option_type option_info[] =
 
 
 #ifdef JP
-cptr chaos_patrons[MAX_PATRON] =
+const cptr chaos_patrons[MAX_PATRON] =
 {
-	"¥¹¥í¡¼¥¿¡¼",
-	"¥Ş¥Ù¥í¡¼¥É",
-	"¥Á¥ã¡¼¥É¥í¥¹",
-	"¥Ï¥¤¥ª¥ó¥Ï¡¼¥ó",
-	"¥­¥·¥ª¥à¥Ğ¡¼¥°",
+	"ã‚¹ãƒ­ãƒ¼ã‚¿ãƒ¼",
+	"ãƒãƒ™ãƒ­ãƒ¼ãƒ‰",
+	"ãƒãƒ£ãƒ¼ãƒ‰ãƒ­ã‚¹",
+	"ãƒã‚¤ã‚ªãƒ³ãƒãƒ¼ãƒ³",
+	"ã‚­ã‚·ã‚ªãƒ ãƒãƒ¼ã‚°",
 
-	"¥Ô¥¢¥ì¡¼",
-	"¥Ğ¥é¥ó",
-	"¥¢¥ê¥ª¥Ã¥Á",
-	"¥¤¡¼¥«¡¼",
-	"¥Ê¡¼¥¸¥ã¥ó",
+	"ãƒ”ã‚¢ãƒ¬ãƒ¼",
+	"ãƒãƒ©ãƒ³",
+	"ã‚¢ãƒªã‚ªãƒƒãƒ",
+	"ã‚¤ãƒ¼ã‚«ãƒ¼",
+	"ãƒŠãƒ¼ã‚¸ãƒ£ãƒ³",
 
-	"¥Ğ¥í",
-	"¥³¡¼¥ó",
-	"¥¹¥é¡¼¥Í¥Ã¥·¥å",
-	"¥Ê¡¼¥°¥ë",
-	"¥Æ¥£¡¼¥ó¥Á",
+	"ãƒãƒ­",
+	"ã‚³ãƒ¼ãƒ³",
+	"ã‚¹ãƒ©ãƒ¼ãƒãƒƒã‚·ãƒ¥",
+	"ãƒŠãƒ¼ã‚°ãƒ«",
+	"ãƒ†ã‚£ãƒ¼ãƒ³ãƒ",
 
-	"¥«¥¤¥ó"
+	"ã‚«ã‚¤ãƒ³"
 };
 #else
-cptr chaos_patrons[MAX_PATRON] =
+const cptr chaos_patrons[MAX_PATRON] =
 {
 	"Slortar",
 	"Mabelode",
@@ -6496,7 +5270,7 @@ cptr chaos_patrons[MAX_PATRON] =
 #endif
 
 
-int chaos_stats[MAX_PATRON] =
+const int chaos_stats[MAX_PATRON] =
 {
 	A_CON,  /* Slortar */
 	A_CON,  /* Mabelode */
@@ -6522,7 +5296,7 @@ int chaos_stats[MAX_PATRON] =
 
 
 
-int chaos_rewards[MAX_PATRON][20] =
+const int chaos_rewards[MAX_PATRON][20] =
 {
 	/* Slortar the Old: */
 	{
@@ -6654,26 +5428,26 @@ int chaos_rewards[MAX_PATRON][20] =
 	}
 };
 
-martial_arts ma_blows[MAX_MA] =
+const martial_arts ma_blows[MAX_MA] =
 {
 #ifdef JP
-	{ "%s¤ò²¥¤Ã¤¿¡£",                          1, 0, 1, 5, 0 },
-	{ "%s¤ò½³¤Ã¤¿¡£",                           2, 0, 1, 7, 0 },
-	{ "%s¤ËÀµ·ıÆÍ¤­¤ò¤¯¤é¤ï¤·¤¿¡£",                         3, 0, 1, 9, 0 },
-	{ "%s¤ËÉ¨½³¤ê¤ò¤¯¤é¤ï¤·¤¿¡£",             5, 5, 2, 4, MA_KNEE },
-	{ "%s¤ËÉªÂÇ¤Á¤ò¤¯¤é¤ï¤·¤¿¡£",            7, 5, 1, 12, 0 },
-	{ "%s¤ËÂÎÅö¤ê¤·¤¿¡£",                           9, 10, 2, 6, 0 },
-	{ "%s¤ò½³¤Ã¤¿¡£",                           11, 10, 3, 6, MA_SLOW },
-	{ "%s¤Ë¥¢¥Ã¥Ñ¡¼¤ò¤¯¤é¤ï¤·¤¿¡£",                       13, 12, 5, 5, 6 },
-	{ "%s¤ËÆóÃÊ½³¤ê¤ò¤¯¤é¤ï¤·¤¿¡£",                    16, 15, 5, 6, 8 },
-	{ "%s¤ËÇ­ÄŞ·â¤ò¤¯¤é¤ï¤·¤¿¡£",          20, 20, 5, 8, 0 },
-	{ "%s¤ËÄ·¶õµÓ¤ò¤¯¤é¤ï¤·¤¿¡£",           24, 25, 6, 8, 10 },
-	{ "%s¤ËÏÉÄŞ½±¤ò¤¯¤é¤ï¤·¤¿¡£",       28, 25, 7, 9, 0 },
-	{ "%s¤Ë²ó¤·½³¤ê¤ò¤¯¤é¤ï¤·¤¿¡£",         32, 30, 8, 10, 10 },
-	{ "%s¤ËÅ´·ı·â¤ò¤¯¤é¤ï¤·¤¿¡£",          35, 35, 8, 11, 10 },
-	{ "%s¤ËÈô¶õµÓ¤ò¤¯¤é¤ï¤·¤¿¡£",         39, 35, 8, 12, 12 },
-	{ "%s¤Ë¾ºÎ¶·ı¤ò¤¯¤é¤ï¤·¤¿¡£",         43, 35, 9, 12, 16 },
-	{ "%s¤ËÀĞÇËÅ·¶Ã·ı¤ò¤¯¤é¤ï¤·¤¿¡£",       48, 40, 10, 13, 18 },
+	{ "%sã‚’æ®´ã£ãŸã€‚",                          1, 0, 1, 5, 0 },
+	{ "%sã‚’è¹´ã£ãŸã€‚",                           2, 0, 1, 7, 0 },
+	{ "%sã«æ­£æ‹³çªãã‚’ãã‚‰ã‚ã—ãŸã€‚",                         3, 0, 1, 9, 0 },
+	{ "%sã«è†è¹´ã‚Šã‚’ãã‚‰ã‚ã—ãŸã€‚",             5, 5, 2, 4, MA_KNEE },
+	{ "%sã«è‚˜æ‰“ã¡ã‚’ãã‚‰ã‚ã—ãŸã€‚",            7, 5, 1, 12, 0 },
+	{ "%sã«ä½“å½“ã‚Šã—ãŸã€‚",                           9, 10, 2, 6, 0 },
+	{ "%sã‚’è¹´ã£ãŸã€‚",                           11, 10, 3, 6, MA_SLOW },
+	{ "%sã«ã‚¢ãƒƒãƒ‘ãƒ¼ã‚’ãã‚‰ã‚ã—ãŸã€‚",                       13, 12, 5, 5, 6 },
+	{ "%sã«äºŒæ®µè¹´ã‚Šã‚’ãã‚‰ã‚ã—ãŸã€‚",                    16, 15, 5, 6, 8 },
+	{ "%sã«çŒ«çˆªæ’ƒã‚’ãã‚‰ã‚ã—ãŸã€‚",          20, 20, 5, 8, 0 },
+	{ "%sã«è·³ç©ºè„šã‚’ãã‚‰ã‚ã—ãŸã€‚",           24, 25, 6, 8, 10 },
+	{ "%sã«é·²çˆªè¥²ã‚’ãã‚‰ã‚ã—ãŸã€‚",       28, 25, 7, 9, 0 },
+	{ "%sã«å›ã—è¹´ã‚Šã‚’ãã‚‰ã‚ã—ãŸã€‚",         32, 30, 8, 10, 10 },
+	{ "%sã«é‰„æ‹³æ’ƒã‚’ãã‚‰ã‚ã—ãŸã€‚",          35, 35, 8, 11, 10 },
+	{ "%sã«é£›ç©ºè„šã‚’ãã‚‰ã‚ã—ãŸã€‚",         39, 35, 8, 12, 12 },
+	{ "%sã«æ˜‡é¾æ‹³ã‚’ãã‚‰ã‚ã—ãŸã€‚",         43, 35, 9, 12, 16 },
+	{ "%sã«çŸ³ç ´å¤©é©šæ‹³ã‚’ãã‚‰ã‚ã—ãŸã€‚",       48, 40, 10, 13, 18 },
 #else
 	{ "You punch %s.",                          1, 0, 1, 4, 0 },
 	{ "You kick %s.",                           2, 0, 1, 6, 0 },
@@ -6696,7 +5470,7 @@ martial_arts ma_blows[MAX_MA] =
 
 };
 
-int monk_ave_damage[PY_MAX_LEVEL+1][3] =
+const int monk_ave_damage[PY_MAX_LEVEL+1][3] =
 {
   {0, 0, 0},
   {249, 249, 249},
@@ -6755,19 +5529,19 @@ int monk_ave_damage[PY_MAX_LEVEL+1][3] =
  * Table of game-generated inscriptions (indexed by the defines in
  * defines.h). -- RG
  */
-cptr game_inscriptions[] =
+const cptr game_inscriptions[] =
 {
 	NULL,            /* FEEL_NONE */
 #ifdef JP
-	"²õ¤ì¤Æ¤¤¤ë",    /* FEEL_BROKEN */
-	"¶²¤í¤·¤¤",      /* FEEL_TERRIBLE */
-	"Ìµ²ÁÃÍ",        /* FEEL_WORTHLESS */
-	"¼ö¤ï¤ì¤Æ¤¤¤ë",  /* FEEL_CURSED */
-	"¾å¼Á°Ê¾å",      /* FEEL_UNCURSED */
-	"ÊÂ",            /* FEEL_AVERAGE */
-	"¾å¼Á",          /* FEEL_GOOD */
-	"¹âµéÉÊ",        /* FEEL_EXCELLENT */
-	"ÆÃÊÌÀ½",        /* FEEL_SPECIAL */
+	"å£Šã‚Œã¦ã„ã‚‹",    /* FEEL_BROKEN */
+	"æã‚ã—ã„",      /* FEEL_TERRIBLE */
+	"ç„¡ä¾¡å€¤",        /* FEEL_WORTHLESS */
+	"å‘ªã‚ã‚Œã¦ã„ã‚‹",  /* FEEL_CURSED */
+	"ä¸Šè³ªä»¥ä¸Š",      /* FEEL_UNCURSED */
+	"ä¸¦",            /* FEEL_AVERAGE */
+	"ä¸Šè³ª",          /* FEEL_GOOD */
+	"é«˜ç´šå“",        /* FEEL_EXCELLENT */
+	"ç‰¹åˆ¥è£½",        /* FEEL_SPECIAL */
 #else
 	"broken",        /* FEEL_BROKEN */
 	"terrible",      /* FEEL_TERRIBLE */
@@ -6782,13 +5556,13 @@ cptr game_inscriptions[] =
 
 };
 
-kamae kamae_shurui[MAX_KAMAE] =
+const kamae kamae_shurui[MAX_KAMAE] =
 {
 #ifdef JP
-	{"¸¼Éğ", 25, ""},
-	{"Çò¸×", 30, ""},
-	{"ÀÄÎµ", 35, ""},
-	{"¼ë¿ı", 40, ""},
+	{"ç„æ­¦", 25, ""},
+	{"ç™½è™", 30, ""},
+	{"é’ç«œ", 35, ""},
+	{"æœ±é›€", 40, ""},
 #else
 	{"Genbu", 25, "(Black Tortoise) "},
 	{"Byakko", 30, "(White Tiger) "},
@@ -6797,13 +5571,13 @@ kamae kamae_shurui[MAX_KAMAE] =
 #endif
 };
 
-kamae kata_shurui[MAX_KATA] =
+const kamae kata_shurui[MAX_KATA] =
 {
 #ifdef JP
-	{"µï¹ç", 25, ""},
-	{"É÷¿Ğ", 30, ""},
-	{"¹ßµ´", 35, ""},
-	{"ÌµÁÛ", 40, ""},
+	{"å±…åˆ", 25, ""},
+	{"é¢¨å¡µ", 30, ""},
+	{"é™é¬¼", 35, ""},
+	{"ç„¡æƒ³", 40, ""},
 #else
 	{"Iai", 25, ""},
 	{"Huujin", 30, ""},
@@ -6812,107 +5586,107 @@ kamae kata_shurui[MAX_KATA] =
 #endif
 };
 
-cptr exp_level_str[5]=
+const cptr exp_level_str[5]=
 #ifdef JP
-{"[½é¿´¼Ô]", "[ÆşÌç¼Ô]", "[½ÏÎı¼Ô]", "[¥¨¥­¥¹¥Ñ¡¼¥È]", "[Ã£¿Í]"};
+{"[åˆå¿ƒè€…]", "[å…¥é–€è€…]", "[ç†Ÿç·´è€…]", "[ã‚¨ã‚­ã‚¹ãƒ‘ãƒ¼ãƒˆ]", "[é”äºº]"};
 #else
 {"[Unskilled]", "[Beginner]", "[Skilled]", "[Expert]", "[Master]"};
 #endif
 
 /* Weird melee attack types when hallucinating */
 #ifdef JP
-cptr silly_attacks[MAX_SILLY_ATTACK] =
+const cptr silly_attacks[MAX_SILLY_ATTACK] =
 {
-	"¤Ë¾®ÊØ¤ò¤«¤±¤é¤ì¤¿¡£",
-	"¤¬¤¢¤Ê¤¿¤Î²ó¤ê¤ò3²ó²ó¤Ã¤Æ¥ï¥ó¤È¸À¤Ã¤¿¡£",
-	"¤Ë¤·¤Ğ¤­¤Ş¤ï¤µ¤ì¤¿¡£",
-	"¤Ë·¤¤ò¤Ê¤á¤µ¤»¤é¤ì¤¿¡£",
-	"¤Ë¥Ï¥Ê¥¯¥½¤òÈô¤Ğ¤µ¤ì¤¿¡£",
-	"¤Ë¥¸¥ã¥ó·ı¤Ç¹¶·â¤µ¤ì¤¿¡£",
-	"¤¬¤¢¤Ê¤¿¤ÎËË¤ò»¥Â«¤Ç¤·¤Ğ¤¤¤¿¡£",
-	"¤¬¤¢¤Ê¤¿¤ÎÁ°¤Ç¥İ¡¼¥¸¥ó¥°¤ò¤·¤¿¡£",
-	"¤Ë¥¢¥«¥ó¥Ù¡¼¤µ¤ì¤¿¡£",
-	"¤Ë¡Ö¿À¤Î¹ñ¡×È¯¸À¤ÎÅ±²ó¤òµá¤á¤é¤ì¤¿¡£",
-	"¤Ë¥á¥Ã¡û¡¼¥ë¤ò°û¤Ş¤µ¤ì¤¿¡£",
-	"¤Ë¤Ä¤Ã¤³¤ß¤òÆş¤ì¤é¤ì¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤ÈÍÙ¤Ã¤¿¡£",
-	"¤Ë´é¤Ë¤é¤¯½ñ¤­¤ò¤µ¤ì¤¿¡£",
-	"¤Ë¼Ú¶â¤ÎÊÖºÑ¤ò¤»¤Ş¤é¤ì¤¿¡£",
-	"¤Ë¥¹¥«¡¼¥È¤ò¤á¤¯¤é¤ì¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤Î¼êÁê¤òÀê¤Ã¤¿¡£",
-	"¤«¤éÌòËş¤ò¾å¤¬¤é¤ì¤¿¡£",
-	"¤«¤é°¦¤Î¹ğÇò¤ò¤µ¤ì¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤ò»şµë500±ß¤Ç¸Û¤Ã¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤Î100¤ÎÈëÌ©¤Ë¤Ä¤¤¤ÆÇ®¤¯¸ì¤Ã¤¿¡£",
-	"¤¬¥Ë¥ã¡¼¤ÈÌÄ¤¤¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤Ëµ¤¤ò¤Ä¤±¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤ò¥İ¥ê¥´¥ó²½¤µ¤»¤¿¡£",
-	"¤Ë¾¯¤·¤«¤¸¤é¤ì¤¿¡£",
-	"¤Ï¥¢¥ë¥Æ¥Ş¤Î¼öÊ¸¤ò¾§¤¨¤¿¡ª",
-	"¤Ï¤¢¤Ê¤¿¤Î¥¹¥Ñ¥¤¥¯¤ò¥Ö¥í¥Ã¥¯¤·¤¿¡£",
-	"¤Ï¥¹¥é¥¤¥É°ÜÆ°¤·¤¿¡£",
-	"¤Ï¾ºÎ¶·ı¥³¥Ş¥ó¥É¤ÎÆşÎÏ¤Ë¼ºÇÔ¤·¤¿¡£",
-	"¤Ï³È»¶ÇÈÆ°Ë¤¤òÈ¯¼Í¤·¤¿¡£",
-	"¤Ï¥Ç¥¹¥é¡¼ÀïË¡¤ò¤·¤«¤±¤¿¡£",
-	"¤Ë¥é¥¤¥À¡¼¥­¥Ã¥¯¤Ç¹¶·â¤µ¤ì¤¿¡£",
-	"¤ËÆó½µ´Ö°ÊÆâ¤Ç¥Ó¥Ç¥ª¤ò¿Í¤Ë¸«¤»¤Ê¤¤¤È»à¤Ì¼ö¤¤¤ò¤«¤±¤é¤ì¤¿¡£",
-	"¤Ï¥Ñ¥ë¥×¥ó¥Æ¤ò¾§¤¨¤¿¡£",
-	"¤Ï¥¹¡¼¥Ñ¡¼¥¦¥ë¥È¥é¥®¥ã¥é¥¯¥Æ¥£¥«¥Ş¥°¥Ê¥à¤òÊü¤Ã¤¿¡£",
-	"¤Ë¤·¤ã¤¬¤ß¾®¥­¥Ã¥¯¤Ç¥Ï¥á¤é¤ì¤¿¡£",
-	"¤Ë¥¸¥§¥Ã¥È¥¹¥È¥ê¡¼¥à¥¢¥¿¥Ã¥¯¤ò¤«¤±¤é¤ì¤¿¡£",
-	"¤Ï¤¢¤Ê¤¿¤ËÒÄ¸Ç¤á¤ò¤«¤±¤Æ¡Ö1¡¢2¡¢3¡¢¥À¡¼¥Ã¡ª¡×¤È¶«¤ó¤À¡£",
-	"¤Ï¡Ö¤¤¤¯¤¸¤Ê¤·¡ª¤Ğ¤«¤Ğ¤«¤Ğ¤«¡ª¡×¤È¤¤¤Ã¤Æ¶î¤±½Ğ¤·¤¿¡£",
-	"¤¬¡Ö¤´¤é¤ó¡¢¥ë¡¼¥Ù¥ó¥¹¤Î³¨¤À¤è¡×¤È¸À¤Ã¤ÆÀÅ¤«¤ËÌÜ¤òÊÄ¤¸¤¿¡£",
-	"¤Ï¸À¤Ã¤¿¡£¡ÖÊÑ¶òÈÚÅÜ¡¢Àä»¿¸ø³«Ãæ¡ª¡×",
+	"ã«å°ä¾¿ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã€‚",
+	"ãŒã‚ãªãŸã®å›ã‚Šã‚’3å›å›ã£ã¦ãƒ¯ãƒ³ã¨è¨€ã£ãŸã€‚",
+	"ã«ã—ã°ãã¾ã‚ã•ã‚ŒãŸã€‚",
+	"ã«é´ã‚’ãªã‚ã•ã›ã‚‰ã‚ŒãŸã€‚",
+	"ã«ãƒãƒŠã‚¯ã‚½ã‚’é£›ã°ã•ã‚ŒãŸã€‚",
+	"ã«ã‚¸ãƒ£ãƒ³æ‹³ã§æ”»æ’ƒã•ã‚ŒãŸã€‚",
+	"ãŒã‚ãªãŸã®é ¬ã‚’æœ­æŸã§ã—ã°ã„ãŸã€‚",
+	"ãŒã‚ãªãŸã®å‰ã§ãƒãƒ¼ã‚¸ãƒ³ã‚°ã‚’ã—ãŸã€‚",
+	"ã«ã‚¢ã‚«ãƒ³ãƒ™ãƒ¼ã•ã‚ŒãŸã€‚",
+	"ã«ã€Œç¥ã®å›½ã€ç™ºè¨€ã®æ’¤å›ã‚’æ±‚ã‚ã‚‰ã‚ŒãŸã€‚",
+	"ã«ãƒ¡ãƒƒâ—‹ãƒ¼ãƒ«ã‚’é£²ã¾ã•ã‚ŒãŸã€‚",
+	"ã«ã¤ã£ã“ã¿ã‚’å…¥ã‚Œã‚‰ã‚ŒãŸã€‚",
+	"ã¯ã‚ãªãŸã¨è¸Šã£ãŸã€‚",
+	"ã«é¡”ã«ã‚‰ãæ›¸ãã‚’ã•ã‚ŒãŸã€‚",
+	"ã«å€Ÿé‡‘ã®è¿”æ¸ˆã‚’ã›ã¾ã‚‰ã‚ŒãŸã€‚",
+	"ã«ã‚¹ã‚«ãƒ¼ãƒˆã‚’ã‚ãã‚‰ã‚ŒãŸã€‚",
+	"ã¯ã‚ãªãŸã®æ‰‹ç›¸ã‚’å ã£ãŸã€‚",
+	"ã‹ã‚‰å½¹æº€ã‚’ä¸ŠãŒã‚‰ã‚ŒãŸã€‚",
+	"ã‹ã‚‰æ„›ã®å‘Šç™½ã‚’ã•ã‚ŒãŸã€‚",
+	"ã¯ã‚ãªãŸã‚’æ™‚çµ¦500å††ã§é›‡ã£ãŸã€‚",
+	"ã¯ã‚ãªãŸã®100ã®ç§˜å¯†ã«ã¤ã„ã¦ç†±ãèªã£ãŸã€‚",
+	"ãŒãƒ‹ãƒ£ãƒ¼ã¨é³´ã„ãŸã€‚",
+	"ã¯ã‚ãªãŸã«æ°—ã‚’ã¤ã‘ãŸã€‚",
+	"ã¯ã‚ãªãŸã‚’ãƒãƒªã‚´ãƒ³åŒ–ã•ã›ãŸã€‚",
+	"ã«å°‘ã—ã‹ã˜ã‚‰ã‚ŒãŸã€‚",
+	"ã¯ã‚¢ãƒ«ãƒ†ãƒã®å‘ªæ–‡ã‚’å”±ãˆãŸï¼",
+	"ã¯ã‚ãªãŸã®ã‚¹ãƒ‘ã‚¤ã‚¯ã‚’ãƒ–ãƒ­ãƒƒã‚¯ã—ãŸã€‚",
+	"ã¯ã‚¹ãƒ©ã‚¤ãƒ‰ç§»å‹•ã—ãŸã€‚",
+	"ã¯æ˜‡é¾æ‹³ã‚³ãƒãƒ³ãƒ‰ã®å…¥åŠ›ã«å¤±æ•—ã—ãŸã€‚",
+	"ã¯æ‹¡æ•£æ³¢å‹•ç ²ã‚’ç™ºå°„ã—ãŸã€‚",
+	"ã¯ãƒ‡ã‚¹ãƒ©ãƒ¼æˆ¦æ³•ã‚’ã—ã‹ã‘ãŸã€‚",
+	"ã«ãƒ©ã‚¤ãƒ€ãƒ¼ã‚­ãƒƒã‚¯ã§æ”»æ’ƒã•ã‚ŒãŸã€‚",
+	"ã«äºŒé€±é–“ä»¥å†…ã§ãƒ“ãƒ‡ã‚ªã‚’äººã«è¦‹ã›ãªã„ã¨æ­»ã¬å‘ªã„ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã€‚",
+	"ã¯ãƒ‘ãƒ«ãƒ—ãƒ³ãƒ†ã‚’å”±ãˆãŸã€‚",
+	"ã¯ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¦ãƒ«ãƒˆãƒ©ã‚®ãƒ£ãƒ©ã‚¯ãƒ†ã‚£ã‚«ãƒã‚°ãƒŠãƒ ã‚’æ”¾ã£ãŸã€‚",
+	"ã«ã—ã‚ƒãŒã¿å°ã‚­ãƒƒã‚¯ã§ãƒãƒ¡ã‚‰ã‚ŒãŸã€‚",
+	"ã«ã‚¸ã‚§ãƒƒãƒˆã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¢ã‚¿ãƒƒã‚¯ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã€‚",
+	"ã¯ã‚ãªãŸã«åå›ºã‚ã‚’ã‹ã‘ã¦ã€Œ1ã€2ã€3ã€ãƒ€ãƒ¼ãƒƒï¼ã€ã¨å«ã‚“ã ã€‚",
+	"ã¯ã€Œã„ãã˜ãªã—ï¼ã°ã‹ã°ã‹ã°ã‹ï¼ã€ã¨ã„ã£ã¦é§†ã‘å‡ºã—ãŸã€‚",
+	"ãŒã€Œã”ã‚‰ã‚“ã€ãƒ«ãƒ¼ãƒ™ãƒ³ã‚¹ã®çµµã ã‚ˆã€ã¨è¨€ã£ã¦é™ã‹ã«ç›®ã‚’é–‰ã˜ãŸã€‚",
+	"ã¯è¨€ã£ãŸã€‚ã€Œå¤‰æ„šè›®æ€’ã€çµ¶è³›å…¬é–‹ä¸­ï¼ã€",
 };
 
 /* Note: %s for strfmt() */
-cptr silly_attacks2[MAX_SILLY_ATTACK] =
+const cptr silly_attacks2[MAX_SILLY_ATTACK] =
 {
-	"%s¤Ë¾®ÊØ¤ò¤«¤±¤¿¡£",
-	"%s¤Î²ó¤ê¤ò3²ó²ó¤Ã¤Æ¥ï¥ó¤È¸À¤Ã¤¿¡£",
-	"%s¤ò¤·¤Ğ¤­¤Ş¤ï¤·¤¿¡£",
-	"%s¤Ë·¤¤ò¤Ê¤á¤µ¤»¤¿¡£",
-	"%s¤Ë¥Ï¥Ê¥¯¥½¤òÈô¤Ğ¤·¤¿¡£",
-	"%s¤ò¥¸¥ã¥ó·ı¤Ç¹¶·â¤·¤¿¡£",
-	"%s¤ÎËË¤ò»¥Â«¤Ç¤·¤Ğ¤¤¤¿¡£",
-	"%s¤ÎÁ°¤Ç¥İ¡¼¥¸¥ó¥°¤ò¤·¤¿¡£",
-	"%s¤Ë¥¢¥«¥ó¥Ù¡¼¤·¤¿¡£",
-	"%s¤Ë¡Ö¿À¤Î¹ñ¡×È¯¸À¤ÎÅ±²ó¤òµá¤á¤¿¡£",
-	"%s¤Ë¥á¥Ã¡û¡¼¥ë¤ò°û¤Ş¤»¤¿¡£",
-	"%s¤Ë¤Ä¤Ã¤³¤ß¤òÆş¤ì¤¿¡£",
-	"%s¤ÈÍÙ¤Ã¤¿¡£",
-	"%s¤Î´é¤Ë¤é¤¯½ñ¤­¤ò¤·¤¿¡£",
-	"%s¤Ë¼Ú¶â¤ÎÊÖºÑ¤ò¤»¤Ş¤Ã¤¿¡£",
-	"%s¤Î¥¹¥«¡¼¥È¤ò¤á¤¯¤Ã¤¿¡£",
-	"%s¤Î¼êÁê¤òÀê¤Ã¤¿¡£",
-	"%s¤«¤éÌòËş¤ò¾å¤¬¤Ã¤¿¡£",
-	"%s¤Ë°¦¤Î¹ğÇò¤ò¤·¤¿¡£",
-	"%s¤ò»şµë500±ß¤Ç¸Û¤Ã¤¿¡£",
-	"%s¤Î100¤ÎÈëÌ©¤Ë¤Ä¤¤¤ÆÇ®¤¯¸ì¤Ã¤¿¡£",
-	"¥Ë¥ã¡¼¤ÈÌÄ¤¤¤¿¡£",
-	"%s¤Ëµ¤¤ò¤Ä¤±¤¿¡£",
-	"%s¤ò¥İ¥ê¥´¥ó²½¤µ¤»¤¿¡£",
-	"%s¤ò¾¯¤·¤«¤¸¤Ã¤¿¡£",
-	"¥¢¥ë¥Æ¥Ş¤Î¼öÊ¸¤ò¾§¤¨¤¿¡ª",
-	"%s¤Î¥¹¥Ñ¥¤¥¯¤ò¥Ö¥í¥Ã¥¯¤·¤¿¡£",
-	"¥¹¥é¥¤¥É°ÜÆ°¤·¤¿¡£",
-	"¾ºÎ¶·ı¥³¥Ş¥ó¥É¤ÎÆşÎÏ¤Ë¼ºÇÔ¤·¤¿¡£",
-	"%s¤Ë³È»¶ÇÈÆ°Ë¤¤òÈ¯¼Í¤·¤¿¡£",
-	"%s¤Ë¥Ç¥¹¥é¡¼ÀïË¡¤ò¤·¤«¤±¤¿¡£",
-	"%s¤ò¥é¥¤¥À¡¼¥­¥Ã¥¯¤Ç¹¶·â¤·¤¿¡£",
-	"%s¤ËÆó½µ´Ö°ÊÆâ¤Ç¥Ó¥Ç¥ª¤ò¿Í¤Ë¸«¤»¤Ê¤¤¤È»à¤Ì¼ö¤¤¤ò¤«¤±¤¿¡£",
-	"¥Ñ¥ë¥×¥ó¥Æ¤ò¾§¤¨¤¿¡£",
-	"%s¤Ë¥¹¡¼¥Ñ¡¼¥¦¥ë¥È¥é¥®¥ã¥é¥¯¥Æ¥£¥«¥Ş¥°¥Ê¥à¤òÊü¤Ã¤¿¡£",
-	"%s¤ò¤·¤ã¤¬¤ß¾®¥­¥Ã¥¯¤Ç¥Ï¥á¤¿¡£",
-	"%s¤Ë¥¸¥§¥Ã¥È¥¹¥È¥ê¡¼¥à¥¢¥¿¥Ã¥¯¤ò¤«¤±¤¿¡£",
-	"%s¤ËÒÄ¸Ç¤á¤ò¤«¤±¤Æ¡Ö1¡¢2¡¢3¡¢¥À¡¼¥Ã¡ª¡×¤È¶«¤ó¤À¡£",
-	"¡Ö¤¤¤¯¤¸¤Ê¤·¡ª¤Ğ¤«¤Ğ¤«¤Ğ¤«¡ª¡×¤È¤¤¤Ã¤Æ¶î¤±½Ğ¤·¤¿¡£",
-	"¡Ö¤´¤é¤ó¡¢¥ë¡¼¥Ù¥ó¥¹¤Î³¨¤À¤è¡×¤È¸À¤Ã¤ÆÀÅ¤«¤ËÌÜ¤òÊÄ¤¸¤¿¡£",
-	"¸À¤Ã¤¿¡£¡ÖÊÑ¶òÈÚÅÜ¡¢Àä»¿¸ø³«Ãæ¡ª¡×",
+	"%sã«å°ä¾¿ã‚’ã‹ã‘ãŸã€‚",
+	"%sã®å›ã‚Šã‚’3å›å›ã£ã¦ãƒ¯ãƒ³ã¨è¨€ã£ãŸã€‚",
+	"%sã‚’ã—ã°ãã¾ã‚ã—ãŸã€‚",
+	"%sã«é´ã‚’ãªã‚ã•ã›ãŸã€‚",
+	"%sã«ãƒãƒŠã‚¯ã‚½ã‚’é£›ã°ã—ãŸã€‚",
+	"%sã‚’ã‚¸ãƒ£ãƒ³æ‹³ã§æ”»æ’ƒã—ãŸã€‚",
+	"%sã®é ¬ã‚’æœ­æŸã§ã—ã°ã„ãŸã€‚",
+	"%sã®å‰ã§ãƒãƒ¼ã‚¸ãƒ³ã‚°ã‚’ã—ãŸã€‚",
+	"%sã«ã‚¢ã‚«ãƒ³ãƒ™ãƒ¼ã—ãŸã€‚",
+	"%sã«ã€Œç¥ã®å›½ã€ç™ºè¨€ã®æ’¤å›ã‚’æ±‚ã‚ãŸã€‚",
+	"%sã«ãƒ¡ãƒƒâ—‹ãƒ¼ãƒ«ã‚’é£²ã¾ã›ãŸã€‚",
+	"%sã«ã¤ã£ã“ã¿ã‚’å…¥ã‚ŒãŸã€‚",
+	"%sã¨è¸Šã£ãŸã€‚",
+	"%sã®é¡”ã«ã‚‰ãæ›¸ãã‚’ã—ãŸã€‚",
+	"%sã«å€Ÿé‡‘ã®è¿”æ¸ˆã‚’ã›ã¾ã£ãŸã€‚",
+	"%sã®ã‚¹ã‚«ãƒ¼ãƒˆã‚’ã‚ãã£ãŸã€‚",
+	"%sã®æ‰‹ç›¸ã‚’å ã£ãŸã€‚",
+	"%sã‹ã‚‰å½¹æº€ã‚’ä¸ŠãŒã£ãŸã€‚",
+	"%sã«æ„›ã®å‘Šç™½ã‚’ã—ãŸã€‚",
+	"%sã‚’æ™‚çµ¦500å††ã§é›‡ã£ãŸã€‚",
+	"%sã®100ã®ç§˜å¯†ã«ã¤ã„ã¦ç†±ãèªã£ãŸã€‚",
+	"ãƒ‹ãƒ£ãƒ¼ã¨é³´ã„ãŸã€‚",
+	"%sã«æ°—ã‚’ã¤ã‘ãŸã€‚",
+	"%sã‚’ãƒãƒªã‚´ãƒ³åŒ–ã•ã›ãŸã€‚",
+	"%sã‚’å°‘ã—ã‹ã˜ã£ãŸã€‚",
+	"ã‚¢ãƒ«ãƒ†ãƒã®å‘ªæ–‡ã‚’å”±ãˆãŸï¼",
+	"%sã®ã‚¹ãƒ‘ã‚¤ã‚¯ã‚’ãƒ–ãƒ­ãƒƒã‚¯ã—ãŸã€‚",
+	"ã‚¹ãƒ©ã‚¤ãƒ‰ç§»å‹•ã—ãŸã€‚",
+	"æ˜‡é¾æ‹³ã‚³ãƒãƒ³ãƒ‰ã®å…¥åŠ›ã«å¤±æ•—ã—ãŸã€‚",
+	"%sã«æ‹¡æ•£æ³¢å‹•ç ²ã‚’ç™ºå°„ã—ãŸã€‚",
+	"%sã«ãƒ‡ã‚¹ãƒ©ãƒ¼æˆ¦æ³•ã‚’ã—ã‹ã‘ãŸã€‚",
+	"%sã‚’ãƒ©ã‚¤ãƒ€ãƒ¼ã‚­ãƒƒã‚¯ã§æ”»æ’ƒã—ãŸã€‚",
+	"%sã«äºŒé€±é–“ä»¥å†…ã§ãƒ“ãƒ‡ã‚ªã‚’äººã«è¦‹ã›ãªã„ã¨æ­»ã¬å‘ªã„ã‚’ã‹ã‘ãŸã€‚",
+	"ãƒ‘ãƒ«ãƒ—ãƒ³ãƒ†ã‚’å”±ãˆãŸã€‚",
+	"%sã«ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¦ãƒ«ãƒˆãƒ©ã‚®ãƒ£ãƒ©ã‚¯ãƒ†ã‚£ã‚«ãƒã‚°ãƒŠãƒ ã‚’æ”¾ã£ãŸã€‚",
+	"%sã‚’ã—ã‚ƒãŒã¿å°ã‚­ãƒƒã‚¯ã§ãƒãƒ¡ãŸã€‚",
+	"%sã«ã‚¸ã‚§ãƒƒãƒˆã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¢ã‚¿ãƒƒã‚¯ã‚’ã‹ã‘ãŸã€‚",
+	"%sã«åå›ºã‚ã‚’ã‹ã‘ã¦ã€Œ1ã€2ã€3ã€ãƒ€ãƒ¼ãƒƒï¼ã€ã¨å«ã‚“ã ã€‚",
+	"ã€Œã„ãã˜ãªã—ï¼ã°ã‹ã°ã‹ã°ã‹ï¼ã€ã¨ã„ã£ã¦é§†ã‘å‡ºã—ãŸã€‚",
+	"ã€Œã”ã‚‰ã‚“ã€ãƒ«ãƒ¼ãƒ™ãƒ³ã‚¹ã®çµµã ã‚ˆã€ã¨è¨€ã£ã¦é™ã‹ã«ç›®ã‚’é–‰ã˜ãŸã€‚",
+	"è¨€ã£ãŸã€‚ã€Œå¤‰æ„šè›®æ€’ã€çµ¶è³›å…¬é–‹ä¸­ï¼ã€",
 };
 #else
-cptr silly_attacks[MAX_SILLY_ATTACK] =
+const cptr silly_attacks[MAX_SILLY_ATTACK] =
 {
 	"smothers",
 	"hugs",
@@ -6956,104 +5730,104 @@ cptr silly_attacks[MAX_SILLY_ATTACK] =
  * The table of "symbol info" -- each entry is a string of the form
  * "X:desc" where "X" is the trigger, and "desc" is the "info".
  */
-cptr ident_info[] =
+const cptr ident_info[] =
 {
 #ifdef JP
-	" :°Å°Ç",
-	"!:Ìô, ¥ª¥¤¥ë",
-	"\":¥¢¥ß¥å¥ì¥Ã¥È, ğô¾ş¤ê",
-	"#:ÊÉ(±£¤·¥É¥¢)/¿¢Êª/µ¤ÂÎ",
-	"$:ºâÊõ(¶â¤«ÊõÀĞ)",
-	"%:¹ÛÌ®(ÍÏ´ä¤«ÀĞ±Ñ)",
-	"&:È¢",
-	"':³«¤¤¤¿¥É¥¢",
-	"(:Æğ¤é¤«¤¤ËÉ¶ñ",
-	"):½â",
-	"*:ºâÊõ¤ò´Ş¤ó¤À¹ÛÌ®¤Ş¤¿¤Ïµå·Á¤Î²øÊª",
-	"+:ÊÄ¤¸¤¿¥É¥¢",
-	",:¿©¤ÙÊª, ¤ª¤Ğ¤±¥­¥Î¥³",
-	"-:ËâË¡ËÀ, ¥í¥Ã¥É",
-	".:¾²",
-	"/:´È¾õÉğ´ï(¥¢¥Ã¥¯¥¹/¥Ñ¥¤¥¯/Åù)",
-	"0:ÇîÊª´Û¤ÎÆş¸ı",
-	"1:»¨²ß²°¤ÎÆş¸ı",
-	"2:ËÉ¶ñ²°¤ÎÆş¸ı",
-	"3:Éğ´ïÀìÌçÅ¹¤ÎÆş¸ı",
-	"4:»û±¡¤ÎÆş¸ı",
-	"5:Ï£¶â½Ñ¤ÎÅ¹¤ÎÆş¸ı",
-	"6:ËâË¡¤ÎÅ¹¤ÎÆş¸ı",
-	"7:¥Ö¥é¥Ã¥¯¥Ş¡¼¥±¥Ã¥È¤ÎÆş¸ı",
-	"8:²æ¤¬²È¤ÎÆş¸ı",
-	"9:½ñÅ¹¤ÎÆş¸ı",
-	"::´äÀĞ",
-	";:²óÈò¤ÎÄ¦Áü/ÇúÈ¯¤Î¥ë¡¼¥ó",
-	"<:¾å¤ê³¬ÃÊ",
-	"=:»ØÎØ",
-	">:²¼¤ê³¬ÃÊ",
-	"?:´¬Êª",
-	"@:¥×¥ì¥¤¥ä¡¼",
-	"A:Å·»È",
-	"B:Ä»",
-	"C:¸¤",
-	"D:¸ÅÂå¥É¥é¥´¥ó/¥ï¥¤¥¢¡¼¥à",
-	"E:¥¨¥ì¥á¥ó¥¿¥ë",
-	"F:¥È¥ó¥Ü",
-	"G:¥´¡¼¥¹¥È",
-	"H:»¨¼ï",
-	"I:º«Ãî",
-	"J:¥Ø¥Ó",
-	"K:¥­¥é¡¼¡¦¥Ó¡¼¥È¥ë",
-	"L:¥ê¥Ã¥Á",
-	"M:Â¿¼ó¤Îà¨ÃîÎà",
-	"N:Ææ¤ÎÀ¸Êª",
-	"O:¥ª¡¼¥¬",
-	"P:µğÂç¿Í´Ö·¿À¸Êª",
-	"Q:¥¯¥¤¥ë¥¹¥ë¥°(Ì®ÂÇ¤ÄÆù²ô)",
-	"R:à¨ÃîÎà/Î¾À¸Îà",
-	"S:ÃØéá/¥µ¥½¥ê/¥À¥Ë",
-	"T:¥È¥í¥ë",
-	"U:¾åµé¥Ç¡¼¥â¥ó",
-	"V:¥Ğ¥ó¥Ñ¥¤¥¢",
-	"W:¥ï¥¤¥È/¥ì¥¤¥¹/Åù",
-	"X:¥¾¡¼¥ó/¥¶¥ì¥ó/Åù",
-	"Y:¥¤¥¨¥Æ¥£",
-	"Z:¥Ï¥¦¥ó¥É",
-	"[:·ø¤¤¥¢¡¼¥Ş¡¼",
-	"\\:Æß´ï(¥á¥¤¥¹/¥à¥Á/Åù)",
-	"]:¼ï¡¹¤ÎËÉ¶ñ",
-	"^:¥È¥é¥Ã¥×",
-	"_:¾ó",
-	"`:¿Í·Á¡¤Ä¦Áü",
-	"a:¥¢¥ê",
-	"b:¥³¥¦¥â¥ê",
-	"c:¥à¥«¥Ç",
-	"d:¥É¥é¥´¥ó",
-	"e:ÌÜ¶Ì",
-	"f:¥Í¥³",
-	"g:¥´¡¼¥ì¥à",
-	"h:¥Û¥Ó¥Ã¥È/¥¨¥ë¥Õ/¥É¥ï¡¼¥Õ",
-	"i:¥Ù¥È¥Ù¥È",
-	"j:¥¼¥ê¡¼",
-	"k:¥³¥Ü¥ë¥É",
-	"l:¿åÀ³À¸Êª",
-	"m:¥â¥ë¥É",
-	"n:¥Ê¡¼¥¬",
-	"o:¥ª¡¼¥¯",
-	"p:¿Í´Ö",
-	"q:»ÍÂ­½Ã",
-	"r:¥Í¥º¥ß",
-	"s:¥¹¥±¥ë¥È¥ó",
-	"t:Ä®¤Î¿Í",
-	"u:²¼µé¥Ç¡¼¥â¥ó",
-	"v:¥Ü¥ë¥Æ¥Ã¥¯¥¹",
-	"w:¥¤¥â¥à¥·/Âç·²",
+	" :æš—é—‡",
+	"!:è–¬, ã‚ªã‚¤ãƒ«",
+	"\":ã‚¢ãƒŸãƒ¥ãƒ¬ãƒƒãƒˆ, é ¸é£¾ã‚Š",
+	"#:å£(éš ã—ãƒ‰ã‚¢)/æ¤ç‰©/æ°—ä½“",
+	"$:è²¡å®(é‡‘ã‹å®çŸ³)",
+	"%:é‰±è„ˆ(æº¶å²©ã‹çŸ³è‹±)",
+	"&:ç®±",
+	"':é–‹ã„ãŸãƒ‰ã‚¢",
+	"(:è»Ÿã‚‰ã‹ã„é˜²å…·",
+	"):ç›¾",
+	"*:è²¡å®ã‚’å«ã‚“ã é‰±è„ˆã¾ãŸã¯çƒå½¢ã®æ€ªç‰©",
+	"+:é–‰ã˜ãŸãƒ‰ã‚¢",
+	",:é£Ÿã¹ç‰©, ãŠã°ã‘ã‚­ãƒã‚³",
+	"-:é­”æ³•æ£’, ãƒ­ãƒƒãƒ‰",
+	".:åºŠ",
+	"/:ç«¿çŠ¶æ­¦å™¨(ã‚¢ãƒƒã‚¯ã‚¹/ãƒ‘ã‚¤ã‚¯/ç­‰)",
+	"0:åšç‰©é¤¨ã®å…¥å£",
+	"1:é›‘è²¨å±‹ã®å…¥å£",
+	"2:é˜²å…·å±‹ã®å…¥å£",
+	"3:æ­¦å™¨å°‚é–€åº—ã®å…¥å£",
+	"4:å¯ºé™¢ã®å…¥å£",
+	"5:éŒ¬é‡‘è¡“ã®åº—ã®å…¥å£",
+	"6:é­”æ³•ã®åº—ã®å…¥å£",
+	"7:ãƒ–ãƒ©ãƒƒã‚¯ãƒãƒ¼ã‚±ãƒƒãƒˆã®å…¥å£",
+	"8:æˆ‘ãŒå®¶ã®å…¥å£",
+	"9:æ›¸åº—ã®å…¥å£",
+	"::å²©çŸ³",
+	";:å›é¿ã®å½«åƒ/çˆ†ç™ºã®ãƒ«ãƒ¼ãƒ³",
+	"<:ä¸Šã‚Šéšæ®µ",
+	"=:æŒ‡è¼ª",
+	">:ä¸‹ã‚Šéšæ®µ",
+	"?:å·»ç‰©",
+	"@:ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼",
+	"A:å¤©ä½¿",
+	"B:é³¥",
+	"C:çŠ¬",
+	"D:å¤ä»£ãƒ‰ãƒ©ã‚´ãƒ³/ãƒ¯ã‚¤ã‚¢ãƒ¼ãƒ ",
+	"E:ã‚¨ãƒ¬ãƒ¡ãƒ³ã‚¿ãƒ«",
+	"F:ãƒˆãƒ³ãƒœ",
+	"G:ã‚´ãƒ¼ã‚¹ãƒˆ",
+	"H:é›‘ç¨®",
+	"I:æ˜†è™«",
+	"J:ãƒ˜ãƒ“",
+	"K:ã‚­ãƒ©ãƒ¼ãƒ»ãƒ“ãƒ¼ãƒˆãƒ«",
+	"L:ãƒªãƒƒãƒ",
+	"M:å¤šé¦–ã®çˆ¬è™«é¡",
+	"N:è¬ã®ç”Ÿç‰©",
+	"O:ã‚ªãƒ¼ã‚¬",
+	"P:å·¨å¤§äººé–“å‹ç”Ÿç‰©",
+	"Q:ã‚¯ã‚¤ãƒ«ã‚¹ãƒ«ã‚°(è„ˆæ‰“ã¤è‚‰å¡Š)",
+	"R:çˆ¬è™«é¡/ä¸¡ç”Ÿé¡",
+	"S:èœ˜è››/ã‚µã‚½ãƒª/ãƒ€ãƒ‹",
+	"T:ãƒˆãƒ­ãƒ«",
+	"U:ä¸Šç´šãƒ‡ãƒ¼ãƒ¢ãƒ³",
+	"V:ãƒãƒ³ãƒ‘ã‚¤ã‚¢",
+	"W:ãƒ¯ã‚¤ãƒˆ/ãƒ¬ã‚¤ã‚¹/ç­‰",
+	"X:ã‚¾ãƒ¼ãƒ³/ã‚¶ãƒ¬ãƒ³/ç­‰",
+	"Y:ã‚¤ã‚¨ãƒ†ã‚£",
+	"Z:ãƒã‚¦ãƒ³ãƒ‰",
+	"[:å …ã„ã‚¢ãƒ¼ãƒãƒ¼",
+	"\\:éˆå™¨(ãƒ¡ã‚¤ã‚¹/ãƒ ãƒ/ç­‰)",
+	"]:ç¨®ã€…ã®é˜²å…·",
+	"^:ãƒˆãƒ©ãƒƒãƒ—",
+	"_:æ–",
+	"`:äººå½¢ï¼Œå½«åƒ",
+	"a:ã‚¢ãƒª",
+	"b:ã‚³ã‚¦ãƒ¢ãƒª",
+	"c:ãƒ ã‚«ãƒ‡",
+	"d:ãƒ‰ãƒ©ã‚´ãƒ³",
+	"e:ç›®ç‰",
+	"f:ãƒã‚³",
+	"g:ã‚´ãƒ¼ãƒ¬ãƒ ",
+	"h:ãƒ›ãƒ“ãƒƒãƒˆ/ã‚¨ãƒ«ãƒ•/ãƒ‰ãƒ¯ãƒ¼ãƒ•",
+	"i:ãƒ™ãƒˆãƒ™ãƒˆ",
+	"j:ã‚¼ãƒªãƒ¼",
+	"k:ã‚³ãƒœãƒ«ãƒ‰",
+	"l:æ°´æ£²ç”Ÿç‰©",
+	"m:ãƒ¢ãƒ«ãƒ‰",
+	"n:ãƒŠãƒ¼ã‚¬",
+	"o:ã‚ªãƒ¼ã‚¯",
+	"p:äººé–“",
+	"q:å››è¶³ç£",
+	"r:ãƒã‚ºãƒŸ",
+	"s:ã‚¹ã‚±ãƒ«ãƒˆãƒ³",
+	"t:ç”ºã®äºº",
+	"u:ä¸‹ç´šãƒ‡ãƒ¼ãƒ¢ãƒ³",
+	"v:ãƒœãƒ«ãƒ†ãƒƒã‚¯ã‚¹",
+	"w:ã‚¤ãƒ¢ãƒ ã‚·/å¤§ç¾¤",
 	/* "x:unused", */
-	"y:¥¤¡¼¥¯",
-	"z:¥¾¥ó¥Ó/¥ß¥¤¥é",
-	"{:Èô¤ÓÆ»¶ñ¤ÎÃÆ(Ìğ/ÃÆ)",
-	"|:Åá·õÎà(¥½¡¼¥É/¥À¥¬¡¼/Åù)",
-	"}:Èô¤ÓÆ»¶ñ(µİ/¥¯¥í¥¹¥Ü¥¦/¥¹¥ê¥ó¥°)",
-	"~:¿å/ÍÏ´äÎ®(¼ï¡¹¤Î¥¢¥¤¥Æ¥à)",
+	"y:ã‚¤ãƒ¼ã‚¯",
+	"z:ã‚¾ãƒ³ãƒ“/ãƒŸã‚¤ãƒ©",
+	"{:é£›ã³é“å…·ã®å¼¾(çŸ¢/å¼¾)",
+	"|:åˆ€å‰£é¡(ã‚½ãƒ¼ãƒ‰/ãƒ€ã‚¬ãƒ¼/ç­‰)",
+	"}:é£›ã³é“å…·(å¼“/ã‚¯ãƒ­ã‚¹ãƒœã‚¦/ã‚¹ãƒªãƒ³ã‚°)",
+	"~:æ°´/æº¶å²©æµ(ç¨®ã€…ã®ã‚¢ã‚¤ãƒ†ãƒ )",
 #else
 	" :A dark grid",
 	"!:A potion (or oil)",
@@ -7159,7 +5933,7 @@ cptr ident_info[] =
 /*
  * The table of monsters' blow effects
  */
-mbe_info_type mbe_info[] =
+const mbe_info_type mbe_info[] =
 {
 	{  0, 0,             }, /* None      */
 	{ 60, GF_MISSILE,    }, /* HURT      */
@@ -7201,7 +5975,7 @@ mbe_info_type mbe_info[] =
 /*
  * The table of features' actions
  */
-byte feature_action_flags[FF_FLAG_MAX] =
+const byte feature_action_flags[FF_FLAG_MAX] =
 {
 	0, /* LOS */
 	0, /* PROJECT */
@@ -7320,3 +6094,347 @@ byte feature_action_flags[FF_FLAG_MAX] =
 	0, /* CONVERT */
 	0, /* GLASS */
 };
+
+
+/*
+ * Define flags, effect type, name for dragon breath activation
+ */
+const dragonbreath_type dragonbreath_info[] = {
+	{ TR_RES_ACID, GF_ACID, _("é…¸", "acid") },
+	{ TR_RES_ELEC, GF_ELEC, _("é›»æ’ƒ", "lightning") },
+	{ TR_RES_FIRE, GF_FIRE, _("ç«ç‚", "fire") },
+	{ TR_RES_COLD, GF_COLD, _("å†·æ°—", "cold") },
+	{ TR_RES_POIS, GF_POIS, _("æ¯’", "poison") },
+	{ TR_RES_LITE, GF_LITE, _("é–ƒå…‰", "light") },
+	{ TR_RES_DARK, GF_DARK, _("æš—é»’", "dark") },
+	{ TR_RES_SHARDS, GF_SHARDS, _("ç ´ç‰‡", "shard") },
+	{ TR_RES_CONF, GF_CONFUSION, _("æ··ä¹±", "confusion") },
+	{ TR_RES_SOUND, GF_SOUND, _("è½ŸéŸ³", "sound") },
+	{ TR_RES_NEXUS, GF_NEXUS, _("å› æœæ··ä¹±", "nexus") },
+	{ TR_RES_NETHER, GF_NETHER, _("åœ°ç„", "nether") },
+	{ TR_RES_CHAOS, GF_CHAOS, _("ã‚«ã‚ªã‚¹", "chaos") },
+	{ TR_RES_DISEN, GF_DISENCHANT, _("åŠ£åŒ–", "disenchant") },
+	{ 0, 0, NULL }
+};
+
+/*
+ * Define flags, levels, values of activations
+ */
+const activation_type activation_info[] =
+{
+	{ "SUNLIGHT", ACT_SUNLIGHT, 10, 250, {10, 0},
+	  _("å¤ªé™½å…‰ç·š", "beam of sunlight") },
+	{ "BO_MISS_1", ACT_BO_MISS_1, 10, 250, {2, 0},
+	  _("ãƒã‚¸ãƒƒã‚¯ãƒ»ãƒŸã‚µã‚¤ãƒ«(2d6)", "magic missile (2d6)") },
+	{ "BA_POIS_1", ACT_BA_POIS_1, 10, 300, {4, 0},
+	  _("æ‚ªè‡­é›²(12)", "stinking cloud (12)") },
+	{ "BO_ELEC_1", ACT_BO_ELEC_1, 20, 250, {5, 0},
+	  _("ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ«ãƒˆ(4d8)", "lightning bolt (4d8)") },
+	{ "BO_ACID_1", ACT_BO_ACID_1, 20, 250, {6, 0},
+	  _("ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ«ãƒˆ(5d8)", "acid bolt (5d8)") },
+	{ "BO_COLD_1", ACT_BO_COLD_1, 20, 250, {7, 0},
+	  _("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ«ãƒˆ(6d8)", "frost bolt (6d8)") },
+	{ "BO_FIRE_1", ACT_BO_FIRE_1, 20, 250, {8, 0},
+	  _("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ«ãƒˆ(9d8)", "fire bolt (9d8)") },
+	{ "BA_COLD_1", ACT_BA_COLD_1, 30, 750, {6, 0},
+	  _("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ«(48)", "ball of cold (48)") },
+	{ "BA_COLD_2", ACT_BA_COLD_2, 40, 1000, {12, 0},
+	  _("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ«(100)", "ball of cold (100)") },
+	{ "BA_COLD_3", ACT_BA_COLD_3, 70, 2500, {50, 0},
+	  _("å·¨å¤§ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ«(400)", "ball of cold (400)") },
+	{ "BA_FIRE_1", ACT_BA_FIRE_1, 30, 1000, {9, 0},
+	  _("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«(72)", "ball of fire (72)") },
+	{ "BA_FIRE_2", ACT_BA_FIRE_2, 40, 1500, {15, 0},
+	  _("å·¨å¤§ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«(120)", "large fire ball (120)") },
+	{ "BA_FIRE_3", ACT_BA_FIRE_3, 60, 1750, {40, 0},
+	  _("å·¨å¤§ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«(300)", "fire ball (300)") },
+	{ "BA_FIRE_4", ACT_BA_FIRE_4, 40, 1000, {12, 0},
+	  _("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«(100)", "fire ball (100)") },
+	{ "BA_ELEC_2", ACT_BA_ELEC_2, 40, 1000, {12, 0},
+	  _("ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«(100)", "ball of lightning (100)") },
+	{ "BA_ELEC_3", ACT_BA_ELEC_3, 70, 2500, {70, 0},
+	  _("å·¨å¤§ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«(500)", "ball of lightning (500)") },
+	{ "BA_ACID_1", ACT_BA_ACID_1, 30, 1000, {12, 0},
+	  _("ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ¼ãƒ«(100)", "ball of acid (100)") },
+	{ "BA_NUKE_1", ACT_BA_NUKE_1, 50, 1000, {12, 0},
+	  _("æ”¾å°„èƒ½çƒ(100)", "ball of nuke (100)") },
+	{ "DRAIN_1", ACT_DRAIN_1, 30, 500, {12, 0},
+	  _("çª’æ¯æ”»æ’ƒ(100)", "a strangling attack (100)") },
+	{ "DRAIN_2", ACT_DRAIN_2, 40, 750, {15, 0},
+	  _("ç”Ÿå‘½åŠ›å¸å(120)", "drain life (120)") },
+	{ "VAMPIRE_1", ACT_VAMPIRE_1, 40, 1000, {20, 0},
+	  _("å¸è¡€ãƒ‰ãƒ¬ã‚¤ãƒ³(3*50)", "vampiric drain (3*50)") },
+	{ "BO_MISS_2", ACT_BO_MISS_2, 40, 1000, {20, 0},
+	  _("çŸ¢(150)", "arrows (150)") },
+	{ "WHIRLWIND", ACT_WHIRLWIND, 50, 7500, {25, 0},
+	  _("ã‚«ãƒã‚¤ã‚¿ãƒ", "whirlwind attack") },
+	{ "VAMPIRE_2", ACT_VAMPIRE_2, 50, 2500, {40, 0},
+	  _("å¸è¡€ãƒ‰ãƒ¬ã‚¤ãƒ³(3*100)", "vampiric drain (3*100)") },
+	{ "CALL_CHAOS", ACT_CALL_CHAOS, 70, 5000, {35, 0},
+	  _("æ··æ²Œå¬æ¥", "call chaos") },
+	{ "ROCKET", ACT_ROCKET, 70, 5000, {20, 0},
+	  _("ãƒ­ã‚±ãƒƒãƒˆ(120+ãƒ¬ãƒ™ãƒ«)", "launch rocket (120+level)") },
+	{ "DISP_EVIL", ACT_DISP_EVIL, 50, 4000, {50, 0},
+	  _("é‚ªæ‚ªé€€æ•£(x5)", "dispel evil (x5)") },
+	{ "BA_MISS_3", ACT_BA_MISS_3, 50, 1500, {50, 0},
+	  _("ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®ãƒ–ãƒ¬ã‚¹(300)", "elemental breath (300)") },
+	{ "DISP_GOOD", ACT_DISP_GOOD, 50, 3500, {50, 0},
+	  _("å–„è‰¯é€€æ•£(x5)", "dispel good (x5)") },
+	{ "BO_MANA", ACT_BO_MANA, 40, 1500, {20, 0},
+	  _("é­”æ³•ã®çŸ¢(150)", "a magical arrow (150)") },
+	{ "BA_WATER", ACT_BA_WATER, 50, 2000, {25, 0},
+	  _("ã‚¦ã‚©ãƒ¼ã‚¿ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«(200)", "water ball (200)") },
+	{ "BA_STAR", ACT_BA_STAR, 50, 2200, {25, 0},
+	  _("å·¨å¤§ã‚¹ã‚¿ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«(200)", "large star ball (200)") },
+	{ "BA_DARK", ACT_BA_DARK, 50, 2200, {30, 0},
+	  _("æš—é»’ã®åµ(250)", "darkness storm (250)") },
+	{ "BA_MANA", ACT_BA_MANA, 70, 2500, {30, 0},
+	  _("é­”åŠ›ã®åµ(250)", "a mana storm (250)") },
+	{ "PESTICIDE", ACT_PESTICIDE, 10, 500, {10, 0},
+	  _("å®³è™«ã®é§†é™¤", "dispel small life") },
+	{ "BLINDING_LIGHT", ACT_BLINDING_LIGHT, 30, 5000, {40, 0},
+	  _("çœ©ã—ã„å…‰", "blinding light") },
+	{ "BIZARRE", ACT_BIZARRE, 90, 10000, {50, 0},
+	  _("ä¿¡ã˜é›£ã„ã“ã¨", "bizarre things") },
+	{ "CAST_BA_STAR", ACT_CAST_BA_STAR, 70, 7500, {100, 0},
+	  _("ã‚¹ã‚¿ãƒ¼ãƒ»ãƒœãƒ¼ãƒ«ãƒ»ãƒ€ã‚¹ãƒˆ(150)", "cast star balls (150)") },
+	{ "BLADETURNER", ACT_BLADETURNER, 80, 20000, {80, 0},
+	  _("ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆã®ãƒ–ãƒ¬ã‚¹(300), å£«æ°—é«˜æšã€ç¥ç¦ã€è€æ€§", "breathe elements (300), hero, bless, and resistance") },
+	{ "BR_FIRE", ACT_BR_FIRE, 50, 5000, {-1, 0},
+	  _("ç«ç‚ã®ãƒ–ãƒ¬ã‚¹ (200)", "fire breath (200)") },
+	{ "BR_COLD", ACT_BR_COLD, 50, 5000, {-1, 0},
+	  _("å†·æ°—ã®ãƒ–ãƒ¬ã‚¹ (200)", "cold breath (200)") },
+	{ "BR_DRAGON", ACT_BR_DRAGON, 70, 10000, { 30, 0 },
+	  "" /* built by item_activation_dragon_breath() */ },
+
+	{ "CONFUSE", ACT_CONFUSE, 10, 500, {10, 0},
+	  _("ãƒ‘ãƒ‹ãƒƒã‚¯ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼", "confuse monster") },
+	{ "SLEEP", ACT_SLEEP, 10, 750, {15, 0},
+	  _("å‘¨å›²ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’çœ ã‚‰ã›ã‚‹", "sleep nearby monsters") },
+	{ "QUAKE", ACT_QUAKE, 30, 600, {20, 0},
+	  _("åœ°éœ‡", "earthquake") },
+	{ "TERROR", ACT_TERROR, 20, 2500, {-1, 0},
+	  _("ææ…Œ", "terror") },
+	{ "TELE_AWAY", ACT_TELE_AWAY, 20, 2000, {15, 0},
+	  _("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆãƒ»ã‚¢ã‚¦ã‚§ã‚¤", "teleport away") },
+	{ "BANISH_EVIL", ACT_BANISH_EVIL, 40, 2000, {250, 0},
+	  _("é‚ªæ‚ªæ¶ˆæ»…", "banish evil") },
+	{ "GENOCIDE", ACT_GENOCIDE, 50, 10000, {500, 0},
+	  _("æŠ¹æ®º", "genocide") },
+	{ "MASS_GENO", ACT_MASS_GENO, 50, 10000, {1000, 0},
+	  _("å‘¨è¾ºæŠ¹æ®º", "mass genocide") },
+	{ "SCARE_AREA", ACT_SCARE_AREA, 20, 2500, {20, 0},
+	  _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ææ…Œ", "frighten monsters") },
+	{ "AGGRAVATE", ACT_AGGRAVATE, 0, 100, {0, 0},
+	  _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’æ€’ã‚‰ã›ã‚‹", "aggravete monsters") },
+
+	{ "CHARM_ANIMAL", ACT_CHARM_ANIMAL, 40, 7500, {200, 0},
+	  _("å‹•ç‰©é­…äº†", "charm animal") },
+	{ "CHARM_UNDEAD", ACT_CHARM_UNDEAD, 40, 10000, {333, 0},
+	  _("ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰å¾“å±", "enslave undead") },
+	{ "CHARM_OTHER", ACT_CHARM_OTHER, 40, 10000, {400, 0},
+	  _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é­…äº†", "charm monster") },
+	{ "CHARM_ANIMALS", ACT_CHARM_ANIMALS, 40, 12500, {500, 0},
+	  _("å‹•ç‰©å‹å’Œ", "animal friendship") },
+	{ "CHARM_OTHERS", ACT_CHARM_OTHERS, 40, 17500, {750, 0},
+	  _("å‘¨è¾ºé­…äº†", "mass charm") },
+	{ "SUMMON_ANIMAL", ACT_SUMMON_ANIMAL, 50, 10000, {200, 300},
+	  _("å‹•ç‰©å¬å–š", "summon animal") },
+	{ "SUMMON_PHANTOM", ACT_SUMMON_PHANTOM, 50, 12000, {200, 200},
+	  _("å¹»éœŠå¬å–š", "summon phantasmal servant") },
+	{ "SUMMON_ELEMENTAL", ACT_SUMMON_ELEMENTAL, 50, 15000, {750, 0},
+	  _("ã‚¨ãƒ¬ãƒ¡ãƒ³ã‚¿ãƒ«å¬å–š", "summon elemental") },
+	{ "SUMMON_DEMON", ACT_SUMMON_DEMON, 50, 20000, {666, 0},
+	  _("æ‚ªé­”å¬å–š", "summon demon") },
+	{ "SUMMON_UNDEAD", ACT_SUMMON_UNDEAD, 50, 20000, {666, 0},
+	  _("ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰å¬å–š", "summon undead") },
+	{ "SUMMON_HOUND", ACT_SUMMON_HOUND, 50, 15000, {300, 0},
+	  _("ãƒã‚¦ãƒ³ãƒ‰å¬å–š", "summon hound") },
+	{ "SUMMON_DAWN", ACT_SUMMON_DAWN, 50, 15000, {500, 0},
+	  _("æšã®å¸«å›£å¬å–š", "summon the Legion of the Dawn") },
+	{ "SUMMON_OCTOPUS", ACT_SUMMON_OCTOPUS, 50, 15000, {300, 0},
+	  _("è›¸ã®å¤§ç¾¤å¬å–š", "summon octopus") },
+
+	{ "CHOIR_SINGS", ACT_CHOIR_SINGS, 60, 20000, {300, 0},
+	  _("å›å¾©(777)ã€ç™’ã—ã€å£«æ°—é«˜æš", "heal 777 hit points, curing and heloism") },
+	{ "CURE_LW", ACT_CURE_LW, 10, 500, {10, 0},
+	  _("ææ€–é™¤å»/ä½“åŠ›å›å¾©(30)", "remove fear and heal 30 hp") },
+	{ "CURE_MW", ACT_CURE_MW, 20, 750, {3, 3},
+	  _("å‚·å›å¾©(4d8)", "heal 4d8 and wounds") },
+	{ "CURE_POISON", ACT_CURE_POISON, 10, 1000, {5, 0},
+	  _("ææ€–é™¤å»/æ¯’æ¶ˆã—", "remove fear and cure poison") },
+	{ "REST_LIFE", ACT_REST_EXP, 40, 7500, {450, 0},
+	  _("çµŒé¨“å€¤å¾©æ´»", "restore experience") },
+	{ "REST_ALL", ACT_REST_ALL, 30, 15000, {750, 0},
+	  _("å…¨ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã¨çµŒé¨“å€¤å¾©æ´»", "restore stats and experience") },
+	{ "CURE_700", ACT_CURE_700, 40, 10000, {250, 0},
+	  _("ä½“åŠ›å›å¾©(700)", "heal 700 hit points") },
+	{ "CURE_1000", ACT_CURE_1000, 50, 15000, {888, 0},
+	  _("ä½“åŠ›å›å¾©(1000)", "heal 1000 hit points") },
+	{ "CURING", ACT_CURING, 30, 5000, {100, 0},
+	  _("ç™’ã—", "curing") },
+	{ "CURE_MANA_FULL", ACT_CURE_MANA_FULL, 60, 20000, {777, 0},
+	  _("é­”åŠ›å¾©æ´»", "restore mana") },
+
+	{ "ESP", ACT_ESP, 30, 1500, {100, 0},
+	  _("ãƒ†ãƒ¬ãƒ‘ã‚·ãƒ¼(æœŸé–“ 25+d30)", "telepathy (dur 25+d30)") },
+	{ "BERSERK", ACT_BERSERK, 10, 800, {75, 0},
+	  _("ç‹‚æˆ¦å£«åŒ–(25+d25ã‚¿ãƒ¼ãƒ³)", "berserk (25+d25 turns)") },
+	{ "PROT_EVIL", ACT_PROT_EVIL, 30, 5000, {100, 0},
+	  _("å¯¾é‚ªæ‚ªçµç•Œ(æœŸé–“ 3*ãƒ¬ãƒ™ãƒ«+d25)", "protect evil (dur level*3 + d25)") },
+	{ "RESIST_ALL", ACT_RESIST_ALL, 30, 5000, {111, 0},
+	  _("å…¨è€æ€§(æœŸé–“ 20+d20)", "resist elements (dur 20+d20)") },
+	{ "SPEED", ACT_SPEED, 40, 15000, {250, 0},
+	  _("åŠ é€Ÿ(æœŸé–“ 20+d20)", "speed (dur 20+d20)") },
+	{ "XTRA_SPEED", ACT_XTRA_SPEED, 40, 25000, {200, 200},
+	  _("åŠ é€Ÿ(æœŸé–“ 75+d75)", "speed (dur 75+d75)") },
+	{ "WRAITH", ACT_WRAITH, 90, 25000, {1000, 0},
+	  _("å¹½ä½“åŒ–(æœŸé–“ (ãƒ¬ãƒ™ãƒ«/2)+d(ãƒ¬ãƒ™ãƒ«/2))", "wraith form (dur level/2 + d(level/2))") },
+	{ "INVULN", ACT_INVULN, 90, 25000, {1000, 0},
+	  _("ç„¡æ•µåŒ–(æœŸé–“ 8+d8)", "invulnerability (dur 8+d8)") },
+	{ "HELO", ACT_HELO, 10, 500, {30, 30},
+	  _("å£«æ°—é«˜æš", "heroism") },
+	{ "HELO_SPEED", ACT_HELO_SPEED, 30, 20000, {100, 200},
+	  _("å£«æ°—é«˜æš, ã‚¹ãƒ”ãƒ¼ãƒ‰(æœŸé–“ 50+d50ã‚¿ãƒ¼ãƒ³)", "hero and +10 to speed (50)") },
+	{ "RESIST_ACID", ACT_RESIST_ACID, 20, 2000, {40, 40},
+	  _("é…¸ã¸ã®è€æ€§(æœŸé–“ 20+d20)", "resist acid (dur 20+d20)") },
+	{ "RESIST_FIRE", ACT_RESIST_FIRE, 20, 2000, {40, 40},
+	  _("ç«ç‚ã¸ã®è€æ€§(æœŸé–“ 20+d20)", "resist fire (dur 20+d20)") },
+	{ "RESIST_COLD", ACT_RESIST_COLD, 20, 2000, {40, 40},
+	  _("å†·æ°—ã¸ã®è€æ€§(æœŸé–“ 20+d20)", "resist cold (dur 20+d20)") },
+	{ "RESIST_ELEC", ACT_RESIST_ELEC, 20, 2000, {40, 40},
+	  _("é›»æ’ƒã¸ã®è€æ€§(æœŸé–“ 20+d20)", "resist elec (dur 20+d20)") },
+	{ "RESIST_POIS", ACT_RESIST_POIS, 20, 2000, {40, 40},
+	  _("æ¯’ã¸ã®è€æ€§(æœŸé–“ 20+d20)", "resist poison (dur 20+d20)") },
+
+	{ "LIGHT", ACT_LIGHT, 10, 150, {10, 10},
+	  _("ã‚¤ãƒ«ãƒŸãƒãƒ¼ã‚·ãƒ§ãƒ³", "light area (dam 2d15)") },
+	{ "MAP_LIGHT", ACT_MAP_LIGHT, 30, 500, {50, 50},
+	  _("é­”æ³•ã®åœ°å›³ã¨å…‰", "light (dam 2d15) & map area") },
+	{ "DETECT_ALL", ACT_DETECT_ALL, 30, 1000, {55, 55},
+	  _("å…¨æ„ŸçŸ¥", "detection") },
+	{ "DETECT_XTRA", ACT_DETECT_XTRA, 50, 12500, {100, 0},
+	  _("å…¨æ„ŸçŸ¥ã€æ¢ç´¢ã€*é‘‘å®š*", "detection, probing and identify true") },
+	{ "ID_FULL", ACT_ID_FULL, 50, 10000, {75, 0},
+	  _("*é‘‘å®š*", "identify true") },
+	{ "ID_PLAIN", ACT_ID_PLAIN, 20, 1250, {10, 0},
+	  _("é‘‘å®š", "identify spell") },
+	{ "RUNE_EXPLO", ACT_RUNE_EXPLO, 40, 4000, {200, 0},
+	  _("çˆ†ç™ºã®ãƒ«ãƒ¼ãƒ³", "explosive rune") },
+	{ "RUNE_PROT", ACT_RUNE_PROT, 60, 10000, {400, 0},
+	  _("å®ˆã‚Šã®ãƒ«ãƒ¼ãƒ³", "rune of protection") },
+	{ "SATIATE", ACT_SATIATE, 10, 2000, {200, 0},
+	  _("ç©ºè…¹å……è¶³", "satisfy hunger") },
+	{ "DEST_DOOR", ACT_DEST_DOOR, 10, 100, {10, 0},
+	  _("ãƒ‰ã‚¢ç ´å£Š", "destroy doors") },
+	{ "STONE_MUD", ACT_STONE_MUD, 20, 1000, {3, 0},
+	  _("å²©çŸ³æº¶è§£", "stone to mud") },
+	{ "RECHARGE", ACT_RECHARGE, 30, 1000, {70, 0},
+	  _("é­”åŠ›å……å¡«", "recharging") },
+	{ "ALCHEMY", ACT_ALCHEMY, 50, 10000, {500, 0},
+	  _("éŒ¬é‡‘è¡“", "alchemy") },
+	{ "DIM_DOOR", ACT_DIM_DOOR, 50, 10000, {100, 0},
+	  _("æ¬¡å…ƒã®æ‰‰", "dimension door") },
+	{ "TELEPORT", ACT_TELEPORT, 10, 2000, {25, 0},
+	  _("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "teleport") },
+	{ "RECALL", ACT_RECALL, 30, 7500, {200, 0},
+	  _("å¸°é‚„ã®è©”", "word of recall") },
+	{ "JUDGE", ACT_JUDGE, 90, 50000, {20, 20},
+	  _("ä½“åŠ›ã¨å¼•ãæ›¿ãˆã«åƒé‡Œçœ¼ã¨å¸°é‚„", "a telekinesis (500 lb)") },
+	{ "TELEKINESIS", ACT_TELEKINESIS, 20, 5500, {25, 25},
+	  _("ç‰©ä½“ã‚’å¼•ãå¯„ã›ã‚‹(é‡é‡25kgã¾ã§)", "clairvoyance and recall, draining you") },
+	{ "DETECT_UNIQUE", ACT_DETECT_UNIQUE, 40, 10000, {200, 0},
+	  _("ã“ã®éšã«ã„ã‚‹ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’è¡¨ç¤º", "list of the uniques on the level") },
+	{ "ESCAPE", ACT_ESCAPE, 10, 3000, {35, 0},
+	  _("é€ƒèµ°", "a getaway") },
+	{ "DISP_CURSE_XTRA", ACT_DISP_CURSE_XTRA, 40, 30000, {0, 0},
+	  _("*è§£å‘ª*ã¨èª¿æŸ»", "dispel curse and probing") },
+	{ "BRAND_FIRE_BOLTS", ACT_BRAND_FIRE_BOLTS, 40, 20000, {999, 0},
+	  _("åˆƒå…ˆã®ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ«ãƒˆ", "fire branding of bolts") },
+	{ "RECHARGE_XTRA", ACT_RECHARGE_XTRA, 70, 30000, {200, 0},
+	  _("é­”åŠ›å……å¡«", "recharge item") },
+	{ "LORE", ACT_LORE, 10, 30000, {0, 0},
+	  _("å±é™ºã‚’ä¼´ã†é‘‘å®š", "perilous identify") },
+	{ "SHIKOFUMI", ACT_SHIKOFUMI, 10, 10000, {100, 100},
+	  _("å››è‚¡è¸ã¿", "shiko") },
+	{ "PHASE_DOOR", ACT_PHASE_DOOR, 10, 1500, {10, 0},
+	  _("ã‚·ãƒ§ãƒ¼ãƒˆãƒ»ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "blink") },
+	{ "DETECT_ALL_MONS", ACT_DETECT_ALL_MONS, 30, 3000, {150, 0},
+	  _("å…¨ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼æ„ŸçŸ¥", "detect all monsters") },
+	{ "ULTIMATE_RESIST", ACT_ULTIMATE_RESIST, 90, 20000, {777, 0},
+	  _("å£«æ°—é«˜æšã€ç¥ç¦ã€ç©¶æ¥µã®è€æ€§", "hero, bless, and ultimate resistance") },
+
+	{ "CAST_OFF", ACT_CAST_OFF, 30, 15000, {100, 0},
+	  _("è„±è¡£ã¨å°å®‡å®™ç‡ƒç„¼", "cast it off and cosmic heroism") },
+	{ "FISHING", ACT_FISHING, 0, 100, {0, 0},
+	  _("é‡£ã‚Šã‚’ã™ã‚‹", "fishing") },
+	{ "INROU", ACT_INROU, 40, 15000, {150, 150},
+	  _("ä¾‹ã®ã‚¢ãƒ¬", "reveal your identity") },
+	{ "MURAMASA", ACT_MURAMASA, 0, 0, {-1, 0},
+	  _("è…•åŠ›ã®ä¸Šæ˜‡", "increase STR") },
+	{ "BLOODY_MOON", ACT_BLOODY_MOON, 0, 0, {3333, 0},
+	  _("å±æ€§å¤‰æ›´", "change zokusei") },
+	{ "CRIMSON", ACT_CRIMSON, 0, 50000, {15, 0},
+	  _("ãƒ•ã‚¡ã‚¤ã‚¢ï¼", "fire!") },
+
+	{ "STRAIN_HASTE", ACT_STRAIN_HASTE, 10, 1000, {120, 100},
+	  _("ä½“åŠ›ã¨å¼•ãæ›ãˆã«åŠ é€Ÿ", "haste with strain") },
+	{ "GRAND_CROSS", ACT_GRAND_CROSS, 30, 15000, {250, 200},
+	  _("ã‚°ãƒ©ãƒ³ãƒ‰ãƒ»ã‚¯ãƒ­ã‚¹", "grand cross") },
+	{ "TELEPORT_LEVEL", ACT_TELEPORT_LEVEL, 10, 1500, {100, 200},
+	  _("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆãƒ»ãƒ¬ãƒ™ãƒ«", "teleort level") },
+	{ "ARTS_FALLING_STAR", ACT_FALLING_STAR, 20, 5500, {30, 50},
+	  _("é­”å‰£ãƒ»æµã‚Œæ˜Ÿ", "blade arts 'falling star'") },
+	{ NULL, 0, 0, 0, {0, 0},
+	  "" }
+};
+
+#ifdef JP
+const cptr artifact_bias_name[MAX_BIAS] =
+{
+	"ãªã—",
+	"é›»æ’ƒ",
+	"æ¯’",
+	"ç«ç‚",
+	"å†·æ°—",
+	"é…¸",
+	"è…•åŠ›",
+	"çŸ¥åŠ›",
+	"è³¢ã•",
+	"å™¨ç”¨ã•",
+	"è€ä¹…",
+	"é­…åŠ›",
+	"æ··æ²Œ",
+	"ãƒ—ãƒªãƒ¼ã‚¹ãƒˆ",
+	"æ­»éœŠ",
+	"æ³•",
+	"ç›—è³Š",
+	"ãƒ¡ã‚¤ã‚¸",
+	"æˆ¦å£«",
+	"ãƒ¬ãƒ³ã‚¸ãƒ£ãƒ¼",
+};
+#else
+const cptr artifact_bias_name[MAX_BIAS] =
+{
+	"None",
+	"Elec",
+	"Poison",
+	"Fire",
+	"Cold",
+	"Acid",
+	"STR",
+	"INT",
+	"WIS",
+	"DEX",
+	"CON",
+	"CHA",
+	"Chaos",
+	"Pristly",
+	"Necromantic",
+	"Law",
+	"Rogue",
+	"Mage",
+	"Warrior",
+	"Ranger",
+};
+#endif

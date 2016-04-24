@@ -2,20 +2,29 @@
 
 # Name
 Q:$5:N:The Tower
-Q:5:N:Åã
+Q:5:N:å¡”
 
 # Definition
-Q:$5:Q:4:0:0:0:30:0:0:0:2
-Q:5:Q:4:0:0:0:30:0:0:0:2
+Q:$5:Q:8:0:0:0:40:0:0:0:10
+Q:5:Q:8:0:0:0:40:0:0:0:10
 
 # Description for quest
-?:[LEQ $QUEST5 2]
+?:[LEQ $QUEST5 2] 
 Q:$5:T:The tower outside the town was once used for defence of the city.
 Q:$5:T:Now many monsters seem to be dwelling there.
 Q:$5:T:Please clear it and return to us!
-Q:5:T:³¹¤Î³°¤Ë¤¢¤ëÅã¤Ï¤«¤Ä¤Æ³¹¤Î¼éÈ÷¤Ë»È¤ï¤ì¤Æ¤¤¤Ş¤·¤¿¡£
-Q:5:T:º£¤Ç¤Ï¤¿¤¯¤µ¤ó¤Î¥â¥ó¥¹¥¿¡¼¤¬½»¤ßÉÕ¤¤¤Æ¤¤¤ë¤è¤¦¤Ç¤¹¡£
-Q:5:T:¤É¤¦¤«¥â¥ó¥¹¥¿¡¼¤É¤â¤ò°ìÁİ¤·¤ÆÅã¤ò¼è¤êÌá¤·¤Æ¤¯¤À¤µ¤¤¡ª
+Q:5:T:è¡—ã®å¤–ã«ã‚ã‚‹å¡”ã¯ã‹ã¤ã¦è¡—ã®å®ˆå‚™ã«ä½¿ã‚ã‚Œã¦ã„ã¾ã—ãŸã€‚
+Q:5:T:ä»Šã§ã¯ãŸãã•ã‚“ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒä½ã¿ä»˜ã„ã¦ã„ã‚‹ã‚ˆã†ã§ã™ã€‚
+Q:5:T:ã©ã†ã‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã©ã‚‚ã‚’ä¸€æƒã—ã¦å¡”ã‚’å–ã‚Šæˆ»ã—ã¦ãã ã•ã„ï¼
+?:1
+
+?:[EQU $QUEST5 7]
+Q:$5:T:The tower outside the town was once used for defence of the city.
+Q:$5:T:Now many monsters seem to be dwelling there.
+Q:$5:T:Please clear it and return to us!
+Q:5:T:è¡—ã®å¤–ã«ã‚ã‚‹å¡”ã¯ã‹ã¤ã¦è¡—ã®å®ˆå‚™ã«ä½¿ã‚ã‚Œã¦ã„ã¾ã—ãŸã€‚
+Q:5:T:ä»Šã§ã¯ãŸãã•ã‚“ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒä½ã¿ä»˜ã„ã¦ã„ã‚‹ã‚ˆã†ã§ã™ã€‚
+Q:5:T:ã©ã†ã‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã©ã‚‚ã‚’ä¸€æƒã—ã¦å¡”ã‚’å–ã‚Šæˆ»ã—ã¦ãã ã•ã„ï¼
 ?:1
 
 # Description for quest reward
@@ -23,12 +32,21 @@ Q:5:T:¤É¤¦¤«¥â¥ó¥¹¥¿¡¼¤É¤â¤ò°ìÁİ¤·¤ÆÅã¤ò¼è¤êÌá¤·¤Æ¤¯¤À¤µ¤¤¡ª
 Q:$5:T:Thank you for cleaning the tower of all these strange creatures.
 Q:$5:T:I've talked with Astinus, the local librarian, Suiyan, the local
 Q:$5:T:weaponmaster, and Lorien, the local beastmaster. They will offer you
-Q:$5:T:a special discount price when they serve you.
-Q:5:T:Åã¤Î²øÊª¤ò°ìÁİ¤·¤Æ²¼¤µ¤Ã¤ÆÍ­Æñ¤¦¤´¤¶¤¤¤Ş¤¹¡£¤³¤Î³¹¤Î»Ê½ñ¤Î¥¢¥¹¥Æ¥£¥Ì¥¹¡¢
-Q:5:T:Éğ´ï¾¢¤Î¿å°Ã¡¢¥â¥ó¥¹¥¿¡¼Àç¿Í¤Î¥í¥ê¥¨¥ó¤ËÏÃ¤òÉÕ¤±¤Æ¤ª¤¤¤¿¤Î¤Ç¡¢
-Q:5:T:º£¸å¤³¤ì¤é¤ÎÅ¹¤Ç¤Ï³Ê°Â¤Ç¥µ¡¼¥Ó¥¹¤ò¼õ¤±¤é¤ì¤ë¤Ç¤·¤ç¤¦¡£
+Q:$5:T:a special discount price when they serve you. And a small reward
+Q:$5:T:awaits you outside.
+Q:5:T:å¡”ã®æ€ªç‰©ã‚’ä¸€æƒã—ã¦ä¸‹ã•ã£ã¦æœ‰é›£ã†ã”ã–ã„ã¾ã™ã€‚ã“ã®è¡—ã®å¸æ›¸ã®ã‚¢ã‚¹ãƒ†ã‚£ãƒŒã‚¹ã€
+Q:5:T:æ­¦å™¨åŒ ã®æ°´åºµã€ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ä»™äººã®ãƒ­ãƒªã‚¨ãƒ³ã«è©±ã‚’ä»˜ã‘ã¦ãŠã„ãŸã®ã§ã€
+Q:5:T:ä»Šå¾Œã“ã‚Œã‚‰ã®åº—ã§ã¯æ ¼å®‰ã§ã‚µãƒ¼ãƒ“ã‚¹ã‚’å—ã‘ã‚‰ã‚Œã‚‹ã§ã—ã‚‡ã†ã€‚
+Q:5:T:åŠ ãˆã¦ã€ã•ã•ã‚„ã‹ãªãŠç¤¼ã‚’å¤–ã«ç”¨æ„ã—ã¦ãŠãã¾ã—ãŸã€‚
 ?:1
 
+# Description for quest failed
+?:[EQU $QUEST5 5]
+Q:$5:T:It seems like this task was too difficult for you.  Good that I
+Q:$5:T:hired another adventurer to clean up the remaining monsters.
+Q:5:T:ã“ã®ä»•äº‹ã¯ã‚ãªãŸã«ã¯é›£ã—ã‹ã£ãŸã‚ˆã†ã§ã™ã­ã€‚ä»–ã®å†’é™ºè€…ã‚’é›‡ã£ã¦
+Q:5:T:æ®‹ã‚Šã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’é€€æ²»ã—ã¾ã™ã‹ã‚‰ã€ã‚‚ã†ã„ã„ã§ã™ã‚ˆã€‚
+?:1
 
 # Quest up to quest 6
 F:<:QUEST_UP:8:0:0:0:0:NONE:6
@@ -36,35 +54,28 @@ F:<:QUEST_UP:8:0:0:0:0:NONE:6
 # Quest down
 F:>:QUEST_DOWN:8
 
-# Monsters to keep the player busy ;-)
+# Random Monsters
 F:1:FLOOR:8:*
 
-# If quests 6 and 7 are finished then you can complete quest 5
-?:[AND [EQU $QUEST6 4] [EQU $QUEST7 4] ]
-# Quest exit
-F:>:QUEST_EXIT:8
-# No monsters when you leave the tower
-F:1:FLOOR:8
-?:1
+# Nexious fume
+F:2:FLOOR:8:884
 
+# Young green dragon
+F:d:FLOOR:8:461
 
 # Dungeon
 D:XXXXXXXXXXX
-D:X>.1.....1X
+D:X>.....1..X
 D:XXXXXXXXX.X
-D:X1.....1X.X
+D:X.....d.X.X
 D:X.XXXXX.X.X
-D:X.X<XXX.X.X
+D:X1X<XXX.X2X
 D:X.X.....X.X
 D:X.XXXXXXX.X
-D:X1.......1X
+D:X.....1...X
 D:XXXXXXXXXXX
 
 # Starting position when coming from town
 ?:[EQU $LEAVING_QUEST 0]
 P:1:1
-
-# Starting position when coming from level 2 of the tower (quest 6)
-?:[EQU $LEAVING_QUEST 6]
-P:5:3
 

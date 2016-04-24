@@ -1,4 +1,4 @@
-/* File: wizard2.c */
+Ôªø/* File: wizard2.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, and others
@@ -78,20 +78,12 @@ void do_cmd_rerate(bool display)
 	/* Message */
 	if (display)
 	{
-#ifdef JP
-		msg_format("∏Ω∫ﬂ§Œ¬ŒŒœ•È•Û•Ø§œ %d/100 §«§π°£", percent);
-#else
-		msg_format("Your life rate is %d/100 now.", percent);
-#endif
+		msg_format(_("ÁèæÂú®„ÅÆ‰ΩìÂäõ„É©„É≥„ÇØ„ÅØ %d/100 „Åß„Åô„ÄÇ", "Your life rate is %d/100 now."), percent);
 		p_ptr->knowledge |= KNOW_HPRATE;
 	}
 	else
 	{
-#ifdef JP
-		msg_print("¬ŒŒœ•È•Û•Ø§¨ —§Ô§√§ø°£");
-#else
-		msg_print("Life rate is changed.");
-#endif
+		msg_print(_("‰ΩìÂäõ„É©„É≥„ÇØ„ÅåÂ§â„Çè„Å£„Åü„ÄÇ", "Life rate is changed."));
 		p_ptr->knowledge &= ~(KNOW_HPRATE);
 	}
 }
@@ -118,8 +110,19 @@ static bool wiz_dimension_door(void)
  * Create the artifact of the specified number -- DAN
  *
  */
-static void wiz_create_named_art(int a_idx)
+static void wiz_create_named_art(void)
 {
+	char tmp_val[10] = "";
+	int a_idx;
+
+	/* Query */
+	if (!get_string("Artifact ID:", tmp_val, 3)) return;
+
+	/* Extract */
+	a_idx = atoi(tmp_val);
+	if(a_idx < 0) a_idx = 0;
+	if(a_idx >= max_a_idx) a_idx = 0; 
+
 	/* Create the artifact */
 	(void)create_named_art(a_idx, py, px);
 
@@ -195,12 +198,11 @@ static void prt_alloc(byte tval, byte sval, int row, int col)
 {
 	int i, j;
 	int home = 0;
-	u32b maxr = 1, maxt = 1, ratio;
 	u32b rarity[K_MAX_DEPTH];
 	u32b total[K_MAX_DEPTH];
 	s32b maxd = 1, display[22];
 	byte c = TERM_WHITE;
-	cptr r = "+--common--+";
+	cptr r = "+---Rate---+";
 	object_kind *k_ptr;
 
 
@@ -240,68 +242,20 @@ static void prt_alloc(byte tval, byte sval, int row, int col)
 			if ((k_ptr->tval == tval) && (k_ptr->sval == sval))
 			{
 				home = k_ptr->level;
-				rarity[i] += prob;
+				rarity[i] += prob / (GREAT_OBJ * K_MAX_DEPTH);
 			}
 		}
 		total[i] += total_frac / (GREAT_OBJ * K_MAX_DEPTH);
-	}
-
-	/* Find maxima */
-	for (i = 0; i < K_MAX_DEPTH; i++)
-	{
-		if (rarity[i] > maxr) maxr = rarity[i];
-		if (total[i] > maxt) maxt = total[i];
-	}
-
-	if (maxr / (GREAT_OBJ * K_MAX_DEPTH) != 0)
-		ratio = maxt / (maxr / (GREAT_OBJ * K_MAX_DEPTH));
-	else
-		ratio = 99999L;
-
-	/* Simulate a log graph */
-	if (ratio > 1000)
-	{
-		c = TERM_L_WHITE;
-		r = "+-uncommon-+";
-	}
-	if (ratio > 3000)
-	{
-		c = TERM_SLATE;
-		r = "+---rare---+";
-	}
-	if (ratio > 32768L)
-	{
-		c = TERM_L_DARK;
-		r = "+-VeryRare-+";
 	}
 
 	/* Calculate probabilities for each range */
 	for (i = 0; i < 22; i++)
 	{
 		/* Shift the values into view */
-
 		int possibility = 0;
 		for (j = i * K_MAX_DEPTH / 22; j < (i + 1) * K_MAX_DEPTH / 22; j++)
-			possibility += rarity[j] * (100 * maxt / total[j]);
-
-		possibility = possibility / maxr;
-
-		/* display[i] = log_{sqrt(2)}(possibility) */
-		display[i] = 0;
-		while (possibility)
-		{
-			display[i]++;
-			possibility = possibility * 1000 / 1414;
-		}
-
-		/* Track maximum */
-		if (display[i] > maxd) maxd = display[i];
-	}
-
-	/* Normalize */
-	if (maxd > 10) for (i = 0; i < 22; i++)
-	{
-		display[i] = display[i] - maxd + 10;
+			possibility += rarity[j] * 100000 / total[j];
+		display[i] = possibility / 5;
 	}
 
 	/* Graph the rarities */
@@ -309,24 +263,55 @@ static void prt_alloc(byte tval, byte sval, int row, int col)
 	{
 		Term_putch(col, row + i + 1, TERM_WHITE,  '|');
 
-		prt(format("%d", (i * K_MAX_DEPTH / 220) % 10), row + i + 1, col);
+		prt(format("%2dF", (i * 5)), row + i + 1, col);
 
-		if (display[i] <= 0) 
-			continue;
 
 		/* Note the level */
 		if ((i * K_MAX_DEPTH / 22 <= home) && (home < (i + 1) * K_MAX_DEPTH / 22))
 		{
-			c_prt(TERM_RED, format("%.*s", display[i], "**********"), row + i + 1, col + 1);
+			c_prt(TERM_RED, format("%3d.%04d%%", display[i] / 1000, display[i] % 1000), row + i + 1, col + 3);
 		}
 		else
 		{
-			c_prt(c, format("%.*s", display[i], "**********"), row + i + 1, col + 1);
+			c_prt(TERM_WHITE, format("%3d.%04d%%", display[i] / 1000, display[i] % 1000), row + i + 1, col + 3);
 		}
 	}
 
 	/* Make it look nice */
 	prt(r, row, col);
+}
+
+static void do_cmd_wiz_reset_class(void)
+{
+	int tmp_int;
+	char tmp_val[160];
+	char ppp[80];
+
+	/* Prompt */
+	sprintf(ppp, "Class (0-%d): ", MAX_CLASS - 1);
+
+	/* Default */
+	sprintf(tmp_val, "%d", p_ptr->pclass);
+
+	/* Query */
+	if (!get_string(ppp, tmp_val, 2)) return;
+
+	/* Extract */
+	tmp_int = atoi(tmp_val);
+
+	/* Verify */
+	if (tmp_int < 0 || tmp_int >= MAX_CLASS) return;
+
+	/* Save it */
+	p_ptr->pclass = tmp_int;
+
+	/* Redraw inscription */
+	p_ptr->window |= (PW_PLAYER);
+
+	/* {.} and {$} effect p_ptr->warning and TRC_TELEPORT_SELF */
+	p_ptr->update |= (PU_BONUS | PU_HP | PU_MANA | PU_SPELLS);
+
+	update_stuff();
 }
 
 
@@ -384,11 +369,7 @@ static void do_cmd_wiz_change_aux(void)
 	sprintf(tmp_val, "%d", WEAPON_EXP_MASTER);
 
 	/* Query */
-#ifdef JP
-	if (!get_string("ΩœŒ˝≈Ÿ: ", tmp_val, 9)) return;
-#else
-	if (!get_string("Proficiency: ", tmp_val, 9)) return;
-#endif
+	if (!get_string(_("ÁÜüÁ∑¥Â∫¶: ", "Proficiency: "), tmp_val, 9)) return;
 
 	/* Extract */
 	tmp_s16b = atoi(tmp_val);
@@ -1040,7 +1021,7 @@ static void wiz_statistics(object_type *o_ptr)
 			break;
 		}
 
-		sprintf(tmp_val, "%ld", test_roll);
+		sprintf(tmp_val, "%ld", (long int)test_roll);
 		if (get_string(p, tmp_val, 10)) test_roll = atol(tmp_val);
 		test_roll = MAX(1, test_roll);
 
@@ -1711,11 +1692,7 @@ static void do_cmd_wiz_create_feature(void)
 	sprintf(tmp_val, "%d", prev_feat);
 
 	/* Query */
-#ifdef JP
-	if (!get_string("√œ∑¡: ", tmp_val, 3)) return;
-#else
-	if (!get_string("Feature: ", tmp_val, 3)) return;
-#endif
+	if (!get_string(_("Âú∞ÂΩ¢: ", "Feature: "), tmp_val, 3)) return;
 
 	/* Extract */
 	tmp_feat = atoi(tmp_val);
@@ -1726,11 +1703,7 @@ static void do_cmd_wiz_create_feature(void)
 	sprintf(tmp_val, "%d", prev_mimic);
 
 	/* Query */
-#ifdef JP
-	if (!get_string("√œ∑¡ (mimic): ", tmp_val, 3)) return;
-#else
-	if (!get_string("Feature (mimic): ", tmp_val, 3)) return;
-#endif
+	if (!get_string(_("Âú∞ÂΩ¢ (mimic): ", "Feature (mimic): "), tmp_val, 3)) return;
 
 	/* Extract */
 	tmp_mimic = atoi(tmp_val);
@@ -1787,11 +1760,7 @@ static void do_cmd_dump_options(void)
 	/* Oops */
 	if (!fff)
 	{
-#ifdef JP
-		msg_format("•’•°•§•Î %s §Ú≥´§±§ﬁ§ª§Û§«§∑§ø°£", buf);
-#else
-		msg_format("Failed to open file %s.", buf);
-#endif
+		msg_format(_("„Éï„Ç°„Ç§„É´ %s „ÇíÈñã„Åë„Åæ„Åõ„Çì„Åß„Åó„Åü„ÄÇ", "Failed to open file %s."), buf);
 		msg_print(NULL);
 		return;
 	}
@@ -1804,7 +1773,7 @@ static void do_cmd_dump_options(void)
 	/* Check for exist option bits */
 	for (i = 0; option_info[i].o_desc; i++)
 	{
-		option_type *ot_ptr = &option_info[i];
+		const option_type *ot_ptr = &option_info[i];
 		if (ot_ptr->o_var) exist[ot_ptr->o_set][ot_ptr->o_bit] = i + 1;
 	}
 
@@ -1820,7 +1789,7 @@ static void do_cmd_dump_options(void)
 		{
 			if (exist[i][j])
 			{
-				option_type *ot_ptr = &option_info[exist[i][j] - 1];
+				const option_type *ot_ptr = &option_info[exist[i][j] - 1];
 				fprintf(fff, "  %d -  %02d (%4d) %s\n",
 				        i, j, ot_ptr->o_page, ot_ptr->o_text);
 			}
@@ -1839,11 +1808,7 @@ static void do_cmd_dump_options(void)
 	/* Close it */
 	my_fclose(fff);
 
-#ifdef JP
-	msg_format("•™•◊•∑•Á•Ûbitª»Õ—æı∂∑§Ú•’•°•§•Î %s §ÀΩÒ§≠Ω–§∑§ﬁ§∑§ø°£", buf);
-#else
-	msg_format("Option bits usage dump saved to file %s.", buf);
-#endif
+	msg_format(_("„Ç™„Éó„Ç∑„Éß„É≥bit‰ΩøÁî®Áä∂Ê≥Å„Çí„Éï„Ç°„Ç§„É´ %s „Å´Êõ∏„ÅçÂá∫„Åó„Åæ„Åó„Åü„ÄÇ", "Option bits usage dump saved to file %s."), buf);
 }
 
 
@@ -1928,7 +1893,7 @@ void do_cmd_debug(void)
 
 	/* Create a named artifact */
 	case 'C':
-		wiz_create_named_art(command_arg);
+		wiz_create_named_art();
 		break;
 
 	/* Detect everything */
@@ -1967,7 +1932,7 @@ void do_cmd_debug(void)
 	/* Good Objects */
 	case 'g':
 		if (command_arg <= 0) command_arg = 1;
-		acquirement(py, px, command_arg, FALSE, TRUE);
+		acquirement(py, px, command_arg, FALSE, FALSE, TRUE);
 		break;
 
 	/* Hitpoint rerating */
@@ -2009,6 +1974,11 @@ void do_cmd_debug(void)
 	/* Mutation */
 	case 'M':
 		(void)gain_random_mutation(command_arg);
+		break;
+
+	/* Reset Class */
+	case 'R':
+		(void)do_cmd_wiz_reset_class();
 		break;
 
 	/* Specific reward */
@@ -2080,6 +2050,12 @@ void do_cmd_debug(void)
 		do_cmd_wiz_summon(command_arg);
 		break;
 
+	/* Special(Random Artifact) Objects */
+	case 'S':
+		if (command_arg <= 0) command_arg = 1;
+		acquirement(py, px, command_arg, TRUE, TRUE, TRUE);
+		break;
+
 	/* Teleport */
 	case 't':
 		teleport_player(100, 0L);
@@ -2088,7 +2064,7 @@ void do_cmd_debug(void)
 	/* Very Good Objects */
 	case 'v':
 		if (command_arg <= 0) command_arg = 1;
-		acquirement(py, px, command_arg, TRUE, TRUE);
+		acquirement(py, px, command_arg, TRUE, FALSE, TRUE);
 		break;
 
 	/* Wizard Light the Level */

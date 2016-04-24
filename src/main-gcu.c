@@ -1,4 +1,4 @@
-/* File: main-gcu.c */
+﻿/* File: main-gcu.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, and others
@@ -252,6 +252,9 @@ static term_data data[MAX_TERM_DATA];
 # include <sys/file.h>
 # include <sys/types.h>
 #endif
+
+
+#include <locale.h>
 
 
 /*
@@ -873,9 +876,8 @@ static errr Term_xtra_gcu_sound(int v)
    if (!sound_file[v]) return (1);
 
    sprintf(buf,"./gcusound.sh %s\n", sound_file[v]);
-   system(buf);
    
-   return (0);
+   return (system(buf) < 0);
 
 #if 0
    char *argv[4];
@@ -958,8 +960,7 @@ static errr Term_xtra_gcu(int n, int v)
 
       /* Make a noise */
       case TERM_XTRA_NOISE:
-      (void)write(1, "\007", 1);
-      return (0);
+      return write(1, "\007", 1) != 1;
 
 #ifdef USE_SOUND
       /* Make a special sound */
@@ -1205,6 +1206,8 @@ errr init_gcu(int argc, char *argv[])
    (void)argv;
 
 
+   setlocale(LC_ALL, "");
+
 #ifdef USE_SOUND
 
    /* Build the "sound" path */
@@ -1293,15 +1296,15 @@ errr init_gcu(int argc, char *argv[])
 		colortable[3] = (COLOR_PAIR(1) | A_BRIGHT);	/* Orange XXX */
 		colortable[4] = (COLOR_PAIR(1) | A_NORMAL);	/* Red */
 		colortable[5] = (COLOR_PAIR(2) | A_NORMAL);	/* Green */
-		colortable[6] = (COLOR_PAIR(4) | A_NORMAL);	/* Blue */
+		colortable[6] = (COLOR_PAIR(4) | A_BRIGHT);	/* Blue */
 		colortable[7] = (COLOR_PAIR(3) | A_NORMAL);	/* Umber */
 		colortable[8] = (COLOR_PAIR(7) | A_BRIGHT);	/* Dark-grey XXX */
 		colortable[9] = (COLOR_PAIR(0) | A_NORMAL);	/* Light-grey XXX */
-		colortable[10] = (COLOR_PAIR(5) | A_NORMAL);	/* Purple */
+		colortable[10] = (COLOR_PAIR(5) | A_BRIGHT);	/* Purple */
 		colortable[11] = (COLOR_PAIR(3) | A_BRIGHT);	/* Yellow */
-		colortable[12] = (COLOR_PAIR(5) | A_BRIGHT);	/* Light Red XXX */
+		colortable[12] = (COLOR_PAIR(5) | A_NORMAL);	/* Light Red XXX */
 		colortable[13] = (COLOR_PAIR(2) | A_BRIGHT);	/* Light Green */
-		colortable[14] = (COLOR_PAIR(4) | A_BRIGHT);	/* Light Blue */
+		colortable[14] = (COLOR_PAIR(6) | A_BRIGHT);	/* Light Blue */
 		colortable[15] = (COLOR_PAIR(3) | A_NORMAL);	/* Light Umber XXX */
 
    }

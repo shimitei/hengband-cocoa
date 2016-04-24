@@ -13,10 +13,10 @@ M:WX:99
 M:WY:66
 
 # Maximum number of monsters in r_info.txt
-M:R:1081
+M:R:1101
 
 # Maximum number of items in k_info.txt
-M:K:667
+M:K:672
 
 # Maximum number of vaults in v_info.txt
 M:V:129
@@ -25,7 +25,7 @@ M:V:129
 M:F:255
 
 # Maximum number of artifacts in a_info.txt
-M:A:237
+M:A:252
 
 # Maximum number of ego-items in e_info.txt
 M:E:255

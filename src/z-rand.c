@@ -1,4 +1,4 @@
-/* File: z-rand.c */
+﻿/* File: z-rand.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, and others
@@ -10,6 +10,10 @@
 
 
 /* Purpose: a simple random number generator -BEN- */
+
+#if defined(WINDOWS)
+#include <Windows.h>
+#endif
 
 #include "z-rand.h"
 
@@ -43,134 +47,157 @@
  * automatically used instead of the "complex" RNG, and when you are
  * done, you de-activate it via "Rand_quick = FALSE" or choose a new
  * seed via "Rand_value = seed".
+ *
+ *
+ * RNG algorithm was fully rewritten. Upper comment is OLD.
  */
 
 
 /*
- * Random Number Generator -- Linear Congruent RNG
- */
-#define LCRNG(X)        ((X) * 1103515245 + 12345)
-
-
-
-/*
- * Use the "simple" LCRNG
- */
-bool Rand_quick = TRUE;
-
-
-/*
- * Current "value" of the "simple" RNG
- */
-u32b Rand_value;
-
-
-/*
- * Current "index" for the "complex" RNG
+ * Currently unused
  */
 u16b Rand_place;
 
 /*
- * Current "state" table for the "complex" RNG
+ * Current "state" table for the RNG
+ * Only index 0 to 3 are used
  */
-u32b Rand_state[RAND_DEG];
+u32b Rand_state[RAND_DEG] = {
+	123456789,
+	362436069,
+	521288629,
+	88675123,
+};
 
 
 /*
- * Initialize the "complex" RNG using a new seed
+ * Initialize Xorshift Algorithm state
  */
-void Rand_state_init(u32b seed)
+static void Rand_Xorshift_seed(u32b seed, u32b* state)
 {
-	int i, j;
+	int i;
 
-	/* Seed the table */
-	Rand_state[0] = seed;
+	/* Initialize Xorshift Algorithm RNG */
+	for (i = 1; i <= 4; ++ i) {
+		seed = 1812433253UL * (seed ^ (seed >> 30)) + i;
+		state[i-1] = seed;
+	}
+}
 
-	/* Propagate the seed */
-	for (i = 1; i < RAND_DEG; i++) Rand_state[i] = LCRNG(Rand_state[i-1]);
+/*
+ * Xorshift Algorithm
+ */
+static u32b Rand_Xorshift(u32b* state)
+{
+	u32b t = state[0] ^ (state[0] << 11);
 
-	/* Cycle the table ten times per degree */
-	for (i = 0; i < RAND_DEG * 10; i++)
-	{
-		/* Acquire the next index */
-		j = Rand_place + 1;
-		if (j == RAND_DEG) j = 0;
+	state[0] = state[1];
+	state[1] = state[2];
+	state[2] = state[3];
 
-		/* Update the table, extract an entry */
-		Rand_state[j] += Rand_state[Rand_place];
+	state[3] = (state[3] ^ (state[3] >> 19)) ^ (t ^ (t >> 8));
 
-		/* Advance the index */
-		Rand_place = j;
+	return state[3];
+}
+
+static const u32b Rand_Xorshift_max = 0xFFFFFFFF;
+
+/*
+ * Initialize the RNG using a new seed
+ */
+void Rand_state_set(u32b seed)
+{
+	Rand_Xorshift_seed(seed, Rand_state);
+}
+
+void Rand_state_init(void)
+{
+#ifdef RNG_DEVICE
+
+	FILE *fp = fopen(RNG_DEVICE, "r");
+	
+	do {
+		fread(Rand_state, sizeof(Rand_state[0]), 4, fp);
+	} while ((Rand_state[0] | Rand_state[1] | Rand_state[2] | Rand_state[3]) == 0);
+	
+	fclose(fp);
+
+#elif defined(WINDOWS)
+
+	HCRYPTPROV hProvider;
+
+	CryptAcquireContext(&hProvider, NULL, NULL, PROV_RSA_FULL, 0);
+
+	do {
+		CryptGenRandom(hProvider, sizeof(Rand_state[0]) * 4, (BYTE*)Rand_state);
+	} while ((Rand_state[0] | Rand_state[1] | Rand_state[2] | Rand_state[3]) == 0);
+
+	CryptReleaseContext(hProvider, 0);	
+
+#else
+
+	/* Basic seed */
+	u32b seed = (time(NULL));
+#ifdef SET_UID
+	/* Mutate the seed on Unix machines */
+	seed = ((seed >> 3) * (getpid() << 1));
+#endif
+	/* Seed the RNG */
+	Rand_state_set(seed);
+
+#endif
+}
+
+/*
+ * Backup the RNG state
+ */
+void Rand_state_backup(u32b* backup_state)
+{
+	int i;
+
+	for (i = 0; i < 4; ++ i) {
+		backup_state[i] = Rand_state[i];
+	}
+}
+
+/*
+ * Restore the RNG state
+ */
+void Rand_state_restore(u32b* backup_state)
+{
+	int i;
+
+	for (i = 0; i < 4; ++ i) {
+		Rand_state[i] = backup_state[i];
 	}
 }
 
 
 /*
  * Extract a "random" number from 0 to m-1, via "division"
- *
- * This method selects "random" 28-bit numbers, and then uses
- * division to drop those numbers into "m" different partitions,
- * plus a small non-partition to reduce bias, taking as the final
- * value the first "good" partition that a number falls into.
- *
- * This method has no bias, and is much less affected by patterns
- * in the "low" bits of the underlying RNG's.
  */
-s32b Rand_div(u32b m)
+static s32b Rand_div_impl(s32b m, u32b* state)
 {
-	u32b r, n;
+	u32b scaling;
+	u32b past;
+	u32b ret;
 
 	/* Hack -- simple case */
 	if (m <= 1) return (0);
 
-	/* Partition size */
-	n = (0x10000000 / m);
+	scaling = Rand_Xorshift_max / m;
+	past = scaling * m;
 
-	/* Use a simple RNG */
-	if (Rand_quick)
-	{
-		/* Wait for it */
-		while (1)
-		{
-			/* Cycle the generator */
-			r = (Rand_value = LCRNG(Rand_value));
+	do {
+		ret = Rand_Xorshift(state);
+	} while (ret >= past);
 
-			/* Mutate a 28-bit "random" number */
-			r = (r >> 4) / n;
+	return ret / scaling;
+}
 
-			/* Done */
-			if (r < m) break;
-		}
-	}
-
-	/* Use a complex RNG */
-	else
-	{
-		/* Wait for it */
-		while (1)
-		{
-			int j;
-
-			/* Acquire the next index */
-			j = Rand_place + 1;
-			if (j == RAND_DEG) j = 0;
-
-			/* Update the table, extract an entry */
-			r = (Rand_state[j] += Rand_state[Rand_place]);
-
-			/* Hack -- extract a 28-bit "random" number */
-			r = (r >> 4) / n;
-
-			/* Advance the index */
-			Rand_place = j;
-
-			/* Done */
-			if (r < m) break;
-		}
-	}
-
-	/* Use the value */
-	return (r);
+s32b Rand_div(s32b m)
+{
+	return Rand_div_impl(m, Rand_state);
 }
 
 
@@ -343,7 +370,7 @@ s32b div_round(s32b n, s32b d)
 
 
 /*
- * Extract a "random" number from 0 to m-1, using the "simple" RNG.
+ * Extract a "random" number from 0 to m-1, using the RNG.
  *
  * This function should be used when generating random numbers in
  * "external" program parts like the main-*.c files.  It preserves
@@ -351,44 +378,18 @@ s32b div_round(s32b n, s32b d)
  *
  * Could also use rand() from <stdlib.h> directly. XXX XXX XXX
  */
-u32b Rand_simple(u32b m)
+s32b Rand_external(s32b m)
 {
 	static bool initialized = FALSE;
-	static u32b simple_rand_value;
-	bool old_rand_quick;
-	u32b old_rand_value;
-	u32b result;
+	static u32b Rand_state_external[4];
 
-
-	/* Save RNG state */
-	old_rand_quick = Rand_quick;
-	old_rand_value = Rand_value;
-
-	/* Use "simple" RNG */
-	Rand_quick = TRUE;
-
-	if (initialized)
-	{
-		/* Use stored seed */
-		Rand_value = simple_rand_value;
-	}
-	else
+	if (!initialized)
 	{
 		/* Initialize with new seed */
-		Rand_value = time(NULL);
+		u32b seed = time(NULL);
+		Rand_Xorshift_seed(seed, Rand_state_external);
 		initialized = TRUE;
 	}
 
-	/* Get a random number */
-	result = randint0(m);
-
-	/* Store the new seed */
-	simple_rand_value = Rand_value;
-
-	/* Restore RNG state */
-	Rand_quick = old_rand_quick;
-	Rand_value = old_rand_value;
-
-	/* Use the value */
-	return (result);
+	return Rand_div_impl(m, Rand_state_external);
 }

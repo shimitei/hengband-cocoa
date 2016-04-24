@@ -1,6 +1,8 @@
-/* File: cmd5.c */
-
-/*
+ï»¿/*!
+ *  @file cmd5.c
+ *  @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é­”æ³•ã«é–¢ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿè£… / Spell/Prayer commands
+ *  @date 2014/01/02
+ *  @author
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  *
  * This software may be copied and distributed for educational, research,
@@ -8,23 +10,27 @@
  * are included in all such copies.  Other copyrights may also apply.
  */
 
-/* Purpose: Spell/Prayer commands */
 
 #include "angband.h"
 
+/*!
+ * @brief é ˜åŸŸé­”æ³•ã«å¿œã˜ã¦æŠ€èƒ½ã®åç§°ã‚’è¿”ã™ã€‚
+ * @param tval é­”æ³•æ›¸ã®tval
+ * @return é ˜åŸŸé­”æ³•ã®æŠ€èƒ½åç§°ã‚’ä¿ç®¡ã—ãŸæ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ */
 cptr spell_category_name(int tval)
 {
 	switch (tval)
 	{
 #ifdef JP
 	case TV_HISSATSU_BOOK:
-		return "É¬»¦µ»";
+		return "å¿…æ®ºæŠ€";
 	case TV_LIFE_BOOK:
-		return "µ§¤ê";
+		return "ç¥ˆã‚Š";
 	case TV_MUSIC_BOOK:
-		return "²Î";
+		return "æ­Œ";
 	default:
-		return "¼öÊ¸";
+		return "å‘ªæ–‡";
 #else
 	case TV_HISSATSU_BOOK:
 		return "art";
@@ -38,19 +44,26 @@ cptr spell_category_name(int tval)
 	}
 }
 
-/*
- * Allow user to choose a spell/prayer from the given book.
- *
- * If a valid spell is chosen, saves it in '*sn' and returns TRUE
- * If the user hits escape, returns FALSE, and set '*sn' to -1
- * If there are no legal choices, returns FALSE, and sets '*sn' to -2
- *
- * The "prompt" should be "cast", "recite", or "study"
- * The "known" should be TRUE for cast/pray, FALSE for study
- */
 
 bool select_the_force = FALSE;
 
+/*!
+ * @brief é ˜åŸŸé­”æ³•ã®é–²è¦§ã€å­¦ç¿’ã€ä½¿ç”¨é¸æŠã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹å‡¦ç†
+ * Allow user to choose a spell/prayer from the given book.
+ * @param sn é¸æŠã—ãŸé­”æ³•IDã‚’è¿”ã™å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param prompt é­”æ³•ã‚’åˆ©ç”¨ã™ã‚‹éš›ã®å‹•è©è¡¨è¨˜
+ * @param sval é­”é“æ›¸ã®sval
+ * @param learned é–²è¦§/ä½¿ç”¨é¸æŠãªã‚‰ã°TRUEã€å­¦ç¿’å‡¦ç†ãªã‚‰FALSE
+ * @param use_realm é­”æ³•é ˜åŸŸID
+ * @return
+ * <pre>
+ * If a valid spell is chosen, saves it in '*sn' and returns TRUE
+ * If the user hits escape, returns FALSE, and set '*sn' to -1
+ * If there are no legal choices, returns FALSE, and sets '*sn' to -2
+ * The "prompt" should be "cast", "recite", or "study"
+ * The "known" should be TRUE for cast/pray, FALSE for study
+ * </pre>
+ */
 static int get_spell(int *sn, cptr prompt, int sval, bool learned, int use_realm)
 {
 	int         i;
@@ -61,7 +74,7 @@ static int get_spell(int *sn, cptr prompt, int sval, bool learned, int use_realm
 	byte        spells[64];
 	bool        flag, redraw, okay;
 	char        choice;
-	magic_type  *s_ptr;
+	const magic_type  *s_ptr;
 	char        out_val[160];
 	cptr        p;
 #ifdef JP
@@ -133,8 +146,8 @@ static int get_spell(int *sn, cptr prompt, int sval, bool learned, int use_realm
 
 	/* Build a prompt (accept all spells) */
 #ifdef JP
-	jverb1( prompt, jverb_buf );
-	(void) strnfmt(out_val, 78, "(%^s:%c-%c, '*'¤Ç°ìÍ÷, ESC¤ÇÃæÃÇ) ¤É¤Î%s¤ò%^s¤Ş¤¹¤«? ",
+	jverb( prompt, jverb_buf, JVERB_AND );
+	(void) strnfmt(out_val, 78, "(%^s:%c-%c, '*'ã§ä¸€è¦§, ESCã§ä¸­æ–­) ã©ã®%sã‚’%^sã¾ã™ã‹? ",
 		p, I2A(0), I2A(num - 1), p, jverb_buf );
 #else
 	(void)strnfmt(out_val, 78, "(%^ss %c-%c, *=List, ESC=exit) %^s which %s? ",
@@ -250,7 +263,7 @@ static int get_spell(int *sn, cptr prompt, int sval, bool learned, int use_realm
 		{
 			bell();
 #ifdef JP
-			msg_format("¤½¤Î%s¤ò%s¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£", p, prompt);
+			msg_format("ãã®%sã‚’%sã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚", p, prompt);
 #else
 			msg_format("You may not %s that %s.", prompt, p);
 #endif
@@ -285,9 +298,9 @@ static int get_spell(int *sn, cptr prompt, int sval, bool learned, int use_realm
 
 			/* Prompt */
 #ifdef JP
-			jverb1( prompt, jverb_buf );
-			/* ±ÑÆüÀÚ¤êÂØ¤¨µ¡Ç½¤ËÂĞ±ş */
-			(void) strnfmt(tmp_val, 78, "%s(MP%d, ¼ºÇÔÎ¨%d%%)¤ò%s¤Ş¤¹¤«? ",
+			jverb( prompt, jverb_buf, JVERB_AND );
+			/* è‹±æ—¥åˆ‡ã‚Šæ›¿ãˆæ©Ÿèƒ½ã«å¯¾å¿œ */
+			(void) strnfmt(tmp_val, 78, "%s(MP%d, å¤±æ•—ç‡%d%%)ã‚’%sã¾ã™ã‹? ",
 				do_spell(use_realm, spell, SPELL_NAME), need_mana,
 				       spell_chance(spell, use_realm),jverb_buf);
 #else
@@ -333,7 +346,11 @@ static int get_spell(int *sn, cptr prompt, int sval, bool learned, int use_realm
 	return TRUE;
 }
 
-
+/*!
+ * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä½¿ç”¨å¯èƒ½ãªé­”é“æ›¸ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹
+ * @param o_ptr åˆ¤å®šã—ãŸã„ã‚ªãƒ–ä¼šã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return å­¦ç¿’ã§ãã‚‹é­”é“æ›¸ãªã‚‰ã°TRUEã‚’è¿”ã™
+ */
 static bool item_tester_learn_spell(object_type *o_ptr)
 {
 	s32b choices = realm_choices2[p_ptr->pclass];
@@ -358,7 +375,10 @@ static bool item_tester_learn_spell(object_type *o_ptr)
 	return (FALSE);
 }
 
-
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒé­”é“æ›¸ã‚’ä¸€å†Šã‚‚æŒã£ã¦ã„ãªã„ã‹ã‚’åˆ¤å®šã™ã‚‹
+ * @return é­”é“æ›¸ã‚’ä¸€å†Šã‚‚æŒã£ã¦ã„ãªã„ãªã‚‰TRUEã‚’è¿”ã™
+ */
 static bool player_has_no_spellbooks(void)
 {
 	int         i;
@@ -379,7 +399,11 @@ static bool player_has_no_spellbooks(void)
 	return TRUE;
 }
 
-
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è·æ¥­ãŒç·´æ°—è¡“å¸«ã®æ™‚ã€é ˜åŸŸé­”æ³•ã¨ç·´æ°—è¡“ã‚’åˆ‡ã‚Šæ›ãˆã‚‹å‡¦ç†ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
+ * @param browse_only é­”æ³•ã¨æŠ€èƒ½ã®é–²è¦§ã‚’è¡Œã†ãªã‚‰ã°TRUE
+ * @return é­”é“æ›¸ã‚’ä¸€å†Šã‚‚æŒã£ã¦ã„ãªã„ãªã‚‰TRUEã‚’è¿”ã™
+ */
 static void confirm_use_force(bool browse_only)
 {
 	int  item;
@@ -397,11 +421,7 @@ static void confirm_use_force(bool browse_only)
 #endif /* ALLOW_REPEAT */
 
 	/* Show the prompt */
-#ifdef JP
-	prt("('w'Îıµ¤½Ñ, ESC) 'w'¤«ESC¤ò²¡¤·¤Æ¤¯¤À¤µ¤¤¡£ ", 0, 0);
-#else
-	prt("(w for the Force, ESC) Hit 'w' or ESC. ", 0, 0);
-#endif
+	prt(_("('w'ç·´æ°—è¡“, ESC) 'w'ã‹ESCã‚’æŠ¼ã—ã¦ãã ã•ã„ã€‚ ", "(w for the Force, ESC) Hit 'w' or ESC. "), 0, 0);
 
 	while (1)
 	{
@@ -432,13 +452,17 @@ static void confirm_use_force(bool browse_only)
 }
 
 
-/*
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é­”æ³•ã¨æŠ€èƒ½ã‚’é–²è¦§ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
  * Peruse the spells/prayers in a book
- *
+ * @return ãªã—
+ * @details
+ * <pre>
  * Note that *all* spells in the book are listed
  *
  * Note that browsing is allowed while confused or blind,
  * and in the dark, primarily to allow browsing in stores.
+ * </pre>
  */
 void do_cmd_browse(void)
 {
@@ -456,12 +480,7 @@ void do_cmd_browse(void)
 	/* Warriors are illiterate */
 	if (!(p_ptr->realm1 || p_ptr->realm2) && (p_ptr->pclass != CLASS_SORCERER) && (p_ptr->pclass != CLASS_RED_MAGE))
 	{
-#ifdef JP
-		msg_print("ËÜ¤òÆÉ¤à¤³¤È¤¬¤Ç¤­¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot read books!");
-#endif
-
+		msg_print(_("æœ¬ã‚’èª­ã‚€ã“ã¨ãŒã§ããªã„ï¼", "You cannot read books!"));
 		return;
 	}
 
@@ -485,17 +504,8 @@ void do_cmd_browse(void)
 	else item_tester_hook = item_tester_learn_spell;
 
 	/* Get an item */
-#ifdef JP
-	q = "¤É¤ÎËÜ¤òÆÉ¤ß¤Ş¤¹¤«? ";
-#else
-	q = "Browse which book? ";
-#endif
-
-#ifdef JP
-	s = "ÆÉ¤á¤ëËÜ¤¬¤Ê¤¤¡£";
-#else
-	s = "You have no books that you can read.";
-#endif
+	q = _("ã©ã®æœ¬ã‚’èª­ã¿ã¾ã™ã‹? ", "Browse which book? ");
+	s = _("èª­ã‚ã‚‹æœ¬ãŒãªã„ã€‚", "You have no books that you can read.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR)))
 	{
@@ -556,11 +566,7 @@ void do_cmd_browse(void)
 	while(TRUE)
 	{
 		/* Ask for a spell, allow cancel */
-#ifdef JP
-		if (!get_spell(&spell, "ÆÉ¤à", o_ptr->sval, TRUE, use_realm))
-#else
-		if (!get_spell(&spell, "browse", o_ptr->sval, TRUE, use_realm))
-#endif
+		if (!get_spell(&spell, _("èª­ã‚€", "browse"), o_ptr->sval, TRUE, use_realm))
 		{
 			/* If cancelled, leave immediately. */
 			if (spell == -1) break;
@@ -570,17 +576,9 @@ void do_cmd_browse(void)
 
 			/* Notify that there's nothing to see, and wait. */
 			if (use_realm == REALM_HISSATSU)
-#ifdef JP
-				prt("ÆÉ¤á¤ëµ»¤¬¤Ê¤¤¡£", 0, 0);
-#else
-				prt("No techniques to browse.", 0, 0);
-#endif
+				prt(_("èª­ã‚ã‚‹æŠ€ãŒãªã„ã€‚", "No techniques to browse."), 0, 0);
 			else
-#ifdef JP
-				prt("ÆÉ¤á¤ë¼öÊ¸¤¬¤Ê¤¤¡£", 0, 0);
-#else
-				prt("No spells to browse.", 0, 0);
-#endif
+				prt(_("èª­ã‚ã‚‹å‘ªæ–‡ãŒãªã„ã€‚", "No spells to browse."), 0, 0);
 			(void)inkey();
 
 
@@ -609,7 +607,11 @@ void do_cmd_browse(void)
 	screen_load();
 }
 
-
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç¬¬äºŒé­”æ³•é ˜åŸŸã‚’å¤‰æ›´ã™ã‚‹ /
+ * @param next_realm å¤‰æ›´å…ˆã®é­”æ³•é ˜åŸŸID
+ * @return ãªã—
+ */
 static void change_realm2(int next_realm)
 {
 	int i, j = 0;
@@ -631,11 +633,7 @@ static void change_realm2(int next_realm)
 	p_ptr->spell_worked2 = 0L;
 	p_ptr->spell_forgotten2 = 0L;
 
-#ifdef JP
-	sprintf(tmp,"ËâË¡¤ÎÎÎ°è¤ò%s¤«¤é%s¤ËÊÑ¹¹¤·¤¿¡£", realm_names[p_ptr->realm2], realm_names[next_realm]);
-#else
-	sprintf(tmp,"change magic realm from %s to %s.", realm_names[p_ptr->realm2], realm_names[next_realm]);
-#endif
+	sprintf(tmp,_("é­”æ³•ã®é ˜åŸŸã‚’%sã‹ã‚‰%sã«å¤‰æ›´ã—ãŸã€‚", "change magic realm from %s to %s."), realm_names[p_ptr->realm2], realm_names[next_realm]);
 	do_cmd_write_nikki(NIKKI_BUNSHOU, 0, tmp);
 	p_ptr->old_realm |= 1 << (p_ptr->realm2-1);
 	p_ptr->realm2 = next_realm;
@@ -649,8 +647,10 @@ static void change_realm2(int next_realm)
 }
 
 
-/*
+/*!
+ * @brief é­”æ³•ã‚’å­¦ç¿’ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
  * Study a book to gain a new spell/prayer
+ * @return ãªã—
  */
 void do_cmd_study(void)
 {
@@ -669,45 +669,25 @@ void do_cmd_study(void)
 
 	if (!p_ptr->realm1)
 	{
-#ifdef JP
-msg_print("ËÜ¤òÆÉ¤à¤³¤È¤¬¤Ç¤­¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot read books!");
-#endif
-
+		msg_print(_("æœ¬ã‚’èª­ã‚€ã“ã¨ãŒã§ããªã„ï¼", "You cannot read books!"));
 		return;
 	}
 
 	if (p_ptr->blind || no_lite())
 	{
-#ifdef JP
-msg_print("ÌÜ¤¬¸«¤¨¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot see!");
-#endif
-
+		msg_print(_("ç›®ãŒè¦‹ãˆãªã„ï¼", "You cannot see!"));
 		return;
 	}
 
 	if (p_ptr->confused)
 	{
-#ifdef JP
-msg_print("º®Íğ¤·¤Æ¤¤¤ÆÆÉ¤á¤Ê¤¤¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦èª­ã‚ãªã„ï¼", "You are too confused!"));
 		return;
 	}
 
 	if (!(p_ptr->new_spells))
 	{
-#ifdef JP
-msg_format("¿·¤·¤¤%s¤ò³Ğ¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ê¤¤¡ª", p);
-#else
-		msg_format("You cannot learn any new %ss!", p);
-#endif
-
+		msg_format(_("æ–°ã—ã„%sã‚’è¦šãˆã‚‹ã“ã¨ã¯ã§ããªã„ï¼", "You cannot learn any new %ss!"), p);
 		return;
 	}
 
@@ -718,9 +698,9 @@ msg_format("¿·¤·¤¤%s¤ò³Ğ¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ê¤¤¡ª", p);
 
 #ifdef JP
 	if( p_ptr->new_spells < 10 ){
-		msg_format("¤¢¤È %d ¤Ä¤Î%s¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells, p);
+		msg_format("ã‚ã¨ %d ã¤ã®%sã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells, p);
 	}else{
-		msg_format("¤¢¤È %d ¸Ä¤Î%s¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells, p);
+		msg_format("ã‚ã¨ %d å€‹ã®%sã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells, p);
 	}
 #else
 	msg_format("You can learn %d new %s%s.", p_ptr->new_spells, p,
@@ -735,17 +715,8 @@ msg_format("¿·¤·¤¤%s¤ò³Ğ¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ê¤¤¡ª", p);
 	else item_tester_hook = item_tester_learn_spell;
 
 	/* Get an item */
-#ifdef JP
-q = "¤É¤ÎËÜ¤«¤é³Ø¤Ó¤Ş¤¹¤«? ";
-#else
-	q = "Study which book? ";
-#endif
-
-#ifdef JP
-s = "ÆÉ¤á¤ëËÜ¤¬¤Ê¤¤¡£";
-#else
-	s = "You have no books that you can read.";
-#endif
+	q = _("ã©ã®æœ¬ã‹ã‚‰å­¦ã³ã¾ã™ã‹? ", "Study which book? ");
+	s = _("èª­ã‚ã‚‹æœ¬ãŒãªã„ã€‚", "You have no books that you can read.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return;
 
@@ -767,11 +738,7 @@ s = "ÆÉ¤á¤ëËÜ¤¬¤Ê¤¤¡£";
 	if (o_ptr->tval == REALM2_BOOK) increment = 32;
 	else if (o_ptr->tval != REALM1_BOOK)
 	{
-#ifdef JP
-		if (!get_check("ËÜÅö¤ËËâË¡¤ÎÎÎ°è¤òÊÑ¹¹¤·¤Ş¤¹¤«¡©")) return;
-#else
-		if (!get_check("Really, change magic realm? ")) return;
-#endif
+		if (!get_check(_("æœ¬å½“ã«é­”æ³•ã®é ˜åŸŸã‚’å¤‰æ›´ã—ã¾ã™ã‹ï¼Ÿ", "Really, change magic realm? "))) return;
 		change_realm2(tval2realm(o_ptr->tval));
 		increment = 32;
 	}
@@ -787,7 +754,7 @@ s = "ÆÉ¤á¤ëËÜ¤¬¤Ê¤¤¡£";
 	{
 		/* Ask for a spell, allow cancel */
 #ifdef JP
-		if (!get_spell(&spell, "³Ø¤Ö", sval, FALSE, o_ptr->tval - TV_LIFE_BOOK + 1)
+		if (!get_spell(&spell, "å­¦ã¶", sval, FALSE, o_ptr->tval - TV_LIFE_BOOK + 1)
 			&& (spell == -1)) return;
 #else
 		if (!get_spell(&spell, "study", sval, FALSE, o_ptr->tval - TV_LIFE_BOOK + 1)
@@ -829,12 +796,7 @@ s = "ÆÉ¤á¤ëËÜ¤¬¤Ê¤¤¡£";
 	if (spell < 0)
 	{
 		/* Message */
-#ifdef JP
-msg_format("¤½¤ÎËÜ¤Ë¤Ï³Ø¤Ö¤Ù¤­%s¤¬¤Ê¤¤¡£", p);
-#else
-		msg_format("You cannot learn any %ss in that book.", p);
-#endif
-
+		msg_format(_("ãã®æœ¬ã«ã¯å­¦ã¶ã¹ã%sãŒãªã„ã€‚", "You cannot learn any %ss in that book."), p);
 
 		/* Abort */
 		return;
@@ -864,15 +826,11 @@ msg_format("¤½¤ÎËÜ¤Ë¤Ï³Ø¤Ö¤Ù¤­%s¤¬¤Ê¤¤¡£", p);
 
 		if (old_exp >= max_exp)
 		{
-#ifdef JP
-			msg_format("¤½¤Î%s¤Ï´°Á´¤Ë»È¤¤¤³¤Ê¤»¤ë¤Î¤Ç³Ø¤ÖÉ¬Í×¤Ï¤Ê¤¤¡£", p);
-#else
-			msg_format("You don't need to study this %s anymore.", p);
-#endif
+			msg_format(_("ãã®%sã¯å®Œå…¨ã«ä½¿ã„ã“ãªã›ã‚‹ã®ã§å­¦ã¶å¿…è¦ã¯ãªã„ã€‚", "You don't need to study this %s anymore."), p);
 			return;
 		}
 #ifdef JP
-		if (!get_check(format("%s¤Î%s¤ò¤µ¤é¤Ë³Ø¤Ó¤Ş¤¹¡£¤è¤í¤·¤¤¤Ç¤¹¤«¡©", name, p)))
+		if (!get_check(format("%sã®%sã‚’ã•ã‚‰ã«å­¦ã³ã¾ã™ã€‚ã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", name, p)))
 #else
 		if (!get_check(format("You will study a %s of %s again. Are you sure? ", p, name)))
 #endif
@@ -900,11 +858,7 @@ msg_format("¤½¤ÎËÜ¤Ë¤Ï³Ø¤Ö¤Ù¤­%s¤¬¤Ê¤¤¡£", p);
 			p_ptr->spell_exp[spell] = SPELL_EXP_BEGINNER + old_exp / 3;
 			new_rank = EXP_LEVEL_BEGINNER;
 		}
-#ifdef JP
-		msg_format("%s¤Î½ÏÎıÅÙ¤¬%s¤Ë¾å¤¬¤Ã¤¿¡£", name, exp_level_str[new_rank]);
-#else
-		msg_format("Your proficiency of %s is now %s rank.", name, exp_level_str[new_rank]);
-#endif
+		msg_format(_("%sã®ç†Ÿç·´åº¦ãŒ%sã«ä¸ŠãŒã£ãŸã€‚", "Your proficiency of %s is now %s rank."), name, exp_level_str[new_rank]);
 	}
 	else
 	{
@@ -920,15 +874,15 @@ msg_format("¤½¤ÎËÜ¤Ë¤Ï³Ø¤Ö¤Ù¤­%s¤¬¤Ê¤¤¡£", p);
 
 		/* Mention the result */
 #ifdef JP
-		/* ±ÑÆüÀÚ¤êÂØ¤¨µ¡Ç½¤ËÂĞ±ş */
+		/* è‹±æ—¥åˆ‡ã‚Šæ›¿ãˆæ©Ÿèƒ½ã«å¯¾å¿œ */
 		if (mp_ptr->spell_book == TV_MUSIC_BOOK)
 		{
-			msg_format("%s¤ò³Ø¤ó¤À¡£",
+			msg_format("%sã‚’å­¦ã‚“ã ã€‚",
 				    do_spell(increment ? p_ptr->realm2 : p_ptr->realm1, spell % 32, SPELL_NAME));
 		}
 		else
 		{
-			msg_format("%s¤Î%s¤ò³Ø¤ó¤À¡£",
+			msg_format("%sã®%sã‚’å­¦ã‚“ã ã€‚",
 				    do_spell(increment ? p_ptr->realm2 : p_ptr->realm1, spell % 32, SPELL_NAME) ,p);
 		}
 #else
@@ -967,8 +921,8 @@ msg_format("¤½¤ÎËÜ¤Ë¤Ï³Ø¤Ö¤Ù¤­%s¤¬¤Ê¤¤¡£", p);
 	{
 		/* Message */
 #ifdef JP
-		if (p_ptr->new_spells < 10) msg_format("¤¢¤È %d ¤Ä¤Î%s¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells, p);
-		else msg_format("¤¢¤È %d ¸Ä¤Î%s¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells, p);
+		if (p_ptr->new_spells < 10) msg_format("ã‚ã¨ %d ã¤ã®%sã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells, p);
+		else msg_format("ã‚ã¨ %d å€‹ã®%sã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells, p);
 #else
 		msg_format("You can learn %d more %s%s.", p_ptr->new_spells, p,
 		           (p_ptr->new_spells != 1) ? "s" : "");
@@ -984,7 +938,11 @@ msg_format("¤½¤ÎËÜ¤Ë¤Ï³Ø¤Ö¤Ù¤­%s¤¬¤Ê¤¤¡£", p);
 	p_ptr->window |= (PW_OBJECT);
 }
 
-
+/*!
+ * @brief é‹å‘½ã®è¼ªã€ä¸¦ã³ã«ã‚«ã‚ªã‚¹çš„ãªåŠ¹æœã®ç™ºå‹•
+ * @param spell ãƒ©ãƒ³ãƒ€ãƒ ãªåŠ¹æœã‚’é¸æŠã™ã‚‹ãŸã‚ã®åŸºæº–ID
+ * @return ãªã—
+ */
 static void wild_magic(int spell)
 {
 	int counter = 0;
@@ -1086,8 +1044,10 @@ static void wild_magic(int spell)
 }
 
 
-/*
+/*!
+ * @brief é­”æ³•ã‚’è© å”±ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
  * Cast a spell
+ * @return ãªã—
  */
 void do_cmd_cast(void)
 {
@@ -1101,7 +1061,7 @@ void do_cmd_cast(void)
 
 	object_type	*o_ptr;
 
-	magic_type	*s_ptr;
+	const magic_type *s_ptr;
 
 	cptr q, s;
 
@@ -1110,12 +1070,7 @@ void do_cmd_cast(void)
 	/* Require spell ability */
 	if (!p_ptr->realm1 && (p_ptr->pclass != CLASS_SORCERER) && (p_ptr->pclass != CLASS_RED_MAGE))
 	{
-#ifdef JP
-		msg_print("¼öÊ¸¤ò¾§¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot cast spells!");
-#endif
-
+		msg_print(_("å‘ªæ–‡ã‚’å”±ãˆã‚‰ã‚Œãªã„ï¼", "You cannot cast spells!"));
 		return;
 	}
 
@@ -1125,11 +1080,7 @@ void do_cmd_cast(void)
 		if (p_ptr->pclass == CLASS_FORCETRAINER) confirm_use_force(FALSE);
 		else
 		{
-#ifdef JP
-			msg_print("ÌÜ¤¬¸«¤¨¤Ê¤¤¡ª");
-#else
-			msg_print("You cannot see!");
-#endif
+			msg_print(_("ç›®ãŒè¦‹ãˆãªã„ï¼", "You cannot see!"));
 			flush();
 		}
 		return;
@@ -1138,11 +1089,7 @@ void do_cmd_cast(void)
 	/* Not when confused */
 	if (p_ptr->confused)
 	{
-#ifdef JP
-		msg_print("º®Íğ¤·¤Æ¤¤¤Æ¾§¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦å”±ãˆã‚‰ã‚Œãªã„ï¼", "You are too confused!"));
 		flush();
 		return;
 	}
@@ -1153,11 +1100,7 @@ void do_cmd_cast(void)
 		if (hex_spell_fully())
 		{
 			bool flag = FALSE;
-#ifdef JP
-			msg_print("¤³¤ì°Ê¾å¿·¤·¤¤¼öÊ¸¤ò±Ó¾§¤¹¤ë¤³¤È¤Ï¤Ç¤­¤Ê¤¤¡£");
-#else
-			msg_print("Can not spell new spells more.");
-#endif
+			msg_print(_("ã“ã‚Œä»¥ä¸Šæ–°ã—ã„å‘ªæ–‡ã‚’è© å”±ã™ã‚‹ã“ã¨ã¯ã§ããªã„ã€‚", "Can not spell new spells more."));
 			flush();
 			if (p_ptr->lev >= 35) flag = stop_hex_spell();
 			if (!flag) return;
@@ -1180,17 +1123,8 @@ void do_cmd_cast(void)
 	item_tester_tval = mp_ptr->spell_book;
 
 	/* Get an item */
-#ifdef JP
-	q = "¤É¤Î¼öÊ¸½ñ¤ò»È¤¤¤Ş¤¹¤«? ";
-#else
-	q = "Use which book? ";
-#endif
-
-#ifdef JP
-	s = "¼öÊ¸½ñ¤¬¤Ê¤¤¡ª";
-#else
-	s = "You have no spell books!";
-#endif
+	q = _("ã©ã®å‘ªæ–‡æ›¸ã‚’ä½¿ã„ã¾ã™ã‹? ", "Use which book? ");
+	s = _("å‘ªæ–‡æ›¸ãŒãªã„ï¼", "You have no spell books!");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR)))
 	{
@@ -1237,10 +1171,10 @@ void do_cmd_cast(void)
 	/* Ask for a spell */
 #ifdef JP
 	if (!get_spell(&spell,  
-				((mp_ptr->spell_book == TV_LIFE_BOOK) ? "±Ó¾§¤¹¤ë" : (mp_ptr->spell_book == TV_MUSIC_BOOK) ? "²Î¤¦" : "¾§¤¨¤ë"), 
+				((mp_ptr->spell_book == TV_LIFE_BOOK) ? "è© å”±ã™ã‚‹" : (mp_ptr->spell_book == TV_MUSIC_BOOK) ? "æ­Œã†" : "å”±ãˆã‚‹"), 
 		       sval, TRUE, realm))
 	{
-		if (spell == -2) msg_format("¤½¤ÎËÜ¤Ë¤ÏÃÎ¤Ã¤Æ¤¤¤ë%s¤¬¤Ê¤¤¡£", prayer);
+		if (spell == -2) msg_format("ãã®æœ¬ã«ã¯çŸ¥ã£ã¦ã„ã‚‹%sãŒãªã„ã€‚", prayer);
 		return;
 	}
 #else
@@ -1261,11 +1195,7 @@ void do_cmd_cast(void)
 	{
 		if (hex_spelling(spell))
 		{
-#ifdef JP
-			msg_print("¤½¤Î¼öÊ¸¤Ï¤¹¤Ç¤Ë±Ó¾§Ãæ¤À¡£");
-#else
-			msg_print("You are already casting it.");
-#endif
+			msg_print(_("ãã®å‘ªæ–‡ã¯ã™ã§ã«è© å”±ä¸­ã ã€‚", "You are already casting it."));
 			return;
 		}
 	}
@@ -1289,8 +1219,8 @@ void do_cmd_cast(void)
 
 		/* Warning */
 #ifdef JP
-msg_format("¤½¤Î%s¤ò%s¤Î¤Ë½½Ê¬¤Ê¥Ş¥¸¥Ã¥¯¥İ¥¤¥ó¥È¤¬¤Ê¤¤¡£",prayer,
- ((mp_ptr->spell_book == TV_LIFE_BOOK) ? "±Ó¾§¤¹¤ë" : (mp_ptr->spell_book == TV_LIFE_BOOK) ? "²Î¤¦" : "¾§¤¨¤ë"));
+msg_format("ãã®%sã‚’%sã®ã«ååˆ†ãªãƒã‚¸ãƒƒã‚¯ãƒã‚¤ãƒ³ãƒˆãŒãªã„ã€‚",prayer,
+ ((mp_ptr->spell_book == TV_LIFE_BOOK) ? "è© å”±ã™ã‚‹" : (mp_ptr->spell_book == TV_LIFE_BOOK) ? "æ­Œã†" : "å”±ãˆã‚‹"));
 #else
 		msg_format("You do not have enough mana to %s this %s.",
 			((mp_ptr->spell_book == TV_LIFE_BOOK) ? "recite" : "cast"),
@@ -1301,12 +1231,7 @@ msg_format("¤½¤Î%s¤ò%s¤Î¤Ë½½Ê¬¤Ê¥Ş¥¸¥Ã¥¯¥İ¥¤¥ó¥È¤¬¤Ê¤¤¡£",prayer,
 		if (!over_exert) return;
 
 		/* Verify */
-#ifdef JP
-		if (!get_check_strict("¤½¤ì¤Ç¤âÄ©Àï¤·¤Ş¤¹¤«? ", CHECK_OKAY_CANCEL)) return;
-#else
-		if (!get_check_strict("Attempt it anyway? ", CHECK_OKAY_CANCEL)) return;
-#endif
-
+		if (!get_check_strict(_("ãã‚Œã§ã‚‚æŒ‘æˆ¦ã—ã¾ã™ã‹? ", "Attempt it anyway? "), CHECK_OKAY_CANCEL)) return;
 	}
 
 	/* Spell failure chance */
@@ -1320,17 +1245,15 @@ msg_format("¤½¤Î%s¤ò%s¤Î¤Ë½½Ê¬¤Ê¥Ş¥¸¥Ã¥¯¥İ¥¤¥ó¥È¤¬¤Ê¤¤¡£",prayer,
 	}
 	else over_exerted = TRUE;
 
+	/* Redraw mana */
+	p_ptr->redraw |= (PR_MANA);
+
 	/* Failed spell */
 	if (randint0(100) < chance)
 	{
 		if (flush_failure) flush();
-
-#ifdef JP
-msg_format("%s¤ò¤¦¤Ş¤¯¾§¤¨¤é¤ì¤Ê¤«¤Ã¤¿¡ª", prayer);
-#else
-		msg_format("You failed to get the %s off!", prayer);
-#endif
-
+		
+		msg_format(_("%sã‚’ã†ã¾ãå”±ãˆã‚‰ã‚Œãªã‹ã£ãŸï¼", "You failed to get the %s off!"), prayer);
 		sound(SOUND_FAIL);
 
 		switch (realm)
@@ -1364,12 +1287,7 @@ msg_format("%s¤ò¤¦¤Ş¤¯¾§¤¨¤é¤ì¤Ê¤«¤Ã¤¿¡ª", prayer);
 
 		if ((o_ptr->tval == TV_CHAOS_BOOK) && (randint1(100) < spell))
 		{
-#ifdef JP
-msg_print("¥«¥ª¥¹Åª¤Ê¸ú²Ì¤òÈ¯À¸¤·¤¿¡ª");
-#else
-			msg_print("You produce a chaotic effect!");
-#endif
-
+			msg_print(_("ã‚«ã‚ªã‚¹çš„ãªåŠ¹æœã‚’ç™ºç”Ÿã—ãŸï¼", "You produce a chaotic effect!"));
 			wild_magic(spell);
 		}
 		else if ((o_ptr->tval == TV_DEATH_BOOK) && (randint1(100) < spell))
@@ -1380,30 +1298,16 @@ msg_print("¥«¥ª¥¹Åª¤Ê¸ú²Ì¤òÈ¯À¸¤·¤¿¡ª");
 			}
 			else
 			{
-#ifdef JP
-				msg_print("ÄË¤¤¡ª");
-#else
-				msg_print("It hurts!");
-#endif
+				msg_print(_("ç—›ã„ï¼", "It hurts!"));
+				take_hit(DAMAGE_LOSELIFE, damroll(o_ptr->sval + 1, 6), _("æš—é»’é­”æ³•ã®é€†æµ", "a miscast Death spell"), -1);
 
-#ifdef JP
-				take_hit(DAMAGE_LOSELIFE, damroll(o_ptr->sval + 1, 6), "°Å¹õËâË¡¤ÎµÕÎ®", -1);
-#else
-				take_hit(DAMAGE_LOSELIFE, damroll(o_ptr->sval + 1, 6), "a miscast Death spell", -1);
-#endif
-
-				if ((spell > 15) && one_in_(6) && !p_ptr->hold_life)
+				if ((spell > 15) && one_in_(6) && !p_ptr->hold_exp)
 					lose_exp(spell * 250);
 			}
 		}
 		else if ((o_ptr->tval == TV_MUSIC_BOOK) && (randint1(200) < spell))
 		{
-#ifdef JP
-msg_print("¤¤¤ä¤Ê²»¤¬¶Á¤¤¤¿");
-#else
-msg_print("An infernal sound echoed.");
-#endif
-
+			msg_print(_("ã„ã‚„ãªéŸ³ãŒéŸ¿ã„ãŸ", "An infernal sound echoed."));
 			aggravate_monsters(0);
 		}
 		if (randint1(100) >= chance)
@@ -1562,12 +1466,7 @@ msg_print("An infernal sound echoed.");
 		p_ptr->csp_frac = 0;
 
 		/* Message */
-#ifdef JP
-msg_print("Àº¿À¤ò½¸Ãæ¤·¤¹¤®¤Æµ¤¤ò¼º¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª");
-#else
-		msg_print("You faint from the effort!");
-#endif
-
+		msg_print(_("ç²¾ç¥ã‚’é›†ä¸­ã—ã™ãã¦æ°—ã‚’å¤±ã£ã¦ã—ã¾ã£ãŸï¼", "You faint from the effort!"));
 
 		/* Hack -- Bypass free action */
 		(void)set_paralyzed(p_ptr->paralyzed + randint1(5 * oops + 1));
@@ -1603,27 +1502,26 @@ msg_print("Àº¿À¤ò½¸Ãæ¤·¤¹¤®¤Æµ¤¤ò¼º¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª");
 			bool perm = (randint0(100) < 25);
 
 			/* Message */
-#ifdef JP
-msg_print("ÂÎ¤ò°­¤¯¤·¤Æ¤·¤Ş¤Ã¤¿¡ª");
-#else
-			msg_print("You have damaged your health!");
-#endif
-
+			msg_print(_("ä½“ã‚’æ‚ªãã—ã¦ã—ã¾ã£ãŸï¼", "You have damaged your health!"));
 
 			/* Reduce constitution */
 			(void)dec_stat(A_CON, 15 + randint1(10), perm);
 		}
 	}
 
-	/* Redraw mana */
-	p_ptr->redraw |= (PR_MANA);
-
 	/* Window stuff */
 	p_ptr->window |= (PW_PLAYER);
 	p_ptr->window |= (PW_SPELL);
 }
 
-
+/*!
+ * @brief ãƒšãƒƒãƒˆã«ãªã£ã¦ã„ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’ã‚½ãƒ¼ãƒˆã™ã‚‹ãŸã‚ã®æ¯”è¼ƒå‡¦ç†
+ * @param u ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“é…åˆ—
+ * @param v æœªä½¿ç”¨
+ * @param a æ¯”è¼ƒå¯¾è±¡ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ID1
+ * @param b æ¯”è¼ƒå¯¾è±¡ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ID2
+ * @return 2ç•ªç›®ãŒå¤§ãªã‚‰ã°TRUEã‚’è¿”ã™
+ */
 static bool ang_sort_comp_pet_dismiss(vptr u, vptr v, int a, int b)
 {
 	u16b *who = (u16b*)(u);
@@ -1660,6 +1558,12 @@ static bool ang_sort_comp_pet_dismiss(vptr u, vptr v, int a, int b)
 	return w1 <= w2;
 }
 
+/*!
+ * @brief ãƒšãƒƒãƒˆã®å–„æ‚ªå±æ€§ã«å¿œã˜ãŸç¶­æŒã‚³ã‚¹ãƒˆã®é€”ä¸­è¨ˆç®—å‡¦ç†
+ * @param m_ptr è¨ˆç®—åŸºæº–ã¨ãªã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param inc m_ptrã§æŒ‡å®šã—ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’ç¶­æŒã‚³ã‚¹ãƒˆè¨ˆç®—ã«åŠ ãˆã‚‹ãªã‚‰TRUEã€å¤–ã™ãªã‚‰FALSEã‚’æŒ‡å®š
+ * @return ãªã—
+ */
 void check_pets_num_and_align(monster_type *m_ptr, bool inc)
 {
 	s32b old_friend_align = friend_align;
@@ -1681,6 +1585,10 @@ void check_pets_num_and_align(monster_type *m_ptr, bool inc)
 	if (old_friend_align != friend_align) p_ptr->update |= (PU_BONUS);
 }
 
+/*!
+ * @brief ãƒšãƒƒãƒˆã®ç¶­æŒã‚³ã‚¹ãƒˆè¨ˆç®—
+ * @return ç¶­æŒã‚³ã‚¹ãƒˆ(%)
+ */
 int calculate_upkeep(void)
 {
 	s32b old_friend_align = friend_align;
@@ -1739,6 +1647,10 @@ int calculate_upkeep(void)
 		return 0;
 }
 
+/*!
+ * @brief ãƒšãƒƒãƒˆã‚’é–‹æ”¾ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @return ãªã—
+ */
 void do_cmd_pet_dismiss(void)
 {
 	monster_type	*m_ptr;
@@ -1777,7 +1689,6 @@ void do_cmd_pet_dismiss(void)
 	{
 		bool delete_this;
 		char friend_name[80];
-		char buf[80];
 		bool kakunin;
 
 		/* Access the monster */
@@ -1795,14 +1706,9 @@ void do_cmd_pet_dismiss(void)
 
 			/* Hack -- handle stuff */
 			handle_stuff();
-
-#ifdef JP
-			sprintf(buf, "%s¤òÊü¤·¤Ş¤¹¤«¡© [Yes/No/Unnamed (%dÂÎ)]", friend_name, max_pet - i);
-#else
-			sprintf(buf, "Dismiss %s? [Yes/No/Unnamed (%d remain)]", friend_name, max_pet - i);
-#endif
-			prt(buf, 0, 0);
-
+			
+			msg_format(_("%sã‚’æ”¾ã—ã¾ã™ã‹ï¼Ÿ [Yes/No/Unnamed (%dä½“)]","Dismiss %s? [Yes/No/Unnamed (%d remain)]"), friend_name, max_pet - i);
+			
 			if (m_ptr->ml)
 				move_cursor_relative(m_ptr->fy, m_ptr->fx);
 
@@ -1816,12 +1722,9 @@ void do_cmd_pet_dismiss(void)
 
 					if (kakunin)
 					{
-#ifdef JP
-						sprintf(buf, "ËÜÅö¤Ë¤è¤í¤·¤¤¤Ç¤¹¤«¡© (%s) ", friend_name);
-#else
-						sprintf(buf, "Are you sure? (%s) ", friend_name);
-#endif
-						if (!get_check(buf))
+						msg_format(_("æœ¬å½“ã«ã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ (%s) ","Are you sure? (%s) "), friend_name);
+						ch = inkey();
+						if (ch != 'Y' && ch != 'y')
 							delete_this = FALSE;
 					}
 					break;
@@ -1852,11 +1755,7 @@ void do_cmd_pet_dismiss(void)
 
 			if (pet_ctr == p_ptr->riding)
 			{
-#ifdef JP
-				msg_format("%s¤«¤é¹ß¤ê¤¿¡£", friend_name);
-#else
-				msg_format("You have got off %s. ", friend_name);
-#endif
+				msg_format(_("%sã‹ã‚‰é™ã‚ŠãŸã€‚","You have got off %s. "), friend_name);
 
 				p_ptr->riding = 0;
 
@@ -1866,12 +1765,7 @@ void do_cmd_pet_dismiss(void)
 			}
 
 			/* HACK : Add the line to message buffer */
-#ifdef JP
-			sprintf(buf, "%s ¤òÊü¤·¤¿¡£", friend_name);
-#else
-			sprintf(buf, "Dismissed %s.", friend_name);
-#endif
-			message_add(buf);
+			msg_format(_("%s ã‚’æ”¾ã—ãŸã€‚","Dismissed %s."), friend_name);
 			p_ptr->window |= (PW_MESSAGE);
 			window_stuff();
 
@@ -1887,19 +1781,21 @@ void do_cmd_pet_dismiss(void)
 	C_KILL(who, max_m_idx, u16b);
 
 #ifdef JP
-	msg_format("%d ÂÎ¤Î¥Ú¥Ã¥È¤òÊü¤·¤Ş¤·¤¿¡£", Dismissed);
+	msg_format("%d ä½“ã®ãƒšãƒƒãƒˆã‚’æ”¾ã—ã¾ã—ãŸã€‚", Dismissed);
 #else
 	msg_format("You have dismissed %d pet%s.", Dismissed,
 		   (Dismissed == 1 ? "" : "s"));
 #endif
 	if (Dismissed == 0 && all_pets)
-#ifdef JP
-		msg_print("'U'nnamed ¤Ï¡¢¾èÇÏ°Ê³°¤ÎÌ¾Á°¤Î¤Ê¤¤¥Ú¥Ã¥È¤À¤±¤òÁ´¤Æ²òÊü¤·¤Ş¤¹¡£");
-#else
-		msg_print("'U'nnamed means all your pets except named pets and your mount.");
-#endif
+		msg_print(_("'U'nnamed ã¯ã€ä¹—é¦¬ä»¥å¤–ã®åå‰ã®ãªã„ãƒšãƒƒãƒˆã ã‘ã‚’å…¨ã¦è§£æ”¾ã—ã¾ã™ã€‚", "'U'nnamed means all your pets except named pets and your mount."));
 }
 
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é¨ä¹—/ä¸‹é¦¬å‡¦ç†åˆ¤å®š
+ * @param c_ptr ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å…ˆãƒã‚¹ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param now_riding TRUEãªã‚‰ä¸‹é¦¬å‡¦ç†ã€FALSEãªã‚‰ã°é¨ä¹—å‡¦ç†
+ * @return å¯èƒ½ãªã‚‰ã°TRUEã‚’è¿”ã™
+ */
 static bool player_can_ride_aux(cave_type *c_ptr, bool now_riding)
 {
 	bool p_can_enter;
@@ -1937,6 +1833,12 @@ static bool player_can_ride_aux(cave_type *c_ptr, bool now_riding)
 	return p_can_enter;
 }
 
+/*!
+ * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è½é¦¬åˆ¤å®šå‡¦ç†
+ * @param dam è½é¦¬åˆ¤å®šã‚’ç™ºã—ãŸéš›ã«å—ã‘ãŸãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+ * @param force TRUEãªã‚‰ã°å¼·åˆ¶çš„ã«è½é¦¬ã™ã‚‹
+ * @return å®Ÿéš›ã«è½é¦¬ã—ãŸã‚‰TRUEã‚’è¿”ã™
+ */
 bool rakuba(int dam, bool force)
 {
 	int i, y, x, oy, ox;
@@ -1957,7 +1859,7 @@ bool rakuba(int dam, bool force)
 			int max = s_info[p_ptr->pclass].s_max[GINOU_RIDING];
 			int ridinglevel = r_ptr->level;
 
-			/* ÍîÇÏ¤Î¤·¤ä¤¹¤µ */
+			/* è½é¦¬ã®ã—ã‚„ã™ã• */
 			int rakubalevel = r_ptr->level;
 			if (p_ptr->riding_ryoute) rakubalevel += 20;
 
@@ -1974,7 +1876,7 @@ bool rakuba(int dam, bool force)
 				p_ptr->skill_exp[GINOU_RIDING] = MIN(max, cur + inc);
 			}
 
-			/* ¥ì¥Ù¥ë¤ÎÄã¤¤¾èÇÏ¤«¤é¤ÏÍîÇÏ¤·¤Ë¤¯¤¤ */
+			/* ãƒ¬ãƒ™ãƒ«ã®ä½ã„ä¹—é¦¬ã‹ã‚‰ã¯è½é¦¬ã—ã«ãã„ */
 			if (randint0(dam / 2 + rakubalevel * 2) < cur / 30 + 10)
 			{
 				if ((((p_ptr->pclass == CLASS_BEASTMASTER) || (p_ptr->pclass == CLASS_CAVALRY)) && !p_ptr->riding_ryoute) || !one_in_(p_ptr->lev*(p_ptr->riding_ryoute ? 2 : 3) + 30))
@@ -2018,8 +1920,8 @@ bool rakuba(int dam, bool force)
 		{
 			monster_desc(m_name, m_ptr, 0);
 #ifdef JP
-msg_format("%s¤«¤é¿¶¤êÍî¤È¤µ¤ì¤½¤¦¤Ë¤Ê¤Ã¤Æ¡¢ÊÉ¤Ë¤Ö¤Ä¤«¤Ã¤¿¡£",m_name);
-			take_hit(DAMAGE_NOESCAPE, r_ptr->level+3, "ÊÉ¤Ø¤Î¾×ÆÍ", -1);
+msg_format("%sã‹ã‚‰æŒ¯ã‚Šè½ã¨ã•ã‚Œãã†ã«ãªã£ã¦ã€å£ã«ã¶ã¤ã‹ã£ãŸã€‚",m_name);
+			take_hit(DAMAGE_NOESCAPE, r_ptr->level+3, "å£ã¸ã®è¡çª", -1);
 #else
 			msg_format("You have nearly fallen from %s, but bumped into wall.",m_name);
 			take_hit(DAMAGE_NOESCAPE, r_ptr->level+3, "bumping into wall", -1);
@@ -2065,19 +1967,11 @@ msg_format("%s¤«¤é¿¶¤êÍî¤È¤µ¤ì¤½¤¦¤Ë¤Ê¤Ã¤Æ¡¢ÊÉ¤Ë¤Ö¤Ä¤«¤Ã¤¿¡£",m_name);
 	if (p_ptr->levitation && !force)
 	{
 		monster_desc(m_name, m_ptr, 0);
-#ifdef JP
-		msg_format("%s¤«¤éÍî¤Á¤¿¤¬¡¢¶õÃæ¤Ç¤¦¤Ş¤¯ÂÎÀª¤òÎ©¤ÆÄ¾¤·¤ÆÃåÃÏ¤·¤¿¡£",m_name);
-#else
-		msg_format("You are thrown from %s, but make a good landing.",m_name);
-#endif
+		msg_format(_("%sã‹ã‚‰è½ã¡ãŸãŒã€ç©ºä¸­ã§ã†ã¾ãä½“å‹¢ã‚’ç«‹ã¦ç›´ã—ã¦ç€åœ°ã—ãŸã€‚", "You are thrown from %s, but make a good landing."),m_name);
 	}
 	else
 	{
-#ifdef JP
-		take_hit(DAMAGE_NOESCAPE, r_ptr->level+3, "ÍîÇÏ", -1);
-#else
-		take_hit(DAMAGE_NOESCAPE, r_ptr->level+3, "Falling from riding", -1);
-#endif
+		take_hit(DAMAGE_NOESCAPE, r_ptr->level+3, _("è½é¦¬", "Falling from riding"), -1);
 		fall_dam = TRUE;
 	}
 
@@ -2088,6 +1982,11 @@ msg_format("%s¤«¤é¿¶¤êÍî¤È¤µ¤ì¤½¤¦¤Ë¤Ê¤Ã¤Æ¡¢ÊÉ¤Ë¤Ö¤Ä¤«¤Ã¤¿¡£",m_name);
 	return fall_dam;
 }
 
+/*!
+ * @brief ãƒšãƒƒãƒˆã‹ã‚‰é¨ä¹—/ä¸‹é¦¬ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
+ * @param force å¼·åˆ¶çš„ã«é¨ä¹—/ä¸‹é¦¬ã™ã‚‹ãªã‚‰ã°TRUE
+ * @return é¨ä¹—/ä¸‹é¦¬ã§ããŸã‚‰TRUE
+ */
 bool do_riding(bool force)
 {
 	int x, y, dir = 0;
@@ -2106,11 +2005,7 @@ bool do_riding(bool force)
 		/* Skip non-empty grids */
 		if (!player_can_ride_aux(c_ptr, FALSE))
 		{
-#ifdef JP
-			msg_print("¤½¤Á¤é¤Ë¤Ï¹ß¤ê¤é¤ì¤Ş¤»¤ó¡£");
-#else
-			msg_print("You cannot go to that direction.");
-#endif
+			msg_print(_("ãã¡ã‚‰ã«ã¯é™ã‚Šã‚‰ã‚Œã¾ã›ã‚“ã€‚", "You cannot go to that direction."));
 			return FALSE;
 		}
 
@@ -2122,11 +2017,7 @@ bool do_riding(bool force)
 			energy_use = 100;
 
 			/* Message */
-#ifdef JP
-			msg_print("¥â¥ó¥¹¥¿¡¼¤¬Î©¤Á¤Õ¤µ¤¬¤Ã¤Æ¤¤¤ë¡ª");
-#else
-			msg_print("There is a monster in the way!");
-#endif
+			msg_print(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒç«‹ã¡ãµã•ãŒã£ã¦ã„ã‚‹ï¼", "There is a monster in the way!"));
 
 			py_attack(y, x, 0);
 			return FALSE;
@@ -2140,11 +2031,7 @@ bool do_riding(bool force)
 	{
 		if (p_ptr->confused)
 		{
-#ifdef JP
-			msg_print("º®Íğ¤·¤Æ¤¤¤Æ¾è¤ì¤Ê¤¤¡ª");
-#else
-			msg_print("You are too confused!");
-#endif
+			msg_print(_("æ··ä¹±ã—ã¦ã„ã¦ä¹—ã‚Œãªã„ï¼", "You are too confused!"));
 			return FALSE;
 		}
 
@@ -2152,32 +2039,17 @@ bool do_riding(bool force)
 
 		if (!c_ptr->m_idx || !m_ptr->ml)
 		{
-#ifdef JP
-			msg_print("¤½¤Î¾ì½ê¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
-#else
-			msg_print("Here is no monster.");
-#endif
-
+			msg_print(_("ãã®å ´æ‰€ã«ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ã„ã¾ã›ã‚“ã€‚", "Here is no monster."));
 			return FALSE;
 		}
 		if (!is_pet(m_ptr) && !force)
 		{
-#ifdef JP
-			msg_print("¤½¤Î¥â¥ó¥¹¥¿¡¼¤Ï¥Ú¥Ã¥È¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£");
-#else
-			msg_print("That monster is not a pet.");
-#endif
-
+			msg_print(_("ãã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ãƒšãƒƒãƒˆã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚", "That monster is not a pet."));
 			return FALSE;
 		}
 		if (!(r_info[m_ptr->r_idx].flags7 & RF7_RIDING))
 		{
-#ifdef JP
-			msg_print("¤½¤Î¥â¥ó¥¹¥¿¡¼¤Ë¤Ï¾è¤ì¤Ê¤µ¤½¤¦¤À¡£");
-#else
-			msg_print("This monster doesn't seem suitable for riding.");
-#endif
-
+			msg_print(_("ãã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«ã¯ä¹—ã‚Œãªã•ãã†ã ã€‚", "This monster doesn't seem suitable for riding."));
 			return FALSE;
 		}
 
@@ -2188,10 +2060,10 @@ bool do_riding(bool force)
 			/* Feature code (applying "mimic" field) */
 			feature_type *f_ptr = &f_info[get_feat_mimic(c_ptr)];
 #ifdef JP
-			msg_format("¤½¤Î¥â¥ó¥¹¥¿¡¼¤Ï%s¤Î%s¤Ë¤¤¤ë¡£", f_name + f_ptr->name,
+			msg_format("ãã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯%sã®%sã«ã„ã‚‹ã€‚", f_name + f_ptr->name,
 			           ((!have_flag(f_ptr->flags, FF_MOVE) && !have_flag(f_ptr->flags, FF_CAN_FLY)) ||
 			            (!have_flag(f_ptr->flags, FF_LOS) && !have_flag(f_ptr->flags, FF_TREE))) ?
-			           "Ãæ" : "¾å");
+			           "ä¸­" : "ä¸Š");
 #else
 			msg_format("This monster is %s the %s.",
 			           ((!have_flag(f_ptr->flags, FF_MOVE) && !have_flag(f_ptr->flags, FF_CAN_FLY)) ||
@@ -2203,14 +2075,8 @@ bool do_riding(bool force)
 		}
 		if (r_info[m_ptr->r_idx].level > randint1((p_ptr->skill_exp[GINOU_RIDING] / 50 + p_ptr->lev / 2 + 20)))
 		{
-#ifdef JP
-			msg_print("¤¦¤Ş¤¯¾è¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-			msg_print("You failed to ride.");
-#endif
-
+			msg_print(_("ã†ã¾ãä¹—ã‚Œãªã‹ã£ãŸã€‚", "You failed to ride."));
 			energy_use = 100;
-
 			return FALSE;
 		}
 
@@ -2219,11 +2085,7 @@ bool do_riding(bool force)
 			char m_name[80];
 			monster_desc(m_name, m_ptr, 0);
 			(void)set_monster_csleep(c_ptr->m_idx, 0);
-#ifdef JP
-			msg_format("%s¤òµ¯¤³¤·¤¿¡£", m_name);
-#else
-			msg_format("You have waked %s up.", m_name);
-#endif
+			msg_format(_("%sã‚’èµ·ã“ã—ãŸã€‚", "You have waked %s up."), m_name);
 		}
 
 		if (p_ptr->action == ACTION_KAMAE) set_action(ACTION_NONE);
@@ -2253,6 +2115,10 @@ bool do_riding(bool force)
 	return TRUE;
 }
 
+/*!
+ * @brief ãƒšãƒƒãƒˆã«åå‰ã‚’ã¤ã‘ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @return ãªã—
+ */
 static void do_name_pet(void)
 {
 	monster_type *m_ptr;
@@ -2276,31 +2142,18 @@ static void do_name_pet(void)
 		if (!is_pet(m_ptr))
 		{
 			/* Message */
-#ifdef JP
-			msg_print("¤½¤Î¥â¥ó¥¹¥¿¡¼¤Ï¥Ú¥Ã¥È¤Ç¤Ï¤Ê¤¤¡£");
-#else
-			msg_format("This monster is not a pet.");
-#endif
+			msg_print(_("ãã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ãƒšãƒƒãƒˆã§ã¯ãªã„ã€‚", "This monster is not a pet."));
 			return;
 		}
 		if (r_info[m_ptr->r_idx].flags1 & RF1_UNIQUE)
 		{
-#ifdef JP
-			msg_print("¤½¤Î¥â¥ó¥¹¥¿¡¼¤ÎÌ¾Á°¤ÏÊÑ¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-			msg_format("You cannot change name of this monster!");
-#endif
+			msg_print(_("ãã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®åå‰ã¯å¤‰ãˆã‚‰ã‚Œãªã„ï¼", "You cannot change name of this monster!"));
 			return;
 		}
 		monster_desc(m_name, m_ptr, 0);
 
 		/* Message */
-#ifdef JP
-		msg_format("%s¤ËÌ¾Á°¤ò¤Ä¤±¤ë¡£", m_name);
-#else
-		msg_format("Name %s.", m_name);
-#endif
-
+		msg_format(_("%sã«åå‰ã‚’ã¤ã‘ã‚‹ã€‚", "Name %s."), m_name);
 		msg_print(NULL);
 
 		/* Start with nothing */
@@ -2315,12 +2168,7 @@ static void do_name_pet(void)
 		}
 
 		/* Get a new inscription (possibly empty) */
-#ifdef JP
-		if (get_string("Ì¾Á°: ", out_val, 15))
-#else
-		if (get_string("Name: ", out_val, 15))
-#endif
-
+		if (get_string(_("åå‰: ", "Name: "), out_val, 15))
 		{
 			if (out_val[0])
 			{
@@ -2349,8 +2197,11 @@ static void do_name_pet(void)
 	}
 }
 
-/*
+
+/*!
+ * @brief ãƒšãƒƒãƒˆã«é–¢ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
  * Issue a pet command
+ * @return ãªã—
  */
 void do_cmd_pet(void)
 {
@@ -2359,7 +2210,6 @@ void do_cmd_pet(void)
 	int			powers[36];
 	cptr			power_desc[36];
 	bool			flag, redraw;
-	int			ask;
 	char			choice;
 	char			out_val[160];
 	int			pet_ctr;
@@ -2374,202 +2224,109 @@ void do_cmd_pet(void)
 
 	num = 0;
 
-#ifdef JP
-	power_desc[num] = "¥Ú¥Ã¥È¤òÊü¤¹";
-#else
-	power_desc[num] = "dismiss pets";
-#endif
-
+	power_desc[num] = _("ãƒšãƒƒãƒˆã‚’æ”¾ã™", "dismiss pets");
 	powers[num++] = PET_DISMISS;
 
 #ifdef JP
-	sprintf(target_buf, "¥Ú¥Ã¥È¤Î¥¿¡¼¥²¥Ã¥È¤ò»ØÄê (¸½ºß¡§%s)",
-		(pet_t_m_idx ? (p_ptr->image ? "²¿¤«´ñÌ¯¤ÊÊª" : (r_name + r_info[m_list[pet_t_m_idx].ap_r_idx].name)) : "»ØÄê¤Ê¤·"));
+	sprintf(target_buf, "ãƒšãƒƒãƒˆã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’æŒ‡å®š (ç¾åœ¨ï¼š%s)",
+		(pet_t_m_idx ? (p_ptr->image ? "ä½•ã‹å¥‡å¦™ãªç‰©" : (r_name + r_info[m_list[pet_t_m_idx].ap_r_idx].name)) : "æŒ‡å®šãªã—"));
 #else
 	sprintf(target_buf, "specify a target of pet (now:%s)",
 		(pet_t_m_idx ? (p_ptr->image ? "something strange" : (r_name + r_info[m_list[pet_t_m_idx].ap_r_idx].name)) : "nothing"));
 #endif
 	power_desc[num] = target_buf;
-
 	powers[num++] = PET_TARGET;
-
-#ifdef JP
-	power_desc[num] = "¶á¤¯¤Ë¤¤¤í";
-#else
-	power_desc[num] = "stay close";
-#endif
+	power_desc[num] = _("è¿‘ãã«ã„ã‚", "stay close");
 
 	if (p_ptr->pet_follow_distance == PET_CLOSE_DIST) mode = num;
 	powers[num++] = PET_STAY_CLOSE;
-
-#ifdef JP
-	power_desc[num] = "¤Ä¤¤¤ÆÍè¤¤";
-#else
-	power_desc[num] = "follow me";
-#endif
+	power_desc[num] = _("ã¤ã„ã¦æ¥ã„", "follow me");
 
 	if (p_ptr->pet_follow_distance == PET_FOLLOW_DIST) mode = num;
 	powers[num++] = PET_FOLLOW_ME;
-
-#ifdef JP
-	power_desc[num] = "Å¨¤ò¸«¤Ä¤±¤ÆÅİ¤»";
-#else
-	power_desc[num] = "seek and destroy";
-#endif
+	power_desc[num] = _("æ•µã‚’è¦‹ã¤ã‘ã¦å€’ã›", "seek and destroy");
 
 	if (p_ptr->pet_follow_distance == PET_DESTROY_DIST) mode = num;
 	powers[num++] = PET_SEEK_AND_DESTROY;
-
-#ifdef JP
-	power_desc[num] = "¾¯¤·Î¥¤ì¤Æ¤¤¤í";
-#else
-	power_desc[num] = "give me space";
-#endif
+	power_desc[num] = _("å°‘ã—é›¢ã‚Œã¦ã„ã‚", "give me space");
 
 	if (p_ptr->pet_follow_distance == PET_SPACE_DIST) mode = num;
 	powers[num++] = PET_ALLOW_SPACE;
-
-#ifdef JP
-	power_desc[num] = "Î¥¤ì¤Æ¤¤¤í";
-#else
-	power_desc[num] = "stay away";
-#endif
+	power_desc[num] = _("é›¢ã‚Œã¦ã„ã‚", "stay away");
 
 	if (p_ptr->pet_follow_distance == PET_AWAY_DIST) mode = num;
 	powers[num++] = PET_STAY_AWAY;
 
 	if (p_ptr->pet_extra_flags & PF_OPEN_DOORS)
 	{
-#ifdef JP
-		power_desc[num] = "¥É¥¢¤ò³«¤±¤ë (¸½ºß:ON)";
-#else
-		power_desc[num] = "pets open doors (now On)";
-#endif
+		power_desc[num] = _("ãƒ‰ã‚¢ã‚’é–‹ã‘ã‚‹ (ç¾åœ¨:ON)", "pets open doors (now On)");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¥É¥¢¤ò³«¤±¤ë (¸½ºß:OFF)";
-#else
-		power_desc[num] = "pets open doors (now Off)";
-#endif
+		power_desc[num] = _("ãƒ‰ã‚¢ã‚’é–‹ã‘ã‚‹ (ç¾åœ¨:OFF)", "pets open doors (now Off)");
 	}
 	powers[num++] = PET_OPEN_DOORS;
 
 	if (p_ptr->pet_extra_flags & PF_PICKUP_ITEMS)
 	{
-#ifdef JP
-		power_desc[num] = "¥¢¥¤¥Æ¥à¤ò½¦¤¦ (¸½ºß:ON)";
-#else
-		power_desc[num] = "pets pick up items (now On)";
-#endif
+		power_desc[num] = _("ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã† (ç¾åœ¨:ON)", "pets pick up items (now On)");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¥¢¥¤¥Æ¥à¤ò½¦¤¦ (¸½ºß:OFF)";
-#else
-		power_desc[num] = "pets pick up items (now Off)";
-#endif
+		power_desc[num] = _("ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã† (ç¾åœ¨:OFF)", "pets pick up items (now Off)");
 	}
 	powers[num++] = PET_TAKE_ITEMS;
 
 	if (p_ptr->pet_extra_flags & PF_TELEPORT)
 	{
-#ifdef JP
-		power_desc[num] = "¥Æ¥ì¥İ¡¼¥È·ÏËâË¡¤ò»È¤¦ (¸½ºß:ON)";
-#else
-		power_desc[num] = "allow teleport (now On)";
-#endif
+		power_desc[num] = _("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆç³»é­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:ON)", "allow teleport (now On)");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¥Æ¥ì¥İ¡¼¥È·ÏËâË¡¤ò»È¤¦ (¸½ºß:OFF)";
-#else
-		power_desc[num] = "allow teleport (now Off)";
-#endif
+		power_desc[num] = _("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆç³»é­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:OFF)", "allow teleport (now Off)");
 	}
 	powers[num++] = PET_TELEPORT;
 
 	if (p_ptr->pet_extra_flags & PF_ATTACK_SPELL)
 	{
-#ifdef JP
-		power_desc[num] = "¹¶·âËâË¡¤ò»È¤¦ (¸½ºß:ON)";
-#else
-		power_desc[num] = "allow cast attack spell (now On)";
-#endif
+		power_desc[num] = _("æ”»æ’ƒé­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:ON)", "allow cast attack spell (now On)");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¹¶·âËâË¡¤ò»È¤¦ (¸½ºß:OFF)";
-#else
-		power_desc[num] = "allow cast attack spell (now Off)";
-#endif
+		power_desc[num] = _("æ”»æ’ƒé­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:OFF)", "allow cast attack spell (now Off)");
 	}
 	powers[num++] = PET_ATTACK_SPELL;
 
 	if (p_ptr->pet_extra_flags & PF_SUMMON_SPELL)
 	{
-#ifdef JP
-		power_desc[num] = "¾¤´­ËâË¡¤ò»È¤¦ (¸½ºß:ON)";
-#else
-		power_desc[num] = "allow cast summon spell (now On)";
-#endif
+		power_desc[num] = _("å¬å–šé­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:ON)", "allow cast summon spell (now On)");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¾¤´­ËâË¡¤ò»È¤¦ (¸½ºß:OFF)";
-#else
-		power_desc[num] = "allow cast summon spell (now Off)";
-#endif
+		power_desc[num] = _("å¬å–šé­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:OFF)", "allow cast summon spell (now Off)");
 	}
 	powers[num++] = PET_SUMMON_SPELL;
 
 	if (p_ptr->pet_extra_flags & PF_BALL_SPELL)
 	{
-#ifdef JP
-		power_desc[num] = "¥×¥ì¥¤¥ä¡¼¤ò´¬¤­¹ş¤àÈÏ°ÏËâË¡¤ò»È¤¦ (¸½ºß:ON)";
-#else
-		power_desc[num] = "allow involve player in area spell (now On)";
-#endif
+		power_desc[num] = _("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å·»ãè¾¼ã‚€ç¯„å›²é­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:ON)", "allow involve player in area spell (now On)");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¥×¥ì¥¤¥ä¡¼¤ò´¬¤­¹ş¤àÈÏ°ÏËâË¡¤ò»È¤¦ (¸½ºß:OFF)";
-#else
-		power_desc[num] = "allow involve player in area spell (now Off)";
-#endif
+		power_desc[num] = _("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å·»ãè¾¼ã‚€ç¯„å›²é­”æ³•ã‚’ä½¿ã† (ç¾åœ¨:OFF)", "allow involve player in area spell (now Off)");
 	}
 	powers[num++] = PET_BALL_SPELL;
 
 	if (p_ptr->riding)
 	{
-#ifdef JP
-		power_desc[num] = "¥Ú¥Ã¥È¤«¤é¹ß¤ê¤ë";
-#else
-		power_desc[num] = "get off a pet";
-#endif
+		power_desc[num] = _("ãƒšãƒƒãƒˆã‹ã‚‰é™ã‚Šã‚‹", "get off a pet");
 	}
 	else
 	{
-#ifdef JP
-		power_desc[num] = "¥Ú¥Ã¥È¤Ë¾è¤ë";
-#else
-		power_desc[num] = "ride a pet";
-#endif
+		power_desc[num] = _("ãƒšãƒƒãƒˆã«ä¹—ã‚‹", "ride a pet");
 	}
 	powers[num++] = PET_RIDING;
-
-#ifdef JP
-	power_desc[num] = "¥Ú¥Ã¥È¤ËÌ¾Á°¤ò¤Ä¤±¤ë";
-#else
-	power_desc[num] = "name pets";
-#endif
-
+	power_desc[num] = _("ãƒšãƒƒãƒˆã«åå‰ã‚’ã¤ã‘ã‚‹", "name pets");
 	powers[num++] = PET_NAME;
 
 	if (p_ptr->riding)
@@ -2581,19 +2338,11 @@ void do_cmd_pet(void)
 		{
 			if (p_ptr->pet_extra_flags & PF_RYOUTE)
 			{
-#ifdef JP
-				power_desc[num] = "Éğ´ï¤òÊÒ¼ê¤Ç»ı¤Ä";
-#else
-				power_desc[num] = "use one hand to control a riding pet";
-#endif
+				power_desc[num] = _("æ­¦å™¨ã‚’ç‰‡æ‰‹ã§æŒã¤", "use one hand to control a riding pet");
 			}
 			else
 			{
-#ifdef JP
-				power_desc[num] = "Éğ´ï¤òÎ¾¼ê¤Ç»ı¤Ä";
-#else
-				power_desc[num] = "use both hands for a weapon";
-#endif
+				power_desc[num] = _("æ­¦å™¨ã‚’ä¸¡æ‰‹ã§æŒã¤", "use both hands for a weapon");
 			}
 
 			powers[num++] = PET_RYOUTE;
@@ -2609,19 +2358,11 @@ void do_cmd_pet(void)
 				{
 					if (p_ptr->pet_extra_flags & PF_RYOUTE)
 					{
-#ifdef JP
-						power_desc[num] = "ÊÒ¼ê¤Ç³ÊÆ®¤¹¤ë";
-#else
-						power_desc[num] = "use one hand to control a riding pet";
-#endif
+						power_desc[num] = _("ç‰‡æ‰‹ã§æ ¼é—˜ã™ã‚‹", "use one hand to control a riding pet");
 					}
 					else
 					{
-#ifdef JP
-						power_desc[num] = "Î¾¼ê¤Ç³ÊÆ®¤¹¤ë";
-#else
-						power_desc[num] = "use both hands for melee";
-#endif
+						power_desc[num] = _("ä¸¡æ‰‹ã§æ ¼é—˜ã™ã‚‹", "use both hands for melee");
 					}
 
 					powers[num++] = PET_RYOUTE;
@@ -2630,19 +2371,11 @@ void do_cmd_pet(void)
 				{
 					if (p_ptr->pet_extra_flags & PF_RYOUTE)
 					{
-#ifdef JP
-						power_desc[num] = "³ÊÆ®¤ò¹Ô¤ï¤Ê¤¤";
-#else
-						power_desc[num] = "use one hand to control a riding pet";
-#endif
+						power_desc[num] = _("æ ¼é—˜ã‚’è¡Œã‚ãªã„", "use one hand to control a riding pet");
 					}
 					else
 					{
-#ifdef JP
-						power_desc[num] = "³ÊÆ®¤ò¹Ô¤¦";
-#else
-						power_desc[num] = "use one hand for melee";
-#endif
+						power_desc[num] = _("æ ¼é—˜ã‚’è¡Œã†", "use one hand for melee");
 					}
 
 					powers[num++] = PET_RYOUTE;
@@ -2669,21 +2402,13 @@ void do_cmd_pet(void)
 		screen_save();
 
 		/* Build a prompt */
-#ifdef JP
-		strnfmt(out_val, 78, "(¥³¥Ş¥ó¥É¡¢ESC=½ªÎ») ¥³¥Ş¥ó¥É¤òÁª¤ó¤Ç¤¯¤À¤µ¤¤:");
-#else
-		strnfmt(out_val, 78, "(Command, ESC=exit) Choose command from menu.");
-#endif
+		strnfmt(out_val, 78, _("(ã‚³ãƒãƒ³ãƒ‰ã€ESC=çµ‚äº†) ã‚³ãƒãƒ³ãƒ‰ã‚’é¸ã‚“ã§ãã ã•ã„:", "(Command, ESC=exit) Choose command from menu."));
 	}
 	else
 	{
 		/* Build a prompt */
 		strnfmt(out_val, 78,
-#ifdef JP
-		        "(¥³¥Ş¥ó¥É %c-%c¡¢'*'=°ìÍ÷¡¢ESC=½ªÎ») ¥³¥Ş¥ó¥É¤òÁª¤ó¤Ç¤¯¤À¤µ¤¤:",
-#else
-		        "(Command %c-%c, *=List, ESC=exit) Select a command: ",
-#endif
+		        _("(ã‚³ãƒãƒ³ãƒ‰ %c-%cã€'*'=ä¸€è¦§ã€ESC=çµ‚äº†) ã‚³ãƒãƒ³ãƒ‰ã‚’é¸ã‚“ã§ãã ã•ã„:", "(Command %c-%c, *=List, ESC=exit) Select a command: "),
 		        I2A(0), I2A(num - 1));
 	}
 
@@ -2692,6 +2417,8 @@ void do_cmd_pet(void)
 	/* Get a command from the user */
 	while (!flag)
 	{
+		int ask = TRUE;
+
 		if (choice == ESCAPE) choice = ' ';
 		else if (!get_com(out_val, &choice, TRUE)) break;
 
@@ -2759,12 +2486,10 @@ void do_cmd_pet(void)
 				for (ctr = 0; ctr < num; ctr++)
 				{
 					/* Letter/number for power selection */
-#ifdef JP
-					if (use_menu) sprintf(buf, "%c%s ", (ctr == mode) ? '*' : ' ', (ctr == (menu_line - 1)) ? "¡Õ" : "  ");
-#else
-					if (use_menu) sprintf(buf, "%c%s ", (ctr == mode) ? '*' : ' ', (ctr == (menu_line - 1)) ? "> " : "  ");
-#endif
-					else sprintf(buf, "%c%c) ", (ctr == mode) ? '*' : ' ', I2A(ctr));
+					if (use_menu) 
+						sprintf(buf, "%c%s ", (ctr == mode) ? '*' : ' ', (ctr == (menu_line - 1)) ? _("ã€‹", "> ") : "  ");
+					else 
+						sprintf(buf, "%c%c) ", (ctr == mode) ? '*' : ' ', I2A(ctr));
 
 					strcat(buf, power_desc[ctr]);
 
@@ -2811,11 +2536,7 @@ void do_cmd_pet(void)
 		if (ask)
 		{
 			/* Prompt */
-#ifdef JP
-			strnfmt(buf, 78, "%s¤ò»È¤¤¤Ş¤¹¤«¡© ", power_desc[i]);
-#else
-			strnfmt(buf, 78, "Use %s? ", power_desc[i]);
-#endif
+			strnfmt(buf, 78, _("%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ ", "Use %s? "), power_desc[i]);
 
 			/* Belay that order */
 			if (!get_check(buf)) continue;
@@ -2853,11 +2574,7 @@ void do_cmd_pet(void)
 
 			if (!pet_ctr)
 			{
-#ifdef JP
-				msg_print("¥Ú¥Ã¥È¤¬¤¤¤Ê¤¤¡ª");
-#else
-				msg_print("You have no pets!");
-#endif
+				msg_print(_("ãƒšãƒƒãƒˆãŒã„ãªã„ï¼", "You have no pets!"));
 				break;
 			}
 			do_cmd_pet_dismiss();

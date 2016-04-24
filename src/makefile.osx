@@ -22,12 +22,12 @@ ARCH = -arch i386
 
 WARNINGS = -W -Wall -Wno-unused-parameter -Wno-missing-field-initializers
 JUST_C = -std=c99 -Wdeclaration-after-statement
-OBJ_CFLAGS = -std=c99 -x objective-c -mmacosx-version-min=10.5
+OBJ_CFLAGS = -std=c99 -x objective-c -mmacosx-version-min=10.9
 ENCODINGS = -DJP -DEUC
 CFLAGS = -g -I. $(WARNINGS) $(OPT) -DMACH_O_CARBON -DHAVE_MKSTEMP $(ENCODINGS) -DCHUUKEI \
 	-fno-stack-protector $(ARCH)
-LIBS = -framework Cocoa
-DEPLOYMENT_TARGET = MACOSX_DEPLOYMENT_TARGET=10.5
+LIBS = -framework Cocoa -liconv
+DEPLOYMENT_TARGET = MACOSX_DEPLOYMENT_TARGET=10.9
 
 # Import user prefs
 # If you don't want to edit this file, put your module redefinitions
@@ -40,7 +40,7 @@ OBJS = \
 	dungeon.o effects.o files.o floors.o flavor.o generate.o \
 	grid.o hissatsu.o inet.o init1.o init2.o japanese.o \
 	load.o mane.o melee1.o melee2.o mind.o \
-	monster1.o monster2.o mspells1.o mspells2.o mspells3.o \
+	monster1.o monster2.o mspells1.o mspells2.o mspells3.o mspells4.o \
 	mutation.o snipe.o hex.o \
 	obj_kind.o object1.o object2.o racial.o \
 	report.o rooms.o save.o scores.o spells1.o \

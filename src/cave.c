@@ -1,31 +1,35 @@
-/* File: cave.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ * @file cave.c
+ * @brief ダンジョンの基礎部分実装(主にマスの実装) / low level dungeon routines -BEN-
+ * @date 2013/12/30
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ *\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * \n
+ * Support for Adam Bolt's tileset, lighting and transparency effects\n
+ * by Robert Ruehlmann (rr9@angband.org)\n
+ * \n
+ * 2013 Deskull Doxygen向けのコメント整理\n
  */
-
-/* Purpose: low level dungeon routines -BEN- */
 
 
 #include "angband.h"
 
-
-/*
- * Support for Adam Bolt's tileset, lighting and transparency effects
- * by Robert Ruehlmann (rr9@angband.org)
- */
-
-static byte display_autopick;
+static byte display_autopick; /*!< 自動拾い状態の設定フラグ */
 static int match_autopick;
-static object_type *autopick_obj;
-static int feat_priority;
+static object_type *autopick_obj; /*!< 各種自動拾い処理時に使うオブジェクトポインタ */
+static int feat_priority; /*!< マップ縮小表示時に表示すべき地形の優先度を保管する */
 
-/*
- * Distance between two points via Newton-Raphson technique
+/*!
+ * @brief 2点間の距離をニュートン・ラプソン法で算出する / Distance between two points via Newton-Raphson technique
+ * @param y1 1点目のy座標
+ * @param x1 1点目のx座標
+ * @param y2 2点目のy座標
+ * @param x2 2点目のx座標
+ * @return 2点間の距離
  */
 int distance (int y1, int x1, int y2, int x2)
 {
@@ -58,18 +62,20 @@ int distance (int y1, int x1, int y2, int x2)
 	return d;
 }
 
-
-/*
- * Return TRUE if the given feature is a trap
+/*!
+ * @brief 地形が罠持ちであるかの判定を行う。 / Return TRUE if the given feature is a trap
+ * @param feat 地形情報のID
+ * @return 罠持ちの地形ならばTRUEを返す。
  */
 bool is_trap(int feat)
 {
 	return have_flag(f_info[feat].flags, FF_TRAP);
 }
 
-
-/*
- * Return TRUE if the given grid is a known trap
+/*!
+ * @brief マスに看破済みの罠があるかの判定を行う。 / Return TRUE if the given grid is a known trap
+ * @param c_ptr マス構造体の参照ポインタ
+ * @return 看破済みの罠があるならTRUEを返す。
  */
 bool is_known_trap(cave_type *c_ptr)
 {
@@ -79,9 +85,10 @@ bool is_known_trap(cave_type *c_ptr)
 		return FALSE;
 }
 
-
-/*
- * Return TRUE if the given grid is a closed door
+/*!
+ * @brief 地形が閉じたドアであるかの判定を行う。 / Return TRUE if the given grid is a closed door
+ * @param feat 地形情報のID
+ * @return 閉じたドアのある地形ならばTRUEを返す。
  */
 bool is_closed_door(int feat)
 {
@@ -91,9 +98,10 @@ bool is_closed_door(int feat)
 	       !have_flag(f_ptr->flags, FF_MOVE);
 }
 
-
-/*
- * Return TRUE if the given grid is a hidden closed door
+/*!
+ * @brief マスに隠されたドアがあるかの判定を行う。 / Return TRUE if the given grid is a hidden closed door
+ * @param c_ptr マス構造体の参照ポインタ
+ * @return 隠されたドアがあるならTRUEを返す。
  */
 bool is_hidden_door(cave_type *c_ptr)
 {
@@ -104,41 +112,47 @@ bool is_hidden_door(cave_type *c_ptr)
 		return FALSE;
 }
 
-
-/*
- * A simple, fast, integer-based line-of-sight algorithm.  By Joseph Hall,
- * 4116 Brewster Drive, Raleigh NC 27606.  Email to jnh@ecemwl.ncsu.edu.
- *
- * Returns TRUE if a line of sight can be traced from (x1,y1) to (x2,y2).
- *
- * The LOS begins at the center of the tile (x1,y1) and ends at the center of
- * the tile (x2,y2).  If los() is to return TRUE, all of the tiles this line
- * passes through must be floor tiles, except for (x1,y1) and (x2,y2).
- *
- * We assume that the "mathematical corner" of a non-floor tile does not
- * block line of sight.
- *
- * Because this function uses (short) ints for all calculations, overflow may
- * occur if dx and dy exceed 90.
- *
- * Once all the degenerate cases are eliminated, the values "qx", "qy", and
- * "m" are multiplied by a scale factor "f1 = abs(dx * dy * 2)", so that
- * we can use integer arithmetic.
- *
- * We travel from start to finish along the longer axis, starting at the border
- * between the first and second tiles, where the y offset = .5 * slope, taking
- * into account the scale factor.  See below.
- *
- * Also note that this function and the "move towards target" code do NOT
- * share the same properties.  Thus, you can see someone, target them, and
- * then fire a bolt at them, but the bolt may hit a wall, not them.  However,
- * by clever choice of target locations, you can sometimes throw a "curve".
- *
- * Note that "line of sight" is not "reflexive" in all cases.
- *
- * Use the "projectable()" routine to test "spell/missile line of sight".
- *
- * Use the "update_view()" function to determine player line-of-sight.
+/*!
+ * @brief LOS(Line Of Sight / 視線が通っているか)の判定を行う。
+ * @param y1 始点のy座標
+ * @param x1 始点のx座標
+ * @param y2 終点のy座標
+ * @param x2 終点のx座標
+ * @return LOSが通っているならTRUEを返す。
+ * @details
+ * A simple, fast, integer-based line-of-sight algorithm.  By Joseph Hall,\n
+ * 4116 Brewster Drive, Raleigh NC 27606.  Email to jnh@ecemwl.ncsu.edu.\n
+ *\n
+ * Returns TRUE if a line of sight can be traced from (x1,y1) to (x2,y2).\n
+ *\n
+ * The LOS begins at the center of the tile (x1,y1) and ends at the center of\n
+ * the tile (x2,y2).  If los() is to return TRUE, all of the tiles this line\n
+ * passes through must be floor tiles, except for (x1,y1) and (x2,y2).\n
+ *\n
+ * We assume that the "mathematical corner" of a non-floor tile does not\n
+ * block line of sight.\n
+ *\n
+ * Because this function uses (short) ints for all calculations, overflow may\n
+ * occur if dx and dy exceed 90.\n
+ *\n
+ * Once all the degenerate cases are eliminated, the values "qx", "qy", and\n
+ * "m" are multiplied by a scale factor "f1 = abs(dx * dy * 2)", so that\n
+ * we can use integer arithmetic.\n
+ *\n
+ * We travel from start to finish along the longer axis, starting at the border\n
+ * between the first and second tiles, where the y offset = .5 * slope, taking\n
+ * into account the scale factor.  See below.\n
+ *\n
+ * Also note that this function and the "move towards target" code do NOT\n
+ * share the same properties.  Thus, you can see someone, target them, and\n
+ * then fire a bolt at them, but the bolt may hit a wall, not them.  However\n,
+ * by clever choice of target locations, you can sometimes throw a "curve".\n
+ *\n
+ * Note that "line of sight" is not "reflexive" in all cases.\n
+ *\n
+ * Use the "projectable()" routine to test "spell/missile line of sight".\n
+ *\n
+ * Use the "update_view()" function to determine player line-of-sight.\n
  */
 bool los(int y1, int x1, int y2, int x2)
 {
@@ -363,15 +377,14 @@ bool los(int y1, int x1, int y2, int x2)
 	return TRUE;
 }
 
+#define COMPLEX_WALL_ILLUMINATION /*!< 照明状態を壁により影響を受ける、より複雑な判定に切り替えるマクロ */
 
 
-
-
-
-#define COMPLEX_WALL_ILLUMINATION
-
-/*
- * Check for "local" illumination
+/*!
+ * @brief 指定された座標のマスが現在照らされているかを返す。 / Check for "local" illumination
+ * @param y y座標
+ * @param x x座標
+ * @return 指定された座標に照明がかかっているならTRUEを返す。。
  */
 static bool check_local_illumination(int y, int x)
 {
@@ -404,6 +417,7 @@ static bool check_local_illumination(int y, int x)
 }
 
 
+/*! 対象座標のマスの照明状態を更新する際の補助処理マクロ */
 #define update_local_illumination_aux(Y, X) \
 { \
 	if (player_has_los_bold((Y), (X))) \
@@ -417,9 +431,11 @@ static bool check_local_illumination(int y, int x)
 	} \
 }
 
-
-/*
- * Update "local" illumination
+/*!
+ * @brief 指定された座標の照明状態を更新する / Update "local" illumination
+ * @param y y座標
+ * @param x x座標
+ * @return なし
  */
 void update_local_illumination(int y, int x)
 {
@@ -513,37 +529,40 @@ void update_local_illumination(int y, int x)
 }
 
 
-/*
- * Can the player "see" the given grid in detail?
- *
- * He must have vision, illumination, and line of sight.
- *
- * Note -- "CAVE_LITE" is only set if the "torch" has "los()".
- * So, given "CAVE_LITE", we know that the grid is "fully visible".
- *
- * Note that "CAVE_GLOW" makes little sense for a wall, since it would mean
- * that a wall is visible from any direction.  That would be odd.  Except
- * under wizard light, which might make sense.  Thus, for walls, we require
- * not only that they be "CAVE_GLOW", but also, that they be adjacent to a
- * grid which is not only "CAVE_GLOW", but which is a non-wall, and which is
- * in line of sight of the player.
- *
- * This extra check is expensive, but it provides a more "correct" semantics.
- *
- * Note that we should not run this check on walls which are "outer walls" of
- * the dungeon, or we will induce a memory fault, but actually verifying all
- * of the locations would be extremely expensive.
- *
- * Thus, to speed up the function, we assume that all "perma-walls" which are
- * "CAVE_GLOW" are "illuminated" from all sides.  This is correct for all cases
- * except "vaults" and the "buildings" in town.  But the town is a hack anyway,
- * and the player has more important things on his mind when he is attacking a
- * monster vault.  It is annoying, but an extremely important optimization.
- *
- * Note that "glowing walls" are only considered to be "illuminated" if the
- * grid which is next to the wall in the direction of the player is also a
- * "glowing" grid.  This prevents the player from being able to "see" the
- * walls of illuminated rooms from a corridor outside the room.
+/*!
+ * @brief 指定された座標をプレイヤーが視覚に収められるかを返す。 / Can the player "see" the given grid in detail?
+ * @param y y座標
+ * @param x x座標
+ * @return 視覚に収められる状態ならTRUEを返す
+ * @details
+ * He must have vision, illumination, and line of sight.\n
+ * \n
+ * Note -- "CAVE_LITE" is only set if the "torch" has "los()".\n
+ * So, given "CAVE_LITE", we know that the grid is "fully visible".\n
+ *\n
+ * Note that "CAVE_GLOW" makes little sense for a wall, since it would mean\n
+ * that a wall is visible from any direction.  That would be odd.  Except\n
+ * under wizard light, which might make sense.  Thus, for walls, we require\n
+ * not only that they be "CAVE_GLOW", but also, that they be adjacent to a\n
+ * grid which is not only "CAVE_GLOW", but which is a non-wall, and which is\n
+ * in line of sight of the player.\n
+ *\n
+ * This extra check is expensive, but it provides a more "correct" semantics.\n
+ *\n
+ * Note that we should not run this check on walls which are "outer walls" of\n
+ * the dungeon, or we will induce a memory fault, but actually verifying all\n
+ * of the locations would be extremely expensive.\n
+ *\n
+ * Thus, to speed up the function, we assume that all "perma-walls" which are\n
+ * "CAVE_GLOW" are "illuminated" from all sides.  This is correct for all cases\n
+ * except "vaults" and the "buildings" in town.  But the town is a hack anyway,\n
+ * and the player has more important things on his mind when he is attacking a\n
+ * monster vault.  It is annoying, but an extremely important optimization.\n
+ *\n
+ * Note that "glowing walls" are only considered to be "illuminated" if the\n
+ * grid which is next to the wall in the direction of the player is also a\n
+ * "glowing" grid.  This prevents the player from being able to "see" the\n
+ * walls of illuminated rooms from a corridor outside the room.\n
  */
 bool player_can_see_bold(int y, int x)
 {
@@ -575,10 +594,10 @@ bool player_can_see_bold(int y, int x)
 	return check_local_illumination(y, x);
 }
 
-
-
-/*
- * Returns true if the player's grid is dark
+/*!
+ * @brief 指定された座標をプレイヤー収められていない状態かどうか / Returns true if the player's grid is dark
+ * @return 視覚に収められていないならTRUEを返す
+ * @details player_can_see_bold()関数の返り値の否定を返している。
  */
 bool no_lite(void)
 {
@@ -586,12 +605,13 @@ bool no_lite(void)
 }
 
 
-
-
-/*
- * Determine if a given location may be "destroyed"
- *
- * Used by destruction spells, and for placing stairs, etc.
+/*!
+ * @brief 指定された座標が地震や階段生成の対象となるマスかを返す。 / Determine if a given location may be "destroyed"
+ * @param y y座標
+ * @param x x座標
+ * @return 各種の変更が可能ならTRUEを返す。
+ * @details 
+ * 条件は永久地形でなく、なおかつ該当のマスにアーティファクトが存在しないか、である。英語の旧コメントに反して＊破壊＊の抑止判定には現在使われていない。
  */
 bool cave_valid_bold(int y, int x)
 {
@@ -625,19 +645,22 @@ bool cave_valid_bold(int y, int x)
 
 
 
-/*
- * Hack -- Legal monster codes
+/*!
+ * 一般的にモンスターシンボルとして扱われる記号を定義する(幻覚処理向け) / Hack -- Legal monster codes
  */
 static char image_monster_hack[] = \
 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-/*
- * Hack -- Legal object codes
+/*!
+ * 一般的にオブジェクトシンボルとして扱われる記号を定義する(幻覚処理向け) /  Hack -- Legal object codes
  */
 static char image_object_hack[] = "?/|\\\"!$()_-=[]{},~";
 
-/*
- * Mega-Hack -- Hallucinatory monster
+/*!
+ * @brief モンスターの表示を幻覚状態に差し替える / Mega-Hack -- Hallucinatory monster
+ * @param ap 本来の色
+ * @param cp 本来のシンボル
+ * @return なし
  */
 static void image_monster(byte *ap, char *cp)
 {
@@ -661,9 +684,11 @@ static void image_monster(byte *ap, char *cp)
 	}
 }
 
-
-/*
- * Mega-Hack -- Hallucinatory object
+/*!
+ * @brief オブジェクトの表示を幻覚状態に差し替える / Hallucinatory object
+ * @param ap 本来の色
+ * @param cp 本来のシンボル
+ * @return なし
  */
 static void image_object(byte *ap, char *cp)
 {
@@ -686,9 +711,11 @@ static void image_object(byte *ap, char *cp)
 }
 
 
-
-/*
- * Hack -- Random hallucination
+/*!
+ * @brief オブジェクト＆モンスターの表示を幻覚状態に差し替える / Hack -- Random hallucination
+ * @param ap 本来の色
+ * @param cp 本来のシンボル
+ * @return なし
  */
 static void image_random(byte *ap, char *cp)
 {
@@ -705,15 +732,15 @@ static void image_random(byte *ap, char *cp)
 	}
 }
 
-/*
- * This array lists the effects of "brightness" on various "base" colours.
- *
- * This is used to do dynamic lighting effects in ascii :-)
- * At the moment, only the various "floor" tiles are affected.
- *
- * The layout of the array is [x][0] = light and [x][1] = dark.
+/*!
+ * 照明の表現を行うための色合いの関係を{暗闇時, 照明時} で定義する /
+ * This array lists the effects of "brightness" on various "base" colours.\n
+ *\n
+ * This is used to do dynamic lighting effects in ascii :-)\n
+ * At the moment, only the various "floor" tiles are affected.\n
+ *\n
+ * The layout of the array is [x][0] = light and [x][1] = dark.\n
  */
-
 static byte lighting_colours[16][2] =
 {
 	/* TERM_DARK */
@@ -765,9 +792,9 @@ static byte lighting_colours[16][2] =
 	{TERM_L_UMBER, TERM_UMBER}
 };
 
-
-/*
- * Apply "default" feature lighting effects
+/*!
+ * @brief 調査中
+ * @todo コメントを付加すること
  */
 void apply_default_feat_lighting(byte f_attr[F_LIT_MAX], byte f_char[F_LIT_MAX])
 {
@@ -790,129 +817,131 @@ void apply_default_feat_lighting(byte f_attr[F_LIT_MAX], byte f_char[F_LIT_MAX])
 }
 
 
-/* Is this grid "darkened" by monster? */
+/*!
+ * モンスターにより照明が消されている地形か否かを判定する。 / Is this grid "darkened" by monster?
+ */
 #define darkened_grid(C) \
 	((((C)->info & (CAVE_VIEW | CAVE_LITE | CAVE_MNLT | CAVE_MNDK)) == (CAVE_VIEW | CAVE_MNDK)) && \
 	!p_ptr->see_nocto)
 
 
-/*
- * Extract the attr/char to display at the given (legal) map location
- *
- * Basically, we "paint" the chosen attr/char in several passes, starting
- * with any known "terrain features" (defaulting to darkness), then adding
- * any known "objects", and finally, adding any known "monsters".  This
- * is not the fastest method but since most of the calls to this function
- * are made for grids with no monsters or objects, it is fast enough.
- *
- * Note that this function, if used on the grid containing the "player",
- * will return the attr/char of the grid underneath the player, and not
- * the actual player attr/char itself, allowing a lot of optimization
- * in various "display" functions.
- *
- * Note that the "zero" entry in the feature/object/monster arrays are
- * used to provide "special" attr/char codes, with "monster zero" being
- * used for the player attr/char, "object zero" being used for the "stack"
- * attr/char, and "feature zero" being used for the "nothing" attr/char,
- * though this function makes use of only "feature zero".
- *
- * Note that monsters can have some "special" flags, including "ATTR_MULTI",
- * which means their color changes, and "ATTR_CLEAR", which means they take
- * the color of whatever is under them, and "CHAR_CLEAR", which means that
- * they take the symbol of whatever is under them.  Technically, the flag
- * "CHAR_MULTI" is supposed to indicate that a monster looks strange when
- * examined, but this flag is currently ignored.
- *
- * Currently, we do nothing with multi-hued objects, because there are
- * not any.  If there were, they would have to set "shimmer_objects"
- * when they were created, and then new "shimmer" code in "dungeon.c"
- * would have to be created handle the "shimmer" effect, and the code
- * in "cave.c" would have to be updated to create the shimmer effect.
- *
- * Note the effects of hallucination.  Objects always appear as random
- * "objects", monsters as random "monsters", and normal grids occasionally
- * appear as random "monsters" or "objects", but note that these random
- * "monsters" and "objects" are really just "colored ascii symbols".
- *
- * Note that "floors" and "invisible traps" (and "zero" features) are
- * drawn as "floors" using a special check for optimization purposes,
- * and these are the only features which get drawn using the special
- * lighting effects activated by "view_special_lite".
- *
- * Note the use of the "mimic" field in the "terrain feature" processing,
- * which allows any feature to "pretend" to be another feature.  This is
- * used to "hide" secret doors, and to make all "doors" appear the same,
- * and all "walls" appear the same, and "hidden" treasure stay hidden.
- * It is possible to use this field to make a feature "look" like a floor,
- * but the "special lighting effects" for floors will not be used.
- *
- * Note the use of the new "terrain feature" information.  Note that the
- * assumption that all interesting "objects" and "terrain features" are
- * memorized allows extremely optimized processing below.  Note the use
- * of separate flags on objects to mark them as memorized allows a grid
- * to have memorized "terrain" without granting knowledge of any object
- * which may appear in that grid.
- *
- * Note the efficient code used to determine if a "floor" grid is
- * "memorized" or "viewable" by the player, where the test for the
- * grid being "viewable" is based on the facts that (1) the grid
- * must be "lit" (torch-lit or perma-lit), (2) the grid must be in
- * line of sight, and (3) the player must not be blind, and uses the
- * assumption that all torch-lit grids are in line of sight.
- *
- * Note that floors (and invisible traps) are the only grids which are
- * not memorized when seen, so only these grids need to check to see if
- * the grid is "viewable" to the player (if it is not memorized).  Since
- * most non-memorized grids are in fact walls, this induces *massive*
- * efficiency, at the cost of *forcing* the memorization of non-floor
- * grids when they are first seen.  Note that "invisible traps" are
- * always treated exactly like "floors", which prevents "cheating".
- *
- * Note the "special lighting effects" which can be activated for floor
- * grids using the "view_special_lite" option (for "white" floor grids),
- * causing certain grids to be displayed using special colors.  If the
- * player is "blind", we will use "dark gray", else if the grid is lit
- * by the torch, and the "view_yellow_lite" option is set, we will use
- * "yellow", else if the grid is "dark", we will use "dark gray", else
- * if the grid is not "viewable", and the "view_bright_lite" option is
- * set, and the we will use "slate" (gray).  We will use "white" for all
- * other cases, in particular, for illuminated viewable floor grids.
- *
- * Note the "special lighting effects" which can be activated for wall
- * grids using the "view_granite_lite" option (for "white" wall grids),
- * causing certain grids to be displayed using special colors.  If the
- * player is "blind", we will use "dark gray", else if the grid is lit
- * by the torch, and the "view_yellow_lite" option is set, we will use
- * "yellow", else if the "view_bright_lite" option is set, and the grid
- * is not "viewable", or is "dark", or is glowing, but not when viewed
- * from the player's current location, we will use "slate" (gray).  We
- * will use "white" for all other cases, in particular, for correctly
- * illuminated viewable wall grids.
- *
- * Note that, when "view_granite_lite" is set, we use an inline version
- * of the "player_can_see_bold()" function to check the "viewability" of
- * grids when the "view_bright_lite" option is set, and we do NOT use
- * any special colors for "dark" wall grids, since this would allow the
- * player to notice the walls of illuminated rooms from a hallway that
- * happened to run beside the room.  The alternative, by the way, would
- * be to prevent the generation of hallways next to rooms, but this
- * would still allow problems when digging towards a room.
- *
- * Note that bizarre things must be done when the "attr" and/or "char"
- * codes have the "high-bit" set, since these values are used to encode
- * various "special" pictures in some versions, and certain situations,
- * such as "multi-hued" or "clear" monsters, cause the attr/char codes
- * to be "scrambled" in various ways.
- *
- * Note that eventually we may use the "&" symbol for embedded treasure,
- * and use the "*" symbol to indicate multiple objects, though this will
- * have to wait for Angband 2.8.0 or later.  Note that currently, this
- * is not important, since only one object or terrain feature is allowed
- * in each grid.  If needed, "k_info[0]" will hold the "stack" attr/char.
- *
- * Note the assumption that doing "x_ptr = &x_info[x]" plus a few of
- * "x_ptr->xxx", is quicker than "x_info[x].xxx", if this is incorrect
- * then a whole lot of code should be changed...  XXX XXX
+/*!
+ * @brief Mコマンドによる縮小マップの表示を行う / Extract the attr/char to display at the given (legal) map location
+ * @details
+ * Basically, we "paint" the chosen attr/char in several passes, starting\n
+ * with any known "terrain features" (defaulting to darkness), then adding\n
+ * any known "objects", and finally, adding any known "monsters".  This\n
+ * is not the fastest method but since most of the calls to this function\n
+ * are made for grids with no monsters or objects, it is fast enough.\n
+ *\n
+ * Note that this function, if used on the grid containing the "player",\n
+ * will return the attr/char of the grid underneath the player, and not\n
+ * the actual player attr/char itself, allowing a lot of optimization\n
+ * in various "display" functions.\n
+ *\n
+ * Note that the "zero" entry in the feature/object/monster arrays are\n
+ * used to provide "special" attr/char codes, with "monster zero" being\n
+ * used for the player attr/char, "object zero" being used for the "stack"\n
+ * attr/char, and "feature zero" being used for the "nothing" attr/char,\n
+ * though this function makes use of only "feature zero".\n
+ *\n
+ * Note that monsters can have some "special" flags, including "ATTR_MULTI",\n
+ * which means their color changes, and "ATTR_CLEAR", which means they take\n
+ * the color of whatever is under them, and "CHAR_CLEAR", which means that\n
+ * they take the symbol of whatever is under them.  Technically, the flag\n
+ * "CHAR_MULTI" is supposed to indicate that a monster looks strange when\n
+ * examined, but this flag is currently ignored.\n
+ *\n
+ * Currently, we do nothing with multi-hued objects, because there are\n
+ * not any.  If there were, they would have to set "shimmer_objects"\n
+ * when they were created, and then new "shimmer" code in "dungeon.c"\n
+ * would have to be created handle the "shimmer" effect, and the code\n
+ * in "cave.c" would have to be updated to create the shimmer effect.\n
+ *\n
+ * Note the effects of hallucination.  Objects always appear as random\n
+ * "objects", monsters as random "monsters", and normal grids occasionally\n
+ * appear as random "monsters" or "objects", but note that these random\n
+ * "monsters" and "objects" are really just "colored ascii symbols".\n
+ *\n
+ * Note that "floors" and "invisible traps" (and "zero" features) are\n
+ * drawn as "floors" using a special check for optimization purposes,\n
+ * and these are the only features which get drawn using the special\n
+ * lighting effects activated by "view_special_lite".\n
+ *\n
+ * Note the use of the "mimic" field in the "terrain feature" processing,\n
+ * which allows any feature to "pretend" to be another feature.  This is\n
+ * used to "hide" secret doors, and to make all "doors" appear the same,\n
+ * and all "walls" appear the same, and "hidden" treasure stay hidden.\n
+ * It is possible to use this field to make a feature "look" like a floor,\n
+ * but the "special lighting effects" for floors will not be used.\n
+ *\n
+ * Note the use of the new "terrain feature" information.  Note that the\n
+ * assumption that all interesting "objects" and "terrain features" are\n
+ * memorized allows extremely optimized processing below.  Note the use\n
+ * of separate flags on objects to mark them as memorized allows a grid\n
+ * to have memorized "terrain" without granting knowledge of any object\n
+ * which may appear in that grid.\n
+ *\n
+ * Note the efficient code used to determine if a "floor" grid is\n
+ * "memorized" or "viewable" by the player, where the test for the\n
+ * grid being "viewable" is based on the facts that (1) the grid\n
+ * must be "lit" (torch-lit or perma-lit), (2) the grid must be in\n
+ * line of sight, and (3) the player must not be blind, and uses the\n
+ * assumption that all torch-lit grids are in line of sight.\n
+ *\n
+ * Note that floors (and invisible traps) are the only grids which are\n
+ * not memorized when seen, so only these grids need to check to see if\n
+ * the grid is "viewable" to the player (if it is not memorized).  Since\n
+ * most non-memorized grids are in fact walls, this induces *massive*\n
+ * efficiency, at the cost of *forcing* the memorization of non-floor\n
+ * grids when they are first seen.  Note that "invisible traps" are\n
+ * always treated exactly like "floors", which prevents "cheating".\n
+ *\n
+ * Note the "special lighting effects" which can be activated for floor\n
+ * grids using the "view_special_lite" option (for "white" floor grids),\n
+ * causing certain grids to be displayed using special colors.  If the\n
+ * player is "blind", we will use "dark gray", else if the grid is lit\n
+ * by the torch, and the "view_yellow_lite" option is set, we will use\n
+ * "yellow", else if the grid is "dark", we will use "dark gray", else\n
+ * if the grid is not "viewable", and the "view_bright_lite" option is\n
+ * set, and the we will use "slate" (gray).  We will use "white" for all\n
+ * other cases, in particular, for illuminated viewable floor grids.\n
+ *\n
+ * Note the "special lighting effects" which can be activated for wall\n
+ * grids using the "view_granite_lite" option (for "white" wall grids),\n
+ * causing certain grids to be displayed using special colors.  If the\n
+ * player is "blind", we will use "dark gray", else if the grid is lit\n
+ * by the torch, and the "view_yellow_lite" option is set, we will use\n
+ * "yellow", else if the "view_bright_lite" option is set, and the grid\n
+ * is not "viewable", or is "dark", or is glowing, but not when viewed\n
+ * from the player's current location, we will use "slate" (gray).  We\n
+ * will use "white" for all other cases, in particular, for correctly\n
+ * illuminated viewable wall grids.\n
+ *\n
+ * Note that, when "view_granite_lite" is set, we use an inline version\n
+ * of the "player_can_see_bold()" function to check the "viewability" of\n
+ * grids when the "view_bright_lite" option is set, and we do NOT use\n
+ * any special colors for "dark" wall grids, since this would allow the\n
+ * player to notice the walls of illuminated rooms from a hallway that\n
+ * happened to run beside the room.  The alternative, by the way, would\n
+ * be to prevent the generation of hallways next to rooms, but this\n
+ * would still allow problems when digging towards a room.\n
+ *\n
+ * Note that bizarre things must be done when the "attr" and/or "char"\n
+ * codes have the "high-bit" set, since these values are used to encode\n
+ * various "special" pictures in some versions, and certain situations,\n
+ * such as "multi-hued" or "clear" monsters, cause the attr/char codes\n
+ * to be "scrambled" in various ways.\n
+ *\n
+ * Note that eventually we may use the "&" symbol for embedded treasure,\n
+ * and use the "*" symbol to indicate multiple objects, though this will\n
+ * have to wait for Angband 2.8.0 or later.  Note that currently, this\n
+ * is not important, since only one object or terrain feature is allowed\n
+ * in each grid.  If needed, "k_info[0]" will hold the "stack" attr/char.\n
+ *\n
+ * Note the assumption that doing "x_ptr = &x_info[x]" plus a few of\n
+ * "x_ptr->xxx", is quicker than "x_info[x].xxx", if this is incorrect\n
+ * then a whole lot of code should be changed...  XXX XXX\n
  */
 void map_info(int y, int x, byte *ap, char *cp, byte *tap, char *tcp)
 {
@@ -1528,6 +1557,9 @@ void note_spot(int y, int x)
 			c_ptr->info |= (CAVE_MARK);
 		}
 	}
+
+	/* Memorize terrain of the grid */
+	c_ptr->info |= (CAVE_KNOWN);
 }
 
 
@@ -1781,7 +1813,7 @@ void prt_path(int y, int x)
 static cptr simplify_list[][2] =
 {
 #ifdef JP
-	{"����ˡ��", ""},
+	{"の魔法書", ""},
 	{NULL, NULL}
 #else
 	{"^Ring of ",   "="},
@@ -1816,11 +1848,7 @@ static void display_shortened_item_name(object_type *o_ptr, int y)
 	if (p_ptr->image)
 	{
 		attr = TERM_WHITE;
-#ifdef JP
-		strcpy(buf, "������̯��ʪ");
-#else
-		strcpy(buf, "something strange");
-#endif
+		strcpy(buf, _("何か奇妙な物", "something strange"));
 	}
 
 	for (c = buf; *c; c++)
@@ -1854,7 +1882,7 @@ static void display_shortened_item_name(object_type *o_ptr, int y)
 
 	c = buf;
 	len = 0;
-	/* Ⱦ�� 12 ʸ��ʬ���ڤ� */
+	/* 半角 12 文字分で切る */
 	while(*c)
 	{
 #ifdef JP
@@ -2132,33 +2160,33 @@ void display_map(int *cy, int *cx)
 	for (y = 0; y < (hgt + 2); y++)
 	{
 		/* Free one row each array */
-		C_FREE(ma[y], (wid + 2), byte);
-		C_FREE(mc[y], (wid + 2), char);
-		C_FREE(mp[y], (wid + 2), byte);
-		C_FREE(match_autopick_yx[y], (wid + 2), int);
-		C_FREE(object_autopick_yx[y], (wid + 2), object_type **);
+		C_KILL(ma[y], (wid + 2), byte);
+		C_KILL(mc[y], (wid + 2), char);
+		C_KILL(mp[y], (wid + 2), byte);
+		C_KILL(match_autopick_yx[y], (wid + 2), int);
+		C_KILL(object_autopick_yx[y], (wid + 2), object_type *);
 	}
 
 	/* Free each line map */
-	C_FREE(ma, (hgt + 2), byte_ptr);
-	C_FREE(mc, (hgt + 2), char_ptr);
-	C_FREE(mp, (hgt + 2), byte_ptr);
-	C_FREE(match_autopick_yx, (hgt + 2), sint_ptr);
-	C_FREE(object_autopick_yx, (hgt + 2), object_type **);
+	C_KILL(ma, (hgt + 2), byte_ptr);
+	C_KILL(mc, (hgt + 2), char_ptr);
+	C_KILL(mp, (hgt + 2), byte_ptr);
+	C_KILL(match_autopick_yx, (hgt + 2), sint_ptr);
+	C_KILL(object_autopick_yx, (hgt + 2), object_type **);
 
 	/* Free each line map */
 	for (y = 0; y < (cur_hgt + 2); y++)
 	{
 		/* Free one row each array */
-		C_FREE(bigma[y], (cur_wid + 2), byte);
-		C_FREE(bigmc[y], (cur_wid + 2), char);
-		C_FREE(bigmp[y], (cur_wid + 2), byte);
+		C_KILL(bigma[y], (cur_wid + 2), byte);
+		C_KILL(bigmc[y], (cur_wid + 2), char);
+		C_KILL(bigmp[y], (cur_wid + 2), byte);
 	}
 
 	/* Free each line map */
-	C_FREE(bigma, (cur_hgt + 2), byte_ptr);
-	C_FREE(bigmc, (cur_hgt + 2), char_ptr);
-	C_FREE(bigmp, (cur_hgt + 2), byte_ptr);
+	C_KILL(bigma, (cur_hgt + 2), byte_ptr);
+	C_KILL(bigmc, (cur_hgt + 2), char_ptr);
+	C_KILL(bigmp, (cur_hgt + 2), byte_ptr);
 }
 
 
@@ -2176,11 +2204,7 @@ void do_cmd_view_map(void)
 	screen_save();
 
 	/* Note */
-#ifdef JP
-prt("���Ԥ�������...", 0, 0);
-#else
-	prt("Please wait...", 0, 0);
-#endif
+	prt(_("お待ち下さい...", "Please wait..."), 0, 0);
 
 	/* Flush */
 	Term_fresh();
@@ -2208,11 +2232,8 @@ prt("���Ԥ�������...", 0, 0);
 			Term_get_size(&wid, &hgt);
 			row_message = hgt - 1;
 
-#ifdef JP
-			put_str("���������򲡤��Ƥ�������('M':���� 'N':���� 'D':M+N 'K':���������ƥ��ɽ��)", row_message, 1);
-#else
-			put_str(" Hit M, N(for ~), K(for !), or D(same as M+N) to display auto-picker items.", row_message, 1);
-#endif
+			put_str(_("何かキーを押してください('M':拾う 'N':放置 'D':M+N 'K':壊すアイテムを表示)",
+					  " Hit M, N(for ~), K(for !), or D(same as M+N) to display auto-picker items."), row_message, 1);
 
 			/* Hilite the player */
 			move_cursor(cy, cx);
@@ -2245,11 +2266,8 @@ prt("���Ԥ�������...", 0, 0);
 	}
 	else
 	{
-#ifdef JP
-		put_str("���������򲡤��ȥ���������ޤ�", 23, 30);
-#else
-		put_str("Hit any key to continue", 23, 30);
-#endif		/* Hilite the player */
+		put_str(_("何かキーを押すとゲームに戻ります", "Hit any key to continue"), 23, 30);		
+		/* Hilite the player */
 		move_cursor(cy, cx);
 		/* Get any key */
 		inkey();
@@ -3272,19 +3290,11 @@ void update_mon_lite(void)
 		{
 			if (p_ptr->monlite)
 			{
-#ifdef JP
-				msg_print("�Ƥ�ʤ�������줿�������롣");
-#else
-				msg_print("Your mantle of shadow become thin.");
-#endif
+				msg_print(_("影の覆いが薄れた気がする。", "Your mantle of shadow become thin."));
 			}
 			else
 			{
-#ifdef JP
-				msg_print("�Ƥ�ʤ����ǻ���ʤä���");
-#else
-				msg_print("Your mantle of shadow restored its original darkness.");
-#endif
+				msg_print(_("影の覆いが濃くなった！", "Your mantle of shadow restored its original darkness."));
 			}
 		}
 	}
@@ -4304,6 +4314,9 @@ void map_area(int range)
 
 			c_ptr = &cave[y][x];
 
+			/* Memorize terrain of the grid */
+			c_ptr->info |= (CAVE_KNOWN);
+
 			/* Feature code (applying "mimic" field) */
 			feat = get_feat_mimic(c_ptr);
 			f_ptr = &f_info[feat];
@@ -4392,6 +4405,9 @@ void wiz_lite(bool ninja)
 		{
 			cave_type *c_ptr = &cave[y][x];
 
+			/* Memorize terrain of the grid */
+			c_ptr->info |= (CAVE_KNOWN);
+
 			/* Feature code (applying "mimic" field) */
 			feat = get_feat_mimic(c_ptr);
 			f_ptr = &f_info[feat];
@@ -4471,7 +4487,7 @@ void wiz_dark(void)
 			cave_type *c_ptr = &cave[y][x];
 
 			/* Process the grid */
-			c_ptr->info &= ~(CAVE_MARK | CAVE_IN_DETECT);
+			c_ptr->info &= ~(CAVE_MARK | CAVE_IN_DETECT | CAVE_KNOWN);
 			c_ptr->info |= (CAVE_UNSAFE);
 		}
 	}
@@ -4504,6 +4520,9 @@ void wiz_dark(void)
 		/* Forget the object */
 		o_ptr->marked &= OM_TOUCHED;
 	}
+
+	/* Forget travel route when we have forgotten map */
+	forget_travel_flow();
 
 	/* Mega-Hack -- Forget the view and lite */
 	p_ptr->update |= (PU_UN_VIEW | PU_UN_LITE);
@@ -4734,11 +4753,7 @@ void cave_alter_feat(int y, int x, int action)
 
 		if (found && character_dungeon && player_can_see_bold(y, x))
 		{
-#ifdef JP
-			msg_print("������ȯ��������");
-#else
-			msg_print("You have found something!");
-#endif
+			msg_print(_("何かを発見した！", "You have found something!"));
 		}
 	}
 
@@ -5003,10 +5018,12 @@ void object_kind_track(int k_idx)
  *
  * All disturbance cancels repeated commands, resting, and running.
  */
-void disturb(int stop_search, int unused_flag)
+void disturb(int stop_search, int stop_travel)
 {
+#ifndef TRAVEL
 	/* Unused */
-	unused_flag = unused_flag;
+	stop_travel = stop_travel;
+#endif
 
 	/* Cancel auto-commands */
 	/* command_new = 0; */
@@ -5045,7 +5062,7 @@ void disturb(int stop_search, int unused_flag)
 	}
 
 #ifdef TRAVEL
-	if (travel.run)
+	if (stop_travel)
 	{
 		/* Cancel */
 		travel.run = 0;

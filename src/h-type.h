@@ -1,8 +1,4 @@
-/* File: h-type.h */
-
-#ifdef C99
-#include <stdint.h>
-#endif
+﻿/* File: h-type.h */
 
 #ifndef INCLUDED_H_TYPE_H
 #define INCLUDED_H_TYPE_H
@@ -43,6 +39,9 @@
  */
 
 
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
 
 /*** Special 4 letter names for some standard types ***/
 
@@ -117,7 +116,7 @@ typedef unsigned long huge;
 
 
 /* Signed/Unsigned 16 bit value */
-#ifdef C99
+#ifdef HAVE_STDINT_H
 typedef int16_t s16b;
 typedef uint16_t u16b;
 #else
@@ -126,16 +125,9 @@ typedef unsigned short u16b;
 #endif
 
 /* Signed/Unsigned 32 bit value */
-#ifdef C99
-
-#ifdef L64 /* 64 bit longs */
-typedef signed int s32b;
-typedef unsigned int u32b;
-#else
-typedef signed long s32b;
-typedef unsigned long u32b;
-#endif
-
+#ifdef HAVE_STDINT_H
+typedef int32_t s32b;
+typedef uint32_t u32b;
 #else
 typedef signed long s32b;
 typedef unsigned long u32b;

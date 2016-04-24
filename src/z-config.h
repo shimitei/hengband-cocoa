@@ -1,4 +1,4 @@
-/* File: z-config.h */
+﻿/* File: z-config.h */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -308,7 +308,7 @@
 /*
  * OPTION: Allow the use of "music" in various places
  */
-/* #define USE_MUSIC */
+#define USE_MUSIC
 
 #endif /* USE_SPECIAL */
 

@@ -1,32 +1,36 @@
-/* File: mind.c */
-
-/* Purpose: Mindcrafter code */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+ï»¿/*!
+ * @file hissatsu.c
+ * @brief å‰£è¡“ã®å®Ÿè£… / Blade arts
+ * @date 2014/01/17
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen.\n
  */
 
 #include "angband.h"
 
 #define TECHNIC_HISSATSU (REALM_HISSATSU - MIN_TECHNIC)
 
-/*
- * Allow user to choose a mindcrafter power.
- *
- * If a valid spell is chosen, saves it in '*sn' and returns TRUE
- * If the user hits escape, returns FALSE, and set '*sn' to -1
- * If there are no legal choices, returns FALSE, and sets '*sn' to -2
- *
- * The "prompt" should be "cast", "recite", or "study"
- * The "known" should be TRUE for cast/pray, FALSE for study
- *
- * nb: This function has a (trivial) display bug which will be obvious
- * when you run it. It's probably easy to fix but I haven't tried,
- * sorry.
+
+/*!
+ * @brief ä½¿ç”¨å¯èƒ½ãªå‰£è¡“ã‚’é¸æŠã™ã‚‹ /
+ * Allow user to choose a blade arts.
+ * @param sn é¸æŠã—ãŸç‰¹æ®ŠæŠ€èƒ½IDã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã®å ´åˆ-1ã€ä¸æ­£ãªé¸æŠã®å ´åˆ-2ã‚’è¿”ã™
+ * @return ç™ºå‹•å¯èƒ½ãªé­”æ³•ã‚’é¸æŠã—ãŸå ´åˆTRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«å‡¦ç†ã‹ä¸æ­£ãªé¸æŠãŒè¡Œã‚ã‚ŒãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ * @details
+ * If a valid spell is chosen, saves it in '*sn' and returns TRUE\n
+ * If the user hits escape, returns FALSE, and set '*sn' to -1\n
+ * If there are no legal choices, returns FALSE, and sets '*sn' to -2\n
+ *\n
+ * The "prompt" should be "cast", "recite", or "study"\n
+ * The "known" should be TRUE for cast/pray, FALSE for study\n
+ *\n
+ * nb: This function has a (trivial) display bug which will be obvious\n
+ * when you run it. It's probably easy to fix but I haven't tried,\n
+ * sorry.\n
  */
 static int get_hissatsu_power(int *sn)
 {
@@ -39,11 +43,7 @@ static int get_hissatsu_power(int *sn)
 	char            choice;
 	char            out_val[160];
 	char sentaku[32];
-#ifdef JP
-cptr            p = "É¬»¦·õ";
-#else
-	cptr            p = "special attack";
-#endif
+	cptr            p = _("å¿…æ®ºå‰£", "special attack");
 
 	magic_type spell;
 	bool            flag, redraw;
@@ -84,11 +84,7 @@ cptr            p = "É¬»¦·õ";
 
 	/* Build a prompt (accept all spells) */
 	(void) strnfmt(out_val, 78, 
-#ifdef JP
-		       "(%^s %c-%c, '*'¤Ç°ìÍ÷, ESC) ¤É¤Î%s¤ò»È¤¤¤Ş¤¹¤«¡©",
-#else
-		       "(%^ss %c-%c, *=List, ESC=exit) Use which %s? ",
-#endif
+		       _("(%^s %c-%c, '*'ã§ä¸€è¦§, ESC) ã©ã®%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
 		       p, I2A(0), "abcdefghijklmnopqrstuvwxyz012345"[num-1], p);
 
 	if (use_menu) screen_save();
@@ -194,11 +190,8 @@ cptr            p = "É¬»¦·õ";
 
 				/* Display a list of spells */
 				prt("", y, x);
-#ifdef JP
-put_str("Ì¾Á°              Lv  MP      Ì¾Á°              Lv  MP ", y, x + 5);
-#else
-put_str("name              Lv  SP      name              Lv  SP ", y, x + 5);
-#endif
+				put_str(_("åå‰              Lv  MP      åå‰              Lv  MP ", 
+						  "name              Lv  SP      name              Lv  SP "), y, x + 5);
 				prt("", y+1, x);
 				/* Dump the spells */
 				for (i = 0, line = 0; i < 32; i++)
@@ -215,11 +208,7 @@ put_str("name              Lv  SP      name              Lv  SP ", y, x + 5);
 					if (use_menu)
 					{
 						if (i == (menu_line-1))
-#ifdef JP
-							strcpy(psi_desc, "  ¡Õ");
-#else
-							strcpy(psi_desc, "  > ");
-#endif
+							strcpy(psi_desc, _("  ã€‹", "  > "));
 						else strcpy(psi_desc, "    ");
 						
 					}
@@ -292,12 +281,7 @@ put_str("name              Lv  SP      name              Lv  SP ", y, x + 5);
 			char tmp_val[160];
 
 			/* Prompt */
-#ifdef JP
-			(void) strnfmt(tmp_val, 78, "%s¤ò»È¤¤¤Ş¤¹¤«¡©", do_spell(REALM_HISSATSU, j, SPELL_NAME));
-#else
-			(void)strnfmt(tmp_val, 78, "Use %s? ", do_spell(REALM_HISSATSU, j, SPELL_NAME));
-#endif
-
+			(void) strnfmt(tmp_val, 78, _("%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "Use %s? "), do_spell(REALM_HISSATSU, j, SPELL_NAME));
 
 			/* Belay that order */
 			if (!get_check(tmp_val)) continue;
@@ -334,9 +318,9 @@ put_str("name              Lv  SP      name              Lv  SP ", y, x + 5);
 }
 
 
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'mindcrafter'.
+/*!
+ * @brief å‰£è¡“ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @return ãªã—
  */
 void do_cmd_hissatsu(void)
 {
@@ -347,33 +331,18 @@ void do_cmd_hissatsu(void)
 	/* not if confused */
 	if (p_ptr->confused)
 	{
-#ifdef JP
-msg_print("º®Íğ¤·¤Æ¤¤¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦é›†ä¸­ã§ããªã„ï¼", "You are too confused!"));
 		return;
 	}
 	if (!buki_motteruka(INVEN_RARM) && !buki_motteruka(INVEN_LARM))
 	{
 		if (flush_failure) flush();
-#ifdef JP
-msg_print("Éğ´ï¤ò»ı¤¿¤Ê¤¤¤ÈÉ¬»¦µ»¤Ï»È¤¨¤Ê¤¤¡ª");
-#else
-		msg_print("You need to wield a weapon!");
-#endif
-
+		msg_print(_("æ­¦å™¨ã‚’æŒãŸãªã„ã¨å¿…æ®ºæŠ€ã¯ä½¿ãˆãªã„ï¼", "You need to wield a weapon!"));
 		return;
 	}
 	if (!p_ptr->spell_learned1)
 	{
-#ifdef JP
-msg_print("²¿¤âµ»¤òÃÎ¤é¤Ê¤¤¡£");
-#else
-		msg_print("You don't know any special attacks.");
-#endif
-
+		msg_print(_("ä½•ã‚‚æŠ€ã‚’çŸ¥ã‚‰ãªã„ã€‚", "You don't know any special attacks."));
 		return;
 	}
 
@@ -392,11 +361,7 @@ msg_print("²¿¤âµ»¤òÃÎ¤é¤Ê¤¤¡£");
 	{
 		if (flush_failure) flush();
 		/* Warning */
-#ifdef JP
-msg_print("£Í£Ğ¤¬Â­¤ê¤Ş¤»¤ó¡£");
-#else
-		msg_print("You do not have enough mana to use this power.");
-#endif
+		msg_print(_("ï¼­ï¼°ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚", "You do not have enough mana to use this power."));
 		msg_print(NULL);
 		return;
 	}
@@ -424,6 +389,10 @@ msg_print("£Í£Ğ¤¬Â­¤ê¤Ş¤»¤ó¡£");
 }
 
 
+/*!
+ * @brief å‰£è¡“ã‚³ãƒãƒ³ãƒ‰ã®å­¦ç¿’
+ * @return ãªã—
+ */
 void do_cmd_gain_hissatsu(void)
 {
 	int item, i, j;
@@ -440,42 +409,27 @@ void do_cmd_gain_hissatsu(void)
 
 	if (p_ptr->blind || no_lite())
 	{
-#ifdef JP
-msg_print("ÌÜ¤¬¸«¤¨¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot see!");
-#endif
-
+		msg_print(_("ç›®ãŒè¦‹ãˆãªã„ï¼", "You cannot see!"));
 		return;
 	}
 
 	if (p_ptr->confused)
 	{
-#ifdef JP
-msg_print("º®Íğ¤·¤Æ¤¤¤ÆÆÉ¤á¤Ê¤¤¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦èª­ã‚ãªã„ï¼", "You are too confused!"));
 		return;
 	}
 
 	if (!(p_ptr->new_spells))
 	{
-#ifdef JP
-msg_print("¿·¤·¤¤É¬»¦µ»¤ò³Ğ¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ê¤¤¡ª");
-#else
-		msg_print("You cannot learn any new special attacks!");
-#endif
-
+		msg_print(_("æ–°ã—ã„å¿…æ®ºæŠ€ã‚’è¦šãˆã‚‹ã“ã¨ã¯ã§ããªã„ï¼", "You cannot learn any new special attacks!"));
 		return;
 	}
 
 #ifdef JP
 	if( p_ptr->new_spells < 10 ){
-		msg_format("¤¢¤È %d ¤Ä¤ÎÉ¬»¦µ»¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells);
+		msg_format("ã‚ã¨ %d ã¤ã®å¿…æ®ºæŠ€ã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells);
 	}else{
-		msg_format("¤¢¤È %d ¸Ä¤ÎÉ¬»¦µ»¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells);
+		msg_format("ã‚ã¨ %d å€‹ã®å¿…æ®ºæŠ€ã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells);
 	}
 #else
 	msg_format("You can learn %d new special attack%s.", p_ptr->new_spells,
@@ -485,17 +439,8 @@ msg_print("¿·¤·¤¤É¬»¦µ»¤ò³Ğ¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ê¤¤¡ª");
 	item_tester_tval = TV_HISSATSU_BOOK;
 
 	/* Get an item */
-#ifdef JP
-q = "¤É¤Î½ñ¤«¤é³Ø¤Ó¤Ş¤¹¤«? ";
-#else
-	q = "Study which book? ";
-#endif
-
-#ifdef JP
-s = "ÆÉ¤á¤ë½ñ¤¬¤Ê¤¤¡£";
-#else
-	s = "You have no books that you can read.";
-#endif
+	q = _("ã©ã®æ›¸ã‹ã‚‰å­¦ã³ã¾ã™ã‹? ", "Study which book? ");
+	s = _("èª­ã‚ã‚‹æ›¸ãŒãªã„ã€‚", "You have no books that you can read.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return;
 
@@ -518,11 +463,7 @@ s = "ÆÉ¤á¤ë½ñ¤¬¤Ê¤¤¡£";
 
 		p_ptr->spell_learned1 |= (1L << i);
 		p_ptr->spell_worked1 |= (1L << i);
-#ifdef JP
-		msg_format("%s¤Îµ»¤ò³Ğ¤¨¤¿¡£", do_spell(REALM_HISSATSU, i, SPELL_NAME));
-#else
-		msg_format("You have learned the special attack of %s.", do_spell(REALM_HISSATSU, i, SPELL_NAME));
-#endif
+		msg_format(_("%sã®æŠ€ã‚’è¦šãˆãŸã€‚", "You have learned the special attack of %s."), do_spell(REALM_HISSATSU, i, SPELL_NAME));
 		for (j = 0; j < 64; j++)
 		{
 			/* Stop at the first empty space */
@@ -534,15 +475,200 @@ s = "ÆÉ¤á¤ë½ñ¤¬¤Ê¤¤¡£";
 
 	/* No gain ... */
 	if (!gain)
-#ifdef JP
-		msg_print("²¿¤â³Ğ¤¨¤é¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-		msg_print("You were not able to learn any special attacks.");
-#endif
+		msg_print(_("ä½•ã‚‚è¦šãˆã‚‰ã‚Œãªã‹ã£ãŸã€‚", "You were not able to learn any special attacks."));
 
 	/* Take a turn */
 	else
 		energy_use = 100;
 
 	p_ptr->update |= (PU_SPELLS);
+}
+
+
+/*!
+ * @brief å‰£è¡“ã®ã‚¹ãƒ¬ã‚¤å€ç‡è¨ˆç®—ã‚’è¡Œã† /
+ * Calcurate magnification of hissatsu technics
+ * @param mult å‰£è¡“ã®ã‚¹ãƒ¬ã‚¤åŠ¹æœä»¥å‰ã«ç®—å‡ºã—ã¦ã„ã‚‹å¤šè¦ç´ ã®å€ç‡(/10å€)
+ * @param flgs å‰£è¡“ã«ä½¿ç”¨ã™ã‚‹æ­¦å™¨ã®ã‚¹ãƒ¬ã‚¤ãƒ•ãƒ©ã‚°é…åˆ—
+ * @param m_ptr ç›®æ¨™ã¨ãªã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @param mode å‰£è¡“ã®ã‚¹ãƒ¬ã‚¤å‹ID
+ * @return ã‚¹ãƒ¬ã‚¤ã®å€ç‡(/10å€)
+ */
+s16b mult_hissatsu(int mult, u32b *flgs, monster_type *m_ptr, int mode)
+{
+	monster_race *r_ptr = &r_info[m_ptr->r_idx];
+
+	/* Burning Strike (Fire) */
+	if (mode == HISSATSU_FIRE)
+	{
+		/* Notice immunity */
+		if (r_ptr->flagsr & RFR_EFF_IM_FIRE_MASK)
+		{
+			if (is_original_ap_and_seen(m_ptr))
+			{
+				r_ptr->r_flagsr |= (r_ptr->flagsr & RFR_EFF_IM_FIRE_MASK);
+			}
+		}
+
+		/* Otherwise, take the damage */
+		else if (have_flag(flgs, TR_BRAND_FIRE))
+		{
+			if (r_ptr->flags3 & RF3_HURT_FIRE)
+			{
+				if (mult < 70) mult = 70;
+				if (is_original_ap_and_seen(m_ptr))
+				{
+					r_ptr->r_flags3 |= RF3_HURT_FIRE;
+				}
+			}
+			else if (mult < 35) mult = 35;
+		}
+		else
+		{
+			if (r_ptr->flags3 & RF3_HURT_FIRE)
+			{
+				if (mult < 50) mult = 50;
+				if (is_original_ap_and_seen(m_ptr))
+				{
+					r_ptr->r_flags3 |= RF3_HURT_FIRE;
+				}
+			}
+			else if (mult < 25) mult = 25;
+		}
+	}
+
+	/* Serpent's Tongue (Poison) */
+	if (mode == HISSATSU_POISON)
+	{
+		/* Notice immunity */
+		if (r_ptr->flagsr & RFR_EFF_IM_POIS_MASK)
+		{
+			if (is_original_ap_and_seen(m_ptr))
+			{
+				r_ptr->r_flagsr |= (r_ptr->flagsr & RFR_EFF_IM_POIS_MASK);
+			}
+		}
+
+		/* Otherwise, take the damage */
+		else if (have_flag(flgs, TR_BRAND_POIS))
+		{
+			if (mult < 35) mult = 35;
+		}
+		else
+		{
+			if (mult < 25) mult = 25;
+		}
+	}
+
+	/* Zammaken (Nonliving Evil) */
+	if (mode == HISSATSU_ZANMA)
+	{
+		if (!monster_living(r_ptr) && (r_ptr->flags3 & RF3_EVIL))
+		{
+			if (mult < 15) mult = 25;
+			else if (mult < 50) mult = MIN(50, mult+20);
+		}
+	}
+
+	/* Rock Smash (Hurt Rock) */
+	if (mode == HISSATSU_HAGAN)
+	{
+		if (r_ptr->flags3 & RF3_HURT_ROCK)
+		{
+			if (is_original_ap_and_seen(m_ptr))
+			{
+				r_ptr->r_flags3 |= RF3_HURT_ROCK;
+			}
+			if (mult == 10) mult = 40;
+			else if (mult < 60) mult = 60;
+		}
+	}
+
+	/* Midare-Setsugekka (Cold) */
+	if (mode == HISSATSU_COLD)
+	{
+		/* Notice immunity */
+		if (r_ptr->flagsr & RFR_EFF_IM_COLD_MASK)
+		{
+			if (is_original_ap_and_seen(m_ptr))
+			{
+				r_ptr->r_flagsr |= (r_ptr->flagsr & RFR_EFF_IM_COLD_MASK);
+			}
+		}
+		/* Otherwise, take the damage */
+		else if (have_flag(flgs, TR_BRAND_COLD))
+		{
+			if (r_ptr->flags3 & RF3_HURT_COLD)
+			{
+				if (mult < 70) mult = 70;
+				if (is_original_ap_and_seen(m_ptr))
+				{
+					r_ptr->r_flags3 |= RF3_HURT_COLD;
+				}
+			}
+			else if (mult < 35) mult = 35;
+		}
+		else
+		{
+			if (r_ptr->flags3 & RF3_HURT_COLD)
+			{
+				if (mult < 50) mult = 50;
+				if (is_original_ap_and_seen(m_ptr))
+				{
+					r_ptr->r_flags3 |= RF3_HURT_COLD;
+				}
+			}
+			else if (mult < 25) mult = 25;
+		}
+	}
+
+	/* Lightning Eagle (Elec) */
+	if (mode == HISSATSU_ELEC)
+	{
+		/* Notice immunity */
+		if (r_ptr->flagsr & RFR_EFF_IM_ELEC_MASK)
+		{
+			if (is_original_ap_and_seen(m_ptr))
+			{
+				r_ptr->r_flagsr |= (r_ptr->flagsr & RFR_EFF_IM_ELEC_MASK);
+			}
+		}
+
+		/* Otherwise, take the damage */
+		else if (have_flag(flgs, TR_BRAND_ELEC))
+		{
+			if (mult < 70) mult = 70;
+		}
+		else
+		{
+			if (mult < 50) mult = 50;
+		}
+	}
+
+	/* Bloody Maelstrom */
+	if ((mode == HISSATSU_SEKIRYUKA) && p_ptr->cut && monster_living(r_ptr))
+	{
+		int tmp = MIN(100, MAX(10, p_ptr->cut / 10));
+		if (mult < tmp) mult = tmp;
+	}
+
+	/* Keiun-Kininken */
+	if (mode == HISSATSU_UNDEAD)
+	{
+		if (r_ptr->flags3 & RF3_UNDEAD)
+		{
+			if (is_original_ap_and_seen(m_ptr))
+			{
+				r_ptr->r_flags3 |= RF3_UNDEAD;
+			}
+			if (mult == 10) mult = 70;
+			else if (mult < 140) mult = MIN(140, mult+60);
+		}
+		if (mult == 10) mult = 40;
+		else if (mult < 60) mult = MIN(60, mult+30);
+	}
+
+	if (mult > 150) mult = 150;
+
+	return mult;
 }

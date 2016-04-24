@@ -1,17 +1,22 @@
-/* Purpose: Object flavor code */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+﻿/*!
+ *  @file flavor.c
+ *  @brief オブジェクトの記述処理 / Mbject flavor code
+ *  @date 2014/01/03
+ *  @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ *\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
  */
 
 #include "angband.h"
 
-/*
- * Certain items, if aware, are known instantly
+/*!
+ * @brief 最初から簡易な名称が明らかになるベースアイテムの判定。 /  Certain items, if aware, are known instantly 
+ * @param i ベースアイテムID
+ * @return 簡易名称を明らかにするならTRUEを返す。
+ * @details
  * This function is used only by "flavor_init()"
  */
 static bool object_easy_know(int i)
@@ -64,9 +69,12 @@ static bool object_easy_know(int i)
 	return (FALSE);
 }
 
-
-/*
- * Create a name from random parts.
+/*!
+ * @brief 各種語彙からランダムな名前を作成する / Create a name from random parts.
+ * @param out_string 作成した名を保管する参照ポインタ
+ * @return なし
+ * @details 日本語の場合 aname_j.txt 英語の場合確率に応じて
+ * syllables 配列と elvish.txt を組み合わせる。\n
  */
 void get_table_name_aux(char *out_string)
 {
@@ -129,25 +137,24 @@ void get_table_name_aux(char *out_string)
 #endif
 }
 
-
-/*
- * Create a name from random parts with quotes.
+/*!
+ * @brief ランダムな名前をアーティファクト銘として整形する。 / Create a name from random parts with quotes.
+ * @param out_string 作成した名を保管する参照ポインタ
+ * @return なし
+ * @details get_table_name_aux()ほぼ完全に実装を依存している。
  */
 void get_table_name(char *out_string)
 {
 	char buff[80];
 	get_table_name_aux(buff);
-
-#ifdef JP
-	sprintf(out_string, "��%s��", buff);
-#else
-	sprintf(out_string, "'%s'", buff);
-#endif
+	sprintf(out_string, _("『%s』", "'%s'"), buff);
 }
 
-
-/*
- * Make random Sindarin name
+/*!
+ * @brief ランダムなシンダリン銘を作成する / Make random Sindarin name
+ * @param out_string 作成した名を保管する参照ポインタ
+ * @return なし
+ * @details sname.txtが語幹の辞書となっている。
  */
 void get_table_sindarin_aux(char *out_string)
 {
@@ -172,25 +179,25 @@ void get_table_sindarin_aux(char *out_string)
 #endif
 }
 
-
-/*
- * Make random Sindarin name with quotes
+/*!
+ * @brief シンダリン銘をアーティファクト用に整形する。 / Make random Sindarin name with quotes
+ * @param out_string 作成した名を保管する参照ポインタ
+ * @return なし
+ * @details get_table_sindarin_aux()ほぼ完全に実装を依存している。
  */
 void get_table_sindarin(char *out_string)
 {
 	char buff[80];
 	get_table_sindarin_aux(buff);
-
-#ifdef JP
-	sprintf(out_string, "��%s��", buff);
-#else
-	sprintf(out_string, "'%s'", buff);
-#endif
+	sprintf(out_string, _("『%s』", "'%s'"), buff);
 }
 
 
-/*
- * Shuffle flavor indices of a group of objects with given tval
+/*!
+ * @brief ベースアイテムの未確定名を共通tval間でシャッフルする / Shuffle flavor indices of a group of objects with given tval
+ * @param tval シャッフルしたいtval
+ * @return なし
+ * @details 巻物、各種魔道具などに利用される。
  */
 static void shuffle_flavors(byte tval)
 {
@@ -238,46 +245,50 @@ static void shuffle_flavors(byte tval)
 	C_KILL(k_idx_list, max_k_idx, s16b);
 }
 
-/*
- * Prepare the "variable" part of the "k_info" array.
- *
- * The "color"/"metal"/"type" of an item is its "flavor".
- * For the most part, flavors are assigned randomly each game.
- *
- * Initialize descriptions for the "colored" objects, including:
- * Rings, Amulets, Staffs, Wands, Rods, Food, Potions, Scrolls.
- *
- * The first 4 entries for potions are fixed (Water, Apple Juice,
- * Slime Mold Juice, Unused Potion).
- *
- * Scroll titles are always between 6 and 14 letters long.  This is
- * ensured because every title is composed of whole words, where every
- * word is from 1 to 8 letters long (one or two syllables of 1 to 4
- * letters each), and that no scroll is finished until it attempts to
- * grow beyond 15 letters.  The first time this can happen is when the
- * current title has 6 letters and the new word has 8 letters, which
- * would result in a 6 letter scroll title.
- *
- * Duplicate titles are avoided by requiring that no two scrolls share
- * the same first four letters (not the most efficient method, and not
- * the least efficient method, but it will always work).
- *
- * Hack -- make sure everything stays the same for each saved game
- * This is accomplished by the use of a saved "random seed", as in
- * "town_gen()".  Since no other functions are called while the special
- * seed is in effect, so this function is pretty "safe".
- *
- * Note that the "hacked seed" may provide an RNG with alternating parity!
+/*!
+ * @brief ゲーム開始時に行われるベースアイテムの初期化ルーチン / Prepare the "variable" part of the "k_info" array.
+ * @return なし
+ * @details
+ * Prepare the "variable" part of the "k_info" array.\n
+ *\n
+ * The "color"/"metal"/"type" of an item is its "flavor".\n
+ * For the most part, flavors are assigned randomly each game.\n
+ *\n
+ * Initialize descriptions for the "colored" objects, including:\n
+ * Rings, Amulets, Staffs, Wands, Rods, Food, Potions, Scrolls.\n
+ *\n
+ * The first 4 entries for potions are fixed (Water, Apple Juice,\n
+ * Slime Mold Juice, Unused Potion).\n
+ *\n
+ * Scroll titles are always between 6 and 14 letters long.  This is\n
+ * ensured because every title is composed of whole words, where every\n
+ * word is from 1 to 8 letters long (one or two syllables of 1 to 4\n
+ * letters each), and that no scroll is finished until it attempts to\n
+ * grow beyond 15 letters.  The first time this can happen is when the\n
+ * current title has 6 letters and the new word has 8 letters, which\n
+ * would result in a 6 letter scroll title.\n
+ *\n
+ * Duplicate titles are avoided by requiring that no two scrolls share\n
+ * the same first four letters (not the most efficient method, and not\n
+ * the least efficient method, but it will always work).\n
+ *\n
+ * Hack -- make sure everything stays the same for each saved game\n
+ * This is accomplished by the use of a saved "random seed", as in\n
+ * "town_gen()".  Since no other functions are called while the special\n
+ * seed is in effect, so this function is pretty "safe".\n
+ *\n
+ * Note that the "hacked seed" may provide an RNG with alternating parity!\n
  */
 void flavor_init(void)
 {
 	int i;
+	u32b state_backup[4];
 
-	/* Hack -- Use the "simple" RNG */
-	Rand_quick = TRUE;
+	/* Hack -- Backup the RNG state */
+	Rand_state_backup(state_backup);
 
 	/* Hack -- Induce consistant flavors */
-	Rand_value = seed_flavor;
+	Rand_state_set(seed_flavor);
 
 
 	/* Initialize flavor index of each object by itself */
@@ -320,8 +331,8 @@ void flavor_init(void)
 	shuffle_flavors(TV_SCROLL);
 
 
-	/* Hack -- Use the "complex" RNG */
-	Rand_quick = FALSE;
+	/* Hack -- Restore the RNG state */
+	Rand_state_restore(state_backup);
 
 	/* Analyze every object */
 	for (i = 1; i < max_k_idx; i++)
@@ -340,9 +351,14 @@ void flavor_init(void)
 }
 
 
-/*
- * Print a char "c" into a string "t", as if by sprintf(t, "%c", c),
- * and return a pointer to the terminator (t + 1).
+/*!
+ * @brief 対象文字配列に一文字だけをコピーする。
+ * @param t 保管先文字列ポインタ
+ * @param c 保管したい1文字
+ * @return なし
+ * @details
+ * Print a char "c" into a string "t", as if by sprintf(t, "%c", c),\n
+ * and return a pointer to the terminator (t + 1).\n
  */
 static char *object_desc_chr(char *t, char c)
 {
@@ -356,8 +372,12 @@ static char *object_desc_chr(char *t, char c)
 	return (t);
 }
 
-
-/*
+/*!
+ * @brief 対象文字配列に文字列をコピーする。
+ * @param t 保管先文字列ポインタ
+ * @param s コピーしたい文字列ポインタ
+ * @return 保管先の末尾アドレス
+ * @details
  * Print a string "s" into a string "t", as if by strcpy(t, s),
  * and return a pointer to the terminator.
  */
@@ -373,9 +393,12 @@ static char *object_desc_str(char *t, cptr s)
 	return (t);
 }
 
-
-
-/*
+/*!
+ * @brief 対象文字配列に符号なし整数値をコピーする。
+ * @param t 保管先文字列ポインタ
+ * @param n コピーしたい数値
+ * @return なし
+ * @details
  * Print an unsigned number "n" into a string "t", as if by
  * sprintf(t, "%u", n), and return a pointer to the terminator.
  */
@@ -410,11 +433,14 @@ static char *object_desc_num(char *t, uint n)
 
 
 #ifdef JP
-/*
- * ���ܸ�θĿ�ɽ���롼����
- *��cmd1.c ��ή�Ѥ��뤿��� object_desc_japanese �����ư��������
+/*!
+ * @brief 日本語の個数表示ルーチン
+ * @param t 保管先文字列ポインタ
+ * @param o_ptr 記述したいオブジェクトの構造体参照ポインタ
+ * @return なし
+ * @details
+ * cmd1.c で流用するために object_desc_japanese から移動した。
  */
-
 char *object_desc_kosuu(char *t, object_type *o_ptr)
 {
     t = object_desc_num(t, o_ptr->number);
@@ -429,17 +455,17 @@ char *object_desc_kosuu(char *t, object_type *o_ptr)
       case TV_ROD:
       case TV_DIGGING:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "本");
 	  break;
       }
       case TV_SCROLL:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "巻");
 	  break;
       }
       case TV_POTION:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "服");
 	  break;
       }
       case  TV_LIFE_BOOK:
@@ -456,7 +482,7 @@ char *object_desc_kosuu(char *t, object_type *o_ptr)
       case  TV_HISSATSU_BOOK:
 	  case TV_HEX_BOOK:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "冊");
 	  break;
       }
       case TV_SOFT_ARMOR:
@@ -464,32 +490,32 @@ char *object_desc_kosuu(char *t, object_type *o_ptr)
       case TV_DRAG_ARMOR:
       case TV_CLOAK:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "着");
 	  break;
       }
       case TV_SWORD:
       case TV_HAFTED:
       case TV_BOW:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "振");
 	  break;
       }
       case TV_BOOTS:
       {
-	  t = object_desc_str(t, "­");
+	  t = object_desc_str(t, "足");
 	  break;
       }
       case TV_CARD:
       {
-	  t = object_desc_str(t, "��");
+	  t = object_desc_str(t, "枚");
 	  break;
       }
-	    /* ���٤�� by ita */
+	    /* 食べもの by ita */
       case TV_FOOD:
       {
 	  if(o_ptr->sval == SV_FOOD_JERKY)
 	  {
-	      t = object_desc_str(t, "�ڤ�");
+	      t = object_desc_str(t, "切れ");
 	      break;
 	  }
       }
@@ -497,11 +523,11 @@ char *object_desc_kosuu(char *t, object_type *o_ptr)
       {
 	  if (o_ptr->number < 10)
 	  {
-	      t = object_desc_str(t, "��");
+	      t = object_desc_str(t, "つ");
 	  }
 	  else
 	  {
-	      t = object_desc_str(t, "��");
+	      t = object_desc_str(t, "個");
 	  }
 	  break;
       }
@@ -510,7 +536,12 @@ char *object_desc_kosuu(char *t, object_type *o_ptr)
 }
 #endif
 
-/*
+/*!
+ * @brief 対象文字配列に符号あり整数値をコピーする。
+ * @param t 保管先文字列ポインタ
+ * @param v コピーしたい数値
+ * @return なし
+ * @details
  * Print an signed number "v" into a string "t", as if by
  * sprintf(t, "%+d", n), and return a pointer to the terminator.
  * Note that we always print a sign, either "+" or "-".
@@ -563,10 +594,9 @@ static char *object_desc_int(char *t, sint v)
 }
 
 
-/*
- * Structs and tables for Auto Inscription for flags
+/*!
+ * オブジェクトの特性表示記号テーブルの構造体 / Structs and tables for Auto Inscription for flags
  */
-
 typedef struct flag_insc_table
 {
 #ifdef JP
@@ -578,161 +608,179 @@ typedef struct flag_insc_table
 } flag_insc_table;
 
 #ifdef JP
+/*! オブジェクトの特性表示記号テーブルの定義(pval要素) */
 static flag_insc_table flag_insc_plus[] =
 {
-	{ "��", "At", TR_BLOWS, -1 },
-	{ "®", "Sp", TR_SPEED, -1 },
-	{ "��", "St", TR_STR, -1 },
-	{ "��", "In", TR_INT, -1 },
-	{ "��", "Wi", TR_WIS, -1 },
-	{ "��", "Dx", TR_DEX, -1 },
-	{ "��", "Cn", TR_CON, -1 },
-	{ "̥", "Ch", TR_CHR, -1 },
-	{ "ƻ", "Md", TR_MAGIC_MASTERY, -1 },
-	{ "��", "Sl", TR_STEALTH, -1 },
-	{ "õ", "Sr", TR_SEARCH, -1 },
-	{ "��", "If", TR_INFRA, -1 },
-	{ "��", "Dg", TR_TUNNEL, -1 },
+	{ "攻", "At", TR_BLOWS, -1 },
+	{ "速", "Sp", TR_SPEED, -1 },
+	{ "腕", "St", TR_STR, -1 },
+	{ "知", "In", TR_INT, -1 },
+	{ "賢", "Wi", TR_WIS, -1 },
+	{ "器", "Dx", TR_DEX, -1 },
+	{ "耐", "Cn", TR_CON, -1 },
+	{ "魅", "Ch", TR_CHR, -1 },
+	{ "道", "Md", TR_MAGIC_MASTERY, -1 },
+	{ "隠", "Sl", TR_STEALTH, -1 },
+	{ "探", "Sr", TR_SEARCH, -1 },
+	{ "赤", "If", TR_INFRA, -1 },
+	{ "掘", "Dg", TR_TUNNEL, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(免疫) */
 static flag_insc_table flag_insc_immune[] =
 {
-	{ "��", "Ac", TR_IM_ACID, -1 },
-	{ "��", "El", TR_IM_ELEC, -1 },
-	{ "��", "Fi", TR_IM_FIRE, -1 },
-	{ "��", "Co", TR_IM_COLD, -1 },
+	{ "酸", "Ac", TR_IM_ACID, -1 },
+	{ "電", "El", TR_IM_ELEC, -1 },
+	{ "火", "Fi", TR_IM_FIRE, -1 },
+	{ "冷", "Co", TR_IM_COLD, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(耐性) */
 static flag_insc_table flag_insc_resistance[] =
 {
-	{ "��", "Ac", TR_RES_ACID, TR_IM_ACID },
-	{ "��", "El", TR_RES_ELEC, TR_IM_ELEC },
-	{ "��", "Fi", TR_RES_FIRE, TR_IM_FIRE },
-	{ "��", "Co", TR_RES_COLD, TR_IM_COLD },
-	{ "��", "Po", TR_RES_POIS, -1 },
-	{ "��", "Li", TR_RES_LITE, -1 },
-	{ "��", "Dk", TR_RES_DARK, -1 },
-	{ "��", "Sh", TR_RES_SHARDS, -1 },
-	{ "��", "Bl", TR_RES_BLIND, -1 },
-	{ "��", "Cf", TR_RES_CONF, -1 },
-	{ "��", "So", TR_RES_SOUND, -1 },
-	{ "��", "Nt", TR_RES_NETHER, -1 },
-	{ "��", "Nx", TR_RES_NEXUS, -1 },
-	{ "��", "Ca", TR_RES_CHAOS, -1 },
-	{ "��", "Di", TR_RES_DISEN, -1 },
-	{ "��", "Fe", TR_RES_FEAR, -1 },
+	{ "酸", "Ac", TR_RES_ACID, TR_IM_ACID },
+	{ "電", "El", TR_RES_ELEC, TR_IM_ELEC },
+	{ "火", "Fi", TR_RES_FIRE, TR_IM_FIRE },
+	{ "冷", "Co", TR_RES_COLD, TR_IM_COLD },
+	{ "毒", "Po", TR_RES_POIS, -1 },
+	{ "閃", "Li", TR_RES_LITE, -1 },
+	{ "暗", "Dk", TR_RES_DARK, -1 },
+	{ "破", "Sh", TR_RES_SHARDS, -1 },
+	{ "盲", "Bl", TR_RES_BLIND, -1 },
+	{ "乱", "Cf", TR_RES_CONF, -1 },
+	{ "轟", "So", TR_RES_SOUND, -1 },
+	{ "獄", "Nt", TR_RES_NETHER, -1 },
+	{ "因", "Nx", TR_RES_NEXUS, -1 },
+	{ "沌", "Ca", TR_RES_CHAOS, -1 },
+	{ "劣", "Di", TR_RES_DISEN, -1 },
+	{ "恐", "Fe", TR_RES_FEAR, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(その他特性) */
 static flag_insc_table flag_insc_misc[] =
 {
-	{ "��", "Es", TR_EASY_SPELL, -1 },
-	{ "��", "Dm", TR_DEC_MANA, -1 },
-	{ "��", "Th", TR_THROW, -1 },
-	{ "ȿ", "Rf", TR_REFLECT, -1 },
-	{ "��", "Fa", TR_FREE_ACT, -1 },
-	{ "��", "Si", TR_SEE_INVIS, -1 },
-	{ "��", "Hl", TR_HOLD_LIFE, -1 },
-	{ "��", "Sd", TR_SLOW_DIGEST, -1 },
-	{ "��", "Rg", TR_REGEN, -1 },
-	{ "��", "Lv", TR_LEVITATION, -1 },
-	{ "��", "Lu", TR_LITE, -1 },
-	{ "��", "Wr", TR_WARNING, -1 },
-	{ "��", "Xm", TR_XTRA_MIGHT, -1 },
-	{ "��", "Xs", TR_XTRA_SHOTS, -1 },
-	{ "��", "Te", TR_TELEPORT, -1 },
-	{ "��", "Ag", TR_AGGRAVATE, -1 },
-	{ "��", "Bs", TR_BLESSED, -1 },
-	{ "��", "Ty", TR_TY_CURSE, -1 },
+	{ "易", "Es", TR_EASY_SPELL, -1 },
+	{ "減", "Dm", TR_DEC_MANA, -1 },
+	{ "投", "Th", TR_THROW, -1 },
+	{ "反", "Rf", TR_REFLECT, -1 },
+	{ "麻", "Fa", TR_FREE_ACT, -1 },
+	{ "視", "Si", TR_SEE_INVIS, -1 },
+	{ "経", "Hl", TR_HOLD_EXP, -1 },
+	{ "遅", "Sd", TR_SLOW_DIGEST, -1 },
+	{ "活", "Rg", TR_REGEN, -1 },
+	{ "浮", "Lv", TR_LEVITATION, -1 },
+	{ "明", "Lu", TR_LITE_1, -1 },
+	{ "明", "Lu", TR_LITE_2, -1 },
+	{ "明", "Lu", TR_LITE_3, -1 },
+	{ "闇", "Dl", TR_LITE_M1, -1 },
+	{ "闇", "Dl", TR_LITE_M2, -1 },
+	{ "闇", "Dl", TR_LITE_M3, -1 },
+	{ "警", "Wr", TR_WARNING, -1 },
+	{ "倍", "Xm", TR_XTRA_MIGHT, -1 },
+	{ "射", "Xs", TR_XTRA_SHOTS, -1 },
+	{ "瞬", "Te", TR_TELEPORT, -1 },
+	{ "怒", "Ag", TR_AGGRAVATE, -1 },
+	{ "祝", "Bs", TR_BLESSED, -1 },
+	{ "忌", "Ty", TR_TY_CURSE, -1 },
+	{ "呪", "C-", TR_ADD_L_CURSE, -1 },
+	{ "詛", "C+", TR_ADD_H_CURSE, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(オーラ) */
 static flag_insc_table flag_insc_aura[] =
 {
-	{ "��", "F", TR_SH_FIRE, -1 },
-	{ "��", "E", TR_SH_ELEC, -1 },
-	{ "��", "C", TR_SH_COLD, -1 },
-	{ "��", "M", TR_NO_MAGIC, -1 },
-	{ "��", "T", TR_NO_TELE, -1 },
+	{ "炎", "F", TR_SH_FIRE, -1 },
+	{ "電", "E", TR_SH_ELEC, -1 },
+	{ "冷", "C", TR_SH_COLD, -1 },
+	{ "魔", "M", TR_NO_MAGIC, -1 },
+	{ "瞬", "T", TR_NO_TELE, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(属性スレイ) */
 static flag_insc_table flag_insc_brand[] =
 {
-	{ "��", "A", TR_BRAND_ACID, -1 },
-	{ "��", "E", TR_BRAND_ELEC, -1 },
-	{ "��", "F", TR_BRAND_FIRE, -1 },
-	{ "��", "Co", TR_BRAND_COLD, -1 },
-	{ "��", "P", TR_BRAND_POIS, -1 },
-	{ "��", "Ca", TR_CHAOTIC, -1 },
-	{ "��", "V", TR_VAMPIRIC, -1 },
-	{ "��", "Q", TR_IMPACT, -1 },
-	{ "��", "S", TR_VORPAL, -1 },
-	{ "��", "M", TR_FORCE_WEAPON, -1 },
+	{ "酸", "A", TR_BRAND_ACID, -1 },
+	{ "電", "E", TR_BRAND_ELEC, -1 },
+	{ "焼", "F", TR_BRAND_FIRE, -1 },
+	{ "凍", "Co", TR_BRAND_COLD, -1 },
+	{ "毒", "P", TR_BRAND_POIS, -1 },
+	{ "沌", "Ca", TR_CHAOTIC, -1 },
+	{ "吸", "V", TR_VAMPIRIC, -1 },
+	{ "震", "Q", TR_IMPACT, -1 },
+	{ "切", "S", TR_VORPAL, -1 },
+	{ "理", "M", TR_FORCE_WEAPON, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(種族スレイ) */
 static flag_insc_table flag_insc_kill[] =
 {
-	{ "��", "*", TR_KILL_EVIL, -1 },
-	{ "��", "p", TR_KILL_HUMAN, -1 },
-	{ "ζ", "D", TR_KILL_DRAGON, -1 },
-	{ "��", "o", TR_KILL_ORC, -1 },
-	{ "��", "T", TR_KILL_TROLL, -1 },
-	{ "��", "P", TR_KILL_GIANT, -1 },
-	{ "��", "U", TR_KILL_DEMON, -1 },
-	{ "��", "L", TR_KILL_UNDEAD, -1 },
-	{ "ư", "Z", TR_KILL_ANIMAL, -1 },
+	{ "邪", "*", TR_KILL_EVIL, -1 },
+	{ "人", "p", TR_KILL_HUMAN, -1 },
+	{ "龍", "D", TR_KILL_DRAGON, -1 },
+	{ "オ", "o", TR_KILL_ORC, -1 },
+	{ "ト", "T", TR_KILL_TROLL, -1 },
+	{ "巨", "P", TR_KILL_GIANT, -1 },
+	{ "デ", "U", TR_KILL_DEMON, -1 },
+	{ "死", "L", TR_KILL_UNDEAD, -1 },
+	{ "動", "Z", TR_KILL_ANIMAL, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(種族*スレイ*) */
 static flag_insc_table flag_insc_slay[] =
 {
-	{ "��", "*", TR_SLAY_EVIL, TR_KILL_EVIL },
-	{ "��", "p", TR_SLAY_HUMAN, TR_KILL_HUMAN },
-	{ "ε", "D", TR_SLAY_DRAGON, TR_KILL_DRAGON },
-	{ "��", "o", TR_SLAY_ORC, TR_KILL_ORC },
-	{ "��", "T", TR_SLAY_TROLL, TR_KILL_TROLL },
-	{ "��", "P", TR_SLAY_GIANT, TR_KILL_GIANT },
-	{ "��", "U", TR_SLAY_DEMON, TR_KILL_DEMON },
-	{ "��", "L", TR_SLAY_UNDEAD, TR_KILL_UNDEAD },
-	{ "ư", "Z", TR_SLAY_ANIMAL, TR_KILL_ANIMAL },
+	{ "邪", "*", TR_SLAY_EVIL, TR_KILL_EVIL },
+	{ "人", "p", TR_SLAY_HUMAN, TR_KILL_HUMAN },
+	{ "竜", "D", TR_SLAY_DRAGON, TR_KILL_DRAGON },
+	{ "オ", "o", TR_SLAY_ORC, TR_KILL_ORC },
+	{ "ト", "T", TR_SLAY_TROLL, TR_KILL_TROLL },
+	{ "巨", "P", TR_SLAY_GIANT, TR_KILL_GIANT },
+	{ "デ", "U", TR_SLAY_DEMON, TR_KILL_DEMON },
+	{ "死", "L", TR_SLAY_UNDEAD, TR_KILL_UNDEAD },
+	{ "動", "Z", TR_SLAY_ANIMAL, TR_KILL_ANIMAL },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(ESP1) */
 static flag_insc_table flag_insc_esp1[] =
 {
-	{ "��", "Tele", TR_TELEPATHY, -1 },
-	{ "��", "Evil", TR_ESP_EVIL, -1 },
-	{ "��", "Good", TR_ESP_GOOD, -1 },
-	{ "̵", "Nolv", TR_ESP_NONLIVING, -1 },
-	{ "��", "Uniq", TR_ESP_UNIQUE, -1 },
+	{ "感", "Tele", TR_TELEPATHY, -1 },
+	{ "邪", "Evil", TR_ESP_EVIL, -1 },
+	{ "善", "Good", TR_ESP_GOOD, -1 },
+	{ "無", "Nolv", TR_ESP_NONLIVING, -1 },
+	{ "個", "Uniq", TR_ESP_UNIQUE, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(ESP2) */
 static flag_insc_table flag_insc_esp2[] =
 {
-	{ "��", "p", TR_ESP_HUMAN, -1 },
-	{ "ε", "D", TR_ESP_DRAGON, -1 },
-	{ "��", "o", TR_ESP_ORC, -1 },
-	{ "��", "T", TR_ESP_TROLL, -1 },
-	{ "��", "P", TR_ESP_GIANT, -1 },
-	{ "��", "U", TR_ESP_DEMON, -1 },
-	{ "��", "L", TR_ESP_UNDEAD, -1 },
-	{ "ư", "Z", TR_ESP_ANIMAL, -1 },
+	{ "人", "p", TR_ESP_HUMAN, -1 },
+	{ "竜", "D", TR_ESP_DRAGON, -1 },
+	{ "オ", "o", TR_ESP_ORC, -1 },
+	{ "ト", "T", TR_ESP_TROLL, -1 },
+	{ "巨", "P", TR_ESP_GIANT, -1 },
+	{ "デ", "U", TR_ESP_DEMON, -1 },
+	{ "死", "L", TR_ESP_UNDEAD, -1 },
+	{ "動", "Z", TR_ESP_ANIMAL, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
+/*! オブジェクトの特性表示記号テーブルの定義(能力維持) */
 static flag_insc_table flag_insc_sust[] =
 {
-	{ "��", "St", TR_SUST_STR, -1 },
-	{ "��", "In", TR_SUST_INT, -1 },
-	{ "��", "Wi", TR_SUST_WIS, -1 },
-	{ "��", "Dx", TR_SUST_DEX, -1 },
-	{ "��", "Cn", TR_SUST_CON, -1 },
-	{ "̥", "Ch", TR_SUST_CHR, -1 },
+	{ "腕", "St", TR_SUST_STR, -1 },
+	{ "知", "In", TR_SUST_INT, -1 },
+	{ "賢", "Wi", TR_SUST_WIS, -1 },
+	{ "器", "Dx", TR_SUST_DEX, -1 },
+	{ "耐", "Cn", TR_SUST_CON, -1 },
+	{ "魅", "Ch", TR_SUST_CHR, -1 },
 	{ NULL, NULL, 0, -1 }
 };
 
@@ -793,11 +841,16 @@ static flag_insc_table flag_insc_misc[] =
 	{ "Rf", TR_REFLECT, -1 },
 	{ "Fa", TR_FREE_ACT, -1 },
 	{ "Si", TR_SEE_INVIS, -1 },
-	{ "Hl", TR_HOLD_LIFE, -1 },
+	{ "Hl", TR_HOLD_EXP, -1 },
 	{ "Sd", TR_SLOW_DIGEST, -1 },
 	{ "Rg", TR_REGEN, -1 },
 	{ "Lv", TR_LEVITATION, -1 },
-	{ "Lu", TR_LITE, -1 },
+	{ "Lu", TR_LITE_1, -1 },
+	{ "Lu", TR_LITE_2, -1 },
+	{ "Lu", TR_LITE_3, -1 },
+	{ "Dl", TR_LITE_M1, -1 },
+	{ "Dl", TR_LITE_M2, -1 },
+	{ "Dl", TR_LITE_M3, -1 },
 	{ "Wr", TR_WARNING, -1 },
 	{ "Xm", TR_XTRA_MIGHT, -1 },
 	{ "Xs", TR_XTRA_SHOTS, -1 },
@@ -805,6 +858,8 @@ static flag_insc_table flag_insc_misc[] =
 	{ "Ag", TR_AGGRAVATE, -1 },
 	{ "Bs", TR_BLESSED, -1 },
 	{ "Ty", TR_TY_CURSE, -1 },
+	{ "C-", TR_ADD_L_CURSE, -1 },
+	{ "C+", TR_ADD_H_CURSE, -1 },
 	{ NULL, 0, -1 }
 };
 
@@ -896,11 +951,20 @@ static flag_insc_table flag_insc_sust[] =
 };
 #endif
 
-/* Simple macro for get_inscription() */
+/* オブジェクトフラグを追加するための簡易なマクロ / Simple macro for get_inscription() */
 #define ADD_INSC(STR) (void)(ptr = object_desc_str(ptr, (STR)))
 
-/*
- *  Helper function for get_inscription()
+/*!
+ * @brief get_inscriptionのサブセットとしてオブジェクトの特性フラグを返す / Helper function for get_inscription()
+ * @param fi_ptr 参照する特性表示記号テーブル
+ * @param flgs 対応するオブジェクトのフラグ文字列
+ * @param kanji TRUEならば漢字記述/FALSEならば英語記述
+ * @param ptr フラグ群を保管する文字列参照ポインタ
+ * @return フラグ群を保管する文字列参照ポインタ(ptrと同じ)
+ * @details
+ * Print an signed number "v" into a string "t", as if by
+ * sprintf(t, "%+d", n), and return a pointer to the terminator.
+ * Note that we always print a sign, either "+" or "-".
  */
 static char *inscribe_flags_aux(flag_insc_table *fi_ptr, u32b flgs[TR_FLAG_SIZE], bool kanji, char *ptr)
 {
@@ -924,8 +988,11 @@ static char *inscribe_flags_aux(flag_insc_table *fi_ptr, u32b flgs[TR_FLAG_SIZE]
 }
 
 
-/*
- *  Special variation of have_flag for auto-inscription
+/*!
+ * @brief オブジェクトの特性表示記号テーブル1つに従いオブジェクトの特性フラグ配列に1つでも該当の特性があるかを返す / Special variation of have_flag for auto-inscription
+ * @param fi_ptr 参照する特性表示記号テーブル
+ * @param flgs 対応するオブジェクトのフラグ文字列
+ * @return 1つでも該当の特性があったらTRUEを返す。
  */
 static bool have_flag_of(flag_insc_table *fi_ptr, u32b flgs[TR_FLAG_SIZE])
 {
@@ -940,6 +1007,14 @@ static bool have_flag_of(flag_insc_table *fi_ptr, u32b flgs[TR_FLAG_SIZE])
 	return (FALSE);
 }
 
+/*!
+ * @brief オブジェクト名の特性短縮表記をまとめて提示する。
+ * @param ptr 特性短縮表記を格納する文字列ポインタ
+ * @param o_ptr 特性短縮表記を得たいオブジェクト構造体の参照ポインタ
+ * @param kanji TRUEならば漢字表記 / FALSEなら英語表記
+ * @param all TRUEならばベースアイテム上で明らかなフラグは省略する
+ * @return ptrと同じアドレス
+ */
 static char *get_ability_abbreviation(char *ptr, object_type *o_ptr, bool kanji, bool all)
 {
 	char *prev_ptr = ptr;
@@ -947,7 +1022,6 @@ static char *get_ability_abbreviation(char *ptr, object_type *o_ptr, bool kanji,
 
 	/* Extract the flags */
 	object_flags(o_ptr, flgs);
-
 
 	/* Remove obvious flags */
 	if (!all)
@@ -976,6 +1050,19 @@ static char *get_ability_abbreviation(char *ptr, object_type *o_ptr, bool kanji,
 		}
 	}
 
+	/* Remove lite flags when this is a dark lite object */
+	if (have_dark_flag(flgs))
+	{
+		if (have_flag(flgs, TR_LITE_1)) remove_flag(flgs, TR_LITE_1);
+		if (have_flag(flgs, TR_LITE_2)) remove_flag(flgs, TR_LITE_2);
+		if (have_flag(flgs, TR_LITE_3)) remove_flag(flgs, TR_LITE_3);
+	}
+	else if (have_lite_flag(flgs))
+	{
+		add_flag(flgs, TR_LITE_1);
+		if (have_flag(flgs, TR_LITE_2)) remove_flag(flgs, TR_LITE_2);
+		if (have_flag(flgs, TR_LITE_3)) remove_flag(flgs, TR_LITE_3);
+	}
 
 	/* Plusses */
 	if (have_flag_of(flag_insc_plus, flgs))
@@ -1075,8 +1162,11 @@ static char *get_ability_abbreviation(char *ptr, object_type *o_ptr, bool kanji,
 }
 
 
-/*
- *  Get object inscription with auto inscription of object flags.
+/*!
+ * @brief オブジェクト名の特性短縮表記＋刻み内容を提示する。 / Get object inscription with auto inscription of object flags.
+ * @param buff 特性短縮表記を格納する文字列ポインタ
+ * @param o_ptr 特性短縮表記を得たいオブジェクト構造体の参照ポインタ
+ * @return なし
  */
 static void get_inscription(char *buff, object_type *o_ptr)
 {
@@ -1150,52 +1240,81 @@ static void get_inscription(char *buff, object_type *o_ptr)
 	*ptr = '\0';
 }
 
+/*!
+ * @brief オブジェクトがクエストの達成目的か否かを返す。
+ * @param o_ptr 特性短縮表記を得たいオブジェクト構造体の参照ポインタ
+ * @return 現在クエスト達成目的のアイテムならばTRUEを返す。
+ */
+bool object_is_quest_target(object_type *o_ptr)
+{
+	if (p_ptr->inside_quest)
+	{
+		int a_idx = quest[p_ptr->inside_quest].k_idx;
+		if (a_idx)
+		{
+			artifact_type *a_ptr = &a_info[a_idx];
+			if (!(a_ptr->gen_flags & TRG_INSTA_ART))
+			{
+				if((o_ptr->tval == a_ptr->tval) && (o_ptr->sval == a_ptr->sval))
+				{
+					return TRUE;
+				}
+			}
+		}
+	}
+	return FALSE;
+}
 
-/*
- * Creates a description of the item "o_ptr", and stores it in "out_val".
- *
- * One can choose the "verbosity" of the description, including whether
- * or not the "number" of items should be described, and how much detail
- * should be used when describing the item.
- *
- * The given "buf" must be MAX_NLEN chars long to hold the longest possible
- * description, which can get pretty long, including incriptions, such as:
- * "no more Maces of Disruption (Defender) (+10,+10) [+5] (+3 to stealth)".
- * Note that the inscription will be clipped to keep the total description
- * under MAX_NLEN-1 chars (plus a terminator).
- *
- * Note the use of "object_desc_num()" and "object_desc_int()" as hyper-efficient,
- * portable, versions of some common "sprintf()" commands.
- *
- * Note that all ego-items (when known) append an "Ego-Item Name", unless
- * the item is also an artifact, which should NEVER happen.
- *
- * Note that all artifacts (when known) append an "Artifact Name", so we
- * have special processing for "Specials" (artifact Lites, Rings, Amulets).
- * The "Specials" never use "modifiers" if they are "known", since they
- * have special "descriptions", such as "The Necklace of the Dwarves".
- *
- * Special Lite's use the "k_info" base-name (Phial, Star, or Arkenstone),
- * plus the artifact name, just like any other artifact, if known.
- *
- * Special Ring's and Amulet's, if not "aware", use the same code as normal
- * rings and amulets, and if "aware", use the "k_info" base-name (Ring or
- * Amulet or Necklace).  They will NEVER "append" the "k_info" name.  But,
- * they will append the artifact name, just like any artifact, if known.
- *
- * Hack -- Display "The One Ring" as "a Plain Gold Ring" until aware.
- *
- * Mode:
- *   OD_NAME_ONLY        : The Cloak of Death
- *   OD_NAME_AND_ENCHANT : The Cloak of Death [1,+3]
- *   OD_OMIT_INSCRIPTION : The Cloak of Death [1,+3] (+2 to Stealth)
- *   0                   : The Cloak of Death [1,+3] (+2 to Stealth) {nifty}
- *
- *   OD_OMIT_PREFIX      : Forbidden numeric prefix
- *   OD_NO_PLURAL        : Forbidden use of plural 
- *   OD_STORE            : Assume to be aware and known
- *   OD_NO_FLAVOR        : Allow to hidden flavor
- *   OD_FORCE_FLAVOR     : Get un-shuffled flavor name
+
+/*!
+ * @brief オブジェクトの各表記を返すメイン関数 / Creates a description of the item "o_ptr", and stores it in "out_val".
+ * @param buf 表記を返すための文字列参照ポインタ
+ * @param o_ptr 特性短縮表記を得たいオブジェクト構造体の参照ポインタ
+ * @param mode 表記に関するオプション指定
+ * @return 現在クエスト達成目的のアイテムならばTRUEを返す。
+ * @details
+ * One can choose the "verbosity" of the description, including whether\n
+ * or not the "number" of items should be described, and how much detail\n
+ * should be used when describing the item.\n
+ *\n
+ * The given "buf" must be MAX_NLEN chars long to hold the longest possible\n
+ * description, which can get pretty long, including incriptions, such as:\n
+ * "no more Maces of Disruption (Defender) (+10,+10) [+5] (+3 to stealth)".\n
+ * Note that the inscription will be clipped to keep the total description\n
+ * under MAX_NLEN-1 chars (plus a terminator).\n
+ *\n
+ * Note the use of "object_desc_num()" and "object_desc_int()" as hyper-efficient,\n
+ * portable, versions of some common "sprintf()" commands.\n
+ *\n
+ * Note that all ego-items (when known) append an "Ego-Item Name", unless\n
+ * the item is also an artifact, which should NEVER happen.\n
+ *\n
+ * Note that all artifacts (when known) append an "Artifact Name", so we\n
+ * have special processing for "Specials" (artifact Lites, Rings, Amulets).\n
+ * The "Specials" never use "modifiers" if they are "known", since they\n
+ * have special "descriptions", such as "The Necklace of the Dwarves".\n
+ *\n
+ * Special Lite's use the "k_info" base-name (Phial, Star, or Arkenstone),\n
+ * plus the artifact name, just like any other artifact, if known.\n
+ *\n
+ * Special Ring's and Amulet's, if not "aware", use the same code as normal\n
+ * rings and amulets, and if "aware", use the "k_info" base-name (Ring or\n
+ * Amulet or Necklace).  They will NEVER "append" the "k_info" name.  But,\n
+ * they will append the artifact name, just like any artifact, if known.\n
+ *\n
+ * Hack -- Display "The One Ring" as "a Plain Gold Ring" until aware.\n
+ *\n
+ * Mode:\n
+ *   OD_NAME_ONLY        : The Cloak of Death\n
+ *   OD_NAME_AND_ENCHANT : The Cloak of Death [1,+3]\n
+ *   OD_OMIT_INSCRIPTION : The Cloak of Death [1,+3] (+2 to Stealth)\n
+ *   0                   : The Cloak of Death [1,+3] (+2 to Stealth) {nifty}\n
+ *\n
+ *   OD_OMIT_PREFIX      : Forbidden numeric prefix\n
+ *   OD_NO_PLURAL        : Forbidden use of plural \n
+ *   OD_STORE            : Assume to be aware and known\n
+ *   OD_NO_FLAVOR        : Allow to hidden flavor\n
+ *   OD_FORCE_FLAVOR     : Get un-shuffled flavor name\n
  */
 void object_desc(char *buf, object_type *o_ptr, u32b mode)
 {
@@ -1209,6 +1328,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 	cptr            modstr = "";
 
 	int             power;
+	int				fire_rate;
 
 	bool            aware = FALSE;
 	bool            known = FALSE;
@@ -1292,11 +1412,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			{
 				if (!o_ptr->pval)
 				{
-#ifdef JP
-					modstr = " (��)";
-#else
-					modstr = " (empty)";
-#endif
+					modstr = _(" (空)", " (empty)");
 				}
 				else
 				{
@@ -1419,9 +1535,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%�Υ��ߥ��å�";
-			else if (aware) basenm = "%��#���ߥ��å�";
-			else            basenm = "#���ߥ��å�";
+			if (!flavor)    basenm = "%のアミュレット";
+			else if (aware) basenm = "%の#アミュレット";
+			else            basenm = "#アミュレット";
 #else
 			if (!flavor)    basenm = "& Amulet~ of %";
 			else if (aware) basenm = "& # Amulet~ of %";
@@ -1445,9 +1561,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%�λ���";
-			else if (aware) basenm = "%��#����";
-			else            basenm = "#����";
+			if (!flavor)    basenm = "%の指輪";
+			else if (aware) basenm = "%の#指輪";
+			else            basenm = "#指輪";
 #else
 			if (!flavor)    basenm = "& Ring~ of %";
 			else if (aware) basenm = "& # Ring~ of %";
@@ -1470,9 +1586,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%�ξ�";
-			else if (aware) basenm = "%��#��";
-			else            basenm = "#��";
+			if (!flavor)    basenm = "%の杖";
+			else if (aware) basenm = "%の#杖";
+			else            basenm = "#杖";
 #else
 			if (!flavor)    basenm = "& Staff~ of %";
 			else if (aware) basenm = "& # Staff~ of %";
@@ -1488,9 +1604,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%����ˡ��";
-			else if (aware) basenm = "%��#��ˡ��";
-			else            basenm = "#��ˡ��";
+			if (!flavor)    basenm = "%の魔法棒";
+			else if (aware) basenm = "%の#魔法棒";
+			else            basenm = "#魔法棒";
 #else
 			if (!flavor)    basenm = "& Wand~ of %";
 			else if (aware) basenm = "& # Wand~ of %";
@@ -1506,9 +1622,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%�Υ��å�";
-			else if (aware) basenm = "%��#���å�";
-			else            basenm = "#���å�";
+			if (!flavor)    basenm = "%のロッド";
+			else if (aware) basenm = "%の#ロッド";
+			else            basenm = "#ロッド";
 #else
 			if (!flavor)    basenm = "& Rod~ of %";
 			else if (aware) basenm = "& # Rod~ of %";
@@ -1524,9 +1640,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%�δ�ʪ";
-			else if (aware) basenm = "��#�פȽ񤫤줿%�δ�ʪ";
-			else            basenm = "��#�פȽ񤫤줿��ʪ";
+			if (!flavor)    basenm = "%の巻物";
+			else if (aware) basenm = "「#」と書かれた%の巻物";
+			else            basenm = "「#」と書かれた巻物";
 #else
 			if (!flavor)    basenm = "& Scroll~ of %";
 			else if (aware) basenm = "& Scroll~ titled \"#\" of %";
@@ -1542,9 +1658,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%����";
-			else if (aware) basenm = "%��#��";
-			else            basenm = "#��";
+			if (!flavor)    basenm = "%の薬";
+			else if (aware) basenm = "%の#薬";
+			else            basenm = "#薬";
 #else
 			if (!flavor)    basenm = "& Potion~ of %";
 			else if (aware) basenm = "& # Potion~ of %";
@@ -1563,9 +1679,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			modstr = k_name + flavor_k_ptr->flavor_name;
 
 #ifdef JP
-			if (!flavor)    basenm = "%�Υ��Υ�";
-			else if (aware) basenm = "%��#���Υ�";
-			else            basenm = "#���Υ�";
+			if (!flavor)    basenm = "%のキノコ";
+			else if (aware) basenm = "%の#キノコ";
+			else            basenm = "#キノコ";
 #else
 			if (!flavor)    basenm = "& Mushroom~ of %";
 			else if (aware) basenm = "& # Mushroom~ of %";
@@ -1577,11 +1693,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 
 		case TV_PARCHMENT:
 		{
-#ifdef JP
-			basenm = "����� - %";
-#else
-			basenm = "& Parchment~ - %";
-#endif
+			basenm = _("羊皮紙 - %", "& Parchment~ - %");
 			break;
 		}
 
@@ -1589,7 +1701,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_LIFE_BOOK:
 		{
 #ifdef JP
-			basenm = "��̿����ˡ��%";
+			basenm = "生命の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Life Magic %";
@@ -1603,7 +1715,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_SORCERY_BOOK:
 		{
 #ifdef JP
-			basenm = "��Ѥ���ˡ��%";
+			basenm = "仙術の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Sorcery %";
@@ -1617,7 +1729,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_NATURE_BOOK:
 		{
 #ifdef JP
-			basenm = "��������ˡ��%";
+			basenm = "自然の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Nature Magic %";
@@ -1631,7 +1743,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_CHAOS_BOOK:
 		{
 #ifdef JP
-			basenm = "����������ˡ��%";
+			basenm = "カオスの魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Chaos Magic %";
@@ -1645,7 +1757,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_DEATH_BOOK:
 		{
 #ifdef JP
-			basenm = "�Ź�����ˡ��%";
+			basenm = "暗黒の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Death Magic %";
@@ -1659,7 +1771,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_TRUMP_BOOK:
 		{
 #ifdef JP
-			basenm = "�ȥ��פ���ˡ��%";
+			basenm = "トランプの魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Trump Magic %";
@@ -1673,7 +1785,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_ARCANE_BOOK:
 		{
 #ifdef JP
-			basenm = "��Ѥ���ˡ��%";
+			basenm = "秘術の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Arcane Magic %";
@@ -1687,7 +1799,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_CRAFT_BOOK:
 		{
 #ifdef JP
-			basenm = "������ˡ��%";
+			basenm = "匠の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Craft Magic %";
@@ -1701,7 +1813,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_DAEMON_BOOK:
 		{
 #ifdef JP
-			basenm = "�������ˡ��%";
+			basenm = "悪魔の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Daemon Magic %";
@@ -1715,7 +1827,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_CRUSADE_BOOK:
 		{
 #ifdef JP
-			basenm = "�˼٤���ˡ��%";
+			basenm = "破邪の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
 				basenm = "& Book~ of Crusade Magic %";
@@ -1728,35 +1840,25 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 
 		case TV_MUSIC_BOOK:
 		{
-#ifdef JP
-			basenm = "�ν�%";
-#else
-			basenm = "& Song Book~ %";
-#endif
-
+			basenm = _("歌集%", "& Song Book~ %");
 			break;
 		}
 
 		case TV_HISSATSU_BOOK:
 		{
-#ifdef JP
-			basenm = "& ��ݤν�%";
-#else
-			basenm = "Book~ of Kendo %";
-#endif
-
+			basenm = _("& 武芸の書%", "Book~ of Kendo %");
 			break;
 		}
 
 		case TV_HEX_BOOK:
 		{
 #ifdef JP
-			basenm = "���Ѥ���ˡ��%";
+			basenm = "呪術の魔法書%";
 #else
 			if (mp_ptr->spell_book == TV_LIFE_BOOK)
-				basenm = "& Book~ of Crusade Magic %";
+				basenm = "& Book~ of Hex Magic %";
 			else
-				basenm = "& Crusade Spellbook~ %";
+				basenm = "& Hex Spellbook~ %";
 #endif
 
 			break;
@@ -1772,12 +1874,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		/* Used in the "inventory" routine */
 		default:
 		{
-#ifdef JP
-			strcpy(buf, "(�ʤ�)");
-#else
-			strcpy(buf, "(nothing)");
-#endif
-
+			strcpy(buf, _("(なし)", "(nothing)"));
 			return;
 		}
 	}
@@ -1806,16 +1903,16 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 	else if (o_ptr->number > 1)
 	{
 		t = object_desc_kosuu(t, o_ptr);
-		t = object_desc_str(t, "�� ");
+		t = object_desc_str(t, "の ");
 	}
 
-	/* �Ѹ�ξ�祢���ƥ��ե����Ȥ� The ���դ��Τ�ʬ���뤬
-	 * ���ܸ�Ǥ�ʬ����ʤ��Τǥޡ�����Ĥ��� 
+	/* 英語の場合アーティファクトは The が付くので分かるが
+	 * 日本語では分からないのでマークをつける 
 	 */
 	if (known)
 	{
-		if (object_is_fixed_artifact(o_ptr)) t = object_desc_str(t, "��");
-		else if (o_ptr->art_name) t = object_desc_str(t, "��");
+		if (object_is_fixed_artifact(o_ptr)) t = object_desc_str(t, "★");
+		else if (o_ptr->art_name) t = object_desc_str(t, "☆");
 	}
 
 #else
@@ -1923,40 +2020,40 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 #ifdef JP
 	if (object_is_smith(o_ptr))
 	{
-		t = object_desc_str(t, format("�����%s��", player_name));
+		t = object_desc_str(t, format("鍛冶師%sの", player_name));
 	}
 
-	/* ����Υ����ƥࡢ̾�Τ��륢���ƥ��̾�����ղä��� */
+	/* 伝説のアイテム、名のあるアイテムの名前を付加する */
 	if (known)
 	{
-		/* �����ࡦ�����ƥ��ե����� */
+		/* ランダム・アーティファクト */
 		if (o_ptr->art_name)
 		{
 			cptr temp = quark_str(o_ptr->art_name);
 
-			/* '��' ����Ϥޤ�ʤ�����Υ����ƥ��̾���Ϻǽ���ղä��� */
-			/* �Ѹ��ǤΥ����֥ե����뤫���褿 'of XXX' ��,��XXX�Ρפ�ɽ������ */
+			/* '『' から始まらない伝説のアイテムの名前は最初に付加する */
+			/* 英語版のセーブファイルから来た 'of XXX' は,「XXXの」と表示する */
 			if (strncmp(temp, "of ", 3) == 0)
 			{
 				t = object_desc_str(t, &temp[3]);
-				t = object_desc_str(t, "��");
+				t = object_desc_str(t, "の");
 			}
-			else if ((strncmp(temp, "��", 2) != 0) &&
-				 (strncmp(temp, "��", 2) != 0) &&
+			else if ((strncmp(temp, "『", 2) != 0) &&
+				 (strncmp(temp, "《", 2) != 0) &&
 				 (temp[0] != '\''))
 				t = object_desc_str(t, temp);
 		}
-		/* ����Υ����ƥ� */
+		/* 伝説のアイテム */
 		else if (o_ptr->name1 && !have_flag(flgs, TR_FULL_NAME))
 		{
 			artifact_type *a_ptr = &a_info[o_ptr->name1];
-			/* '��' ����Ϥޤ�ʤ�����Υ����ƥ��̾���Ϻǽ���ղä��� */
-			if (strncmp(a_name + a_ptr->name, "��", 2) != 0)
+			/* '『' から始まらない伝説のアイテムの名前は最初に付加する */
+			if (strncmp(a_name + a_ptr->name, "『", 2) != 0)
 			{
 				t = object_desc_str(t, a_name + a_ptr->name);
 			}
 		}
-		/* ̾�Τ��륢���ƥ� */
+		/* 名のあるアイテム */
 		else if (object_is_ego(o_ptr))
 		{
 			ego_item_type *e_ptr = &e_info[o_ptr->name2];
@@ -2029,33 +2126,33 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 
 
 #ifdef JP
-	/* '��'����Ϥޤ�����Υ����ƥ��̾���ϺǸ���ղä��� */
+	/* '『'から始まる伝説のアイテムの名前は最後に付加する */
 	if (known)
 	{
-		/* �����ॢ���ƥ��ե����Ȥ�̾���ϥ����֥ե�����˵�Ͽ
-		   �����Τǡ��Ѹ��Ǥ�̾���⤽��餷���Ѵ����� */
+		/* ランダムアーティファクトの名前はセーブファイルに記録
+		   されるので、英語版の名前もそれらしく変換する */
 		if (o_ptr->art_name)
 		{
 			char temp[256];
 			int itemp;
 			strcpy(temp, quark_str(o_ptr->art_name));
 			/* MEGA HACK by ita */
-			if (strncmp(temp, "��", 2) == 0 ||
-			    strncmp(temp, "��", 2) == 0)
+			if (strncmp(temp, "『", 2) == 0 ||
+			    strncmp(temp, "《", 2) == 0)
 				t = object_desc_str(t, temp);
 			else if (temp[0] == '\'')
 			{
 				itemp = strlen(temp);
 				temp[itemp - 1] = 0;
-				t = object_desc_str(t, "��");
+				t = object_desc_str(t, "『");
 				t = object_desc_str(t, &temp[1]);
-				t = object_desc_str(t, "��");
+				t = object_desc_str(t, "』");
 			}
 		}
 		else if (object_is_fixed_artifact(o_ptr))
 		{
 			artifact_type *a_ptr = &a_info[o_ptr->name1];
-			if (strncmp(a_name + a_ptr->name, "��", 2) == 0)
+			if (strncmp(a_name + a_ptr->name, "『", 2) == 0)
 			{
 				t = object_desc_str(t, a_name + a_ptr->name);
 			}
@@ -2080,9 +2177,9 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 				cptr str = my_strchr(quark_str(o_ptr->inscription), '#');
 
 				/* Add the false name */
-				t = object_desc_str(t,"��");
+				t = object_desc_str(t,"『");
 				t = object_desc_str(t, &str[1]);
-				t = object_desc_str(t,"��");
+				t = object_desc_str(t,"』");
 			}
 		}
 	}
@@ -2151,11 +2248,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		/* May be "empty" */
 		else if (!o_ptr->pval)
 		{
-#ifdef JP
-			t = object_desc_str(t, "(��)");
-#else
-			t = object_desc_str(t, " (empty)");
-#endif
+			t = object_desc_str(t, _("(空)", " (empty)"));
 		}
 
 		/* May be "disarmed" */
@@ -2163,19 +2256,11 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		{
 			if (chest_traps[0 - o_ptr->pval])
 			{
-#ifdef JP
-				t = object_desc_str(t, "(�����)");
-#else
-				t = object_desc_str(t, " (disarmed)");
-#endif
+				t = object_desc_str(t, _("(解除済)", " (disarmed)"));
 			}
 			else
 			{
-#ifdef JP
-				t = object_desc_str(t, "(��ܾ�)");
-#else
-				t = object_desc_str(t, " (unlocked)");
-#endif
+				t = object_desc_str(t, _("(非施錠)", " (unlocked)"));
 			}
 		}
 
@@ -2187,56 +2272,32 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			{
 				case 0:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�ܾ�)");
-#else
-					t = object_desc_str(t, " (Locked)");
-#endif
+					t = object_desc_str(t, _("(施錠)", " (Locked)"));
 					break;
 				}
 				case CHEST_LOSE_STR:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�ǿ�)");
-#else
-					t = object_desc_str(t, " (Poison Needle)");
-#endif
+					t = object_desc_str(t, _("(毒針)", " (Poison Needle)"));
 					break;
 				}
 				case CHEST_LOSE_CON:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�ǿ�)");
-#else
-					t = object_desc_str(t, " (Poison Needle)");
-#endif
+					t = object_desc_str(t, _("(毒針)", " (Poison Needle)"));
 					break;
 				}
 				case CHEST_POISON:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�������ȥ�å�)");
-#else
-					t = object_desc_str(t, " (Gas Trap)");
-#endif
+					t = object_desc_str(t, _("(ガス・トラップ)", " (Gas Trap)"));
 					break;
 				}
 				case CHEST_PARALYZE:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�������ȥ�å�)");
-#else
-					t = object_desc_str(t, " (Gas Trap)");
-#endif
+					t = object_desc_str(t, _("(ガス・トラップ)", " (Gas Trap)"));
 					break;
 				}
 				case CHEST_EXPLODE:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(��ȯ����)");
-#else
-					t = object_desc_str(t, " (Explosion Device)");
-#endif
+					t = object_desc_str(t, _("(爆発装置)", " (Explosion Device)"));
 					break;
 				}
 				case CHEST_SUMMON:
@@ -2244,38 +2305,22 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 				case CHEST_E_SUMMON:
 				case CHEST_H_SUMMON:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�����Υ롼��)");
-#else
-					t = object_desc_str(t, " (Summoning Runes)");
-#endif
+					t = object_desc_str(t, _("(召喚のルーン)", " (Summoning Runes)"));
 					break;
 				}
 				case CHEST_RUNES_OF_EVIL:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�ٰ��ʥ롼��)");
-#else
-					t = object_desc_str(t, " (Gleaming Black Runes)");
-#endif
+					t = object_desc_str(t, _("(邪悪なルーン)", " (Gleaming Black Runes)"));
 					break;
 				}
 				case CHEST_ALARM:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(��������)");
-#else
-					t = object_desc_str(t, " (Alarm)");
-#endif
+					t = object_desc_str(t, _("(警報装置)", " (Alarm)"));
 					break;
 				}
 				default:
 				{
-#ifdef JP
-					t = object_desc_str(t, "(�ޥ�����ȥ�å�)");
-#else
-					t = object_desc_str(t, " (Multiple Traps)");
-#endif
+					t = object_desc_str(t, _("(マルチ・トラップ)", " (Multiple Traps)"));
 					break;
 				}
 			}
@@ -2307,7 +2352,13 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		case TV_HAFTED:
 		case TV_POLEARM:
 		case TV_SWORD:
-		case TV_DIGGING:
+	    case TV_DIGGING:
+		
+		/* In Vault Quest, hide the dice of target weapon. */
+		if(object_is_quest_target(o_ptr) && !known)
+		{
+			break;
+		}
 
 		/* Append a "damage" string */
 		t = object_desc_chr(t, ' ');
@@ -2336,7 +2387,22 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		t = object_desc_chr(t, 'x');
 		t = object_desc_num(t, power);
 		t = object_desc_chr(t, p2);
-
+		
+		fire_rate = calc_num_fire(o_ptr);
+		/* Show Fire rate */
+		if (fire_rate != 0 && power > 0 && known)
+		{	
+			fire_rate = bow_energy(o_ptr->sval) / fire_rate;
+			
+			t = object_desc_chr(t, ' ');
+			t = object_desc_chr(t, p1);			
+			t = object_desc_num(t,  fire_rate/100);
+			t = object_desc_chr(t,  '.');
+			t = object_desc_num(t,  fire_rate%100);
+			t = object_desc_str(t, "turn");
+			t = object_desc_chr(t, p2);
+		}
+		
 		/* All done */
 		break;
 	}
@@ -2401,15 +2467,27 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 
 		/* Get extra damage from concentration */
 		if (p_ptr->concent) avgdam = boost_concentration_damage(avgdam);
-
+		
 		if (avgdam < 0) avgdam = 0;
 
-		/* Display (shot damage/ avg damage) */
+		/* Display (shot damage/ shot damage with critical/ avg damage with critical) */
 		t = object_desc_chr(t, ' ');
 		t = object_desc_chr(t, p1);
+		
+		if(show_ammo_no_crit)
+		{
+			/* Damage with no-crit */
+			t = object_desc_num(t, avgdam);
+			t = object_desc_str(t, show_ammo_detail ? "/shot " : "/");
+		}
+		
+		/* Apply Expect damage of Critical */
+		avgdam = calc_expect_crit_shot(o_ptr->weight, o_ptr->to_h, bow_ptr->to_h, avgdam);
 		t = object_desc_num(t, avgdam);
-		t = object_desc_chr(t, '/');
-
+		
+		t = show_ammo_no_crit ? object_desc_str(t, show_ammo_detail ? "/crit " : "/")
+							  : object_desc_str(t, show_ammo_detail ? "/shot " : "/");
+	
 		if (p_ptr->num_fire == 0)
 		{
 			t = object_desc_chr(t, '0');
@@ -2420,6 +2498,20 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			avgdam *= (p_ptr->num_fire * 100);
 			avgdam /= energy_fire;
 			t = object_desc_num(t, avgdam);
+			t = object_desc_str(t, show_ammo_detail ? "/turn" : "");
+			
+			if(show_ammo_crit_ratio)
+			{
+				int percent = calc_crit_ratio_shot(o_ptr->weight, 
+						known ? o_ptr->to_h : 0, 
+						object_is_known(bow_ptr) ? bow_ptr->to_h : 0,  avgdam);
+				
+				t = object_desc_chr(t, '/');
+				t = object_desc_num(t, percent / 100);
+				t = object_desc_chr(t, '.');
+				t = object_desc_num(t, percent % 100);
+				t = object_desc_str(t, show_ammo_detail ? "% crit" : "%");
+			}
 		}
 
 		t = object_desc_chr(t, p2);
@@ -2502,7 +2594,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			}
 			t = object_desc_num(t, o_ptr->pval);
 #ifdef JP
-			t = object_desc_str(t, "��ʬ");
+			t = object_desc_str(t, "回分");
 #else
 			t = object_desc_str(t, " charge");
 			if (o_ptr->pval != 1) t = object_desc_chr(t, 's');
@@ -2535,21 +2627,13 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 					/* Display prettily. */
 					t = object_desc_str(t, " (");
 					t = object_desc_num(t, power);
-#ifdef JP
-					t = object_desc_str(t, "�� ��Ŷ��)");
-#else
-					t = object_desc_str(t, " charging)");
-#endif
+					t = object_desc_str(t, _("本 充填中)", " charging)"));
 				}
 
 				/* "one Rod of Perception (1 charging)" would look tacky. */
 				else
 				{
-#ifdef JP
-					t = object_desc_str(t, "(��Ŷ��)");
-#else
-					t = object_desc_str(t, " (charging)");
-#endif
+					t = object_desc_str(t, _("(充填中)", " (charging)"));
 				}
 			}
 		}
@@ -2574,11 +2658,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			else if (have_flag(flgs, TR_SPEED))
 			{
 				/* Dump " to speed" */
-#ifdef JP
-				t = object_desc_str(t, "��®");
-#else
-				t = object_desc_str(t, " to speed");
-#endif
+				t = object_desc_str(t, _("加速", " to speed"));
 			}
 
 			/* Attack speed */
@@ -2586,7 +2666,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			{
 				/* Add " attack" */
 #ifdef JP
-				t = object_desc_str(t, "����");
+				t = object_desc_str(t, "攻撃");
 #else
 				t = object_desc_str(t, " attack");
 
@@ -2599,33 +2679,21 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 			else if (have_flag(flgs, TR_STEALTH))
 			{
 				/* Dump " to stealth" */
-#ifdef JP
-				t = object_desc_str(t, "��̩");
-#else
-				t = object_desc_str(t, " to stealth");
-#endif
+				t = object_desc_str(t, _("隠密", " to stealth"));
 			}
 
 			/* Search */
 			else if (have_flag(flgs, TR_SEARCH))
 			{
 				/* Dump " to searching" */
-#ifdef JP
-				t = object_desc_str(t, "õ��");
-#else
-				t = object_desc_str(t, " to searching");
-#endif
+				t = object_desc_str(t, _("探索", " to searching"));
 			}
 
 			/* Infravision */
 			else if (have_flag(flgs, TR_INFRA))
 			{
 				/* Dump " to infravision" */
-#ifdef JP
-				t = object_desc_str(t, "�ֳ�������");
-#else
-				t = object_desc_str(t, " to infravision");
-#endif
+				t = object_desc_str(t, _("赤外線視力", " to infravision"));
 			}
 
 			/* Finish the display */
@@ -2644,22 +2712,14 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 
 			if (o_ptr->name2 == EGO_LITE_LONG) t = object_desc_num(t, o_ptr->xtra4 * 2);
 			else t = object_desc_num(t, o_ptr->xtra4);
-#ifdef JP
-			t = object_desc_str(t, "������μ�̿)");
-#else
-			t = object_desc_str(t, " turns of light)");
-#endif
+			t = object_desc_str(t, _("ターンの寿命)", " turns of light)"));
 		}
 
 		/* Indicate charging objects, but not rods. */
 		if (o_ptr->timeout && (o_ptr->tval != TV_ROD))
 		{
 			/* Hack -- Dump " (charging)" if relevant */
-#ifdef JP
-			t = object_desc_str(t, "(��Ŷ��)");
-#else
-			t = object_desc_str(t, " (charging)");
-#endif
+			t = object_desc_str(t, _("(充填中)", " (charging)"));
 		}
 	}
 
@@ -2716,11 +2776,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 	/* Note "cursed" if the item is known to be cursed */
 	else if (object_is_cursed(o_ptr) && (known || (o_ptr->ident & IDENT_SENSE)))
 	{
-#ifdef JP
-		strcpy(fake_insc_buf, "�����Ƥ���");
-#else
-		strcpy(fake_insc_buf, "cursed");
-#endif
+		strcpy(fake_insc_buf, _("呪われている", "cursed"));
 	}
 
 	/* Note "unidentified" if the item is unidentified */
@@ -2729,31 +2785,19 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 		 && aware && !known
 		 && !(o_ptr->ident & IDENT_SENSE))
 	{
-#ifdef JP
-		strcpy(fake_insc_buf, "̤����");
-#else
-		strcpy(fake_insc_buf, "unidentified");
-#endif
+		strcpy(fake_insc_buf, _("未鑑定", "unidentified"));
 	}
 
 	/* Mega-Hack -- note empty wands/staffs */
 	else if (!known && (o_ptr->ident & IDENT_EMPTY))
 	{
-#ifdef JP
-		strcpy(fake_insc_buf, "��");
-#else
-		strcpy(fake_insc_buf, "empty");
-#endif
+		strcpy(fake_insc_buf, _("空", "empty"));
 	}
 
 	/* Note "tried" if the object has been tested unsuccessfully */
 	else if (!aware && object_is_tried(o_ptr))
 	{
-#ifdef JP
-		strcpy(fake_insc_buf, "̤Ƚ��");
-#else
-		strcpy(fake_insc_buf, "tried");
-#endif
+		strcpy(fake_insc_buf, _("未判明", "tried"));
 	}
 
 	/* Note the discount, if any */
@@ -2769,11 +2813,7 @@ void object_desc(char *buf, object_type *o_ptr, u32b mode)
 
 			(void)object_desc_num(discount_num_buf, o_ptr->discount);
 			strcat(fake_insc_buf, discount_num_buf);
-#ifdef JP
-			strcat(fake_insc_buf, "%����");
-#else
-			strcat(fake_insc_buf, "% off");
-#endif
+			strcat(fake_insc_buf, _("%引き", "% off"));
 		}
 	}
 

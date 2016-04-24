@@ -1,19 +1,22 @@
-/* File: racial.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
- *
- * This software may be copied and distributed for educational, research,
- * and not for profit purposes provided that this copyright and statement
- * are included in all such copies.  Other copyrights may also apply.
+ï»¿/*!
+ * @file racial.c
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ã¨çªç„¶å¤‰ç•°ã®æŠ€èƒ½å‡¦ç† / Racial powers (and mutations)
+ * @date 2014/01/08
+ * @author
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
+ * This software may be copied and distributed for educational, research,\n
+ * and not for profit purposes provided that this copyright and statement\n
+ * are included in all such copies.  Other copyrights may also apply.\n
+ * 2014 Deskull rearranged comment for Doxygen. \n
  */
-
-/* Purpose: Racial powers (and mutations) */
 
 #include "angband.h"
 
-/*
+/*!
+ * @brief å¯¾è±¡ã®ã‚¢ã‚¤ãƒ†ãƒ ãŒçŸ¢ã‚„ã‚¯ãƒ­ã‚¹ãƒœã‚¦ã®çŸ¢ã®ææ–™ã«ãªã‚‹ã‹ã‚’è¿”ã™ã€‚/
  * Hook to determine if an object is contertible in an arrow/bolt
+ * @param o_ptr ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“ã®å‚ç…§ãƒã‚¤ãƒ³ã‚¿ã€‚
+ * @return ææ–™ã«ã§ãã‚‹ãªã‚‰TRUEã‚’è¿”ã™
  */
 static bool item_tester_hook_convertible(object_type *o_ptr)
 {
@@ -24,10 +27,10 @@ static bool item_tester_hook_convertible(object_type *o_ptr)
 	return (FALSE);
 }
 
-
-/*
- * do_cmd_cast calls this function if the player's class
- * is 'archer'.
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ã€Œå¼¾/çŸ¢ã®è£½é€ ã€å‡¦ç† / do_cmd_cast calls this function if the player's class is 'archer'.
+ * Hook to determine if an object is contertible in an arrow/bolt
+ * @return è£½é€ ã‚’å®Ÿéš›ã«è¡Œã£ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸã‚‰FALSEã‚’è¿”ã™
  */
 static bool do_cmd_archer(void)
 {
@@ -43,41 +46,21 @@ static bool do_cmd_archer(void)
 	q_ptr = &forge;
 
 	if(p_ptr->lev >= 20)
-#ifdef JP
-		sprintf(com, "[S]ÃÆ, [A]Ìğ, [B]¥¯¥í¥¹¥Ü¥¦¤ÎÌğ :");
-#else
-		sprintf(com, "Create [S]hots, Create [A]rrow or Create [B]olt ?");
-#endif
+		sprintf(com, _("[S]å¼¾, [A]çŸ¢, [B]ã‚¯ãƒ­ã‚¹ãƒœã‚¦ã®çŸ¢ :", "Create [S]hots, Create [A]rrow or Create [B]olt ?"));
 	else if(p_ptr->lev >= 10)
-#ifdef JP
-		sprintf(com, "[S]ÃÆ, [A]Ìğ:");
-#else
-		sprintf(com, "Create [S]hots or Create [A]rrow ?");
-#endif
+		sprintf(com, _("[S]å¼¾, [A]çŸ¢:", "Create [S]hots or Create [A]rrow ?"));
 	else
-#ifdef JP
-		sprintf(com, "[S]ÃÆ:");
-#else
-		sprintf(com, "Create [S]hots ?");
-#endif
+		sprintf(com, _("[S]å¼¾:", "Create [S]hots ?"));
 
 	if (p_ptr->confused)
 	{
-#ifdef JP
-		msg_print("º®Íğ¤·¤Æ¤ë¡ª");
-#else
-		msg_print("You are too confused!");
-#endif
+		msg_print(_("æ··ä¹±ã—ã¦ã‚‹ï¼", "You are too confused!"));
 		return FALSE;
 	}
 
 	if (p_ptr->blind)
 	{
-#ifdef JP
-		msg_print("ÌÜ¤¬¸«¤¨¤Ê¤¤¡ª");
-#else
-		msg_print("You are blind!");
-#endif
+		msg_print(_("ç›®ãŒè¦‹ãˆãªã„ï¼", "You are blind!"));
 		return FALSE;
 	}
 
@@ -117,20 +100,12 @@ static bool do_cmd_archer(void)
 
 		if (!have_flag(f_info[get_feat_mimic(c_ptr)].flags, FF_CAN_DIG))
 		{
-#ifdef JP
-			msg_print("¤½¤³¤Ë¤Ï´äÀĞ¤¬¤Ê¤¤¡£");
-#else
-			msg_print("You need pile of rubble.");
-#endif
+			msg_print(_("ãã“ã«ã¯å²©çŸ³ãŒãªã„ã€‚", "You need pile of rubble."));
 			return FALSE;
 		}
 		else if (!cave_have_flag_grid(c_ptr, FF_CAN_DIG) || !cave_have_flag_grid(c_ptr, FF_HURT_ROCK))
 		{
-#ifdef JP
-			msg_print("¹Å¤¹¤®¤ÆÊø¤»¤Ê¤«¤Ã¤¿¡£");
-#else
-			msg_print("You failed to make ammo.");
-#endif
+			msg_print(_("ç¡¬ã™ãã¦å´©ã›ãªã‹ã£ãŸã€‚", "You failed to make ammo."));
 		}
 		else
 		{
@@ -150,11 +125,7 @@ static bool do_cmd_archer(void)
 			slot = inven_carry(q_ptr);
 
 			object_desc(o_name, q_ptr, 0);
-#ifdef JP
-			msg_format("%s¤òºî¤Ã¤¿¡£", o_name);
-#else
-			msg_print("You make some ammo.");
-#endif
+			msg_format(_("%sã‚’ä½œã£ãŸã€‚", "You make some ammo."), o_name);
 
 			/* Auto-inscription */
 			if (slot >= 0) autopick_alter_item(slot, FALSE);
@@ -175,13 +146,8 @@ static bool do_cmd_archer(void)
 		item_tester_hook = item_tester_hook_convertible;
 
 		/* Get an item */
-#ifdef JP
-		q = "¤É¤Î¥¢¥¤¥Æ¥à¤«¤éºî¤ê¤Ş¤¹¤«¡© ";
-		s = "ºàÎÁ¤ò»ı¤Ã¤Æ¤¤¤Ê¤¤¡£";
-#else
-		q = "Convert which item? ";
-		s = "You have no item to convert.";
-#endif
+		q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‹ã‚‰ä½œã‚Šã¾ã™ã‹ï¼Ÿ ", "Convert which item? ");
+		s = _("ææ–™ã‚’æŒã£ã¦ã„ãªã„ã€‚", "You have no item to convert.");
 		if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return FALSE;
 
 		/* Get the item (in the pack) */
@@ -209,11 +175,7 @@ static bool do_cmd_archer(void)
 		q_ptr->discount = 99;
 
 		object_desc(o_name, q_ptr, 0);
-#ifdef JP
-		msg_format("%s¤òºî¤Ã¤¿¡£", o_name);
-#else
-		msg_print("You make some ammo.");
-#endif
+		msg_format(_("%sã‚’ä½œã£ãŸã€‚", "You make some ammo."), o_name);
 
 		if (item >= 0)
 		{
@@ -243,13 +205,8 @@ static bool do_cmd_archer(void)
 		item_tester_hook = item_tester_hook_convertible;
 
 		/* Get an item */
-#ifdef JP
-		q = "¤É¤Î¥¢¥¤¥Æ¥à¤«¤éºî¤ê¤Ş¤¹¤«¡© ";
-		s = "ºàÎÁ¤ò»ı¤Ã¤Æ¤¤¤Ê¤¤¡£";
-#else
-		q = "Convert which item? ";
-		s = "You have no item to convert.";
-#endif
+		q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‹ã‚‰ä½œã‚Šã¾ã™ã‹ï¼Ÿ ", "Convert which item? ");
+		s = _("ææ–™ã‚’æŒã£ã¦ã„ãªã„ã€‚", "You have no item to convert.");
 		if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return FALSE;
 
 		/* Get the item (in the pack) */
@@ -277,11 +234,7 @@ static bool do_cmd_archer(void)
 		q_ptr->discount = 99;
 
 		object_desc(o_name, q_ptr, 0);
-#ifdef JP
-		msg_format("%s¤òºî¤Ã¤¿¡£", o_name);
-#else
-		msg_print("You make some ammo.");
-#endif
+		msg_format(_("%sã‚’ä½œã£ãŸã€‚", "You make some ammo."), o_name);
 
 		if (item >= 0)
 		{
@@ -304,6 +257,10 @@ static bool do_cmd_archer(void)
 	return TRUE;
 }
 
+/*!
+ * @brief é­”é“å…·è¡“å¸«ã®é­”åŠ›å–ã‚Šè¾¼ã¿å‡¦ç†
+ * @return å–ã‚Šè¾¼ã¿ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸã‚‰FALSEã‚’è¿”ã™
+ */
 bool gain_magic(void)
 {
 	int item;
@@ -317,13 +274,8 @@ bool gain_magic(void)
 	item_tester_hook = item_tester_hook_recharge;
 
 	/* Get an item */
-#ifdef JP
-q = "¤É¤Î¥¢¥¤¥Æ¥à¤ÎËâÎÏ¤ò¼è¤ê¹ş¤ß¤Ş¤¹¤«? ";
-s = "ËâÎÏ¤ò¼è¤ê¹ş¤á¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
-#else
-	q = "Gain power of which item? ";
-	s = "You have nothing to gain power.";
-#endif
+	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã®é­”åŠ›ã‚’å–ã‚Šè¾¼ã¿ã¾ã™ã‹? ", "Gain power of which item? ");
+	s = _("é­”åŠ›ã‚’å–ã‚Šè¾¼ã‚ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing to gain power.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -341,32 +293,20 @@ s = "ËâÎÏ¤ò¼è¤ê¹ş¤á¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
 
 	if (o_ptr->tval == TV_STAFF && o_ptr->sval == SV_STAFF_NOTHING)
 	{
-#ifdef JP
-		msg_print("¤³¤Î¾ó¤Ë¤ÏÈ¯Æ°¤Î°Ù¤ÎÇ½ÎÏ¤Ï²¿¤âÈ÷¤ï¤Ã¤Æ¤¤¤Ê¤¤¤è¤¦¤À¡£");
-#else
-		msg_print("This staff doesn't have any magical ability.");
-#endif
+		msg_print(_("ã“ã®æ–ã«ã¯ç™ºå‹•ã®ç‚ºã®èƒ½åŠ›ã¯ä½•ã‚‚å‚™ã‚ã£ã¦ã„ãªã„ã‚ˆã†ã ã€‚", "This staff doesn't have any magical ability."));
 		return FALSE;
 	}
 
 
 	if (!object_is_known(o_ptr))
 	{
-#ifdef JP
-		msg_print("´ÕÄê¤µ¤ì¤Æ¤¤¤Ê¤¤¤È¼è¤ê¹ş¤á¤Ê¤¤¡£");
-#else
-		msg_print("You need to identify before absorbing.");
-#endif
+		msg_print(_("é‘‘å®šã•ã‚Œã¦ã„ãªã„ã¨å–ã‚Šè¾¼ã‚ãªã„ã€‚", "You need to identify before absorbing."));
 		return FALSE;
 	}
 
 	if (o_ptr->timeout)
 	{
-#ifdef JP
-		msg_print("½¼Å¶Ãæ¤Î¥¢¥¤¥Æ¥à¤Ï¼è¤ê¹ş¤á¤Ê¤¤¡£");
-#else
-		msg_print("This item is still charging.");
-#endif
+		msg_print(_("å……å¡«ä¸­ã®ã‚¢ã‚¤ãƒ†ãƒ ã¯å–ã‚Šè¾¼ã‚ãªã„ã€‚", "This item is still charging."));
 		return FALSE;
 	}
 
@@ -405,11 +345,7 @@ s = "ËâÎÏ¤ò¼è¤ê¹ş¤á¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
 
 	object_desc(o_name, o_ptr, 0);
 	/* Message */
-#ifdef JP
-	msg_format("%s¤ÎËâÎÏ¤ò¼è¤ê¹ş¤ó¤À¡£", o_name);
-#else
-	msg_format("You absorb magic of %s.", o_name);
-#endif
+	msg_format(_("%sã®é­”åŠ›ã‚’å–ã‚Šè¾¼ã‚“ã ã€‚", "You absorb magic of %s."), o_name);
 
 	/* Eliminate the item (from the pack) */
 	if (item >= 0)
@@ -430,42 +366,36 @@ s = "ËâÎÏ¤ò¼è¤ê¹ş¤á¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
 	return TRUE;
 }
 
-
+/*!
+ * @brief é­”æ³•ç³»ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã§ãã‚‹ã‹ã®åˆ¤å®šã‚’è¿”ã™
+ * @return é­”æ³•ç³»ã‚³ãƒãƒ³ãƒ‰ã‚’ä½¿ç”¨å¯èƒ½ãªã‚‰TRUEã€ä¸å¯èƒ½ãªã‚‰ã°ç†ç”±ã‚’ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤ºã—ã¦FALSEã‚’è¿”ã™ã€‚
+ */
 static bool can_do_cmd_cast(void)
 {
 	if (dun_level && (d_info[dungeon_type].flags1 & DF1_NO_MAGIC))
 	{
-#ifdef JP
-		msg_print("¥À¥ó¥¸¥ç¥ó¤¬ËâË¡¤òµÛ¼ı¤·¤¿¡ª");
-#else
-		msg_print("The dungeon absorbs all attempted magic!");
-#endif
+		msg_print(_("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ãŒé­”æ³•ã‚’å¸åã—ãŸï¼", "The dungeon absorbs all attempted magic!"));
 		msg_print(NULL);
 		return FALSE;
 	}
 	else if (p_ptr->anti_magic)
 	{
-#ifdef JP
-		msg_print("È¿ËâË¡¥Ğ¥ê¥¢¤¬ËâË¡¤ò¼ÙËâ¤·¤¿¡ª");
-#else
-		msg_print("An anti-magic shell disrupts your magic!");
-#endif
+		msg_print(_("åé­”æ³•ãƒãƒªã‚¢ãŒé­”æ³•ã‚’é‚ªé­”ã—ãŸï¼", "An anti-magic shell disrupts your magic!"));
 		return FALSE;
 	}
 	else if (p_ptr->shero)
 	{
-#ifdef JP
-		msg_format("¶¸Àï»Î²½¤·¤Æ¤¤¤ÆÆ¬¤¬²ó¤é¤Ê¤¤¡ª");
-#else
-		msg_format("You cannot think directly!");
-#endif
+		msg_format(_("ç‹‚æˆ¦å£«åŒ–ã—ã¦ã„ã¦é ­ãŒå›ã‚‰ãªã„ï¼", "You cannot think directly!"));
 		return FALSE;
 	}
 	else
 		return TRUE;
 }
 
-
+/*!
+ * @brief ä¿®è¡Œåƒ§ã®æ§‹ãˆè¨­å®šå‡¦ç†
+ * @return æ§‹ãˆã‚’å¤‰åŒ–ã•ã›ãŸã‚‰TRUEã€æ§‹ãˆä¸èƒ½ã‹ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸã‚‰FALSEã‚’è¿”ã™ã€‚
+ */
 static bool choose_kamae(void)
 {
 	char choice;
@@ -475,22 +405,13 @@ static bool choose_kamae(void)
 
 	if (p_ptr->confused)
 	{
-#ifdef JP
-		msg_print("º®Íğ¤·¤Æ¤¤¤Æ¹½¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-		msg_print("Too confused.");
-#endif
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦æ§‹ãˆã‚‰ã‚Œãªã„ï¼", "Too confused."));
 		return FALSE;
 	}
 
 	/* Save screen */
 	screen_save();
-
-#ifdef JP
-	prt(" a) ¹½¤¨¤ò¤È¤¯", 2, 20);
-#else
-	prt(" a) No form", 2, 20);
-#endif
+	prt(_(" a) æ§‹ãˆã‚’ã¨ã", " a) No form"), 2, 20);
 
 	for (i = 0; i < MAX_KAMAE; i++)
 	{
@@ -502,11 +423,7 @@ static bool choose_kamae(void)
 	}
 
 	prt("", 1, 0);
-#ifdef JP
-	prt("        ¤É¤Î¹½¤¨¤ò¤È¤ê¤Ş¤¹¤«¡©", 1, 14);
-#else
-	prt("        Choose Form: ", 1, 14);
-#endif
+	prt(_("        ã©ã®æ§‹ãˆã‚’ã¨ã‚Šã¾ã™ã‹ï¼Ÿ", "        Choose Form: "), 1, 14);
 
 	while(1)
 	{
@@ -524,11 +441,7 @@ static bool choose_kamae(void)
 				set_action(ACTION_NONE);
 			}
 			else
-#ifdef JP
-				msg_print("¤â¤È¤â¤È¹½¤¨¤Æ¤¤¤Ê¤¤¡£");
-#else
-				msg_print("You are not assuming a posture.");
-#endif
+				msg_print(_("ã‚‚ã¨ã‚‚ã¨æ§‹ãˆã¦ã„ãªã„ã€‚", "You are not assuming a posture."));
 			screen_load();
 			return TRUE;
 		}
@@ -557,22 +470,14 @@ static bool choose_kamae(void)
 
 	if (p_ptr->special_defense & (KAMAE_GENBU << new_kamae))
 	{
-#ifdef JP
-		msg_print("¹½¤¨Ä¾¤·¤¿¡£");
-#else
-		msg_print("You reassume a posture.");
-#endif
+		msg_print(_("æ§‹ãˆç›´ã—ãŸã€‚", "You reassume a posture."));
 	}
 	else
 	{
 		p_ptr->special_defense &= ~(KAMAE_MASK);
 		p_ptr->update |= (PU_BONUS);
 		p_ptr->redraw |= (PR_STATE);
-#ifdef JP
-		msg_format("%s¤Î¹½¤¨¤ò¤È¤Ã¤¿¡£",kamae_shurui[new_kamae].desc);
-#else
-		msg_format("You assume a posture of %s form.",kamae_shurui[new_kamae].desc);
-#endif
+		msg_format(_("%sã®æ§‹ãˆã‚’ã¨ã£ãŸã€‚", "You assume a posture of %s form."),kamae_shurui[new_kamae].desc);
 		p_ptr->special_defense |= (KAMAE_GENBU << new_kamae);
 	}
 	p_ptr->redraw |= PR_STATE;
@@ -580,6 +485,10 @@ static bool choose_kamae(void)
 	return TRUE;
 }
 
+/*!
+ * @brief å‰£è¡“å®¶ã®å‹è¨­å®šå‡¦ç†
+ * @return å‹ã‚’å¤‰åŒ–ã•ã›ãŸã‚‰TRUEã€å‹ã®æ§‹ãˆä¸èƒ½ã‹ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸã‚‰FALSEã‚’è¿”ã™ã€‚
+ */
 static bool choose_kata(void)
 {
 	char choice;
@@ -589,62 +498,37 @@ static bool choose_kata(void)
 
 	if (p_ptr->confused)
 	{
-#ifdef JP
-		msg_print("º®Íğ¤·¤Æ¤¤¤Æ¹½¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-		msg_print("Too confused.");
-#endif
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦æ§‹ãˆã‚‰ã‚Œãªã„ï¼", "Too confused."));
 		return FALSE;
 	}
 
 	if (p_ptr->stun)
 	{
-#ifdef JP
-		msg_print("°Õ¼±¤¬¤Ï¤Ã¤­¤ê¤È¤·¤Ê¤¤¡£");
-#else
-		msg_print("You are not clear headed");
-#endif
+		msg_print(_("æ„è­˜ãŒã¯ã£ãã‚Šã¨ã—ãªã„ã€‚", "You are not clear headed"));
 		return FALSE;
 	}
 
 	if (p_ptr->afraid)
 	{
-#ifdef JP
-		msg_print("ÂÎ¤¬¿Ì¤¨¤Æ¹½¤¨¤é¤ì¤Ê¤¤¡ª");
-#else
-		msg_print("You are trembling with fear!");
-#endif
+		msg_print(_("ä½“ãŒéœ‡ãˆã¦æ§‹ãˆã‚‰ã‚Œãªã„ï¼", "You are trembling with fear!"));
 		return FALSE;
 	}
 
 	/* Save screen */
 	screen_save();
-
-#ifdef JP
-	prt(" a) ·¿¤òÊø¤¹", 2, 20);
-#else
-	prt(" a) No Form", 2, 20);
-#endif
+	prt(_(" a) å‹ã‚’å´©ã™", " a) No Form"), 2, 20);
 
 	for (i = 0; i < MAX_KATA; i++)
 	{
 		if (p_ptr->lev >= kata_shurui[i].min_level)
 		{
-#ifdef JP
-			sprintf(buf," %c) %s¤Î·¿    %s",I2A(i+1), kata_shurui[i].desc, kata_shurui[i].info);
-#else
-			sprintf(buf," %c) Form of %-12s  %s",I2A(i+1), kata_shurui[i].desc, kata_shurui[i].info);
-#endif
+			sprintf(buf,_(" %c) %sã®å‹    %s", " %c) Form of %-12s  %s"),I2A(i+1), kata_shurui[i].desc, kata_shurui[i].info);
 			prt(buf, 3+i, 20);
 		}
 	}
 
 	prt("", 1, 0);
-#ifdef JP
-	prt("        ¤É¤Î·¿¤Ç¹½¤¨¤Ş¤¹¤«¡©", 1, 14);
-#else
-	prt("        Choose Form: ", 1, 14);
-#endif
+	prt(_("        ã©ã®å‹ã§æ§‹ãˆã¾ã™ã‹ï¼Ÿ", "        Choose Form: "), 1, 14);
 
 	while(1)
 	{
@@ -662,11 +546,7 @@ static bool choose_kata(void)
 				set_action(ACTION_NONE);
 			}
 			else
-#ifdef JP
-				msg_print("¤â¤È¤â¤È¹½¤¨¤Æ¤¤¤Ê¤¤¡£");
-#else
-				msg_print("You are not assuming posture.");
-#endif
+				msg_print(_("ã‚‚ã¨ã‚‚ã¨æ§‹ãˆã¦ã„ãªã„ã€‚", "You are not assuming posture."));
 			screen_load();
 			return TRUE;
 		}
@@ -695,22 +575,14 @@ static bool choose_kata(void)
 
 	if (p_ptr->special_defense & (KATA_IAI << new_kata))
 	{
-#ifdef JP
-		msg_print("¹½¤¨Ä¾¤·¤¿¡£");
-#else
-		msg_print("You reassume a posture.");
-#endif
+		msg_print(_("æ§‹ãˆç›´ã—ãŸã€‚", "You reassume a posture."));
 	}
 	else
 	{
 		p_ptr->special_defense &= ~(KATA_MASK);
 		p_ptr->update |= (PU_BONUS);
 		p_ptr->update |= (PU_MONSTERS);
-#ifdef JP
-		msg_format("%s¤Î·¿¤Ç¹½¤¨¤¿¡£",kata_shurui[new_kata].desc);
-#else
-		msg_format("You assume a posture of %s form.",kata_shurui[new_kata].desc);
-#endif
+		msg_format(_("%sã®å‹ã§æ§‹ãˆãŸã€‚", "You assume a posture of %s form."),kata_shurui[new_kata].desc);
 		p_ptr->special_defense |= (KATA_IAI << new_kata);
 	}
 	p_ptr->redraw |= (PR_STATE);
@@ -720,8 +592,14 @@ static bool choose_kata(void)
 }
 
 
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼æƒ…å ±ã®typedef
+ */
 typedef struct power_desc_type power_desc_type;
 
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼æƒ…å ±ã®æ§‹é€ ä½“å®šç¾©
+ */
 struct power_desc_type
 {
 	char name[40];
@@ -733,8 +611,10 @@ struct power_desc_type
 };
 
 
-/*
- * Returns the chance to activate a racial power/mutation
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼ã®ç™ºå‹•æˆåŠŸç‡ã‚’è¨ˆç®—ã™ã‚‹ / Returns the chance to activate a racial power/mutation
+ * @param pd_ptr ç™ºå‹•ã—ãŸã„ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼æƒ…å ±ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return æˆåŠŸç‡(%)ã‚’è¿”ã™
  */
 static int racial_chance(power_desc_type *pd_ptr)
 {
@@ -787,9 +667,12 @@ static int racial_chance(power_desc_type *pd_ptr)
 
 static int  racial_cost;
 
-/*
- * Note: return value indicates that we have succesfully used the power
- * 1: Succeeded, 0: Cancelled, -1: Failed
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼ã®ç™ºå‹•ã®åˆ¤å®šå‡¦ç†
+ * @param pd_ptr ç™ºå‹•ã—ãŸã„ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼æƒ…å ±ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
+ * @return
+ * ç™ºå‹•æˆåŠŸãªã‚‰ã°1ã€ç™ºå‹•å¤±æ•—ãªã‚‰ã°-1ã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãªã‚‰ã°0ã‚’è¿”ã™ã€‚
+ * return value indicates that we have succesfully used the power 1: Succeeded, 0: Cancelled, -1: Failed
  */
 static int racial_aux(power_desc_type *pd_ptr)
 {
@@ -806,11 +689,8 @@ static int racial_aux(power_desc_type *pd_ptr)
 	/* Power is not available yet */
 	if (p_ptr->lev < min_level)
 	{
-#ifdef JP
-		msg_format("¤³¤ÎÇ½ÎÏ¤ò»ÈÍÑ¤¹¤ë¤Ë¤Ï¥ì¥Ù¥ë %d ¤ËÃ£¤·¤Æ¤¤¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£", min_level);
-#else
-		msg_format("You need to attain level %d to use this power.", min_level);
-#endif
+		msg_format(_("ã“ã®èƒ½åŠ›ã‚’ä½¿ç”¨ã™ã‚‹ã«ã¯ãƒ¬ãƒ™ãƒ« %d ã«é”ã—ã¦ã„ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚", 
+					 "You need to attain level %d to use this power."), min_level);
 
 		energy_use = 0;
 		return 0;
@@ -819,12 +699,7 @@ static int racial_aux(power_desc_type *pd_ptr)
 	/* Too confused */
 	else if (p_ptr->confused)
 	{
-#ifdef JP
-		msg_print("º®Íğ¤·¤Æ¤¤¤Æ¤½¤ÎÇ½ÎÏ¤Ï»È¤¨¤Ê¤¤¡£");
-#else
-		msg_print("You are too confused to use this power.");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦ãã®èƒ½åŠ›ã¯ä½¿ãˆãªã„ã€‚", "You are too confused to use this power."));
 		energy_use = 0;
 		return 0;
 	}
@@ -832,11 +707,7 @@ static int racial_aux(power_desc_type *pd_ptr)
 	/* Risk death? */
 	else if (p_ptr->chp < use_hp)
 	{
-#ifdef JP
-		if (!get_check("ËÜÅö¤Ëº£¤Î¿ê¼å¤·¤¿¾õÂÖ¤Ç¤³¤ÎÇ½ÎÏ¤ò»È¤¤¤Ş¤¹¤«¡©"))
-#else
-		if (!get_check("Really use the power in your weakened state? "))
-#endif
+		if (!get_check(_("æœ¬å½“ã«ä»Šã®è¡°å¼±ã—ãŸçŠ¶æ…‹ã§ã“ã®èƒ½åŠ›ã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "Really use the power in your weakened state? ")))
 		{
 			energy_use = 0;
 			return 0;
@@ -872,24 +743,26 @@ static int racial_aux(power_desc_type *pd_ptr)
 	}
 
 	if (flush_failure) flush();
-#ifdef JP
-	msg_print("½¼Ê¬¤Ë½¸Ãæ¤Ç¤­¤Ê¤«¤Ã¤¿¡£");
-#else
-	msg_print("You've failed to concentrate hard enough.");
-#endif
+	msg_print(_("å……åˆ†ã«é›†ä¸­ã§ããªã‹ã£ãŸã€‚", "You've failed to concentrate hard enough."));
 
 	return -1;
 }
 
-
-
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼ç™ºå‹•æ™‚ã«å£ã‚’ä½¿ã†ç¶™ç¶šçš„ãªè© å”±å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
+ * @return ãªã—
+ */
 void ratial_stop_mouth()
 {
 	if (music_singing_any()) stop_singing();
 	if (hex_spelling_any()) stop_hex_spell_all();
 }
 
-
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼ç™ºå‹•å‡¦ç†
+ * @param command ç™ºå‹•ã™ã‚‹ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ã®ID
+ * @return å‡¦ç†ã‚’å®Ÿéš›ã«å®Ÿè¡Œã—ãŸå ´åˆã¯TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ */
 static bool cmd_racial_power_aux(s32b command)
 {
 	s16b        plev = p_ptr->lev;
@@ -916,11 +789,7 @@ static bool cmd_racial_power_aux(s32b command)
 					py_attack(y, x, 0);
 				else
 				{
-#ifdef JP
-					msg_print("¹¶·â¤¬¶õ¤ò¤­¤Ã¤¿¡£");
-#else
-					msg_print("You attack the empty air.");
-#endif
+					msg_print(_("æ”»æ’ƒãŒç©ºã‚’ãã£ãŸã€‚", "You attack the empty air."));
 				}
 			}
 			break;
@@ -964,21 +833,12 @@ static bool cmd_racial_power_aux(s32b command)
 			{
 				py_attack(y, x, 0);
 				if (randint0(p_ptr->skill_dis) < 7)
-#ifdef JP
-					msg_print("¤¦¤Ş¤¯Æ¨¤²¤é¤ì¤Ê¤«¤Ã¤¿¡£");
-#else
-					msg_print("You are failed to run away.");
-#endif
+					msg_print(_("ã†ã¾ãé€ƒã’ã‚‰ã‚Œãªã‹ã£ãŸã€‚", "You are failed to run away."));
 				else teleport_player(30, 0L);
 			}
 			else
 			{
-#ifdef JP
-				msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
-#else
-				msg_print("You don't see any monster in this direction");
-#endif
-
+				msg_print(_("ãã®æ–¹å‘ã«ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ã„ã¾ã›ã‚“ã€‚", "You don't see any monster in this direction"));
 				msg_print(NULL);
 			}
 			break;
@@ -986,12 +846,7 @@ static bool cmd_racial_power_aux(s32b command)
 		case CLASS_RANGER:
 		case CLASS_SNIPER:
 		{
-#ifdef JP
-			msg_print("Å¨¤òÄ´ºº¤·¤¿...");
-#else
-			msg_print("You examine your foes...");
-#endif
-
+			msg_print(_("æ•µã‚’èª¿æŸ»ã—ãŸ...", "You examine your foes..."));
 			probing();
 			break;
 		}
@@ -1006,11 +861,8 @@ static bool cmd_racial_power_aux(s32b command)
 		{
 			if (command == -3)
 			{
-#ifdef JP
-				int gain_sp = take_hit(DAMAGE_USELIFE, p_ptr->lev, "£È£Ğ¤«¤é£Í£Ğ¤Ø¤ÎÌµËÅ¤ÊÊÑ´¹", -1) / 5;
-#else
-				int gain_sp = take_hit(DAMAGE_USELIFE, p_ptr->lev, "thoughtless convertion from HP to SP", -1) / 5;
-#endif
+				int gain_sp = take_hit(DAMAGE_USELIFE, p_ptr->lev, 
+								_("ï¼¨ï¼°ã‹ã‚‰ï¼­ï¼°ã¸ã®ç„¡è¬€ãªå¤‰æ›", "thoughtless convertion from HP to SP"), -1) / 5;
 				if (gain_sp)
 				{
 					p_ptr->csp += gain_sp;
@@ -1021,11 +873,9 @@ static bool cmd_racial_power_aux(s32b command)
 					}
 				}
 				else
-#ifdef JP
-					msg_print("ÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¡£");
-#else
-					msg_print("You failed to convert.");
-#endif
+				{
+					msg_print(_("å¤‰æ›ã«å¤±æ•—ã—ãŸã€‚", "You failed to convert."));
+				}
 			}
 			else if (command == -4)
 			{
@@ -1035,11 +885,9 @@ static bool cmd_racial_power_aux(s32b command)
 					hp_player(p_ptr->lev);
 				}
 				else
-#ifdef JP
-					msg_print("ÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¡£");
-#else
-					msg_print("You failed to convert.");
-#endif
+				{
+					msg_print(_("å¤‰æ›ã«å¤±æ•—ã—ãŸã€‚", "You failed to convert."));
+				}
 			}
 
 			/* Redraw mana and hp */
@@ -1049,12 +897,8 @@ static bool cmd_racial_power_aux(s32b command)
 		}
 		case CLASS_CHAOS_WARRIOR:
 		{
-#ifdef JP
-			msg_print("ÊÕ¤ê¤òâË¤ó¤À...");
-#else
-			msg_print("You glare nearby monsters...");
-#endif
-			slow_monsters();
+			msg_print(_("è¾ºã‚Šã‚’ç¨ã‚“ã ...", "You glare nearby monsters..."));
+			slow_monsters(p_ptr->lev);
 			stun_monsters(p_ptr->lev * 4);
 			confuse_monsters(p_ptr->lev * 4);
 			turn_monsters(p_ptr->lev * 4);
@@ -1065,20 +909,12 @@ static bool cmd_racial_power_aux(s32b command)
 		{
 			if (!(empty_hands(TRUE) & EMPTY_HAND_RARM))
 			{
-#ifdef JP
-				msg_print("ÁÇ¼ê¤¸¤ã¤Ê¤¤¤È¤Ç¤­¤Ş¤»¤ó¡£");
-#else
-				msg_print("You need to be bare hand.");
-#endif
+				msg_print(_("ç´ æ‰‹ã˜ã‚ƒãªã„ã¨ã§ãã¾ã›ã‚“ã€‚", "You need to be bare hand."));
 				return FALSE;
 			}
 			if (p_ptr->riding)
 			{
-#ifdef JP
-				msg_print("¾èÇÏÃæ¤Ï¤Ç¤­¤Ş¤»¤ó¡£");
-#else
-				msg_print("You need to get off a pet.");
-#endif
+				msg_print(_("ä¹—é¦¬ä¸­ã¯ã§ãã¾ã›ã‚“ã€‚", "You need to get off a pet."));
 				return FALSE;
 			}
 
@@ -1096,13 +932,12 @@ static bool cmd_racial_power_aux(s32b command)
 				x = px + ddx[dir];
 				if (cave[y][x].m_idx)
 				{
-#ifdef JP
-					if (one_in_(2)) msg_print("¤¢¡¼¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¡ª¡ª¡ª");
-					else msg_print("¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¥ª¥é¡ª¡ª¡ª");
-#else
-					if (one_in_(2)) msg_print("Ahhhtatatatatatatatatatatatatatataatatatatattaaaaa!!!!");
-					else msg_print("Oraoraoraoraoraoraoraoraoraoraoraoraoraoraoraoraora!!!!");
-#endif
+					if (one_in_(2)) 
+						msg_print(_("ã‚ãƒ¼ãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸãŸï¼ï¼ï¼", 
+									"Ahhhtatatatatatatatatatatatatatataatatatatattaaaaa!!!!"));
+					else
+						msg_print(_("ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ã‚ªãƒ©ï¼ï¼ï¼",
+									"Oraoraoraoraoraoraoraoraoraoraoraoraoraoraoraoraora!!!!"));
 
 					py_attack(y, x, 0);
 					if (cave[y][x].m_idx)
@@ -1114,12 +949,7 @@ static bool cmd_racial_power_aux(s32b command)
 				}
 				else
 				{
-#ifdef JP
-					msg_print("¤½¤ÎÊı¸ş¤Ë¤Ï¥â¥ó¥¹¥¿¡¼¤Ï¤¤¤Ş¤»¤ó¡£");
-#else
-					msg_print("You don't see any monster in this direction");
-#endif
-
+					msg_print(_("ãã®æ–¹å‘ã«ã¯ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯ã„ã¾ã›ã‚“ã€‚", "You don't see any monster in this direction"));
 					msg_print(NULL);
 				}
 			}
@@ -1130,18 +960,10 @@ static bool cmd_racial_power_aux(s32b command)
 		{
 			if (total_friends)
 			{
-#ifdef JP
-				msg_print("º£¤Ï¥Ú¥Ã¥È¤òÁà¤ë¤³¤È¤Ë½¸Ãæ¤·¤Æ¤¤¤Ê¤¤¤È¡£");
-#else
-				msg_print("You need concentration on the pets now.");
-#endif
+				msg_print(_("ä»Šã¯ãƒšãƒƒãƒˆã‚’æ“ã‚‹ã“ã¨ã«é›†ä¸­ã—ã¦ã„ãªã„ã¨ã€‚", "You need concentration on the pets now."));
 				return FALSE;
 			}
-#ifdef JP
-			msg_print("¾¯¤·Æ¬¤¬¥Ï¥Ã¥­¥ê¤·¤¿¡£");
-#else
-			msg_print("You feel your head clear a little.");
-#endif
+			msg_print(_("å°‘ã—é ­ãŒãƒãƒƒã‚­ãƒªã—ãŸã€‚", "You feel your head clear a little."));
 
 			p_ptr->csp += (3 + p_ptr->lev/20);
 			if (p_ptr->csp >= p_ptr->msp)
@@ -1194,7 +1016,12 @@ static bool cmd_racial_power_aux(s32b command)
 		}
 		case CLASS_MAGIC_EATER:
 		{
-			if (!gain_magic()) return FALSE;
+			if (command == -3) {
+				if (!gain_magic()) return FALSE;
+			} else if (command == -4) {
+				if (!can_do_cmd_cast()) return FALSE;
+				if (!do_cmd_magic_eater(FALSE, TRUE)) return FALSE;
+			}
 			break;
 		}
 		case CLASS_BARD:
@@ -1224,27 +1051,15 @@ static bool cmd_racial_power_aux(s32b command)
 
 				if (total_friends)
 				{
-#ifdef JP
-					msg_print("º£¤Ï¥Ú¥Ã¥È¤òÁà¤ë¤³¤È¤Ë½¸Ãæ¤·¤Æ¤¤¤Ê¤¤¤È¡£");
-#else
-					msg_print("You need concentration on the pets now.");
-#endif
+					msg_print(_("ä»Šã¯ãƒšãƒƒãƒˆã‚’æ“ã‚‹ã“ã¨ã«é›†ä¸­ã—ã¦ã„ãªã„ã¨ã€‚", "You need concentration on the pets now."));
 					return FALSE;
 				}
 				if (p_ptr->special_defense & KATA_MASK)
 				{
-#ifdef JP
-					msg_print("º£¤Ï¹½¤¨¤Ë½¸Ãæ¤·¤Æ¤¤¤ë¡£");
-#else
-					msg_print("You need concentration on your form.");
-#endif
+					msg_print(_("ä»Šã¯æ§‹ãˆã«é›†ä¸­ã—ã¦ã„ã‚‹ã€‚", "You need concentration on your form."));
 					return FALSE;
 				}
-#ifdef JP
-				msg_print("Àº¿À¤ò½¸Ãæ¤·¤Æµ¤¹ç¤¤¤òÎ¯¤á¤¿¡£");
-#else
-				msg_print("You concentrate to charge your power.");
-#endif
+				msg_print(_("ç²¾ç¥ã‚’é›†ä¸­ã—ã¦æ°—åˆã„ã‚’æºœã‚ãŸã€‚", "You concentrate to charge your power."));
 
 				p_ptr->csp += p_ptr->msp / 2;
 				if (p_ptr->csp >= max_csp)
@@ -1260,11 +1075,7 @@ static bool cmd_racial_power_aux(s32b command)
 			{
 				if (!buki_motteruka(INVEN_RARM) && !buki_motteruka(INVEN_LARM))
 				{
-#ifdef JP
-					msg_print("Éğ´ï¤ò»ı¤¿¤Ê¤¤¤È¤¤¤±¤Ş¤»¤ó¡£");
-#else
-					msg_print("You need to wield a weapon.");
-#endif
+					msg_print(_("æ­¦å™¨ã‚’æŒãŸãªã„ã¨ã„ã‘ã¾ã›ã‚“ã€‚", "You need to wield a weapon."));
 					return FALSE;
 				}
 				if (!choose_kata()) return FALSE;
@@ -1294,22 +1105,14 @@ static bool cmd_racial_power_aux(s32b command)
 
 			if (p_ptr->riding)
 			{
-#ifdef JP
-				msg_print("º£¤Ï¾èÇÏÃæ¤À¡£");
-#else
-				msg_print("You ARE riding.");
-#endif
+				msg_print(_("ä»Šã¯ä¹—é¦¬ä¸­ã ã€‚", "You ARE riding."));
 				return FALSE;
 			}
 			if (!do_riding(TRUE)) return TRUE;
 			m_ptr = &m_list[p_ptr->riding];
 			r_ptr = &r_info[m_ptr->r_idx];
 			monster_desc(m_name, m_ptr, 0);
-#ifdef JP
-			msg_format("%s¤Ë¾è¤Ã¤¿¡£",m_name);
-#else
-			msg_format("You ride on %s.",m_name);
-#endif
+			msg_format(_("%sã«ä¹—ã£ãŸã€‚", "You ride on %s."),m_name);
 			if (is_pet(m_ptr)) break;
 			rlev = r_ptr->level;
 			if (r_ptr->flags1 & RF1_UNIQUE) rlev = rlev * 3 / 2;
@@ -1319,24 +1122,16 @@ static bool cmd_racial_power_aux(s32b command)
 			    && !(r_ptr->flags7 & (RF7_GUARDIAN)) && !(r_ptr->flags1 & (RF1_QUESTOR))
 			    && (rlev < p_ptr->lev * 3 / 2 + randint0(p_ptr->lev / 5)))
 			{
-#ifdef JP
-				msg_format("%s¤ò¼ê¤Ê¤º¤±¤¿¡£",m_name);
-#else
-				msg_format("You tame %s.",m_name);
-#endif
+				msg_format(_("%sã‚’æ‰‹ãªãšã‘ãŸã€‚", "You tame %s."),m_name);
 				set_pet(m_ptr);
 			}
 			else
 			{
-#ifdef JP
-				msg_format("%s¤Ë¿¶¤êÍî¤È¤µ¤ì¤¿¡ª",m_name);
-#else
-				msg_format("You have thrown off by %s.",m_name);
-#endif
+				msg_format(_("%sã«æŒ¯ã‚Šè½ã¨ã•ã‚ŒãŸï¼", "You have thrown off by %s."),m_name);
 				rakuba(1,TRUE);
 
 				/* Paranoia */
-				/* ÍîÇÏ½èÍı¤Ë¼ºÇÔ¤·¤Æ¤â¤È¤Ë¤«¤¯¾èÇÏ²ò½ü */
+				/* è½é¦¬å‡¦ç†ã«å¤±æ•—ã—ã¦ã‚‚ã¨ã«ã‹ãä¹—é¦¬è§£é™¤ */
 				p_ptr->riding = 0;
 			}
 			break;
@@ -1369,20 +1164,12 @@ static bool cmd_racial_power_aux(s32b command)
 			{
 				if (total_friends)
 				{
-#ifdef JP
-					msg_print("º£¤Ï¥Ú¥Ã¥È¤òÁà¤ë¤³¤È¤Ë½¸Ãæ¤·¤Æ¤¤¤Ê¤¤¤È¡£");
-#else
-					msg_print("You need concentration on the pets now.");
-#endif
+					msg_print(_("ä»Šã¯ãƒšãƒƒãƒˆã‚’æ“ã‚‹ã“ã¨ã«é›†ä¸­ã—ã¦ã„ãªã„ã¨ã€‚", "You need concentration on the pets now."));
 					return FALSE;
 				}
 				if (is_mirror_grid(&cave[py][px]))
 				{
-#ifdef JP
-					msg_print("¾¯¤·Æ¬¤¬¥Ï¥Ã¥­¥ê¤·¤¿¡£");
-#else
-					msg_print("You feel your head clear a little.");
-#endif
+					msg_print(_("å°‘ã—é ­ãŒãƒãƒƒã‚­ãƒªã—ãŸã€‚", "You feel your head clear a little."));
 
 					p_ptr->csp += (5 + p_ptr->lev * p_ptr->lev / 100);
 					if (p_ptr->csp >= p_ptr->msp)
@@ -1396,11 +1183,7 @@ static bool cmd_racial_power_aux(s32b command)
 				}
 				else
 				{
-#ifdef JP
-					msg_print("¶À¤Î¾å¤Ç¤Ê¤¤¤È½¸Ãæ¤Ç¤­¤Ê¤¤¡ª");
-#else
-					msg_print("Here are not any mirrors!");
-#endif
+					msg_print(_("é¡ã®ä¸Šã§ãªã„ã¨é›†ä¸­ã§ããªã„ï¼", "Here are not any mirrors!"));
 				}
 			}
 			break;
@@ -1419,11 +1202,7 @@ static bool cmd_racial_power_aux(s32b command)
 				if (!have_flag(f_ptr->flags, FF_PROJECT) ||
 				    (!p_ptr->levitation && have_flag(f_ptr->flags, FF_DEEP)))
 				{
-#ifdef JP
-					msg_print("¤³¤³¤Ç¤ÏÁÇÁá¤¯Æ°¤±¤Ê¤¤¡£");
-#else
-					msg_print("You cannot run in here.");
-#endif
+					msg_print(_("ã“ã“ã§ã¯ç´ æ—©ãå‹•ã‘ãªã„ã€‚", "You cannot run in here."));
 				}
 				else
 				{
@@ -1449,7 +1228,7 @@ static bool cmd_racial_power_aux(s32b command)
 			if (!get_aim_dir(&dir)) return FALSE;
 			ratial_stop_mouth();
 #ifdef JP
-			msg_format("¤¢¤Ê¤¿¤Ï%s¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£",((type == GF_NETHER) ? "ÃÏ¹ö" : "²Ğ±ê"));
+			msg_format("ã‚ãªãŸã¯%sã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚",((type == GF_NETHER) ? "åœ°ç„" : "ç«ç‚"));
 #else
 			msg_format("You breathe %s.",((type == GF_NETHER) ? "nether" : "fire"));
 #endif
@@ -1460,11 +1239,7 @@ static bool cmd_racial_power_aux(s32b command)
 		case MIMIC_VAMPIRE:
 			if (d_info[dungeon_type].flags1 & DF1_NO_MELEE)
 			{
-#ifdef JP
-				msg_print("¤Ê¤¼¤«¹¶·â¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ê¤¤¡£");
-#else
-				msg_print("Something prevent you from attacking.");
-#endif
+				msg_print(_("ãªãœã‹æ”»æ’ƒã™ã‚‹ã“ã¨ãŒã§ããªã„ã€‚", "Something prevent you from attacking."));
 				return FALSE;
 			}
 			else
@@ -1482,21 +1257,11 @@ static bool cmd_racial_power_aux(s32b command)
 
 				if (!c_ptr->m_idx)
 				{
-#ifdef JP
-					msg_print("²¿¤â¤Ê¤¤¾ì½ê¤Ë³ú¤ß¤Ä¤¤¤¿¡ª");
-#else
-					msg_print("You bite into thin air!");
-#endif
-
+					msg_print(_("ä½•ã‚‚ãªã„å ´æ‰€ã«å™›ã¿ã¤ã„ãŸï¼", "You bite into thin air!"));
 					break;
 				}
 
-#ifdef JP
-				msg_print("¤¢¤Ê¤¿¤Ï¥Ë¥ä¥ê¤È¤·¤Æ²ç¤ò¤à¤¤¤¿...");
-#else
-				msg_print("You grin and bare your fangs...");
-#endif
-
+				msg_print(_("ã‚ãªãŸã¯ãƒ‹ãƒ¤ãƒªã¨ã—ã¦ç‰™ã‚’ã‚€ã„ãŸ...", "You grin and bare your fangs..."));
 				dummy = plev + randint1(plev) * MAX(1, plev / 10);   /* Dmg */
 				if (drain_life(dir, dummy))
 				{
@@ -1504,11 +1269,7 @@ static bool cmd_racial_power_aux(s32b command)
 						/* No heal if we are "full" */
 						(void)hp_player(dummy);
 					else
-#ifdef JP
-						msg_print("¤¢¤Ê¤¿¤Ï¶õÊ¢¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£");
-#else
-						msg_print("You were not hungry.");
-#endif
+						msg_print(_("ã‚ãªãŸã¯ç©ºè…¹ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚", "You were not hungry."));
 
 					/* Gain nutritional sustenance: 150/hp drained */
 					/* A Food ration gives 5000 food points (by contrast) */
@@ -1519,12 +1280,7 @@ static bool cmd_racial_power_aux(s32b command)
 						(void)set_food(dummy >= PY_FOOD_MAX ? PY_FOOD_MAX - 1 : dummy);
 				}
 				else
-#ifdef JP
-					msg_print("¤²¤§¡£¤Ò¤É¤¤Ì£¤À¡£");
-#else
-					msg_print("Yechh. That tastes foul.");
-#endif
-
+					msg_print(_("ã’ã‡ã€‚ã²ã©ã„å‘³ã ã€‚", "Yechh. That tastes foul."));
 			}
 			break;
 		}
@@ -1536,12 +1292,7 @@ static bool cmd_racial_power_aux(s32b command)
 	switch (p_ptr->prace)
 	{
 		case RACE_DWARF:
-#ifdef JP
-			msg_print("¼ş°Ï¤òÄ´¤Ù¤¿¡£");
-#else
-			msg_print("You examine your surroundings.");
-#endif
-
+			msg_print(_("å‘¨å›²ã‚’èª¿ã¹ãŸã€‚", "You examine your surroundings."));
 			(void)detect_traps(DETECT_RAD_DEFAULT, TRUE);
 			(void)detect_doors(DETECT_RAD_DEFAULT);
 			(void)detect_stairs(DETECT_RAD_DEFAULT);
@@ -1560,42 +1311,22 @@ static bool cmd_racial_power_aux(s32b command)
 
 				/* Drop the object from heaven */
 				(void)drop_near(q_ptr, -1, py, px);
-#ifdef JP
-				msg_print("¿©»ö¤òÎÁÍı¤·¤Æºî¤Ã¤¿¡£");
-#else
-				msg_print("You cook some food.");
-#endif
-
+				msg_print(_("é£Ÿäº‹ã‚’æ–™ç†ã—ã¦ä½œã£ãŸã€‚", "You cook some food."));
 			}
 			break;
 
 		case RACE_GNOME:
-#ifdef JP
-			msg_print("¥Ñ¥Ã¡ª");
-#else
-			msg_print("Blink!");
-#endif
-
+			msg_print(_("ãƒ‘ãƒƒï¼", "Blink!"));
 			teleport_player(10, 0L);
 			break;
 
 		case RACE_HALF_ORC:
-#ifdef JP
-			msg_print("Í¦µ¤¤ò½Ğ¤·¤¿¡£");
-#else
-			msg_print("You play tough.");
-#endif
-
+			msg_print(_("å‹‡æ°—ã‚’å‡ºã—ãŸã€‚", "You play tough."));
 			(void)set_afraid(0);
 			break;
 
 		case RACE_HALF_TROLL:
-#ifdef JP
-			msg_print("¤¦¤¬¤¡¤¡¡ª");
-#else
-			msg_print("RAAAGH!");
-#endif
-
+			msg_print(_("ã†ãŒããï¼", "RAAAGH!"));
 			(void)set_afraid(0);
 			(void)set_shero(10 + randint1(plev), FALSE);
 			(void)hp_player(30);
@@ -1604,20 +1335,12 @@ static bool cmd_racial_power_aux(s32b command)
 		case RACE_AMBERITE:
 			if (command == -1)
 			{
-#ifdef JP
-				msg_print("¤¢¤Ê¤¿¤ÏÊâ¤­¼ş¤ê»Ï¤á¤¿¡£");
-#else
-				msg_print("You start walking around. ");
-#endif
+				msg_print(_("ã‚ãªãŸã¯æ­©ãå‘¨ã‚Šå§‹ã‚ãŸã€‚", "You start walking around. "));
 				alter_reality();
 			}
 			else if (command == -2)
 			{
-#ifdef JP
-				msg_print("¤¢¤Ê¤¿¤Ï¡Ö¥Ñ¥¿¡¼¥ó¡×¤ò¿´¤ËÉÁ¤¤¤Æ¤½¤Î¾å¤òÊâ¤¤¤¿...");
-#else
-				msg_print("You picture the Pattern in your mind and walk it...");
-#endif
+				msg_print(_("ã‚ãªãŸã¯ã€Œãƒ‘ã‚¿ãƒ¼ãƒ³ã€ã‚’å¿ƒã«æã„ã¦ãã®ä¸Šã‚’æ­©ã„ãŸ...", "You picture the Pattern in your mind and walk it..."));
 
 				(void)set_poisoned(0);
 				(void)set_image(0);
@@ -1636,96 +1359,56 @@ static bool cmd_racial_power_aux(s32b command)
 			break;
 
 		case RACE_BARBARIAN:
-#ifdef JP
-			msg_print("¤¦¤©¤©¤ª¤ª¡ª");
-#else
-			msg_print("Raaagh!");
-#endif
-
+			msg_print(_("ã†ã‰ã‰ãŠãŠï¼", "Raaagh!"));
 			(void)set_afraid(0);
 			(void)set_shero(10 + randint1(plev), FALSE);
 			(void)hp_player(30);
 			break;
 
 		case RACE_HALF_OGRE:
-#ifdef JP
-			msg_print("ÇúÈ¯¤Î¥ë¡¼¥ó¤ò¿µ½Å¤Ë»Å³İ¤±¤¿...");
-#else
-			msg_print("You carefully set an explosive rune...");
-#endif
-
+			msg_print(_("çˆ†ç™ºã®ãƒ«ãƒ¼ãƒ³ã‚’æ…é‡ã«ä»•æ›ã‘ãŸ...", "You carefully set an explosive rune..."));
 			explosive_rune();
 			break;
 
 		case RACE_HALF_GIANT:
 			if (!get_aim_dir(&dir)) return FALSE;
-			(void)wall_to_mud(dir);
+			(void)wall_to_mud(dir, 20 + randint1(30));
 			break;
 
 		case RACE_HALF_TITAN:
-#ifdef JP
-			msg_print("Å¨¤òÄ´ºº¤·¤¿...");
-#else
-			msg_print("You examine your foes...");
-#endif
-
+			msg_print(_("æ•µã‚’èª¿æŸ»ã—ãŸ...", "You examine your foes..."));
 			probing();
 			break;
 
 		case RACE_CYCLOPS:
 			if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-			msg_print("µğÂç¤Ê´ä¤òÅê¤²¤¿¡£");
-#else
-			msg_print("You throw a huge boulder.");
-#endif
-
+			msg_print(_("å·¨å¤§ãªå²©ã‚’æŠ•ã’ãŸã€‚", "You throw a huge boulder."));
 			fire_bolt(GF_MISSILE, dir, (3 * plev) / 2);
 			break;
 
 		case RACE_YEEK:
 			if (!get_aim_dir(&dir)) return FALSE;
 			ratial_stop_mouth();
-#ifdef JP
-			msg_print("¿È¤ÎÌÓ¤â¤è¤À¤Ä¶«¤ÓÀ¼¤ò¾å¤²¤¿¡ª");
-#else
-			msg_print("You make a horrible scream!");
-#endif
-
+			msg_print(_("èº«ã®æ¯›ã‚‚ã‚ˆã ã¤å«ã³å£°ã‚’ä¸Šã’ãŸï¼", "You make a horrible scream!"));
 			(void)fear_monster(dir, plev);
 			break;
 
 		case RACE_KLACKON:
 			if (!get_aim_dir(&dir)) return FALSE;
 			ratial_stop_mouth();
-#ifdef JP
-			msg_print("»À¤òÅÇ¤¤¤¿¡£");
-#else
-			msg_print("You spit acid.");
-#endif
-
+			msg_print(_("é…¸ã‚’åã„ãŸã€‚", "You spit acid."));
 			if (plev < 25) fire_bolt(GF_ACID, dir, plev);
 			else fire_ball(GF_ACID, dir, plev, 2);
 			break;
 
 		case RACE_KOBOLD:
 			if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-			msg_print("ÆÇ¤Î¥À¡¼¥Ä¤òÅê¤²¤¿¡£");
-#else
-			msg_print("You throw a dart of poison.");
-#endif
-
+			msg_print(_("æ¯’ã®ãƒ€ãƒ¼ãƒ„ã‚’æŠ•ã’ãŸã€‚", "You throw a dart of poison."));
 			fire_bolt(GF_POIS, dir, plev);
 			break;
 
 		case RACE_NIBELUNG:
-#ifdef JP
-			msg_print("¼ş°Ï¤òÄ´ºº¤·¤¿¡£");
-#else
-			msg_print("You examine your surroundings.");
-#endif
-
+			msg_print(_("å‘¨å›²ã‚’èª¿æŸ»ã—ãŸã€‚", "You examine your surroundings."));
 			(void)detect_traps(DETECT_RAD_DEFAULT, TRUE);
 			(void)detect_doors(DETECT_RAD_DEFAULT);
 			(void)detect_stairs(DETECT_RAD_DEFAULT);
@@ -1733,12 +1416,7 @@ static bool cmd_racial_power_aux(s32b command)
 
 		case RACE_DARK_ELF:
 			if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-			msg_print("¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë¤òÊü¤Ã¤¿¡£");
-#else
-			msg_print("You cast a magic missile.");
-#endif
-
+			msg_print(_("ãƒã‚¸ãƒƒã‚¯ãƒ»ãƒŸã‚µã‚¤ãƒ«ã‚’æ”¾ã£ãŸã€‚", "You cast a magic missile."));
 			fire_bolt_or_beam(10, GF_MISSILE, dir,
 			    damroll(3 + ((plev - 1) / 5), 4));
 			break;
@@ -1747,7 +1425,7 @@ static bool cmd_racial_power_aux(s32b command)
 			{
 				int  Type = (one_in_(3) ? GF_COLD : GF_FIRE);
 #ifdef JP
-				cptr Type_desc = ((Type == GF_COLD) ? "Îäµ¤" : "±ê");
+				cptr Type_desc = ((Type == GF_COLD) ? "å†·æ°—" : "ç‚");
 #else
 				cptr Type_desc = ((Type == GF_COLD) ? "cold" : "fire");
 #endif
@@ -1768,20 +1446,12 @@ static bool cmd_racial_power_aux(s32b command)
 							if (one_in_(3))
 							{
 								Type = GF_MISSILE;
-#ifdef JP
-								Type_desc = "¥¨¥ì¥á¥ó¥È";
-#else
-								Type_desc = "the elements";
-#endif
+								Type_desc = _("ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆ", "the elements");
 							}
 							else
 							{
 								Type = GF_SHARDS;
-#ifdef JP
-								Type_desc = "ÇËÊÒ";
-#else
-								Type_desc = "shards";
-#endif
+								Type_desc = _("ç ´ç‰‡", "shards");
 							}
 							break;
 						case CLASS_MAGE:
@@ -1795,40 +1465,24 @@ static bool cmd_racial_power_aux(s32b command)
 							if (one_in_(3))
 							{
 								Type = GF_MANA;
-#ifdef JP
-								Type_desc = "ËâÎÏ";
-#else
-								Type_desc = "mana";
-#endif
+								Type_desc = _("é­”åŠ›", "mana");
 							}
 							else
 							{
 								Type = GF_DISENCHANT;
-#ifdef JP
-								Type_desc = "Îô²½";
-#else
-								Type_desc = "disenchantment";
-#endif
+								Type_desc = _("åŠ£åŒ–", "disenchantment");
 							}
 							break;
 						case CLASS_CHAOS_WARRIOR:
 							if (!one_in_(3))
 							{
 								Type = GF_CONFUSION;
-#ifdef JP
-								Type_desc = "º®Íğ";
-#else
-								Type_desc = "confusion";
-#endif
+								Type_desc = _("æ··ä¹±", "confusion");
 							}
 							else
 							{
 								Type = GF_CHAOS;
-#ifdef JP
-								Type_desc = "¥«¥ª¥¹";
-#else
-								Type_desc = "chaos";
-#endif
+								Type_desc = _("ã‚«ã‚ªã‚¹", "chaos");
 							}
 							break;
 						case CLASS_MONK:
@@ -1837,40 +1491,24 @@ static bool cmd_racial_power_aux(s32b command)
 							if (!one_in_(3))
 							{
 								Type = GF_CONFUSION;
-#ifdef JP
-								Type_desc = "º®Íğ";
-#else
-								Type_desc = "confusion";
-#endif
+								Type_desc = _("æ··ä¹±", "confusion");
 							}
 							else
 							{
 								Type = GF_SOUND;
-#ifdef JP
-								Type_desc = "¹ì²»";
-#else
-								Type_desc = "sound";
-#endif
+								Type_desc = _("è½ŸéŸ³", "sound");
 							}
 							break;
 						case CLASS_MINDCRAFTER:
 							if (!one_in_(3))
 							{
 								Type = GF_CONFUSION;
-#ifdef JP
-								Type_desc = "º®Íğ";
-#else
-								Type_desc = "confusion";
-#endif
+								Type_desc = _("æ··ä¹±", "confusion");
 							}
 							else
 							{
 								Type = GF_PSI;
-#ifdef JP
-								Type_desc = "Àº¿À¥¨¥Í¥ë¥®¡¼";
-#else
-								Type_desc = "mental energy";
-#endif
+								Type_desc = _("ç²¾ç¥ã‚¨ãƒãƒ«ã‚®ãƒ¼", "mental energy");
 							}
 							break;
 						case CLASS_PRIEST:
@@ -1878,20 +1516,12 @@ static bool cmd_racial_power_aux(s32b command)
 							if (one_in_(3))
 							{
 								Type = GF_HELL_FIRE;
-#ifdef JP
-								Type_desc = "ÃÏ¹ö¤Î¹å²Ğ";
-#else
-								Type_desc = "hellfire";
-#endif
+								Type_desc = _("åœ°ç„ã®åŠ«ç«", "hellfire");
 							}
 							else
 							{
 								Type = GF_HOLY_FIRE;
-#ifdef JP
-								Type_desc = "À»¤Ê¤ë±ê";
-#else
-								Type_desc = "holy fire";
-#endif
+								Type_desc = _("è–ãªã‚‹ç‚", "holy fire");
 							}
 							break;
 						case CLASS_ROGUE:
@@ -1899,52 +1529,31 @@ static bool cmd_racial_power_aux(s32b command)
 							if (one_in_(3))
 							{
 								Type = GF_DARK;
-#ifdef JP
-								Type_desc = "°Å¹õ";
-#else
-								Type_desc = "darkness";
-#endif
+								Type_desc = _("æš—é»’", "darkness");
 							}
 							else
 							{
 								Type = GF_POIS;
-#ifdef JP
-								Type_desc = "ÆÇ";
-#else
-								Type_desc = "poison";
-#endif
+								Type_desc = _("æ¯’", "poison");
 							}
 							break;
 						case CLASS_BARD:
 							if (!one_in_(3))
 							{
 								Type = GF_SOUND;
-#ifdef JP
-								Type_desc = "¹ì²»";
-#else
-								Type_desc = "sound";
-#endif
+								Type_desc = _("è½ŸéŸ³", "sound");
 							}
 							else
 							{
 								Type = GF_CONFUSION;
-#ifdef JP
-								Type_desc = "º®Íğ";
-#else
-								Type_desc = "confusion";
-#endif
+								Type_desc = _("æ··ä¹±", "confusion");
 							}
 							break;
 					}
 				}
 
 				ratial_stop_mouth();
-
-#ifdef JP
-				msg_format("¤¢¤Ê¤¿¤Ï%s¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£", Type_desc);
-#else
-				msg_format("You breathe %s.", Type_desc);
-#endif
+				msg_format(_("ã‚ãªãŸã¯%sã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚", "You breathe %s."), Type_desc);
 
 				fire_ball(Type, dir, plev * 2,
 				    -(plev / 15) - 1);
@@ -1953,12 +1562,7 @@ static bool cmd_racial_power_aux(s32b command)
 
 		case RACE_MIND_FLAYER:
 			if (!get_aim_dir(&dir)) return FALSE;
-#ifdef JP
-			msg_print("¤¢¤Ê¤¿¤Ï½¸Ãæ¤·¡¢ÌÜ¤¬ÀÖ¤¯µ±¤¤¤¿...");
-#else
-			msg_print("You concentrate and your eyes glow red...");
-#endif
-
+			msg_print(_("ã‚ãªãŸã¯é›†ä¸­ã—ã€ç›®ãŒèµ¤ãè¼ã„ãŸ...", "You concentrate and your eyes glow red..."));
 			fire_bolt(GF_PSI, dir, plev);
 			break;
 
@@ -1966,22 +1570,12 @@ static bool cmd_racial_power_aux(s32b command)
 			if (!get_aim_dir(&dir)) return FALSE;
 			if (plev >= 30)
 			{
-#ifdef JP
-				msg_print("¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë¤òÊü¤Ã¤¿¡£");
-#else
-				msg_print("You cast a ball of fire.");
-#endif
-
+				msg_print(_("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ«ã‚’æ”¾ã£ãŸã€‚", "You cast a ball of fire."));
 				fire_ball(GF_FIRE, dir, plev, 2);
 			}
 			else
 			{
-#ifdef JP
-				msg_print("¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È¤òÊü¤Ã¤¿¡£");
-#else
-				msg_print("You cast a bolt of fire.");
-#endif
-
+				msg_print(_("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ«ãƒˆã‚’æ”¾ã£ãŸã€‚", "You cast a bolt of fire."));
 				fire_bolt(GF_FIRE, dir, plev);
 			}
 			break;
@@ -1992,23 +1586,14 @@ static bool cmd_racial_power_aux(s32b command)
 
 		case RACE_SKELETON:
 		case RACE_ZOMBIE:
-#ifdef JP
-			msg_print("¤¢¤Ê¤¿¤Ï¼º¤Ã¤¿¥¨¥Í¥ë¥®¡¼¤ò¼è¤êÌá¤½¤¦¤È»î¤ß¤¿¡£");
-#else
-			msg_print("You attempt to restore your lost energies.");
-#endif
-
+			msg_print(_("ã‚ãªãŸã¯å¤±ã£ãŸã‚¨ãƒãƒ«ã‚®ãƒ¼ã‚’å–ã‚Šæˆ»ãã†ã¨è©¦ã¿ãŸã€‚", "You attempt to restore your lost energies."));
 			(void)restore_level();
 			break;
 
 		case RACE_VAMPIRE:
 			if (d_info[dungeon_type].flags1 & DF1_NO_MELEE)
 			{
-#ifdef JP
-				msg_print("¤Ê¤¼¤«¹¶·â¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ê¤¤¡£");
-#else
-				msg_print("Something prevent you from attacking.");
-#endif
+				msg_print(_("ãªãœã‹æ”»æ’ƒã™ã‚‹ã“ã¨ãŒã§ããªã„ã€‚", "Something prevent you from attacking."));
 				return FALSE;
 			}
 			else
@@ -2026,21 +1611,11 @@ static bool cmd_racial_power_aux(s32b command)
 
 				if (!c_ptr->m_idx)
 				{
-#ifdef JP
-					msg_print("²¿¤â¤Ê¤¤¾ì½ê¤Ë³ú¤ß¤Ä¤¤¤¿¡ª");
-#else
-					msg_print("You bite into thin air!");
-#endif
-
+					msg_print(_("ä½•ã‚‚ãªã„å ´æ‰€ã«å™›ã¿ã¤ã„ãŸï¼", "You bite into thin air!"));
 					break;
 				}
 
-#ifdef JP
-				msg_print("¤¢¤Ê¤¿¤Ï¥Ë¥ä¥ê¤È¤·¤Æ²ç¤ò¤à¤¤¤¿...");
-#else
-				msg_print("You grin and bare your fangs...");
-#endif
-
+				msg_print(_("ã‚ãªãŸã¯ãƒ‹ãƒ¤ãƒªã¨ã—ã¦ç‰™ã‚’ã‚€ã„ãŸ...", "You grin and bare your fangs..."));
 				dummy = plev + randint1(plev) * MAX(1, plev / 10);   /* Dmg */
 				if (drain_life(dir, dummy))
 				{
@@ -2048,11 +1623,7 @@ static bool cmd_racial_power_aux(s32b command)
 						/* No heal if we are "full" */
 						(void)hp_player(dummy);
 					else
-#ifdef JP
-						msg_print("¤¢¤Ê¤¿¤Ï¶õÊ¢¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£");
-#else
-						msg_print("You were not hungry.");
-#endif
+						msg_print(_("ã‚ãªãŸã¯ç©ºè…¹ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚", "You were not hungry."));
 
 					/* Gain nutritional sustenance: 150/hp drained */
 					/* A Food ration gives 5000 food points (by contrast) */
@@ -2063,36 +1634,21 @@ static bool cmd_racial_power_aux(s32b command)
 						(void)set_food(dummy >= PY_FOOD_MAX ? PY_FOOD_MAX - 1 : dummy);
 				}
 				else
-#ifdef JP
-					msg_print("¤²¤§¡£¤Ò¤É¤¤Ì£¤À¡£");
-#else
-					msg_print("Yechh. That tastes foul.");
-#endif
-
+					msg_print(_("ã’ã‡ã€‚ã²ã©ã„å‘³ã ã€‚", "Yechh. That tastes foul."));
 			}
 			break;
 
 		case RACE_SPECTRE:
 			if (!get_aim_dir(&dir)) return FALSE;
 			ratial_stop_mouth();
-#ifdef JP
-			msg_print("¤¢¤Ê¤¿¤Ï¤ª¤É¤í¤ª¤É¤í¤·¤¤¶«¤ÓÀ¼¤ò¤¢¤²¤¿¡ª");
-#else
-			msg_print("You emit an eldritch howl!");
-#endif
-
+			msg_print(_("ã‚ãªãŸã¯ãŠã©ã‚ãŠã©ã‚ã—ã„å«ã³å£°ã‚’ã‚ã’ãŸï¼", "You emit an eldritch howl!"));
 			(void)fear_monster(dir, plev);
 			break;
 
 		case RACE_SPRITE:
-#ifdef JP
-			msg_print("¤¢¤Ê¤¿¤ÏËâË¡¤ÎÊ´¤òÅê¤²¤Ä¤±¤¿...");
-#else
-			msg_print("You throw some magic dust...");
-#endif
-
+			msg_print(_("ã‚ãªãŸã¯é­”æ³•ã®ç²‰ã‚’æŠ•ã’ã¤ã‘ãŸ...", "You throw some magic dust..."));
 			if (plev < 25) sleep_monsters_touch();
-			else (void)sleep_monsters();
+			else (void)sleep_monsters(plev);
 			break;
 
 		case RACE_DEMON:
@@ -2101,7 +1657,7 @@ static bool cmd_racial_power_aux(s32b command)
 				if (!get_aim_dir(&dir)) return FALSE;
 				ratial_stop_mouth();
 #ifdef JP
-				msg_format("¤¢¤Ê¤¿¤Ï%s¤Î¥Ö¥ì¥¹¤òÅÇ¤¤¤¿¡£",((type == GF_NETHER) ? "ÃÏ¹ö" : "²Ğ±ê"));
+				msg_format("ã‚ãªãŸã¯%sã®ãƒ–ãƒ¬ã‚¹ã‚’åã„ãŸã€‚",((type == GF_NETHER) ? "åœ°ç„" : "ç«ç‚"));
 #else
 				msg_format("You breathe %s.",((type == GF_NETHER) ? "nether" : "fire"));
 #endif
@@ -2118,67 +1674,42 @@ static bool cmd_racial_power_aux(s32b command)
 			if (!get_aim_dir(&dir)) return FALSE;
 			if (plev < 10)
 			{
-#ifdef JP
-				msg_print("¥ì¥¤¥¬¥ó¤òÈ¯¼Í¤·¤¿¡£");
-#else
-				msg_print("You fire your ray gun.");
-#endif
+				msg_print(_("ãƒ¬ã‚¤ã‚¬ãƒ³ã‚’ç™ºå°„ã—ãŸã€‚", "You fire your ray gun."));
 				fire_bolt(GF_MISSILE, dir, (plev+1) / 2);
 			}
 			else if (plev < 25)
 			{
-#ifdef JP
-				msg_print("¥Ö¥é¥¹¥¿¡¼¤òÈ¯¼Í¤·¤¿¡£");
-#else
-				msg_print("You fire your blaster.");
-#endif
+				msg_print(_("ãƒ–ãƒ©ã‚¹ã‚¿ãƒ¼ã‚’ç™ºå°„ã—ãŸã€‚", "You fire your blaster."));
 				fire_bolt(GF_MISSILE, dir, plev);
 			}
 			else if (plev < 35)
 			{
-#ifdef JP
-				msg_print("¥Ğ¥º¡¼¥«¤òÈ¯¼Í¤·¤¿¡£");
-#else
-				msg_print("You fire your bazooka.");
-#endif
+				msg_print(_("ãƒã‚ºãƒ¼ã‚«ã‚’ç™ºå°„ã—ãŸã€‚", "You fire your bazooka."));
 				fire_ball(GF_MISSILE, dir, plev * 2, 2);
 			}
 			else if (plev < 45)
 			{
-#ifdef JP
-				msg_print("¥Ó¡¼¥à¥­¥ã¥Î¥ó¤òÈ¯¼Í¤·¤¿¡£");
-#else
-				msg_print("You fire a beam cannon.");
-#endif
+				msg_print(_("ãƒ“ãƒ¼ãƒ ã‚­ãƒ£ãƒãƒ³ã‚’ç™ºå°„ã—ãŸã€‚", "You fire a beam cannon."));
 				fire_beam(GF_MISSILE, dir, plev * 2);
 			}
 			else
 			{
-#ifdef JP
-				msg_print("¥í¥±¥Ã¥È¤òÈ¯¼Í¤·¤¿¡£");
-#else
-				msg_print("You fire a rocket.");
-#endif
+				msg_print(_("ãƒ­ã‚±ãƒƒãƒˆã‚’ç™ºå°„ã—ãŸã€‚", "You fire a rocket."));
 				fire_rocket(GF_ROCKET, dir, plev * 5, 2);
 			}
 			break;
 
 		default:
-#ifdef JP
-			msg_print("¤³¤Î¼ïÂ²¤ÏÆÃ¼ì¤ÊÇ½ÎÏ¤ò»ı¤Ã¤Æ¤¤¤Ş¤»¤ó¡£");
-#else
-			msg_print("This race has no bonus power.");
-#endif
-
+			msg_print(_("ã“ã®ç¨®æ—ã¯ç‰¹æ®Šãªèƒ½åŠ›ã‚’æŒã£ã¦ã„ã¾ã›ã‚“ã€‚", "This race has no bonus power."));
 			energy_use = 0;
 	}
 	}
 	return TRUE;
 }
 
-
-/*
- * Allow user to choose a power (racial / mutation) to activate
+/*!
+ * @brief ãƒ¬ã‚¤ã‚·ãƒ£ãƒ«ãƒ»ãƒ‘ãƒ¯ãƒ¼ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Allow user to choose a power (racial / mutation) to activate
+ * @return ãªã—
  */
 void do_cmd_racial_power(void)
 {
@@ -2203,12 +1734,7 @@ void do_cmd_racial_power(void)
 
 	if (p_ptr->confused)
 	{
-#ifdef JP
-msg_print("º®Íğ¤·¤Æ¤¤¤ÆÆÃ¼ìÇ½ÎÏ¤ò»È¤¨¤Ş¤»¤ó¡ª");
-#else
-		msg_print("You are too confused to use any powers!");
-#endif
-
+		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦ç‰¹æ®Šèƒ½åŠ›ã‚’ä½¿ãˆã¾ã›ã‚“ï¼", "You are too confused to use any powers!"));
 		energy_use = 0;
 		return;
 	}
@@ -2222,12 +1748,7 @@ msg_print("º®Íğ¤·¤Æ¤¤¤ÆÆÃ¼ìÇ½ÎÏ¤ò»È¤¨¤Ş¤»¤ó¡ª");
 	{
 	case CLASS_WARRIOR:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "·õ¤ÎÉñ¤¤");
-#else
-		strcpy(power_desc[num].name, "Sword Dancing");
-#endif
-
+		strcpy(power_desc[num].name, _("å‰£ã®èˆã„", "Sword Dancing"));
 		power_desc[num].level = 40;
 		power_desc[num].cost = 75;
 		power_desc[num].stat = A_DEX;
@@ -2238,11 +1759,7 @@ strcpy(power_desc[num].name, "·õ¤ÎÉñ¤¤");
 	case CLASS_HIGH_MAGE:
 	if (p_ptr->realm1 == REALM_HEX)
 	{
-#ifdef JP
-		strcpy(power_desc[num].name, "±Ó¾§¤ò¤ä¤á¤ë");
-#else
-		strcpy(power_desc[num].name, "Stop spelling");
-#endif
+		strcpy(power_desc[num].name, _("è© å”±ã‚’ã‚„ã‚ã‚‹", "Stop spelling"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
@@ -2254,12 +1771,7 @@ strcpy(power_desc[num].name, "·õ¤ÎÉñ¤¤");
 	/* case CLASS_HIGH_MAGE: */
 	case CLASS_SORCERER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ËâÎÏ¿©¤¤");
-#else
-		strcpy(power_desc[num].name, "Eat Magic");
-#endif
-
+		strcpy(power_desc[num].name, _("é­”åŠ›é£Ÿã„", "Eat Magic"));
 		power_desc[num].level = 25;
 		power_desc[num].cost = 1;
 		power_desc[num].stat = A_INT;
@@ -2271,12 +1783,7 @@ strcpy(power_desc[num].name, "ËâÎÏ¿©¤¤");
 	{
 		if (is_good_realm(p_ptr->realm1))
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Éğ´ï½ËÊ¡");
-#else
-			strcpy(power_desc[num].name, "Bless Weapon");
-#endif
-
+			strcpy(power_desc[num].name, _("æ­¦å™¨ç¥ç¦", "Bless Weapon"));
 			power_desc[num].level = 35;
 			power_desc[num].cost = 70;
 			power_desc[num].stat = A_WIS;
@@ -2285,12 +1792,7 @@ strcpy(power_desc[num].name, "Éğ´ï½ËÊ¡");
 		}
 		else
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¾¤º²");
-#else
-			strcpy(power_desc[num].name, "Evocation");
-#endif
-
+			strcpy(power_desc[num].name, _("å¬é­‚", "Evocation"));
 			power_desc[num].level = 42;
 			power_desc[num].cost = 40;
 			power_desc[num].stat = A_WIS;
@@ -2301,12 +1803,7 @@ strcpy(power_desc[num].name, "¾¤º²");
 	}
 	case CLASS_ROGUE:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ò¥Ã¥È¡õ¥¢¥¦¥§¥¤");
-#else
-		strcpy(power_desc[num].name, "Hit and Away");
-#endif
-
+		strcpy(power_desc[num].name, _("ãƒ’ãƒƒãƒˆï¼†ã‚¢ã‚¦ã‚§ã‚¤", "Hit and Away"));
 		power_desc[num].level = 8;
 		power_desc[num].cost = 12;
 		power_desc[num].stat = A_DEX;
@@ -2317,12 +1814,7 @@ strcpy(power_desc[num].name, "¥Ò¥Ã¥È¡õ¥¢¥¦¥§¥¤");
 	case CLASS_RANGER:
 	case CLASS_SNIPER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¥â¥ó¥¹¥¿¡¼Ä´ºº");
-#else
-		strcpy(power_desc[num].name, "Probe Monster");
-#endif
-
+		strcpy(power_desc[num].name, _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼èª¿æŸ»", "Probe Monster"));
 		power_desc[num].level = 15;
 		power_desc[num].cost = 20;
 		power_desc[num].stat = A_INT;
@@ -2334,12 +1826,7 @@ strcpy(power_desc[num].name, "¥â¥ó¥¹¥¿¡¼Ä´ºº");
 	{
 		if (is_good_realm(p_ptr->realm1))
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Û¡¼¥ê¡¼¡¦¥é¥ó¥¹");
-#else
-			strcpy(power_desc[num].name, "Holy Lance");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ›ãƒ¼ãƒªãƒ¼ãƒ»ãƒ©ãƒ³ã‚¹", "Holy Lance"));
 			power_desc[num].level = 30;
 			power_desc[num].cost = 30;
 			power_desc[num].stat = A_WIS;
@@ -2348,12 +1835,7 @@ strcpy(power_desc[num].name, "¥Û¡¼¥ê¡¼¡¦¥é¥ó¥¹");
 		}
 		else
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ø¥ë¡¦¥é¥ó¥¹");
-#else
-			strcpy(power_desc[num].name, "Hell Lance");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ˜ãƒ«ãƒ»ãƒ©ãƒ³ã‚¹", "Hell Lance"));
 			power_desc[num].level = 30;
 			power_desc[num].cost = 30;
 			power_desc[num].stat = A_WIS;
@@ -2364,23 +1846,14 @@ strcpy(power_desc[num].name, "¥Ø¥ë¡¦¥é¥ó¥¹");
 	}
 	case CLASS_WARRIOR_MAGE:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ÊÑ´¹: £È£Ğ¢ª£Í£Ğ");
-#else
-		strcpy(power_desc[num].name, "Convert HP to SP");
-#endif
-
+		strcpy(power_desc[num].name, _("å¤‰æ›: ï¼¨ï¼°â†’ï¼­ï¼°", "Convert HP to SP"));
 		power_desc[num].level = 25;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
 		power_desc[num].fail = 10;
 		power_desc[num++].number = -3;
-#ifdef JP
-strcpy(power_desc[num].name, "ÊÑ´¹: £Í£Ğ¢ª£È£Ğ");
-#else
-		strcpy(power_desc[num].name, "Convert SP to HP");
-#endif
-
+			
+		strcpy(power_desc[num].name, _("å¤‰æ›: ï¼­ï¼°â†’ï¼¨ï¼°", "Convert SP to HP"));
 		power_desc[num].level = 25;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
@@ -2390,12 +1863,7 @@ strcpy(power_desc[num].name, "ÊÑ´¹: £Í£Ğ¢ª£È£Ğ");
 	}
 	case CLASS_CHAOS_WARRIOR:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¸¸ÏÇ¤Î¸÷");
-#else
-		strcpy(power_desc[num].name, "Confusing Light");
-#endif
-
+		strcpy(power_desc[num].name, _("å¹»æƒ‘ã®å…‰", "Confusing Light"));
 		power_desc[num].level = 40;
 		power_desc[num].cost = 50;
 		power_desc[num].stat = A_INT;
@@ -2405,23 +1873,14 @@ strcpy(power_desc[num].name, "¸¸ÏÇ¤Î¸÷");
 	}
 	case CLASS_MONK:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¹½¤¨¤ë");
-#else
-		strcpy(power_desc[num].name, "Assume a Posture");
-#endif
-
+		strcpy(power_desc[num].name, _("æ§‹ãˆã‚‹", "Assume a Posture"));
 		power_desc[num].level = 25;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_DEX;
 		power_desc[num].fail = 0;
 		power_desc[num++].number = -3;
-#ifdef JP
-strcpy(power_desc[num].name, "É´Îö·ı");
-#else
-		strcpy(power_desc[num].name, "Double Attack");
-#endif
-
+			
+		strcpy(power_desc[num].name, _("ç™¾è£‚æ‹³", "Double Attack"));
 		power_desc[num].level = 30;
 		power_desc[num].cost = 30;
 		power_desc[num].stat = A_STR;
@@ -2432,12 +1891,7 @@ strcpy(power_desc[num].name, "É´Îö·ı");
 	case CLASS_MINDCRAFTER:
 	case CLASS_FORCETRAINER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ÌÀ¶À»ß¿å");
-#else
-		strcpy(power_desc[num].name, "Clear Mind");
-#endif
-
+		strcpy(power_desc[num].name, _("æ˜é¡æ­¢æ°´", "Clear Mind"));
 		power_desc[num].level = 15;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_WIS;
@@ -2447,23 +1901,14 @@ strcpy(power_desc[num].name, "ÌÀ¶À»ß¿å");
 	}
 	case CLASS_TOURIST:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¼Ì¿¿»£±Æ");
-#else
-		strcpy(power_desc[num].name, "Take a Photograph");
-#endif
-
+		strcpy(power_desc[num].name, _("å†™çœŸæ’®å½±", "Take a Photograph"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_DEX;
 		power_desc[num].fail = 0;
 		power_desc[num++].number = -3;
-#ifdef JP
-strcpy(power_desc[num].name, "¿¿¡¦´ÕÄê");
-#else
-		strcpy(power_desc[num].name, "Identify True");
-#endif
-
+		
+		strcpy(power_desc[num].name, _("çœŸãƒ»é‘‘å®š", "Identify True"));
 		power_desc[num].level = 25;
 		power_desc[num].cost = 20;
 		power_desc[num].stat = A_INT;
@@ -2473,12 +1918,7 @@ strcpy(power_desc[num].name, "¿¿¡¦´ÕÄê");
 	}
 	case CLASS_IMITATOR:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ÇÜÊÖ¤·");
-#else
-		strcpy(power_desc[num].name, "Double Revenge");
-#endif
-
+		strcpy(power_desc[num].name, _("å€è¿”ã—", "Double Revenge"));
 		power_desc[num].level = 30;
 		power_desc[num].cost = 100;
 		power_desc[num].stat = A_DEX;
@@ -2488,23 +1928,14 @@ strcpy(power_desc[num].name, "ÇÜÊÖ¤·");
 	}
 	case CLASS_BEASTMASTER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "À¸Êª»ÙÇÛ");
-#else
-		strcpy(power_desc[num].name, "Dominate a Living Thing");
-#endif
-
+		strcpy(power_desc[num].name, _("ç”Ÿç‰©æ”¯é…", "Dominate a Living Thing"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = (p_ptr->lev+3)/4;
 		power_desc[num].stat = A_CHR;
 		power_desc[num].fail = 10;
 		power_desc[num++].number = -3;
-#ifdef JP
-strcpy(power_desc[num].name, "¿¿¡¦À¸Êª»ÙÇÛ");
-#else
-		strcpy(power_desc[num].name, "Dominate Living Things");
-#endif
-
+		
+		strcpy(power_desc[num].name, _("çœŸãƒ»ç”Ÿç‰©æ”¯é…", "Dominate Living Things"));
 		power_desc[num].level = 30;
 		power_desc[num].cost = (p_ptr->lev+20)/2;
 		power_desc[num].stat = A_CHR;
@@ -2514,12 +1945,7 @@ strcpy(power_desc[num].name, "¿¿¡¦À¸Êª»ÙÇÛ");
 	}
 	case CLASS_ARCHER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ÃÆ/Ìğ¤ÎÀ½Â¤");
-#else
-		strcpy(power_desc[num].name, "Create Ammo");
-#endif
-
+		strcpy(power_desc[num].name, _("å¼¾/çŸ¢ã®è£½é€ ", "Create Ammo"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_DEX;
@@ -2529,27 +1955,24 @@ strcpy(power_desc[num].name, "ÃÆ/Ìğ¤ÎÀ½Â¤");
 	}
 	case CLASS_MAGIC_EATER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ËâÎÏ¤Î¼è¤ê¹ş¤ß");
-#else
-		strcpy(power_desc[num].name, "Absorb Magic");
-#endif
-
+		strcpy(power_desc[num].name, _("é­”åŠ›ã®å–ã‚Šè¾¼ã¿", "Absorb Magic"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
 		power_desc[num].fail = 0;
 		power_desc[num++].number = -3;
+
+		strcpy(power_desc[num].name, _("å¼·åŠ›ç™ºå‹•", "Powerful Activation"));
+		power_desc[num].level = 10;
+		power_desc[num].cost = 10 + (lvl - 10) / 2;
+		power_desc[num].stat = A_INT;
+		power_desc[num].fail = 0;
+		power_desc[num++].number = -4;
 		break;
 	}
 	case CLASS_BARD:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "²Î¤ò»ß¤á¤ë");
-#else
-		strcpy(power_desc[num].name, "Stop Singing");
-#endif
-
+		strcpy(power_desc[num].name, _("æ­Œã‚’æ­¢ã‚ã‚‹", "Stop Singing"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_CHR;
@@ -2559,12 +1982,7 @@ strcpy(power_desc[num].name, "²Î¤ò»ß¤á¤ë");
 	}
 	case CLASS_RED_MAGE:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "Ï¢Â³Ëâ");
-#else
-		strcpy(power_desc[num].name, "Double Magic");
-#endif
-
+		strcpy(power_desc[num].name, _("é€£ç¶šé­”", "Double Magic"));
 		power_desc[num].level = 48;
 		power_desc[num].cost = 20;
 		power_desc[num].stat = A_INT;
@@ -2574,23 +1992,14 @@ strcpy(power_desc[num].name, "Ï¢Â³Ëâ");
 	}
 	case CLASS_SAMURAI:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "µ¤¹ç¤¤¤¿¤á");
-#else
-		strcpy(power_desc[num].name, "Concentration");
-#endif
-
+		strcpy(power_desc[num].name, _("æ°—åˆã„ãŸã‚", "Concentration"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_WIS;
 		power_desc[num].fail = 0;
 		power_desc[num++].number = -3;
-#ifdef JP
-strcpy(power_desc[num].name, "·¿");
-#else
-		strcpy(power_desc[num].name, "Assume a Posture");
-#endif
-
+		
+		strcpy(power_desc[num].name, _("å‹", "Assume a Posture"));
 		power_desc[num].level = 25;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_DEX;
@@ -2600,12 +2009,7 @@ strcpy(power_desc[num].name, "·¿");
 	}
 	case CLASS_BLUE_MAGE:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¥é¡¼¥Ë¥ó¥°");
-#else
-		strcpy(power_desc[num].name, "Learning");
-#endif
-
+		strcpy(power_desc[num].name, _("ãƒ©ãƒ¼ãƒ‹ãƒ³ã‚°", "Learning"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
@@ -2615,12 +2019,7 @@ strcpy(power_desc[num].name, "¥é¡¼¥Ë¥ó¥°");
 	}
 	case CLASS_CAVALRY:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¹ÓÇÏ¤Ê¤é¤·");
-#else
-		strcpy(power_desc[num].name, "Rodeo");
-#endif
-
+		strcpy(power_desc[num].name, _("è’é¦¬ãªã‚‰ã—", "Rodeo"));
 		power_desc[num].level = 10;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_STR;
@@ -2630,12 +2029,7 @@ strcpy(power_desc[num].name, "¹ÓÇÏ¤Ê¤é¤·");
 	}
 	case CLASS_BERSERKER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "µ¢´Ô");
-#else
-		strcpy(power_desc[num].name, "Recall");
-#endif
-
+		strcpy(power_desc[num].name, _("å¸°é‚„", "Recall"));
 		power_desc[num].level = 10;
 		power_desc[num].cost = 10;
 		power_desc[num].stat = A_DEX;
@@ -2645,23 +2039,14 @@ strcpy(power_desc[num].name, "µ¢´Ô");
 	}
 	case CLASS_MIRROR_MASTER:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "¶À³ä¤ê");
-#else
-		strcpy(power_desc[num].name, "Break Mirrors");
-#endif
-
+		strcpy(power_desc[num].name, _("é¡å‰²ã‚Š", "Break Mirrors"));
 		power_desc[num].level = 1;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
 		power_desc[num].fail = 0;
 		power_desc[num++].number = -3;
-#ifdef JP
-strcpy(power_desc[num].name, "ÀÅ¿å");
-#else
-		strcpy(power_desc[num].name, "Mirror Concentration");
-#endif
-
+		
+		strcpy(power_desc[num].name, _("é™æ°´", "Mirror Concentration"));
 		power_desc[num].level = 30;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_INT;
@@ -2671,12 +2056,7 @@ strcpy(power_desc[num].name, "ÀÅ¿å");
 	}
 	case CLASS_SMITH:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "ÌÜÍø¤­");
-#else
-		strcpy(power_desc[num].name, "Judgment");
-#endif
-
+		strcpy(power_desc[num].name, _("ç›®åˆ©ã", "Judgment"));
 		power_desc[num].level = 5;
 		power_desc[num].cost = 15;
 		power_desc[num].stat = A_INT;
@@ -2686,12 +2066,7 @@ strcpy(power_desc[num].name, "ÌÜÍø¤­");
 	}
 	case CLASS_NINJA:
 	{
-#ifdef JP
-strcpy(power_desc[num].name, "Â®¶î¤±");
-#else
-		strcpy(power_desc[num].name, "Quick Walk");
-#endif
-
+		strcpy(power_desc[num].name, _("é€Ÿé§†ã‘", "Quick Walk"));
 		power_desc[num].level = 20;
 		power_desc[num].cost = 0;
 		power_desc[num].stat = A_DEX;
@@ -2700,12 +2075,7 @@ strcpy(power_desc[num].name, "Â®¶î¤±");
 		break;
 	}
 	default:
-#ifdef JP
-strcpy(power_desc[0].name, "(¤Ê¤·)");
-#else
-		strcpy(power_desc[0].name, "(none)");
-#endif
-
+		strcpy(power_desc[0].name, _("(ãªã—)", "(none)"));
 	}
 
 	if (p_ptr->mimic_form)
@@ -2714,12 +2084,7 @@ strcpy(power_desc[0].name, "(¤Ê¤·)");
 		{
 		case MIMIC_DEMON:
 		case MIMIC_DEMON_LORD:
-#ifdef JP
-sprintf(power_desc[num].name, "ÃÏ¹ö/²Ğ±ê¤Î¥Ö¥ì¥¹ (¥À¥á¡¼¥¸ %d)", lvl * 3);
-#else
-			sprintf(power_desc[num].name, "Nether or Fire Breath (dam %d)", lvl * 3);
-#endif
-
+			sprintf(power_desc[num].name, _("åœ°ç„/ç«ç‚ã®ãƒ–ãƒ¬ã‚¹ (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Nether or Fire Breath (dam %d)"), lvl * 3);
 			power_desc[num].level = 15;
 			power_desc[num].cost = 10+lvl/3;
 			power_desc[num].stat = A_CON;
@@ -2727,12 +2092,7 @@ sprintf(power_desc[num].name, "ÃÏ¹ö/²Ğ±ê¤Î¥Ö¥ì¥¹ (¥À¥á¡¼¥¸ %d)", lvl * 3);
 			power_desc[num++].number = -1;
 			break;
 		case MIMIC_VAMPIRE:
-#ifdef JP
-strcpy(power_desc[num].name, "À¸Ì¿ÎÏµÛ¼ı");
-#else
-			strcpy(power_desc[num].name, "Drain Life");
-#endif
-
+			strcpy(power_desc[num].name, _("ç”Ÿå‘½åŠ›å¸å", "Drain Life"));
 			power_desc[num].level = 2;
 			power_desc[num].cost = 1 + (lvl / 3);
 			power_desc[num].stat = A_CON;
@@ -2746,12 +2106,7 @@ strcpy(power_desc[num].name, "À¸Ì¿ÎÏµÛ¼ı");
 	switch (p_ptr->prace)
 	{
 		case RACE_DWARF:
-#ifdef JP
-strcpy(power_desc[num].name, "¥É¥¢¤Èæ« ´¶ÃÎ");
-#else
-			strcpy(power_desc[num].name, "Detect Doors+Traps");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ‰ã‚¢ã¨ç½  æ„ŸçŸ¥", "Detect Doors+Traps"));
 			power_desc[num].level = 5;
 			power_desc[num].cost = 5;
 			power_desc[num].stat = A_WIS;
@@ -2759,12 +2114,7 @@ strcpy(power_desc[num].name, "¥É¥¢¤Èæ« ´¶ÃÎ");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_NIBELUNG:
-#ifdef JP
-strcpy(power_desc[num].name, "¥É¥¢¤Èæ« ´¶ÃÎ");
-#else
-			strcpy(power_desc[num].name, "Detect Doors+Traps");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ‰ã‚¢ã¨ç½  æ„ŸçŸ¥", "Detect Doors+Traps"));
 			power_desc[num].level = 10;
 			power_desc[num].cost = 5;
 			power_desc[num].stat = A_WIS;
@@ -2772,12 +2122,7 @@ strcpy(power_desc[num].name, "¥É¥¢¤Èæ« ´¶ÃÎ");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_HOBBIT:
-#ifdef JP
-strcpy(power_desc[num].name, "¿©ÎÈÀ¸À®");
-#else
-			strcpy(power_desc[num].name, "Create Food");
-#endif
-
+			strcpy(power_desc[num].name, _("é£Ÿç³§ç”Ÿæˆ", "Create Food"));
 			power_desc[num].level = 15;
 			power_desc[num].cost = 10;
 			power_desc[num].stat = A_INT;
@@ -2785,12 +2130,7 @@ strcpy(power_desc[num].name, "¿©ÎÈÀ¸À®");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_GNOME:
-#ifdef JP
-sprintf(power_desc[num].name, "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È");
-#else
-			sprintf(power_desc[num].name, "Blink");
-#endif
-
+			sprintf(power_desc[num].name, _("ã‚·ãƒ§ãƒ¼ãƒˆãƒ»ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "Blink"));
 			power_desc[num].level = 5;
 			power_desc[num].cost = 5;
 			power_desc[num].stat = A_INT;
@@ -2798,12 +2138,7 @@ sprintf(power_desc[num].name, "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_HALF_ORC:
-#ifdef JP
-strcpy(power_desc[num].name, "¶²Éİ½üµî");
-#else
-			strcpy(power_desc[num].name, "Remove Fear");
-#endif
-
+			strcpy(power_desc[num].name, _("ææ€–é™¤å»", "Remove Fear"));
 			power_desc[num].level = 3;
 			power_desc[num].cost = 5;
 			power_desc[num].stat = A_WIS;
@@ -2811,12 +2146,7 @@ strcpy(power_desc[num].name, "¶²Éİ½üµî");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_HALF_TROLL:
-#ifdef JP
-strcpy(power_desc[num].name, "¶¸Àï»Î²½");
-#else
-			strcpy(power_desc[num].name, "Berserk");
-#endif
-
+			strcpy(power_desc[num].name, _("ç‹‚æˆ¦å£«åŒ–", "Berserk"));
 			power_desc[num].level = 10;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_STR;
@@ -2824,12 +2154,7 @@ strcpy(power_desc[num].name, "¶¸Àï»Î²½");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_BARBARIAN:
-#ifdef JP
-strcpy(power_desc[num].name, "¶¸Àï»Î²½");
-#else
-			strcpy(power_desc[num].name, "Berserk");
-#endif
-
+			strcpy(power_desc[num].name, _("ç‹‚æˆ¦å£«åŒ–", "Berserk"));
 			power_desc[num].level = 8;
 			power_desc[num].cost = 10;
 			power_desc[num].stat = A_STR;
@@ -2837,23 +2162,14 @@ strcpy(power_desc[num].name, "¶¸Àï»Î²½");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_AMBERITE:
-#ifdef JP
-strcpy(power_desc[num].name, "¥·¥ã¥É¥¦¡¦¥·¥Õ¥È");
-#else
-			strcpy(power_desc[num].name, "Shadow Shifting");
-#endif
-
+			strcpy(power_desc[num].name, _("ã‚·ãƒ£ãƒ‰ã‚¦ãƒ»ã‚·ãƒ•ãƒˆ", "Shadow Shifting"));
 			power_desc[num].level = 30;
 			power_desc[num].cost = 50;
 			power_desc[num].stat = A_INT;
 			power_desc[num].fail = 50;
 			power_desc[num++].number = -1;
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ñ¥¿¡¼¥ó¡¦¥¦¥©¡¼¥¯");
-#else
-			strcpy(power_desc[num].name, "Pattern Mindwalking");
-#endif
-
+			
+			strcpy(power_desc[num].name, _("ãƒ‘ã‚¿ãƒ¼ãƒ³ãƒ»ã‚¦ã‚©ãƒ¼ã‚¯", "Pattern Mindwalking"));
 			power_desc[num].level = 40;
 			power_desc[num].cost = 75;
 			power_desc[num].stat = A_WIS;
@@ -2861,12 +2177,7 @@ strcpy(power_desc[num].name, "¥Ñ¥¿¡¼¥ó¡¦¥¦¥©¡¼¥¯");
 			power_desc[num++].number = -2;
 			break;
 		case RACE_HALF_OGRE:
-#ifdef JP
-strcpy(power_desc[num].name, "ÇúÈ¯¤Î¥ë¡¼¥ó");
-#else
-			strcpy(power_desc[num].name, "Explosive Rune");
-#endif
-
+			strcpy(power_desc[num].name, _("çˆ†ç™ºã®ãƒ«ãƒ¼ãƒ³", "Explosive Rune"));
 			power_desc[num].level = 25;
 			power_desc[num].cost = 35;
 			power_desc[num].stat = A_INT;
@@ -2874,12 +2185,7 @@ strcpy(power_desc[num].name, "ÇúÈ¯¤Î¥ë¡¼¥ó");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_HALF_GIANT:
-#ifdef JP
-strcpy(power_desc[num].name, "´äÀĞÍÏ²ò");
-#else
-			strcpy(power_desc[num].name, "Stone to Mud");
-#endif
-
+			strcpy(power_desc[num].name, _("å²©çŸ³æº¶è§£", "Stone to Mud"));
 			power_desc[num].level = 20;
 			power_desc[num].cost = 10;
 			power_desc[num].stat = A_STR;
@@ -2887,12 +2193,7 @@ strcpy(power_desc[num].name, "´äÀĞÍÏ²ò");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_HALF_TITAN:
-#ifdef JP
-strcpy(power_desc[num].name, "¥¹¥­¥ã¥ó¡¦¥â¥ó¥¹¥¿¡¼");
-#else
-			strcpy(power_desc[num].name, "Probing");
-#endif
-
+			strcpy(power_desc[num].name, _("ã‚¹ã‚­ãƒ£ãƒ³ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼", "Probing"));
 			power_desc[num].level = 15;
 			power_desc[num].cost = 10;
 			power_desc[num].stat = A_INT;
@@ -2900,12 +2201,7 @@ strcpy(power_desc[num].name, "¥¹¥­¥ã¥ó¡¦¥â¥ó¥¹¥¿¡¼");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_CYCLOPS:
-#ifdef JP
-sprintf(power_desc[num].name, "´äÀĞÅê¤²¡Ê¥À¥á¡¼¥¸ %d¡Ë", (3 * lvl) / 2);
-#else
-			sprintf(power_desc[num].name, "Throw Boulder (dam %d)", (3 * lvl) / 2);
-#endif
-
+			sprintf(power_desc[num].name, _("å²©çŸ³æŠ•ã’ï¼ˆãƒ€ãƒ¡ãƒ¼ã‚¸ %dï¼‰", "Throw Boulder (dam %d)"), (3 * lvl) / 2);
 			power_desc[num].level = 20;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_STR;
@@ -2913,12 +2209,7 @@ sprintf(power_desc[num].name, "´äÀĞÅê¤²¡Ê¥À¥á¡¼¥¸ %d¡Ë", (3 * lvl) / 2);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_YEEK:
-#ifdef JP
-strcpy(power_desc[num].name, "¥â¥ó¥¹¥¿¡¼¶²¹²");
-#else
-			strcpy(power_desc[num].name, "Scare Monster");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ææ…Œ", "Scare Monster"));
 			power_desc[num].level = 15;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_WIS;
@@ -2926,12 +2217,7 @@ strcpy(power_desc[num].name, "¥â¥ó¥¹¥¿¡¼¶²¹²");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_SPECTRE:
-#ifdef JP
-strcpy(power_desc[num].name, "¥â¥ó¥¹¥¿¡¼¶²¹²");
-#else
-			strcpy(power_desc[num].name, "Scare Monster");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ææ…Œ", "Scare Monster"));
 			power_desc[num].level = 4;
 			power_desc[num].cost = 6;
 			power_desc[num].stat = A_INT;
@@ -2939,12 +2225,7 @@ strcpy(power_desc[num].name, "¥â¥ó¥¹¥¿¡¼¶²¹²");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_KLACKON:
-#ifdef JP
-sprintf(power_desc[num].name, "»À¤ÎÂÃ (¥À¥á¡¼¥¸ %d)", lvl);
-#else
-			sprintf(power_desc[num].name, "Spit Acid (dam %d)", lvl);
-#endif
-
+			sprintf(power_desc[num].name, _("é…¸ã®å”¾ (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Spit Acid (dam %d)"), lvl);
 			power_desc[num].level = 9;
 			power_desc[num].cost = 9;
 			power_desc[num].stat = A_DEX;
@@ -2952,12 +2233,7 @@ sprintf(power_desc[num].name, "»À¤ÎÂÃ (¥À¥á¡¼¥¸ %d)", lvl);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_KOBOLD:
-#ifdef JP
-sprintf(power_desc[num].name, "ÆÇ¤Î¥À¡¼¥Ä (¥À¥á¡¼¥¸ %d)", lvl);
-#else
-			sprintf(power_desc[num].name, "Poison Dart (dam %d)", lvl);
-#endif
-
+			sprintf(power_desc[num].name, _("æ¯’ã®ãƒ€ãƒ¼ãƒ„ (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Poison Dart (dam %d)"), lvl);
 			power_desc[num].level = 12;
 			power_desc[num].cost = 8;
 			power_desc[num].stat = A_DEX;
@@ -2965,12 +2241,7 @@ sprintf(power_desc[num].name, "ÆÇ¤Î¥À¡¼¥Ä (¥À¥á¡¼¥¸ %d)", lvl);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_DARK_ELF:
-#ifdef JP
-sprintf(power_desc[num].name, "¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë (¥À¥á¡¼¥¸ %dd%d)", 3 + ((lvl - 1) / 5), 4);
-#else
-			sprintf(power_desc[num].name, "Magic Missile (dm %dd%d)", 3 + ((lvl - 1) / 5), 4);
-#endif
-
+			sprintf(power_desc[num].name, _("ãƒã‚¸ãƒƒã‚¯ãƒ»ãƒŸã‚µã‚¤ãƒ« (ãƒ€ãƒ¡ãƒ¼ã‚¸ %dd%d)", "Magic Missile (dm %dd%d)"), 3 + ((lvl - 1) / 5), 4);
 			power_desc[num].level = 2;
 			power_desc[num].cost = 2;
 			power_desc[num].stat = A_INT;
@@ -2978,12 +2249,7 @@ sprintf(power_desc[num].name, "¥Ş¥¸¥Ã¥¯¡¦¥ß¥µ¥¤¥ë (¥À¥á¡¼¥¸ %dd%d)", 3 + ((lvl -
 			power_desc[num++].number = -1;
 			break;
 		case RACE_DRACONIAN:
-#ifdef JP
-sprintf(power_desc[num].name, "¥Ö¥ì¥¹ (¥À¥á¡¼¥¸ %d)", lvl * 2);
-#else
-			sprintf(power_desc[num].name, "Breath Weapon (dam %d)", lvl * 2);
-#endif
-
+			sprintf(power_desc[num].name, _("ãƒ–ãƒ¬ã‚¹ (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Breath Weapon (dam %d)"), lvl * 2);
 			power_desc[num].level = 1;
 			power_desc[num].cost = lvl;
 			power_desc[num].stat = A_CON;
@@ -2991,12 +2257,7 @@ sprintf(power_desc[num].name, "¥Ö¥ì¥¹ (¥À¥á¡¼¥¸ %d)", lvl * 2);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_MIND_FLAYER:
-#ifdef JP
-sprintf(power_desc[num].name, "Àº¿À¹¶·â (¥À¥á¡¼¥¸ %d)", lvl);
-#else
-			sprintf(power_desc[num].name, "Mind Blast (dam %d)", lvl);
-#endif
-
+			sprintf(power_desc[num].name, _("ç²¾ç¥æ”»æ’ƒ (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Mind Blast (dam %d)"), lvl);
 			power_desc[num].level = 15;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_INT;
@@ -3004,12 +2265,7 @@ sprintf(power_desc[num].name, "Àº¿À¹¶·â (¥À¥á¡¼¥¸ %d)", lvl);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_IMP:
-#ifdef JP
-sprintf(power_desc[num].name, "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È/¥Ü¡¼¥ë (¥À¥á¡¼¥¸ %d)", lvl);
-#else
-			sprintf(power_desc[num].name, "Fire Bolt/Ball (dam %d)", lvl);
-#endif
-
+			sprintf(power_desc[num].name, _("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ«ãƒˆ/ãƒœãƒ¼ãƒ« (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Fire Bolt/Ball (dam %d)"), lvl);
 			power_desc[num].level = 9;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_WIS;
@@ -3017,12 +2273,7 @@ sprintf(power_desc[num].name, "¥Õ¥¡¥¤¥¢¡¦¥Ü¥ë¥È/¥Ü¡¼¥ë (¥À¥á¡¼¥¸ %d)", lvl);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_GOLEM:
-#ifdef JP
-strcpy(power_desc[num].name, "È©ÀĞ²½ (´ü´Ö 1d20+30)");
-#else
-			strcpy(power_desc[num].name, "Stone Skin (dur 1d20+30)");
-#endif
-
+			strcpy(power_desc[num].name, _("è‚ŒçŸ³åŒ– (æœŸé–“ 1d20+30)", "Stone Skin (dur 1d20+30)"));
 			power_desc[num].level = 20;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_CON;
@@ -3031,12 +2282,7 @@ strcpy(power_desc[num].name, "È©ÀĞ²½ (´ü´Ö 1d20+30)");
 			break;
 		case RACE_SKELETON:
 		case RACE_ZOMBIE:
-#ifdef JP
-strcpy(power_desc[num].name, "·Ğ¸³ÃÍÉü³è");
-#else
-			strcpy(power_desc[num].name, "Restore Life");
-#endif
-
+			strcpy(power_desc[num].name, _("çµŒé¨“å€¤å¾©æ´»", "Restore Experience"));
 			power_desc[num].level = 30;
 			power_desc[num].cost = 30;
 			power_desc[num].stat = A_WIS;
@@ -3044,12 +2290,7 @@ strcpy(power_desc[num].name, "·Ğ¸³ÃÍÉü³è");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_VAMPIRE:
-#ifdef JP
-strcpy(power_desc[num].name, "À¸Ì¿ÎÏµÛ¼ı");
-#else
-			strcpy(power_desc[num].name, "Drain Life");
-#endif
-
+			strcpy(power_desc[num].name, _("ç”Ÿå‘½åŠ›å¸å", "Drain Life"));
 			power_desc[num].level = 2;
 			power_desc[num].cost = 1 + (lvl / 3);
 			power_desc[num].stat = A_CON;
@@ -3057,12 +2298,7 @@ strcpy(power_desc[num].name, "À¸Ì¿ÎÏµÛ¼ı");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_SPRITE:
-#ifdef JP
-strcpy(power_desc[num].name, "Ì²¤êÊ´");
-#else
-			strcpy(power_desc[num].name, "Sleeping Dust");
-#endif
-
+			strcpy(power_desc[num].name, _("çœ ã‚Šç²‰", "Sleeping Dust"));
 			power_desc[num].level = 12;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_INT;
@@ -3070,12 +2306,7 @@ strcpy(power_desc[num].name, "Ì²¤êÊ´");
 			power_desc[num++].number = -1;
 			break;
 		case RACE_DEMON:
-#ifdef JP
-sprintf(power_desc[num].name, "ÃÏ¹ö/²Ğ±ê¤Î¥Ö¥ì¥¹ (¥À¥á¡¼¥¸ %d)", lvl * 3);
-#else
-			sprintf(power_desc[num].name, "Nether or Fire Breath (dam %d)", lvl * 3);
-#endif
-
+			sprintf(power_desc[num].name, _("åœ°ç„/ç«ç‚ã®ãƒ–ãƒ¬ã‚¹ (ãƒ€ãƒ¡ãƒ¼ã‚¸ %d)", "Nether or Fire Breath (dam %d)"), lvl * 3);
 			power_desc[num].level = 15;
 			power_desc[num].cost = 10+lvl/3;
 			power_desc[num].stat = A_CON;
@@ -3083,12 +2314,7 @@ sprintf(power_desc[num].name, "ÃÏ¹ö/²Ğ±ê¤Î¥Ö¥ì¥¹ (¥À¥á¡¼¥¸ %d)", lvl * 3);
 			power_desc[num++].number = -1;
 			break;
 		case RACE_KUTAR:
-#ifdef JP
-strcpy(power_desc[num].name, "²£¤Ë¿­¤Ó¤ë");
-#else
-			strcpy(power_desc[num].name, "Expand Horizontally (dur 30+1d20)");
-#endif
-
+			strcpy(power_desc[num].name, _("æ¨ªã«ä¼¸ã³ã‚‹", "Expand Horizontally (dur 30+1d20)"));
 			power_desc[num].level = 20;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_CHR;
@@ -3098,60 +2324,35 @@ strcpy(power_desc[num].name, "²£¤Ë¿­¤Ó¤ë");
 		case RACE_ANDROID:
 			if (p_ptr->lev < 10)
 			{
-#ifdef JP
-strcpy(power_desc[num].name, "¥ì¥¤¥¬¥ó");
-#else
-				strcpy(power_desc[num].name, "Ray Gun");
-#endif
-
+				strcpy(power_desc[num].name, _("ãƒ¬ã‚¤ã‚¬ãƒ³", "Ray Gun"));
 				power_desc[num].level = 1;
 				power_desc[num].cost = 7;
 				power_desc[num].fail = 8;
 			}
 			else if (p_ptr->lev < 25)
 			{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ö¥é¥¹¥¿¡¼");
-#else
-				strcpy(power_desc[num].name, "Blaster");
-#endif
-
+				strcpy(power_desc[num].name, _("ãƒ–ãƒ©ã‚¹ã‚¿ãƒ¼", "Blaster"));
 				power_desc[num].level = 10;
 				power_desc[num].cost = 13;
 				power_desc[num].fail = 10;
 			}
 			else if (p_ptr->lev < 35)
 			{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ğ¥º¡¼¥«");
-#else
-				strcpy(power_desc[num].name, "Bazooka");
-#endif
-
+				strcpy(power_desc[num].name, _("ãƒã‚ºãƒ¼ã‚«", "Bazooka"));
 				power_desc[num].level = 25;
 				power_desc[num].cost = 26;
 				power_desc[num].fail = 12;
 			}
 			else if (p_ptr->lev < 45)
 			{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ó¡¼¥à¥­¥ã¥Î¥ó");
-#else
-				strcpy(power_desc[num].name, "Beam Cannon");
-#endif
-
+				strcpy(power_desc[num].name, _("ãƒ“ãƒ¼ãƒ ã‚­ãƒ£ãƒãƒ³", "Beam Cannon"));
 				power_desc[num].level = 35;
 				power_desc[num].cost = 40;
 				power_desc[num].fail = 15;
 			}
 			else
 			{
-#ifdef JP
-strcpy(power_desc[num].name, "¥í¥±¥Ã¥È");
-#else
-				strcpy(power_desc[num].name, "Rocket");
-#endif
-
+				strcpy(power_desc[num].name, _("ãƒ­ã‚±ãƒƒãƒˆ", "Rocket"));
 				power_desc[num].level = 45;
 				power_desc[num].cost = 60;
 				power_desc[num].fail = 18;
@@ -3170,12 +2371,7 @@ strcpy(power_desc[num].name, "¥í¥±¥Ã¥È");
 	{
 		if (p_ptr->muta1 & MUT1_SPIT_ACID)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "»À¤ÎÂÃ");
-#else
-			strcpy(power_desc[num].name, "Spit Acid");
-#endif
-
+			strcpy(power_desc[num].name, _("é…¸ã®å”¾", "Spit Acid"));
 			power_desc[num].level = 9;
 			power_desc[num].cost = 9;
 			power_desc[num].stat = A_DEX;
@@ -3185,12 +2381,7 @@ strcpy(power_desc[num].name, "»À¤ÎÂÃ");
 
 		if (p_ptr->muta1 & MUT1_BR_FIRE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "±ê¤Î¥Ö¥ì¥¹");
-#else
-			strcpy(power_desc[num].name, "Fire Breath");
-#endif
-
+			strcpy(power_desc[num].name, _("ç‚ã®ãƒ–ãƒ¬ã‚¹", "Fire Breath"));
 			power_desc[num].level = 20;
 			power_desc[num].cost = lvl;
 			power_desc[num].stat = A_CON;
@@ -3200,12 +2391,7 @@ strcpy(power_desc[num].name, "±ê¤Î¥Ö¥ì¥¹");
 
 		if (p_ptr->muta1 & MUT1_HYPN_GAZE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "ºÅÌ²âË¤ß");
-#else
-			strcpy(power_desc[num].name, "Hypnotic Gaze");
-#endif
-
+			strcpy(power_desc[num].name, _("å‚¬çœ ç¨ã¿", "Hypnotic Gaze"));
 			power_desc[num].level = 12;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_CHR;
@@ -3215,12 +2401,7 @@ strcpy(power_desc[num].name, "ºÅÌ²âË¤ß");
 
 		if (p_ptr->muta1 & MUT1_TELEKINES)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Ç°Æ°ÎÏ");
-#else
-			strcpy(power_desc[num].name, "Telekinesis");
-#endif
-
+			strcpy(power_desc[num].name, _("å¿µå‹•åŠ›", "Telekinesis"));
 			power_desc[num].level = 9;
 			power_desc[num].cost = 9;
 			power_desc[num].stat = A_WIS;
@@ -3230,12 +2411,7 @@ strcpy(power_desc[num].name, "Ç°Æ°ÎÏ");
 
 		if (p_ptr->muta1 & MUT1_VTELEPORT)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Æ¥ì¥İ¡¼¥È");
-#else
-			strcpy(power_desc[num].name, "Teleport");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "Teleport"));
 			power_desc[num].level = 7;
 			power_desc[num].cost = 7;
 			power_desc[num].stat = A_WIS;
@@ -3245,12 +2421,7 @@ strcpy(power_desc[num].name, "¥Æ¥ì¥İ¡¼¥È");
 
 		if (p_ptr->muta1 & MUT1_MIND_BLST)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Àº¿À¹¶·â");
-#else
-			strcpy(power_desc[num].name, "Mind Blast");
-#endif
-
+			strcpy(power_desc[num].name, _("ç²¾ç¥æ”»æ’ƒ", "Mind Blast"));
 			power_desc[num].level = 5;
 			power_desc[num].cost = 3;
 			power_desc[num].stat = A_WIS;
@@ -3260,12 +2431,7 @@ strcpy(power_desc[num].name, "Àº¿À¹¶·â");
 
 		if (p_ptr->muta1 & MUT1_RADIATION)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Êü¼ÍÇ½");
-#else
-			strcpy(power_desc[num].name, "Emit Radiation");
-#endif
-
+			strcpy(power_desc[num].name, _("æ”¾å°„èƒ½", "Emit Radiation"));
 			power_desc[num].level = 15;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_CON;
@@ -3275,12 +2441,7 @@ strcpy(power_desc[num].name, "Êü¼ÍÇ½");
 
 		if (p_ptr->muta1 & MUT1_VAMPIRISM)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "µÛ·ì¥É¥ì¥¤¥ó");
-#else
-			strcpy(power_desc[num].name, "Vampiric Drain");
-#endif
-
+			strcpy(power_desc[num].name, _("å¸è¡€ãƒ‰ãƒ¬ã‚¤ãƒ³", "Vampiric Drain"));
 			power_desc[num].level = 2;
 			power_desc[num].cost = (1 + (lvl / 3));
 			power_desc[num].stat = A_CON;
@@ -3290,12 +2451,7 @@ strcpy(power_desc[num].name, "µÛ·ì¥É¥ì¥¤¥ó");
 
 		if (p_ptr->muta1 & MUT1_SMELL_MET)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¶âÂ°ÓÌ³Ğ");
-#else
-			strcpy(power_desc[num].name, "Smell Metal");
-#endif
-
+			strcpy(power_desc[num].name, _("é‡‘å±å—…è¦š", "Smell Metal"));
 			power_desc[num].level = 3;
 			power_desc[num].cost = 2;
 			power_desc[num].stat = A_INT;
@@ -3305,12 +2461,7 @@ strcpy(power_desc[num].name, "¶âÂ°ÓÌ³Ğ");
 
 		if (p_ptr->muta1 & MUT1_SMELL_MON)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Å¨½­ÓÌ³Ğ");
-#else
-			strcpy(power_desc[num].name, "Smell Monsters");
-#endif
-
+			strcpy(power_desc[num].name, _("æ•µè‡­å—…è¦š", "Smell Monsters"));
 			power_desc[num].level = 5;
 			power_desc[num].cost = 4;
 			power_desc[num].stat = A_INT;
@@ -3320,12 +2471,7 @@ strcpy(power_desc[num].name, "Å¨½­ÓÌ³Ğ");
 
 		if (p_ptr->muta1 & MUT1_BLINK)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È");
-#else
-			strcpy(power_desc[num].name, "Blink");
-#endif
-
+			strcpy(power_desc[num].name, _("ã‚·ãƒ§ãƒ¼ãƒˆãƒ»ãƒ†ãƒ¬ãƒãƒ¼ãƒˆ", "Blink"));
 			power_desc[num].level = 3;
 			power_desc[num].cost = 3;
 			power_desc[num].stat = A_WIS;
@@ -3335,12 +2481,7 @@ strcpy(power_desc[num].name, "¥·¥ç¡¼¥È¡¦¥Æ¥ì¥İ¡¼¥È");
 
 		if (p_ptr->muta1 & MUT1_EAT_ROCK)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "´ä¿©¤¤");
-#else
-			strcpy(power_desc[num].name, "Eat Rock");
-#endif
-
+			strcpy(power_desc[num].name, _("å²©é£Ÿã„", "Eat Rock"));
 			power_desc[num].level = 8;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_CON;
@@ -3350,12 +2491,7 @@ strcpy(power_desc[num].name, "´ä¿©¤¤");
 
 		if (p_ptr->muta1 & MUT1_SWAP_POS)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "°ÌÃÖ¸ò´¹");
-#else
-			strcpy(power_desc[num].name, "Swap Position");
-#endif
-
+			strcpy(power_desc[num].name, _("ä½ç½®äº¤æ›", "Swap Position"));
 			power_desc[num].level = 15;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_DEX;
@@ -3365,12 +2501,7 @@ strcpy(power_desc[num].name, "°ÌÃÖ¸ò´¹");
 
 		if (p_ptr->muta1 & MUT1_SHRIEK)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¶«¤Ó");
-#else
-			strcpy(power_desc[num].name, "Shriek");
-#endif
-
+			strcpy(power_desc[num].name, _("å«ã³", "Shriek"));
 			power_desc[num].level = 20;
 			power_desc[num].cost = 14;
 			power_desc[num].stat = A_CON;
@@ -3380,12 +2511,7 @@ strcpy(power_desc[num].name, "¶«¤Ó");
 
 		if (p_ptr->muta1 & MUT1_ILLUMINE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¾ÈÌÀ");
-#else
-			strcpy(power_desc[num].name, "Illuminate");
-#endif
-
+			strcpy(power_desc[num].name, _("ç…§æ˜", "Illuminate"));
 			power_desc[num].level = 3;
 			power_desc[num].cost = 2;
 			power_desc[num].stat = A_INT;
@@ -3395,12 +2521,7 @@ strcpy(power_desc[num].name, "¾ÈÌÀ");
 
 		if (p_ptr->muta1 & MUT1_DET_CURSE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¼ö¤¤´¶ÃÎ");
-#else
-			strcpy(power_desc[num].name, "Detect Curses");
-#endif
-
+			strcpy(power_desc[num].name, _("å‘ªã„æ„ŸçŸ¥", "Detect Curses"));
 			power_desc[num].level = 7;
 			power_desc[num].cost = 14;
 			power_desc[num].stat = A_WIS;
@@ -3410,12 +2531,7 @@ strcpy(power_desc[num].name, "¼ö¤¤´¶ÃÎ");
 
 		if (p_ptr->muta1 & MUT1_BERSERK)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¶¸Àï»Î²½");
-#else
-			strcpy(power_desc[num].name, "Berserk");
-#endif
-
+			strcpy(power_desc[num].name, _("ç‹‚æˆ¦å£«åŒ–", "Berserk"));
 			power_desc[num].level = 8;
 			power_desc[num].cost = 8;
 			power_desc[num].stat = A_STR;
@@ -3425,12 +2541,7 @@ strcpy(power_desc[num].name, "¶¸Àï»Î²½");
 
 		if (p_ptr->muta1 & MUT1_POLYMORPH)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "ÊÑ¿È");
-#else
-			strcpy(power_desc[num].name, "Polymorph");
-#endif
-
+			strcpy(power_desc[num].name, _("å¤‰èº«", "Polymorph"));
 			power_desc[num].level = 18;
 			power_desc[num].cost = 20;
 			power_desc[num].stat = A_CON;
@@ -3440,12 +2551,7 @@ strcpy(power_desc[num].name, "ÊÑ¿È");
 
 		if (p_ptr->muta1 & MUT1_MIDAS_TCH)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥ß¥À¥¹¤Î¼ê");
-#else
-			strcpy(power_desc[num].name, "Midas Touch");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒŸãƒ€ã‚¹ã®æ‰‹", "Midas Touch"));
 			power_desc[num].level = 10;
 			power_desc[num].cost = 5;
 			power_desc[num].stat = A_INT;
@@ -3455,12 +2561,7 @@ strcpy(power_desc[num].name, "¥ß¥À¥¹¤Î¼ê");
 
 		if (p_ptr->muta1 & MUT1_GROW_MOLD)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥«¥ÓÈ¯À¸");
-#else
-			strcpy(power_desc[num].name, "Grow Mold");
-#endif
-
+			strcpy(power_desc[num].name, _("ã‚«ãƒ“ç™ºç”Ÿ", "Grow Mold"));
 			power_desc[num].level = 1;
 			power_desc[num].cost = 6;
 			power_desc[num].stat = A_CON;
@@ -3470,12 +2571,7 @@ strcpy(power_desc[num].name, "¥«¥ÓÈ¯À¸");
 
 		if (p_ptr->muta1 & MUT1_RESIST)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥¨¥ì¥á¥ó¥ÈÂÑÀ­");
-#else
-			strcpy(power_desc[num].name, "Resist Elements");
-#endif
-
+			strcpy(power_desc[num].name, _("ã‚¨ãƒ¬ãƒ¡ãƒ³ãƒˆè€æ€§", "Resist Elements"));
 			power_desc[num].level = 10;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_CON;
@@ -3485,12 +2581,7 @@ strcpy(power_desc[num].name, "¥¨¥ì¥á¥ó¥ÈÂÑÀ­");
 
 		if (p_ptr->muta1 & MUT1_EARTHQUAKE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "ÃÏ¿Ì");
-#else
-			strcpy(power_desc[num].name, "Earthquake");
-#endif
-
+			strcpy(power_desc[num].name, _("åœ°éœ‡", "Earthquake"));
 			power_desc[num].level = 12;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_STR;
@@ -3500,12 +2591,7 @@ strcpy(power_desc[num].name, "ÃÏ¿Ì");
 
 		if (p_ptr->muta1 & MUT1_EAT_MAGIC)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "ËâÎÏ¿©¤¤");
-#else
-			strcpy(power_desc[num].name, "Eat Magic");
-#endif
-
+			strcpy(power_desc[num].name, _("é­”åŠ›é£Ÿã„", "Eat Magic"));
 			power_desc[num].level = 17;
 			power_desc[num].cost = 1;
 			power_desc[num].stat = A_WIS;
@@ -3515,12 +2601,7 @@ strcpy(power_desc[num].name, "ËâÎÏ¿©¤¤");
 
 		if (p_ptr->muta1 & MUT1_WEIGH_MAG)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "ËâÎÏ´¶ÃÎ");
-#else
-			strcpy(power_desc[num].name, "Weigh Magic");
-#endif
-
+			strcpy(power_desc[num].name, _("é­”åŠ›æ„ŸçŸ¥", "Weigh Magic"));
 			power_desc[num].level = 6;
 			power_desc[num].cost = 6;
 			power_desc[num].stat = A_INT;
@@ -3530,12 +2611,7 @@ strcpy(power_desc[num].name, "ËâÎÏ´¶ÃÎ");
 
 		if (p_ptr->muta1 & MUT1_STERILITY)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Áı¿£ÁË»ß");
-#else
-			strcpy(power_desc[num].name, "Sterilize");
-#endif
-
+			strcpy(power_desc[num].name, _("å¢—æ®–é˜»æ­¢", "Sterilize"));
 			power_desc[num].level = 12;
 			power_desc[num].cost = 23;
 			power_desc[num].stat = A_CHR;
@@ -3545,12 +2621,7 @@ strcpy(power_desc[num].name, "Áı¿£ÁË»ß");
 
 		if (p_ptr->muta1 & MUT1_PANIC_HIT)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥Ò¥Ã¥È¡õ¥¢¥¦¥§¥¤");
-#else
-			strcpy(power_desc[num].name, "Panic Hit");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ’ãƒƒãƒˆï¼†ã‚¢ã‚¦ã‚§ã‚¤", "Panic Hit"));
 			power_desc[num].level = 10;
 			power_desc[num].cost = 12;
 			power_desc[num].stat = A_DEX;
@@ -3560,12 +2631,7 @@ strcpy(power_desc[num].name, "¥Ò¥Ã¥È¡õ¥¢¥¦¥§¥¤");
 
 		if (p_ptr->muta1 & MUT1_DAZZLE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "âÁÏÇ");
-#else
-			strcpy(power_desc[num].name, "Dazzle");
-#endif
-
+			strcpy(power_desc[num].name, _("çœ©æƒ‘", "Dazzle"));
 			power_desc[num].level = 7;
 			power_desc[num].cost = 15;
 			power_desc[num].stat = A_CHR;
@@ -3575,12 +2641,7 @@ strcpy(power_desc[num].name, "âÁÏÇ");
 
 		if (p_ptr->muta1 & MUT1_LASER_EYE)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥ì¡¼¥¶¡¼¡¦¥¢¥¤");
-#else
-			strcpy(power_desc[num].name, "Laser Eye");
-#endif
-
+			strcpy(power_desc[num].name, _("ãƒ¬ãƒ¼ã‚¶ãƒ¼ãƒ»ã‚¢ã‚¤", "Laser Eye"));
 			power_desc[num].level = 7;
 			power_desc[num].cost = 10;
 			power_desc[num].stat = A_WIS;
@@ -3590,12 +2651,7 @@ strcpy(power_desc[num].name, "¥ì¡¼¥¶¡¼¡¦¥¢¥¤");
 
 		if (p_ptr->muta1 & MUT1_RECALL)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "µ¢´Ô");
-#else
-			strcpy(power_desc[num].name, "Recall");
-#endif
-
+			strcpy(power_desc[num].name, _("å¸°é‚„", "Recall"));
 			power_desc[num].level = 17;
 			power_desc[num].cost = 50;
 			power_desc[num].stat = A_INT;
@@ -3605,12 +2661,7 @@ strcpy(power_desc[num].name, "µ¢´Ô");
 
 		if (p_ptr->muta1 & MUT1_BANISH)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¼Ù°­¾ÃÌÇ");
-#else
-			strcpy(power_desc[num].name, "Banish Evil");
-#endif
-
+			strcpy(power_desc[num].name, _("é‚ªæ‚ªæ¶ˆæ»…", "Banish Evil"));
 			power_desc[num].level = 25;
 			power_desc[num].cost = 25;
 			power_desc[num].stat = A_WIS;
@@ -3620,12 +2671,7 @@ strcpy(power_desc[num].name, "¼Ù°­¾ÃÌÇ");
 
 		if (p_ptr->muta1 & MUT1_COLD_TOUCH)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "Åà·ë¤Î¼ê");
-#else
-			strcpy(power_desc[num].name, "Cold Touch");
-#endif
-
+			strcpy(power_desc[num].name, _("å‡çµã®æ‰‹", "Cold Touch"));
 			power_desc[num].level = 2;
 			power_desc[num].cost = 2;
 			power_desc[num].stat = A_CON;
@@ -3635,12 +2681,7 @@ strcpy(power_desc[num].name, "Åà·ë¤Î¼ê");
 
 		if (p_ptr->muta1 & MUT1_LAUNCHER)
 		{
-#ifdef JP
-strcpy(power_desc[num].name, "¥¢¥¤¥Æ¥àÅê¤²");
-#else
-			strcpy(power_desc[num].name, "Throw Object");
-#endif
-
+			strcpy(power_desc[num].name, _("ã‚¢ã‚¤ãƒ†ãƒ æŠ•ã’", "Throw Object"));
 			power_desc[num].level = 1;
 			power_desc[num].cost = lvl;
 			power_desc[num].stat = A_STR;
@@ -3657,13 +2698,9 @@ strcpy(power_desc[num].name, "¥¢¥¤¥Æ¥àÅê¤²");
 	redraw = FALSE;
 
 	/* Build a prompt */
-#ifdef JP
-(void) strnfmt(out_val, 78, "(ÆÃ¼ìÇ½ÎÏ %c-%c, *'¤Ç°ìÍ÷, ESC¤ÇÃæÃÇ) ¤É¤ÎÆÃ¼ìÇ½ÎÏ¤ò»È¤¤¤Ş¤¹¤«¡©",
-#else
-	(void)strnfmt(out_val, 78, "(Powers %c-%c, *=List, ESC=exit) Use which power? ",
-#endif
-
-		I2A(0), (num <= 26) ? I2A(num - 1) : '0' + num - 27);
+	(void) strnfmt(out_val, 78, 
+				_("(ç‰¹æ®Šèƒ½åŠ› %c-%c, *'ã§ä¸€è¦§, ESCã§ä¸­æ–­) ã©ã®ç‰¹æ®Šèƒ½åŠ›ã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "(Powers %c-%c, *=List, ESC=exit) Use which power? "),
+				I2A(0), (num <= 26) ? I2A(num - 1) : '0' + num - 27);
 
 #ifdef ALLOW_REPEAT
 if (!repeat_pull(&i) || i<0 || i>=num) {
@@ -3751,18 +2788,10 @@ if (!repeat_pull(&i) || i<0 || i>=num) {
 
 				/* Print header(s) */
 				if (num < 18)
-#ifdef JP
-prt("                            Lv   MP ¼ºÎ¨", y++, x);
-#else
-					prt("                            Lv Cost Fail", y++, x);
-#endif
-
+					prt(_("                            Lv   MP å¤±ç‡", "                            Lv Cost Fail"), y++, x);
 				else
-#ifdef JP
-prt("                            Lv   MP ¼ºÎ¨                            Lv   MP ¼ºÎ¨", y++, x);
-#else
-					prt("                            Lv Cost Fail                            Lv Cost Fail", y++, x);
-#endif
+				prt(_("                            Lv   MP å¤±ç‡                            Lv   MP å¤±ç‡", 
+					  "                            Lv Cost Fail                            Lv Cost Fail"), y++, x);
 
 
 				/* Print list */
@@ -3773,11 +2802,7 @@ prt("                            Lv   MP ¼ºÎ¨                            Lv   MP
 
 					if (use_menu)
 					{
-#ifdef JP
-						if (ctr == (menu_line-1)) strcpy(dummy, " ¡Õ ");
-#else
-						if (ctr == (menu_line-1)) strcpy(dummy, " >  ");
-#endif
+						if (ctr == (menu_line-1)) strcpy(dummy, _(" ã€‹ ", " >  "));
 						else strcpy(dummy, "    ");
 					}
 					else
@@ -3850,12 +2875,7 @@ prt("                            Lv   MP ¼ºÎ¨                            Lv   MP
 			char tmp_val[160];
 
 			/* Prompt */
-#ifdef JP
-(void) strnfmt(tmp_val, 78, "%s¤ò»È¤¤¤Ş¤¹¤«¡© ", power_desc[i].name);
-#else
-			(void)strnfmt(tmp_val, 78, "Use %s? ", power_desc[i].name);
-#endif
-
+			(void) strnfmt(tmp_val, 78, _("%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ ", "Use %s? "), power_desc[i].name);
 
 			/* Belay that order */
 			if (!get_check(tmp_val)) continue;
@@ -3905,11 +2925,7 @@ prt("                            Lv   MP ¼ºÎ¨                            Lv   MP
 			{
 				actual_racial_cost -= p_ptr->csp;
 				p_ptr->csp = 0;
-#ifdef JP
-				take_hit(DAMAGE_USELIFE, actual_racial_cost, "²áÅÙ¤Î½¸Ãæ", -1);
-#else
-				take_hit(DAMAGE_USELIFE, actual_racial_cost, "concentrating too hard", -1);
-#endif
+				take_hit(DAMAGE_USELIFE, actual_racial_cost, _("éåº¦ã®é›†ä¸­", "concentrating too hard"), -1);
 			}
 			else p_ptr->csp -= actual_racial_cost;
 

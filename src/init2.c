@@ -1,14 +1,36 @@
-/* File: init2.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison
- *
+﻿/*!
+ * @file init2.c
+ * @brief ゲームデータ初期化2 / Initialization (part 2) -BEN-
+ * @date 2014/01/28
+ * @author
+ * <pre>
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * This software may be copied and distributed for educational, research,
  * and not for profit purposes provided that this copyright and statement
  * are included in all such copies.  Other copyrights may also apply.
+ * 2014 Deskull rearranged comment for Doxygen.\n
+ * </pre>
+ * @details
+ * <pre>
+ * This file is used to initialize various variables and arrays for the
+ * Angband game.  Note the use of "fd_read()" and "fd_write()" to bypass
+ * the common limitation of "read()" and "write()" to only 32767 bytes
+ * at a time.
+ * Several of the arrays for Angband are built from "template" files in
+ * the "lib/file" directory, from which quick-load binary "image" files
+ * are constructed whenever they are not present in the "lib/data"
+ * directory, or if those files become obsolete, if we are allowed.
+ * Warning -- the "ascii" file parsers use a minor hack to collect the
+ * name and text information in a single pass.  Thus, the game will not
+ * be able to load any template file with more than 20K of names or 60K
+ * of text, even though technically, up to 64K should be legal.
+ * The "init1.c" file is used only to parse the ascii template files,
+ * to create the binary image files.  If you include the binary image
+ * files instead of the ascii template files, then you can undefine
+ * "ALLOW_TEMPLATES", saving about 20K by removing "init1.c".  Note
+ * that the binary image files are extremely system dependant.
+ * </pre>
  */
-
-/* Purpose: Initialization (part 2) -BEN- */
 
 #include "angband.h"
 
@@ -21,63 +43,40 @@
 #endif /* CHECK_MODIFICATION_TIME */
 #endif
 
-/*
- * This file is used to initialize various variables and arrays for the
- * Angband game.  Note the use of "fd_read()" and "fd_write()" to bypass
- * the common limitation of "read()" and "write()" to only 32767 bytes
- * at a time.
- *
- * Several of the arrays for Angband are built from "template" files in
- * the "lib/file" directory, from which quick-load binary "image" files
- * are constructed whenever they are not present in the "lib/data"
- * directory, or if those files become obsolete, if we are allowed.
- *
- * Warning -- the "ascii" file parsers use a minor hack to collect the
- * name and text information in a single pass.  Thus, the game will not
- * be able to load any template file with more than 20K of names or 60K
- * of text, even though technically, up to 64K should be legal.
- *
- * The "init1.c" file is used only to parse the ascii template files,
- * to create the binary image files.  If you include the binary image
- * files instead of the ascii template files, then you can undefine
- * "ALLOW_TEMPLATES", saving about 20K by removing "init1.c".  Note
- * that the binary image files are extremely system dependant.
- */
 
 
 
-/*
+/*!
+ * @brief 各データファイルを読み取るためのパスを取得する
  * Find the default paths to all of our important sub-directories.
- *
+ * @param path パス保管先の文字列
+ * @return なし
+ * @details
+ * <pre>
  * The purpose of each sub-directory is described in "variable.c".
- *
  * All of the sub-directories should, by default, be located inside
  * the main "lib" directory, whose location is very system dependant.
- *
  * This function takes a writable buffer, initially containing the
  * "path" to the "lib" directory, for example, "/pkg/lib/angband/",
  * or a system dependant string, for example, ":lib:".  The buffer
  * must be large enough to contain at least 32 more characters.
- *
  * Various command line options may allow some of the important
  * directories to be changed to user-specified directories, most
  * importantly, the "info" and "user" and "save" directories,
  * but this is done after this function, see "main.c".
- *
  * In general, the initial path should end in the appropriate "PATH_SEP"
  * string.  All of the "sub-directory" paths (created below or supplied
  * by the user) will NOT end in the "PATH_SEP" string, see the special
  * "path_build()" function in "util.c" for more information.
- *
  * Mega-Hack -- support fat raw files under NEXTSTEP, using special
  * "suffixed" directories for the "ANGBAND_DIR_DATA" directory, but
  * requiring the directories to be created by hand by the user.
- *
  * Hack -- first we free all the strings, since this is known
  * to succeed even if the strings have not been allocated yet,
  * as long as the variables start out as "NULL".  This allows
  * this function to be called multiple times, for example, to
  * try several base "path" values until a good one is found.
+ * </pre>
  */
 void init_file_paths(char *path)
 {
@@ -248,27 +247,27 @@ void init_file_paths(char *path)
 /*
  * Hack -- help give useful error messages
  */
-int error_idx;
-int error_line;
+int error_idx; /*!< データ読み込み/初期化時に汎用的にエラーコードを保存するグローバル変数 */
+int error_line; /*!< データ読み込み/初期化時に汎用的にエラー行数を保存するグローバル変数 */
 
 
-/*
- * Standard error message text
+/*!
+ * エラーメッセージの名称定義 / Standard error message text
  */
 cptr err_str[PARSE_ERROR_MAX] =
 {
 	NULL,
 #ifdef JP
-	"ʸˡ���顼",
-	"�Ť��ե�����",
-	"��Ͽ�إå����ʤ�",
-	"��Ϣ³�쥳����",
-	"�������ʥե饰¸��",
-	"̤���̿��",
-	"������­",
-	"��ɸ�ϰϳ�",
-	"������­",
-	"̤����Ϸ�����",
+	"文法エラー",
+	"古いファイル",
+	"記録ヘッダがない",
+	"不連続レコード",
+	"おかしなフラグ存在",
+	"未定義命令",
+	"メモリ不足",
+	"座標範囲外",
+	"引数不足",
+	"未定義地形タグ",
 #else
 	"parse error",
 	"obsolete file",
@@ -291,18 +290,25 @@ cptr err_str[PARSE_ERROR_MAX] =
 /*
  * File headers
  */
-header v_head;
-header f_head;
-header k_head;
-header a_head;
-header e_head;
-header r_head;
-header d_head;
-header s_head;
-header m_head;
+header v_head; /*!< Vault情報のヘッダ構造体 */
+header f_head; /*!< 地形情報のヘッダ構造体 */
+header k_head; /*!< ペースアイテム情報のヘッダ構造体 */
+header a_head; /*!< 固定アーティファクト情報のヘッダ構造体 */
+header e_head; /*!< アイテムエゴ情報のヘッダ構造体 */
+header r_head; /*!< モンスター種族情報のヘッダ構造体 */
+header d_head; /*!< ダンジョン情報のヘッダ構造体 */
+header s_head; /*!< プレイヤー職業技能情報のヘッダ構造体 */
+header m_head; /*!< プレイヤー職業魔法情報のヘッダ構造体 */
 
 #ifdef CHECK_MODIFICATION_TIME
 
+/*!
+ * @brief テキストファイルとrawファイルの更新時刻を比較する
+ * Find the default paths to all of our important sub-directories.
+ * @param fd ファイルディスクリプタ
+ * @param template_file ファイル名
+ * @return テキストの方が新しいか、rawファイルがなく更新の必要がある場合-1、更新の必要がない場合0。
+ */
 static errr check_modification_date(int fd, cptr template_file)
 {
 	char buf[1024];
@@ -342,8 +348,12 @@ static errr check_modification_date(int fd, cptr template_file)
 /*** Initialize from binary image files ***/
 
 
-/*
+/*!
+ * @brief rawファイルからのデータの読み取り処理
  * Initialize the "*_info" array, by parsing a binary "image" file
+ * @param fd ファイルディスクリプタ
+ * @param head rawファイルのヘッダ
+ * @return エラーコード
  */
 static errr init_info_raw(int fd, header *head)
 {
@@ -411,8 +421,13 @@ static errr init_info_raw(int fd, header *head)
 
 
 
-/*
+/*!
+ * @brief ヘッダ構造体の更新
  * Initialize the header of an *_info.raw file.
+ * @param head rawファイルのヘッダ
+ * @param num データ数
+ * @param len データの長さ
+ * @return エラーコード
  */
 static void init_header(header *head, int num, int len)
 {
@@ -432,9 +447,17 @@ static void init_header(header *head, int num, int len)
 }
 
 
-/*
+/*!
+ * @brief ヘッダ構造体の更新
  * Initialize the "*_info" array
- *
+ * @param filename ファイル名(拡張子txt/raw)
+ * @param head 処理に用いるヘッダ構造体
+ * @param info データ保管先の構造体ポインタ
+ * @param name 名称用可変文字列の保管先
+ * @param text テキスト用可変文字列の保管先
+ * @param tag タグ用可変文字列の保管先
+ * @return エラーコード
+ * @note
  * Note that we let each entry have a unique "name" and "text" string,
  * even if the string happens to be empty (everyone has a unique '\0').
  */
@@ -458,11 +481,7 @@ static errr init_info(cptr filename, header *head,
 	/*** Load the binary image file ***/
 
 	/* Build the filename */
-#ifdef JP
-	path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format("%s_j.raw", filename));
-#else
-	path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format("%s.raw", filename));
-#endif
+	path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format(_("%s_j.raw", "%s.raw"), filename));
 
 
 	/* Attempt to open the "raw" file */
@@ -514,12 +533,7 @@ static errr init_info(cptr filename, header *head,
 		fp = my_fopen(buf, "r");
 
 		/* Parse it */
-#ifdef JP
-		if (!fp) quit(format("'%s.txt'�ե�����򥪡��ץ�Ǥ��ޤ���", filename));
-#else
-		if (!fp) quit(format("Cannot open '%s.txt' file.", filename));
-#endif
-
+		if (!fp) quit(format(_("'%s.txt'ファイルをオープンできません。", "Cannot open '%s.txt' file."), filename));
 
 		/* Parse the file */
 		err = init_info_txt(fp, buf, head, head->parse_info_txt);
@@ -534,16 +548,16 @@ static errr init_info(cptr filename, header *head,
 
 #ifdef JP
 			/* Error string */
-			oops = (((err > 0) && (err < PARSE_ERROR_MAX)) ? err_str[err] : "̤�Τ�");
+			oops = (((err > 0) && (err < PARSE_ERROR_MAX)) ? err_str[err] : "未知の");
 
 			/* Oops */
-			msg_format("'%s.txt'�ե������ %d ���ܤ˥��顼��", filename, error_line);
-			msg_format("�쥳���� %d �� '%s' ���顼������ޤ���", error_idx, oops);
-			msg_format("��ʸ '%s'��", buf);
+			msg_format("'%s.txt'ファイルの %d 行目にエラー。", filename, error_line);
+			msg_format("レコード %d は '%s' エラーがあります。", error_idx, oops);
+			msg_format("構文 '%s'。", buf);
 			msg_print(NULL);
 
 			/* Quit */
-			quit(format("'%s.txt'�ե�����˥��顼", filename));
+			quit(format("'%s.txt'ファイルにエラー", filename));
 #else
 			/* Error string */
 			oops = (((err > 0) && (err < PARSE_ERROR_MAX)) ? err_str[err] : "unknown");
@@ -575,11 +589,7 @@ static errr init_info(cptr filename, header *head,
 		FILE_TYPE(FILE_TYPE_DATA);
 
 		/* Build the filename */
-#ifdef JP
-		path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format("%s_j.raw", filename));
-#else
-		path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format("%s.raw", filename));
-#endif
+		path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format(_("%s_j.raw", "%s.raw"), filename));
 
 
 		/* Grab permissions */
@@ -633,23 +643,13 @@ static errr init_info(cptr filename, header *head,
 		/*** Load the binary image file ***/
 
 		/* Build the filename */
-#ifdef JP
-		path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format("%s_j.raw", filename));
-#else
-		path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format("%s.raw", filename));
-#endif
-
+		path_build(buf, sizeof(buf), ANGBAND_DIR_DATA, format(_("%s_j.raw", "%s.raw"), filename));
 
 		/* Attempt to open the "raw" file */
 		fd = fd_open(buf, O_RDONLY);
 
 		/* Process existing "raw" file */
-#ifdef JP
-		if (fd < 0) quit(format("'%s_j.raw'�ե����������ɤǤ��ޤ���", filename));
-#else
-		if (fd < 0) quit(format("Cannot load '%s.raw' file.", filename));
-#endif
-
+		if (fd < 0) quit(format(_("'%s_j.raw'ファイルをロードできません。", "Cannot load '%s.raw' file."), filename));
 
 		/* Attempt to parse the "raw" file */
 		err = init_info_raw(fd, head);
@@ -658,11 +658,7 @@ static errr init_info(cptr filename, header *head,
 		(void)fd_close(fd);
 
 		/* Error */
-#ifdef JP
-		if (err) quit(format("'%s_j.raw'�ե��������ϤǤ��ޤ���", filename));
-#else
-		if (err) quit(format("Cannot parse '%s.raw' file.", filename));
-#endif
+		if (err) quit(format(_("'%s_j.raw'ファイルを解析できません。", "Cannot parse '%s.raw' file."), filename));
 
 #ifdef ALLOW_TEMPLATES
 	}
@@ -678,8 +674,10 @@ static errr init_info(cptr filename, header *head,
 }
 
 
-/*
+/*!
+ * @brief 地形情報読み込みのメインルーチン /
  * Initialize the "f_info" array
+ * @return エラーコード
  */
 static errr init_f_info(void)
 {
@@ -701,8 +699,10 @@ static errr init_f_info(void)
 }
 
 
-/*
+/*!
+ * @brief ベースアイテム情報読み込みのメインルーチン /
  * Initialize the "k_info" array
+ * @return エラーコード
  */
 static errr init_k_info(void)
 {
@@ -722,8 +722,10 @@ static errr init_k_info(void)
 
 
 
-/*
+/*!
+ * @brief 固定アーティファクト情報読み込みのメインルーチン /
  * Initialize the "a_info" array
+ * @return エラーコード
  */
 static errr init_a_info(void)
 {
@@ -743,8 +745,10 @@ static errr init_a_info(void)
 
 
 
-/*
+/*!
+ * @brief 固定アーティファクト情報読み込みのメインルーチン /
  * Initialize the "e_info" array
+ * @return エラーコード
  */
 static errr init_e_info(void)
 {
@@ -764,8 +768,10 @@ static errr init_e_info(void)
 
 
 
-/*
+/*!
+ * @brief モンスター種族情報読み込みのメインルーチン /
  * Initialize the "r_info" array
+ * @return エラーコード
  */
 static errr init_r_info(void)
 {
@@ -785,8 +791,10 @@ static errr init_r_info(void)
 
 
 
-/*
+/*!
+ * @brief ダンジョン情報読み込みのメインルーチン /
  * Initialize the "d_info" array
+ * @return エラーコード
  */
 static errr init_d_info(void)
 {
@@ -805,9 +813,11 @@ static errr init_d_info(void)
 }
 
 
-/*
+/*!
+ * @brief Vault情報読み込みのメインルーチン /
  * Initialize the "v_info" array
- *
+ * @return エラーコード
+ * @note
  * Note that we let each entry have a unique "name" and "text" string,
  * even if the string happens to be empty (everyone has a unique '\0').
  */
@@ -828,8 +838,10 @@ errr init_v_info(void)
 }
 
 
-/*
+/*!
+ * @brief 職業技能情報読み込みのメインルーチン /
  * Initialize the "s_info" array
+ * @return エラーコード
  */
 static errr init_s_info(void)
 {
@@ -848,8 +860,10 @@ static errr init_s_info(void)
 }
 
 
-/*
+/*!
+ * @brief 職業魔法情報読み込みのメインルーチン /
  * Initialize the "m_info" array
+ * @return エラーコード
  */
 static errr init_m_info(void)
 {
@@ -871,8 +885,8 @@ static errr init_m_info(void)
 
 /*** Initialize others ***/
 
-/*
- * Hack -- Objects sold in the stores -- by tval/sval pair.
+/*!
+ * 店舗で販売するオブジェクトを定義する / Hack -- Objects sold in the stores -- by tval/sval pair.
  */
 static byte store_table[MAX_STORES][STORE_CHOICES][2] =
 {
@@ -1427,8 +1441,10 @@ static byte store_table[MAX_STORES][STORE_CHOICES][2] =
 };
 
 
-/*
+/*!
+ * @brief 基本情報読み込みのメインルーチン /
  * Initialize misc. values
+ * @return エラーコード
  */
 static errr init_misc(void)
 {
@@ -1439,8 +1455,10 @@ static errr init_misc(void)
 }
 
 
-/*
+/*!
+ * @brief 町情報読み込みのメインルーチン /
  * Initialize town array
+ * @return エラーコード
  */
 static errr init_towns(void)
 {
@@ -1469,9 +1487,9 @@ static errr init_towns(void)
 			/* Assume full stock */
 
 		/*
-		 * �椬�Ȥ� 20 �ڡ����ޤǻȤ��뱣����ǽ�Τ���ν�����
-		 * ���ץ����ͭ���Ǥ⤽���Ǥʤ��Ƥ������ڡ���
-		 * ���äƤ�����
+		 * 我が家が 20 ページまで使える隠し機能のための準備。
+		 * オプションが有効でもそうでなくても一応スペース
+		 * を作っておく。
 		 */
 		if (j == STORE_HOME)
 		{
@@ -1529,8 +1547,10 @@ static errr init_towns(void)
 	return 0;
 }
 
-/*
+/*!
+ * @brief 店情報初期化のメインルーチン /
  * Initialize buildings
+ * @return エラーコード
  */
 errr init_buildings(void)
 {
@@ -1572,8 +1592,10 @@ errr init_buildings(void)
 }
 
 
-/*
+/*!
+ * @brief クエスト情報初期化のメインルーチン /
  * Initialize quest array
+ * @return エラーコード
  */
 static errr init_quests(void)
 {
@@ -1593,10 +1615,14 @@ static errr init_quests(void)
 	return 0;
 }
 
-
+/*! 地形タグ情報から地形IDを得られなかった場合にTRUEを返すグローバル変数 */
 static bool feat_tag_is_not_found = FALSE;
 
-
+/*!
+ * @brief 地形タグからIDを得る /
+ * Initialize quest array
+ * @return 地形ID
+ */
 s16b f_tag_to_index_in_init(cptr str)
 {
 	s16b feat = f_tag_to_index(str);
@@ -1607,8 +1633,10 @@ s16b f_tag_to_index_in_init(cptr str)
 }
 
 
-/*
+/*!
+ * @brief 地形の汎用定義をタグを通じて取得する /
  * Initialize feature variables
+ * @return エラーコード
  */
 static errr init_feat_variables(void)
 {
@@ -1753,8 +1781,10 @@ static errr init_feat_variables(void)
 }
 
 
-/*
+/*!
+ * @brief その他の初期情報更新 /
  * Initialize some other arrays
+ * @return エラーコード
  */
 static errr init_other(void)
 {
@@ -1878,8 +1908,10 @@ static errr init_other(void)
 }
 
 
-/*
+/*!
+ * @brief オブジェクト配列を初期化する /
  * Initialize some other arrays
+ * @return エラーコード
  */
 static errr init_object_alloc(void)
 {
@@ -1935,13 +1967,7 @@ static errr init_object_alloc(void)
 	}
 
 	/* Paranoia */
-#ifdef JP
-if (!num[0]) quit("Į�Υ����ƥब�ʤ���");
-#else
-	if (!num[0]) quit("No town objects!");
-#endif
-
-
+	if (!num[0]) quit(_("町のアイテムがない！", "No town objects!"));
 
 	/*** Initialize object allocation info ***/
 
@@ -1994,8 +2020,10 @@ if (!num[0]) quit("Į�Υ����ƥब�ʤ���");
 }
 
 
-/*
+/*!
+ * @brief モンスター配列と生成テーブルを初期化する /
  * Initialize some other arrays
+ * @return エラーコード
  */
 static errr init_alloc(void)
 {
@@ -2013,7 +2041,7 @@ static errr init_alloc(void)
 	for (i = 1; i < max_r_idx; i++)
 	{
 		elements[i].tag = r_info[i].level;
-		elements[i].pointer = (void*)i;
+		elements[i].index = i;
 	}
 
 	tag_sort(elements, max_r_idx);
@@ -2030,7 +2058,7 @@ static errr init_alloc(void)
 	for (i = 1; i < max_r_idx; i++)
 	{
 		/* Get the i'th race */
-		r_ptr = &r_info[(int)elements[i].pointer];
+		r_ptr = &r_info[elements[i].index];
 
 		/* Count valid pairs */
 		if (r_ptr->rarity)
@@ -2044,7 +2072,7 @@ static errr init_alloc(void)
 			p = (100 / r_ptr->rarity);
 
 			/* Load the entry */
-			alloc_race_table[i].index = (int)elements[i].pointer;
+			alloc_race_table[i].index = elements[i].index;
 			alloc_race_table[i].level = x;
 			alloc_race_table[i].prob1 = p;
 			alloc_race_table[i].prob2 = p;
@@ -2098,13 +2126,7 @@ static errr init_alloc(void)
 	}
 
 	/* Paranoia */
-#ifdef JP
-	if (!num[0]) quit("Į�Υ�󥹥������ʤ���");
-#else
-	if (!num[0]) quit("No town monsters!");
-#endif
-
-
+	if (!num[0]) quit(_("町のモンスターがない！", "No town monsters!"));
 
 	/*** Initialize monster allocation info ***/
 
@@ -2160,8 +2182,10 @@ static errr init_alloc(void)
 
 
 
-/*
+/*!
+ * @brief 画面左下にシステムメッセージを表示する /
  * Hack -- take notes on line 23
+ * @return なし
  */
 static void note(cptr str)
 {
@@ -2172,12 +2196,16 @@ static void note(cptr str)
 
 
 
-/*
+/*!
+ * @brief 全ゲームデータ読み込みのサブルーチン /
  * Hack -- Explain a broken "lib" folder and quit (see below).
- *
+ * @return なし
+ * @note
+ * <pre>
  * XXX XXX XXX This function is "messy" because various things
  * may or may not be initialized, but the "plog()" and "quit()"
  * functions are "supposed" to work under any conditions.
+ * </pre>
  */
 static void init_angband_aux(cptr why)
 {
@@ -2186,16 +2214,16 @@ static void init_angband_aux(cptr why)
 
 #ifdef JP
 	/* Explain */
-	plog("'lib'�ǥ��쥯�ȥ꤬¸�ߤ��ʤ�������Ƥ���褦�Ǥ���");
+	plog("'lib'ディレクトリが存在しないか壊れているようです。");
 
 	/* More details */
-	plog("�Ҥ�äȤ���ȥ��������֤����������व��Ƥ��ʤ��Τ��⤷��ޤ���");
+	plog("ひょっとするとアーカイブが正しく解凍されていないのかもしれません。");
 
 	/* Explain */
-	plog("��������'README'�ե�������ɤ�ǳ�ǧ���ƤߤƲ�������");
+	plog("該当する'README'ファイルを読んで確認してみて下さい。");
 
 	/* Quit with error */
-	quit("��̿Ū�ʥ��顼��");
+	quit("致命的なエラー。");
 #else
 	/* Explain */
 	plog("The 'lib' directory is probably missing or broken.");
@@ -2213,26 +2241,29 @@ static void init_angband_aux(cptr why)
 }
 
 
-/*
+/*!
+ * @brief 全ゲームデータ読み込みのメインルーチン /
  * Hack -- main Angband initialization entry point
- *
+ * @return なし
+ * @note
+ * <pre>
+ * XXX XXX XXX This function is "messy" because various things
+ * may or may not be initialized, but the "plog()" and "quit()"
+ * functions are "supposed" to work under any conditions.
  * Verify some files, display the "news.txt" file, create
  * the high score file, initialize all internal arrays, and
  * load the basic "user pref files".
- *
  * Be very careful to keep track of the order in which things
  * are initialized, in particular, the only thing *known* to
  * be available when this function is called is the "z-term.c"
  * package, and that may not be fully initialized until the
  * end of this function, when the default "user pref files"
  * are loaded and "Term_xtra(TERM_XTRA_REACT,0)" is called.
- *
  * Note that this function attempts to verify the "news" file,
  * and the game aborts (cleanly) on failure, since without the
  * "news" file, it is likely that the "lib" folder has not been
  * correctly located.  Otherwise, the news file is displayed for
  * the user.
- *
  * Note that this function attempts to verify (or create) the
  * "high score" file, and the game aborts (cleanly) on failure,
  * since one of the most common "extraction" failures involves
@@ -2243,22 +2274,18 @@ static void init_angband_aux(cptr why)
  * code below, since the "lib/apex" directory, being empty in the
  * standard distributions, is most likely to be "lost", making it
  * impossible to create the high score file.
- *
  * Note that various things are initialized by this function,
  * including everything that was once done by "init_some_arrays".
- *
  * This initialization involves the parsing of special files
  * in the "lib/data" and sometimes the "lib/edit" directories.
- *
  * Note that the "template" files are initialized first, since they
  * often contain errors.  This means that macros and message recall
  * and things like that are not available until after they are done.
- *
  * We load the default "user pref files" here in case any "color"
  * changes are needed before character creation.
- *
  * Note that the "graf-xxx.prf" file must be loaded separately,
  * if needed, in the first (?) pass through "TERM_XTRA_REACT".
+ * </pre>
  */
 void init_angband(void)
 {
@@ -2274,12 +2301,7 @@ void init_angband(void)
 	/*** Verify the "news" file ***/
 
 	/* Build the filename */
-#ifdef JP
-	path_build(buf, sizeof(buf), ANGBAND_DIR_FILE, "news_j.txt");
-#else
-	path_build(buf, sizeof(buf), ANGBAND_DIR_FILE, "news.txt");
-#endif
-
+	path_build(buf, sizeof(buf), ANGBAND_DIR_FILE, _("news_j.txt", "news.txt"));
 
 	/* Attempt to open the file */
 	fd = fd_open(buf, O_RDONLY);
@@ -2290,12 +2312,7 @@ void init_angband(void)
 		char why[1024];
 
 		/* Message */
-#ifdef JP
-	sprintf(why, "'%s'�ե�����˥��������Ǥ��ޤ���!", buf);
-#else
-		sprintf(why, "Cannot access the '%s' file!", buf);
-#endif
-
+		sprintf(why, _("'%s'ファイルにアクセスできません!", "Cannot access the '%s' file!"), buf);
 
 		/* Crash and burn */
 		init_angband_aux(why);
@@ -2311,12 +2328,7 @@ void init_angband(void)
 	Term_clear();
 
 	/* Build the filename */
-#ifdef JP
-	path_build(buf, sizeof(buf), ANGBAND_DIR_FILE, "news_j.txt");
-#else
-	path_build(buf, sizeof(buf), ANGBAND_DIR_FILE, "news.txt");
-#endif
-
+	path_build(buf, sizeof(buf), ANGBAND_DIR_FILE, _("news_j.txt", "news.txt"));
 
 	/* Open the News file */
 	fp = my_fopen(buf, "r");
@@ -2338,7 +2350,7 @@ void init_angband(void)
 	}
 
 	/* Flush it */
-	Term_fresh();
+	Term_flush();
 
 
 	/*** Verify (or create) the "high score" file ***/
@@ -2370,12 +2382,7 @@ void init_angband(void)
 			char why[1024];
 
 			/* Message */
-#ifdef JP
-			sprintf(why, "'%s'�ե����������Ǥ��ޤ���!", buf);
-#else
-			sprintf(why, "Cannot create the '%s' file!", buf);
-#endif
-
+			sprintf(why, _("'%s'ファイルを作成できません!", "Cannot create the '%s' file!"), buf);
 
 			/* Crash and burn */
 			init_angband_aux(why);
@@ -2389,24 +2396,14 @@ void init_angband(void)
 	/*** Initialize some arrays ***/
 
 	/* Initialize misc. values */
-#ifdef JP
-note("[�ѿ����������Ƥ��ޤ�...(����¾)");
-#else
-	note("[Initializing values... (misc)]");
-#endif
-
-#ifdef JP
-if (init_misc()) quit("����¾���ѿ��������Ǥ��ޤ���");
-#else
-	if (init_misc()) quit("Cannot initialize misc. values");
-#endif
-
+	note(_("[変数を初期化しています...(その他)", "[Initializing values... (misc)]"));
+	if (init_misc()) quit(_("その他の変数を初期化できません", "Cannot initialize misc. values"));
 
 	/* Initialize feature info */
 #ifdef JP
-	note("[�ǡ����ν������... (�Ϸ�)]");
-	if (init_f_info()) quit("�Ϸ��������ǽ");
-	if (init_feat_variables()) quit("�Ϸ��������ǽ");
+	note("[データの初期化中... (地形)]");
+	if (init_f_info()) quit("地形初期化不能");
+	if (init_feat_variables()) quit("地形初期化不能");
 #else
 	note("[Initializing arrays... (features)]");
 	if (init_f_info()) quit("Cannot initialize features");
@@ -2415,53 +2412,28 @@ if (init_misc()) quit("����¾���ѿ��������Ǥ��ޤ���");
 
 
 	/* Initialize object info */
-#ifdef JP
-	note("[�ǡ����ν������... (�����ƥ�)]");
-	if (init_k_info()) quit("�����ƥ�������ǽ");
-#else
-	note("[Initializing arrays... (objects)]");
-	if (init_k_info()) quit("Cannot initialize objects");
-#endif
+	note(_("[データの初期化中... (アイテム)]", "[Initializing arrays... (objects)]"));
+	if (init_k_info()) quit(_("アイテム初期化不能", "Cannot initialize objects"));
 
 
 	/* Initialize artifact info */
-#ifdef JP
-	note("[�ǡ����ν������... (����Υ����ƥ�)]");
-	if (init_a_info()) quit("����Υ����ƥ�������ǽ");
-#else
-	note("[Initializing arrays... (artifacts)]");
-	if (init_a_info()) quit("Cannot initialize artifacts");
-#endif
+	note(_("[データの初期化中... (伝説のアイテム)]", "[Initializing arrays... (artifacts)]"));
+	if (init_a_info()) quit(_("伝説のアイテム初期化不能", "Cannot initialize artifacts"));
 
 
 	/* Initialize ego-item info */
-#ifdef JP
-	note("[�ǡ����ν������... (̾�Τ��륢���ƥ�)]");
-	if (init_e_info()) quit("̾�Τ��륢���ƥ�������ǽ");
-#else
-	note("[Initializing arrays... (ego-items)]");
-	if (init_e_info()) quit("Cannot initialize ego-items");
-#endif
+	note(_("[データの初期化中... (名のあるアイテム)]", "[Initializing arrays... (ego-items)]"));
+	if (init_e_info()) quit(_("名のあるアイテム初期化不能", "Cannot initialize ego-items"));
 
 
 	/* Initialize monster info */
-#ifdef JP
-	note("[�ǡ����ν������... (��󥹥���)]");
-	if (init_r_info()) quit("��󥹥����������ǽ");
-#else
-	note("[Initializing arrays... (monsters)]");
-	if (init_r_info()) quit("Cannot initialize monsters");
-#endif
+	note(_("[データの初期化中... (モンスター)]", "[Initializing arrays... (monsters)]"));
+	if (init_r_info()) quit(_("モンスター初期化不能", "Cannot initialize monsters"));
 
 
 	/* Initialize dungeon info */
-#ifdef JP
-	note("[�ǡ����ν������... (���󥸥��)]");
-	if (init_d_info()) quit("���󥸥��������ǽ");
-#else
-	note("[Initializing arrays... (dungeon)]");
-	if (init_d_info()) quit("Cannot initialize dungeon");
-#endif
+	note(_("[データの初期化中... (ダンジョン)]", "[Initializing arrays... (dungeon)]"));
+	if (init_d_info()) quit(_("ダンジョン初期化不能", "Cannot initialize dungeon"));
 	{
 		int i;
 		for (i = 1; i < max_d_idx; i++)
@@ -2470,118 +2442,51 @@ if (init_misc()) quit("����¾���ѿ��������Ǥ��ޤ���");
 	}
 
 	/* Initialize magic info */
-#ifdef JP
-	note("[�ǡ����ν������... (��ˡ)]");
-	if (init_m_info()) quit("��ˡ�������ǽ");
-#else
-	note("[Initializing arrays... (magic)]");
-	if (init_m_info()) quit("Cannot initialize magic");
-#endif
+	note(_("[データの初期化中... (魔法)]", "[Initializing arrays... (magic)]"));
+	if (init_m_info()) quit(_("魔法初期化不能", "Cannot initialize magic"));
 
 	/* Initialize weapon_exp info */
-#ifdef JP
-	note("[�ǡ����ν������... (������)]");
-	if (init_s_info()) quit("�����ٽ������ǽ");
-#else
-	note("[Initializing arrays... (skill)]");
-	if (init_s_info()) quit("Cannot initialize skill");
-#endif
+	note(_("[データの初期化中... (熟練度)]", "[Initializing arrays... (skill)]"));
+	if (init_s_info()) quit(_("熟練度初期化不能", "Cannot initialize skill"));
 
 	/* Initialize wilderness array */
-#ifdef JP
-note("[������������Ƥ��ޤ�... (����)]");
-#else
-	note("[Initializing arrays... (wilderness)]");
-#endif
+	note(_("[配列を初期化しています... (荒野)]", "[Initializing arrays... (wilderness)]"));
 
-#ifdef JP
-if (init_wilderness()) quit("����������Ǥ��ޤ���");
-#else
-	if (init_wilderness()) quit("Cannot initialize wilderness");
-#endif
+	if (init_wilderness()) quit(_("荒野を初期化できません", "Cannot initialize wilderness"));
 
 
 	/* Initialize town array */
-#ifdef JP
-note("[������������Ƥ��ޤ�... (��)]");
-#else
-	note("[Initializing arrays... (towns)]");
-#endif
-
-#ifdef JP
-if (init_towns()) quit("���������Ǥ��ޤ���");
-#else
-	if (init_towns()) quit("Cannot initialize towns");
-#endif
+	note(_("[配列を初期化しています... (街)]", "[Initializing arrays... (towns)]"));
+	if (init_towns()) quit(_("街を初期化できません", "Cannot initialize towns"));
 
 
 	/* Initialize building array */
-#ifdef JP
-note("[������������Ƥ��ޤ�... (��ʪ)]");
-#else
-	note("[Initializing arrays... (buildings)]");
-#endif
-
-#ifdef JP
-if (init_buildings()) quit("��ʪ�������Ǥ��ޤ���");
-#else
-	if (init_buildings()) quit("Cannot initialize buildings");
-#endif
+	note(_("[配列を初期化しています... (建物)]", "[Initializing arrays... (buildings)]"));
+	if (init_buildings()) quit(_("建物を初期化できません", "Cannot initialize buildings"));
 
 
 	/* Initialize quest array */
-#ifdef JP
-note("[������������Ƥ��ޤ�... (��������)]");
-#else
-	note("[Initializing arrays... (quests)]");
-#endif
-
-#ifdef JP
-if (init_quests()) quit("�������Ȥ������Ǥ��ޤ���");
-#else
-	if (init_quests()) quit("Cannot initialize quests");
-#endif
-
+	note(_("[配列を初期化しています... (クエスト)]", "[Initializing arrays... (quests)]"));
+	if (init_quests()) quit(_("クエストを初期化できません", "Cannot initialize quests"));
 
 	/* Initialize vault info */
-#ifdef JP
-	if (init_v_info()) quit("vault �������ǽ");
-#else
-	if (init_v_info()) quit("Cannot initialize vaults");
-#endif
+	if (init_v_info()) quit(_("vault 初期化不能", "Cannot initialize vaults"));
+
+	/* Initialize some other arrays */
+	note(_("[データの初期化中... (その他)]", "[Initializing arrays... (other)]"));
+	if (init_other()) quit(_("その他のデータ初期化不能", "Cannot initialize other stuff"));
 
 
 	/* Initialize some other arrays */
-#ifdef JP
-	note("[�ǡ����ν������... (����¾)]");
-	if (init_other()) quit("����¾�Υǡ����������ǽ");
-#else
-	note("[Initializing arrays... (other)]");
-	if (init_other()) quit("Cannot initialize other stuff");
-#endif
-
-
-	/* Initialize some other arrays */
-#ifdef JP
-	/* translation */
-	note("[�ǡ����ν������... (�������������)]");
-	if (init_alloc()) quit("������������󡦥����åս������ǽ");
-#else
-	note("[Initializing arrays... (alloc)]");
-	if (init_alloc()) quit("Cannot initialize alloc stuff");
-#endif
+	note(_("[データの初期化中... (アロケーション)]", "[Initializing arrays... (alloc)]"));
+	if (init_alloc()) quit(_("アロケーション・スタッフ初期化不能", "Cannot initialize alloc stuff"));
 
 
 
 	/*** Load default user pref files ***/
 
 	/* Initialize feature info */
-#ifdef JP
-note("[�桼��������ե�������������Ƥ��ޤ�...]");
-#else
-	note("[Initializing user pref files...]");
-#endif
-
+	note(_("[ユーザー設定ファイルを初期化しています...]", "[Initializing user pref files...]"));
 
 	/* Access the "basic" pref file */
 	strcpy(buf, "pref.prf");
@@ -2596,16 +2501,12 @@ note("[�桼��������ե�������������Ƥ��ޤ�...]");
 	process_pref_file(buf);
 
 	/* Done */
-#ifdef JP
-	note("[�������λ]");
-#else
-	note("[Initialization complete]");
-#endif
-
+	note(_("[初期化終了]", "[Initialization complete]"));
 }
 
-/*
- *  Get check sum in string form
+/*!
+ * @brief サムチェック情報を出力 / Get check sum in string form
+ * @return サムチェック情報の文字列
  */
 cptr get_check_sum(void)
 {

@@ -1,34 +1,29 @@
-/* File: init1.c */
-
-/*
- * Copyright (c) 1997 Ben Harrison
- *
+﻿/*!
+ * @file init1.c
+ * @brief ゲームデータ初期化1 / Initialization (part 1) -BEN-
+ * @date 2014/01/28
+ * @author
+ * <pre>
+ * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
  * This software may be copied and distributed for educational, research,
  * and not for profit purposes provided that this copyright and statement
  * are included in all such copies.  Other copyrights may also apply.
- */
-
-/* Purpose: Initialization (part 1) -BEN- */
-
-#include "angband.h"
-
-
-/*
+ * 2014 Deskull rearranged comment for Doxygen.\n
+ * </pre>
+ * @details
+ * <pre>
  * This file is used to initialize various variables and arrays for the
  * Angband game.  Note the use of "fd_read()" and "fd_write()" to bypass
  * the common limitation of "read()" and "write()" to only 32767 bytes
  * at a time.
- *
  * Several of the arrays for Angband are built from "template" files in
  * the "lib/file" directory, from which quick-load binary "image" files
  * are constructed whenever they are not present in the "lib/data"
  * directory, or if those files become obsolete, if we are allowed.
- *
  * Warning -- the "ascii" file parsers use a minor hack to collect the
  * name and text information in a single pass.  Thus, the game will not
  * be able to load any template file with more than 20K of names or 60K
  * of text, even though technically, up to 64K should be legal.
- *
  * Note that if "ALLOW_TEMPLATES" is not defined, then a lot of the code
  * in this file is compiled out, and the game will not run unless valid
  * "binary template files" already exist in "lib/data".  Thus, one can
@@ -36,11 +31,15 @@
  * "*.raw" files in "lib/data", and then quit, and recompile without
  * defining ALLOW_TEMPLATES, which will both save 20K and prevent people
  * from changing the ascii template files in potentially dangerous ways.
- *
  * The code could actually be removed and placed into a "stand-alone"
  * program, but that feels a little silly, especially considering some
  * of the platforms that we currently support.
+ * </pre>
  */
+
+#include "angband.h"
+
+
 
 #ifdef ALLOW_TEMPLATES
 
@@ -49,7 +48,8 @@
 
 /*** Helper arrays for parsing ascii template files ***/
 
-/*
+/*!
+ * モンスターの打撃手段トークンの定義 /
  * Monster Blow Methods
  */
 static cptr r_info_blow_method[] =
@@ -84,7 +84,8 @@ static cptr r_info_blow_method[] =
 };
 
 
-/*
+/*!
+ * モンスターの打撃属性トークンの定義 /
  * Monster Blow Effects
  */
 static cptr r_info_blow_effect[] =
@@ -123,11 +124,13 @@ static cptr r_info_blow_effect[] =
 	"EXP_VAMP",
 	"DR_MANA",
 	"SUPERHURT",
+	"INERTIA",
+	"STUN",
 	NULL
 };
 
-
-/*
+/*!
+ * 地形属性トークンの定義 /
  * Feature info flags
  */
 static cptr f_info_flags[] =
@@ -251,7 +254,8 @@ static cptr f_info_flags[] =
 };
 
 
-/*
+/*!
+ * モンスター特性トークンの定義1 /
  * Monster race flags
  */
 static cptr r_info_flags1[] =
@@ -290,7 +294,8 @@ static cptr r_info_flags1[] =
 	"XXX3"
 };
 
-/*
+/*!
+ * モンスター特性トークンの定義2 /
  * Monster race flags
  */
 static cptr r_info_flags2[] =
@@ -329,7 +334,8 @@ static cptr r_info_flags2[] =
 	"QUANTUM"
 };
 
-/*
+/*!
+ * モンスター特性トークンの定義3 /
  * Monster race flags
  */
 static cptr r_info_flags3[] =
@@ -368,7 +374,8 @@ static cptr r_info_flags3[] =
 	"NO_SLEEP"
 };
 
-/*
+/*!
+ * モンスター特性トークンの定義4 /
  * Monster race flags
  */
 static cptr r_info_flags4[] =
@@ -407,7 +414,8 @@ static cptr r_info_flags4[] =
 	"BR_DISI",
 };
 
-/*
+/*!
+ * モンスター特性トークンの定義5 /
  * Monster race flags
  */
 static cptr r_info_flags5[] =
@@ -446,7 +454,8 @@ static cptr r_info_flags5[] =
 	"HOLD"
 };
 
-/*
+/*!
+ * モンスター特性トークンの定義6 /
  * Monster race flags
  */
 static cptr r_info_flags6[] =
@@ -486,7 +495,8 @@ static cptr r_info_flags6[] =
 };
 
 
-/*
+/*!
+ * モンスター特性トークンの定義7 /
  * Monster race flags
  */
 static cptr r_info_flags7[] =
@@ -505,7 +515,7 @@ static cptr r_info_flags7[] =
 	"SELF_LITE_2",
 	"GUARDIAN",
 	"CHAMELEON",
-	"KILL_EXP",
+	"XXXX4XXX",
 	"TANUKI",
 	"HAS_DARK_1",
 	"SELF_DARK_1",
@@ -525,7 +535,8 @@ static cptr r_info_flags7[] =
 	"XXX7X31",
 };
 
-/*
+/*!
+ * モンスター特性トークンの定義8 /
  * Monster race flags
  */
 static cptr r_info_flags8[] =
@@ -565,8 +576,9 @@ static cptr r_info_flags8[] =
 };
 
 
-/*
- * Monster race flags - Drops
+/*!
+ * モンスター特性トークンの定義9 /
+ * Monster race flags
  */
 static cptr r_info_flags9[] =
 {
@@ -606,8 +618,9 @@ static cptr r_info_flags9[] =
 };
 
 
-/*
- * Monster race flags - Resistances
+/*!
+ * モンスター特性トークンの定義R(耐性) /
+ * Monster race flags
  */
 static cptr r_info_flagsr[] =
 {
@@ -646,7 +659,8 @@ static cptr r_info_flagsr[] =
 };
 
 
-/*
+/*!
+ * オブジェクト基本特性トークンの定義 /
  * Object flags
  */
 static cptr k_info_flags[] =
@@ -699,7 +713,7 @@ static cptr k_info_flags[] =
 	"THROW",
 	"REFLECT",
 	"FREE_ACT",
-	"HOLD_LIFE",
+	"HOLD_EXP",
 	"RES_ACID",
 	"RES_ELEC",
 	"RES_FIRE",
@@ -728,7 +742,7 @@ static cptr k_info_flags[] =
 	"WARNING",
 	"HIDE_TYPE",
 	"SHOW_MODS",
-	"XXX1",
+	"SLAY_GOOD",
 	"LEVITATION",
 	"LITE",
 	"SEE_INVIS",
@@ -746,9 +760,9 @@ static cptr k_info_flags[] =
 	"TELEPORT",
 	"AGGRAVATE",
 	"BLESSED",
-	"XXX3",
-	"XXX4",
-	"XXX5",
+	"XXX3", /* Fake flag for Smith */
+	"XXX4", /* Fake flag for Smith */
+	"KILL_GOOD",
 
 	"KILL_ANIMAL",
 	"KILL_EVIL",
@@ -772,9 +786,34 @@ static cptr k_info_flags[] =
 	"ESP_UNIQUE",
 	"FULL_NAME",
 	"FIXED_FLAVOR",
+	"ADD_L_CURSE",
+	"ADD_H_CURSE",
+	"DRAIN_HP",
+	"DRAIN_MANA",
+	
+	"LITE_2",
+	"LITE_3",
+	"LITE_M1",
+	"LITE_M2",
+	"LITE_M3",
+	"LITE_FUEL",
+	
+	"CALL_ANIMAL",
+	"CALL_DEMON",
+	"CALL_DRAGON",
+	"CALL_UNDEAD",
+	"COWARDICE",
+	"LOW_MELEE",
+	"LOW_AC",
+	"LOW_MAGIC",
+	"FAST_DIGEST",
+	"SLOW_REGEN",
 };
 
-
+/*!
+ * オブジェクト生成特性トークンの定義 /
+ * Object flags
+ */
 static cptr k_info_gen_flags[] =
 {
 	"INSTA_ART",
@@ -793,8 +832,8 @@ static cptr k_info_gen_flags[] =
 	"RANDOM_CURSE0",
 	"RANDOM_CURSE1",
 	"RANDOM_CURSE2",
-	"XXX",
-	"XXX",
+	"XTRA_DICE",
+	"POWERFUL",
 	"XXX",
 	"XXX",
 	"XXX",
@@ -811,8 +850,8 @@ static cptr k_info_gen_flags[] =
 	"XXX",
 };
 
-
-/*
+/*!
+ * ダンジョン特性トークンの定義 /
  * Dungeon flags
  */
 static cptr d_info_flags1[] =
@@ -829,7 +868,7 @@ static cptr d_info_flags1[] =
 	"GLASS_DOOR",
 	"CAVE",
 	"CAVERN",
-	"XXX",
+	"ARCADE",
 	"XXX",
 	"XXX",
 	"XXX",
@@ -852,9 +891,15 @@ static cptr d_info_flags1[] =
 };
 
 
-/*
+/*!
+ * @brief データの可変文字列情報をテキストとして保管する /
  * Add a text to the text-storage and store offset to it.
- *
+ * @param offset 文字列保管ポインタからのオフセット
+ * @param head テキスト保管ヘッダ情報の構造体参照ポインタ
+ * @param buf 保管文字列
+ * @param normal_text テキストの正規化を行う
+ * @return
+ * 無事保管ができたらTRUEを返す。
  * Returns FALSE when there isn't enough space available to store
  * the text.
  */
@@ -909,11 +954,16 @@ static bool add_text(u32b *offset, header *head, cptr buf, bool normal_text)
 }
 
 
-/*
+/*!
+ * @brief データの可変文字列情報を名前として保管する /
  * Add a name to the name-storage and return an offset to it.
- *
+ * @param offset 文字列保管ポインタからのオフセット
+ * @param head テキスト保管ヘッダ情報の構造体参照ポインタ
+ * @param buf 保管文字列
+ * @return
+ * 無事保管ができたらTRUEを返す。
  * Returns FALSE when there isn't enough space available to store
- * the name.
+ * the text.
  */
 static bool add_name(u32b *offset, header *head, cptr buf)
 {
@@ -939,11 +989,16 @@ static bool add_name(u32b *offset, header *head, cptr buf)
 }
 
 
-/*
+/*!
+ * @brief データの可変文字列情報をタグとして保管する /
  * Add a tag to the tag-storage and return an offset to it.
- *
+ * @param offset 文字列保管ポインタからのオフセット
+ * @param head テキスト保管ヘッダ情報の構造体参照ポインタ
+ * @param buf 保管文字列
+ * @return
+ * 無事保管ができたらTRUEを返す。
  * Returns FALSE when there isn't enough space available to store
- * the name.
+ * the text.
  */
 static bool add_tag(s16b *offset, header *head, cptr buf)
 {
@@ -981,9 +1036,12 @@ static bool add_tag(s16b *offset, header *head, cptr buf)
 }
 
 
-/*
+/*!
+ * @brief シンボル1文字をカラーIDに変更する /
  * Convert a "color letter" into an "actual" color
  * The colors are: dwsorgbuDWvyRGBU, as shown below
+ * @param c シンボル文字
+ * @return カラーID
  */
 byte color_char_to_attr(char c)
 {
@@ -1016,8 +1074,14 @@ byte color_char_to_attr(char c)
 /*** Initialize from ascii template files ***/
 
 
-/*
+/*!
+ * @brief パース関数に基づいてデータファイルからデータを読み取る /
  * Initialize an "*_info" array, by parsing an ascii "template" file
+ * @param fp 読み取りに使うファイルポインタ
+ * @param buf 読み取りに使うバッファ領域
+ * @param head ヘッダ構造体
+ * @param parse_info_txt_line パース関数
+ * @return エラーコード
  */
 errr init_info_txt(FILE *fp, char *buf, header *head,
 		   parse_info_txt_func parse_info_txt_line)
@@ -1082,8 +1146,12 @@ errr init_info_txt(FILE *fp, char *buf, header *head,
 }
 
 
-/*
+/*!
+ * @brief Vault情報(v_info)のパース関数 /
  * Initialize the "v_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_v_info(char *buf, header *head)
 {
@@ -1164,9 +1232,12 @@ errr parse_v_info(char *buf, header *head)
 }
 
 
-
-/*
+/*!
+ * @brief 職業技能情報(s_info)のパース関数 /
  * Initialize the "s_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_s_info(char *buf, header *head)
 {
@@ -1246,8 +1317,12 @@ errr parse_s_info(char *buf, header *head)
 }
 
 
-/*
+/*!
+ * @brief 職業魔法情報(m_info)のパース関数 /
  * Initialize the "m_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_m_info(char *buf, header *head)
 {
@@ -1374,8 +1449,13 @@ errr parse_m_info(char *buf, header *head)
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(汎用) /
  * Grab one flag from a textual string
+ * @param flags ビットフラグを追加する先の参照ポインタ
+ * @param names トークン定義配列
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_flag(u32b *flags, cptr names[], cptr what)
 {
@@ -1395,8 +1475,12 @@ static errr grab_one_flag(u32b *flags, cptr names[], cptr what)
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る（地形情報向け） /
  * Grab one flag in an feature_type from a textual string
+ * @param f_ptr 地形情報を保管する先の構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_feat_flag(feature_type *f_ptr, cptr what)
 {
@@ -1413,19 +1497,20 @@ static errr grab_one_feat_flag(feature_type *f_ptr, cptr what)
 	}
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�Τ��Ϸ��ե饰 '%s'��", what);
-#else
-	msg_format("Unknown feature flag '%s'.", what);
-#endif
+	msg_format(_("未知の地形フラグ '%s'。", "Unknown feature flag '%s'."), what);
 
 	/* Error */
 	return PARSE_ERROR_GENERIC;
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグ(ステート)を一つ得る（地形情報向け2） /
  * Grab an action in an feature_type from a textual string
+ * @param f_ptr 地形情報を保管する先の構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @param count ステートの保存先ID
+ * @return エラーコード
  */
 static errr grab_one_feat_action(feature_type *f_ptr, cptr what, int count)
 {
@@ -1442,19 +1527,19 @@ static errr grab_one_feat_action(feature_type *f_ptr, cptr what, int count)
 	}
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�Τ��Ϸ���������� '%s'��", what);
-#else
-	msg_format("Unknown feature action '%s'.", what);
-#endif
+	msg_format(_("未知の地形アクション '%s'。", "Unknown feature action '%s'."), what);
 
 	/* Error */
 	return PARSE_ERROR_GENERIC;
 }
 
 
-/*
+/*!
+ * @brief 地形情報(f_info)のパース関数 /
  * Initialize the "f_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_f_info(char *buf, header *head)
 {
@@ -1737,8 +1822,11 @@ errr parse_f_info(char *buf, header *head)
 }
 
 
-/*
+/*!
+ * @brief 地形タグからIDを得る /
  * Convert a fake tag to a real feat index
+ * @param str タグ文字列
+ * @return 地形ID
  */
 s16b f_tag_to_index(cptr str)
 {
@@ -1759,8 +1847,11 @@ s16b f_tag_to_index(cptr str)
 }
 
 
-/*
+/*!
+ * @brief 地形タグからIDを得る /
  * Search for real index corresponding to this fake tag
+ * @param feat タグ文字列
+ * @return なし
  */
 static void search_real_feat(s16b *feat)
 {
@@ -1781,16 +1872,15 @@ static void search_real_feat(s16b *feat)
 	}
 
 	/* Undefined tag */
-#ifdef JP
-	msg_format("̤����Υ��� '%s'��", f_tag + (-(*feat)));
-#else
-	msg_format("%s is undefined.", f_tag + (-(*feat)));
-#endif
+	msg_format(_("未定義のタグ '%s'。", "%s is undefined."), f_tag + (-(*feat)));
 }
 
 
-/*
+/*!
+ * @brief 地形情報の各種タグからIDへ変換して結果を収める /
  * Retouch fake tags of f_info
+ * @param head ヘッダ構造体
+ * @return なし
  */
 void retouch_f_info(header *head)
 {
@@ -1811,8 +1901,12 @@ void retouch_f_info(header *head)
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(ベースアイテム用) /
  * Grab one flag in an object_kind from a textual string
+ * @param k_ptr 保管先のベースアイテム構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_kind_flag(object_kind *k_ptr, cptr what)
 {
@@ -1832,20 +1926,52 @@ static errr grab_one_kind_flag(object_kind *k_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�ΤΥ����ƥࡦ�ե饰 '%s'��", what);
-#else
-	msg_format("Unknown object flag '%s'.", what);
-#endif
-
+	msg_format(_("未知のアイテム・フラグ '%s'。", "Unknown object flag '%s'."), what);
 
 	/* Error */
 	return (1);
 }
 
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(発動能力用) /
+ * Grab one activation index flag
+ * @param what 参照元の文字列ポインタ
+ * @return 発動能力ID
+ */
+static byte grab_one_activation_flag(cptr what)
+{
+	int i;
 
-/*
+	for (i = 0; ; i++)
+	{
+		if (activation_info[i].flag == NULL) break;
+
+		if (streq(what, activation_info[i].flag))
+		{
+			return activation_info[i].index;
+		}
+	}
+
+	i = atoi(what);
+	 if (i > 0)
+	 {
+		 return ((byte) i);
+	 }
+
+	/* Oops */
+	msg_format(_("未知の発動・フラグ '%s'。", "Unknown activation flag '%s'."), what);
+
+	/* Error */
+	return (0);
+}
+
+
+/*!
+ * @brief ベースアイテム(k_info)のパース関数 /
  * Initialize the "k_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_k_info(char *buf, header *head)
 {
@@ -1915,8 +2041,8 @@ errr parse_k_info(char *buf, header *head)
 
 
 #ifdef JP
-	/* �Ѹ�̾���ɤ�롼������ɲ� */
-	/* 'E' ����Ϥޤ�ԤϱѸ�̾�Ȥ��Ƥ��� */
+	/* 英語名を読むルーチンを追加 */
+	/* 'E' から始まる行は英語名としている */
 	else if (buf[0] == 'E')
 	{
 		/* nothing to do */
@@ -2070,6 +2196,21 @@ errr parse_k_info(char *buf, header *head)
 		k_ptr->to_a =  ta;
 	}
 
+	/* Hack -- Process 'U' for activation index */
+	else if (buf[0] == 'U')
+	{
+		byte n;
+		n = grab_one_activation_flag(buf + 2);
+		if (n > 0)
+		{
+			k_ptr->act_idx = n;
+		}
+		else
+		{
+			return (5);
+		}
+	}
+
 	/* Hack -- Process 'F' for flags */
 	else if (buf[0] == 'F')
 	{
@@ -2103,9 +2244,12 @@ errr parse_k_info(char *buf, header *head)
 	return (0);
 }
 
-
-/*
- * Grab one flag in an artifact_type from a textual string
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(アーティファクト用) /
+ * Grab one activation index flag
+ * @param a_ptr 保管先のアーティファクト構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーがあった場合1、エラーがない場合0を返す
  */
 static errr grab_one_artifact_flag(artifact_type *a_ptr, cptr what)
 {
@@ -2125,22 +2269,19 @@ static errr grab_one_artifact_flag(artifact_type *a_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�Τ�����Υ����ƥࡦ�ե饰 '%s'��", what);
-#else
-	msg_format("Unknown artifact flag '%s'.", what);
-#endif
-
+	msg_format(_("未知の伝説のアイテム・フラグ '%s'。", "Unknown artifact flag '%s'."), what);
 
 	/* Error */
 	return (1);
 }
 
 
-
-
-/*
+/*!
+ * @brief 固定アーティファクト情報(a_info)のパース関数 /
  * Initialize the "a_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_a_info(char *buf, header *head)
 {
@@ -2198,8 +2339,8 @@ errr parse_a_info(char *buf, header *head)
 
 
 #ifdef JP
-	/* �Ѹ�̾���ɤ�롼������ɲ� */
-	/* 'E' ����Ϥޤ�ԤϱѸ�̾�Ȥ��Ƥ��� */
+	/* 英語名を読むルーチンを追加 */
+	/* 'E' から始まる行は英語名としている */
 	else if (buf[0] == 'E')
 	{
 		/* nothing to do */
@@ -2284,6 +2425,21 @@ errr parse_a_info(char *buf, header *head)
 		a_ptr->to_a =  ta;
 	}
 
+	/* Hack -- Process 'U' for activation index */
+	else if (buf[0] == 'U')
+	{
+		byte n;
+		n = grab_one_activation_flag(buf + 2);
+		if (n > 0)
+		{
+			a_ptr->act_idx = n;
+		}
+		else
+		{
+			return (5);
+		}
+	}
+
 	/* Hack -- Process 'F' for flags */
 	else if (buf[0] == 'F')
 	{
@@ -2318,8 +2474,12 @@ errr parse_a_info(char *buf, header *head)
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(アーティファクト用) /
  * Grab one flag in a ego-item_type from a textual string
+ * @param e_ptr 保管先のエゴ構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーがあった場合1、エラーがない場合0を返す
  */
 static bool grab_one_ego_item_flag(ego_item_type *e_ptr, cptr what)
 {
@@ -2339,22 +2499,19 @@ static bool grab_one_ego_item_flag(ego_item_type *e_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�Τ�̾�Τ��륢���ƥࡦ�ե饰 '%s'��", what);
-#else
-	msg_format("Unknown ego-item flag '%s'.", what);
-#endif
-
+	msg_format(_("未知の名のあるアイテム・フラグ '%s'。", "Unknown ego-item flag '%s'."), what);
 
 	/* Error */
 	return (1);
 }
 
 
-
-
-/*
+/*!
+ * @brief アイテムエゴ情報(e_info)のパース関数 /
  * Initialize the "e_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_e_info(char *buf, header *head)
 {
@@ -2413,8 +2570,8 @@ errr parse_e_info(char *buf, header *head)
 
 
 #ifdef JP
-	/* �Ѹ�̾���ɤ�롼������ɲ� */
-	/* 'E' ����Ϥޤ�ԤϱѸ�̾ */
+	/* 英語名を読むルーチンを追加 */
+	/* 'E' から始まる行は英語名 */
 	else if (buf[0] == 'E')
 	{
 		/* nothing to do */
@@ -2489,6 +2646,21 @@ errr parse_e_info(char *buf, header *head)
 		e_ptr->max_pval = pv;
 	}
 
+	/* Hack -- Process 'U' for activation index */
+	else if (buf[0] == 'U')
+	{
+		byte n;
+		n = grab_one_activation_flag(buf + 2);
+		if (n > 0)
+		{
+			e_ptr->act_idx = n;
+		}
+		else
+		{
+			return (5);
+		}
+	}
+
 	/* Hack -- Process 'F' for flags */
 	else if (buf[0] == 'F')
 	{
@@ -2521,8 +2693,12 @@ errr parse_e_info(char *buf, header *head)
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(モンスター用1) /
  * Grab one (basic) flag in a monster_race from a textual string
+ * @param r_ptr 保管先のモンスター種族構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_basic_flag(monster_race *r_ptr, cptr what)
 {
@@ -2548,20 +2724,19 @@ static errr grab_one_basic_flag(monster_race *r_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�ΤΥ�󥹥������ե饰 '%s'��", what);
-#else
-	msg_format("Unknown monster flag '%s'.", what);
-#endif
-
+	msg_format(_("未知のモンスター・フラグ '%s'。", "Unknown monster flag '%s'."), what);
 
 	/* Failure */
 	return (1);
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(モンスター用2) /
  * Grab one (spell) flag in a monster_race from a textual string
+ * @param r_ptr 保管先のモンスター種族構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_spell_flag(monster_race *r_ptr, cptr what)
 {
@@ -2575,22 +2750,19 @@ static errr grab_one_spell_flag(monster_race *r_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�ΤΥ�󥹥������ե饰 '%s'��", what);
-#else
-	msg_format("Unknown monster flag '%s'.", what);
-#endif
-
+	msg_format(_("未知のモンスター・フラグ '%s'。", "Unknown monster flag '%s'."), what);
 
 	/* Failure */
 	return (1);
 }
 
 
-
-
-/*
+/*!
+ * @brief モンスター種族情報(r_info)のパース関数 /
  * Initialize the "r_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_r_info(char *buf, header *head)
 {
@@ -2642,8 +2814,8 @@ errr parse_r_info(char *buf, header *head)
 
 
 #ifdef JP
-	/* �Ѹ�̾���ɤ�롼������ɲ� */
-	/* 'E' ����Ϥޤ�ԤϱѸ�̾ */
+	/* 英語名を読むルーチンを追加 */
+	/* 'E' から始まる行は英語名 */
 	else if (buf[0] == 'E')
 	{
 		/* Acquire the Text */
@@ -2744,6 +2916,23 @@ errr parse_r_info(char *buf, header *head)
 		r_ptr->mexp = exp;
 		r_ptr->next_exp = nextexp;
 		r_ptr->next_r_idx = nextmon;
+	}
+
+	/* Process 'R' for "Reinforcement" (up to six lines) */
+	else if (buf[0] == 'R')
+	{
+		int id, ds, dd;
+		/* Find the next empty blow slot (if any) */
+		for (i = 0; i < 6; i++) if (r_ptr->reinforce_id[i] == 0) break;
+
+		/* Oops, no more slots */
+		if (i == 6) return (1);
+
+		/* Scan for the values */
+		if (3 != sscanf(buf+2, "%d:%dd%d", &id, &dd, &ds)) return (1);
+		r_ptr->reinforce_id[i] = id;
+		r_ptr->reinforce_dd[i] = dd;
+		r_ptr->reinforce_ds[i] = ds;
 	}
 
 	/* Process 'B' for "Blows" (up to four lines) */
@@ -2874,8 +3063,12 @@ errr parse_r_info(char *buf, header *head)
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(ダンジョン用) /
  * Grab one flag for a dungeon type from a textual string
+ * @param d_ptr 保管先のダンジョン構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_dungeon_flag(dungeon_info_type *d_ptr, cptr what)
 {
@@ -2883,18 +3076,18 @@ static errr grab_one_dungeon_flag(dungeon_info_type *d_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�ΤΥ��󥸥�󡦥ե饰 '%s'��", what);
-#else
-	msg_format("Unknown dungeon type flag '%s'.", what);
-#endif
+	msg_format(_("未知のダンジョン・フラグ '%s'。", "Unknown dungeon type flag '%s'."), what);
 
 	/* Failure */
 	return (1);
 }
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(モンスターのダンジョン出現条件用1) /
  * Grab one (basic) flag in a monster_race from a textual string
+ * @param d_ptr 保管先のダンジョン構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_basic_monster_flag(dungeon_info_type *d_ptr, cptr what)
 {
@@ -2920,18 +3113,18 @@ static errr grab_one_basic_monster_flag(dungeon_info_type *d_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�ΤΥ�󥹥������ե饰 '%s'��", what);
-#else
-	msg_format("Unknown monster flag '%s'.", what);
-#endif
+	msg_format(_("未知のモンスター・フラグ '%s'。", "Unknown monster flag '%s'."), what);
 	/* Failure */
 	return (1);
 }
 
 
-/*
+/*!
+ * @brief テキストトークンを走査してフラグを一つ得る(モンスターのダンジョン出現条件用2) /
  * Grab one (spell) flag in a monster_race from a textual string
+ * @param d_ptr 保管先のダンジョン構造体参照ポインタ
+ * @param what 参照元の文字列ポインタ
+ * @return エラーコード
  */
 static errr grab_one_spell_monster_flag(dungeon_info_type *d_ptr, cptr what)
 {
@@ -2945,18 +3138,18 @@ static errr grab_one_spell_monster_flag(dungeon_info_type *d_ptr, cptr what)
 		return 0;
 
 	/* Oops */
-#ifdef JP
-	msg_format("̤�ΤΥ�󥹥������ե饰 '%s'��", what);
-#else
-	msg_format("Unknown monster flag '%s'.", what);
-#endif
+	msg_format(_("未知のモンスター・フラグ '%s'。", "Unknown monster flag '%s'."), what);
 
 	/* Failure */
 	return (1);
 }
 
-/*
+/*!
+ * @brief ダンジョン情報(d_info)のパース関数 /
  * Initialize the "d_info" array, by parsing an ascii "template" file
+ * @param buf テキスト列
+ * @param head ヘッダ構造体
+ * @return エラーコード
  */
 errr parse_d_info(char *buf, header *head)
 {
@@ -3321,8 +3514,11 @@ struct dungeon_grid
 static dungeon_grid letter[255];
 
 
-/*
+/*!
+ * @brief 地形情報の「F:」情報をパースする
  * Process "F:<letter>:<terrain>:<cave_info>:<monster>:<object>:<ego>:<artifact>:<trap>:<special>" -- info for dungeon grid
+ * @param buf 解析文字列
+ * @return エラーコード
  */
 static errr parse_line_feature(char *buf)
 {
@@ -3374,6 +3570,13 @@ static errr parse_line_feature(char *buf)
 					letter[index].random |= RANDOM_ARTIFACT;
 					if (zz[6][1]) letter[index].artifact = atoi(zz[6] + 1);
 				}
+				else if (zz[6][0] == '!')
+				{
+					if (p_ptr->inside_quest)
+					{
+						letter[index].artifact = quest[p_ptr->inside_quest].k_idx;
+					}
+				}
 				else
 				{
 					letter[index].artifact = atoi(zz[6]);
@@ -3397,6 +3600,21 @@ static errr parse_line_feature(char *buf)
 				{
 					letter[index].random |= RANDOM_OBJECT;
 					if (zz[4][1]) letter[index].object = atoi(zz[4] + 1);
+				}
+				else if (zz[4][0] == '!')
+				{
+					if (p_ptr->inside_quest)
+					{
+						int a_idx = quest[p_ptr->inside_quest].k_idx;
+						if (a_idx)
+						{
+							artifact_type *a_ptr = &a_info[a_idx];
+							if (!(a_ptr->gen_flags & TRG_INSTA_ART))
+							{
+								letter[index].object = lookup_kind(a_ptr->tval, a_ptr->sval);
+							}
+						}
+					}
 				}
 				else
 				{
@@ -3445,8 +3663,11 @@ static errr parse_line_feature(char *buf)
 }
 
 
-/*
+/*!
+ * @brief 地形情報の「B:」情報をパースする
  * Process "B:<Index>:<Command>:..." -- Building definition
+ * @param buf 解析文字列
+ * @return エラーコード
  */
 static errr parse_line_building(char *buf)
 {
@@ -3598,8 +3819,13 @@ static errr parse_line_building(char *buf)
 }
 
 
-/*
+/*!
+ * @brief フロアの所定のマスにオブジェクトを配置する
  * Place the object j_ptr to a grid
+ * @param j_ptr オブジェクト構造体の参照ポインタ
+ * @param y 配置先Y座標
+ * @param x 配置先X座標
+ * @return エラーコード
  */
 static void drop_here(object_type *j_ptr, int y, int x)
 {
@@ -3631,8 +3857,17 @@ static void drop_here(object_type *j_ptr, int y, int x)
 }
 
 
-/*
+/*!
+ * @brief クエスト用固定ダンジョンをフロアに生成する
  * Parse a sub-file of the "extra info"
+ * @param buf 文字列
+ * @param ymin 詳細不明
+ * @param xmin 詳細不明
+ * @param ymax 詳細不明
+ * @param xmax 詳細不明
+ * @param y 詳細不明
+ * @param x 詳細不明
+ * @return エラーコード
  */
 static errr process_dungeon_file_aux(char *buf, int ymin, int xmin, int ymax, int xmax, int *y, int *x)
 {
@@ -3645,7 +3880,7 @@ static errr process_dungeon_file_aux(char *buf, int ymin, int xmin, int ymax, in
 	if (!buf[0]) return (0);
 
 	/* Skip "blank" lines */
-	if (isspace(buf[0])) return (0);
+	if (iswspace(buf[0])) return (0);
 
 	/* Skip comments */
 	if (buf[0] == '#') return (0);
@@ -3903,10 +4138,42 @@ static errr process_dungeon_file_aux(char *buf, int ymin, int xmin, int ymax, in
 			return (0);
 		}
 
+		else if (zz[1][0] == 'R')
+		{
+			if (init_flags & INIT_ASSIGN)
+			{
+				int idx, count = 0;
+				int reward_idx = 0;
+
+				for (idx = 2; idx < num; idx++)
+				{
+					int a_idx = atoi(zz[idx]);
+					if (a_idx < 1) continue;
+					if (a_info[a_idx].cur_num > 0) continue;
+					count++;
+					if (one_in_(count)) reward_idx = a_idx;
+				}
+
+				if (reward_idx)
+				{
+					/* Set quest's rewarding artifact */
+					q_ptr->k_idx = reward_idx;
+					a_info[reward_idx].gen_flags |= TRG_QUESTITEM;
+				}
+				else
+				{
+					/* Change a quest type to KILL_ALL when all artifact of reward list are got */
+					q_ptr->type = QUEST_TYPE_KILL_ALL;
+				}
+			}
+
+			return (0);
+		}
+
 		/* Process "Q:<q_index>:N:<name>" -- quest name */
 		else if (zz[1][0] == 'N')
 		{
-			if (init_flags & (INIT_ASSIGN | INIT_SHOW_TEXT))
+			if (init_flags & (INIT_ASSIGN | INIT_SHOW_TEXT | INIT_NAME_ONLY))
 			{
 				strcpy(q_ptr->name, zz[2]);
 			}
@@ -4083,8 +4350,12 @@ static char tmp[8];
 static cptr variant = "ZANGBAND";
 
 
-/*
+/*!
+ * @brief クエスト用固定ダンジョン生成時の分岐処理
  * Helper function for "process_dungeon_file()"
+ * @param sp
+ * @param fp
+ * @return エラーコード
  */
 static cptr process_dungeon_file_expr(char **sp, char *fp)
 {
@@ -4102,7 +4373,7 @@ static cptr process_dungeon_file_expr(char **sp, char *fp)
 	s = (*sp);
 
 	/* Skip spaces */
-	while (isspace(*s)) s++;
+	while (iswspace(*s)) s++;
 
 	/* Save start */
 	b = s;
@@ -4269,41 +4540,25 @@ static cptr process_dungeon_file_expr(char **sp, char *fp)
 			/* Race */
 			else if (streq(b+1, "RACE"))
 			{
-#ifdef JP
-				v = rp_ptr->E_title;
-#else
-				v = rp_ptr->title;
-#endif
+				v = _(rp_ptr->E_title, rp_ptr->title);
 			}
 
 			/* Class */
 			else if (streq(b+1, "CLASS"))
 			{
-#ifdef JP
-				v = cp_ptr->E_title;
-#else
-				v = cp_ptr->title;
-#endif
+				v = _(cp_ptr->E_title, cp_ptr->title);
 			}
 
 			/* First realm */
 			else if (streq(b+1, "REALM1"))
 			{
-#ifdef JP
-				v = E_realm_names[p_ptr->realm1];
-#else
-				v = realm_names[p_ptr->realm1];
-#endif
+				v = _(E_realm_names[p_ptr->realm1], realm_names[p_ptr->realm1]);
 			}
 
 			/* Second realm */
 			else if (streq(b+1, "REALM2"))
 			{
-#ifdef JP
-				v = E_realm_names[p_ptr->realm2];
-#else
-				v = realm_names[p_ptr->realm2];
-#endif
+				v = _(E_realm_names[p_ptr->realm2], realm_names[p_ptr->realm2]);
 			}
 
 			/* Player name */
@@ -4352,6 +4607,14 @@ static cptr process_dungeon_file_expr(char **sp, char *fp)
 			else if (streq(b+1, "LEAVING_QUEST"))
 			{
 				sprintf(tmp, "%d", leaving_quest);
+				v = tmp;
+			}
+
+			/* Quest type */
+			else if (prefix(b+1, "QUEST_TYPE"))
+			{
+				/* "QUEST_TYPE" uses a special parameter to determine the type of the quest */
+				sprintf(tmp, "%d", quest[atoi(b+11)].type);
 				v = tmp;
 			}
 
@@ -4408,6 +4671,16 @@ static cptr process_dungeon_file_expr(char **sp, char *fp)
 }
 
 
+/*!
+ * @brief クエスト用固定ダンジョン生成時のメインルーチン
+ * Helper function for "process_dungeon_file()"
+ * @param name ファイル名
+ * @param ymin 詳細不明
+ * @param xmin 詳細不明
+ * @param ymax 詳細不明
+ * @param xmax 詳細不明
+ * @return エラーコード
+ */
 errr process_dungeon_file(cptr name, int ymin, int xmin, int ymax, int xmax)
 {
 	FILE *fp;
@@ -4444,7 +4717,7 @@ errr process_dungeon_file(cptr name, int ymin, int xmin, int ymax, int xmax)
 		if (!buf[0]) continue;
 
 		/* Skip "blank" lines */
-		if (isspace(buf[0])) continue;
+		if (iswspace(buf[0])) continue;
 
 		/* Skip comments */
 		if (buf[0] == '#') continue;
@@ -4490,11 +4763,7 @@ errr process_dungeon_file(cptr name, int ymin, int xmin, int ymax, int xmax)
 
 		/* Oops */
 		msg_format("Error %d (%s) at line %d of '%s'.", err, oops, num, name);
-#ifdef JP
-msg_format("'%s'������档", buf);
-#else
-		msg_format("Parsing '%s'.", buf);
-#endif
+		msg_format(_("'%s'を解析中。", "Parsing '%s'."), buf);
 
 		msg_print(NULL);
 	}
@@ -4707,7 +4976,7 @@ void write_r_info_txt(void)
 			/* Start the line */
 			sprintf(buf, "D:");
 
-			for (bc = 0, t = buf + 2; ((bc < 60) || !isspace(desc[j])) && (j < dlen); j++, bc++, t++)
+			for (bc = 0, t = buf + 2; ((bc < 60) || !iswspace(desc[j])) && (j < dlen); j++, bc++, t++)
 			{
 				*t = desc[j];
 			}
