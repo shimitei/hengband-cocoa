@@ -1,4 +1,4 @@
-ï»¿/* File: load.c */
+/* File: load.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, and others
@@ -249,10 +249,10 @@ static void rd_string(char *str, int max)
 
 	case 0:
 	{
-		/* ä¸æ˜ã®æ¼¢å­—ã‚³ãƒ¼ãƒ‰ã‹ã‚‰ã‚·ã‚¹ãƒ†ãƒ ã®æ¼¢å­—ã‚³ãƒ¼ãƒ‰ã«å¤‰æ› */
+		/* ÉÔÌÀ¤Î´Á»ú¥³¡¼¥É¤«¤é¥·¥¹¥Æ¥à¤Î´Á»ú¥³¡¼¥É¤ËÊÑ´¹ */
 		byte code = codeconv(str);
 
-		/* æ¼¢å­—ã‚³ãƒ¼ãƒ‰ãŒåˆ¤æ˜ã—ãŸã‚‰ã€ãã‚Œã‚’è¨˜éŒ² */
+		/* ´Á»ú¥³¡¼¥É¤¬È½ÌÀ¤·¤¿¤é¡¢¤½¤ì¤òµ­Ï¿ */
 		if (code) kanji_code = code;
 
 		break;
@@ -2276,7 +2276,7 @@ static errr rd_inventory(void)
 		else if (inven_cnt == INVEN_PACK)
 		{
 			/* Oops */
-			note(_("æŒã¡ç‰©ã®ä¸­ã®ã‚¢ã‚¤ãƒ†ãƒ ãŒå¤šã™ãã‚‹ï¼", "Too many items in the inventory!"));
+			note(_("»ı¤ÁÊª¤ÎÃæ¤Î¥¢¥¤¥Æ¥à¤¬Â¿¤¹¤®¤ë¡ª", "Too many items in the inventory!"));
 
 			/* Fail */
 			return (54);
@@ -2394,7 +2394,7 @@ static errr rd_dungeon_old(void)
 	rd_s16b(&tmp16s); /* max_panel_cols */
 
 #if 0
-	if (!py || !px) {py = 10;px = 10;}/* ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ç”Ÿæˆã«å¤±æ•—ã—ã¦ã‚»ã‚°ãƒ¡ãƒ³ãƒ†ã£ãŸã¨ãã®å¾©æ—§ç”¨ */
+	if (!py || !px) {py = 10;px = 10;}/* ¥À¥ó¥¸¥ç¥óÀ¸À®¤Ë¼ºÇÔ¤·¤Æ¥»¥°¥á¥ó¥Æ¤Ã¤¿¤È¤­¤ÎÉüµìÍÑ */
 #endif
 
 	/* Maximal size */
@@ -2645,7 +2645,7 @@ static errr rd_dungeon_old(void)
 	/* Verify maximum */
 	if (limit > max_o_idx)
 	{
-		note(format(_("ã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—ãŒå¤§ãã™ãã‚‹(%d)ï¼", "Too many (%d) object entries!"), limit));
+		note(format(_("¥¢¥¤¥Æ¥à¤ÎÇÛÎó¤¬Âç¤­¤¹¤®¤ë(%d)¡ª", "Too many (%d) object entries!"), limit));
 		return (151);
 	}
 
@@ -2663,7 +2663,7 @@ static errr rd_dungeon_old(void)
 		/* Oops */
 		if (i != o_idx)
 		{
-			note(format(_("ã‚¢ã‚¤ãƒ†ãƒ é…ç½®ã‚¨ãƒ©ãƒ¼ (%d <> %d)", "Object allocation error (%d <> %d)"), i, o_idx));
+			note(format(_("¥¢¥¤¥Æ¥àÇÛÃÖ¥¨¥é¡¼ (%d <> %d)", "Object allocation error (%d <> %d)"), i, o_idx));
 			return (152);
 		}
 
@@ -2715,7 +2715,7 @@ static errr rd_dungeon_old(void)
 	/* Hack -- verify */
 	if (limit > max_m_idx)
 	{
-		note(format(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®é…åˆ—ãŒå¤§ãã™ãã‚‹(%d)ï¼", "Too many (%d) monster entries!"), limit));
+		note(format(_("¥â¥ó¥¹¥¿¡¼¤ÎÇÛÎó¤¬Âç¤­¤¹¤®¤ë(%d)¡ª", "Too many (%d) monster entries!"), limit));
 		return (161);
 	}
 
@@ -2731,7 +2731,7 @@ static errr rd_dungeon_old(void)
 		/* Oops */
 		if (i != m_idx)
 		{
-			note(format(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é…ç½®ã‚¨ãƒ©ãƒ¼ (%d <> %d)", "Monster allocation error (%d <> %d)"), i, m_idx));
+			note(format(_("¥â¥ó¥¹¥¿¡¼ÇÛÃÖ¥¨¥é¡¼ (%d <> %d)", "Monster allocation error (%d <> %d)"), i, m_idx));
 			return (162);
 		}
 
@@ -3165,27 +3165,27 @@ static errr rd_dungeon(void)
 	switch (err)
 	{
 	case 151:
-		note(_("ã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—ãŒå¤§ãã™ãã‚‹ï¼", "Too many object entries!"));
+		note(_("¥¢¥¤¥Æ¥à¤ÎÇÛÎó¤¬Âç¤­¤¹¤®¤ë¡ª", "Too many object entries!"));
 		break;
 
 	case 152:
-		note(_("ã‚¢ã‚¤ãƒ†ãƒ é…ç½®ã‚¨ãƒ©ãƒ¼", "Object allocation error"));
+		note(_("¥¢¥¤¥Æ¥àÇÛÃÖ¥¨¥é¡¼", "Object allocation error"));
 		break;
 
 	case 161:
-		note(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®é…åˆ—ãŒå¤§ãã™ãã‚‹ï¼", "Too many monster entries!"));
+		note(_("¥â¥ó¥¹¥¿¡¼¤ÎÇÛÎó¤¬Âç¤­¤¹¤®¤ë¡ª", "Too many monster entries!"));
 		break;
 
 	case 162:
-		note(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼é…ç½®ã‚¨ãƒ©ãƒ¼", "Monster allocation error"));
+		note(_("¥â¥ó¥¹¥¿¡¼ÇÛÃÖ¥¨¥é¡¼", "Monster allocation error"));
 		break;
 
 	case 171:
-		note(_("ä¿å­˜ã•ã‚ŒãŸãƒ•ãƒ­ã‚¢ã®ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ãŒå£Šã‚Œã¦ã„ã¾ã™ï¼", "Dungeon data of saved floors are broken!"));
+		note(_("ÊİÂ¸¤µ¤ì¤¿¥Õ¥í¥¢¤Î¥À¥ó¥¸¥ç¥ó¥Ç¡¼¥¿¤¬²õ¤ì¤Æ¤¤¤Ş¤¹¡ª", "Dungeon data of saved floors are broken!"));
 		break;
 
 	case 182:
-		note(_("ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã§ãã¾ã›ã‚“ï¼", "Failed to make temporal files!"));
+		note(_("¥Æ¥ó¥İ¥é¥ê¡¦¥Õ¥¡¥¤¥ë¤òºîÀ®¤Ç¤­¤Ş¤»¤ó¡ª", "Failed to make temporal files!"));
 		break;
 
 	case 183:
@@ -3224,7 +3224,7 @@ static errr rd_savefile_new_aux(void)
 
 	/* Mention the savefile version */
 	note(format(
-		     _("ãƒãƒ¼ã‚¸ãƒ§ãƒ³ %d.%d.%d ã®ã‚»ãƒ¼ãƒ–ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ä¸­...", "Loading a %d.%d.%d savefile..."),
+		     _("¥Ğ¡¼¥¸¥ç¥ó %d.%d.%d ¤Î¥»¡¼¥Ö¡¦¥Õ¥¡¥¤¥ë¤ò¥í¡¼¥ÉÃæ...", "Loading a %d.%d.%d savefile..."),
 		     (z_major > 9) ? z_major - 10 : z_major, z_minor, z_patch));
 
 
@@ -3273,15 +3273,15 @@ static errr rd_savefile_new_aux(void)
 
 	/* Read RNG state */
 	rd_randomizer();
-	if (arg_fiddle) note(_("ä¹±æ•°æƒ…å ±ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Randomizer Info"));
+	if (arg_fiddle) note(_("Íğ¿ô¾ğÊó¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Randomizer Info"));
 
 	/* Then the options */
 	rd_options();
-	if (arg_fiddle) note(_("ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Option Flags"));
+	if (arg_fiddle) note(_("¥ª¥×¥·¥ç¥ó¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Option Flags"));
 
 	/* Then the "messages" */
 	rd_messages();
-	if (arg_fiddle) note(_("ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Messages"));
+	if (arg_fiddle) note(_("¥á¥Ã¥»¡¼¥¸¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Messages"));
 
 	for (i = 0; i < max_r_idx; i++)
 	{
@@ -3303,7 +3303,7 @@ static errr rd_savefile_new_aux(void)
 	/* Incompatible save files */
 	if (tmp16u > max_r_idx)
 	{
-		note(format(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ç¨®æ—ãŒå¤šã™ãã‚‹(%u)ï¼", "Too many (%u) monster races!"), tmp16u));
+		note(format(_("¥â¥ó¥¹¥¿¡¼¤Î¼ïÂ²¤¬Â¿¤¹¤®¤ë(%u)¡ª", "Too many (%u) monster races!"), tmp16u));
 		return (21);
 	}
 
@@ -3314,7 +3314,7 @@ static errr rd_savefile_new_aux(void)
 		rd_lore(i);
 	}
 
-	if (arg_fiddle) note(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ€ã„å‡ºã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Monster Memory"));
+	if (arg_fiddle) note(_("¥â¥ó¥¹¥¿¡¼¤Î»×¤¤½Ğ¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Monster Memory"));
 
 	/* Object Memory */
 	rd_u16b(&tmp16u);
@@ -3322,7 +3322,7 @@ static errr rd_savefile_new_aux(void)
 	/* Incompatible save files */
 	if (tmp16u > max_k_idx)
 	{
-		note(format(_("ã‚¢ã‚¤ãƒ†ãƒ ã®ç¨®é¡ãŒå¤šã™ãã‚‹(%u)ï¼", "Too many (%u) object kinds!"), tmp16u));
+		note(format(_("¥¢¥¤¥Æ¥à¤Î¼ïÎà¤¬Â¿¤¹¤®¤ë(%u)¡ª", "Too many (%u) object kinds!"), tmp16u));
 		return (22);
 	}
 
@@ -3337,7 +3337,7 @@ static errr rd_savefile_new_aux(void)
 		k_ptr->aware = (tmp8u & 0x01) ? TRUE: FALSE;
 		k_ptr->tried = (tmp8u & 0x02) ? TRUE: FALSE;
 	}
-	if (arg_fiddle) note(_("ã‚¢ã‚¤ãƒ†ãƒ ã®è¨˜éŒ²ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Object Memory"));
+	if (arg_fiddle) note(_("¥¢¥¤¥Æ¥à¤Îµ­Ï¿¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Object Memory"));
 
 	/* 2.1.3 or newer version */
 	{
@@ -3352,7 +3352,7 @@ static errr rd_savefile_new_aux(void)
 		/* Incompatible save files */
 		if (max_towns_load > max_towns)
 		{
-			note(format(_("ç”ºãŒå¤šã™ãã‚‹(%u)ï¼", "Too many (%u) towns!"), max_towns_load));
+			note(format(_("Ä®¤¬Â¿¤¹¤®¤ë(%u)¡ª", "Too many (%u) towns!"), max_towns_load));
 			return (23);
 		}
 
@@ -3371,7 +3371,7 @@ static errr rd_savefile_new_aux(void)
 		/* Incompatible save files */
 		if (max_quests_load > max_quests)
 		{
-			note(format(_("ã‚¯ã‚¨ã‚¹ãƒˆãŒå¤šã™ãã‚‹(%u)ï¼", "Too many (%u) quests!"), max_quests_load));
+			note(format(_("¥¯¥¨¥¹¥È¤¬Â¿¤¹¤®¤ë(%u)¡ª", "Too many (%u) quests!"), max_quests_load));
 			return (23);
 		}
 
@@ -3495,7 +3495,7 @@ static errr rd_savefile_new_aux(void)
 		/* Incompatible save files */
 		if ((wild_x_size > max_wild_x) || (wild_y_size > max_wild_y))
 		{
-			note(format(_("è’é‡ãŒå¤§ãã™ãã‚‹(%u/%u)ï¼", "Wilderness is too big (%u/%u)!"), wild_x_size, wild_y_size));
+			note(format(_("¹ÓÌî¤¬Âç¤­¤¹¤®¤ë(%u/%u)¡ª", "Wilderness is too big (%u/%u)!"), wild_x_size, wild_y_size));
 			return (23);
 		}
 
@@ -3509,7 +3509,7 @@ static errr rd_savefile_new_aux(void)
 		}
 	}
 
-	if (arg_fiddle) note(_("ã‚¯ã‚¨ã‚¹ãƒˆæƒ…å ±ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Quests"));
+	if (arg_fiddle) note(_("¥¯¥¨¥¹¥È¾ğÊó¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Quests"));
 
 	/* Load the Artifacts */
 	rd_u16b(&tmp16u);
@@ -3517,7 +3517,7 @@ static errr rd_savefile_new_aux(void)
 	/* Incompatible save files */
 	if (tmp16u > max_a_idx)
 	{
-		note(format(_("ä¼èª¬ã®ã‚¢ã‚¤ãƒ†ãƒ ãŒå¤šã™ãã‚‹(%u)ï¼", "Too many (%u) artifacts!"), tmp16u));
+		note(format(_("ÅÁÀâ¤Î¥¢¥¤¥Æ¥à¤¬Â¿¤¹¤®¤ë(%u)¡ª", "Too many (%u) artifacts!"), tmp16u));
 		return (24);
 	}
 
@@ -3542,13 +3542,13 @@ static errr rd_savefile_new_aux(void)
 			rd_s16b(&a_ptr->floor_id);
 		}
 	}
-	if (arg_fiddle) note(_("ä¼èª¬ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded Artifacts"));
+	if (arg_fiddle) note(_("ÅÁÀâ¤Î¥¢¥¤¥Æ¥à¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded Artifacts"));
 
 	/* Read the extra stuff */
 	rd_extra();
 	if (p_ptr->energy_need < -999) world_player = TRUE;
 
-	if (arg_fiddle) note(_("ç‰¹åˆ¥æƒ…å ±ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸ", "Loaded extra information"));
+	if (arg_fiddle) note(_("ÆÃÊÌ¾ğÊó¤ò¥í¡¼¥É¤·¤Ş¤·¤¿", "Loaded extra information"));
 
 
 	/* Read the player_hp array */
@@ -3557,7 +3557,7 @@ static errr rd_savefile_new_aux(void)
 	/* Incompatible save files */
 	if (tmp16u > PY_MAX_LEVEL)
 	{
-		note(format(_("ãƒ’ãƒƒãƒˆãƒã‚¤ãƒ³ãƒˆé…åˆ—ãŒå¤§ãã™ãã‚‹(%u)ï¼", "Too many (%u) hitpoint entries!"), tmp16u));
+		note(format(_("¥Ò¥Ã¥È¥İ¥¤¥ó¥ÈÇÛÎó¤¬Âç¤­¤¹¤®¤ë(%u)¡ª", "Too many (%u) hitpoint entries!"), tmp16u));
 		return (25);
 	}
 
@@ -3640,7 +3640,7 @@ static errr rd_savefile_new_aux(void)
 	/* Read the inventory */
 	if (rd_inventory())
 	{
-		note(_("æŒã¡ç‰©æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“", "Unable to read inventory"));
+		note(_("»ı¤ÁÊª¾ğÊó¤òÆÉ¤ß¹ş¤à¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó", "Unable to read inventory"));
 		return (21);
 	}
 
@@ -3719,11 +3719,11 @@ static errr rd_savefile_new_aux(void)
 	if (!p_ptr->is_dead)
 	{
 		/* Dead players have no dungeon */
-		note(_("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³å¾©å…ƒä¸­...", "Restoring Dungeon..."));
+		note(_("¥À¥ó¥¸¥ç¥óÉü¸µÃæ...", "Restoring Dungeon..."));
 
 		if (rd_dungeon())
 		{
-			note(_("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿å¤±æ•—", "Error reading dungeon data"));
+			note(_("¥À¥ó¥¸¥ç¥ó¥Ç¡¼¥¿ÆÉ¤ß¹ş¤ß¼ºÇÔ", "Error reading dungeon data"));
 			return (34);
 		}
 
@@ -3761,7 +3761,7 @@ static errr rd_savefile_new_aux(void)
 	/* Verify */
 	if (o_v_check != n_v_check)
 	{
-		note(_("ãƒã‚§ãƒƒã‚¯ã‚µãƒ ãŒãŠã‹ã—ã„", "Invalid checksum"));
+		note(_("¥Á¥§¥Ã¥¯¥µ¥à¤¬¤ª¤«¤·¤¤", "Invalid checksum"));
 		return (11);
 	}
 
@@ -3776,7 +3776,7 @@ static errr rd_savefile_new_aux(void)
 	/* Verify */
 	if (o_x_check != n_x_check)
 	{
-		note(_("ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã•ã‚ŒãŸãƒã‚§ãƒƒã‚¯ã‚µãƒ ãŒãŠã‹ã—ã„", "Invalid encoded checksum"));
+		note(_("¥¨¥ó¥³¡¼¥É¤µ¤ì¤¿¥Á¥§¥Ã¥¯¥µ¥à¤¬¤ª¤«¤·¤¤", "Invalid encoded checksum"));
 		return (11);
 	}
 

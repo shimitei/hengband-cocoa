@@ -1,4 +1,4 @@
-ï»¿
+
 /* File: misc.c */
 
 /*
@@ -161,8 +161,8 @@ void prt_time(void)
 	extract_day_hour_min(&day, &hour, &min);
 
 	/* Dump the info itself */
-	if (day < 1000) c_put_str(TERM_WHITE, format(_("%2dæ—¥ç›®", "Day%3d"), day), ROW_DAY, COL_DAY);
-	else c_put_str(TERM_WHITE, _("***æ—¥ç›®", "Day***"), ROW_DAY, COL_DAY);
+	if (day < 1000) c_put_str(TERM_WHITE, format(_("%2dÆüÌÜ", "Day%3d"), day), ROW_DAY, COL_DAY);
+	else c_put_str(TERM_WHITE, _("***ÆüÌÜ", "Day***"), ROW_DAY, COL_DAY);
 
 	c_put_str(TERM_WHITE, format("%2d:%02d", hour, min), ROW_DAY, COL_DAY+7);
 }
@@ -172,13 +172,13 @@ cptr map_name(void)
 {
 	if (p_ptr->inside_quest && is_fixed_quest_idx(p_ptr->inside_quest)
 	    && (quest[p_ptr->inside_quest].flags & QUEST_FLAG_PRESET))
-		return _("ã‚¯ã‚¨ã‚¹ãƒˆ", "Quest");
+		return _("¥¯¥¨¥¹¥È", "Quest");
 	else if (p_ptr->wild_mode)
-		return _("åœ°ä¸Š", "Surface");
+		return _("ÃÏ¾å", "Surface");
 	else if (p_ptr->inside_arena)
-		return _("ã‚¢ãƒªãƒ¼ãƒŠ", "Arena");
+		return _("¥¢¥ê¡¼¥Ê", "Arena");
 	else if (p_ptr->inside_battle)
-		return _("é—˜æŠ€å ´", "Monster Arena");
+		return _("Æ®µ»¾ì", "Monster Arena");
 	else if (!dun_level && p_ptr->town_num)
 		return town[p_ptr->town_num].name;
 	else
@@ -236,7 +236,7 @@ static void prt_stat(int stat)
 	if (p_ptr->stat_max[stat] == p_ptr->stat_max_max[stat])
 	{
 #ifdef JP
-		/* æ—¥æœ¬èªã«ã‹ã¶ã‚‰ãªã„ã‚ˆã†ã«è¡¨ç¤ºä½ç½®ã‚’å¤‰æ›´ */
+		/* ÆüËÜ¸ì¤Ë¤«¤Ö¤é¤Ê¤¤¤è¤¦¤ËÉ½¼¨°ÌÃÖ¤òÊÑ¹¹ */
 		put_str("!", ROW_STAT + stat, 5);
 #else
 		put_str("!", ROW_STAT + stat, 3);
@@ -324,74 +324,74 @@ static struct {
 } bar[]
 #ifdef JP
 = {
-	{TERM_YELLOW, "ã¤", "ã¤ã‚ˆã—"},
-	{TERM_VIOLET, "å¹»", "å¹»è¦š"},
-	{TERM_L_DARK, "ç›²", "ç›²ç›®"},
-	{TERM_RED, "ç—º", "éº»ç—º"},
-	{TERM_VIOLET, "ä¹±", "æ··ä¹±"},
-	{TERM_GREEN, "æ¯’", "æ¯’"},
-	{TERM_BLUE, "æ", "ææ€–"},
-	{TERM_L_BLUE, "æµ®", "æµ®éŠ"},
-	{TERM_SLATE, "å", "åå°„"},
-	{TERM_SLATE, "å£", "å£æŠœã‘"},
-	{TERM_L_DARK, "å¹½", "å¹½ä½“"},
-	{TERM_SLATE, "é‚ª", "é˜²é‚ª"},
-	{TERM_VIOLET, "å¤‰", "å¤‰ã‚ã‚Šèº«"},
-	{TERM_YELLOW, "é­”", "é­”æ³•é§"},
-	{TERM_L_UMBER, "ä¼¸", "ä¼¸ã³"},
-	{TERM_WHITE, "çŸ³", "çŸ³è‚Œ"},
-	{TERM_L_BLUE, "åˆ†", "åˆ†èº«"},
-	{TERM_SLATE, "é˜²", "é­”æ³•é˜²å¾¡"},
-	{TERM_YELLOW, "ç©¶", "ç©¶æ¥µ"},
-	{TERM_YELLOW, "ç„¡", "ç„¡æ•µ"},
-	{TERM_L_GREEN, "é…¸", "é…¸å…ç–«"},
-	{TERM_GREEN, "é…¸", "è€é…¸"},
-	{TERM_L_BLUE, "é›»", "é›»å…ç–«"},
-	{TERM_BLUE, "é›»", "è€é›»"},
-	{TERM_L_RED, "ç«", "ç«å…ç–«"},
-	{TERM_RED, "ç«", "è€ç«"},
-	{TERM_WHITE, "å†·", "å†·å…ç–«"},
-	{TERM_SLATE, "å†·", "è€å†·"},
-	{TERM_GREEN, "æ¯’", "è€æ¯’"},
-	{TERM_L_DARK, "ç„", "è€åœ°ç„"},
-	{TERM_L_BLUE, "æ™‚", "è€æ™‚é–“"},
-	{TERM_L_DARK, "é¡", "é¡ã‚ªãƒ¼ãƒ©"},
-	{TERM_L_RED, "ã‚ª", "ç«ã‚ªãƒ¼ãƒ©"},
-	{TERM_WHITE, "é—˜", "é—˜æ°—"},
-	{TERM_WHITE, "è–", "è–ã‚ªãƒ¼ãƒ©"},
-	{TERM_VIOLET, "ç›®", "ç›®ã«ã¯ç›®"},
-	{TERM_WHITE, "ç¥", "ç¥ç¦"},
-	{TERM_WHITE, "å‹‡", "å‹‡"},
-	{TERM_RED, "ç‹‚", "ç‹‚ä¹±"},
-	{TERM_L_RED, "ç«", "é­”å‰£ç«"},
-	{TERM_WHITE, "å†·", "é­”å‰£å†·"},
-	{TERM_L_BLUE, "é›»", "é­”å‰£é›»"},
-	{TERM_SLATE, "é…¸", "é­”å‰£é…¸"},
-	{TERM_L_GREEN, "æ¯’", "é­”å‰£æ¯’"},
-	{TERM_RED, "ä¹±", "æ··ä¹±æ‰“æ’ƒ"},
-	{TERM_L_BLUE, "è¦–", "é€æ˜è¦–"},
-	{TERM_ORANGE, "ãƒ†", "ãƒ†ãƒ¬ãƒ‘ã‚·"},
-	{TERM_L_BLUE, "å›", "å›å¾©"},
-	{TERM_L_RED, "èµ¤", "èµ¤å¤–"},
-	{TERM_UMBER, "éš ", "éš å¯†"},
-	{TERM_YELLOW, "éš ", "è¶…éš å¯†"},
-	{TERM_WHITE, "å¸°", "å¸°é‚„"},
-	{TERM_WHITE, "ç¾", "ç¾å®Ÿå¤‰å®¹"},
+	{TERM_YELLOW, "¤Ä", "¤Ä¤è¤·"},
+	{TERM_VIOLET, "¸¸", "¸¸³Ğ"},
+	{TERM_L_DARK, "ÌÕ", "ÌÕÌÜ"},
+	{TERM_RED, "áã", "Ëãáã"},
+	{TERM_VIOLET, "Íğ", "º®Íğ"},
+	{TERM_GREEN, "ÆÇ", "ÆÇ"},
+	{TERM_BLUE, "¶²", "¶²Éİ"},
+	{TERM_L_BLUE, "Éâ", "ÉâÍ·"},
+	{TERM_SLATE, "È¿", "È¿¼Í"},
+	{TERM_SLATE, "ÊÉ", "ÊÉÈ´¤±"},
+	{TERM_L_DARK, "Í©", "Í©ÂÎ"},
+	{TERM_SLATE, "¼Ù", "ËÉ¼Ù"},
+	{TERM_VIOLET, "ÊÑ", "ÊÑ¤ï¤ê¿È"},
+	{TERM_YELLOW, "Ëâ", "ËâË¡³»"},
+	{TERM_L_UMBER, "¿­", "¿­¤Ó"},
+	{TERM_WHITE, "ÀĞ", "ÀĞÈ©"},
+	{TERM_L_BLUE, "Ê¬", "Ê¬¿È"},
+	{TERM_SLATE, "ËÉ", "ËâË¡ËÉ¸æ"},
+	{TERM_YELLOW, "µæ", "µæ¶Ë"},
+	{TERM_YELLOW, "Ìµ", "ÌµÅ¨"},
+	{TERM_L_GREEN, "»À", "»ÀÌÈ±Ö"},
+	{TERM_GREEN, "»À", "ÂÑ»À"},
+	{TERM_L_BLUE, "ÅÅ", "ÅÅÌÈ±Ö"},
+	{TERM_BLUE, "ÅÅ", "ÂÑÅÅ"},
+	{TERM_L_RED, "²Ğ", "²ĞÌÈ±Ö"},
+	{TERM_RED, "²Ğ", "ÂÑ²Ğ"},
+	{TERM_WHITE, "Îä", "ÎäÌÈ±Ö"},
+	{TERM_SLATE, "Îä", "ÂÑÎä"},
+	{TERM_GREEN, "ÆÇ", "ÂÑÆÇ"},
+	{TERM_L_DARK, "¹ö", "ÂÑÃÏ¹ö"},
+	{TERM_L_BLUE, "»ş", "ÂÑ»ş´Ö"},
+	{TERM_L_DARK, "¶À", "¶À¥ª¡¼¥é"},
+	{TERM_L_RED, "¥ª", "²Ğ¥ª¡¼¥é"},
+	{TERM_WHITE, "Æ®", "Æ®µ¤"},
+	{TERM_WHITE, "À»", "À»¥ª¡¼¥é"},
+	{TERM_VIOLET, "ÌÜ", "ÌÜ¤Ë¤ÏÌÜ"},
+	{TERM_WHITE, "½Ë", "½ËÊ¡"},
+	{TERM_WHITE, "Í¦", "Í¦"},
+	{TERM_RED, "¶¸", "¶¸Íğ"},
+	{TERM_L_RED, "²Ğ", "Ëâ·õ²Ğ"},
+	{TERM_WHITE, "Îä", "Ëâ·õÎä"},
+	{TERM_L_BLUE, "ÅÅ", "Ëâ·õÅÅ"},
+	{TERM_SLATE, "»À", "Ëâ·õ»À"},
+	{TERM_L_GREEN, "ÆÇ", "Ëâ·õÆÇ"},
+	{TERM_RED, "Íğ", "º®ÍğÂÇ·â"},
+	{TERM_L_BLUE, "»ë", "Æ©ÌÀ»ë"},
+	{TERM_ORANGE, "¥Æ", "¥Æ¥ì¥Ñ¥·"},
+	{TERM_L_BLUE, "²ó", "²óÉü"},
+	{TERM_L_RED, "ÀÖ", "ÀÖ³°"},
+	{TERM_UMBER, "±£", "±£Ì©"},
+	{TERM_YELLOW, "±£", "Ä¶±£Ì©"},
+	{TERM_WHITE, "µ¢", "µ¢´Ô"},
+	{TERM_WHITE, "¸½", "¸½¼ÂÊÑÍÆ"},
 	/* Hex */
-	{TERM_WHITE, "ã‚ª", "æ°·ã‚ªãƒ¼ãƒ©"},
-	{TERM_BLUE, "ã‚ª", "é›»ã‚ªãƒ¼ãƒ©"},
-	{TERM_L_DARK, "ã‚ª", "å½±ã‚ªãƒ¼ãƒ©"},
-	{TERM_YELLOW, "è…•", "è…•åŠ›å¼·åŒ–"},
-	{TERM_RED, "è‚‰", "è‚‰ä½“å¼·åŒ–"},
-	{TERM_L_DARK, "æ®–", "åå¢—æ®–"},
-	{TERM_ORANGE, "ãƒ†", "åãƒ†ãƒ¬ãƒ"},
-	{TERM_RED, "é­”", "åé­”æ³•"},
-	{TERM_SLATE, "æˆ‘", "æˆ‘æ…¢"},
-	{TERM_SLATE, "å®£", "å®£å‘Š"},
-	{TERM_L_DARK, "å‰£", "é­”å‰£åŒ–"},
-	{TERM_RED, "å¸", "å¸è¡€æ‰“æ’ƒ"},
-	{TERM_WHITE, "å›", "å›å¾©"},
-	{TERM_L_DARK, "æ„Ÿ", "é‚ªæ‚ªæ„ŸçŸ¥"},
+	{TERM_WHITE, "¥ª", "É¹¥ª¡¼¥é"},
+	{TERM_BLUE, "¥ª", "ÅÅ¥ª¡¼¥é"},
+	{TERM_L_DARK, "¥ª", "±Æ¥ª¡¼¥é"},
+	{TERM_YELLOW, "ÏÓ", "ÏÓÎÏ¶¯²½"},
+	{TERM_RED, "Æù", "ÆùÂÎ¶¯²½"},
+	{TERM_L_DARK, "¿£", "È¿Áı¿£"},
+	{TERM_ORANGE, "¥Æ", "È¿¥Æ¥ì¥İ"},
+	{TERM_RED, "Ëâ", "È¿ËâË¡"},
+	{TERM_SLATE, "²æ", "²æËı"},
+	{TERM_SLATE, "Àë", "Àë¹ğ"},
+	{TERM_L_DARK, "·õ", "Ëâ·õ²½"},
+	{TERM_RED, "µÛ", "µÛ·ìÂÇ·â"},
+	{TERM_WHITE, "²ó", "²óÉü"},
+	{TERM_L_DARK, "´¶", "¼Ù°­´¶ÃÎ"},
 	{0, NULL, NULL}
 };
 #else
@@ -717,8 +717,8 @@ static void prt_title(void)
 	if (p_ptr->wizard)
 	{
 #ifdef JP
-		/* è‹±æ—¥åˆ‡ã‚Šæ›¿ãˆæ©Ÿèƒ½ ç§°å· */
-		p = "[ã‚¦ã‚£ã‚¶ãƒ¼ãƒ‰]";
+		/* ±ÑÆüÀÚ¤êÂØ¤¨µ¡Ç½ ¾Î¹æ */
+		p = "[¥¦¥£¥¶¡¼¥É]";
 #else
 		p = "[=-WIZARD-=]";
 #endif
@@ -731,8 +731,8 @@ static void prt_title(void)
 		if (p_ptr->arena_number > MAX_ARENA_MONS + 2)
 		{
 #ifdef JP
-			/* è‹±æ—¥åˆ‡ã‚Šæ›¿ãˆæ©Ÿèƒ½ ç§°å· */
-			p = "*çœŸãƒ»å‹åˆ©è€…*";
+			/* ±ÑÆüÀÚ¤êÂØ¤¨µ¡Ç½ ¾Î¹æ */
+			p = "*¿¿¡¦¾¡Íø¼Ô*";
 #else
 			p = "*TRUEWINNER*";
 #endif
@@ -740,8 +740,8 @@ static void prt_title(void)
 		else
 		{
 #ifdef JP
-			/* è‹±æ—¥åˆ‡ã‚Šæ›¿ãˆæ©Ÿèƒ½ ç§°å· */
-			p = "***å‹åˆ©è€…***";
+			/* ±ÑÆüÀÚ¤êÂØ¤¨µ¡Ç½ ¾Î¹æ */
+			p = "***¾¡Íø¼Ô***";
 #else
 			p = "***WINNER***";
 #endif
@@ -771,7 +771,7 @@ static void prt_level(void)
 	if (p_ptr->lev >= p_ptr->max_plv)
 	{
 #ifdef JP
-		put_str("ãƒ¬ãƒ™ãƒ« ", ROW_LEVEL, 0);
+		put_str("¥ì¥Ù¥ë ", ROW_LEVEL, 0);
 		c_put_str(TERM_L_GREEN, tmp, ROW_LEVEL, COL_LEVEL + 7);
 #else
 		put_str("LEVEL ", ROW_LEVEL, 0);
@@ -782,7 +782,7 @@ static void prt_level(void)
 	else
 	{
 #ifdef JP
-		put_str("xãƒ¬ãƒ™ãƒ«", ROW_LEVEL, 0);
+		put_str("x¥ì¥Ù¥ë", ROW_LEVEL, 0);
 		c_put_str(TERM_YELLOW, tmp, ROW_LEVEL, COL_LEVEL + 7);
 #else
 		put_str("Level ", ROW_LEVEL, 0);
@@ -823,8 +823,8 @@ static void prt_exp(void)
 	if (p_ptr->exp >= p_ptr->max_exp)
 	{
 #ifdef JP
-		if (p_ptr->prace == RACE_ANDROID) put_str("å¼·åŒ– ", ROW_EXP, 0);
-		else put_str("çµŒé¨“ ", ROW_EXP, 0);
+		if (p_ptr->prace == RACE_ANDROID) put_str("¶¯²½ ", ROW_EXP, 0);
+		else put_str("·Ğ¸³ ", ROW_EXP, 0);
 		c_put_str(TERM_L_GREEN, out_val, ROW_EXP, COL_EXP + 5);
 #else
 		if (p_ptr->prace == RACE_ANDROID) put_str("Cst ", ROW_EXP, 0);
@@ -836,7 +836,7 @@ static void prt_exp(void)
 	else
 	{
 #ifdef JP
-		put_str("xçµŒé¨“", ROW_EXP, 0);
+		put_str("x·Ğ¸³", ROW_EXP, 0);
 		c_put_str(TERM_YELLOW, out_val, ROW_EXP, COL_EXP + 5);
 #else
 		put_str("Exp ", ROW_EXP, 0);
@@ -852,7 +852,7 @@ static void prt_exp(void)
 static void prt_gold(void)
 {
 	char tmp[32];
-	put_str(_("ï¼„ ", "AU "), ROW_GOLD, COL_GOLD);
+	put_str(_("¡ğ ", "AU "), ROW_GOLD, COL_GOLD);
 	sprintf(tmp, "%9ld", (long)p_ptr->au);
 	c_put_str(TERM_L_GREEN, tmp, ROW_GOLD, COL_GOLD + 3);
 }
@@ -867,8 +867,8 @@ static void prt_ac(void)
 	char tmp[32];
 
 #ifdef JP
-/* AC ã®è¡¨ç¤ºæ–¹å¼ã‚’å¤‰æ›´ã—ã¦ã„ã‚‹ */
-	put_str(" ï¼¡ï¼£(     )", ROW_AC, COL_AC);
+/* AC ¤ÎÉ½¼¨Êı¼°¤òÊÑ¹¹¤·¤Æ¤¤¤ë */
+	put_str(" £Á£Ã(     )", ROW_AC, COL_AC);
 	sprintf(tmp, "%5d", p_ptr->dis_ac + p_ptr->dis_to_a);
 	c_put_str(TERM_L_GREEN, tmp, ROW_AC, COL_AC + 6);
 #else
@@ -885,17 +885,17 @@ static void prt_ac(void)
  */
 static void prt_hp(void)
 {
-/* ãƒ’ãƒƒãƒˆãƒã‚¤ãƒ³ãƒˆã®è¡¨ç¤ºæ–¹æ³•ã‚’å¤‰æ›´ */
+/* ¥Ò¥Ã¥È¥İ¥¤¥ó¥È¤ÎÉ½¼¨ÊıË¡¤òÊÑ¹¹ */
 	char tmp[32];
   
 	byte color;
   
-	/* ã‚¿ã‚¤ãƒˆãƒ« */
-/*	put_str(" ï¼¨ï¼°ãƒ»ï¼­ï¼°", ROW_HPMP, COL_HPMP); */
+	/* ¥¿¥¤¥È¥ë */
+/*	put_str(" £È£Ğ¡¦£Í£Ğ", ROW_HPMP, COL_HPMP); */
 
 	put_str("HP", ROW_CURHP, COL_CURHP);
 
-	/* ç¾åœ¨ã®ãƒ’ãƒƒãƒˆãƒã‚¤ãƒ³ãƒˆ */
+	/* ¸½ºß¤Î¥Ò¥Ã¥È¥İ¥¤¥ó¥È */
 	sprintf(tmp, "%4ld", (long int)p_ptr->chp);
 
 	if (p_ptr->chp >= p_ptr->mhp)
@@ -913,10 +913,10 @@ static void prt_hp(void)
 
 	c_put_str(color, tmp, ROW_CURHP, COL_CURHP+3);
 
-	/* åŒºåˆ‡ã‚Š */
+	/* ¶èÀÚ¤ê */
 	put_str( "/", ROW_CURHP, COL_CURHP + 7 );
 
-	/* æœ€å¤§ãƒ’ãƒƒãƒˆãƒã‚¤ãƒ³ãƒˆ */
+	/* ºÇÂç¥Ò¥Ã¥È¥İ¥¤¥ó¥È */
 	sprintf(tmp, "%4ld", (long int)p_ptr->mhp);
 	color = TERM_L_GREEN;
 
@@ -929,7 +929,7 @@ static void prt_hp(void)
  */
 static void prt_sp(void)
 {
-/* ãƒã‚¸ãƒƒã‚¯ãƒã‚¤ãƒ³ãƒˆã®è¡¨ç¤ºæ–¹æ³•ã‚’å¤‰æ›´ã—ã¦ã„ã‚‹ */
+/* ¥Ş¥¸¥Ã¥¯¥İ¥¤¥ó¥È¤ÎÉ½¼¨ÊıË¡¤òÊÑ¹¹¤·¤Æ¤¤¤ë */
 	char tmp[32];
 	byte color;
 
@@ -937,11 +937,11 @@ static void prt_sp(void)
 	/* Do not show mana unless it matters */
 	if (!mp_ptr->spell_book) return;
 
-	/* ã‚¿ã‚¤ãƒˆãƒ« */
-/*	put_str(" ï¼­ï¼° / æœ€å¤§", ROW_MAXSP, COL_MAXSP); */
+	/* ¥¿¥¤¥È¥ë */
+/*	put_str(" £Í£Ğ / ºÇÂç", ROW_MAXSP, COL_MAXSP); */
 	put_str(_("MP", "SP"), ROW_CURSP, COL_CURSP);
 
-	/* ç¾åœ¨ã®ãƒã‚¸ãƒƒã‚¯ãƒã‚¤ãƒ³ãƒˆ */
+	/* ¸½ºß¤Î¥Ş¥¸¥Ã¥¯¥İ¥¤¥ó¥È */
 	sprintf(tmp, "%4ld", (long int)p_ptr->csp);
 
 	if (p_ptr->csp >= p_ptr->msp)
@@ -959,10 +959,10 @@ static void prt_sp(void)
 
 	c_put_str(color, tmp, ROW_CURSP, COL_CURSP+3);
 
-	/* åŒºåˆ‡ã‚Š */
+	/* ¶èÀÚ¤ê */
 	put_str( "/", ROW_CURSP, COL_CURSP + 7 );
 
-	/* æœ€å¤§ãƒã‚¸ãƒƒã‚¯ãƒã‚¤ãƒ³ãƒˆ */
+	/* ºÇÂç¥Ş¥¸¥Ã¥¯¥İ¥¤¥ó¥È */
 	sprintf(tmp, "%4ld", (long int)p_ptr->msp);
 	color = TERM_L_GREEN;
 
@@ -985,16 +985,16 @@ static void prt_depth(void)
 
 	if (!dun_level)
 	{
-		strcpy(depths, _("åœ°ä¸Š", "Surf."));
+		strcpy(depths, _("ÃÏ¾å", "Surf."));
 	}
 	else if (p_ptr->inside_quest && !dungeon_type)
 	{
-		strcpy(depths, _("åœ°ä¸Š", "Quest"));
+		strcpy(depths, _("ÃÏ¾å", "Quest"));
 	}
 	else
 	{
 		if (depth_in_feet) (void)sprintf(depths, _("%d ft", "%d ft"), dun_level * 50);
-		else (void)sprintf(depths, _("%d éš", "Lev %d"), dun_level);
+		else (void)sprintf(depths, _("%d ³¬", "Lev %d"), dun_level);
 
 		/* Get color of level based on feeling  -JSV- */
 		switch (p_ptr->feeling)
@@ -1028,19 +1028,19 @@ static void prt_hunger(void)
 	/* Fainting / Starving */
 	if (p_ptr->food < PY_FOOD_FAINT)
 	{
-		c_put_str(TERM_RED, _("è¡°å¼±  ", "Weak  "), ROW_HUNGRY, COL_HUNGRY);
+		c_put_str(TERM_RED, _("¿ê¼å  ", "Weak  "), ROW_HUNGRY, COL_HUNGRY);
 	}
 
 	/* Weak */
 	else if (p_ptr->food < PY_FOOD_WEAK)
 	{
-		c_put_str(TERM_ORANGE, _("è¡°å¼±  ", "Weak  "), ROW_HUNGRY, COL_HUNGRY);
+		c_put_str(TERM_ORANGE, _("¿ê¼å  ", "Weak  "), ROW_HUNGRY, COL_HUNGRY);
 	}
 
 	/* Hungry */
 	else if (p_ptr->food < PY_FOOD_ALERT)
 	{
-		c_put_str(TERM_YELLOW, _("ç©ºè…¹  ", "Hungry"), ROW_HUNGRY, COL_HUNGRY);
+		c_put_str(TERM_YELLOW, _("¶õÊ¢  ", "Hungry"), ROW_HUNGRY, COL_HUNGRY);
 	}
 
 	/* Normal */
@@ -1052,13 +1052,13 @@ static void prt_hunger(void)
 	/* Full */
 	else if (p_ptr->food < PY_FOOD_MAX)
 	{
-		c_put_str(TERM_L_GREEN, _("æº€è…¹  ", "Full  "), ROW_HUNGRY, COL_HUNGRY);
+		c_put_str(TERM_L_GREEN, _("ËşÊ¢  ", "Full  "), ROW_HUNGRY, COL_HUNGRY);
 	}
 
 	/* Gorged */
 	else
 	{
-		c_put_str(TERM_GREEN, _("é£Ÿéã", "Gorged"), ROW_HUNGRY, COL_HUNGRY);
+		c_put_str(TERM_GREEN, _("¿©²á¤®", "Gorged"), ROW_HUNGRY, COL_HUNGRY);
 	}
 }
 
@@ -1096,7 +1096,7 @@ static void prt_state(void)
 		{
 			case ACTION_SEARCH:
 			{
-				strcpy(text, _("æ¢ç´¢", "Sear"));
+				strcpy(text, _("Ãµº÷", "Sear"));
 				break;
 			}
 			case ACTION_REST:
@@ -1156,13 +1156,13 @@ static void prt_state(void)
 			}
 			case ACTION_LEARN:
 			{
-				strcpy(text, _("å­¦ç¿’", "lear"));
+				strcpy(text, _("³Ø½¬", "lear"));
 				if (new_mane) attr = TERM_L_RED;
 				break;
 			}
 			case ACTION_FISH:
 			{
-				strcpy(text, _("é‡£ã‚Š", "fish"));
+				strcpy(text, _("Äà¤ê", "fish"));
 				break;
 			}
 			case ACTION_KAMAE:
@@ -1190,17 +1190,17 @@ static void prt_state(void)
 			}
 			case ACTION_SING:
 			{
-				strcpy(text, _("æ­Œ  ", "Sing"));
+				strcpy(text, _("²Î  ", "Sing"));
 				break;
 			}
 			case ACTION_HAYAGAKE:
 			{
-				strcpy(text, _("é€Ÿé§†", "Fast"));
+				strcpy(text, _("Â®¶î", "Fast"));
 				break;
 			}
 			case ACTION_SPELL:
 			{
-				strcpy(text, _("è© å”±", "Spel"));
+				strcpy(text, _("±Ó¾§", "Spel"));
 				break;
 			}
 			default:
@@ -1249,7 +1249,7 @@ static void prt_speed(void)
 		else if (p_ptr->slow && !is_fast) attr = TERM_VIOLET;
 		else attr = TERM_L_GREEN;
 #ifdef JP
-		sprintf(buf, "%s(+%d)", (p_ptr->riding ? "ä¹—é¦¬" : "åŠ é€Ÿ"), (i - 110));
+		sprintf(buf, "%s(+%d)", (p_ptr->riding ? "¾èÇÏ" : "²ÃÂ®"), (i - 110));
 #else
 		sprintf(buf, "Fast(+%d)", (i - 110));
 #endif
@@ -1270,7 +1270,7 @@ static void prt_speed(void)
 		else if (p_ptr->slow && !is_fast) attr = TERM_VIOLET;
 		else attr = TERM_L_UMBER;
 #ifdef JP
-		sprintf(buf, "%s(-%d)", (p_ptr->riding ? "ä¹—é¦¬" : "æ¸›é€Ÿ"), (110 - i));
+		sprintf(buf, "%s(-%d)", (p_ptr->riding ? "¾èÇÏ" : "¸ºÂ®"), (110 - i));
 #else
 		sprintf(buf, "Slow(-%d)", (110 - i));
 #endif
@@ -1278,7 +1278,7 @@ static void prt_speed(void)
 	else if (p_ptr->riding)
 	{
 		attr = TERM_GREEN;
-		strcpy(buf, _("ä¹—é¦¬ä¸­", "Riding"));
+		strcpy(buf, _("¾èÇÏÃæ", "Riding"));
 	}
 
 	/* Display the speed */
@@ -1296,7 +1296,7 @@ static void prt_study(void)
 
 	if (p_ptr->new_spells)
 	{
-		put_str(_("å­¦ç¿’", "Stud"), row_study, col_study);
+		put_str(_("³Ø½¬", "Stud"), row_study, col_study);
 	}
 	else
 	{
@@ -1320,7 +1320,7 @@ static void prt_imitation(void)
 			byte attr;
 			if (new_mane) attr = TERM_L_RED;
 			else attr = TERM_WHITE;
-			c_put_str(attr, _("ã¾ã­", "Imit"), row_study, col_study);
+			c_put_str(attr, _("¤Ş¤Í", "Imit"), row_study, col_study);
 		}
 		else
 		{
@@ -1336,31 +1336,31 @@ static void prt_cut(void)
 
 	if (c > 1000)
 	{
-		c_put_str(TERM_L_RED, _("è‡´å‘½å‚·      ", "Mortal wound"), ROW_CUT, COL_CUT);
+		c_put_str(TERM_L_RED, _("Ã×Ì¿½ı      ", "Mortal wound"), ROW_CUT, COL_CUT);
 	}
 	else if (c > 200)
 	{
-		c_put_str(TERM_RED, _("ã²ã©ã„æ·±æ‰‹  ", "Deep gash   "), ROW_CUT, COL_CUT);
+		c_put_str(TERM_RED, _("¤Ò¤É¤¤¿¼¼ê  ", "Deep gash   "), ROW_CUT, COL_CUT);
 	}
 	else if (c > 100)
 	{
-		c_put_str(TERM_RED, _("é‡å‚·        ", "Severe cut  "), ROW_CUT, COL_CUT);
+		c_put_str(TERM_RED, _("½Å½ı        ", "Severe cut  "), ROW_CUT, COL_CUT);
 	}
 	else if (c > 50)
 	{
-		c_put_str(TERM_ORANGE, _("å¤§å¤‰ãªå‚·    ", "Nasty cut   "), ROW_CUT, COL_CUT);
+		c_put_str(TERM_ORANGE, _("ÂçÊÑ¤Ê½ı    ", "Nasty cut   "), ROW_CUT, COL_CUT);
 	}
 	else if (c > 25)
 	{
-		c_put_str(TERM_ORANGE, _("ã²ã©ã„å‚·    ", "Bad cut     "), ROW_CUT, COL_CUT);
+		c_put_str(TERM_ORANGE, _("¤Ò¤É¤¤½ı    ", "Bad cut     "), ROW_CUT, COL_CUT);
 	}
 	else if (c > 10)
 	{
-		c_put_str(TERM_YELLOW, _("è»½å‚·        ", "Light cut   "), ROW_CUT, COL_CUT);
+		c_put_str(TERM_YELLOW, _("·Ú½ı        ", "Light cut   "), ROW_CUT, COL_CUT);
 	}
 	else if (c)
 	{
-		c_put_str(TERM_YELLOW, _("ã‹ã™ã‚Šå‚·    ", "Graze       "), ROW_CUT, COL_CUT);
+		c_put_str(TERM_YELLOW, _("¤«¤¹¤ê½ı    ", "Graze       "), ROW_CUT, COL_CUT);
 	}
 	else
 	{
@@ -1376,15 +1376,15 @@ static void prt_stun(void)
 
 	if (s > 100)
 	{
-		c_put_str(TERM_RED, _("æ„è­˜ä¸æ˜ç­  ", "Knocked out "), ROW_STUN, COL_STUN);
+		c_put_str(TERM_RED, _("°Õ¼±ÉÔÌÀÎÆ  ", "Knocked out "), ROW_STUN, COL_STUN);
 	}
 	else if (s > 50)
 	{
-		c_put_str(TERM_ORANGE, _("ã²ã©ãæœ¦æœ§  ", "Heavy stun  "), ROW_STUN, COL_STUN);
+		c_put_str(TERM_ORANGE, _("¤Ò¤É¤¯Û¯Û°  ", "Heavy stun  "), ROW_STUN, COL_STUN);
 	}
 	else if (s)
 	{
-		c_put_str(TERM_ORANGE, _("æœ¦æœ§        ", "Stun        "), ROW_STUN, COL_STUN);
+		c_put_str(TERM_ORANGE, _("Û¯Û°        ", "Stun        "), ROW_STUN, COL_STUN);
 	}
 	else
 	{
@@ -1704,7 +1704,7 @@ static void print_monster_line(int x, int y, monster_type* m_ptr, int n_same){
 }
 
  /*
-	max_lines : æœ€å¤§ä½•è¡Œæç”»ã™ã‚‹ã‹ï¼
+	max_lines : ºÇÂç²¿¹ÔÉÁ²è¤¹¤ë¤«¡¥
 */
 void print_monster_list(int x, int y, int max_lines){
 	int line = y;
@@ -1725,20 +1725,20 @@ void print_monster_list(int x, int y, int max_lines){
 			monster_race* r_ptr = &r_info[r_idx];
 			cptr name = (r_name + r_ptr->name);
 			cptr ename = (r_name + r_ptr->name);
-			//ãƒŸãƒŸãƒƒã‚¯é¡ã‚„ã€Œãã‚Œã€ç­‰ã¯ã€ä¸€è¦§ã«å‡ºã¦ã¯ã„ã‘ãªã„
+			//¥ß¥ß¥Ã¥¯Îà¤ä¡Ö¤½¤ì¡×Åù¤Ï¡¢°ìÍ÷¤Ë½Ğ¤Æ¤Ï¤¤¤±¤Ê¤¤
 			if(r_ptr->flags1&RF1_CHAR_CLEAR)continue;
 			if((r_ptr->flags1&RF1_NEVER_MOVE)&&(r_ptr->flags2&RF2_CHAR_MULTI))continue;
-			//ã€ãƒŒãƒ«ã€ã¯ã€ä¸€è¦§ã«å‡ºã¦ã¯ã„ã‘ãªã„
-			if((strcmp(name, "ç”Ÿã‘ã‚‹è™šç„¡ã€ãƒŒãƒ«ã€")==0)||
+			//¡Ø¥Ì¥ë¡Ù¤Ï¡¢°ìÍ÷¤Ë½Ğ¤Æ¤Ï¤¤¤±¤Ê¤¤
+			if((strcmp(name, "À¸¤±¤ëµõÌµ¡Ø¥Ì¥ë¡Ù")==0)||
 			   (strcmp(ename, "Null the Living Void")==0))continue;
-			//"é‡‘ç„¡å¢ã®æŒ‡è¼ª"ã¯ã€ä¸€è¦§ã«å‡ºã¦ã¯ã„ã‘ãªã„
-			if((strcmp(name, "é‡‘ç„¡å¢ã®æŒ‡è¼ª")==0)||
+			//"¶âÌµ¹¤¤Î»ØÎØ"¤Ï¡¢°ìÍ÷¤Ë½Ğ¤Æ¤Ï¤¤¤±¤Ê¤¤
+			if((strcmp(name, "¶âÌµ¹¤¤Î»ØÎØ")==0)||
 				(strcmp(ename, "Plain Gold Ring")==0))continue;
 			*/
 		}
 
-		//ã‚½ãƒ¼ãƒˆæ¸ˆã¿ãªã®ã§åŒã˜ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¯é€£ç¶šã™ã‚‹ï¼ã“ã‚Œã‚’åˆ©ç”¨ã—ã¦åŒã˜ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’ã‚«ã‚¦ãƒ³ãƒˆï¼Œã¾ã¨ã‚ã¦è¡¨ç¤ºã™ã‚‹ï¼
-		if(!last_mons){//å…ˆé ­ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼
+		//¥½¡¼¥ÈºÑ¤ß¤Ê¤Î¤ÇÆ±¤¸¥â¥ó¥¹¥¿¡¼¤ÏÏ¢Â³¤¹¤ë¡¥¤³¤ì¤òÍøÍÑ¤·¤ÆÆ±¤¸¥â¥ó¥¹¥¿¡¼¤ò¥«¥¦¥ó¥È¡¤¤Ş¤È¤á¤ÆÉ½¼¨¤¹¤ë¡¥
+		if(!last_mons){//ÀèÆ¬¥â¥ó¥¹¥¿¡¼
 			last_mons = m_ptr;
 			n_same = 1;
 			continue;
@@ -1746,13 +1746,13 @@ void print_monster_list(int x, int y, int max_lines){
 		//same race?
 		if(last_mons->ap_r_idx == m_ptr->ap_r_idx){
 			n_same++;
-			continue;//è¡¨ç¤ºå‡¦ç†ã‚’æ¬¡ã«å›ã™
+			continue;//É½¼¨½èÍı¤ò¼¡¤Ë²ó¤¹
 		}
 		//print last mons info
 		print_monster_line(x, line++, last_mons, n_same);
 		n_same = 1;
 		last_mons = m_ptr;
-		if(line-y-1==max_lines){//æ®‹ã‚Š1è¡Œ
+		if(line-y-1==max_lines){//»Ä¤ê1¹Ô
 			break;
 		}
 	}
@@ -1788,7 +1788,7 @@ static void fix_monster_list(void)
 
 		Term_clear();
 
-		target_set_prepare_look();//ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ä¸€è¦§ã‚’ç”Ÿæˆï¼Œã‚½ãƒ¼ãƒˆ
+		target_set_prepare_look();//¥â¥ó¥¹¥¿¡¼°ìÍ÷¤òÀ¸À®¡¤¥½¡¼¥È
 		print_monster_list(0, 0, h);
 
 		/* Fresh */
@@ -2239,7 +2239,7 @@ static void calc_spells(void)
 
 			/* Message */
 #ifdef JP
-			msg_format("%sã®%sã‚’å¿˜ã‚Œã¦ã—ã¾ã£ãŸã€‚",
+			msg_format("%s¤Î%s¤òËº¤ì¤Æ¤·¤Ş¤Ã¤¿¡£",
 				   do_spell(which, j%32, SPELL_NAME), p );
 #else
 			msg_format("You have forgotten the %s of %s.", p,
@@ -2299,7 +2299,7 @@ static void calc_spells(void)
 
 			/* Message */
 #ifdef JP
-			msg_format("%sã®%sã‚’å¿˜ã‚Œã¦ã—ã¾ã£ãŸã€‚",
+			msg_format("%s¤Î%s¤òËº¤ì¤Æ¤·¤Ş¤Ã¤¿¡£",
 				   do_spell(which, j%32, SPELL_NAME), p );
 #else
 			msg_format("You have forgotten the %s of %s.", p,
@@ -2375,7 +2375,7 @@ static void calc_spells(void)
 
 			/* Message */
 #ifdef JP
-			msg_format("%sã®%sã‚’æ€ã„å‡ºã—ãŸã€‚",
+			msg_format("%s¤Î%s¤ò»×¤¤½Ğ¤·¤¿¡£",
 				   do_spell(which, j%32, SPELL_NAME), p );
 #else
 			msg_format("You have remembered the %s of %s.",
@@ -2425,9 +2425,9 @@ static void calc_spells(void)
 			/* Message */
 #ifdef JP
 			if( p_ptr->new_spells < 10 ){
-				msg_format("ã‚ã¨ %d ã¤ã®%sã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells, p);
+				msg_format("¤¢¤È %d ¤Ä¤Î%s¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells, p);
 			}else{
-				msg_format("ã‚ã¨ %d å€‹ã®%sã‚’å­¦ã¹ã‚‹ã€‚", p_ptr->new_spells, p);
+				msg_format("¤¢¤È %d ¸Ä¤Î%s¤ò³Ø¤Ù¤ë¡£", p_ptr->new_spells, p);
 			}
 #else
 			msg_format("You can learn %d more %s%s.",
@@ -2707,10 +2707,10 @@ static void calc_mana(void)
 		}
 
 #ifdef JP
-		/* ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã®æ™‚ã¯ä¸Šæ˜‡é‡ã‚’è¡¨ç¤ºã™ã‚‹ */
+		/* ¥ì¥Ù¥ë¥¢¥Ã¥×¤Î»ş¤Ï¾å¾ºÎÌ¤òÉ½¼¨¤¹¤ë */
 		if ((level_up == 1) && (msp > p_ptr->msp))
 		{
-			msg_format("æœ€å¤§ãƒã‚¸ãƒƒã‚¯ãƒ»ãƒã‚¤ãƒ³ãƒˆãŒ %d å¢—åŠ ã—ãŸï¼",
+			msg_format("ºÇÂç¥Ş¥¸¥Ã¥¯¡¦¥İ¥¤¥ó¥È¤¬ %d Áı²Ã¤·¤¿¡ª",
 				   (msp - p_ptr->msp));
 		}
 #endif
@@ -2735,11 +2735,11 @@ static void calc_mana(void)
 		/* Message */
 		if (p_ptr->cumber_glove)
 		{
-			msg_print(_("æ‰‹ãŒè¦†ã‚ã‚Œã¦å‘ªæ–‡ãŒå”±ãˆã«ãã„æ„Ÿã˜ãŒã™ã‚‹ã€‚", "Your covered hands feel unsuitable for spellcasting."));
+			msg_print(_("¼ê¤¬Ê¤¤ï¤ì¤Æ¼öÊ¸¤¬¾§¤¨¤Ë¤¯¤¤´¶¤¸¤¬¤¹¤ë¡£", "Your covered hands feel unsuitable for spellcasting."));
 		}
 		else
 		{
-			msg_print(_("ã“ã®æ‰‹ã®çŠ¶æ…‹ãªã‚‰ã€ãã£ã¨å‘ªæ–‡ãŒå”±ãˆã‚„ã™ã„æ„Ÿã˜ã ã€‚", "Your hands feel more suitable for spellcasting."));
+			msg_print(_("¤³¤Î¼ê¤Î¾õÂÖ¤Ê¤é¡¢¤°¤Ã¤È¼öÊ¸¤¬¾§¤¨¤ä¤¹¤¤´¶¤¸¤À¡£", "Your hands feel more suitable for spellcasting."));
 		}
 
 		/* Save it */
@@ -2753,11 +2753,11 @@ static void calc_mana(void)
 		/* Message */
 		if (p_ptr->cumber_armor)
 		{
-			msg_print(_("è£…å‚™ã®é‡ã•ã§å‹•ããŒéˆããªã£ã¦ã—ã¾ã£ã¦ã„ã‚‹ã€‚", "The weight of your equipment encumbers your movement."));
+			msg_print(_("ÁõÈ÷¤Î½Å¤µ¤ÇÆ°¤­¤¬Æß¤¯¤Ê¤Ã¤Æ¤·¤Ş¤Ã¤Æ¤¤¤ë¡£", "The weight of your equipment encumbers your movement."));
 		}
 		else
 		{
-			msg_print(_("ãã£ã¨æ¥½ã«ä½“ã‚’å‹•ã‹ã›ã‚‹ã‚ˆã†ã«ãªã£ãŸã€‚", "You feel able to move more freely."));
+			msg_print(_("¤°¤Ã¤È³Ú¤ËÂÎ¤òÆ°¤«¤»¤ë¤è¤¦¤Ë¤Ê¤Ã¤¿¡£", "You feel able to move more freely."));
 		}
 
 		/* Save it */
@@ -2830,10 +2830,10 @@ static void calc_hitpoints(void)
 		}
 
 #ifdef JP
-		/* ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã®æ™‚ã¯ä¸Šæ˜‡é‡ã‚’è¡¨ç¤ºã™ã‚‹ */
+		/* ¥ì¥Ù¥ë¥¢¥Ã¥×¤Î»ş¤Ï¾å¾ºÎÌ¤òÉ½¼¨¤¹¤ë */
 		if ((level_up == 1) && (mhp > p_ptr->mhp))
 		{
-			msg_format("æœ€å¤§ãƒ’ãƒƒãƒˆãƒ»ãƒã‚¤ãƒ³ãƒˆãŒ %d å¢—åŠ ã—ãŸï¼",
+			msg_format("ºÇÂç¥Ò¥Ã¥È¡¦¥İ¥¤¥ó¥È¤¬ %d Áı²Ã¤·¤¿¡ª",
 				   (mhp - p_ptr->mhp) );
 		}
 #endif
@@ -5506,15 +5506,15 @@ void calc_bonuses(void)
 		/* Message */
 		if (p_ptr->heavy_shoot)
 		{
-			msg_print(_("ã“ã‚“ãªé‡ã„å¼“ã‚’è£…å‚™ã—ã¦ã„ã‚‹ã®ã¯å¤§å¤‰ã ã€‚", "You have trouble wielding such a heavy bow."));
+			msg_print(_("¤³¤ó¤Ê½Å¤¤µİ¤òÁõÈ÷¤·¤Æ¤¤¤ë¤Î¤ÏÂçÊÑ¤À¡£", "You have trouble wielding such a heavy bow."));
 		}
 		else if (inventory[INVEN_BOW].k_idx)
 		{
-			msg_print(_("ã“ã®å¼“ãªã‚‰è£…å‚™ã—ã¦ã„ã¦ã‚‚è¾›ããªã„ã€‚", "You have no trouble wielding your bow."));
+			msg_print(_("¤³¤Îµİ¤Ê¤éÁõÈ÷¤·¤Æ¤¤¤Æ¤â¿É¤¯¤Ê¤¤¡£", "You have no trouble wielding your bow."));
 		}
 		else
 		{
-			msg_print(_("é‡ã„å¼“ã‚’è£…å‚™ã‹ã‚‰ã¯ãšã—ã¦ä½“ãŒæ¥½ã«ãªã£ãŸã€‚", "You feel relieved to put down your heavy bow."));
+			msg_print(_("½Å¤¤µİ¤òÁõÈ÷¤«¤é¤Ï¤º¤·¤ÆÂÎ¤¬³Ú¤Ë¤Ê¤Ã¤¿¡£", "You feel relieved to put down your heavy bow."));
 		}
 
 		/* Save it */
@@ -5529,19 +5529,19 @@ void calc_bonuses(void)
 			/* Message */
 			if (p_ptr->heavy_wield[i])
 			{
-				msg_print(_("ã“ã‚“ãªé‡ã„æ­¦å™¨ã‚’è£…å‚™ã—ã¦ã„ã‚‹ã®ã¯å¤§å¤‰ã ã€‚", "You have trouble wielding such a heavy weapon."));
+				msg_print(_("¤³¤ó¤Ê½Å¤¤Éğ´ï¤òÁõÈ÷¤·¤Æ¤¤¤ë¤Î¤ÏÂçÊÑ¤À¡£", "You have trouble wielding such a heavy weapon."));
 			}
 			else if (buki_motteruka(INVEN_RARM+i))
 			{
-				msg_print(_("ã“ã‚Œãªã‚‰è£…å‚™ã—ã¦ã„ã¦ã‚‚è¾›ããªã„ã€‚", "You have no trouble wielding your weapon."));
+				msg_print(_("¤³¤ì¤Ê¤éÁõÈ÷¤·¤Æ¤¤¤Æ¤â¿É¤¯¤Ê¤¤¡£", "You have no trouble wielding your weapon."));
 			}
 			else if (p_ptr->heavy_wield[1-i])
 			{
-				msg_print(_("ã¾ã æ­¦å™¨ãŒé‡ã„ã€‚", "You have still trouble wielding a heavy weapon."));
+				msg_print(_("¤Ş¤ÀÉğ´ï¤¬½Å¤¤¡£", "You have still trouble wielding a heavy weapon."));
 			}
 			else
 			{
-				msg_print(_("é‡ã„æ­¦å™¨ã‚’è£…å‚™ã‹ã‚‰ã¯ãšã—ã¦ä½“ãŒæ¥½ã«ãªã£ãŸã€‚", "You feel relieved to put down your heavy weapon."));
+				msg_print(_("½Å¤¤Éğ´ï¤òÁõÈ÷¤«¤é¤Ï¤º¤·¤ÆÂÎ¤¬³Ú¤Ë¤Ê¤Ã¤¿¡£", "You feel relieved to put down your heavy weapon."));
 			}
 
 			/* Save it */
@@ -5554,15 +5554,15 @@ void calc_bonuses(void)
 			/* Message */
 			if (p_ptr->riding_wield[i])
 			{
-				msg_print(_("ã“ã®æ­¦å™¨ã¯ä¹—é¦¬ä¸­ã«ä½¿ã†ã«ã¯ã‚€ã‹ãªã„ã‚ˆã†ã ã€‚", "This weapon is not suitable for use while riding."));
+				msg_print(_("¤³¤ÎÉğ´ï¤Ï¾èÇÏÃæ¤Ë»È¤¦¤Ë¤Ï¤à¤«¤Ê¤¤¤è¤¦¤À¡£", "This weapon is not suitable for use while riding."));
 			}
 			else if (!p_ptr->riding)
 			{
-				msg_print(_("ã“ã®æ­¦å™¨ã¯å¾’æ­©ã§ä½¿ã„ã‚„ã™ã„ã€‚", "This weapon was not suitable for use while riding."));
+				msg_print(_("¤³¤ÎÉğ´ï¤ÏÅÌÊâ¤Ç»È¤¤¤ä¤¹¤¤¡£", "This weapon was not suitable for use while riding."));
 			}
 			else if (buki_motteruka(INVEN_RARM+i))
 			{
-				msg_print(_("ã“ã‚Œãªã‚‰ä¹—é¦¬ä¸­ã«ã´ã£ãŸã‚Šã ã€‚", "This weapon is suitable for use while riding."));
+				msg_print(_("¤³¤ì¤Ê¤é¾èÇÏÃæ¤Ë¤Ô¤Ã¤¿¤ê¤À¡£", "This weapon is suitable for use while riding."));
 			}
 			/* Save it */
 			p_ptr->old_riding_wield[i] = p_ptr->riding_wield[i];
@@ -5574,7 +5574,7 @@ void calc_bonuses(void)
 			/* Message */
 			if (p_ptr->icky_wield[i])
 			{
-				msg_print(_("ä»Šã®è£…å‚™ã¯ã©ã†ã‚‚è‡ªåˆ†ã«ãµã•ã‚ã—ããªã„æ°—ãŒã™ã‚‹ã€‚", "You do not feel comfortable with your weapon."));
+				msg_print(_("º£¤ÎÁõÈ÷¤Ï¤É¤¦¤â¼«Ê¬¤Ë¤Õ¤µ¤ï¤·¤¯¤Ê¤¤µ¤¤¬¤¹¤ë¡£", "You do not feel comfortable with your weapon."));
 				if (hack_mind)
 				{
 					chg_virtue(V_FAITH, -1);
@@ -5582,11 +5582,11 @@ void calc_bonuses(void)
 			}
 			else if (buki_motteruka(INVEN_RARM+i))
 			{
-				msg_print(_("ä»Šã®è£…å‚™ã¯è‡ªåˆ†ã«ãµã•ã‚ã—ã„æ°—ãŒã™ã‚‹ã€‚", "You feel comfortable with your weapon."));
+				msg_print(_("º£¤ÎÁõÈ÷¤Ï¼«Ê¬¤Ë¤Õ¤µ¤ï¤·¤¤µ¤¤¬¤¹¤ë¡£", "You feel comfortable with your weapon."));
 			}
 			else
 			{
-				msg_print(_("è£…å‚™ã‚’ã¯ãšã—ãŸã‚‰éšåˆ†ã¨æ°—ãŒæ¥½ã«ãªã£ãŸã€‚", "You feel more comfortable after removing your weapon."));
+				msg_print(_("ÁõÈ÷¤ò¤Ï¤º¤·¤¿¤é¿ïÊ¬¤Èµ¤¤¬³Ú¤Ë¤Ê¤Ã¤¿¡£", "You feel more comfortable after removing your weapon."));
 			}
 
 			/* Save it */
@@ -5600,7 +5600,7 @@ void calc_bonuses(void)
 		if (p_ptr->riding_ryoute)
 		{
 #ifdef JP
-			msg_format("%sé¦¬ã‚’æ“ã‚Œãªã„ã€‚", (empty_hands(FALSE) == EMPTY_HAND_NONE) ? "ä¸¡æ‰‹ãŒãµã•ãŒã£ã¦ã„ã¦" : "");
+			msg_format("%sÇÏ¤òÁà¤ì¤Ê¤¤¡£", (empty_hands(FALSE) == EMPTY_HAND_NONE) ? "Î¾¼ê¤¬¤Õ¤µ¤¬¤Ã¤Æ¤¤¤Æ" : "");
 #else
 			msg_print("You are using both hand for fighting, and you can't control a riding pet.");
 #endif
@@ -5608,7 +5608,7 @@ void calc_bonuses(void)
 		else
 		{
 #ifdef JP
-			msg_format("%sé¦¬ã‚’æ“ã‚Œã‚‹ã‚ˆã†ã«ãªã£ãŸã€‚", (empty_hands(FALSE) == EMPTY_HAND_NONE) ? "æ‰‹ãŒç©ºã„ã¦" : "");
+			msg_format("%sÇÏ¤òÁà¤ì¤ë¤è¤¦¤Ë¤Ê¤Ã¤¿¡£", (empty_hands(FALSE) == EMPTY_HAND_NONE) ? "¼ê¤¬¶õ¤¤¤Æ" : "");
 #else
 			msg_print("You began to control riding pet with one hand.");
 #endif
@@ -5621,7 +5621,7 @@ void calc_bonuses(void)
 	{
 		if (heavy_armor())
 		{
-			msg_print(_("è£…å‚™ãŒé‡ãã¦ãƒãƒ©ãƒ³ã‚¹ã‚’å–ã‚Œãªã„ã€‚", "The weight of your armor disrupts your balance."));
+			msg_print(_("ÁõÈ÷¤¬½Å¤¯¤Æ¥Ğ¥é¥ó¥¹¤ò¼è¤ì¤Ê¤¤¡£", "The weight of your armor disrupts your balance."));
 			if (hack_mind)
 			{
 				chg_virtue(V_HARMONY, -1);
@@ -5629,7 +5629,7 @@ void calc_bonuses(void)
 		}
 		else
 		{
-			msg_print(_("ãƒãƒ©ãƒ³ã‚¹ãŒã¨ã‚Œã‚‹ã‚ˆã†ã«ãªã£ãŸã€‚", "You regain your balance."));
+			msg_print(_("¥Ğ¥é¥ó¥¹¤¬¤È¤ì¤ë¤è¤¦¤Ë¤Ê¤Ã¤¿¡£", "You regain your balance."));
 		}
 		
 		monk_notify_aux = monk_armour_aux;

@@ -1,4 +1,4 @@
-ï»¿/* File: wizard2.c */
+/* File: wizard2.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, and others
@@ -78,12 +78,12 @@ void do_cmd_rerate(bool display)
 	/* Message */
 	if (display)
 	{
-		msg_format(_("ç¾åœ¨ã®ä½“åŠ›ãƒ©ãƒ³ã‚¯ã¯ %d/100 ã§ã™ã€‚", "Your life rate is %d/100 now."), percent);
+		msg_format(_("¸½ºß¤ÎÂÎÎÏ¥é¥ó¥¯¤Ï %d/100 ¤Ç¤¹¡£", "Your life rate is %d/100 now."), percent);
 		p_ptr->knowledge |= KNOW_HPRATE;
 	}
 	else
 	{
-		msg_print(_("ä½“åŠ›ãƒ©ãƒ³ã‚¯ãŒå¤‰ã‚ã£ãŸã€‚", "Life rate is changed."));
+		msg_print(_("ÂÎÎÏ¥é¥ó¥¯¤¬ÊÑ¤ï¤Ã¤¿¡£", "Life rate is changed."));
 		p_ptr->knowledge &= ~(KNOW_HPRATE);
 	}
 }
@@ -369,7 +369,7 @@ static void do_cmd_wiz_change_aux(void)
 	sprintf(tmp_val, "%d", WEAPON_EXP_MASTER);
 
 	/* Query */
-	if (!get_string(_("ç†Ÿç·´åº¦: ", "Proficiency: "), tmp_val, 9)) return;
+	if (!get_string(_("½ÏÎıÅÙ: ", "Proficiency: "), tmp_val, 9)) return;
 
 	/* Extract */
 	tmp_s16b = atoi(tmp_val);
@@ -1692,7 +1692,7 @@ static void do_cmd_wiz_create_feature(void)
 	sprintf(tmp_val, "%d", prev_feat);
 
 	/* Query */
-	if (!get_string(_("åœ°å½¢: ", "Feature: "), tmp_val, 3)) return;
+	if (!get_string(_("ÃÏ·Á: ", "Feature: "), tmp_val, 3)) return;
 
 	/* Extract */
 	tmp_feat = atoi(tmp_val);
@@ -1703,7 +1703,7 @@ static void do_cmd_wiz_create_feature(void)
 	sprintf(tmp_val, "%d", prev_mimic);
 
 	/* Query */
-	if (!get_string(_("åœ°å½¢ (mimic): ", "Feature (mimic): "), tmp_val, 3)) return;
+	if (!get_string(_("ÃÏ·Á (mimic): ", "Feature (mimic): "), tmp_val, 3)) return;
 
 	/* Extract */
 	tmp_mimic = atoi(tmp_val);
@@ -1760,7 +1760,7 @@ static void do_cmd_dump_options(void)
 	/* Oops */
 	if (!fff)
 	{
-		msg_format(_("ãƒ•ã‚¡ã‚¤ãƒ« %s ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸã€‚", "Failed to open file %s."), buf);
+		msg_format(_("¥Õ¥¡¥¤¥ë %s ¤ò³«¤±¤Ş¤»¤ó¤Ç¤·¤¿¡£", "Failed to open file %s."), buf);
 		msg_print(NULL);
 		return;
 	}
@@ -1808,7 +1808,7 @@ static void do_cmd_dump_options(void)
 	/* Close it */
 	my_fclose(fff);
 
-	msg_format(_("ã‚ªãƒ—ã‚·ãƒ§ãƒ³bitä½¿ç”¨çŠ¶æ³ã‚’ãƒ•ã‚¡ã‚¤ãƒ« %s ã«æ›¸ãå‡ºã—ã¾ã—ãŸã€‚", "Option bits usage dump saved to file %s."), buf);
+	msg_format(_("¥ª¥×¥·¥ç¥óbit»ÈÍÑ¾õ¶·¤ò¥Õ¥¡¥¤¥ë %s ¤Ë½ñ¤­½Ğ¤·¤Ş¤·¤¿¡£", "Option bits usage dump saved to file %s."), buf);
 }
 
 

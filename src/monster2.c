@@ -1,4 +1,4 @@
-ï»¿/* File: monster2.c */
+/* File: monster2.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -18,29 +18,29 @@
 cptr horror_desc[MAX_SAN_HORROR] =
 {
 #ifdef JP
-	"å¿Œã¾ã‚ã—ã„",
-	"åº•çŸ¥ã‚Œã¬",
-	"ãžã£ã¨ã™ã‚‹",
-	"ç ´æ»…çš„ãª",
-	"å†’æ¶œçš„ãª",
+	"´÷¤Þ¤ï¤·¤¤",
+	"ÄìÃÎ¤ì¤Ì",
+	"¤¾¤Ã¤È¤¹¤ë",
+	"ÇËÌÇÅª¤Ê",
+	"ËÁÆÂÅª¤Ê",
 
-	"ã„ã‚„ãª",
-	"æã‚ã—ã„",
-	"ä¸æ½”ãª",
-	"å®¹èµ¦ã®ãªã„",
-	"ãŠãžã¾ã—ã„",
+	"¤¤¤ä¤Ê",
+	"¶²¤í¤·¤¤",
+	"ÉÔ·é¤Ê",
+	"ÍÆ¼Ï¤Î¤Ê¤¤",
+	"¤ª¤¾¤Þ¤·¤¤",
 
-	"åœ°ç„ã®",
-	"èº«ã®æ¯›ã‚‚ã‚ˆã ã¤",
-	"åœ°ç„ã®",
-	"å¿Œã¾ã‚ã—ã„",
-	"æ‚ªå¤¢ã®ã‚ˆã†ãª",
+	"ÃÏ¹ö¤Î",
+	"¿È¤ÎÌÓ¤â¤è¤À¤Ä",
+	"ÃÏ¹ö¤Î",
+	"´÷¤Þ¤ï¤·¤¤",
+	"°­Ì´¤Î¤è¤¦¤Ê",
 
-	"å«Œæ‚ªã‚’æ„Ÿã˜ã‚‹",
-	"ç½°å½“ãŸã‚Šãª",
-	"æã„",
-	"ä¸æµ„ãª",
-	"è¨€ã†ã‚‚ãŠãžã¾ã—ã„",
+	"·ù°­¤ò´¶¤¸¤ë",
+	"È³Åö¤¿¤ê¤Ê",
+	"¶²¤¤",
+	"ÉÔ¾ô¤Ê",
+	"¸À¤¦¤â¤ª¤¾¤Þ¤·¤¤",
 #else
 	"abominable",
 	"abysmal",
@@ -72,32 +72,32 @@ cptr horror_desc[MAX_SAN_HORROR] =
 cptr funny_desc[MAX_SAN_FUNNY] =
 {
 #ifdef JP
-	"é–“æŠœã‘ãª",
-	"æ»‘ç¨½ãª",
-	"ã°ã‹ã‚‰ã—ã„",
-	"ç„¡å‘³ä¹¾ç‡¥ãª",
-	"é¦¬é¹¿ã’ãŸ",
+	"´ÖÈ´¤±¤Ê",
+	"³ê·Î¤Ê",
+	"¤Ð¤«¤é¤·¤¤",
+	"ÌµÌ£´¥Áç¤Ê",
+	"ÇÏ¼¯¤²¤¿",
 
-	"ç¬‘ãˆã‚‹",
-	"ã°ã‹ã°ã‹ã—ã„",
-	"ã¶ã£ã¨ã‚“ã ",
-	"ã„ã‹ã—ãŸ",
-	"ãƒã‚¹ãƒˆãƒ¢ãƒ€ãƒ³ãª",
+	"¾Ð¤¨¤ë",
+	"¤Ð¤«¤Ð¤«¤·¤¤",
+	"¤Ö¤Ã¤È¤ó¤À",
+	"¤¤¤«¤·¤¿",
+	"¥Ý¥¹¥È¥â¥À¥ó¤Ê",
 
-	"ãƒ•ã‚¡ãƒ³ã‚¿ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãª",
-	"ãƒ€ãƒ€ã‚¤ã‚ºãƒ çš„ãª",
-	"ã‚­ãƒ¥ãƒ“ã‚ºãƒ çš„ãª",
-	"å®‡å®™çš„ãª",
-	"å“è¶Šã—ãŸ",
+	"¥Õ¥¡¥ó¥¿¥¹¥Æ¥£¥Ã¥¯¤Ê",
+	"¥À¥À¥¤¥º¥àÅª¤Ê",
+	"¥­¥å¥Ó¥º¥àÅª¤Ê",
+	"±§ÃèÅª¤Ê",
+	"Âî±Û¤·¤¿",
 
-	"ç†è§£ä¸èƒ½ãª",
-	"ã‚‚ã®ã™ã”ã„",
-	"é©šãã¹ã",
-	"ä¿¡ã˜ã‚‰ã‚Œãªã„",
-	"ã‚«ã‚ªãƒ†ã‚£ãƒƒã‚¯ãª",
+	"Íý²òÉÔÇ½¤Ê",
+	"¤â¤Î¤¹¤´¤¤",
+	"¶Ã¤¯¤Ù¤­",
+	"¿®¤¸¤é¤ì¤Ê¤¤",
+	"¥«¥ª¥Æ¥£¥Ã¥¯¤Ê",
 
-	"é‡Žæ€§çš„ãª",
-	"éžå¸¸è­˜ãª",
+	"ÌîÀ­Åª¤Ê",
+	"Èó¾ï¼±¤Ê",
 #else
 	"silly",
 	"hilarious",
@@ -133,11 +133,11 @@ cptr funny_comments[MAX_SAN_COMMENT] =
 {
 #ifdef JP
   /* nuke me */
-	"æœ€é«˜ã ãœï¼",
-	"ã†ã²ã‚‡ãƒ¼ï¼",
-	"ã„ã‹ã™ãœï¼",
-	"ã™ã‚“ã°ã‚‰ã—ã„ï¼",
-	"ã¶ã£ã¨ã³ãƒ¼ï¼"
+	"ºÇ¹â¤À¤¼¡ª",
+	"¤¦¤Ò¤ç¡¼¡ª",
+	"¤¤¤«¤¹¤¼¡ª",
+	"¤¹¤ó¤Ð¤é¤·¤¤¡ª",
+	"¤Ö¤Ã¤È¤Ó¡¼¡ª"
 #else
 	"Wow, cosmic, man!",
 	"Rad!",
@@ -400,7 +400,7 @@ void compact_monsters(int size)
 	int		cur_lev, cur_dis, chance;
 
 	/* Message (only if compacting) */
-	if (size) msg_print(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼æƒ…å ±ã‚’åœ§ç¸®ã—ã¦ã„ã¾ã™...", "Compacting monsters..."));
+	if (size) msg_print(_("¥â¥ó¥¹¥¿¡¼¾ðÊó¤ò°µ½Ì¤·¤Æ¤¤¤Þ¤¹...", "Compacting monsters..."));
 
 
 	/* Compact at least 'size' objects */
@@ -600,7 +600,7 @@ s16b m_pop(void)
 
 
 	/* Warn the player (except during dungeon creation) */
-	if (character_dungeon) msg_print(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒå¤šã™ãŽã‚‹ï¼", "Too many monsters!"));
+	if (character_dungeon) msg_print(_("¥â¥ó¥¹¥¿¡¼¤¬Â¿¤¹¤®¤ë¡ª", "Too many monsters!"));
 
 	/* Try not to crash */
 	return (0);
@@ -1520,21 +1520,21 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 
 
 		/* Assume simple result */
-		res = _("ä½•ã‹", "it");
+		res = _("²¿¤«", "it");
 
 		/* Brute force: split on the possibilities */
 		switch (kind + (mode & (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE)))
 		{
 			/* Neuter, or unknown */
 #ifdef JP
-			case 0x00:                                                    res = "ä½•ã‹"; break;
-			case 0x00 + (MD_OBJECTIVE):                                   res = "ä½•ã‹"; break;
-			case 0x00 + (MD_POSSESSIVE):                                  res = "ä½•ã‹ã®"; break;
-			case 0x00 + (MD_POSSESSIVE | MD_OBJECTIVE):                   res = "ä½•ã‹è‡ªèº«"; break;
-			case 0x00 + (MD_INDEF_HIDDEN):                                res = "ä½•ã‹"; break;
-			case 0x00 + (MD_INDEF_HIDDEN | MD_OBJECTIVE):                 res = "ä½•ã‹"; break;
-			case 0x00 + (MD_INDEF_HIDDEN | MD_POSSESSIVE):                res = "ä½•ã‹"; break;
-			case 0x00 + (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE): res = "ãã‚Œè‡ªèº«"; break;
+			case 0x00:                                                    res = "²¿¤«"; break;
+			case 0x00 + (MD_OBJECTIVE):                                   res = "²¿¤«"; break;
+			case 0x00 + (MD_POSSESSIVE):                                  res = "²¿¤«¤Î"; break;
+			case 0x00 + (MD_POSSESSIVE | MD_OBJECTIVE):                   res = "²¿¤«¼«¿È"; break;
+			case 0x00 + (MD_INDEF_HIDDEN):                                res = "²¿¤«"; break;
+			case 0x00 + (MD_INDEF_HIDDEN | MD_OBJECTIVE):                 res = "²¿¤«"; break;
+			case 0x00 + (MD_INDEF_HIDDEN | MD_POSSESSIVE):                res = "²¿¤«"; break;
+			case 0x00 + (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE): res = "¤½¤ì¼«¿È"; break;
 #else
 			case 0x00:                                                    res = "it"; break;
 			case 0x00 + (MD_OBJECTIVE):                                   res = "it"; break;
@@ -1549,14 +1549,14 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 
 			/* Male (assume human if vague) */
 #ifdef JP
-			case 0x10:                                                    res = "å½¼"; break;
-			case 0x10 + (MD_OBJECTIVE):                                   res = "å½¼"; break;
-			case 0x10 + (MD_POSSESSIVE):                                  res = "å½¼ã®"; break;
-			case 0x10 + (MD_POSSESSIVE | MD_OBJECTIVE):                   res = "å½¼è‡ªèº«"; break;
-			case 0x10 + (MD_INDEF_HIDDEN):                                res = "èª°ã‹"; break;
-			case 0x10 + (MD_INDEF_HIDDEN | MD_OBJECTIVE):                 res = "èª°ã‹"; break;
-			case 0x10 + (MD_INDEF_HIDDEN | MD_POSSESSIVE):                res = "èª°ã‹ã®"; break;
-			case 0x10 + (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE): res = "å½¼è‡ªèº«"; break;
+			case 0x10:                                                    res = "Èà"; break;
+			case 0x10 + (MD_OBJECTIVE):                                   res = "Èà"; break;
+			case 0x10 + (MD_POSSESSIVE):                                  res = "Èà¤Î"; break;
+			case 0x10 + (MD_POSSESSIVE | MD_OBJECTIVE):                   res = "Èà¼«¿È"; break;
+			case 0x10 + (MD_INDEF_HIDDEN):                                res = "Ã¯¤«"; break;
+			case 0x10 + (MD_INDEF_HIDDEN | MD_OBJECTIVE):                 res = "Ã¯¤«"; break;
+			case 0x10 + (MD_INDEF_HIDDEN | MD_POSSESSIVE):                res = "Ã¯¤«¤Î"; break;
+			case 0x10 + (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE): res = "Èà¼«¿È"; break;
 #else
 			case 0x10:                                                    res = "he"; break;
 			case 0x10 + (MD_OBJECTIVE):                                   res = "him"; break;
@@ -1571,14 +1571,14 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 
 			/* Female (assume human if vague) */
 #ifdef JP
-			case 0x20:                                                    res = "å½¼å¥³"; break;
-			case 0x20 + (MD_OBJECTIVE):                                   res = "å½¼å¥³"; break;
-			case 0x20 + (MD_POSSESSIVE):                                  res = "å½¼å¥³ã®"; break;
-			case 0x20 + (MD_POSSESSIVE | MD_OBJECTIVE):                   res = "å½¼å¥³è‡ªèº«"; break;
-			case 0x20 + (MD_INDEF_HIDDEN):                                res = "èª°ã‹"; break;
-			case 0x20 + (MD_INDEF_HIDDEN | MD_OBJECTIVE):                 res = "èª°ã‹"; break;
-			case 0x20 + (MD_INDEF_HIDDEN | MD_POSSESSIVE):                res = "èª°ã‹ã®"; break;
-			case 0x20 + (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE): res = "å½¼å¥³è‡ªèº«"; break;
+			case 0x20:                                                    res = "Èà½÷"; break;
+			case 0x20 + (MD_OBJECTIVE):                                   res = "Èà½÷"; break;
+			case 0x20 + (MD_POSSESSIVE):                                  res = "Èà½÷¤Î"; break;
+			case 0x20 + (MD_POSSESSIVE | MD_OBJECTIVE):                   res = "Èà½÷¼«¿È"; break;
+			case 0x20 + (MD_INDEF_HIDDEN):                                res = "Ã¯¤«"; break;
+			case 0x20 + (MD_INDEF_HIDDEN | MD_OBJECTIVE):                 res = "Ã¯¤«"; break;
+			case 0x20 + (MD_INDEF_HIDDEN | MD_POSSESSIVE):                res = "Ã¯¤«¤Î"; break;
+			case 0x20 + (MD_INDEF_HIDDEN | MD_POSSESSIVE | MD_OBJECTIVE): res = "Èà½÷¼«¿È"; break;
 #else
 			case 0x20:                                                    res = "she"; break;
 			case 0x20 + (MD_OBJECTIVE):                                   res = "her"; break;
@@ -1601,9 +1601,9 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 	{
 		/* The monster is visible, so use its gender */
 #ifdef JP
-		if (r_ptr->flags1 & (RF1_FEMALE)) strcpy(desc, "å½¼å¥³è‡ªèº«");
-		else if (r_ptr->flags1 & (RF1_MALE)) strcpy(desc, "å½¼è‡ªèº«");
-		else strcpy(desc, "ãã‚Œè‡ªèº«");
+		if (r_ptr->flags1 & (RF1_FEMALE)) strcpy(desc, "Èà½÷¼«¿È");
+		else if (r_ptr->flags1 & (RF1_MALE)) strcpy(desc, "Èà¼«¿È");
+		else strcpy(desc, "¤½¤ì¼«¿È");
 #else
 		if (r_ptr->flags1 & RF1_FEMALE) strcpy(desc, "herself");
 		else if (r_ptr->flags1 & RF1_MALE) strcpy(desc, "himself");
@@ -1622,14 +1622,14 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 			char *t;
 			strcpy(buf, name);
 			t = buf;
-			while(strncmp(t, "ã€", 2) && *t) t++;
+			while(strncmp(t, "¡Ù", 2) && *t) t++;
 			if (*t)
 			{
 				*t = '\0';
-				(void)sprintf(desc, "%sï¼Ÿã€", buf);
+				(void)sprintf(desc, "%s¡©¡Ù", buf);
 			}
 			else
-				(void)sprintf(desc, "%sï¼Ÿ", name);
+				(void)sprintf(desc, "%s¡©", name);
 #else
 			(void)sprintf(desc, "%s?", name);
 #endif
@@ -1646,14 +1646,14 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 				char *t;
 				strcpy(buf, name);
 				t = buf;
-				while (strncmp(t, "ã€", 2) && *t) t++;
+				while (strncmp(t, "¡Ù", 2) && *t) t++;
 				if (*t)
 				{
 					*t = '\0';
-					(void)sprintf(desc, "%sï¼Ÿã€", buf);
+					(void)sprintf(desc, "%s¡©¡Ù", buf);
 				}
 				else
-					(void)sprintf(desc, "%sï¼Ÿ", name);
+					(void)sprintf(desc, "%s¡©", name);
 #else
 				(void)sprintf(desc, "%s?", name);
 #endif
@@ -1664,7 +1664,7 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 				 !(p_ptr->riding && (&m_list[p_ptr->riding] == m_ptr)))
 			{
 				/* It is a fake unique monster */
-				(void)sprintf(desc, _("%sã‚‚ã©ã", "fake %s"), name);
+				(void)sprintf(desc, _("%s¤â¤É¤­", "fake %s"), name);
 			}
 
 			else
@@ -1693,7 +1693,7 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 		{
 			/* Definite monsters need a definite article */
 			if (is_pet(m_ptr))
-				(void)strcpy(desc, _("ã‚ãªãŸã®", "your "));
+				(void)strcpy(desc, _("¤¢¤Ê¤¿¤Î", "your "));
 			else
 				(void)strcpy(desc, _("", "the "));
 
@@ -1702,24 +1702,24 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 
 		if (m_ptr->nickname)
 		{
-			sprintf(buf,_("ã€Œ%sã€", " called %s"),quark_str(m_ptr->nickname));
+			sprintf(buf,_("¡Ö%s¡×", " called %s"),quark_str(m_ptr->nickname));
 			strcat(desc,buf);
 		}
 
 		if (p_ptr->riding && (&m_list[p_ptr->riding] == m_ptr))
 		{
-			strcat(desc,_("(ä¹—é¦¬ä¸­)", "(riding)"));
+			strcat(desc,_("(¾èÇÏÃæ)", "(riding)"));
 		}
 
 		if ((mode & MD_IGNORE_HALLU) && (m_ptr->mflag2 & MFLAG2_CHAMELEON))
 		{
 			if (r_ptr->flags1 & RF1_UNIQUE)
 			{
-				strcat(desc,_("(ã‚«ãƒ¡ãƒ¬ã‚ªãƒ³ã®çŽ‹)", "(Chameleon Lord)"));
+				strcat(desc,_("(¥«¥á¥ì¥ª¥ó¤Î²¦)", "(Chameleon Lord)"));
 			}
 			else
 			{
-				strcat(desc,_("(ã‚«ãƒ¡ãƒ¬ã‚ªãƒ³)", "(Chameleon)"));
+				strcat(desc,_("(¥«¥á¥ì¥ª¥ó)", "(Chameleon)"));
 			}
 		}
 
@@ -1734,7 +1734,7 @@ void monster_desc(char *desc, monster_type *m_ptr, int mode)
 			/* XXX Check for trailing "s" */
 			
 			/* Simply append "apostrophe" and "s" */
-			(void)strcat(desc, _("ã®", "'s"));
+			(void)strcat(desc, _("¤Î", "'s"));
 		}
 	}
 }
@@ -1936,7 +1936,7 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 		{
 			/* Something silly happens... */
 #ifdef JP
-			msg_format("%s%sã®é¡”ã‚’è¦‹ã¦ã—ã¾ã£ãŸï¼",
+			msg_format("%s%s¤Î´é¤ò¸«¤Æ¤·¤Þ¤Ã¤¿¡ª",
 				funny_desc[randint0(MAX_SAN_FUNNY)], m_name);
 #else
 			msg_format("You behold the %s visage of %s!",
@@ -1955,7 +1955,7 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 
 		/* Something frightening happens... */
 #ifdef JP
-		msg_format("%s%sã®é¡”ã‚’è¦‹ã¦ã—ã¾ã£ãŸï¼",
+		msg_format("%s%s¤Î´é¤ò¸«¤Æ¤·¤Þ¤Ã¤¿¡ª",
 			horror_desc[randint0(MAX_SAN_HORROR)], m_name);
 #else
 		msg_format("You behold the %s visage of %s!",
@@ -1978,7 +1978,7 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 	}
 	else
 	{
-		msg_print(_("ãƒã‚¯ãƒ­ãƒŽãƒŸã‚³ãƒ³ã‚’èª­ã‚“ã§æ­£æ°—ã‚’å¤±ã£ãŸï¼", "Your sanity is shaken by reading the Necronomicon!"));
+		msg_print(_("¥Í¥¯¥í¥Î¥ß¥³¥ó¤òÆÉ¤ó¤ÇÀµµ¤¤ò¼º¤Ã¤¿¡ª", "Your sanity is shaken by reading the Necronomicon!"));
 	}
 
 	if (!saving_throw(p_ptr->skill_sav - power)) /* Mind blast */
@@ -2026,7 +2026,7 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 	{
 
 		if (lose_all_info())
-			msg_print(_("ã‚ã¾ã‚Šã®ææ€–ã«å…¨ã¦ã®ã“ã¨ã‚’å¿˜ã‚Œã¦ã—ã¾ã£ãŸï¼", "You forget everything in your utmost terror!"));
+			msg_print(_("¤¢¤Þ¤ê¤Î¶²ÉÝ¤ËÁ´¤Æ¤Î¤³¤È¤òËº¤ì¤Æ¤·¤Þ¤Ã¤¿¡ª", "You forget everything in your utmost terror!"));
 
 		return;
 	}
@@ -2054,16 +2054,16 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 				{
 					if ((p_ptr->stat_use[A_INT] < 4) && (p_ptr->stat_use[A_WIS] < 4))
 					{
-						msg_print(_("ã‚ãªãŸã¯å®Œç’§ãªé¦¬é¹¿ã«ãªã£ãŸã‚ˆã†ãªæ°—ãŒã—ãŸã€‚ã—ã‹ã—ãã‚Œã¯å…ƒã€…ã ã£ãŸã€‚", "You turn into an utter moron!"));
+						msg_print(_("¤¢¤Ê¤¿¤Ï´°àú¤ÊÇÏ¼¯¤Ë¤Ê¤Ã¤¿¤è¤¦¤Êµ¤¤¬¤·¤¿¡£¤·¤«¤·¤½¤ì¤Ï¸µ¡¹¤À¤Ã¤¿¡£", "You turn into an utter moron!"));
 					}
 					else
 					{
-						msg_print(_("ã‚ãªãŸã¯å®Œç’§ãªé¦¬é¹¿ã«ãªã£ãŸï¼", "You turn into an utter moron!"));
+						msg_print(_("¤¢¤Ê¤¿¤Ï´°àú¤ÊÇÏ¼¯¤Ë¤Ê¤Ã¤¿¡ª", "You turn into an utter moron!"));
 					}
 
 					if (p_ptr->muta3 & MUT3_HYPER_INT)
 					{
-						msg_print(_("ã‚ãªãŸã®è„³ã¯ç”Ÿä½“ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ã§ã¯ãªããªã£ãŸã€‚", "Your brain is no longer a living computer."));
+						msg_print(_("¤¢¤Ê¤¿¤ÎÇ¾¤ÏÀ¸ÂÎ¥³¥ó¥Ô¥å¡¼¥¿¤Ç¤Ï¤Ê¤¯¤Ê¤Ã¤¿¡£", "Your brain is no longer a living computer."));
 						p_ptr->muta3 &= ~(MUT3_HYPER_INT);
 					}
 					p_ptr->muta3 |= MUT3_MORONIC;
@@ -2082,12 +2082,12 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 			case 11:
 				if (!(p_ptr->muta2 & MUT2_COWARDICE) && !p_ptr->resist_fear)
 				{
-					msg_print(_("ã‚ãªãŸã¯ãƒ‘ãƒ©ãƒŽã‚¤ã‚¢ã«ãªã£ãŸï¼", "You become paranoid!"));
+					msg_print(_("¤¢¤Ê¤¿¤Ï¥Ñ¥é¥Î¥¤¥¢¤Ë¤Ê¤Ã¤¿¡ª", "You become paranoid!"));
 
 					/* Duh, the following should never happen, but anyway... */
 					if (p_ptr->muta3 & MUT3_FEARLESS)
 					{
-						msg_print(_("ã‚ãªãŸã¯ã‚‚ã†æã‚ŒçŸ¥ã‚‰ãšã§ã¯ãªããªã£ãŸã€‚", "You are no longer fearless."));
+						msg_print(_("¤¢¤Ê¤¿¤Ï¤â¤¦¶²¤ìÃÎ¤é¤º¤Ç¤Ï¤Ê¤¯¤Ê¤Ã¤¿¡£", "You are no longer fearless."));
 						p_ptr->muta3 &= ~(MUT3_FEARLESS);
 					}
 
@@ -2107,7 +2107,7 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 			case 21:
 				if (!(p_ptr->muta2 & MUT2_HALLU) && !p_ptr->resist_chaos)
 				{
-					msg_print(_("å¹»è¦šã‚’ã²ãèµ·ã“ã™ç²¾ç¥žéŒ¯ä¹±ã«é™¥ã£ãŸï¼", "You are afflicted by a hallucinatory insanity!"));
+					msg_print(_("¸¸³Ð¤ò¤Ò¤­µ¯¤³¤¹Àº¿ÀºøÍð¤Ë´Ù¤Ã¤¿¡ª", "You are afflicted by a hallucinatory insanity!"));
 					p_ptr->muta2 |= MUT2_HALLU;
 					happened = TRUE;
 				}
@@ -2115,7 +2115,7 @@ void sanity_blast(monster_type *m_ptr, bool necro)
 			default:
 				if (!(p_ptr->muta2 & MUT2_BERS_RAGE))
 				{
-					msg_print(_("æ¿€çƒˆãªæ„Ÿæƒ…ã®ç™ºä½œã«ãŠãã‚ã‚Œã‚‹ã‚ˆã†ã«ãªã£ãŸï¼", "You become subject to fits of berserk rage!"));
+					msg_print(_("·ãÎõ¤Ê´¶¾ð¤ÎÈ¯ºî¤Ë¤ª¤½¤ï¤ì¤ë¤è¤¦¤Ë¤Ê¤Ã¤¿¡ª", "You become subject to fits of berserk rage!"));
 					p_ptr->muta2 |= MUT2_BERS_RAGE;
 					happened = TRUE;
 				}
@@ -2736,9 +2736,9 @@ void choose_new_monster(int m_idx, bool born, int r_idx)
 	{
 		char m_name[80];
 		monster_desc(m_name, m_ptr, 0);
-		msg_format(_("çªç„¶%sãŒå¤‰èº«ã—ãŸã€‚", "Suddenly, %s transforms!"), old_m_name);
+		msg_format(_("ÆÍÁ³%s¤¬ÊÑ¿È¤·¤¿¡£", "Suddenly, %s transforms!"), old_m_name);
 		if (!(r_ptr->flags7 & RF7_RIDING))
-			if (rakuba(0, TRUE)) msg_format(_("åœ°é¢ã«è½ã¨ã•ã‚ŒãŸã€‚", "You have fallen from %s."), m_name);
+			if (rakuba(0, TRUE)) msg_format(_("ÃÏÌÌ¤ËÍî¤È¤µ¤ì¤¿¡£", "You have fallen from %s."), m_name);
 	}
 
 	/* Extract the monster base speed */
@@ -2951,7 +2951,7 @@ static bool place_monster_one(int who, int y, int x, int r_idx, u32b mode)
 			/* Describe observable breakage */
 			if (c_ptr->info & CAVE_MARK)
 			{
-				msg_print(_("å®ˆã‚Šã®ãƒ«ãƒ¼ãƒ³ãŒå£Šã‚ŒãŸï¼", "The rune of protection is broken!"));
+				msg_print(_("¼é¤ê¤Î¥ë¡¼¥ó¤¬²õ¤ì¤¿¡ª", "The rune of protection is broken!"));
 			}
 
 			/* Forget the rune */
@@ -2974,14 +2974,14 @@ static bool place_monster_one(int who, int y, int x, int r_idx, u32b mode)
 		if (r_ptr->flags1 & (RF1_UNIQUE))
 		{
 			/* Message for cheaters */
-			if (cheat_hear) msg_format(_("æ·±å±¤ã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ (%s)ã€‚", "Deep Unique (%s)."), name);
+			if (cheat_hear) msg_format(_("¿¼ÁØ¤Î¥æ¥Ë¡¼¥¯¡¦¥â¥ó¥¹¥¿¡¼ (%s)¡£", "Deep Unique (%s)."), name);
 		}
 
 		/* Normal monsters */
 		else
 		{
 			/* Message for cheaters */
-			if (cheat_hear) msg_format(_("æ·±å±¤ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ (%s)ã€‚", "Deep Monster (%s)."), name);
+			if (cheat_hear) msg_format(_("¿¼ÁØ¤Î¥â¥ó¥¹¥¿¡¼ (%s)¡£", "Deep Monster (%s)."), name);
 		}
 	}
 
@@ -2989,7 +2989,7 @@ static bool place_monster_one(int who, int y, int x, int r_idx, u32b mode)
 	else if (r_ptr->flags1 & (RF1_UNIQUE))
 	{
 		/* Unique monsters induce message */
-		if (cheat_hear) msg_format(_("ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ (%s)ã€‚", "Unique (%s)."), name);
+		if (cheat_hear) msg_format(_("¥æ¥Ë¡¼¥¯¡¦¥â¥ó¥¹¥¿¡¼ (%s)¡£", "Unique (%s)."), name);
 	}
 
 	if ((r_ptr->flags1 & RF1_UNIQUE) || (r_ptr->flags7 & RF7_NAZGUL) || (r_ptr->level < 10)) mode &= ~PM_KAGE;
@@ -3207,27 +3207,27 @@ static bool place_monster_one(int who, int y, int x, int r_idx, u32b mode)
 			char o_name[MAX_NLEN];
 
 			if (r_ptr->level > p_ptr->lev + 30)
-				color = _("é»’ã", "black");
+				color = _("¹õ¤¯", "black");
 			else if (r_ptr->level > p_ptr->lev + 15)
-				color = _("ç´«è‰²ã«", "purple");
+				color = _("»ç¿§¤Ë", "purple");
 			else if (r_ptr->level > p_ptr->lev + 5)
-				color = _("ãƒ«ãƒ“ãƒ¼è‰²ã«", "deep red");
+				color = _("¥ë¥Ó¡¼¿§¤Ë", "deep red");
 			else if (r_ptr->level > p_ptr->lev - 5)
-				color = _("èµ¤ã", "red");
+				color = _("ÀÖ¤¯", "red");
 			else if (r_ptr->level > p_ptr->lev - 15)
-				color = _("ãƒ”ãƒ³ã‚¯è‰²ã«", "pink");
+				color = _("¥Ô¥ó¥¯¿§¤Ë", "pink");
 			else
-				color = _("ç™½ã", "white");
+				color = _("Çò¤¯", "white");
 
 			o_ptr = choose_warning_item();
 			if (o_ptr)
 			{
 				object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
-				msg_format(_("%sã¯%så…‰ã£ãŸã€‚", "%s glows %s."), o_name, color);
+				msg_format(_("%s¤Ï%s¸÷¤Ã¤¿¡£", "%s glows %s."), o_name, color);
 			}
 			else
 			{
-				msg_format(_("%så…‰ã‚‹ç‰©ãŒé ­ã«æµ®ã‹ã‚“ã ã€‚", "An %s image forms in your mind."), color);
+				msg_format(_("%s¸÷¤ëÊª¤¬Æ¬¤ËÉâ¤«¤ó¤À¡£", "An %s image forms in your mind."), color);
 			}
 		}
 	}
@@ -3240,13 +3240,13 @@ static bool place_monster_one(int who, int y, int x, int r_idx, u32b mode)
 			/* Describe observable breakage */
 			if (c_ptr->info & CAVE_MARK)
 			{
-				msg_print(_("ãƒ«ãƒ¼ãƒ³ãŒçˆ†ç™ºã—ãŸï¼", "The rune explodes!"));
+				msg_print(_("¥ë¡¼¥ó¤¬ÇúÈ¯¤·¤¿¡ª", "The rune explodes!"));
 				project(0, 2, y, x, 2 * (p_ptr->lev + damroll(7, 7)), GF_MANA, (PROJECT_GRID | PROJECT_ITEM | PROJECT_KILL | PROJECT_JUMP | PROJECT_NO_HANGEKI), -1);
 			}
 		}
 		else
 		{
-			msg_print(_("çˆ†ç™ºã®ãƒ«ãƒ¼ãƒ³ã¯è§£é™¤ã•ã‚ŒãŸã€‚", "An explosive rune was disarmed."));
+			msg_print(_("ÇúÈ¯¤Î¥ë¡¼¥ó¤Ï²ò½ü¤µ¤ì¤¿¡£", "An explosive rune was disarmed."));
 		}
 
 		/* Forget the rune */
@@ -3745,7 +3745,7 @@ bool alloc_monster(int dis, u32b mode)
 	{
 		if (cheat_xtra || cheat_hear)
 		{
-			msg_print(_("è­¦å‘Šï¼æ–°ãŸãªãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’é…ç½®ã§ãã¾ã›ã‚“ã€‚å°ã•ã„éšŽã§ã™ã‹ï¼Ÿ", "Warning! Could not allocate a new monster. Small level?"));
+			msg_print(_("·Ù¹ð¡ª¿·¤¿¤Ê¥â¥ó¥¹¥¿¡¼¤òÇÛÃÖ¤Ç¤­¤Þ¤»¤ó¡£¾®¤µ¤¤³¬¤Ç¤¹¤«¡©", "Warning! Could not allocate a new monster. Small level?"));
 		}
 
 		return (FALSE);
@@ -3757,7 +3757,7 @@ bool alloc_monster(int dis, u32b mode)
 	{
 		if (alloc_horde(y, x))
 		{
-			if (cheat_hear) msg_format(_("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®å¤§ç¾¤(%c)", "Monster horde (%c)."), summon_kin_type);
+			if (cheat_hear) msg_format(_("¥â¥ó¥¹¥¿¡¼¤ÎÂç·²(%c)", "Monster horde (%c)."), summon_kin_type);
 			return (TRUE);
 		}
 	}
@@ -3966,7 +3966,7 @@ void message_pain(int m_idx, int dam)
 
 	if(dam == 0) // Notice non-damage
 	{
-		msg_format(_("%^sã¯ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦ã„ãªã„ã€‚", "%^s is unharmed."), m_name);
+		msg_format(_("%^s¤Ï¥À¥á¡¼¥¸¤ò¼õ¤±¤Æ¤¤¤Ê¤¤¡£", "%^s is unharmed."), m_name);
 		return;
 	}
 
@@ -3979,13 +3979,13 @@ void message_pain(int m_idx, int dam)
 	if(my_strchr(",ejmvwQ", r_ptr->d_char)) // Mushrooms, Eyes, Jellies, Molds, Vortices, Worms, Quylthulgs
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯ã»ã¨ã‚“ã©æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ã—ã‚Šè¾¼ã¿ã—ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ç¸®ã“ã¾ã£ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã«éœ‡ãˆãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯èº«ã‚‚ã ãˆã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§èº«ã‚‚ã ãˆã—ãŸã€‚", m_name);
-		else msg_format("%^sã¯ãã«ã‚ƒãã«ã‚ƒã¨ç—™æ”£ã—ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¤Û¤È¤ó¤Éµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤Ï¤·¤ê¹þ¤ß¤·¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤Ï½Ì¤³¤Þ¤Ã¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤Ë¿Ì¤¨¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¿È¤â¤À¤¨¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ç¿È¤â¤À¤¨¤·¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¤°¤Ë¤ã¤°¤Ë¤ã¤ÈáÛÚ»¤·¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s barely notices.", m_name);
 		else if(percentage > 75) msg_format("%^s flinches.", m_name);
@@ -4000,13 +4000,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("l", r_ptr->d_char)) // Fish
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯ã»ã¨ã‚“ã©æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ã—ã‚Šè¾¼ã¿ã—ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯èºŠèº‡ã—ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã«éœ‡ãˆãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯èº«ã‚‚ã ãˆã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§èº«ã‚‚ã ãˆã—ãŸã€‚", m_name);
-		else msg_format("%^sã¯ãã«ã‚ƒãã«ã‚ƒã¨ç—™æ”£ã—ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¤Û¤È¤ó¤Éµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤Ï¤·¤ê¹þ¤ß¤·¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤Ïí´í°¤·¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤Ë¿Ì¤¨¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¿È¤â¤À¤¨¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ç¿È¤â¤À¤¨¤·¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¤°¤Ë¤ã¤°¤Ë¤ã¤ÈáÛÚ»¤·¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s barely notices.", m_name);
 		else if(percentage > 75) msg_format("%^s flinches.", m_name);
@@ -4021,13 +4021,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("g#+<>", r_ptr->d_char)) // Golems, Walls, Doors, Stairs
 	{	
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯é›·é³´ã®ã‚ˆã†ã«å ãˆãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯è‹¦ã—ã’ã«å ãˆãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯ã†ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯èºŠèº‡ã—ãŸã€‚", m_name);
-		else msg_format("%^sã¯ãã—ã‚ƒãã—ã‚ƒã«ãªã£ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÍëÌÄ¤Î¤è¤¦¤ËËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤Ï¶ì¤·¤²¤ËËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¤¦¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ïí´í°¤·¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¤¯¤·¤ã¤¯¤·¤ã¤Ë¤Ê¤Ã¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s shrugs off the attack.", m_name);
@@ -4042,13 +4042,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("JMR", r_ptr->d_char) || !isalpha(r_ptr->d_char)) // Snakes, Hydrae, Reptiles, Mimics
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯ã»ã¨ã‚“ã©æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ã‚·ãƒ¼ãƒƒã¨é³´ã„ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯æ€’ã£ã¦é ­ã‚’ä¸Šã’ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯çŒ›ç„¶ã¨å¨åš‡ã—ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯èº«ã‚‚ã ãˆã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§èº«ã‚‚ã ãˆã—ãŸã€‚", m_name);
-		else msg_format("%^sã¯ãã«ã‚ƒãã«ã‚ƒã¨ç—™æ”£ã—ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¤Û¤È¤ó¤Éµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤Ï¥·¡¼¥Ã¤ÈÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÅÜ¤Ã¤ÆÆ¬¤ò¾å¤²¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÌÔÁ³¤È°Ò³Å¤·¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¿È¤â¤À¤¨¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ç¿È¤â¤À¤¨¤·¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¤°¤Ë¤ã¤°¤Ë¤ã¤ÈáÛÚ»¤·¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s barely notices.", m_name);
 		else if(percentage > 75) msg_format("%^s hisses.", m_name);
@@ -4063,13 +4063,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("f", r_ptr->d_char))
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯å ãˆãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯æ€’ã£ã¦å ãˆãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã§ã‚·ãƒ¼ãƒƒã¨é³´ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯ç—›ã¿ã§å¼±ã€…ã—ãé³´ã„ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã«ã†ã‚ã„ãŸã€‚", m_name);
-		else msg_format("%sã¯å“€ã‚Œãªé³´ãå£°ã‚’å‡ºã—ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤ÏËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÅÜ¤Ã¤ÆËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤Ç¥·¡¼¥Ã¤ÈÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤ÏÄË¤ß¤Ç¼å¡¹¤·¤¯ÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ë¤¦¤á¤¤¤¿¡£", m_name);
+		else msg_format("%s¤Ï°¥¤ì¤ÊÌÄ¤­À¼¤ò½Ð¤·¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s shrugs off the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s roars.", m_name);
@@ -4084,13 +4084,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("acFIKS", r_ptr->d_char)) // Ants, Centipedes, Flies, Insects, Beetles, Spiders
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ã‚­ãƒ¼ã‚­ãƒ¼é³´ã„ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ãƒ¨ãƒ­ãƒ¨ãƒ­é€ƒã’å›žã£ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ã†ã‚‹ã•ãé³´ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯ç—›ã¿ã«ç—™æ”£ã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§ç—™æ”£ã—ãŸã€‚", m_name);
-		else msg_format("%^sã¯ãƒ”ã‚¯ãƒ”ã‚¯ã²ãã¤ã£ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤Ï¥­¡¼¥­¡¼ÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤Ï¥è¥í¥è¥íÆ¨¤²²ó¤Ã¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤Ï¤¦¤ë¤µ¤¯ÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤ÏÄË¤ß¤ËáÛÚ»¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤ÇáÛÚ»¤·¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¥Ô¥¯¥Ô¥¯¤Ò¤­¤Ä¤Ã¤¿¡£", m_name);
 #else
 		if(percentage > 95)	msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s chitters.", m_name);
@@ -4105,13 +4105,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("B", r_ptr->d_char)) // Birds
 	{		
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯ã•ãˆãšã£ãŸã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ãƒ”ãƒ¼ãƒ”ãƒ¼é³´ã„ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ã‚®ãƒ£ãƒ¼ã‚®ãƒ£ãƒ¼é³´ã„ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ã‚®ãƒ£ãƒ¼ã‚®ãƒ£ãƒ¼é³´ãã‚ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯è‹¦ã—ã‚“ã ã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯ã®ãŸã†ã¡å›žã£ãŸã€‚", m_name);
-		else msg_format("%^sã¯ã‚­ãƒ¼ã‚­ãƒ¼ã¨é³´ãå«ã‚“ã ã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¤µ¤¨¤º¤Ã¤¿¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤Ï¥Ô¡¼¥Ô¡¼ÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤Ï¥®¥ã¡¼¥®¥ã¡¼ÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤Ï¥®¥ã¡¼¥®¥ã¡¼ÌÄ¤­¤ï¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¶ì¤·¤ó¤À¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¤Î¤¿¤¦¤Á²ó¤Ã¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¥­¡¼¥­¡¼¤ÈÌÄ¤­¶«¤ó¤À¡£", m_name);
 #else
 		if(percentage > 95)	msg_format("%^s chirps.", m_name);
 		else if(percentage > 75) msg_format("%^s twitters.", m_name);
@@ -4126,13 +4126,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("duDLUW", r_ptr->d_char)) // Dragons, Demons, High Undead
 	{	
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ã—ã‚Šè¾¼ã¿ã—ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ç—›ã¿ã§ã‚·ãƒ¼ãƒƒã¨é³´ã„ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã§ã†ãªã£ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯ç—›ã¿ã«å ãˆãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ã—ã’ã«å«ã‚“ã ã€‚", m_name);
-		else msg_format("%^sã¯å¼±ã€…ã—ãã†ãªã£ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤Ï¤·¤ê¹þ¤ß¤·¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÄË¤ß¤Ç¥·¡¼¥Ã¤ÈÌÄ¤¤¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤Ç¤¦¤Ê¤Ã¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤ÏÄË¤ß¤ËËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ì¤·¤²¤Ë¶«¤ó¤À¡£", m_name);
+		else msg_format("%^s¤Ï¼å¡¹¤·¤¯¤¦¤Ê¤Ã¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s flinches.", m_name);
@@ -4147,13 +4147,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("s", r_ptr->d_char)) // Skeletons
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ã‚«ã‚¿ã‚«ã‚¿ã¨ç¬‘ã£ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ã‚ˆã‚ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯ã‚«ã‚¿ã‚«ã‚¿è¨€ã£ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯ã‚ˆã‚ã‚ã„ãŸã€‚", m_name);
-		else msg_format("%^sã¯ã‚¬ã‚¿ã‚¬ã‚¿è¨€ã£ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤Ï¥«¥¿¥«¥¿¤È¾Ð¤Ã¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤Ï¤è¤í¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¥«¥¿¥«¥¿¸À¤Ã¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¤è¤í¤á¤¤¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¥¬¥¿¥¬¥¿¸À¤Ã¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s shrugs off the attack.", m_name);
@@ -4168,13 +4168,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("z", r_ptr->d_char)) // Zombies
 	{		
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ã†ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%sã¯è‹¦ã—ã’ã«ã†ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯èºŠèº‡ã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯ã†ãªã£ãŸã€‚", m_name);
-		else msg_format("%^sã¯ã‚ˆã‚ã‚ã„ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤Ï¤¦¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%s¤Ï¶ì¤·¤²¤Ë¤¦¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ïí´í°¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¤¦¤Ê¤Ã¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¤è¤í¤á¤¤¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s shrugs off the attack.", m_name);
@@ -4189,13 +4189,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("G", r_ptr->d_char)) // Ghosts
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%sã¯ã†ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯æ³£ãã‚ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯å ãˆãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%sã¯å¼±ã€…ã—ãã†ã‚ã„ãŸã€‚", m_name);
-		else msg_format("%^sã¯ã‹ã™ã‹ã«ã†ã‚ã„ãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%s¤Ï¤¦¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤Ïµã¤­¤ï¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤ÏËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%s¤Ï¼å¡¹¤·¤¯¤¦¤á¤¤¤¿¡£", m_name);
+		else msg_format("%^s¤Ï¤«¤¹¤«¤Ë¤¦¤á¤¤¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s shrugs off the attack.", m_name);
@@ -4210,13 +4210,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("CZ", r_ptr->d_char)) // Dogs and Hounds
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ç—›ã¿ã§ã†ãªã£ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ç—›ã¿ã§ã‚­ãƒ£ãƒ³ã‚­ãƒ£ãƒ³å ãˆãŸã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã§é³´ãã‚ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯è‹¦ç—›ã®ã‚ã¾ã‚Šé³´ãã‚ã‚ã„ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§ã‚‚ã ãˆè‹¦ã—ã‚“ã ã€‚", m_name);
-		else msg_format("%^sã¯å¼±ã€…ã—ãå ãˆãŸã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤ÏÄË¤ß¤Ç¤¦¤Ê¤Ã¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÄË¤ß¤Ç¥­¥ã¥ó¥­¥ã¥óËÊ¤¨¤¿¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤ÇÌÄ¤­¤ï¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¶ìÄË¤Î¤¢¤Þ¤êÌÄ¤­¤ï¤á¤¤¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ç¤â¤À¤¨¶ì¤·¤ó¤À¡£", m_name);
+		else msg_format("%^s¤Ï¼å¡¹¤·¤¯ËÊ¤¨¤¿¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s shrugs off the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s snarls with pain.", m_name);
@@ -4231,13 +4231,13 @@ void message_pain(int m_idx, int dam)
 	else if(my_strchr("Xbilqrt", r_ptr->d_char)) // One type of creatures (ignore,squeal,shriek)
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯æ”»æ’ƒã‚’æ°—ã«ã¨ã‚ã¦ã„ãªã„ã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ç—›ã¿ã§ã†ãªã£ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ç—›ã¿ã§å«ã‚“ã ã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã§çµ¶å«ã—ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯è‹¦ç—›ã®ã‚ã¾ã‚Šçµ¶å«ã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§ã‚‚ã ãˆè‹¦ã—ã‚“ã ã€‚", m_name);
-		else msg_format("%^sã¯å¼±ã€…ã—ãå«ã‚“ã ã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¹¶·â¤òµ¤¤Ë¤È¤á¤Æ¤¤¤Ê¤¤¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤ÏÄË¤ß¤Ç¤¦¤Ê¤Ã¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÄË¤ß¤Ç¶«¤ó¤À¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤ÇÀä¶«¤·¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¶ìÄË¤Î¤¢¤Þ¤êÀä¶«¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ç¤â¤À¤¨¶ì¤·¤ó¤À¡£", m_name);
+		else msg_format("%^s¤Ï¼å¡¹¤·¤¯¶«¤ó¤À¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s ignores the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s grunts with pain.", m_name);
@@ -4252,13 +4252,13 @@ void message_pain(int m_idx, int dam)
 	else // Another type of creatures (shrug,cry,scream)
 	{
 #ifdef JP
-		if(percentage > 95) msg_format("%^sã¯æ”»æ’ƒã«è‚©ã‚’ã™ãã‚ãŸã€‚", m_name);
-		else if(percentage > 75) msg_format("%^sã¯ç—›ã¿ã§ã†ãªã£ãŸã€‚", m_name);
-		else if(percentage > 50) msg_format("%^sã¯ç—›ã¿ã§å«ã‚“ã ã€‚", m_name);
-		else if(percentage > 35) msg_format("%^sã¯ç—›ã¿ã§çµ¶å«ã—ãŸã€‚", m_name);
-		else if(percentage > 20) msg_format("%^sã¯è‹¦ç—›ã®ã‚ã¾ã‚Šçµ¶å«ã—ãŸã€‚", m_name);
-		else if(percentage > 10) msg_format("%^sã¯è‹¦ç—›ã§ã‚‚ã ãˆè‹¦ã—ã‚“ã ã€‚", m_name);
-		else msg_format("%^sã¯å¼±ã€…ã—ãå«ã‚“ã ã€‚", m_name);
+		if(percentage > 95) msg_format("%^s¤Ï¹¶·â¤Ë¸ª¤ò¤¹¤¯¤á¤¿¡£", m_name);
+		else if(percentage > 75) msg_format("%^s¤ÏÄË¤ß¤Ç¤¦¤Ê¤Ã¤¿¡£", m_name);
+		else if(percentage > 50) msg_format("%^s¤ÏÄË¤ß¤Ç¶«¤ó¤À¡£", m_name);
+		else if(percentage > 35) msg_format("%^s¤ÏÄË¤ß¤ÇÀä¶«¤·¤¿¡£", m_name);
+		else if(percentage > 20) msg_format("%^s¤Ï¶ìÄË¤Î¤¢¤Þ¤êÀä¶«¤·¤¿¡£", m_name);
+		else if(percentage > 10) msg_format("%^s¤Ï¶ìÄË¤Ç¤â¤À¤¨¶ì¤·¤ó¤À¡£", m_name);
+		else msg_format("%^s¤Ï¼å¡¹¤·¤¯¶«¤ó¤À¡£", m_name);
 #else
 		if(percentage > 95) msg_format("%^s shrugs off the attack.", m_name);
 		else if(percentage > 75) msg_format("%^s grunts with pain.", m_name);

@@ -1,4 +1,4 @@
-﻿/* File: h-define.h */
+/* File: h-define.h */
 
 #ifndef INCLUDED_H_DEFINE_H
 #define INCLUDED_H_DEFINE_H

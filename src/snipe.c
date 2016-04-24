@@ -1,6 +1,6 @@
-ï»¿/*!
+/*!
  * @file snipe.c
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ã®å®Ÿè£… / Sniping
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¤Î¼ÂÁõ / Sniping
  * @date 2014/01/18
  * @author
  * 2014 Deskull rearranged comment for Doxygen.\n
@@ -10,10 +10,10 @@
 
 #define MAX_SNIPE_POWERS 16
 
-/*! ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½æƒ…å ±ã®typedef */
+/*! ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¾ğÊó¤Îtypedef */
 typedef struct snipe_power snipe_power;
 
-/*! ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½æƒ…å ±ã®æ§‹é€ ä½“ */
+/*! ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¾ğÊó¤Î¹½Â¤ÂÎ */
 struct snipe_power
 {
 	int     min_lev;
@@ -21,26 +21,26 @@ struct snipe_power
 	const char *name;
 };
 
-/*! ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ã®è§£èª¬ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ */
+/*! ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¤Î²òÀâ¥á¥Ã¥»¡¼¥¸ */
 static const char *snipe_tips[MAX_SNIPE_POWERS] =
 {
 #ifdef JP
-	"ç²¾ç¥ã‚’é›†ä¸­ã™ã‚‹ã€‚å°„æ’ƒã®å¨åŠ›ã€ç²¾åº¦ãŒä¸ŠãŒã‚Šã€é«˜åº¦ãªå°„æ’ƒè¡“ãŒä½¿ç”¨ã§ãã‚‹ã‚ˆã†ã«ãªã‚‹ã€‚",
-	"å…‰ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚å…‰ã«å¼±ã„ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«å¨åŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚",
-	"å°„æ’ƒã‚’è¡Œã£ãŸå¾Œã€çŸ­è·é›¢ã®ç¬é–“ç§»å‹•ã‚’è¡Œã†ã€‚",
-	"è»Œé“ä¸Šã®ç½ ã‚’ã™ã¹ã¦ç„¡åŠ¹ã«ã™ã‚‹ä½ç©ºé£›è¡Œã®çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"ç«ç‚å±æ€§ã®çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"å£ã‚’ç²‰ç •ã™ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚å²©ã§ã§ããŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¨ç„¡ç”Ÿç‰©ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«å¨åŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚",
-	"å†·æ°—å±æ€§ã®çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"æ•µã‚’çªãé£›ã°ã™çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"è¤‡æ•°ã®æ•µã‚’è²«é€šã™ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"å–„è‰¯ãªãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«å¨åŠ›ã‚’ç™ºæ®ã™ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"é‚ªæ‚ªãªãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«å¨åŠ›ã‚’ç™ºæ®ã™ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"å½“ãŸã‚‹ã¨çˆ†ç™ºã™ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"2å›å°„æ’ƒã‚’è¡Œã†ã€‚",
-	"é›»æ’ƒå±æ€§ã®çŸ¢ã‚’æ”¾ã¤ã€‚",
-	"æ•µã®æ€¥æ‰€ã«ã‚ãŒã‘ã¦çŸ¢ã‚’æ”¾ã¤ã€‚æˆåŠŸã™ã‚‹ã¨æ•µã‚’ä¸€æ’ƒæ­»ã•ã›ã‚‹ã€‚å¤±æ•—ã™ã‚‹ã¨1ãƒ€ãƒ¡ãƒ¼ã‚¸ã€‚",
-	"å…¨ã¦ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«é«˜å¨åŠ›ã‚’ç™ºæ®ã™ã‚‹çŸ¢ã‚’æ”¾ã¤ã€‚åå‹•ã«ã‚ˆã‚‹å‰¯æ¬¡åŠ¹æœã‚’å—ã‘ã‚‹ã€‚",
+	"Àº¿À¤ò½¸Ãæ¤¹¤ë¡£¼Í·â¤Î°ÒÎÏ¡¢ÀºÅÙ¤¬¾å¤¬¤ê¡¢¹âÅÙ¤Ê¼Í·â½Ñ¤¬»ÈÍÑ¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ë¡£",
+	"¸÷¤ëÌğ¤òÊü¤Ä¡£¸÷¤Ë¼å¤¤¥â¥ó¥¹¥¿¡¼¤Ë°ÒÎÏ¤òÈ¯´ø¤¹¤ë¡£",
+	"¼Í·â¤ò¹Ô¤Ã¤¿¸å¡¢Ã»µ÷Î¥¤Î½Ö´Ö°ÜÆ°¤ò¹Ô¤¦¡£",
+	"µ°Æ»¾å¤Îæ«¤ò¤¹¤Ù¤ÆÌµ¸ú¤Ë¤¹¤ëÄã¶õÈô¹Ô¤ÎÌğ¤òÊü¤Ä¡£",
+	"²Ğ±êÂ°À­¤ÎÌğ¤òÊü¤Ä¡£",
+	"ÊÉ¤òÊ´ºÕ¤¹¤ëÌğ¤òÊü¤Ä¡£´ä¤Ç¤Ç¤­¤¿¥â¥ó¥¹¥¿¡¼¤ÈÌµÀ¸Êª¤Î¥â¥ó¥¹¥¿¡¼¤Ë°ÒÎÏ¤òÈ¯´ø¤¹¤ë¡£",
+	"Îäµ¤Â°À­¤ÎÌğ¤òÊü¤Ä¡£",
+	"Å¨¤òÆÍ¤­Èô¤Ğ¤¹Ìğ¤òÊü¤Ä¡£",
+	"Ê£¿ô¤ÎÅ¨¤ò´ÓÄÌ¤¹¤ëÌğ¤òÊü¤Ä¡£",
+	"Á±ÎÉ¤Ê¥â¥ó¥¹¥¿¡¼¤Ë°ÒÎÏ¤òÈ¯´ø¤¹¤ëÌğ¤òÊü¤Ä¡£",
+	"¼Ù°­¤Ê¥â¥ó¥¹¥¿¡¼¤Ë°ÒÎÏ¤òÈ¯´ø¤¹¤ëÌğ¤òÊü¤Ä¡£",
+	"Åö¤¿¤ë¤ÈÇúÈ¯¤¹¤ëÌğ¤òÊü¤Ä¡£",
+	"2²ó¼Í·â¤ò¹Ô¤¦¡£",
+	"ÅÅ·âÂ°À­¤ÎÌğ¤òÊü¤Ä¡£",
+	"Å¨¤ÎµŞ½ê¤Ë¤á¤¬¤±¤ÆÌğ¤òÊü¤Ä¡£À®¸ù¤¹¤ë¤ÈÅ¨¤ò°ì·â»à¤µ¤»¤ë¡£¼ºÇÔ¤¹¤ë¤È1¥À¥á¡¼¥¸¡£",
+	"Á´¤Æ¤Î¥â¥ó¥¹¥¿¡¼¤Ë¹â°ÒÎÏ¤òÈ¯´ø¤¹¤ëÌğ¤òÊü¤Ä¡£È¿Æ°¤Ë¤è¤ëÉû¼¡¸ú²Ì¤ò¼õ¤±¤ë¡£",
 #else
 	"Concentrate your mind fot shooting.",
 	"Shot an allow with brightness.",
@@ -61,27 +61,27 @@ static const char *snipe_tips[MAX_SNIPE_POWERS] =
 #endif
 };
 
-/*! ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ãƒ†ãƒ¼ãƒ–ãƒ« */
+/*! ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¥Æ¡¼¥Ö¥ë */
 snipe_power snipe_powers[MAX_SNIPE_POWERS] =
 {
 	/* Level gained,  cost,  name */
 #ifdef JP
-	{  1,  0,  "ç²¾ç¥é›†ä¸­" },
-	{  2,  1,  "ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ã‚¢ãƒ­ãƒ¼" },
-	{  3,  1,  "ã‚·ãƒ¥ãƒ¼ãƒˆï¼†ã‚¢ã‚¦ã‚§ã‚¤" },
-	{  5,  1,  "è§£é™¤ã®çŸ¢" },
-	{  8,  2,  "ç«ç‚ã®çŸ¢" },
-	{ 10,  2,  "å²©ç •ã" },
-	{ 13,  2,  "å†·æ°—ã®çŸ¢" },
-	{ 18,  2,  "çƒˆé¢¨å¼¾"},
-	{ 22,  3,  "è²«é€šå¼¾" },
-	{ 25,  4,  "é‚ªå¿µå¼¾"},
-	{ 26,  4,  "ç ´é­”çŸ¢" },
-	{ 30,  3,  "çˆ†ç™ºã®çŸ¢"},
-	{ 32,  4,  "ãƒ€ãƒ–ãƒ«ã‚·ãƒ§ãƒƒãƒˆ" },
-	{ 36,  3,  "ãƒ—ãƒ©ã‚ºãƒãƒœãƒ«ãƒˆ" },
-	{ 40,  3,  "ãƒ‹ãƒ¼ãƒ‰ãƒ«ã‚·ãƒ§ãƒƒãƒˆ" },
-	{ 48,  7,  "ã‚»ã‚¤ãƒ³ãƒˆã‚¹ã‚¿ãƒ¼ã‚¢ãƒ­ãƒ¼" },
+	{  1,  0,  "Àº¿À½¸Ãæ" },
+	{  2,  1,  "¥Õ¥é¥Ã¥·¥å¥¢¥í¡¼" },
+	{  3,  1,  "¥·¥å¡¼¥È¡õ¥¢¥¦¥§¥¤" },
+	{  5,  1,  "²ò½ü¤ÎÌğ" },
+	{  8,  2,  "²Ğ±ê¤ÎÌğ" },
+	{ 10,  2,  "´äºÕ¤­" },
+	{ 13,  2,  "Îäµ¤¤ÎÌğ" },
+	{ 18,  2,  "ÎõÉ÷ÃÆ"},
+	{ 22,  3,  "´ÓÄÌÃÆ" },
+	{ 25,  4,  "¼ÙÇ°ÃÆ"},
+	{ 26,  4,  "ÇËËâÌğ" },
+	{ 30,  3,  "ÇúÈ¯¤ÎÌğ"},
+	{ 32,  4,  "¥À¥Ö¥ë¥·¥ç¥Ã¥È" },
+	{ 36,  3,  "¥×¥é¥º¥Ş¥Ü¥ë¥È" },
+	{ 40,  3,  "¥Ë¡¼¥É¥ë¥·¥ç¥Ã¥È" },
+	{ 48,  7,  "¥»¥¤¥ó¥È¥¹¥¿¡¼¥¢¥í¡¼" },
 #else
 	{  1,  0,  "Concentration" },
 	{  2,  1,  "Flush Arrow" },
@@ -103,14 +103,14 @@ snipe_power snipe_powers[MAX_SNIPE_POWERS] =
 };
 
 /*! 
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼ã®é›†ä¸­åº¦åŠ ç®—
- * @return å¸¸ã«TRUEã‚’è¿”ã™
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼¤Î½¸ÃæÅÙ²Ã»»
+ * @return ¾ï¤ËTRUE¤òÊÖ¤¹
  */
 static bool snipe_concentrate(void)
 {
 	if ((int)p_ptr->concent < (2 + (p_ptr->lev + 5) / 10)) p_ptr->concent++;
 
-	msg_format(_("é›†ä¸­ã—ãŸã€‚(é›†ä¸­åº¦ %d)", "You concentrate deeply. (lvl %d)"), p_ptr->concent);
+	msg_format(_("½¸Ãæ¤·¤¿¡£(½¸ÃæÅÙ %d)", "You concentrate deeply. (lvl %d)"), p_ptr->concent);
 	reset_concent = FALSE;
 
 	/* Recalculate bonuses */
@@ -125,15 +125,15 @@ static bool snipe_concentrate(void)
 }
 
 /*! 
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼ã®é›†ä¸­åº¦ãƒªã‚»ãƒƒãƒˆ
- * @param msg TRUEãªã‚‰ã°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
- * @return ãªã—
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼¤Î½¸ÃæÅÙ¥ê¥»¥Ã¥È
+ * @param msg TRUE¤Ê¤é¤Ğ¥á¥Ã¥»¡¼¥¸¤òÉ½¼¨¤¹¤ë
+ * @return ¤Ê¤·
  */
 void reset_concentration(bool msg)
 {
 	if (msg)
 	{
-		msg_print(_("é›†ä¸­åŠ›ãŒé€”åˆ‡ã‚Œã¦ã—ã¾ã£ãŸã€‚", "Stop concentrating."));
+		msg_print(_("½¸ÃæÎÏ¤¬ÅÓÀÚ¤ì¤Æ¤·¤Ş¤Ã¤¿¡£", "Stop concentrating."));
 	}
 
 	p_ptr->concent = 0;
@@ -149,9 +149,9 @@ void reset_concentration(bool msg)
 }
 
 /*! 
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼ã®é›†ä¸­åº¦ã«ã‚ˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒœãƒ¼ãƒŠã‚¹ã‚’åŠ ç®—ã™ã‚‹
- * @param tdam ç®—å‡ºä¸­ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
- * @return é›†ä¸­åº¦ä¿®æ­£ã‚’åŠ ãˆãŸãƒ€ãƒ¡ãƒ¼ã‚¸
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼¤Î½¸ÃæÅÙ¤Ë¤è¤ë¥À¥á¡¼¥¸¥Ü¡¼¥Ê¥¹¤ò²Ã»»¤¹¤ë
+ * @param tdam »»½ĞÃæ¤Î¥À¥á¡¼¥¸
+ * @return ½¸ÃæÅÙ½¤Àµ¤ò²Ã¤¨¤¿¥À¥á¡¼¥¸
  */
 int boost_concentration_damage(int tdam)
 {
@@ -162,8 +162,8 @@ int boost_concentration_damage(int tdam)
 }
 
 /*! 
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼ã®æŠ€èƒ½ãƒªã‚¹ãƒˆã‚’è¡¨ç¤ºã™ã‚‹
- * @return ãªã—
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼¤Îµ»Ç½¥ê¥¹¥È¤òÉ½¼¨¤¹¤ë
+ * @return ¤Ê¤·
  */
 void display_snipe_list(void)
 {
@@ -177,7 +177,7 @@ void display_snipe_list(void)
 	/* Display a list of spells */
 	prt("", y, x);
 #ifdef JP
-	put_str("åå‰", y, x + 5);
+	put_str("Ì¾Á°", y, x + 5);
 	put_str("Lv   MP", y, x + 35);
 #else
 	put_str("Name", y, x + 5);
@@ -203,10 +203,10 @@ void display_snipe_list(void)
 
 
 /*! 
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ã‚’é¸æŠã™ã‚‹
- * @param sn é¸æŠã—ãŸç‰¹æ®ŠæŠ€èƒ½IDã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã®å ´åˆ-1ã€ä¸æ­£ãªé¸æŠã®å ´åˆ-2ã‚’è¿”ã™
- * @param only_browse ä¸€è¦§ã‚’è¦‹ã‚‹ã ã‘ã®å ´åˆTRUEã‚’è¿”ã™
- * @return ç™ºå‹•å¯èƒ½ãªé­”æ³•ã‚’é¸æŠã—ãŸå ´åˆTRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«å‡¦ç†ã‹ä¸æ­£ãªé¸æŠãŒè¡Œã‚ã‚ŒãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¤òÁªÂò¤¹¤ë
+ * @param sn ÁªÂò¤·¤¿ÆÃ¼ìµ»Ç½ID¡¢¥­¥ã¥ó¥»¥ë¤Î¾ì¹ç-1¡¢ÉÔÀµ¤ÊÁªÂò¤Î¾ì¹ç-2¤òÊÖ¤¹
+ * @param only_browse °ìÍ÷¤ò¸«¤ë¤À¤±¤Î¾ì¹çTRUE¤òÊÖ¤¹
+ * @return È¯Æ°²ÄÇ½¤ÊËâË¡¤òÁªÂò¤·¤¿¾ì¹çTRUE¡¢¥­¥ã¥ó¥»¥ë½èÍı¤«ÉÔÀµ¤ÊÁªÂò¤¬¹Ô¤ï¤ì¤¿¾ì¹çFALSE¤òÊÖ¤¹¡£
  * Allow user to choose a mindcrafter power.\n
  *\n
  * If a valid spell is chosen, saves it in '*sn' and returns TRUE\n
@@ -230,7 +230,7 @@ static int get_snipe_power(int *sn, bool only_browse)
 	int             ask;
 	char            choice;
 	char            out_val[160];
-	cptr            p = _("å°„æ’ƒè¡“", "power");
+	cptr            p = _("¼Í·â½Ñ", "power");
 	snipe_power     spell;
 	bool            flag, redraw;
 
@@ -274,13 +274,13 @@ static int get_snipe_power(int *sn, bool only_browse)
 	if (only_browse)
 	{
 		(void)strnfmt(out_val, 78, 
-					_("(%^s %c-%c, '*'ã§ä¸€è¦§, ESC) ã©ã®%sã«ã¤ã„ã¦çŸ¥ã‚Šã¾ã™ã‹ï¼Ÿ", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
+					_("(%^s %c-%c, '*'¤Ç°ìÍ÷, ESC) ¤É¤Î%s¤Ë¤Ä¤¤¤ÆÃÎ¤ê¤Ş¤¹¤«¡©", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
 					p, I2A(0), I2A(num), p);
 	}
 	else
 	{
 		(void)strnfmt(out_val, 78, 
-					_("(%^s %c-%c, '*'ã§ä¸€è¦§, ESC) ã©ã®%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
+					_("(%^s %c-%c, '*'¤Ç°ìÍ÷, ESC) ¤É¤Î%s¤ò»È¤¤¤Ş¤¹¤«¡©", "(%^ss %c-%c, *=List, ESC=exit) Use which %s? "),
 					p, I2A(0), I2A(num), p);
 	}
 
@@ -308,8 +308,8 @@ static int get_snipe_power(int *sn, bool only_browse)
 				/* Display a list of spells */
 				prt("", y, x);
 #ifdef JP
-				put_str("åå‰", y, x + 5);
-				if (only_browse) put_str("Lv   é›†ä¸­åº¦", y, x + 35);
+				put_str("Ì¾Á°", y, x + 5);
+				if (only_browse) put_str("Lv   ½¸ÃæÅÙ", y, x + 35);
 #else
 				put_str("Name", y, x + 5);
 				if (only_browse) put_str("Lv Pow", y, x + 35);
@@ -378,7 +378,7 @@ static int get_snipe_power(int *sn, bool only_browse)
 			char tmp_val[160];
 
 			/* Prompt */
-			(void) strnfmt(tmp_val, 78, _("%sã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "Use %s? "), snipe_powers[i].name);
+			(void) strnfmt(tmp_val, 78, _("%s¤ò»È¤¤¤Ş¤¹¤«¡©", "Use %s? "), snipe_powers[i].name);
 
 			/* Belay that order */
 			if (!get_check(tmp_val)) continue;
@@ -414,11 +414,11 @@ static int get_snipe_power(int *sn, bool only_browse)
 }
 
 /*!
- * @brief ã‚¹ãƒŠã‚¤ãƒãƒ¼æŠ€èƒ½ã®ã‚¹ãƒ¬ã‚¤å€ç‡è¨ˆç®—ã‚’è¡Œã† /
+ * @brief ¥¹¥Ê¥¤¥Ğ¡¼µ»Ç½¤Î¥¹¥ì¥¤ÇÜÎ¨·×»»¤ò¹Ô¤¦ /
  * Calcurate magnification of snipe technics
- * @param mult ã‚¹ãƒŠã‚¤ãƒãƒ¼æŠ€èƒ½ã®ã‚¹ãƒ¬ã‚¤åŠ¹æœä»¥å‰ã«ç®—å‡ºã—ã¦ã„ã‚‹å¤šè¦ç´ ã®å€ç‡(/10å€)
- * @param m_ptr ç›®æ¨™ã¨ãªã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚¹ãƒ¬ã‚¤ã®å€ç‡(/10å€)
+ * @param mult ¥¹¥Ê¥¤¥Ğ¡¼µ»Ç½¤Î¥¹¥ì¥¤¸ú²Ì°ÊÁ°¤Ë»»½Ğ¤·¤Æ¤¤¤ëÂ¿Í×ÁÇ¤ÎÇÜÎ¨(/10ÇÜ)
+ * @param m_ptr ÌÜÉ¸¤È¤Ê¤ë¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥¹¥ì¥¤¤ÎÇÜÎ¨(/10ÇÜ)
  */
 int tot_dam_aux_snipe(int mult, monster_type *m_ptr)
 {
@@ -513,10 +513,10 @@ int tot_dam_aux_snipe(int mult, monster_type *m_ptr)
 
 
 /*!
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ã®ç™ºå‹• /
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¤ÎÈ¯Æ° /
  * do_cmd_cast calls this function if the player's class is 'snipe'.
- * @param spell ç™ºå‹•ã™ã‚‹ç‰¹æ®ŠæŠ€èƒ½ã®ID
- * @return å‡¦ç†ã‚’å®Ÿè¡Œã—ãŸã‚‰TRUEã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ * @param spell È¯Æ°¤¹¤ëÆÃ¼ìµ»Ç½¤ÎID
+ * @return ½èÍı¤ò¼Â¹Ô¤·¤¿¤éTRUE¡¢¥­¥ã¥ó¥»¥ë¤·¤¿¾ì¹çFALSE¤òÊÖ¤¹¡£
  */
 static bool cast_sniper_spell(int spell)
 {
@@ -524,7 +524,7 @@ static bool cast_sniper_spell(int spell)
 
 	if (o_ptr->tval != TV_BOW)
 	{
-		msg_print(_("å¼“ã‚’è£…å‚™ã—ã¦ã„ãªã„ï¼", "You wield no bow!"));
+		msg_print(_("µİ¤òÁõÈ÷¤·¤Æ¤¤¤Ê¤¤¡ª", "You wield no bow!"));
 		return (FALSE);
 	}
 
@@ -551,7 +551,7 @@ static bool cast_sniper_spell(int spell)
 	case 14: snipe_type = SP_NEEDLE; break;
 	case 15: snipe_type = SP_FINAL; break;
 	default:
-		msg_print(_("ãªã«ï¼Ÿ", "Zap?"));
+		msg_print(_("¤Ê¤Ë¡©", "Zap?"));
 	}
 
 	command_cmd = 'f';
@@ -562,8 +562,8 @@ static bool cast_sniper_spell(int spell)
 }
 
 /*!
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
- * @return ãªã—
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó /
+ * @return ¤Ê¤·
  */
 void do_cmd_snipe(void)
 {
@@ -574,21 +574,21 @@ void do_cmd_snipe(void)
 	/* not if confused */
 	if (p_ptr->confused)
 	{
-		msg_print(_("æ··ä¹±ã—ã¦ã„ã¦é›†ä¸­ã§ããªã„ï¼", "You are too confused!"));
+		msg_print(_("º®Íğ¤·¤Æ¤¤¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª", "You are too confused!"));
 		return;
 	}
 
 	/* not if hullucinated */
 	if (p_ptr->image)
 	{
-		msg_print(_("å¹»è¦šãŒè¦‹ãˆã¦é›†ä¸­ã§ããªã„ï¼", "You are too hallucinated!"));
+		msg_print(_("¸¸³Ğ¤¬¸«¤¨¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª", "You are too hallucinated!"));
 		return;
 	}
 
 	/* not if stuned */
 	if (p_ptr->stun)
 	{
-		msg_print(_("é ­ãŒæœ¦æœ§ã¨ã—ã¦ã„ã¦é›†ä¸­ã§ããªã„ï¼", "You are too stuned!"));
+		msg_print(_("Æ¬¤¬Û¯Û°¤È¤·¤Æ¤¤¤Æ½¸Ãæ¤Ç¤­¤Ê¤¤¡ª", "You are too stuned!"));
 		return;
 	}
 
@@ -614,8 +614,8 @@ void do_cmd_snipe(void)
 }
 
 /*!
- * @brief ã‚¹ãƒŠã‚¤ãƒ‘ãƒ¼æŠ€èƒ½ã‚³ãƒãƒ³ãƒ‰ã®è¡¨ç¤º /
- * @return ãªã—
+ * @brief ¥¹¥Ê¥¤¥Ñ¡¼µ»Ç½¥³¥Ş¥ó¥É¤ÎÉ½¼¨ /
+ * @return ¤Ê¤·
  */
 void do_cmd_snipe_browse(void)
 {

@@ -1,4 +1,4 @@
-﻿/* File: init.h */
+/* File: init.h */
 
 /*
  * Copyright (c) 2000 Robert Ruehlmann

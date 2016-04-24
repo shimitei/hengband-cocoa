@@ -1,6 +1,6 @@
-ï»¿/*!
+/*!
  * @file object1.c
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å®Ÿè£… / Object code, part 1
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤Î¼ÂÁõ / Object code, part 1
  * @date 2014/01/10
  * @author
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke\n
@@ -20,8 +20,8 @@
 #endif
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€åœ°å½¢ã®è¡¨ç¤ºã‚·ãƒ³ãƒœãƒ«ãªã©åˆæœŸåŒ–ã™ã‚‹ / Reset the "visual" lists
- * @return ãªã—
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¡¢ÃÏ·Á¤ÎÉ½¼¨¥·¥ó¥Ü¥ë¤Ê¤É½é´ü²½¤¹¤ë / Reset the "visual" lists
+ * @return ¤Ê¤·
  * This involves resetting various things to their "default" state.\n
  *\n
  * If the "prefs" flag is TRUE, then we will also load the appropriate\n
@@ -101,11 +101,11 @@ void reset_visuals(void)
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ãƒ©ã‚°é¡ã‚’é…åˆ—ã«ä¸ãˆã‚‹
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Õ¥é¥°Îà¤òÇÛÎó¤ËÍ¿¤¨¤ë
  * Obtain the "flags" for an item
- * @param o_ptr ãƒ•ãƒ©ã‚°å–å¾—å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“ãƒã‚¤ãƒ³ã‚¿
- * @param flgs ãƒ•ãƒ©ã‚°æƒ…å ±ã‚’å—ã‘å–ã‚‹é…åˆ—
- * @return ãªã—
+ * @param o_ptr ¥Õ¥é¥°¼èÆÀ¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ¥İ¥¤¥ó¥¿
+ * @param flgs ¥Õ¥é¥°¾ğÊó¤ò¼õ¤±¼è¤ëÇÛÎó
+ * @return ¤Ê¤·
  */
 void object_flags(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 {
@@ -210,11 +210,11 @@ void object_flags(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ˜ç¤ºã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ©ã‚°é¡ã‚’å–å¾—ã™ã‚‹
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÌÀ¼¨¤µ¤ì¤Æ¤¤¤ë¥Õ¥é¥°Îà¤ò¼èÆÀ¤¹¤ë
  * Obtain the "flags" for an item which are known to the player
- * @param o_ptr ãƒ•ãƒ©ã‚°å–å¾—å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“ãƒã‚¤ãƒ³ã‚¿
- * @param flgs ãƒ•ãƒ©ã‚°æƒ…å ±ã‚’å—ã‘å–ã‚‹é…åˆ—
- * @return ãªã—
+ * @param o_ptr ¥Õ¥é¥°¼èÆÀ¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ¥İ¥¤¥ó¥¿
+ * @param flgs ¥Õ¥é¥°¾ğÊó¤ò¼õ¤±¼è¤ëÇÛÎó
+ * @return ¤Ê¤·
  */
 void object_flags_known(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 {
@@ -337,9 +337,9 @@ void object_flags_known(object_type *o_ptr, u32b flgs[TR_FLAG_SIZE])
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç™ºå‹•åŠ¹æœåç§°ã‚’è¿”ã™ï¼ˆã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³/ãƒ–ãƒ¬ã‚¹ï¼‰
- * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return cptr ç™ºå‹•åç§°ã‚’è¿”ã™æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÈ¯Æ°¸ú²ÌÌ¾¾Î¤òÊÖ¤¹¡Ê¥µ¥Ö¥ë¡¼¥Á¥ó/¥Ö¥ì¥¹¡Ë
+ * @param o_ptr Ì¾¾Î¤ò¼èÆÀ¤¹¤ë¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return cptr È¯Æ°Ì¾¾Î¤òÊÖ¤¹Ê¸»úÎó¥İ¥¤¥ó¥¿
  */
 static cptr item_activation_dragon_breath(object_type *o_ptr)
 {
@@ -354,21 +354,21 @@ static cptr item_activation_dragon_breath(object_type *o_ptr)
 	{
 		if (have_flag(flgs, dragonbreath_info[i].flag))
 		{
-			if (n > 0) strcat(desc, _("ã€", ", "));
+			if (n > 0) strcat(desc, _("¡¢", ", "));
 			strcat(desc, dragonbreath_info[i].name);
 			n++;
 		}
 	}
 
-	strcat(desc, _("ã®ãƒ–ãƒ¬ã‚¹(250)", ""));
+	strcat(desc, _("¤Î¥Ö¥ì¥¹(250)", ""));
 
 	return (desc);
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç™ºå‹•åŠ¹æœåç§°ã‚’è¿”ã™ï¼ˆã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³/æ±ç”¨ï¼‰
- * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return cptr ç™ºå‹•åç§°ã‚’è¿”ã™æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÈ¯Æ°¸ú²ÌÌ¾¾Î¤òÊÖ¤¹¡Ê¥µ¥Ö¥ë¡¼¥Á¥ó/ÈÆÍÑ¡Ë
+ * @param o_ptr Ì¾¾Î¤ò¼èÆÀ¤¹¤ë¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return cptr È¯Æ°Ì¾¾Î¤òÊÖ¤¹Ê¸»úÎó¥İ¥¤¥ó¥¿
  */
 static cptr item_activation_aux(object_type *o_ptr)
 {
@@ -378,7 +378,7 @@ static cptr item_activation_aux(object_type *o_ptr)
 	int constant, dice;
 	const activation_type* const act_ptr = find_activation_info(o_ptr);
 
-	if (!act_ptr) return _("æœªå®šç¾©", "something undefined");
+	if (!act_ptr) return _("Ì¤ÄêµÁ", "something undefined");
 
 	desc = act_ptr->desc;
 
@@ -386,38 +386,38 @@ static cptr item_activation_aux(object_type *o_ptr)
 	switch (act_ptr->index) {
 	case ACT_BR_FIRE:
 		if ((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_FLAMES))
-			desc = _("ç«ç‚ã®ãƒ–ãƒ¬ã‚¹ (200) ã¨ç«ã¸ã®è€æ€§", "breath of fire (200) and resist fire");
+			desc = _("²Ğ±ê¤Î¥Ö¥ì¥¹ (200) ¤È²Ğ¤Ø¤ÎÂÑÀ­", "breath of fire (200) and resist fire");
 		break;
 	case ACT_BR_COLD:
 		if ((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ICE))
-			desc = _("å†·æ°—ã®ãƒ–ãƒ¬ã‚¹ (200) ã¨å†·æ°—ã¸ã®è€æ€§", "breath of cold (200) and resist cold");
+			desc = _("Îäµ¤¤Î¥Ö¥ì¥¹ (200) ¤ÈÎäµ¤¤Ø¤ÎÂÑÀ­", "breath of cold (200) and resist cold");
 		break;
 	case ACT_BR_DRAGON:
 		desc = item_activation_dragon_breath(o_ptr);
 		break;
 	case ACT_AGGRAVATE:
 		if (o_ptr->name1 == ART_HYOUSIGI)
-			desc = _("æ‹å­æœ¨ã‚’æ‰“ã¡ãªã‚‰ã™", "beat wooden clappers");
+			desc = _("Çï»ÒÌÚ¤òÂÇ¤Á¤Ê¤é¤¹", "beat wooden clappers");
 		break;
 	case ACT_RESIST_ACID:
 		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ACID)) || (o_ptr->name2 == EGO_BRAND_ACID))
-			desc = _("ã‚¢ã‚·ãƒƒãƒ‰ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨é…¸ã¸ã®è€æ€§", "ball of acid (100) and resist acid");
+			desc = _("¥¢¥·¥Ã¥É¡¦¥Ü¡¼¥ë (100) ¤È»À¤Ø¤ÎÂÑÀ­", "ball of acid (100) and resist acid");
 		break;
 	case ACT_RESIST_FIRE:
 		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_FLAMES)) || (o_ptr->name2 == EGO_BRAND_FIRE))
-			desc = _("ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨ç«ã¸ã®è€æ€§", "ball of fire (100) and resist fire");
+			desc = _("¥Õ¥¡¥¤¥¢¡¦¥Ü¡¼¥ë (100) ¤È²Ğ¤Ø¤ÎÂÑÀ­", "ball of fire (100) and resist fire");
 		break;
 	case ACT_RESIST_COLD:
 		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ICE)) || (o_ptr->name2 == EGO_BRAND_COLD))
-			desc = _("ã‚¢ã‚¤ã‚¹ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨å†·æ°—ã¸ã®è€æ€§", "ball of cold (100) and resist cold");
+			desc = _("¥¢¥¤¥¹¡¦¥Ü¡¼¥ë (100) ¤ÈÎäµ¤¤Ø¤ÎÂÑÀ­", "ball of cold (100) and resist cold");
 		break;
 	case ACT_RESIST_ELEC:
 		if (((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ELEC)) || (o_ptr->name2 == EGO_BRAND_ELEC))
-			desc = _("ã‚µãƒ³ãƒ€ãƒ¼ãƒ»ãƒœãƒ¼ãƒ« (100) ã¨é›»æ’ƒã¸ã®è€æ€§", "ball of elec (100) and resist elec");
+			desc = _("¥µ¥ó¥À¡¼¡¦¥Ü¡¼¥ë (100) ¤ÈÅÅ·â¤Ø¤ÎÂÑÀ­", "ball of elec (100) and resist elec");
 		break;
 	case ACT_RESIST_POIS:
 		if (o_ptr->name2 == EGO_BRAND_POIS)
-			desc = _("æ‚ªè‡­é›² (100) ã¨æ¯’ã¸ã®è€æ€§", "ball of poison (100) and resist elec");
+			desc = _("°­½­±À (100) ¤ÈÆÇ¤Ø¤ÎÂÑÀ­", "ball of poison (100) and resist elec");
 		break;
 	}
 
@@ -426,23 +426,23 @@ static cptr item_activation_aux(object_type *o_ptr)
 	dice = act_ptr->timeout.dice;
 	if (constant == 0 && dice == 0) {
 		/* We can activate it every turn */
-		strcpy(timeout, _("ã„ã¤ã§ã‚‚", "every turn"));
+		strcpy(timeout, _("¤¤¤Ä¤Ç¤â", "every turn"));
 	} else if (constant < 0) {
 		/* Activations that have special timeout */
 		switch (act_ptr->index) {
 		case ACT_BR_FIRE:
-			sprintf(timeout, _("%d ã‚¿ãƒ¼ãƒ³æ¯", "every %d turns"),
+			sprintf(timeout, _("%d ¥¿¡¼¥óËè", "every %d turns"),
 				((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_FLAMES)) ? 200 : 250);
 			break;
 		case ACT_BR_COLD:
-			sprintf(timeout, _("%d ã‚¿ãƒ¼ãƒ³æ¯", "every %d turns"),
+			sprintf(timeout, _("%d ¥¿¡¼¥óËè", "every %d turns"),
 				((o_ptr->tval == TV_RING) && (o_ptr->sval == SV_RING_ICE)) ? 200 : 250);
 			break;
 		case ACT_TERROR:
-			strcpy(timeout, _("3*(ãƒ¬ãƒ™ãƒ«+10) ã‚¿ãƒ¼ãƒ³æ¯", "every 3 * (level+10) turns"));
+			strcpy(timeout, _("3*(¥ì¥Ù¥ë+10) ¥¿¡¼¥óËè", "every 3 * (level+10) turns"));
 			break;
 		case ACT_MURAMASA:
-			strcpy(timeout, _("ç¢ºç‡50%ã§å£Šã‚Œã‚‹", "(destroyed 50%)"));
+			strcpy(timeout, _("³ÎÎ¨50%¤Ç²õ¤ì¤ë", "(destroyed 50%)"));
 			break;
 		default:
 			strcpy(timeout, "undefined");
@@ -453,7 +453,7 @@ static cptr item_activation_aux(object_type *o_ptr)
 		char constant_str[16], dice_str[16];
 		sprintf(constant_str, "%d", constant);
 		sprintf(dice_str, "d%d", dice);
-		sprintf(timeout, _("%s%s%s ã‚¿ãƒ¼ãƒ³æ¯", "every %s%s%s turns"),
+		sprintf(timeout, _("%s%s%s ¥¿¡¼¥óËè", "every %s%s%s turns"),
 			(constant > 0) ? constant_str : "",
 			(constant > 0 && dice > 0) ? "+" : "",
 			(dice > 0) ? dice_str : "");
@@ -466,10 +466,10 @@ static cptr item_activation_aux(object_type *o_ptr)
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç™ºå‹•åŠ¹æœåç§°ã‚’è¿”ã™ï¼ˆãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ï¼‰ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤ÎÈ¯Æ°¸ú²ÌÌ¾¾Î¤òÊÖ¤¹¡Ê¥á¥¤¥ó¥ë¡¼¥Á¥ó¡Ë /
  * Determine the "Activation" (if any) for an artifact Return a string, or NULL for "no activation"
- * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return cptr ç™ºå‹•åç§°ã‚’è¿”ã™æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ * @param o_ptr Ì¾¾Î¤ò¼èÆÀ¤¹¤ë¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return cptr È¯Æ°Ì¾¾Î¤òÊÖ¤¹Ê¸»úÎó¥İ¥¤¥ó¥¿
  */
 cptr item_activation(object_type *o_ptr)
 {
@@ -479,7 +479,7 @@ cptr item_activation(object_type *o_ptr)
 	object_flags(o_ptr, flgs);
 
 	/* Require activation ability */
-	if (!(have_flag(flgs, TR_ACTIVATE))) return (_("ãªã—", "nothing"));
+	if (!(have_flag(flgs, TR_ACTIVATE))) return (_("¤Ê¤·", "nothing"));
 
 	/* Get an explain of an activation */
 	if (activation_index(o_ptr))
@@ -490,25 +490,25 @@ cptr item_activation(object_type *o_ptr)
 	/* Special items */
 	if (o_ptr->tval == TV_WHISTLE)
 	{
-		return _("ãƒšãƒƒãƒˆå‘¼ã³å¯„ã› : 100+d100ã‚¿ãƒ¼ãƒ³æ¯", "call pet every 100+d100 turns");
+		return _("¥Ú¥Ã¥È¸Æ¤Ó´ó¤» : 100+d100¥¿¡¼¥óËè", "call pet every 100+d100 turns");
 	}
 
 	if (o_ptr->tval == TV_CAPTURE)
 	{
-		return _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’æ•ãˆã‚‹ã€åˆã¯è§£æ”¾ã™ã‚‹ã€‚", "captures or releases a monster.");
+		return _("¥â¥ó¥¹¥¿¡¼¤òÊá¤¨¤ë¡¢Ëô¤Ï²òÊü¤¹¤ë¡£", "captures or releases a monster.");
 	}
 
 	/* Oops */
-	return _("ä½•ã‚‚èµ·ããªã„", "Nothing");
+	return _("²¿¤âµ¯¤­¤Ê¤¤", "Nothing");
 }
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®*é‘‘å®š*å†…å®¹ã‚’è©³è¿°ã—ã¦è¡¨ç¤ºã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤Î*´ÕÄê*ÆâÍÆ¤ò¾Ü½Ò¤·¤ÆÉ½¼¨¤¹¤ë /
  * Describe a "fully identified" item
- * @param o_ptr *é‘‘å®š*æƒ…å ±ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param mode è¡¨ç¤ºã‚ªãƒ—ã‚·ãƒ§ãƒ³
- * @return ç‰¹ç­†ã™ã¹ãæƒ…å ±ãŒä¸€ã¤ã§ã‚‚ã‚ã£ãŸå ´åˆTRUEã€ä¸€ã¤ã‚‚ãªãè¡¨ç¤ºãŒã‚­ãƒ£ãƒ³ã‚»ãƒ«ã•ã‚ŒãŸå ´åˆFALSEã‚’è¿”ã™ã€‚
+ * @param o_ptr *´ÕÄê*¾ğÊó¤ò¼èÆÀ¤¹¤ë¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @param mode É½¼¨¥ª¥×¥·¥ç¥ó
+ * @return ÆÃÉ®¤¹¤Ù¤­¾ğÊó¤¬°ì¤Ä¤Ç¤â¤¢¤Ã¤¿¾ì¹çTRUE¡¢°ì¤Ä¤â¤Ê¤¯É½¼¨¤¬¥­¥ã¥ó¥»¥ë¤µ¤ì¤¿¾ì¹çFALSE¤òÊÖ¤¹¡£
  */
 bool screen_object(object_type *o_ptr, u32b mode)
 {
@@ -546,57 +546,57 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	/* Mega-Hack -- describe activation */
 	if (have_flag(flgs, TR_ACTIVATE))
 	{
-		info[i++] = _("å§‹å‹•ã—ãŸã¨ãã®åŠ¹æœ...", "It can be activated for...");
+		info[i++] = _("»ÏÆ°¤·¤¿¤È¤­¤Î¸ú²Ì...", "It can be activated for...");
 		info[i++] = item_activation(o_ptr);
-		info[i++] = _("...ãŸã ã—è£…å‚™ã—ã¦ã„ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚", "...if it is being worn.");
+		info[i++] = _("...¤¿¤À¤·ÁõÈ÷¤·¤Æ¤¤¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤¡£", "...if it is being worn.");
 	}
 
 	/* Figurines, a hack */
 	if (o_ptr->tval == TV_FIGURINE)
 	{
-		info[i++] = _("ãã‚Œã¯æŠ•ã’ãŸæ™‚ãƒšãƒƒãƒˆã«å¤‰åŒ–ã™ã‚‹ã€‚", "It will transform into a pet when thrown.");
+		info[i++] = _("¤½¤ì¤ÏÅê¤²¤¿»ş¥Ú¥Ã¥È¤ËÊÑ²½¤¹¤ë¡£", "It will transform into a pet when thrown.");
 	}
 
 	/* Figurines, a hack */
 	if (o_ptr->name1 == ART_STONEMASK)
 	{
-		info[i++] = _("ãã‚Œã‚’è£…å‚™ã—ãŸè€…ã¯å¸è¡€é¬¼ã«ãªã‚‹ã€‚", "It makes you turn into a vampire permanently.");
+		info[i++] = _("¤½¤ì¤òÁõÈ÷¤·¤¿¼Ô¤ÏµÛ·ìµ´¤Ë¤Ê¤ë¡£", "It makes you turn into a vampire permanently.");
 	}
 
 	if ((o_ptr->tval == TV_SWORD) && (o_ptr->sval == SV_DOKUBARI))
 	{
-		info[i++] = _("ãã‚Œã¯ç›¸æ‰‹ã‚’ä¸€æ’ƒã§å€’ã™ã“ã¨ãŒã‚ã‚‹ã€‚", "It will attempt to kill a monster instantly.");
+		info[i++] = _("¤½¤ì¤ÏÁê¼ê¤ò°ì·â¤ÇÅİ¤¹¤³¤È¤¬¤¢¤ë¡£", "It will attempt to kill a monster instantly.");
 	}
 
 	if ((o_ptr->tval == TV_POLEARM) && (o_ptr->sval == SV_DEATH_SCYTHE))
 	{
-		info[i++] = _("ãã‚Œã¯è‡ªåˆ†è‡ªèº«ã«æ”»æ’ƒãŒè¿”ã£ã¦ãã‚‹ã“ã¨ãŒã‚ã‚‹ã€‚", "It causes you to strike yourself sometimes.");
-		info[i++] = _("ãã‚Œã¯ç„¡æ•µã®ãƒãƒªã‚¢ã‚’åˆ‡ã‚Šè£‚ãã€‚", "It always penetrates invulnerability barriers.");
+		info[i++] = _("¤½¤ì¤Ï¼«Ê¬¼«¿È¤Ë¹¶·â¤¬ÊÖ¤Ã¤Æ¤¯¤ë¤³¤È¤¬¤¢¤ë¡£", "It causes you to strike yourself sometimes.");
+		info[i++] = _("¤½¤ì¤ÏÌµÅ¨¤Î¥Ğ¥ê¥¢¤òÀÚ¤êÎö¤¯¡£", "It always penetrates invulnerability barriers.");
 	}
 
 	if (o_ptr->name2 == EGO_2WEAPON)
 	{
-		info[i++] = _("ãã‚Œã¯äºŒåˆ€æµã§ã®å‘½ä¸­ç‡ã‚’å‘ä¸Šã•ã›ã‚‹ã€‚", "It affects your ability to hit when you are wielding two weapons.");
+		info[i++] = _("¤½¤ì¤ÏÆóÅáÎ®¤Ç¤ÎÌ¿ÃæÎ¨¤ò¸ş¾å¤µ¤»¤ë¡£", "It affects your ability to hit when you are wielding two weapons.");
 	}
 
 	if (have_flag(flgs, TR_EASY_SPELL))
 	{
-		info[i++] = _("ãã‚Œã¯é­”æ³•ã®é›£æ˜“åº¦ã‚’ä¸‹ã’ã‚‹ã€‚", "It affects your ability to cast spells.");
+		info[i++] = _("¤½¤ì¤ÏËâË¡¤ÎÆñ°×ÅÙ¤ò²¼¤²¤ë¡£", "It affects your ability to cast spells.");
 	}
 
 	if (o_ptr->name2 == EGO_AMU_FOOL)
 	{
-		info[i++] = _("ãã‚Œã¯é­”æ³•ã®é›£æ˜“åº¦ã‚’ä¸Šã’ã‚‹ã€‚", "It interferes with casting spells.");
+		info[i++] = _("¤½¤ì¤ÏËâË¡¤ÎÆñ°×ÅÙ¤ò¾å¤²¤ë¡£", "It interferes with casting spells.");
 	}
 
 	if (o_ptr->name2 == EGO_RING_THROW)
 	{
-		info[i++] = _("ãã‚Œã¯ç‰©ã‚’å¼·ãæŠ•ã’ã‚‹ã“ã¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚", "It provides great strength when you throw an item.");
+		info[i++] = _("¤½¤ì¤ÏÊª¤ò¶¯¤¯Åê¤²¤ë¤³¤È¤ò²ÄÇ½¤Ë¤¹¤ë¡£", "It provides great strength when you throw an item.");
 	}
 
 	if (o_ptr->name2 == EGO_AMU_NAIVETY)
 	{
-		info[i++] = _("ãã‚Œã¯é­”æ³•æŠµæŠ—åŠ›ã‚’ä¸‹ã’ã‚‹ã€‚", "It decreases your magic resistance.");
+		info[i++] = _("¤½¤ì¤ÏËâË¡Äñ¹³ÎÏ¤ò²¼¤²¤ë¡£", "It decreases your magic resistance.");
 	}
 
 	if (o_ptr->tval == TV_STATUE)
@@ -604,16 +604,16 @@ bool screen_object(object_type *o_ptr, u32b mode)
 		monster_race *r_ptr = &r_info[o_ptr->pval];
 
 		if (o_ptr->pval == MON_BULLGATES)
-			info[i++] = _("ãã‚Œã¯éƒ¨å±‹ã«é£¾ã‚‹ã¨æ¥ãšã‹ã—ã„ã€‚", "It is shameful.");
+			info[i++] = _("¤½¤ì¤ÏÉô²°¤Ë¾ş¤ë¤ÈÃÑ¤º¤«¤·¤¤¡£", "It is shameful.");
 		else if ( r_ptr->flags2 & (RF2_ELDRITCH_HORROR))
-			info[i++] = _("ãã‚Œã¯éƒ¨å±‹ã«é£¾ã‚‹ã¨æã„ã€‚", "It is fearful.");
+			info[i++] = _("¤½¤ì¤ÏÉô²°¤Ë¾ş¤ë¤È¶²¤¤¡£", "It is fearful.");
 		else
-			info[i++] = _("ãã‚Œã¯éƒ¨å±‹ã«é£¾ã‚‹ã¨æ¥½ã—ã„ã€‚", "It is cheerful.");
+			info[i++] = _("¤½¤ì¤ÏÉô²°¤Ë¾ş¤ë¤È³Ú¤·¤¤¡£", "It is cheerful.");
 	}
 	
 	/* Hack -- describe lite's */
 	
-	if (o_ptr->name2 == EGO_LITE_DARKNESS) info[i++] = _("ãã‚Œã¯å…¨ãå…‰ã‚‰ãªã„ã€‚", "It provides no light.");
+	if (o_ptr->name2 == EGO_LITE_DARKNESS) info[i++] = _("¤½¤ì¤ÏÁ´¤¯¸÷¤é¤Ê¤¤¡£", "It provides no light.");
 	
 	rad = 0;
 	if (have_flag(flgs, TR_LITE_1) && o_ptr->name2 != EGO_LITE_DARKNESS)  rad += 1;
@@ -627,12 +627,12 @@ bool screen_object(object_type *o_ptr, u32b mode)
 		
 	if (have_flag(flgs, TR_LITE_FUEL) && o_ptr->name2 != EGO_LITE_DARKNESS)
 	{
-		if(rad > 0) sprintf(desc, _("ãã‚Œã¯ç‡ƒæ–™è£œçµ¦ã«ã‚ˆã£ã¦æ˜ã‹ã‚Š(åŠå¾„ %d)ã‚’æˆã‘ã‚‹ã€‚", "It provides light (radius %d) when fueled."), rad);	
+		if(rad > 0) sprintf(desc, _("¤½¤ì¤ÏÇ³ÎÁÊäµë¤Ë¤è¤Ã¤ÆÌÀ¤«¤ê(È¾·Â %d)¤ò¼ø¤±¤ë¡£", "It provides light (radius %d) when fueled."), rad);	
 	}
 	else
 	{
-		if(rad > 0) sprintf(desc, _("ãã‚Œã¯æ°¸é ãªã‚‹æ˜ã‹ã‚Š(åŠå¾„ %d)ã‚’æˆã‘ã‚‹ã€‚", "It provides light (radius %d) forever."), rad);	
-		if(rad < 0) sprintf(desc, _("ãã‚Œã¯æ˜ã‹ã‚Šã®åŠå¾„ã‚’ç‹­ã‚ã‚‹(åŠå¾„ã«-%d)ã€‚", "It decreases radius of light source by %d."), -rad);
+		if(rad > 0) sprintf(desc, _("¤½¤ì¤Ï±Ê±ó¤Ê¤ëÌÀ¤«¤ê(È¾·Â %d)¤ò¼ø¤±¤ë¡£", "It provides light (radius %d) forever."), rad);	
+		if(rad < 0) sprintf(desc, _("¤½¤ì¤ÏÌÀ¤«¤ê¤ÎÈ¾·Â¤ò¶¹¤á¤ë(È¾·Â¤Ë-%d)¡£", "It decreases radius of light source by %d."), -rad);
 	}
 	
 	if(rad != 0) info[i++] = desc;
@@ -640,7 +640,7 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	
 	if (o_ptr->name2 == EGO_LITE_LONG)
 	{
-		info[i++] = _("ãã‚Œã¯é•·ã„ã‚¿ãƒ¼ãƒ³æ˜ã‹ã‚Šã‚’æˆã‘ã‚‹ã€‚", "It provides light for much longer time.");
+		info[i++] = _("¤½¤ì¤ÏÄ¹¤¤¥¿¡¼¥óÌÀ¤«¤ê¤ò¼ø¤±¤ë¡£", "It provides light for much longer time.");
 	}
 
 	/* And then describe it fully */
@@ -648,447 +648,447 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	if (have_flag(flgs, TR_RIDING))
 	{
 		if ((o_ptr->tval == TV_POLEARM) && ((o_ptr->sval == SV_LANCE) || (o_ptr->sval == SV_HEAVY_LANCE)))
-			info[i++] = _("ãã‚Œã¯ä¹—é¦¬ä¸­ã¯éå¸¸ã«ä½¿ã„ã‚„ã™ã„ã€‚", "It is made for use while riding.");
+			info[i++] = _("¤½¤ì¤Ï¾èÇÏÃæ¤ÏÈó¾ï¤Ë»È¤¤¤ä¤¹¤¤¡£", "It is made for use while riding.");
 		else
 		{
-			info[i++] = _("ãã‚Œã¯ä¹—é¦¬ä¸­ã§ã‚‚ä½¿ã„ã‚„ã™ã„ã€‚", "It is suitable for use while riding.");
+			info[i++] = _("¤½¤ì¤Ï¾èÇÏÃæ¤Ç¤â»È¤¤¤ä¤¹¤¤¡£", "It is suitable for use while riding.");
 			/* This information is not important enough */
 			trivial_info++;
 		}
 	}
 	if (have_flag(flgs, TR_STR))
 	{
-		info[i++] = _("ãã‚Œã¯è…•åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your strength.");
+		info[i++] = _("¤½¤ì¤ÏÏÓÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your strength.");
 	}
 	if (have_flag(flgs, TR_INT))
 	{
-		info[i++] = _("ãã‚Œã¯çŸ¥èƒ½ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your intelligence.");
+		info[i++] = _("¤½¤ì¤ÏÃÎÇ½¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your intelligence.");
 	}
 	if (have_flag(flgs, TR_WIS))
 	{
-		info[i++] = _("ãã‚Œã¯è³¢ã•ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your wisdom.");
+		info[i++] = _("¤½¤ì¤Ï¸­¤µ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your wisdom.");
 	}
 	if (have_flag(flgs, TR_DEX))
 	{
-		info[i++] = _("ãã‚Œã¯å™¨ç”¨ã•ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your dexterity.");
+		info[i++] = _("¤½¤ì¤Ï´ïÍÑ¤µ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your dexterity.");
 	}
 	if (have_flag(flgs, TR_CON))
 	{
-		info[i++] = _("ãã‚Œã¯è€ä¹…åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your constitution.");
+		info[i++] = _("¤½¤ì¤ÏÂÑµ×ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your constitution.");
 	}
 	if (have_flag(flgs, TR_CHR))
 	{
-		info[i++] = _("ãã‚Œã¯é­…åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your charisma.");
+		info[i++] = _("¤½¤ì¤ÏÌ¥ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your charisma.");
 	}
 
 	if (have_flag(flgs, TR_MAGIC_MASTERY))
 	{
-		info[i++] = _("ãã‚Œã¯é­”æ³•é“å…·ä½¿ç”¨èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your ability to use magic devices.");
+		info[i++] = _("¤½¤ì¤ÏËâË¡Æ»¶ñ»ÈÍÑÇ½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your ability to use magic devices.");
 
 	}
 	if (have_flag(flgs, TR_STEALTH))
 	{
-		info[i++] = _("ãã‚Œã¯éš å¯†è¡Œå‹•èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your stealth.");
+		info[i++] = _("¤½¤ì¤Ï±£Ì©¹ÔÆ°Ç½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your stealth.");
 	}
 	if (have_flag(flgs, TR_SEARCH))
 	{
-		info[i++] = _("ãã‚Œã¯æ¢ç´¢èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your searching.");
+		info[i++] = _("¤½¤ì¤ÏÃµº÷Ç½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your searching.");
 	}
 	if (have_flag(flgs, TR_INFRA))
 	{
-		info[i++] = _("ãã‚Œã¯èµ¤å¤–ç·šè¦–åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your infravision.");
+		info[i++] = _("¤½¤ì¤ÏÀÖ³°Àş»ëÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your infravision.");
 	}
 	if (have_flag(flgs, TR_TUNNEL))
 	{
-		info[i++] = _("ãã‚Œã¯æ¡æ˜èƒ½åŠ›ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your ability to tunnel.");
+		info[i++] = _("¤½¤ì¤ÏºÎ·¡Ç½ÎÏ¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your ability to tunnel.");
 	}
 	if (have_flag(flgs, TR_SPEED))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚¹ãƒ”ãƒ¼ãƒ‰ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your speed.");
+		info[i++] = _("¤½¤ì¤Ï¥¹¥Ô¡¼¥É¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your speed.");
 	}
 	if (have_flag(flgs, TR_BLOWS))
 	{
-		info[i++] = _("ãã‚Œã¯æ‰“æ’ƒå›æ•°ã«å½±éŸ¿ã‚’åŠã¼ã™ã€‚", "It affects your attack speed.");
+		info[i++] = _("¤½¤ì¤ÏÂÇ·â²ó¿ô¤Ë±Æ¶Á¤òµÚ¤Ü¤¹¡£", "It affects your attack speed.");
 	}
 
 	if (have_flag(flgs, TR_BRAND_ACID))
 	{
-		info[i++] = _("ãã‚Œã¯é…¸ã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from acid.");
+		info[i++] = _("¤½¤ì¤Ï»À¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£", "It does extra damage from acid.");
 	}
 	if (have_flag(flgs, TR_BRAND_ELEC))
 	{
-		info[i++] = _("ãã‚Œã¯é›»æ’ƒã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from electricity.");
+		info[i++] = _("¤½¤ì¤ÏÅÅ·â¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£", "It does extra damage from electricity.");
 	}
 	if (have_flag(flgs, TR_BRAND_FIRE))
 	{
-		info[i++] = _("ãã‚Œã¯ç«ç‚ã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from fire.");
+		info[i++] = _("¤½¤ì¤Ï²Ğ±ê¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£", "It does extra damage from fire.");
 	}
 	if (have_flag(flgs, TR_BRAND_COLD))
 	{
-		info[i++] = _("ãã‚Œã¯å†·æ°—ã«ã‚ˆã£ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚", "It does extra damage from frost.");
+		info[i++] = _("¤½¤ì¤ÏÎäµ¤¤Ë¤è¤Ã¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¡£", "It does extra damage from frost.");
 	}
 
 	if (have_flag(flgs, TR_BRAND_POIS))
 	{
-		info[i++] = _("ãã‚Œã¯æ•µã‚’æ¯’ã™ã‚‹ã€‚", "It poisons your foes.");
+		info[i++] = _("¤½¤ì¤ÏÅ¨¤òÆÇ¤¹¤ë¡£", "It poisons your foes.");
 	}
 
 	if (have_flag(flgs, TR_CHAOTIC))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚«ã‚ªã‚¹çš„ãªåŠ¹æœã‚’åŠã¼ã™ã€‚", "It produces chaotic effects.");
+		info[i++] = _("¤½¤ì¤Ï¥«¥ª¥¹Åª¤Ê¸ú²Ì¤òµÚ¤Ü¤¹¡£", "It produces chaotic effects.");
 	}
 
 	if (have_flag(flgs, TR_VAMPIRIC))
 	{
-		info[i++] = _("ãã‚Œã¯æ•µã‹ã‚‰ç”Ÿå‘½åŠ›ã‚’å¸åã™ã‚‹ã€‚", "It drains life from your foes.");
+		info[i++] = _("¤½¤ì¤ÏÅ¨¤«¤éÀ¸Ì¿ÎÏ¤òµÛ¼ı¤¹¤ë¡£", "It drains life from your foes.");
 	}
 
 	if (have_flag(flgs, TR_IMPACT))
 	{
-		info[i++] = _("ãã‚Œã¯åœ°éœ‡ã‚’èµ·ã“ã™ã“ã¨ãŒã§ãã‚‹ã€‚", "It can cause earthquakes.");
+		info[i++] = _("¤½¤ì¤ÏÃÏ¿Ì¤òµ¯¤³¤¹¤³¤È¤¬¤Ç¤­¤ë¡£", "It can cause earthquakes.");
 	}
 
 	if (have_flag(flgs, TR_VORPAL))
 	{
-		info[i++] = _("ãã‚Œã¯éå¸¸ã«åˆ‡ã‚Œå‘³ãŒé‹­ãæ•µã‚’åˆ‡æ–­ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It is very sharp and can cut your foes.");
+		info[i++] = _("¤½¤ì¤ÏÈó¾ï¤ËÀÚ¤ìÌ£¤¬±Ô¤¯Å¨¤òÀÚÃÇ¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£", "It is very sharp and can cut your foes.");
 	}
 
 	if (have_flag(flgs, TR_KILL_DRAGON))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of dragons.");
+		info[i++] = _("¤½¤ì¤Ï¥É¥é¥´¥ó¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of dragons.");
 	}
 	else if (have_flag(flgs, TR_SLAY_DRAGON))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against dragons.");
+		info[i++] = _("¤½¤ì¤Ï¥É¥é¥´¥ó¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It is especially deadly against dragons.");
 	}
 
 	if (have_flag(flgs, TR_KILL_ORC))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ªãƒ¼ã‚¯ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of orcs.");
+		info[i++] = _("¤½¤ì¤Ï¥ª¡¼¥¯¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of orcs.");
 	}
 	if (have_flag(flgs, TR_SLAY_ORC))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ªãƒ¼ã‚¯ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against orcs.");
+		info[i++] = _("¤½¤ì¤Ï¥ª¡¼¥¯¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It is especially deadly against orcs.");
 	}
 
 	if (have_flag(flgs, TR_KILL_TROLL))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒˆãƒ­ãƒ«ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of trolls.");
+		info[i++] = _("¤½¤ì¤Ï¥È¥í¥ë¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of trolls.");
 	}
 	if (have_flag(flgs, TR_SLAY_TROLL))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒˆãƒ­ãƒ«ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against trolls.");
+		info[i++] = _("¤½¤ì¤Ï¥È¥í¥ë¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It is especially deadly against trolls.");
 	}
 
 	if (have_flag(flgs, TR_KILL_GIANT))
 	{
-		info[i++] = _("ãã‚Œã¯å·¨äººã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of giants.");
+		info[i++] = _("¤½¤ì¤Ïµğ¿Í¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of giants.");
 	}
 	else if (have_flag(flgs, TR_SLAY_GIANT))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚¸ãƒ£ã‚¤ã‚¢ãƒ³ãƒˆã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against giants.");
+		info[i++] = _("¤½¤ì¤Ï¥¸¥ã¥¤¥¢¥ó¥È¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It is especially deadly against giants.");
 	}
 
 	if (have_flag(flgs, TR_KILL_DEMON))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ‡ãƒ¼ãƒ¢ãƒ³ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of demons.");
+		info[i++] = _("¤½¤ì¤Ï¥Ç¡¼¥â¥ó¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of demons.");
 	}
 	if (have_flag(flgs, TR_SLAY_DEMON))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ‡ãƒ¼ãƒ¢ãƒ³ã«å¯¾ã—ã¦è–ãªã‚‹åŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It strikes at demons with holy wrath.");
+		info[i++] = _("¤½¤ì¤Ï¥Ç¡¼¥â¥ó¤ËÂĞ¤·¤ÆÀ»¤Ê¤ëÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It strikes at demons with holy wrath.");
 	}
 
 	if (have_flag(flgs, TR_KILL_UNDEAD))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of undead.");
+		info[i++] = _("¤½¤ì¤Ï¥¢¥ó¥Ç¥Ã¥É¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of undead.");
 	}
 	if (have_flag(flgs, TR_SLAY_UNDEAD))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã«å¯¾ã—ã¦è–ãªã‚‹åŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It strikes at undead with holy wrath.");
+		info[i++] = _("¤½¤ì¤Ï¥¢¥ó¥Ç¥Ã¥É¤ËÂĞ¤·¤ÆÀ»¤Ê¤ëÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It strikes at undead with holy wrath.");
 	}
 
 	if (have_flag(flgs, TR_KILL_EVIL))
 	{
-		info[i++] = _("ãã‚Œã¯é‚ªæ‚ªãªã‚‹å­˜åœ¨ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of evil monsters.");
+		info[i++] = _("¤½¤ì¤Ï¼Ù°­¤Ê¤ëÂ¸ºß¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of evil monsters.");
 	}
 	if (have_flag(flgs, TR_SLAY_EVIL))
 	{
-		info[i++] = _("ãã‚Œã¯é‚ªæ‚ªãªã‚‹å­˜åœ¨ã«å¯¾ã—ã¦è–ãªã‚‹åŠ›ã§æ”»æ’ƒã™ã‚‹ã€‚", "It fights against evil with holy fury.");
+		info[i++] = _("¤½¤ì¤Ï¼Ù°­¤Ê¤ëÂ¸ºß¤ËÂĞ¤·¤ÆÀ»¤Ê¤ëÎÏ¤Ç¹¶·â¤¹¤ë¡£", "It fights against evil with holy fury.");
 	}
 
 	if (have_flag(flgs, TR_KILL_ANIMAL))
 	{
-		info[i++] = _("ãã‚Œã¯è‡ªç„¶ç•Œã®å‹•ç‰©ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of natural creatures.");
+		info[i++] = _("¤½¤ì¤Ï¼«Á³³¦¤ÎÆ°Êª¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of natural creatures.");
 	}
 	if (have_flag(flgs, TR_SLAY_ANIMAL))
 	{
-		info[i++] = _("ãã‚Œã¯è‡ªç„¶ç•Œã®å‹•ç‰©ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against natural creatures.");
+		info[i++] = _("¤½¤ì¤Ï¼«Á³³¦¤ÎÆ°Êª¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It is especially deadly against natural creatures.");
 	}
 
 	if (have_flag(flgs, TR_KILL_HUMAN))
 	{
-		info[i++] = _("ãã‚Œã¯äººé–“ã«ã¨ã£ã¦ã®å¤©æ•µã§ã‚ã‚‹ã€‚", "It is a great bane of humans.");
+		info[i++] = _("¤½¤ì¤Ï¿Í´Ö¤Ë¤È¤Ã¤Æ¤ÎÅ·Å¨¤Ç¤¢¤ë¡£", "It is a great bane of humans.");
 	}
 	if (have_flag(flgs, TR_SLAY_HUMAN))
 	{
-		info[i++] = _("ãã‚Œã¯äººé–“ã«å¯¾ã—ã¦ç‰¹ã«æã‚‹ã¹ãåŠ›ã‚’ç™ºæ®ã™ã‚‹ã€‚", "It is especially deadly against humans.");
+		info[i++] = _("¤½¤ì¤Ï¿Í´Ö¤ËÂĞ¤·¤ÆÆÃ¤Ë¶²¤ë¤Ù¤­ÎÏ¤òÈ¯´ø¤¹¤ë¡£", "It is especially deadly against humans.");
 	}
 
 	if (have_flag(flgs, TR_FORCE_WEAPON))
 	{
-		info[i++] = _("ãã‚Œã¯ä½¿ç”¨è€…ã®é­”åŠ›ã‚’ä½¿ã£ã¦æ”»æ’ƒã™ã‚‹ã€‚", "It powerfully strikes at a monster using your mana.");
+		info[i++] = _("¤½¤ì¤Ï»ÈÍÑ¼Ô¤ÎËâÎÏ¤ò»È¤Ã¤Æ¹¶·â¤¹¤ë¡£", "It powerfully strikes at a monster using your mana.");
 	}
 	if (have_flag(flgs, TR_DEC_MANA))
 	{
-		info[i++] = _("ãã‚Œã¯é­”åŠ›ã®æ¶ˆè²»ã‚’æŠ¼ã•ãˆã‚‹ã€‚", "It decreases your mana consumption.");
+		info[i++] = _("¤½¤ì¤ÏËâÎÏ¤Î¾ÃÈñ¤ò²¡¤µ¤¨¤ë¡£", "It decreases your mana consumption.");
 	}
 	if (have_flag(flgs, TR_SUST_STR))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®è…•åŠ›ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your strength.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÏÓÎÏ¤ò°İ»ı¤¹¤ë¡£", "It sustains your strength.");
 	}
 	if (have_flag(flgs, TR_SUST_INT))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®çŸ¥èƒ½ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your intelligence.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÃÎÇ½¤ò°İ»ı¤¹¤ë¡£", "It sustains your intelligence.");
 	}
 	if (have_flag(flgs, TR_SUST_WIS))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®è³¢ã•ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your wisdom.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤Î¸­¤µ¤ò°İ»ı¤¹¤ë¡£", "It sustains your wisdom.");
 	}
 	if (have_flag(flgs, TR_SUST_DEX))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®å™¨ç”¨ã•ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your dexterity.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤Î´ïÍÑ¤µ¤ò°İ»ı¤¹¤ë¡£", "It sustains your dexterity.");
 	}
 	if (have_flag(flgs, TR_SUST_CON))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®è€ä¹…åŠ›ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your constitution.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÂÑµ×ÎÏ¤ò°İ»ı¤¹¤ë¡£", "It sustains your constitution.");
 	}
 	if (have_flag(flgs, TR_SUST_CHR))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®é­…åŠ›ã‚’ç¶­æŒã™ã‚‹ã€‚", "It sustains your charisma.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÌ¥ÎÏ¤ò°İ»ı¤¹¤ë¡£", "It sustains your charisma.");
 	}
 
 	if (have_flag(flgs, TR_IM_ACID))
 	{
-		info[i++] = _("ãã‚Œã¯é…¸ã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to acid.");
+		info[i++] = _("¤½¤ì¤Ï»À¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£", "It provides immunity to acid.");
 	}
 	if (have_flag(flgs, TR_IM_ELEC))
 	{
-		info[i++] = _("ãã‚Œã¯é›»æ’ƒã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to electricity.");
+		info[i++] = _("¤½¤ì¤ÏÅÅ·â¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£", "It provides immunity to electricity.");
 	}
 	if (have_flag(flgs, TR_IM_FIRE))
 	{
-		info[i++] = _("ãã‚Œã¯ç«ã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to fire.");
+		info[i++] = _("¤½¤ì¤Ï²Ğ¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£", "It provides immunity to fire.");
 	}
 	if (have_flag(flgs, TR_IM_COLD))
 	{
-		info[i++] = _("ãã‚Œã¯å¯’ã•ã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to cold.");
+		info[i++] = _("¤½¤ì¤Ï´¨¤µ¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£", "It provides immunity to cold.");
 	}
 
 	if (have_flag(flgs, TR_THROW))
 	{
-		info[i++] = _("ãã‚Œã¯æ•µã«æŠ•ã’ã¦å¤§ããªãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It is perfectly balanced for throwing.");
+		info[i++] = _("¤½¤ì¤ÏÅ¨¤ËÅê¤²¤ÆÂç¤­¤Ê¥À¥á¡¼¥¸¤òÍ¿¤¨¤ë¤³¤È¤¬¤Ç¤­¤ë¡£", "It is perfectly balanced for throwing.");
 	}
 
 	if (have_flag(flgs, TR_FREE_ACT))
 	{
-		info[i++] = _("ãã‚Œã¯éº»ç—ºã«å¯¾ã™ã‚‹å®Œå…¨ãªå…ç–«ã‚’æˆã‘ã‚‹ã€‚", "It provides immunity to paralysis.");
+		info[i++] = _("¤½¤ì¤ÏËãáã¤ËÂĞ¤¹¤ë´°Á´¤ÊÌÈ±Ö¤ò¼ø¤±¤ë¡£", "It provides immunity to paralysis.");
 	}
 	if (have_flag(flgs, TR_HOLD_EXP))
 	{
-		info[i++] = _("ãã‚Œã¯çµŒé¨“å€¤å¸åã«å¯¾ã™ã‚‹è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to experience draining.");
+		info[i++] = _("¤½¤ì¤Ï·Ğ¸³ÃÍµÛ¼ı¤ËÂĞ¤¹¤ëÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to experience draining.");
 	}
 	if (have_flag(flgs, TR_RES_FEAR))
 	{
-		info[i++] = _("ãã‚Œã¯ææ€–ã¸ã®å®Œå…¨ãªè€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It makes you completely fearless.");
+		info[i++] = _("¤½¤ì¤Ï¶²Éİ¤Ø¤Î´°Á´¤ÊÂÑÀ­¤ò¼ø¤±¤ë¡£", "It makes you completely fearless.");
 	}
 	if (have_flag(flgs, TR_RES_ACID))
 	{
-		info[i++] = _("ãã‚Œã¯é…¸ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to acid.");
+		info[i++] = _("¤½¤ì¤Ï»À¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to acid.");
 	}
 	if (have_flag(flgs, TR_RES_ELEC))
 	{
-		info[i++] = _("ãã‚Œã¯é›»æ’ƒã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to electricity.");
+		info[i++] = _("¤½¤ì¤ÏÅÅ·â¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to electricity.");
 	}
 	if (have_flag(flgs, TR_RES_FIRE))
 	{
-		info[i++] = _("ãã‚Œã¯ç«ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to fire.");
+		info[i++] = _("¤½¤ì¤Ï²Ğ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to fire.");
 	}
 	if (have_flag(flgs, TR_RES_COLD))
 	{
-		info[i++] = _("ãã‚Œã¯å¯’ã•ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to cold.");
+		info[i++] = _("¤½¤ì¤Ï´¨¤µ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to cold.");
 	}
 	if (have_flag(flgs, TR_RES_POIS))
 	{
-		info[i++] = _("ãã‚Œã¯æ¯’ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to poison.");
+		info[i++] = _("¤½¤ì¤ÏÆÇ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to poison.");
 	}
 
 	if (have_flag(flgs, TR_RES_LITE))
 	{
-		info[i++] = _("ãã‚Œã¯é–ƒå…‰ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to light.");
+		info[i++] = _("¤½¤ì¤ÏÁ®¸÷¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to light.");
 	}
 	if (have_flag(flgs, TR_RES_DARK))
 	{
-		info[i++] = _("ãã‚Œã¯æš—é»’ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to dark.");
+		info[i++] = _("¤½¤ì¤Ï°Å¹õ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to dark.");
 	}
 
 	if (have_flag(flgs, TR_RES_BLIND))
 	{
-		info[i++] = _("ãã‚Œã¯ç›²ç›®ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to blindness.");
+		info[i++] = _("¤½¤ì¤ÏÌÕÌÜ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to blindness.");
 	}
 	if (have_flag(flgs, TR_RES_CONF))
 	{
-		info[i++] = _("ãã‚Œã¯æ··ä¹±ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to confusion.");
+		info[i++] = _("¤½¤ì¤Ïº®Íğ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to confusion.");
 	}
 	if (have_flag(flgs, TR_RES_SOUND))
 	{
-		info[i++] = _("ãã‚Œã¯è½ŸéŸ³ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to sound.");
+		info[i++] = _("¤½¤ì¤Ï¹ì²»¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to sound.");
 	}
 	if (have_flag(flgs, TR_RES_SHARDS))
 	{
-		info[i++] = _("ãã‚Œã¯ç ´ç‰‡ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to shards.");
+		info[i++] = _("¤½¤ì¤ÏÇËÊÒ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to shards.");
 	}
 
 	if (have_flag(flgs, TR_RES_NETHER))
 	{
-		info[i++] = _("ãã‚Œã¯åœ°ç„ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to nether.");
+		info[i++] = _("¤½¤ì¤ÏÃÏ¹ö¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to nether.");
 	}
 	if (have_flag(flgs, TR_RES_NEXUS))
 	{
-		info[i++] = _("ãã‚Œã¯å› æœæ··ä¹±ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to nexus.");
+		info[i++] = _("¤½¤ì¤Ï°ø²Ìº®Íğ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to nexus.");
 	}
 	if (have_flag(flgs, TR_RES_CHAOS))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚«ã‚ªã‚¹ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to chaos.");
+		info[i++] = _("¤½¤ì¤Ï¥«¥ª¥¹¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to chaos.");
 	}
 	if (have_flag(flgs, TR_RES_DISEN))
 	{
-		info[i++] = _("ãã‚Œã¯åŠ£åŒ–ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides resistance to disenchantment.");
+		info[i++] = _("¤½¤ì¤ÏÎô²½¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides resistance to disenchantment.");
 	}
 
 	if (have_flag(flgs, TR_LEVITATION))
 	{
-		info[i++] = _("ãã‚Œã¯å®™ã«æµ®ãã“ã¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚", "It allows you to levitate.");
+		info[i++] = _("¤½¤ì¤ÏÃè¤ËÉâ¤¯¤³¤È¤ò²ÄÇ½¤Ë¤¹¤ë¡£", "It allows you to levitate.");
 	}
 		
 	if (have_flag(flgs, TR_SEE_INVIS))
 	{
-		info[i++] = _("ãã‚Œã¯é€æ˜ãªãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’è¦‹ã‚‹ã“ã¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚", "It allows you to see invisible monsters.");
+		info[i++] = _("¤½¤ì¤ÏÆ©ÌÀ¤Ê¥â¥ó¥¹¥¿¡¼¤ò¸«¤ë¤³¤È¤ò²ÄÇ½¤Ë¤¹¤ë¡£", "It allows you to see invisible monsters.");
 	}
 	if (have_flag(flgs, TR_TELEPATHY))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ†ãƒ¬ãƒ‘ã‚·ãƒ¼èƒ½åŠ›ã‚’æˆã‘ã‚‹ã€‚", "It gives telepathic powers.");
+		info[i++] = _("¤½¤ì¤Ï¥Æ¥ì¥Ñ¥·¡¼Ç½ÎÏ¤ò¼ø¤±¤ë¡£", "It gives telepathic powers.");
 	}
 	if (have_flag(flgs, TR_ESP_ANIMAL))
 	{
-		info[i++] = _("ãã‚Œã¯è‡ªç„¶ç•Œã®ç”Ÿç‰©ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses natural creatures.");
+		info[i++] = _("¤½¤ì¤Ï¼«Á³³¦¤ÎÀ¸Êª¤ò´¶ÃÎ¤¹¤ë¡£", "It senses natural creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_UNDEAD))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses undead.");
+		info[i++] = _("¤½¤ì¤Ï¥¢¥ó¥Ç¥Ã¥É¤ò´¶ÃÎ¤¹¤ë¡£", "It senses undead.");
 	}
 	if (have_flag(flgs, TR_ESP_DEMON))
 	{
-		info[i++] = _("ãã‚Œã¯æ‚ªé­”ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses demons.");
+		info[i++] = _("¤½¤ì¤Ï°­Ëâ¤ò´¶ÃÎ¤¹¤ë¡£", "It senses demons.");
 	}
 	if (have_flag(flgs, TR_ESP_ORC))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ªãƒ¼ã‚¯ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses orcs.");
+		info[i++] = _("¤½¤ì¤Ï¥ª¡¼¥¯¤ò´¶ÃÎ¤¹¤ë¡£", "It senses orcs.");
 	}
 	if (have_flag(flgs, TR_ESP_TROLL))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒˆãƒ­ãƒ«ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses trolls.");
+		info[i++] = _("¤½¤ì¤Ï¥È¥í¥ë¤ò´¶ÃÎ¤¹¤ë¡£", "It senses trolls.");
 	}
 	if (have_flag(flgs, TR_ESP_GIANT))
 	{
-		info[i++] = _("ãã‚Œã¯å·¨äººã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses giants.");
+		info[i++] = _("¤½¤ì¤Ïµğ¿Í¤ò´¶ÃÎ¤¹¤ë¡£", "It senses giants.");
 	}
 	if (have_flag(flgs, TR_ESP_DRAGON))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses dragons.");
+		info[i++] = _("¤½¤ì¤Ï¥É¥é¥´¥ó¤ò´¶ÃÎ¤¹¤ë¡£", "It senses dragons.");
 	}
 	if (have_flag(flgs, TR_ESP_HUMAN))
 	{
-		info[i++] = _("ãã‚Œã¯äººé–“ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses humans.");
+		info[i++] = _("¤½¤ì¤Ï¿Í´Ö¤ò´¶ÃÎ¤¹¤ë¡£", "It senses humans.");
 	}
 	if (have_flag(flgs, TR_ESP_EVIL))
 	{
-		info[i++] = _("ãã‚Œã¯é‚ªæ‚ªãªå­˜åœ¨ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses evil creatures.");
+		info[i++] = _("¤½¤ì¤Ï¼Ù°­¤ÊÂ¸ºß¤ò´¶ÃÎ¤¹¤ë¡£", "It senses evil creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_GOOD))
 	{
-		info[i++] = _("ãã‚Œã¯å–„è‰¯ãªå­˜åœ¨ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses good creatures.");
+		info[i++] = _("¤½¤ì¤ÏÁ±ÎÉ¤ÊÂ¸ºß¤ò´¶ÃÎ¤¹¤ë¡£", "It senses good creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_NONLIVING))
 	{
-		info[i++] = _("ãã‚Œã¯æ´»å‹•ã™ã‚‹ç„¡ç”Ÿç‰©ä½“ã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses non-living creatures.");
+		info[i++] = _("¤½¤ì¤Ï³èÆ°¤¹¤ëÌµÀ¸ÊªÂÎ¤ò´¶ÃÎ¤¹¤ë¡£", "It senses non-living creatures.");
 	}
 	if (have_flag(flgs, TR_ESP_UNIQUE))
 	{
-		info[i++] = _("ãã‚Œã¯ç‰¹åˆ¥ãªå¼·æ•µã‚’æ„ŸçŸ¥ã™ã‚‹ã€‚", "It senses unique monsters.");
+		info[i++] = _("¤½¤ì¤ÏÆÃÊÌ¤Ê¶¯Å¨¤ò´¶ÃÎ¤¹¤ë¡£", "It senses unique monsters.");
 	}
 	if (have_flag(flgs, TR_SLOW_DIGEST))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®æ–°é™³ä»£è¬ã‚’é…ãã™ã‚‹ã€‚", "It slows your metabolism.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤Î¿·ÄÄÂå¼Õ¤òÃÙ¤¯¤¹¤ë¡£", "It slows your metabolism.");
 	}
 	if (have_flag(flgs, TR_REGEN))
 	{
-		info[i++] = _("ãã‚Œã¯ä½“åŠ›å›å¾©åŠ›ã‚’å¼·åŒ–ã™ã‚‹ã€‚", "It speeds your regenerative powers.");
+		info[i++] = _("¤½¤ì¤ÏÂÎÎÏ²óÉüÎÏ¤ò¶¯²½¤¹¤ë¡£", "It speeds your regenerative powers.");
 	}
 	if (have_flag(flgs, TR_WARNING))
 	{
-		info[i++] = _("ãã‚Œã¯å±é™ºã«å¯¾ã—ã¦è­¦å‘Šã‚’ç™ºã™ã‚‹ã€‚", "It warns you of danger");
+		info[i++] = _("¤½¤ì¤Ï´í¸±¤ËÂĞ¤·¤Æ·Ù¹ğ¤òÈ¯¤¹¤ë¡£", "It warns you of danger");
 	}
 	if (have_flag(flgs, TR_REFLECT))
 	{
-		info[i++] = _("ãã‚Œã¯çŸ¢ã®å‘ªæ–‡ã‚’åå°„ã™ã‚‹ã€‚", "It reflects bolt spells.");
+		info[i++] = _("¤½¤ì¤ÏÌğ¤Î¼öÊ¸¤òÈ¿¼Í¤¹¤ë¡£", "It reflects bolt spells.");
 	}
 	if (have_flag(flgs, TR_SH_FIRE))
 	{
-		info[i++] = _("ãã‚Œã¯ç‚ã®ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces a fiery sheath.");
+		info[i++] = _("¤½¤ì¤Ï±ê¤Î¥Ğ¥ê¥¢¤òÄ¥¤ë¡£", "It produces a fiery sheath.");
 	}
 	if (have_flag(flgs, TR_SH_ELEC))
 	{
-		info[i++] = _("ãã‚Œã¯é›»æ°—ã®ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces an electric sheath.");
+		info[i++] = _("¤½¤ì¤ÏÅÅµ¤¤Î¥Ğ¥ê¥¢¤òÄ¥¤ë¡£", "It produces an electric sheath.");
 	}
 	if (have_flag(flgs, TR_SH_COLD))
 	{
-		info[i++] = _("ãã‚Œã¯å†·æ°—ã®ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces a sheath of coldness.");
+		info[i++] = _("¤½¤ì¤ÏÎäµ¤¤Î¥Ğ¥ê¥¢¤òÄ¥¤ë¡£", "It produces a sheath of coldness.");
 	}
 	if (have_flag(flgs, TR_NO_MAGIC))
 	{
-		info[i++] = _("ãã‚Œã¯åé­”æ³•ãƒãƒªã‚¢ã‚’å¼µã‚‹ã€‚", "It produces an anti-magic shell.");
+		info[i++] = _("¤½¤ì¤ÏÈ¿ËâË¡¥Ğ¥ê¥¢¤òÄ¥¤ë¡£", "It produces an anti-magic shell.");
 	}
 	if (have_flag(flgs, TR_NO_TELE))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’é‚ªé­”ã™ã‚‹ã€‚", "It prevents teleportation.");
+		info[i++] = _("¤½¤ì¤Ï¥Æ¥ì¥İ¡¼¥È¤ò¼ÙËâ¤¹¤ë¡£", "It prevents teleportation.");
 	}
 	if (have_flag(flgs, TR_XTRA_MIGHT))
 	{
-		info[i++] = _("ãã‚Œã¯çŸ¢ï¼ãƒœãƒ«ãƒˆï¼å¼¾ã‚’ã‚ˆã‚Šå¼·åŠ›ã«ç™ºå°„ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It fires missiles with extra might.");
+		info[i++] = _("¤½¤ì¤ÏÌğ¡¿¥Ü¥ë¥È¡¿ÃÆ¤ò¤è¤ê¶¯ÎÏ¤ËÈ¯¼Í¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£", "It fires missiles with extra might.");
 	}
 	if (have_flag(flgs, TR_XTRA_SHOTS))
 	{
-		info[i++] = _("ãã‚Œã¯çŸ¢ï¼ãƒœãƒ«ãƒˆï¼å¼¾ã‚’éå¸¸ã«æ—©ãç™ºå°„ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚", "It fires missiles excessively fast.");
+		info[i++] = _("¤½¤ì¤ÏÌğ¡¿¥Ü¥ë¥È¡¿ÃÆ¤òÈó¾ï¤ËÁá¤¯È¯¼Í¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¡£", "It fires missiles excessively fast.");
 	}
 
 	if (have_flag(flgs, TR_BLESSED))
 	{
-		info[i++] = _("ãã‚Œã¯ç¥ã«ç¥ç¦ã•ã‚Œã¦ã„ã‚‹ã€‚", "It has been blessed by the gods.");
+		info[i++] = _("¤½¤ì¤Ï¿À¤Ë½ËÊ¡¤µ¤ì¤Æ¤¤¤ë¡£", "It has been blessed by the gods.");
 	}
 
 	if (object_is_cursed(o_ptr))
 	{
 		if (o_ptr->curse_flags & TRC_PERMA_CURSE)
 		{
-			info[i++] = _("ãã‚Œã¯æ°¸é ã®å‘ªã„ãŒã‹ã‘ã‚‰ã‚Œã¦ã„ã‚‹ã€‚", "It is permanently cursed.");
+			info[i++] = _("¤½¤ì¤Ï±Ê±ó¤Î¼ö¤¤¤¬¤«¤±¤é¤ì¤Æ¤¤¤ë¡£", "It is permanently cursed.");
 		}
 		else if (o_ptr->curse_flags & TRC_HEAVY_CURSE)
 		{
-			info[i++] = _("ãã‚Œã¯å¼·åŠ›ãªå‘ªã„ãŒã‹ã‘ã‚‰ã‚Œã¦ã„ã‚‹ã€‚", "It is heavily cursed.");
+			info[i++] = _("¤½¤ì¤Ï¶¯ÎÏ¤Ê¼ö¤¤¤¬¤«¤±¤é¤ì¤Æ¤¤¤ë¡£", "It is heavily cursed.");
 		}
 		else
 		{
-			info[i++] = _("ãã‚Œã¯å‘ªã‚ã‚Œã¦ã„ã‚‹ã€‚", "It is cursed.");
+			info[i++] = _("¤½¤ì¤Ï¼ö¤ï¤ì¤Æ¤¤¤ë¡£", "It is cursed.");
 
 			/*
 			 * It's a trivial infomation since there is
@@ -1100,75 +1100,75 @@ bool screen_object(object_type *o_ptr, u32b mode)
 
 	if ((have_flag(flgs, TR_TY_CURSE)) || (o_ptr->curse_flags & TRC_TY_CURSE))
 	{
-		info[i++] = _("ãã‚Œã¯å¤ªå¤ã®ç¦ã€…ã—ã„æ€¨å¿µãŒå®¿ã£ã¦ã„ã‚‹ã€‚", "It carries an ancient foul curse.");
+		info[i++] = _("¤½¤ì¤ÏÂÀ¸Å¤Î²Ò¡¹¤·¤¤±åÇ°¤¬½É¤Ã¤Æ¤¤¤ë¡£", "It carries an ancient foul curse.");
 	}
 	if ((have_flag(flgs, TR_AGGRAVATE)) || (o_ptr->curse_flags & TRC_AGGRAVATE))
 	{
-		info[i++] = _("ãã‚Œã¯ä»˜è¿‘ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’æ€’ã‚‰ã›ã‚‹ã€‚", "It aggravates nearby creatures.");
+		info[i++] = _("¤½¤ì¤ÏÉÕ¶á¤Î¥â¥ó¥¹¥¿¡¼¤òÅÜ¤é¤»¤ë¡£", "It aggravates nearby creatures.");
 	}
 	if ((have_flag(flgs, TR_DRAIN_EXP)) || (o_ptr->curse_flags & TRC_DRAIN_EXP))
 	{
-		info[i++] = _("ãã‚Œã¯çµŒé¨“å€¤ã‚’å¸ã„å–ã‚‹ã€‚", "It drains experience.");
+		info[i++] = _("¤½¤ì¤Ï·Ğ¸³ÃÍ¤òµÛ¤¤¼è¤ë¡£", "It drains experience.");
 	}
 	if (o_ptr->curse_flags & TRC_SLOW_REGEN)
 	{
-		info[i++] = _("ãã‚Œã¯å›å¾©åŠ›ã‚’å¼±ã‚ã‚‹ã€‚", "It slows your regenerative powers.");
+		info[i++] = _("¤½¤ì¤Ï²óÉüÎÏ¤ò¼å¤á¤ë¡£", "It slows your regenerative powers.");
 	}
 	if ((o_ptr->curse_flags & TRC_ADD_L_CURSE) || have_flag(flgs, TR_ADD_L_CURSE))
 	{
-		info[i++] = _("ãã‚Œã¯å¼±ã„å‘ªã„ã‚’å¢—ã‚„ã™ã€‚","It adds weak curses.");
+		info[i++] = _("¤½¤ì¤Ï¼å¤¤¼ö¤¤¤òÁı¤ä¤¹¡£","It adds weak curses.");
 	}
 	if ((o_ptr->curse_flags & TRC_ADD_H_CURSE) || have_flag(flgs, TR_ADD_H_CURSE))
 	{
-		info[i++] = _("ãã‚Œã¯å¼·åŠ›ãªå‘ªã„ã‚’å¢—ã‚„ã™ã€‚","It adds heavy curses.");
+		info[i++] = _("¤½¤ì¤Ï¶¯ÎÏ¤Ê¼ö¤¤¤òÁı¤ä¤¹¡£","It adds heavy curses.");
 	}
 	if ((have_flag(flgs, TR_CALL_ANIMAL)) || (o_ptr->curse_flags & TRC_CALL_ANIMAL))
 	{
-		info[i++] = _("ãã‚Œã¯å‹•ç‰©ã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts animals.");
+		info[i++] = _("¤½¤ì¤ÏÆ°Êª¤ò¸Æ¤Ó´ó¤»¤ë¡£", "It attracts animals.");
 	}
 	if ((have_flag(flgs, TR_CALL_DEMON)) || (o_ptr->curse_flags & TRC_CALL_DEMON))
 	{
-		info[i++] = _("ãã‚Œã¯æ‚ªé­”ã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts demons.");
+		info[i++] = _("¤½¤ì¤Ï°­Ëâ¤ò¸Æ¤Ó´ó¤»¤ë¡£", "It attracts demons.");
 	}
 	if ((have_flag(flgs, TR_CALL_DRAGON)) || (o_ptr->curse_flags & TRC_CALL_DRAGON))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ‰ãƒ©ã‚´ãƒ³ã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts dragons.");
+		info[i++] = _("¤½¤ì¤Ï¥É¥é¥´¥ó¤ò¸Æ¤Ó´ó¤»¤ë¡£", "It attracts dragons.");
 	}
 	if ((have_flag(flgs, TR_CALL_UNDEAD)) || (o_ptr->curse_flags & TRC_CALL_UNDEAD))
 	{
-		info[i++] = _("ãã‚Œã¯æ­»éœŠã‚’å‘¼ã³å¯„ã›ã‚‹ã€‚", "It attracts undeads.");
+		info[i++] = _("¤½¤ì¤Ï»àÎî¤ò¸Æ¤Ó´ó¤»¤ë¡£", "It attracts undeads.");
 	}
 	if ((have_flag(flgs, TR_COWARDICE)) ||  (o_ptr->curse_flags & TRC_COWARDICE))
 	{
-		info[i++] = _("ãã‚Œã¯ææ€–æ„Ÿã‚’å¼•ãèµ·ã“ã™ã€‚", "It makes you subject to cowardice.");
+		info[i++] = _("¤½¤ì¤Ï¶²Éİ´¶¤ò°ú¤­µ¯¤³¤¹¡£", "It makes you subject to cowardice.");
 	}
 	if ((have_flag(flgs, TR_TELEPORT)) || (o_ptr->curse_flags & TRC_TELEPORT))
 	{
-		info[i++] = _("ãã‚Œã¯ãƒ©ãƒ³ãƒ€ãƒ ãªãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’å¼•ãèµ·ã“ã™ã€‚", "It induces random teleportation.");
+		info[i++] = _("¤½¤ì¤Ï¥é¥ó¥À¥à¤Ê¥Æ¥ì¥İ¡¼¥È¤ò°ú¤­µ¯¤³¤¹¡£", "It induces random teleportation.");
 	}
 	if ((have_flag(flgs, TR_LOW_MELEE)) || o_ptr->curse_flags & TRC_LOW_MELEE)
 	{
-		info[i++] = _("ãã‚Œã¯æ”»æ’ƒã‚’å¤–ã—ã‚„ã™ã„ã€‚", "It causes you to miss blows.");
+		info[i++] = _("¤½¤ì¤Ï¹¶·â¤ò³°¤·¤ä¤¹¤¤¡£", "It causes you to miss blows.");
 	}
 	if ((have_flag(flgs, TR_LOW_AC)) || (o_ptr->curse_flags & TRC_LOW_AC))
 	{
-		info[i++] = _("ãã‚Œã¯æ”»æ’ƒã‚’å—ã‘ã‚„ã™ã„ã€‚", "It helps your enemies' blows.");
+		info[i++] = _("¤½¤ì¤Ï¹¶·â¤ò¼õ¤±¤ä¤¹¤¤¡£", "It helps your enemies' blows.");
 	}
 	if ((have_flag(flgs, TR_LOW_MAGIC)) || (o_ptr->curse_flags & TRC_LOW_MAGIC))
 	{
-		info[i++] = _("ãã‚Œã¯é­”æ³•ã‚’å”±ãˆã«ããã™ã‚‹ã€‚", "It encumbers you while spellcasting.");
+		info[i++] = _("¤½¤ì¤ÏËâË¡¤ò¾§¤¨¤Ë¤¯¤¯¤¹¤ë¡£", "It encumbers you while spellcasting.");
 	}
 	if ((have_flag(flgs, TR_FAST_DIGEST)) || (o_ptr->curse_flags & TRC_FAST_DIGEST))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®æ–°é™³ä»£è¬ã‚’é€Ÿãã™ã‚‹ã€‚", "It speeds your metabolism.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤Î¿·ÄÄÂå¼Õ¤òÂ®¤¯¤¹¤ë¡£", "It speeds your metabolism.");
 	}
 	if ((have_flag(flgs, TR_DRAIN_HP)) || (o_ptr->curse_flags & TRC_DRAIN_HP))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®ä½“åŠ›ã‚’å¸ã„å–ã‚‹ã€‚", "It drains you.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎÂÎÎÏ¤òµÛ¤¤¼è¤ë¡£", "It drains you.");
 	}
 	if ((have_flag(flgs, TR_DRAIN_MANA)) || (o_ptr->curse_flags & TRC_DRAIN_MANA))
 	{
-		info[i++] = _("ãã‚Œã¯ã‚ãªãŸã®é­”åŠ›ã‚’å¸ã„å–ã‚‹ã€‚", "It drains your mana.");
+		info[i++] = _("¤½¤ì¤Ï¤¢¤Ê¤¿¤ÎËâÎÏ¤òµÛ¤¤¼è¤ë¡£", "It drains your mana.");
 	}
 
 	/* Describe about this kind of object instead of THIS fake object */
@@ -1180,10 +1180,10 @@ bool screen_object(object_type *o_ptr, u32b mode)
 			switch (o_ptr->sval)
 			{
 			case SV_RING_LORDLY:
-				info[i++] = _("ãã‚Œã¯å¹¾ã¤ã‹ã®ãƒ©ãƒ³ãƒ€ãƒ ãªè€æ€§ã‚’æˆã‘ã‚‹ã€‚", "It provides some random resistances.");
+				info[i++] = _("¤½¤ì¤Ï´ö¤Ä¤«¤Î¥é¥ó¥À¥à¤ÊÂÑÀ­¤ò¼ø¤±¤ë¡£", "It provides some random resistances.");
 				break;
 			case SV_RING_WARNING:
-				info[i++] = _("ãã‚Œã¯ã²ã¨ã¤ã®ä½ç´šãªESPã‚’æˆã‘ã‚‹äº‹ãŒã‚ã‚‹ã€‚", "It may provide a low rank ESP.");
+				info[i++] = _("¤½¤ì¤Ï¤Ò¤È¤Ä¤ÎÄãµé¤ÊESP¤ò¼ø¤±¤ë»ö¤¬¤¢¤ë¡£", "It may provide a low rank ESP.");
 				break;
 			}
 			break;
@@ -1192,11 +1192,11 @@ bool screen_object(object_type *o_ptr, u32b mode)
 			switch (o_ptr->sval)
 			{
 			case SV_AMULET_RESISTANCE:
-				info[i++] = _("ãã‚Œã¯æ¯’ã¸ã®è€æ€§ã‚’æˆã‘ã‚‹äº‹ãŒã‚ã‚‹ã€‚", "It may provides resistance to poison.");
-				info[i++] = _("ãã‚Œã¯ãƒ©ãƒ³ãƒ€ãƒ ãªè€æ€§ã‚’æˆã‘ã‚‹äº‹ãŒã‚ã‚‹ã€‚", "It may provide a random resistances.");
+				info[i++] = _("¤½¤ì¤ÏÆÇ¤Ø¤ÎÂÑÀ­¤ò¼ø¤±¤ë»ö¤¬¤¢¤ë¡£", "It may provides resistance to poison.");
+				info[i++] = _("¤½¤ì¤Ï¥é¥ó¥À¥à¤ÊÂÑÀ­¤ò¼ø¤±¤ë»ö¤¬¤¢¤ë¡£", "It may provide a random resistances.");
 				break;
 			case SV_AMULET_THE_MAGI:
-				info[i++] = _("ãã‚Œã¯æœ€å¤§ã§ï¼“ã¤ã¾ã§ã®ä½ç´šãªESPã‚’æˆã‘ã‚‹ã€‚", "It provides up to three low rank ESPs.");
+				info[i++] = _("¤½¤ì¤ÏºÇÂç¤Ç£³¤Ä¤Ş¤Ç¤ÎÄãµé¤ÊESP¤ò¼ø¤±¤ë¡£", "It provides up to three low rank ESPs.");
 				break;
 			}
 			break;
@@ -1208,25 +1208,25 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	    have_flag(flgs, TR_IGNORE_FIRE) &&
 	    have_flag(flgs, TR_IGNORE_COLD))
 	{
-		info[i++] = _("ãã‚Œã¯é…¸ãƒ»é›»æ’ƒãƒ»ç«ç‚ãƒ»å†·æ°—ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by the elements.");
+		info[i++] = _("¤½¤ì¤Ï»À¡¦ÅÅ·â¡¦²Ğ±ê¡¦Îäµ¤¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£", "It cannot be harmed by the elements.");
 	}
 	else
 	{
 		if (have_flag(flgs, TR_IGNORE_ACID))
 		{
-			info[i++] = _("ãã‚Œã¯é…¸ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by acid.");
+			info[i++] = _("¤½¤ì¤Ï»À¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£", "It cannot be harmed by acid.");
 		}
 		if (have_flag(flgs, TR_IGNORE_ELEC))
 		{
-			info[i++] = _("ãã‚Œã¯é›»æ’ƒã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by electricity.");
+			info[i++] = _("¤½¤ì¤ÏÅÅ·â¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£", "It cannot be harmed by electricity.");
 		}
 		if (have_flag(flgs, TR_IGNORE_FIRE))
 		{
-			info[i++] = _("ãã‚Œã¯ç«ç‚ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by fire.");
+			info[i++] = _("¤½¤ì¤Ï²Ğ±ê¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£", "It cannot be harmed by fire.");
 		}
 		if (have_flag(flgs, TR_IGNORE_COLD))
 		{
-			info[i++] = _("ãã‚Œã¯å†·æ°—ã§ã¯å‚·ã¤ã‹ãªã„ã€‚", "It cannot be harmed by cold.");
+			info[i++] = _("¤½¤ì¤ÏÎäµ¤¤Ç¤Ï½ı¤Ä¤«¤Ê¤¤¡£", "It cannot be harmed by cold.");
 		}
 	}
 
@@ -1263,7 +1263,7 @@ bool screen_object(object_type *o_ptr, u32b mode)
 	}
 	else
 	{
-		prt(_("     ã‚¢ã‚¤ãƒ†ãƒ ã®èƒ½åŠ›:", "     Item Attributes:"), 1, 15);
+		prt(_("     ¥¢¥¤¥Æ¥à¤ÎÇ½ÎÏ:", "     Item Attributes:"), 1, 15);
 	}
 
 	/* We will print on top of the map (column 13) */
@@ -1275,14 +1275,14 @@ bool screen_object(object_type *o_ptr, u32b mode)
 		/* Every 20 entries (lines 2 to 21), start over */
 		if ((k == hgt - 2) && (j+1 < i))
 		{
-			prt(_("-- ç¶šã --", "-- more --"), k, 15);
+			prt(_("-- Â³¤¯ --", "-- more --"), k, 15);
 			inkey();
 			for (; k > 2; k--) prt("", k, 15);
 		}
 	}
 
 	/* Wait for it */
-	prt(_("[ä½•ã‹ã‚­ãƒ¼ã‚’æŠ¼ã™ã¨ã‚²ãƒ¼ãƒ ã«æˆ»ã‚Šã¾ã™]", "[Press any key to continue]"), k, 15);
+	prt(_("[²¿¤«¥­¡¼¤ò²¡¤¹¤È¥²¡¼¥à¤ËÌá¤ê¤Ş¤¹]", "[Press any key to continue]"), k, 15);
 
 	inkey();
 
@@ -1296,10 +1296,10 @@ bool screen_object(object_type *o_ptr, u32b mode)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé¸æŠæ™‚ã®é¸æŠã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒ©ãƒ™ãƒ«ã‚’è¿”ã™ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥ÈÁªÂò»ş¤ÎÁªÂò¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È¥é¥Ù¥ë¤òÊÖ¤¹ /
  * Convert an inventory index into a one character label
- * @param i ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
- * @return å¯¾å¿œã™ã‚‹ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ
+ * @param i ¥×¥ì¥¤¥ä¡¼¤Î½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID
+ * @return ÂĞ±ş¤¹¤ë¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È
  * @details Note that the label does NOT distinguish inven/equip.
  */
 char index_to_label(int i)
@@ -1312,9 +1312,9 @@ char index_to_label(int i)
 }
 
 /*!
- * @brief é¸æŠã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒ©ãƒ™ãƒ«ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™ /
+ * @brief ÁªÂò¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È¥é¥Ù¥ë¤«¤é¥×¥ì¥¤¥ä¡¼¤Î½ê»ı¥ª¥Ö¥¸¥§¥¯¥ÈID¤òÊÖ¤¹ /
  * Convert a label into the index of an item in the "inven"
- * @return å¯¾å¿œã™ã‚‹IDã€‚è©²å½“ã‚¹ãƒ­ãƒƒãƒˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã‹ã£ãŸå ´åˆ-1ã‚’è¿”ã™ / Return "-1" if the label does not indicate a real item
+ * @return ÂĞ±ş¤¹¤ëID¡£³ºÅö¥¹¥í¥Ã¥È¤Ë¥ª¥Ö¥¸¥§¥¯¥È¤¬Â¸ºß¤·¤Ê¤«¤Ã¤¿¾ì¹ç-1¤òÊÖ¤¹ / Return "-1" if the label does not indicate a real item
  * @details Note that the label does NOT distinguish inven/equip.
  */
 s16b label_to_inven(int c)
@@ -1340,9 +1340,9 @@ extern bool select_ring_slot;
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDãŒæŒ‡è¼ªæ ã‹ã‚’è¿”ã™ /
- * @param i ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
- * @return æŒ‡è¼ªæ ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Î½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID¤¬»ØÎØÏÈ¤«¤òÊÖ¤¹ /
+ * @param i ¥×¥ì¥¤¥ä¡¼¤Î½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID
+ * @return »ØÎØÏÈ¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  */
 static bool is_ring_slot(int i)
 {
@@ -1351,9 +1351,9 @@ static bool is_ring_slot(int i)
 
 
 /*!
- * @brief é¸æŠã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆãƒ©ãƒ™ãƒ«ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã‚’è¿”ã™ /
+ * @brief ÁªÂò¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È¥é¥Ù¥ë¤«¤é¥×¥ì¥¤¥ä¡¼¤ÎÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID¤òÊÖ¤¹ /
  * Convert a label into the index of a item in the "equip"
- * @return å¯¾å¿œã™ã‚‹IDã€‚è©²å½“ã‚¹ãƒ­ãƒƒãƒˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã‹ã£ãŸå ´åˆ-1ã‚’è¿”ã™ / Return "-1" if the label does not indicate a real item
+ * @return ÂĞ±ş¤¹¤ëID¡£³ºÅö¥¹¥í¥Ã¥È¤Ë¥ª¥Ö¥¸¥§¥¯¥È¤¬Â¸ºß¤·¤Ê¤«¤Ã¤¿¾ì¹ç-1¤òÊÖ¤¹ / Return "-1" if the label does not indicate a real item
  */
 s16b label_to_equip(int c)
 {
@@ -1377,10 +1377,10 @@ s16b label_to_equip(int c)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è©²å½“è£…å‚™éƒ¨ä½IDã‚’è¿”ã™ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤Î³ºÅöÁõÈ÷Éô°ÌID¤òÊÖ¤¹ /
  * Determine which equipment slot (if any) an item likes
- * @param o_ptr åç§°ã‚’å–å¾—ã™ã‚‹å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return å¯¾å¿œã™ã‚‹è£…å‚™éƒ¨ä½ID
+ * @param o_ptr Ì¾¾Î¤ò¼èÆÀ¤¹¤ë¸µ¤Î¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ÂĞ±ş¤¹¤ëÁõÈ÷Éô°ÌID
  */
 s16b wield_slot(object_type *o_ptr)
 {
@@ -1465,10 +1465,10 @@ s16b wield_slot(object_type *o_ptr)
 }
 
 /*!
- * @brief æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã®éƒ¨ä½è¡¨ç¾ã‚’è¿”ã™ /
+ * @brief ½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID¤ÎÉô°ÌÉ½¸½¤òÊÖ¤¹ /
  * Return a string mentioning how a given item is carried
- * @param i éƒ¨ä½è¡¨ç¾ã‚’æ±‚ã‚ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
- * @return éƒ¨ä½è¡¨ç¾ã®æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ * @param i Éô°ÌÉ½¸½¤òµá¤á¤ë¥×¥ì¥¤¥ä¡¼¤Î½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID
+ * @return Éô°ÌÉ½¸½¤ÎÊ¸»úÎó¥İ¥¤¥ó¥¿
  */
 cptr mention_use(int i)
 {
@@ -1478,43 +1478,43 @@ cptr mention_use(int i)
 	switch (i)
 	{
 #ifdef JP
-		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "é‹æ¬ä¸­" : ((p_ptr->ryoute && p_ptr->migite) ? " ä¸¡æ‰‹" : (left_hander ? " å·¦æ‰‹" : " å³æ‰‹")); break;
+		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "±¿ÈÂÃæ" : ((p_ptr->ryoute && p_ptr->migite) ? " Î¾¼ê" : (left_hander ? " º¸¼ê" : " ±¦¼ê")); break;
 #else
 		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "Just lifting" : (p_ptr->migite ? "Wielding" : "On arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "é‹æ¬ä¸­" : ((p_ptr->ryoute && p_ptr->hidarite) ? " ä¸¡æ‰‹" : (left_hander ? " å³æ‰‹" : " å·¦æ‰‹")); break;
+		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "±¿ÈÂÃæ" : ((p_ptr->ryoute && p_ptr->hidarite) ? " Î¾¼ê" : (left_hander ? " ±¦¼ê" : " º¸¼ê")); break;
 #else
 		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "Just lifting" : (p_ptr->hidarite ? "Wielding" : "On arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "é‹æ¬ä¸­" : "å°„æ’ƒç”¨"; break;
+		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "±¿ÈÂÃæ" : "¼Í·âÍÑ"; break;
 #else
 		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "Just holding" : "Shooting"; break;
 #endif
 
 #ifdef JP
-		case INVEN_RIGHT: p = (left_hander ? "å·¦æ‰‹æŒ‡" : "å³æ‰‹æŒ‡"); break;
+		case INVEN_RIGHT: p = (left_hander ? "º¸¼ê»Ø" : "±¦¼ê»Ø"); break;
 #else
 		case INVEN_RIGHT: p = (left_hander ? "On left hand" : "On right hand"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LEFT:  p = (left_hander ? "å³æ‰‹æŒ‡" : "å·¦æ‰‹æŒ‡"); break;
+		case INVEN_LEFT:  p = (left_hander ? "±¦¼ê»Ø" : "º¸¼ê»Ø"); break;
 #else
 		case INVEN_LEFT:  p = (left_hander ? "On right hand" : "On left hand"); break;
 #endif
 
-		case INVEN_NECK:  p = _("  é¦–", "Around neck"); break;
-		case INVEN_LITE:  p = _(" å…‰æº", "Light source"); break;
-		case INVEN_BODY:  p = _("  ä½“", "On body"); break;
-		case INVEN_OUTER: p = _("ä½“ã®ä¸Š", "About body"); break;
-		case INVEN_HEAD:  p = _("  é ­", "On head"); break;
-		case INVEN_HANDS: p = _("  æ‰‹", "On hands"); break;
-		case INVEN_FEET:  p = _("  è¶³", "On feet"); break;
-		default:          p = _("ã‚¶ãƒƒã‚¯", "In pack"); break;
+		case INVEN_NECK:  p = _("  ¼ó", "Around neck"); break;
+		case INVEN_LITE:  p = _(" ¸÷¸»", "Light source"); break;
+		case INVEN_BODY:  p = _("  ÂÎ", "On body"); break;
+		case INVEN_OUTER: p = _("ÂÎ¤Î¾å", "About body"); break;
+		case INVEN_HEAD:  p = _("  Æ¬", "On head"); break;
+		case INVEN_HANDS: p = _("  ¼ê", "On hands"); break;
+		case INVEN_FEET:  p = _("  Â­", "On feet"); break;
+		default:          p = _("¥¶¥Ã¥¯", "In pack"); break;
 	}
 
 	/* Return the result */
@@ -1523,10 +1523,10 @@ cptr mention_use(int i)
 
 
 /*!
- * @brief æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆIDã®ç¾åœ¨ã®æ‰±ã„æ–¹ã®çŠ¶æ…‹è¡¨ç¾ã‚’è¿”ã™ /
+ * @brief ½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID¤Î¸½ºß¤Î°·¤¤Êı¤Î¾õÂÖÉ½¸½¤òÊÖ¤¹ /
  * Return a string describing how a given item is being worn.
- * @param i çŠ¶æ…‹è¡¨ç¾ã‚’æ±‚ã‚ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
- * @return çŠ¶æ…‹è¡¨ç¾å†…å®¹ã®æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+ * @param i ¾õÂÖÉ½¸½¤òµá¤á¤ë¥×¥ì¥¤¥ä¡¼¤Î½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥ÈID
+ * @return ¾õÂÖÉ½¸½ÆâÍÆ¤ÎÊ¸»úÎó¥İ¥¤¥ó¥¿
  * @details
  * Currently, only used for items in the equipment, not inventory.
  */
@@ -1537,43 +1537,43 @@ cptr describe_use(int i)
 	switch (i)
 	{
 #ifdef JP
-		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "é‹æ¬ä¸­ã®" : ((p_ptr->ryoute && p_ptr->migite) ? "ä¸¡æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : (left_hander ? "å·¦æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : "å³æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹")); break;
+		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "±¿ÈÂÃæ¤Î" : ((p_ptr->ryoute && p_ptr->migite) ? "Î¾¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : (left_hander ? "º¸¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : "±¦¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë")); break;
 #else
 		case INVEN_RARM:  p = p_ptr->heavy_wield[0] ? "just lifting" : (p_ptr->migite ? "attacking monsters with" : "wearing on your arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "é‹æ¬ä¸­ã®" : ((p_ptr->ryoute && p_ptr->hidarite) ? "ä¸¡æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : (left_hander ? "å³æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹" : "å·¦æ‰‹ã«è£…å‚™ã—ã¦ã„ã‚‹")); break;
+		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "±¿ÈÂÃæ¤Î" : ((p_ptr->ryoute && p_ptr->hidarite) ? "Î¾¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : (left_hander ? "±¦¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë" : "º¸¼ê¤ËÁõÈ÷¤·¤Æ¤¤¤ë")); break;
 #else
 		case INVEN_LARM:  p = p_ptr->heavy_wield[1] ? "just lifting" : (p_ptr->hidarite ? "attacking monsters with" : "wearing on your arm"); break;
 #endif
 
 #ifdef JP
-		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "æŒã¤ã ã‘ã§ç²¾ä¸€æ¯ã®" : "å°„æ’ƒç”¨ã«è£…å‚™ã—ã¦ã„ã‚‹"; break;
+		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "»ı¤Ä¤À¤±¤ÇÀº°ìÇÕ¤Î" : "¼Í·âÍÑ¤ËÁõÈ÷¤·¤Æ¤¤¤ë"; break;
 #else
 		case INVEN_BOW:   p = (adj_str_hold[p_ptr->stat_ind[A_STR]] < inventory[i].weight / 10) ? "just holding" : "shooting missiles with"; break;
 #endif
 
 #ifdef JP
-		case INVEN_RIGHT: p = (left_hander ? "å·¦æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹" : "å³æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹"); break;
+		case INVEN_RIGHT: p = (left_hander ? "º¸¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë" : "±¦¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë"); break;
 #else
 		case INVEN_RIGHT: p = (left_hander ? "wearing on your left hand" : "wearing on your right hand"); break;
 #endif
 
 #ifdef JP
-		case INVEN_LEFT:  p = (left_hander ? "å³æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹" : "å·¦æ‰‹ã®æŒ‡ã«ã¯ã‚ã¦ã„ã‚‹"); break;
+		case INVEN_LEFT:  p = (left_hander ? "±¦¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë" : "º¸¼ê¤Î»Ø¤Ë¤Ï¤á¤Æ¤¤¤ë"); break;
 #else
 		case INVEN_LEFT:  p = (left_hander ? "wearing on your right hand" : "wearing on your left hand"); break;
 #endif
 
-		case INVEN_NECK:  p = _("é¦–ã«ã‹ã‘ã¦ã„ã‚‹", "wearing around your neck"); break;
-		case INVEN_LITE:  p = _("å…‰æºã«ã—ã¦ã„ã‚‹", "using to light the way"); break;
-		case INVEN_BODY:  p = _("ä½“ã«ç€ã¦ã„ã‚‹", "wearing on your body"); break;
-		case INVEN_OUTER: p = _("èº«ã«ã¾ã¨ã£ã¦ã„ã‚‹", "wearing on your back"); break;
-		case INVEN_HEAD:  p = _("é ­ã«ã‹ã¶ã£ã¦ã„ã‚‹", "wearing on your head"); break;
-		case INVEN_HANDS: p = _("æ‰‹ã«ã¤ã‘ã¦ã„ã‚‹", "wearing on your hands"); break;
-		case INVEN_FEET:  p = _("è¶³ã«ã¯ã„ã¦ã„ã‚‹", "wearing on your feet"); break;
-		default:          p = _("ã‚¶ãƒƒã‚¯ã«å…¥ã£ã¦ã„ã‚‹", "carrying in your pack"); break;
+		case INVEN_NECK:  p = _("¼ó¤Ë¤«¤±¤Æ¤¤¤ë", "wearing around your neck"); break;
+		case INVEN_LITE:  p = _("¸÷¸»¤Ë¤·¤Æ¤¤¤ë", "using to light the way"); break;
+		case INVEN_BODY:  p = _("ÂÎ¤ËÃå¤Æ¤¤¤ë", "wearing on your body"); break;
+		case INVEN_OUTER: p = _("¿È¤Ë¤Ş¤È¤Ã¤Æ¤¤¤ë", "wearing on your back"); break;
+		case INVEN_HEAD:  p = _("Æ¬¤Ë¤«¤Ö¤Ã¤Æ¤¤¤ë", "wearing on your head"); break;
+		case INVEN_HANDS: p = _("¼ê¤Ë¤Ä¤±¤Æ¤¤¤ë", "wearing on your hands"); break;
+		case INVEN_FEET:  p = _("Â­¤Ë¤Ï¤¤¤Æ¤¤¤ë", "wearing on your feet"); break;
+		default:          p = _("¥¶¥Ã¥¯¤ËÆş¤Ã¤Æ¤¤¤ë", "carrying in your pack"); break;
 	}
 
 	/* Return the result */
@@ -1582,11 +1582,11 @@ cptr describe_use(int i)
 
 
 /*!
- * @brief tval/svalæŒ‡å®šã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½¿ç”¨å¯èƒ½ãªé­”æ³•æ›¸ã‹ã©ã†ã‹ã‚’è¿”ã™ /
+ * @brief tval/sval»ØÄê¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥à¤¬¥×¥ì¥¤¥ä¡¼¤Î»ÈÍÑ²ÄÇ½¤ÊËâË¡½ñ¤«¤É¤¦¤«¤òÊÖ¤¹ /
  * Hack: Check if a spellbook is one of the realms we can use. -- TY
- * @param book_tval ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ã®tval
- * @param book_sval ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ã®sval
- * @return ä½¿ç”¨å¯èƒ½ãªé­”æ³•æ›¸ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @param book_tval ¥Ù¡¼¥¹¥¢¥¤¥Æ¥à¤Îtval
+ * @param book_sval ¥Ù¡¼¥¹¥¢¥¤¥Æ¥à¤Îsval
+ * @return »ÈÍÑ²ÄÇ½¤ÊËâË¡½ñ¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  */
 
 bool check_book_realm(const byte book_tval, const byte book_sval)
@@ -1605,10 +1605,10 @@ bool check_book_realm(const byte book_tval, const byte book_sval)
 }
 
 /*!
- * @brief ã‚¢ã‚¤ãƒ†ãƒ ãŒitem_tester_hookã‚°ãƒ­ãƒ¼ãƒãƒ«é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®æ¡ä»¶ã‚’æº€ãŸã—ã¦ã„ã‚‹ã‹ã‚’è¿”ã™æ±ç”¨é–¢æ•°
+ * @brief ¥¢¥¤¥Æ¥à¤¬item_tester_hook¥°¥í¡¼¥Ğ¥ë´Ø¿ô¥İ¥¤¥ó¥¿¤Î¾ò·ï¤òËş¤¿¤·¤Æ¤¤¤ë¤«¤òÊÖ¤¹ÈÆÍÑ´Ø¿ô
  * Check an item against the item tester info
- * @param o_ptr åˆ¤å®šã‚’è¡Œã„ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return item_tester_hookã®å‚ç…§å…ˆã€ãã®ä»–ã„ãã¤ã‹ã®ä¾‹å¤–ã«å¿œã˜ã¦TRUE/FALSEã‚’è¿”ã™ã€‚
+ * @param o_ptr È½Äê¤ò¹Ô¤¤¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return item_tester_hook¤Î»²¾ÈÀè¡¢¤½¤ÎÂ¾¤¤¤¯¤Ä¤«¤ÎÎã³°¤Ë±ş¤¸¤ÆTRUE/FALSE¤òÊÖ¤¹¡£
  */
 bool item_tester_okay(object_type *o_ptr)
 {
@@ -1650,9 +1650,9 @@ bool item_tester_okay(object_type *o_ptr)
 
 
 /*!
- * @brief æ‰€æŒã‚¢ã‚¤ãƒ†ãƒ ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ /
+ * @brief ½ê»ı¥¢¥¤¥Æ¥à°ìÍ÷¤òÉ½¼¨¤¹¤ë /
  * Choice window "shadow" of the "show_inven()" function
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void display_inven(void)
 {
@@ -1746,9 +1746,9 @@ void display_inven(void)
 
 
 /*!
- * @brief è£…å‚™ã‚¢ã‚¤ãƒ†ãƒ ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ /
+ * @brief ÁõÈ÷¥¢¥¤¥Æ¥à°ìÍ÷¤òÉ½¼¨¤¹¤ë /
  * Choice window "shadow" of the "show_equip()" function
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void display_equip(void)
 {
@@ -1787,7 +1787,7 @@ void display_equip(void)
 		/* Obtain an item description */
 		if ((((i == INVEN_RARM) && p_ptr->hidarite) || ((i == INVEN_LARM) && p_ptr->migite)) && p_ptr->ryoute)
 		{
-			strcpy(o_name, _("(æ­¦å™¨ã‚’ä¸¡æ‰‹æŒã¡)", "(wielding with two-hands)"));
+			strcpy(o_name, _("(Éğ´ï¤òÎ¾¼ê»ı¤Á)", "(wielding with two-hands)"));
 			attr = TERM_WHITE;
 		}
 		else
@@ -1842,12 +1842,12 @@ void display_equip(void)
 
 
 /*!
- * @brief æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«é¸æŠã‚¿ã‚°ã‚’ä¸ãˆã‚‹/ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’è¿”ã™ /
+ * @brief ½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥È¤ËÁªÂò¥¿¥°¤òÍ¿¤¨¤ë/¥¿¥°¤Ë³ºÅö¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ë¤«¤òÊÖ¤¹ /
  * Find the "first" inventory object with the given "tag".
- * @param cp å¯¾å¿œã™ã‚‹ã‚¿ã‚°IDã‚’ä¸ãˆã‚‹å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param tag è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’èª¿ã¹ãŸã„ã‚¿ã‚°
- * @param mode æ‰€æŒã€è£…å‚™ã®åˆ‡ã‚Šæ›¿ãˆ
- * @return ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ãªã‚‰TRUEã‚’è¿”ã™
+ * @param cp ÂĞ±ş¤¹¤ë¥¿¥°ID¤òÍ¿¤¨¤ë»²¾È¥İ¥¤¥ó¥¿
+ * @param tag ³ºÅö¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ë¤«¤òÄ´¤Ù¤¿¤¤¥¿¥°
+ * @param mode ½ê»ı¡¢ÁõÈ÷¤ÎÀÚ¤êÂØ¤¨
+ * @return ¥¿¥°¤Ë³ºÅö¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ë¤Ê¤éTRUE¤òÊÖ¤¹
  * @details
  * A "tag" is a numeral "n" appearing as "@n" anywhere in the\n
  * inscription of an object.  Alphabetical characters don't work as a\n
@@ -1966,13 +1966,13 @@ static bool get_tag(int *cp, char tag, int mode)
 
 
 /*!
- * @brief åºŠã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«é¸æŠã‚¿ã‚°ã‚’ä¸ãˆã‚‹/ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’è¿”ã™ /
+ * @brief ¾²¥ª¥Ö¥¸¥§¥¯¥È¤ËÁªÂò¥¿¥°¤òÍ¿¤¨¤ë/¥¿¥°¤Ë³ºÅö¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ë¤«¤òÊÖ¤¹ /
  * Find the "first" inventory object with the given "tag".
- * @param cp å¯¾å¿œã™ã‚‹ã‚¿ã‚°IDã‚’ä¸ãˆã‚‹å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param tag è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã‚’èª¿ã¹ãŸã„ã‚¿ã‚°
- * @param floor_list åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—
- * @param floor_num  åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—ID
- * @return ã‚¿ã‚°ã«è©²å½“ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ãªã‚‰TRUEã‚’è¿”ã™
+ * @param cp ÂĞ±ş¤¹¤ë¥¿¥°ID¤òÍ¿¤¨¤ë»²¾È¥İ¥¤¥ó¥¿
+ * @param tag ³ºÅö¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ë¤«¤òÄ´¤Ù¤¿¤¤¥¿¥°
+ * @param floor_list ¾²¾å¥¢¥¤¥Æ¥à¤ÎÇÛÎó
+ * @param floor_num  ¾²¾å¥¢¥¤¥Æ¥à¤ÎÇÛÎóID
+ * @return ¥¿¥°¤Ë³ºÅö¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ë¤Ê¤éTRUE¤òÊÖ¤¹
  * @details
  * A "tag" is a numeral "n" appearing as "@n" anywhere in the\n
  * inscription of an object.  Alphabetical characters don't work as a\n
@@ -2062,11 +2062,11 @@ static bool get_tag_floor(int *cp, char tag, int floor_list[], int floor_num)
 
 
 /*!
- * @brief ã‚¿ã‚°IDã«ã‚ã‚ã›ã¦ã‚¿ã‚°ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™ /
+ * @brief ¥¿¥°ID¤Ë¤¢¤ï¤»¤Æ¥¿¥°¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È¤Î¥ê¥¹¥È¤òÊÖ¤¹ /
  * Move around label characters with correspond tags
- * @param label ãƒ©ãƒ™ãƒ«ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹æ–‡å­—åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param mode æ‰€æŒå“ãƒªã‚¹ãƒˆã‹è£…å‚™å“ãƒªã‚¹ãƒˆã‹ã®åˆ‡ã‚Šæ›¿ãˆ
- * @return ãªã—
+ * @param label ¥é¥Ù¥ë¥ê¥¹¥È¤ò¼èÆÀ¤¹¤ëÊ¸»úÎó»²¾È¥İ¥¤¥ó¥¿
+ * @param mode ½ê»ıÉÊ¥ê¥¹¥È¤«ÁõÈ÷ÉÊ¥ê¥¹¥È¤«¤ÎÀÚ¤êÂØ¤¨
+ * @return ¤Ê¤·
  */
 static void prepare_label_string(char *label, int mode)
 {
@@ -2097,12 +2097,12 @@ static void prepare_label_string(char *label, int mode)
 
 
 /*!
- * @brief ã‚¿ã‚°IDã«ã‚ã‚ã›ã¦ã‚¿ã‚°ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã™(åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ç”¨) /
+ * @brief ¥¿¥°ID¤Ë¤¢¤ï¤»¤Æ¥¿¥°¥¢¥ë¥Õ¥¡¥Ù¥Ã¥È¤Î¥ê¥¹¥È¤òÊÖ¤¹(¾²¾å¥¢¥¤¥Æ¥àÍÑ) /
  * Move around label characters with correspond tags (floor version)
- * @param label ãƒ©ãƒ™ãƒ«ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹æ–‡å­—åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param floor_list åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—
- * @param floor_num  åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ã®é…åˆ—ID
- * @return ãªã—
+ * @param label ¥é¥Ù¥ë¥ê¥¹¥È¤ò¼èÆÀ¤¹¤ëÊ¸»úÎó»²¾È¥İ¥¤¥ó¥¿
+ * @param floor_list ¾²¾å¥¢¥¤¥Æ¥à¤ÎÇÛÎó
+ * @param floor_num  ¾²¾å¥¢¥¤¥Æ¥à¤ÎÇÛÎóID
+ * @return ¤Ê¤·
  */
 /*
  */
@@ -2134,10 +2134,10 @@ static void prepare_label_string_floor(char *label, int floor_list[], int floor_
 
 
 /*!
- * @brief æ‰€æŒã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºã‚’è¡Œã† /
+ * @brief ½ê»ı¥¢¥¤¥Æ¥à¤ÎÉ½¼¨¤ò¹Ô¤¦ /
  * Display the inventory.
- * @param target_item ã‚¢ã‚¤ãƒ†ãƒ ã®é¸æŠå‡¦ç†ã‚’è¡Œã†ã‹å¦ã‹ã€‚
- * @return é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ã‚¿ã‚°
+ * @param target_item ¥¢¥¤¥Æ¥à¤ÎÁªÂò½èÍı¤ò¹Ô¤¦¤«Èİ¤«¡£
+ * @return ÁªÂò¤·¤¿¥¢¥¤¥Æ¥à¤Î¥¿¥°
  * @details
  * Hack -- do not display "trailing" empty slots
  */
@@ -2241,7 +2241,7 @@ int show_inven(int target_item)
 		{
 			if (j == (target_item-1))
 			{
-				strcpy(tmp_val, _("ã€‹", "> "));
+				strcpy(tmp_val, _("¡Õ", "> "));
 				target_item_label = i;
 			}
 			else strcpy(tmp_val, "  ");
@@ -2307,10 +2307,10 @@ int show_inven(int target_item)
 
 
 /*!
- * @brief è£…å‚™ã‚¢ã‚¤ãƒ†ãƒ ã®è¡¨ç¤ºã‚’è¡Œã† /
+ * @brief ÁõÈ÷¥¢¥¤¥Æ¥à¤ÎÉ½¼¨¤ò¹Ô¤¦ /
  * Display the equipment.
- * @param target_item ã‚¢ã‚¤ãƒ†ãƒ ã®é¸æŠå‡¦ç†ã‚’è¡Œã†ã‹å¦ã‹ã€‚
- * @return é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ã‚¿ã‚°
+ * @param target_item ¥¢¥¤¥Æ¥à¤ÎÁªÂò½èÍı¤ò¹Ô¤¦¤«Èİ¤«¡£
+ * @return ÁªÂò¤·¤¿¥¢¥¤¥Æ¥à¤Î¥¿¥°
  */
 int show_equip(int target_item)
 {
@@ -2352,7 +2352,7 @@ int show_equip(int target_item)
 		if ((((i == INVEN_RARM) && p_ptr->hidarite) || ((i == INVEN_LARM) && p_ptr->migite)) && p_ptr->ryoute)
 		{
 #ifdef JP
-			(void)strcpy(out_desc[k],"(æ­¦å™¨ã‚’ä¸¡æ‰‹æŒã¡)");
+			(void)strcpy(out_desc[k],"(Éğ´ï¤òÎ¾¼ê»ı¤Á)");
 #else
 			(void)strcpy(out_desc[k],"(wielding with two-hands)");
 #endif
@@ -2424,7 +2424,7 @@ int show_equip(int target_item)
 		{
 			if (j == (target_item-1))
 			{
-				strcpy(tmp_val, _("ã€‹", "> "));
+				strcpy(tmp_val, _("¡Õ", "> "));
 				target_item_label = i;
 			}
 			else strcpy(tmp_val, "  ");
@@ -2504,9 +2504,9 @@ int show_equip(int target_item)
 }
 
 /*!
- * @brief ã‚µãƒ–ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«æ‰€æŒå“ã€è£…å‚™å“ãƒªã‚¹ãƒˆã®è¡¨ç¤ºã‚’è¡Œã† /
+ * @brief ¥µ¥Ö¥¦¥£¥ó¥É¥¦¤Ë½ê»ıÉÊ¡¢ÁõÈ÷ÉÊ¥ê¥¹¥È¤ÎÉ½¼¨¤ò¹Ô¤¦ /
  * Flip "inven" and "equip" in any sub-windows
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void toggle_inven_equip(void)
 {
@@ -2543,11 +2543,11 @@ void toggle_inven_equip(void)
 }
 
 /*!
- * @brief é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ç¢ºèªå‡¦ç†ã®è£œåŠ© /
+ * @brief ÁªÂò¤·¤¿¥¢¥¤¥Æ¥à¤Î³ÎÇ§½èÍı¤ÎÊä½õ /
  * Verify the choice of an item.
- * @param prompt ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤ºã®ä¸€éƒ¨
- * @param item é¸æŠã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ç¢ºèªãŒYesãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ * @param prompt ¥á¥Ã¥»¡¼¥¸É½¼¨¤Î°ìÉô
+ * @param item ÁªÂò¥¢¥¤¥Æ¥àID
+ * @return ³ÎÇ§¤¬Yes¤Ê¤éTRUE¤òÊÖ¤¹¡£
  * @details The item can be negative to mean "item on floor".
  */
 static bool verify(cptr prompt, int item)
@@ -2573,7 +2573,7 @@ static bool verify(cptr prompt, int item)
 	object_desc(o_name, o_ptr, 0);
 
 	/* Prompt */
-	(void)sprintf(out_val, _("%s%sã§ã™ã‹? ", "%s %s? "), prompt, o_name);
+	(void)sprintf(out_val, _("%s%s¤Ç¤¹¤«? ", "%s %s? "), prompt, o_name);
 
 	/* Query */
 	return (get_check(out_val));
@@ -2581,9 +2581,9 @@ static bool verify(cptr prompt, int item)
 
 
 /*!
- * @brief é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ç¢ºèªå‡¦ç†ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
- * @param item é¸æŠã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ç¢ºèªãŒYesãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ * @brief ÁªÂò¤·¤¿¥¢¥¤¥Æ¥à¤Î³ÎÇ§½èÍı¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó /
+ * @param item ÁªÂò¥¢¥¤¥Æ¥àID
+ * @return ³ÎÇ§¤¬Yes¤Ê¤éTRUE¤òÊÖ¤¹¡£
  * @details The item can be negative to mean "item on floor".
  * Hack -- allow user to "prevent" certain choices
  */
@@ -2620,7 +2620,7 @@ static bool get_item_allow(int item)
 		if ((s[1] == command_cmd) || (s[1] == '*'))
 		{
 			/* Verify the choice */
-			if (!verify(_("æœ¬å½“ã«", "Really try"), item)) return (FALSE);
+			if (!verify(_("ËÜÅö¤Ë", "Really try"), item)) return (FALSE);
 		}
 
 		/* Find another '!' */
@@ -2633,10 +2633,10 @@ static bool get_item_allow(int item)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒ/è£…å‚™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ­£è¦ã®ã‚‚ã®ã‹ã‚’è¿”ã™ /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Î½ê»ı/ÁõÈ÷¥ª¥Ö¥¸¥§¥¯¥È¤¬Àµµ¬¤Î¤â¤Î¤«¤òÊÖ¤¹ /
  * Auxiliary function for "get_item()" -- test an index
- * @param i é¸æŠã‚¢ã‚¤ãƒ†ãƒ ID
- * @return æ­£è¦ã®IDãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @param i ÁªÂò¥¢¥¤¥Æ¥àID
+ * @return Àµµ¬¤ÎID¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  */
 static bool get_item_okay(int i)
 {
@@ -2653,9 +2653,9 @@ static bool get_item_okay(int i)
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ‹¾ã†ã“ã¨ãŒã§ãã‚‹çŠ¶æ…‹ã‹ã‚’è¿”ã™ /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤¬¥ª¥Ö¥¸¥§¥¯¥È¤ò½¦¤¦¤³¤È¤¬¤Ç¤­¤ë¾õÂÖ¤«¤òÊÖ¤¹ /
  * Determine whether get_item() can get some item or not
- * @return ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ãˆã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @return ¥¢¥¤¥Æ¥à¤ò½¦¤¨¤ë¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  * @details assuming mode = (USE_EQUIP | USE_INVEN | USE_FLOOR).
  */
 bool can_get_item(void)
@@ -2674,13 +2674,13 @@ bool can_get_item(void)
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé¸æŠã®æ±ç”¨é–¢æ•° /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥ÈÁªÂò¤ÎÈÆÍÑ´Ø¿ô /
  * Let the user select an item, save its "index"
- * @param cp é¸æŠã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®IDã‚’è¿”ã™ã€‚
- * @param pmt é¸æŠç›®çš„ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
- * @param str é¸æŠã§ãã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãªã„å ´åˆã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
- * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
- * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ˆã‚Šã‚¢ã‚¤ãƒ†ãƒ ãŒé¸æŠã•ã‚ŒãŸãªã‚‰TRUEã‚’è¿”ã™ã€‚/
+ * @param cp ÁªÂò¤·¤¿¥ª¥Ö¥¸¥§¥¯¥È¤ÎID¤òÊÖ¤¹¡£
+ * @param pmt ÁªÂòÌÜÅª¤Î¥á¥Ã¥»¡¼¥¸
+ * @param str ÁªÂò¤Ç¤­¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤Ê¤¤¾ì¹ç¤Î¥­¥ã¥ó¥»¥ë¥á¥Ã¥»¡¼¥¸
+ * @param mode ¥ª¥×¥·¥ç¥ó¥Õ¥é¥°
+ * @return ¥×¥ì¥¤¥ä¡¼¤Ë¤è¤ê¥¢¥¤¥Æ¥à¤¬ÁªÂò¤µ¤ì¤¿¤Ê¤éTRUE¤òÊÖ¤¹¡£/
  * Return TRUE only if an acceptable item was chosen by the user.\n
  * @details
  * The selected item must satisfy the "item_tester_hook()" function,\n
@@ -2979,7 +2979,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 
 
 	/*
-	 * è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³(always_show_list)ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯å¸¸ã«ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹
+	 * ÄÉ²Ã¥ª¥×¥·¥ç¥ó(always_show_list)¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¾ï¤Ë°ìÍ÷¤òÉ½¼¨¤¹¤ë
 	 */
 	if ((always_show_list == TRUE) || use_menu) command_see = TRUE;
 
@@ -3049,7 +3049,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 		if (!command_wrk)
 		{
 			/* Begin the prompt */
-			sprintf(out_val, _("æŒã¡ç‰©:", "Inven:"));
+			sprintf(out_val, _("»ı¤ÁÊª:", "Inven:"));
 
 			/* Some legal items */
 			if ((i1 <= i2) && !use_menu)
@@ -3063,11 +3063,11 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'°ìÍ÷,", " * to see,"));
 
 			/* Append */
 #ifdef JP
-			if (equip) strcat(out_val, format(" %s è£…å‚™å“,", use_menu ? "'4'or'6'" : "'/'"));
+			if (equip) strcat(out_val, format(" %s ÁõÈ÷ÉÊ,", use_menu ? "'4'or'6'" : "'/'"));
 #else
 			if (equip) strcat(out_val, format(" %s for Equip,", use_menu ? "4 or 6" : "/"));
 #endif
@@ -3077,7 +3077,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 		else
 		{
 			/* Begin the prompt */
-			sprintf(out_val, _("è£…å‚™å“:", "Equip:"));
+			sprintf(out_val, _("ÁõÈ÷ÉÊ:", "Equip:"));
 
 			/* Some legal items */
 			if ((e1 <= e2) && !use_menu)
@@ -3091,19 +3091,19 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'°ìÍ÷,", " * to see,"));
 
 			/* Append */
 #ifdef JP
-			if (inven) strcat(out_val, format(" %s æŒã¡ç‰©,", use_menu ? "'4'or'6'" : "'/'"));
+			if (inven) strcat(out_val, format(" %s »ı¤ÁÊª,", use_menu ? "'4'or'6'" : "'/'"));
 #else
 			if (inven) strcat(out_val, format(" %s for Inven,", use_menu ? "4 or 6" : "'/'"));
 #endif
 		}
 
 		/* Indicate legality of the "floor" item */
-		if (allow_floor) strcat(out_val, _(" '-'åºŠä¸Š,", " - for floor,"));
-		if (select_the_force) strcat(out_val, _(" 'w'ç·´æ°—è¡“,", " w for the Force,"));
+		if (allow_floor) strcat(out_val, _(" '-'¾²¾å,", " - for floor,"));
+		if (select_the_force) strcat(out_val, _(" 'w'Îıµ¤½Ñ,", " w for the Force,"));
 
 		/* Finish the prompt */
 		strcat(out_val, " ESC");
@@ -3312,7 +3312,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 						k = 0 - this_o_idx;
 
 						/* Verify the item (if required) */
-						if (other_query_flag && !verify(_("æœ¬å½“ã«", "Try"), k)) continue;
+						if (other_query_flag && !verify(_("ËÜÅö¤Ë", "Try"), k)) continue;
 
 						/* Allow player to "refuse" certain actions */
 						if (!get_item_allow(k)) continue;
@@ -3489,7 +3489,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 				}
 
 				/* Verify the item */
-				if (ver && !verify(_("æœ¬å½“ã«", "Try"), k))
+				if (ver && !verify(_("ËÜÅö¤Ë", "Try"), k))
 				{
 					done = TRUE;
 					break;
@@ -3568,12 +3568,12 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 #ifdef ALLOW_EASY_FLOOR
 
 /*!
- * @brief åºŠä¸‹ã«è½ã¡ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’è¿”ã™ / scan_floor
- * @param items ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®IDãƒªã‚¹ãƒˆã‚’è¿”ã™ãŸã‚ã®é…åˆ—å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param y èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Yåº§æ¨™
- * @param x èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Xåº§æ¨™
- * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
- * @return å¯¾è±¡ã®ãƒã‚¹ã«è½ã¡ã¦ã„ã‚‹ã‚¢ã‚¤ãƒ†ãƒ æ•°
+ * @brief ¾²²¼¤ËÍî¤Á¤Æ¤¤¤ë¥ª¥Ö¥¸¥§¥¯¥È¤Î¿ô¤òÊÖ¤¹ / scan_floor
+ * @param items ¥ª¥Ö¥¸¥§¥¯¥È¤ÎID¥ê¥¹¥È¤òÊÖ¤¹¤¿¤á¤ÎÇÛÎó»²¾È¥İ¥¤¥ó¥¿
+ * @param y Áöºº¤¹¤ë¥Õ¥í¥¢¤ÎYºÂÉ¸
+ * @param x Áöºº¤¹¤ë¥Õ¥í¥¢¤ÎXºÂÉ¸
+ * @param mode ¥ª¥×¥·¥ç¥ó¥Õ¥é¥°
+ * @return ÂĞ¾İ¤Î¥Ş¥¹¤ËÍî¤Á¤Æ¤¤¤ë¥¢¥¤¥Æ¥à¿ô
  * @details
  * Return a list of o_list[] indexes of items at the given cave
  * location. Valid flags are:
@@ -3625,12 +3625,12 @@ int scan_floor(int *items, int y, int x, int mode)
 
 
 /*!
- * @brief åºŠä¸‹ã«è½ã¡ã¦ã„ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã®ä¸€è¦§ã‚’è¿”ã™ / Display a list of the items on the floor at the given location.
- * @param target_item ã‚«ãƒ¼ã‚½ãƒ«ã®åˆæœŸå€¤
- * @param y èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Yåº§æ¨™
- * @param x èµ°æŸ»ã™ã‚‹ãƒ•ãƒ­ã‚¢ã®Xåº§æ¨™
- * @param min_width è¡¨ç¤ºã®é•·ã•
- * @return é¸æŠã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ID
+ * @brief ¾²²¼¤ËÍî¤Á¤Æ¤¤¤ë¥¢¥¤¥Æ¥à¤Î°ìÍ÷¤òÊÖ¤¹ / Display a list of the items on the floor at the given location.
+ * @param target_item ¥«¡¼¥½¥ë¤Î½é´üÃÍ
+ * @param y Áöºº¤¹¤ë¥Õ¥í¥¢¤ÎYºÂÉ¸
+ * @param x Áöºº¤¹¤ë¥Õ¥í¥¢¤ÎXºÂÉ¸
+ * @param min_width É½¼¨¤ÎÄ¹¤µ
+ * @return ÁªÂò¤·¤¿¥¢¥¤¥Æ¥à¤ÎID
  * @details
  */
 int show_floor(int target_item, int y, int x, int *min_width)
@@ -3723,7 +3723,7 @@ int show_floor(int target_item, int y, int x, int *min_width)
 		{
 			if (j == (target_item-1))
 			{
-				strcpy(tmp_val, _("ã€‹", "> "));
+				strcpy(tmp_val, _("¡Õ", "> "));
 				target_item_label = i;
 			}
 			else strcpy(tmp_val, "   ");
@@ -3761,13 +3761,13 @@ int show_floor(int target_item, int y, int x, int *min_width)
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé¸æŠã®æ±ç”¨é–¢æ•°(åºŠä¸Šã‚¢ã‚¤ãƒ†ãƒ ç”¨) /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥ÈÁªÂò¤ÎÈÆÍÑ´Ø¿ô(¾²¾å¥¢¥¤¥Æ¥àÍÑ) /
  * Let the user select an item, save its "index"
- * @param cp é¸æŠã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®IDã‚’è¿”ã™ã€‚
- * @param pmt é¸æŠç›®çš„ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
- * @param str é¸æŠã§ãã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãªã„å ´åˆã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
- * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
- * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ˆã‚Šã‚¢ã‚¤ãƒ†ãƒ ãŒé¸æŠã•ã‚ŒãŸãªã‚‰TRUEã‚’è¿”ã™ã€‚/
+ * @param cp ÁªÂò¤·¤¿¥ª¥Ö¥¸¥§¥¯¥È¤ÎID¤òÊÖ¤¹¡£
+ * @param pmt ÁªÂòÌÜÅª¤Î¥á¥Ã¥»¡¼¥¸
+ * @param str ÁªÂò¤Ç¤­¤ë¥ª¥Ö¥¸¥§¥¯¥È¤¬¤Ê¤¤¾ì¹ç¤Î¥­¥ã¥ó¥»¥ë¥á¥Ã¥»¡¼¥¸
+ * @param mode ¥ª¥×¥·¥ç¥ó¥Õ¥é¥°
+ * @return ¥×¥ì¥¤¥ä¡¼¤Ë¤è¤ê¥¢¥¤¥Æ¥à¤¬ÁªÂò¤µ¤ì¤¿¤Ê¤éTRUE¤òÊÖ¤¹¡£/
  */
 bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 {
@@ -4023,7 +4023,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 	}
 
 	/*
-	 * è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³(always_show_list)ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯å¸¸ã«ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹
+	 * ÄÉ²Ã¥ª¥×¥·¥ç¥ó(always_show_list)¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¤Ï¾ï¤Ë°ìÍ÷¤òÉ½¼¨¤¹¤ë
 	 */
 	if ((always_show_list == TRUE) || use_menu) command_see = TRUE;
 
@@ -4113,7 +4113,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 		if (command_wrk == (USE_INVEN))
 		{
 			/* Begin the prompt */
-			sprintf(out_val, _("æŒã¡ç‰©:", "Inven:"));
+			sprintf(out_val, _("»ı¤ÁÊª:", "Inven:"));
 
 			if (!use_menu)
 			{
@@ -4126,18 +4126,18 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'°ìÍ÷,", " * to see,"));
 
 			/* Append */
 			if (allow_equip)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '/' è£…å‚™å“,");
+					strcat(out_val, " '/' ÁõÈ÷ÉÊ,");
 				else if (allow_floor)
-					strcat(out_val, " '6' è£…å‚™å“,");
+					strcat(out_val, " '6' ÁõÈ÷ÉÊ,");
 				else
-					strcat(out_val, " '4'or'6' è£…å‚™å“,");
+					strcat(out_val, " '4'or'6' ÁõÈ÷ÉÊ,");
 #else
 				if (!use_menu)
 					strcat(out_val, " / for Equip,");
@@ -4153,11 +4153,11 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '-'åºŠä¸Š,");
+					strcat(out_val, " '-'¾²¾å,");
 				else if (allow_equip)
-					strcat(out_val, " '4' åºŠä¸Š,");
+					strcat(out_val, " '4' ¾²¾å,");
 				else
-					strcat(out_val, " '4'or'6' åºŠä¸Š,");
+					strcat(out_val, " '4'or'6' ¾²¾å,");
 #else
 				if (!use_menu)
 					strcat(out_val, " - for floor,");
@@ -4173,7 +4173,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 		else if (command_wrk == (USE_EQUIP))
 		{
 			/* Begin the prompt */
-			sprintf(out_val, _("è£…å‚™å“:", "Equip:"));
+			sprintf(out_val, _("ÁõÈ÷ÉÊ:", "Equip:"));
 
 			if (!use_menu)
 			{
@@ -4186,18 +4186,18 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'°ìÍ÷,", " * to see,"));
 
 			/* Append */
 			if (allow_inven)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '/' æŒã¡ç‰©,");
+					strcat(out_val, " '/' »ı¤ÁÊª,");
 				else if (allow_floor)
-					strcat(out_val, " '4' æŒã¡ç‰©,");
+					strcat(out_val, " '4' »ı¤ÁÊª,");
 				else
-					strcat(out_val, " '4'or'6' æŒã¡ç‰©,");
+					strcat(out_val, " '4'or'6' »ı¤ÁÊª,");
 #else
 				if (!use_menu)
 					strcat(out_val, " / for Inven,");
@@ -4213,11 +4213,11 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			{
 #ifdef JP
 				if (!use_menu)
-					strcat(out_val, " '-'åºŠä¸Š,");
+					strcat(out_val, " '-'¾²¾å,");
 				else if (allow_inven)
-					strcat(out_val, " '6' åºŠä¸Š,");
+					strcat(out_val, " '6' ¾²¾å,");
 				else
-					strcat(out_val, " '4'or'6' åºŠä¸Š,");
+					strcat(out_val, " '4'or'6' ¾²¾å,");
 #else
 				if (!use_menu)
 					strcat(out_val, " - for floor,");
@@ -4233,7 +4233,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 		else if (command_wrk == (USE_FLOOR))
 		{
 			/* Begin the prompt */
-			sprintf(out_val, _("åºŠä¸Š:", "Floor:"));
+			sprintf(out_val, _("¾²¾å:", "Floor:"));
 
 			if (!use_menu)
 			{
@@ -4245,42 +4245,42 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 			}
 
 			/* Indicate ability to "view" */
-			if (!command_see && !use_menu) strcat(out_val, _(" '*'ä¸€è¦§,", " * to see,"));
+			if (!command_see && !use_menu) strcat(out_val, _(" '*'°ìÍ÷,", " * to see,"));
 
 			if (use_menu)
 			{
 				if (allow_inven && allow_equip)
 				{
-					strcat(out_val, _(" '4' è£…å‚™å“, '6' æŒã¡ç‰©,", " 4 for Equip, 6 for Inven,"));
+					strcat(out_val, _(" '4' ÁõÈ÷ÉÊ, '6' »ı¤ÁÊª,", " 4 for Equip, 6 for Inven,"));
 				}
 				else if (allow_inven)
 				{
-					strcat(out_val, _(" '4'or'6' æŒã¡ç‰©,", " 4 or 6 for Inven,"));
+					strcat(out_val, _(" '4'or'6' »ı¤ÁÊª,", " 4 or 6 for Inven,"));
 				}
 				else if (allow_equip)
 				{
-					strcat(out_val, _(" '4'or'6' è£…å‚™å“,", " 4 or 6 for Equip,"));
+					strcat(out_val, _(" '4'or'6' ÁõÈ÷ÉÊ,", " 4 or 6 for Equip,"));
 				}
 			}
 			/* Append */
 			else if (allow_inven)
 			{
-				strcat(out_val, _(" '/' æŒã¡ç‰©,", " / for Inven,"));
+				strcat(out_val, _(" '/' »ı¤ÁÊª,", " / for Inven,"));
 			}
 			else if (allow_equip)
 			{
-				strcat(out_val, _(" '/'è£…å‚™å“,", " / for Equip,"));
+				strcat(out_val, _(" '/'ÁõÈ÷ÉÊ,", " / for Equip,"));
 			}
 
 			/* Append */
 			if (command_see && !use_menu)
 			{
-				strcat(out_val, _(" Enter æ¬¡,", " Enter for scroll down,"));
+				strcat(out_val, _(" Enter ¼¡,", " Enter for scroll down,"));
 			}
 		}
 
 		/* Append */
-		if (select_the_force) strcat(out_val, _(" 'w'ç·´æ°—è¡“,", " w for the Force,"));
+		if (select_the_force) strcat(out_val, _(" 'w'Îıµ¤½Ñ,", " w for the Force,"));
 
 		/* Finish the prompt */
 		strcat(out_val, " ESC");
@@ -4912,7 +4912,7 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 				}
 
 				/* Verify the item */
-				if (ver && !verify(_("æœ¬å½“ã«", "Try"), k))
+				if (ver && !verify(_("ËÜÅö¤Ë", "Try"), k))
 				{
 					done = TRUE;
 					break;
@@ -4985,8 +4985,8 @@ bool get_item_floor(int *cp, cptr pmt, cptr str, int mode)
 }
 
 /*!
- * @brief åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†é¸æŠç”¨ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ 
- * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ˆã‚Šã‚¢ã‚¤ãƒ†ãƒ ãŒé¸æŠã•ã‚ŒãŸãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ * @brief ¾²¾å¤Î¥¢¥¤¥Æ¥à¤ò½¦¤¦ÁªÂòÍÑ¥µ¥Ö¥ë¡¼¥Á¥ó 
+ * @return ¥×¥ì¥¤¥ä¡¼¤Ë¤è¤ê¥¢¥¤¥Æ¥à¤¬ÁªÂò¤µ¤ì¤¿¤Ê¤éTRUE¤òÊÖ¤¹¡£
  */
 static bool py_pickup_floor_aux(void)
 {
@@ -5000,8 +5000,8 @@ static bool py_pickup_floor_aux(void)
 	item_tester_hook = inven_carry_okay;
 
 	/* Get an object */
-	q = _("ã©ã‚Œã‚’æ‹¾ã„ã¾ã™ã‹ï¼Ÿ", "Get which item? ");
-	s = _("ã‚‚ã†ã‚¶ãƒƒã‚¯ã«ã¯åºŠã«ã‚ã‚‹ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚‚å…¥ã‚‰ãªã„ã€‚", "You no longer have any room for the objects on the floor.");
+	q = _("¤É¤ì¤ò½¦¤¤¤Ş¤¹¤«¡©", "Get which item? ");
+	s = _("¤â¤¦¥¶¥Ã¥¯¤Ë¤Ï¾²¤Ë¤¢¤ë¤É¤Î¥¢¥¤¥Æ¥à¤âÆş¤é¤Ê¤¤¡£", "You no longer have any room for the objects on the floor.");
 
 	if (get_item(&item, q, s, (USE_FLOOR)))
 	{
@@ -5019,9 +5019,9 @@ static bool py_pickup_floor_aux(void)
 }
 
 /*!
- * @brief åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†ãƒ¡ã‚¤ãƒ³å‡¦ç†
- * @param pickup FALSEãªã‚‰é‡‘éŠ­ã®è‡ªå‹•æ‹¾ã„ã®ã¿ã‚’è¡Œã†/ FALSE then only gold will be picked up
- * @return ãªã—
+ * @brief ¾²¾å¤Î¥¢¥¤¥Æ¥à¤ò½¦¤¦¥á¥¤¥ó½èÍı
+ * @param pickup FALSE¤Ê¤é¶âÁ¬¤Î¼«Æ°½¦¤¤¤Î¤ß¤ò¹Ô¤¦/ FALSE then only gold will be picked up
+ * @return ¤Ê¤·
  * @details
  * This is called by py_pickup() when easy_floor is TRUE.
  */
@@ -5058,7 +5058,7 @@ void py_pickup_floor(bool pickup)
 		{
 			/* Message */
 #ifdef JP
-		msg_format(" $%ld ã®ä¾¡å€¤ãŒã‚ã‚‹%sã‚’è¦‹ã¤ã‘ãŸã€‚",
+		msg_format(" $%ld ¤Î²ÁÃÍ¤¬¤¢¤ë%s¤ò¸«¤Ä¤±¤¿¡£",
 			   (long)o_ptr->pval, o_name);
 #else
 			msg_format("You have found %ld gold pieces worth of %s.",
@@ -5130,14 +5130,14 @@ void py_pickup_floor(bool pickup)
 			object_desc(o_name, o_ptr, 0);
 
 			/* Message */
-			msg_format(_("%sãŒã‚ã‚‹ã€‚", "You see %s."), o_name);
+			msg_format(_("%s¤¬¤¢¤ë¡£", "You see %s."), o_name);
 		}
 
 		/* Multiple objects */
 		else
 		{
 			/* Message */
-			msg_format(_("%d å€‹ã®ã‚¢ã‚¤ãƒ†ãƒ ã®å±±ãŒã‚ã‚‹ã€‚", "You see a pile of %d items."), floor_num);
+			msg_format(_("%d ¸Ä¤Î¥¢¥¤¥Æ¥à¤Î»³¤¬¤¢¤ë¡£", "You see a pile of %d items."), floor_num);
 		}
 
 		/* Done */
@@ -5168,14 +5168,14 @@ void py_pickup_floor(bool pickup)
 			object_desc(o_name, o_ptr, 0);
 
 			/* Message */
-			msg_format(_("ã‚¶ãƒƒã‚¯ã«ã¯%sã‚’å…¥ã‚Œã‚‹éš™é–“ãŒãªã„ã€‚", "You have no room for %s."), o_name);
+			msg_format(_("¥¶¥Ã¥¯¤Ë¤Ï%s¤òÆş¤ì¤ë·ä´Ö¤¬¤Ê¤¤¡£", "You have no room for %s."), o_name);
 		}
 
 		/* Multiple objects */
 		else
 		{
 			/* Message */
-			msg_print(_("ã‚¶ãƒƒã‚¯ã«ã¯åºŠã«ã‚ã‚‹ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚‚å…¥ã‚‰ãªã„ã€‚", "You have no room for any of the objects on the floor."));
+			msg_print(_("¥¶¥Ã¥¯¤Ë¤Ï¾²¤Ë¤¢¤ë¤É¤Î¥¢¥¤¥Æ¥à¤âÆş¤é¤Ê¤¤¡£", "You have no room for any of the objects on the floor."));
 
 		}
 
@@ -5209,7 +5209,7 @@ void py_pickup_floor(bool pickup)
 			object_desc(o_name, o_ptr, 0);
 
 			/* Build a prompt */
-			(void) sprintf(out_val, _("%sã‚’æ‹¾ã„ã¾ã™ã‹? ", "Pick up %s? "), o_name);
+			(void) sprintf(out_val, _("%s¤ò½¦¤¤¤Ş¤¹¤«? ", "Pick up %s? "), o_name);
 
 			/* Ask the user to confirm */
 			if (!get_check(out_val))

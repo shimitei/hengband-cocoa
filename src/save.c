@@ -1,4 +1,4 @@
-Ôªø/* File: save.c */
+/* File: save.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -503,7 +503,7 @@ static void wr_ghost(void)
 	int i;
 
 	/* Name */
-	wr_string(_("‰∏çÊ≠£„Å™„Ç¥„Éº„Çπ„Éà", "Broken Ghost"));
+	wr_string(_("…‘¿µ§ •¥°º•π•»", "Broken Ghost"));
 
 	/* Hack -- stupid data */
 	for (i = 0; i < 60; i++) wr_byte(0);
@@ -1752,7 +1752,7 @@ bool load_player(void)
 	if (access(savefile, 0) < 0)
 	{
 		/* Give a message */
-		msg_print(_("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„Åå„ÅÇ„Çä„Åæ„Åõ„Çì„ÄÇ", "Savefile does not exist."));
+		msg_print(_("•ª°º•÷•’•°•§•Î§¨§¢§Í§ﬁ§ª§Û°£", "Savefile does not exist."));
 
 		msg_print(NULL);
 
@@ -1786,7 +1786,7 @@ bool load_player(void)
 			my_fclose(fkk);
 
 			/* Message */
-			msg_print(_("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÅØÁèæÂú®‰ΩøÁî®‰∏≠„Åß„Åô„ÄÇ", "Savefile is currently in use."));
+			msg_print(_("•ª°º•÷•’•°•§•Î§œ∏Ω∫ﬂª»Õ—√Ê§«§π°£", "Savefile is currently in use."));
 			msg_print(NULL);
 
 			/* Oops */
@@ -1816,7 +1816,7 @@ bool load_player(void)
 		if (fd < 0) err = -1;
 
 		/* Message (below) */
-		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíÈñã„Åë„Åæ„Åõ„Çì„ÄÇ", "Cannot open savefile");
+		if (err) what = _("•ª°º•÷•’•°•§•Î§Ú≥´§±§ﬁ§ª§Û°£", "Cannot open savefile");
 	}
 
 	/* Process file */
@@ -1832,7 +1832,7 @@ bool load_player(void)
 		if (fd_read(fd, (char*)(vvv), 4)) err = -1;
 
 		/* What */
-		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíË™≠„ÇÅ„Åæ„Åõ„Çì„ÄÇ", "Cannot read savefile");
+		if (err) what = _("•ª°º•÷•’•°•§•Î§Ú∆…§·§ﬁ§ª§Û°£", "Cannot read savefile");
 
 		/* Close the file */
 		(void)fd_close(fd);
@@ -1856,7 +1856,7 @@ bool load_player(void)
 		err = rd_savefile_new();
 
 		/* Message (below) */
-		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíËß£ÊûêÂá∫Êù•„Åæ„Åõ„Çì„ÄÇ", "Cannot parse savefile");
+		if (err) what = _("•ª°º•÷•’•°•§•Î§Ú≤Ú¿œΩ–ÕË§ﬁ§ª§Û°£", "Cannot parse savefile");
 	}
 
 	/* Paranoia */
@@ -1866,7 +1866,7 @@ bool load_player(void)
 		if (!turn) err = -1;
 
 		/* Message (below) */
-		if (err) what = _("„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÅåÂ£ä„Çå„Å¶„ÅÑ„Åæ„Åô", "Broken savefile");
+		if (err) what = _("•ª°º•÷•’•°•§•Î§¨≤ı§Ï§∆§§§ﬁ§π", "Broken savefile");
 	}
 
 #ifdef VERIFY_TIMESTAMP
@@ -1878,7 +1878,7 @@ bool load_player(void)
 		    sf_when < (statbuf.st_ctime - 100))
 		{
 			/* Message */
-			what = _("ÁÑ°Âäπ„Å™„Çø„Ç§„É†„Éª„Çπ„Çø„É≥„Éó„Åß„Åô", "Invalid timestamp");
+			what = _("Ãµ∏˙§ •ø•§•‡°¶•π•ø•Û•◊§«§π", "Invalid timestamp");
 
 			/* Oops */
 			err = -1;
@@ -1897,13 +1897,13 @@ bool load_player(void)
 		{
 			if (z_major == 2 && z_minor == 0 && z_patch == 6)
 			{
-				msg_print(_("„Éê„Éº„Ç∏„Éß„É≥ 2.0.* Áî®„ÅÆ„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´„ÇíÂ§âÊèõ„Åó„Åæ„Åó„Åü„ÄÇ", "Converted a 2.0.* savefile."));
+				msg_print(_("•–°º•∏•Á•Û 2.0.* Õ—§Œ•ª°º•÷•’•°•§•Î§Ú —¥π§∑§ﬁ§∑§ø°£", "Converted a 2.0.* savefile."));
 			}
 			else
 			{
 				/* Message */
 #ifdef JP
-				msg_format("„Éê„Éº„Ç∏„Éß„É≥ %d.%d.%d Áî®„ÅÆ„Çª„Éº„Éñ„Éª„Éï„Ç°„Ç§„É´„ÇíÂ§âÊèõ„Åó„Åæ„Åó„Åü„ÄÇ",
+				msg_format("•–°º•∏•Á•Û %d.%d.%d Õ—§Œ•ª°º•÷°¶•’•°•§•Î§Ú —¥π§∑§ﬁ§∑§ø°£",
 				    (z_major > 9) ? z_major-10 : z_major , z_minor, z_patch);
 #else
 				msg_format("Converted a %d.%d.%d savefile.",
@@ -1973,7 +1973,7 @@ bool load_player(void)
 
 	/* Message */
 #ifdef JP
-	msg_format("„Ç®„É©„Éº(%s)„Åå„Éê„Éº„Ç∏„Éß„É≥%d.%d.%d Áî®„Çª„Éº„Éñ„Éï„Ç°„Ç§„É´Ë™≠„ÅøËæº‰∏≠„Å´Áô∫Áîü„ÄÇ",
+	msg_format("•®•È°º(%s)§¨•–°º•∏•Á•Û%d.%d.%d Õ—•ª°º•÷•’•°•§•Î∆…§ﬂπ˛√Ê§À»Ø¿∏°£",
 		   what, (z_major>9) ? z_major - 10 : z_major, z_minor, z_patch);
 #else
 	msg_format("Error (%s) reading %d.%d.%d savefile.",

@@ -1,4 +1,4 @@
-﻿/* File: h-basic.h */
+/* File: h-basic.h */
 
 #ifndef INCLUDED_H_BASIC_H
 #define INCLUDED_H_BASIC_H

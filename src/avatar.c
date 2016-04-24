@@ -1,6 +1,6 @@
-ï»¿/*!
+/*!
     @file avatar.c
-    @brief ã‚¦ãƒ«ãƒ†ã‚£ãƒï¼”ã‚’å‚è€ƒã«ã—ãŸå¾³ã®ã‚·ã‚¹ãƒ†ãƒ ã®å®Ÿè£… / Enable an Ultima IV style "avatar" game where you try to achieve perfection in various virtues.
+    @brief ¥¦¥ë¥Æ¥£¥Ş£´¤ò»²¹Í¤Ë¤·¤¿ÆÁ¤Î¥·¥¹¥Æ¥à¤Î¼ÂÁõ / Enable an Ultima IV style "avatar" game where you try to achieve perfection in various virtues.
     @date 2013/12/23
     @author
     Topi Ylinen 1998\n
@@ -17,38 +17,38 @@
 #include "angband.h"
 
 /*!
- * å¾³ã®åç§° / The names of the virtues
+ * ÆÁ¤ÎÌ¾¾Î / The names of the virtues
  */
 cptr virtue[MAX_VIRTUE] =
 {
-	_("æƒ…", "Compassion"),
-	_("èª‰", "Honour"),
-	_("æ­£", "Justice"),
-	_("çŠ ", "Sacrifice"),
-	_("è­˜", "Knowledge"),
-	_("èª ", "Faith"),
-	_("å•“", "Enlightenment"),
-	_("ç§˜", "Mysticism"),
-	_("é‹", "Chance"),
-	_("ç„¶", "Nature"),
-	_("èª¿", "Harmony"),
-	_("æ´»", "Vitality"),
-	_("æ­»", "Unlife"),
-	_("å¿", "Patience"),
-	_("ç¯€", "Temperance"),
-	_("å‹¤", "Diligence"),
-	_("å‹‡", "Valour"),
-	_("å€‹", "Individualism"),
+	_("¾ğ", "Compassion"),
+	_("ÍÀ", "Honour"),
+	_("Àµ", "Justice"),
+	_("µ¾", "Sacrifice"),
+	_("¼±", "Knowledge"),
+	_("À¿", "Faith"),
+	_("·¼", "Enlightenment"),
+	_("Èë", "Mysticism"),
+	_("±¿", "Chance"),
+	_("Á³", "Nature"),
+	_("Ä´", "Harmony"),
+	_("³è", "Vitality"),
+	_("»à", "Unlife"),
+	_("Ç¦", "Patience"),
+	_("Àá", "Temperance"),
+	_("¶Ğ", "Diligence"),
+	_("Í¦", "Valour"),
+	_("¸Ä", "Individualism"),
 };
 
 /*!
- * @brief è©²å½“ã®å¾³ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã‹å¦ã‹ã«å¿œã˜ã¤ã¤ã€å¤§å°ã‚’æ¯”è¼ƒã™ã‚‹ã€‚
- * @details å¾³ãŒãªã„å ´åˆã¯å€¤0ã¨ã—ã¦æ¯”è¼ƒã™ã‚‹ã€‚
- * @param type æ¯”è¼ƒã—ãŸã„å¾³ã®ID
- * @param num æ¯”è¼ƒåŸºæº–å€¤
- * @param tekitou VIRTUE_LARGE = åŸºæº–å€¤ã‚ˆã‚Šå¤§ãã„ã‹ / VIRTUE_SMALL = åŸºæº–å€¤ã‚ˆã‚Šå°ã•ã„ã‹
- * @return æ¯”è¼ƒã®çœŸå½å€¤ã‚’è¿”ã™
- * @todo å¼•æ•°åã‚’ç›´ã—ã¦ãŠã
+ * @brief ³ºÅö¤ÎÆÁ¤¬¥×¥ì¥¤¥ä¡¼¤Ë»ØÄê¤µ¤ì¤Æ¤¤¤ë¤«Èİ¤«¤Ë±ş¤¸¤Ä¤Ä¡¢Âç¾®¤òÈæ³Ó¤¹¤ë¡£
+ * @details ÆÁ¤¬¤Ê¤¤¾ì¹ç¤ÏÃÍ0¤È¤·¤ÆÈæ³Ó¤¹¤ë¡£
+ * @param type Èæ³Ó¤·¤¿¤¤ÆÁ¤ÎID
+ * @param num Èæ³Ó´ğ½àÃÍ
+ * @param tekitou VIRTUE_LARGE = ´ğ½àÃÍ¤è¤êÂç¤­¤¤¤« / VIRTUE_SMALL = ´ğ½àÃÍ¤è¤ê¾®¤µ¤¤¤«
+ * @return Èæ³Ó¤Î¿¿µ¶ÃÍ¤òÊÖ¤¹
+ * @todo °ú¿ôÌ¾¤òÄ¾¤·¤Æ¤ª¤¯
  */
 bool compare_virtue(int type, int num, int tekitou)
 {
@@ -72,9 +72,9 @@ bool compare_virtue(int type, int num, int tekitou)
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æŒ‡å®šã®å¾³ãŒä½•ç•ªç›®ã®ã‚¹ãƒ­ãƒƒãƒˆã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹ã‚’è¿”ã™ã€‚ / Aux function
- * @param type ç¢ºèªã—ãŸã„å¾³ã®ID
- * @return ã‚¹ãƒ­ãƒƒãƒˆãŒã‚ã‚‹ãªã‚‰ã°ã‚¹ãƒ­ãƒƒãƒˆã®ID(0ï½7)+1ã€ãªã„å ´åˆã¯0ã‚’è¿”ã™ã€‚
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Î»ØÄê¤ÎÆÁ¤¬²¿ÈÖÌÜ¤Î¥¹¥í¥Ã¥È¤ËÅĞÏ¿¤µ¤ì¤Æ¤¤¤ë¤«¤òÊÖ¤¹¡£ / Aux function
+ * @param type ³ÎÇ§¤·¤¿¤¤ÆÁ¤ÎID
+ * @return ¥¹¥í¥Ã¥È¤¬¤¢¤ë¤Ê¤é¤Ğ¥¹¥í¥Ã¥È¤ÎID(0¡Á7)+1¡¢¤Ê¤¤¾ì¹ç¤Ï0¤òÊÖ¤¹¡£
  */
 int virtue_number(int type)
 {
@@ -91,9 +91,9 @@ int virtue_number(int type)
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è·æ¥­ã‚„ç¨®æ—ã«ä¾å­˜ã—ãªã„ãƒ©ãƒ³ãƒ€ãƒ ãªå¾³ã‚’å–å¾—ã™ã‚‹ / Aux function
- * @param which ç¢ºèªã—ãŸã„å¾³ã®ID
- * @return ãªã—
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Î¿¦¶È¤ä¼ïÂ²¤Ë°ÍÂ¸¤·¤Ê¤¤¥é¥ó¥À¥à¤ÊÆÁ¤ò¼èÆÀ¤¹¤ë / Aux function
+ * @param which ³ÎÇ§¤·¤¿¤¤ÆÁ¤ÎID
+ * @return ¤Ê¤·
  */
 static void get_random_virtue(int which)
 {
@@ -139,9 +139,9 @@ static void get_random_virtue(int which)
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é¸ã‚“ã é­”æ³•é ˜åŸŸã«å¿œã˜ã¦å¯¾å¿œã™ã‚‹å¾³ã‚’è¿”ã™ã€‚
- * @param realm é­”æ³•é ˜åŸŸã®ID
- * @return å¯¾å¿œã™ã‚‹å¾³ã®ID
+ * @brief ¥×¥ì¥¤¥ä¡¼¤ÎÁª¤ó¤ÀËâË¡ÎÎ°è¤Ë±ş¤¸¤ÆÂĞ±ş¤¹¤ëÆÁ¤òÊÖ¤¹¡£
+ * @param realm ËâË¡ÎÎ°è¤ÎID
+ * @return ÂĞ±ş¤¹¤ëÆÁ¤ÎID
  */
 static s16b get_realm_virtues(byte realm)
 {
@@ -184,9 +184,9 @@ static s16b get_realm_virtues(byte realm)
 
 
 /*!
- * @brief ä½œæˆä¸­ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã«å¾³8ç¨®é¡ã‚’ä¸ãˆã‚‹ã€‚ / Select virtues & reset values for a new character
- * @details è·æ¥­ã«å¿œã˜ã¦1ï½4ç¨®ãŒå›ºå®šã€ç¨®æ—ã«å¿œã˜ã¦1ç¨®é¡ãŒä¸ãˆã‚‰ã‚Œã€å¾Œã¯é‡è¤‡ãªããƒ©ãƒ³ãƒ€ãƒ ã«é¸æŠã•ã‚Œã‚‹ã€‚
- * @return ãªã—
+ * @brief ºîÀ®Ãæ¤Î¥×¥ì¥¤¥ä¡¼¥­¥ã¥é¥¯¥¿¡¼¤ËÆÁ8¼ïÎà¤òÍ¿¤¨¤ë¡£ / Select virtues & reset values for a new character
+ * @details ¿¦¶È¤Ë±ş¤¸¤Æ1¡Á4¼ï¤¬¸ÇÄê¡¢¼ïÂ²¤Ë±ş¤¸¤Æ1¼ïÎà¤¬Í¿¤¨¤é¤ì¡¢¸å¤Ï½ÅÊ£¤Ê¤¯¥é¥ó¥À¥à¤ËÁªÂò¤µ¤ì¤ë¡£
+ * @return ¤Ê¤·
  */
 void get_virtues(void)
 {
@@ -393,11 +393,11 @@ void get_virtues(void)
 }
 
 /*!
- * @brief å¯¾å¿œã™ã‚‹å¾³ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚¹ãƒ­ãƒƒãƒˆã«ç™»éŒ²ã—ã¦ã„ã‚‹å ´åˆã«åŠ æ¸›ã‚’è¡Œã†ã€‚
- * @details ç¯„å›²ã¯-125ï½125ã€åŸºæœ¬çš„ã«çµ¶å¯¾å€¤ãŒå¤§ãã„ã»ã©çµ¶å¯¾å€¤ãŒä¸ŠãŒã‚Šè¾›ããªã‚‹ã€‚
- * @param virtue å¾³ã®ID
- * @param amount åŠ æ¸›é‡
- * @return ãªã—
+ * @brief ÂĞ±ş¤¹¤ëÆÁ¤ò¥×¥ì¥¤¥ä¡¼¤¬¥¹¥í¥Ã¥È¤ËÅĞÏ¿¤·¤Æ¤¤¤ë¾ì¹ç¤Ë²Ã¸º¤ò¹Ô¤¦¡£
+ * @details ÈÏ°Ï¤Ï-125¡Á125¡¢´ğËÜÅª¤ËÀäÂĞÃÍ¤¬Âç¤­¤¤¤Û¤ÉÀäÂĞÃÍ¤¬¾å¤¬¤ê¿É¤¯¤Ê¤ë¡£
+ * @param virtue ÆÁ¤ÎID
+ * @param amount ²Ã¸ºÎÌ
+ * @return ¤Ê¤·
  */
 void chg_virtue(int virtue, int amount)
 {
@@ -458,10 +458,10 @@ void chg_virtue(int virtue, int amount)
 }
 
 /*!
- * @brief å¯¾å¿œã™ã‚‹å¾³ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚¹ãƒ­ãƒƒãƒˆã«ç™»éŒ²ã—ã¦ã„ã‚‹å ´åˆã«å›ºå®šå€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
- * @param virtue å¾³ã®ID
- * @param amount ã‚»ãƒƒãƒˆã—ãŸã„å€¤ã€‚
- * @return ãªã—
+ * @brief ÂĞ±ş¤¹¤ëÆÁ¤ò¥×¥ì¥¤¥ä¡¼¤¬¥¹¥í¥Ã¥È¤ËÅĞÏ¿¤·¤Æ¤¤¤ë¾ì¹ç¤Ë¸ÇÄêÃÍ¤ò¥»¥Ã¥È¤¹¤ë¡£
+ * @param virtue ÆÁ¤ÎID
+ * @param amount ¥»¥Ã¥È¤·¤¿¤¤ÃÍ¡£
+ * @return ¤Ê¤·
  */
 void set_virtue(int virtue, int amount)
 {
@@ -478,9 +478,9 @@ void set_virtue(int virtue, int amount)
 }
 
 /*!
- * @brief å¾³ã®ãƒ€ãƒ³ãƒ—è¡¨ç¤ºã‚’è¡Œã†ã€‚
- * @param OutFile ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿ã€‚
- * @return ãªã—
+ * @brief ÆÁ¤Î¥À¥ó¥×É½¼¨¤ò¹Ô¤¦¡£
+ * @param OutFile ¥Õ¥¡¥¤¥ë¥İ¥¤¥ó¥¿¡£
+ * @return ¤Ê¤·
  */
 void dump_virtues(FILE *OutFile)
 {
@@ -496,34 +496,34 @@ void dump_virtues(FILE *OutFile)
 		strcpy(v_name, virtue[(p_ptr->vir_types[v_nr])-1]);
 
 		if (p_ptr->vir_types[v_nr] == 0 || p_ptr->vir_types[v_nr] > MAX_VIRTUE)
-			fprintf(OutFile, _("ãŠã£ã¨ã€‚%sã®æƒ…å ±ãªã—ã€‚", "Oops. No info about %s."), v_name);
+			fprintf(OutFile, _("¤ª¤Ã¤È¡£%s¤Î¾ğÊó¤Ê¤·¡£", "Oops. No info about %s."), v_name);
 
 		else if (tester < -100)
-			fprintf(OutFile, _("[%s]ã®å¯¾æ¥µ", "You are the polar opposite of %s."), v_name);
+			fprintf(OutFile, _("[%s]¤ÎÂĞ¶Ë", "You are the polar opposite of %s."), v_name);
 		else if (tester < -80)
-			fprintf(OutFile, _("[%s]ã®å¤§æ•µ", "You are an arch-enemy of %s."), v_name);
+			fprintf(OutFile, _("[%s]¤ÎÂçÅ¨", "You are an arch-enemy of %s."), v_name);
 		else if (tester < -60)
-			fprintf(OutFile, _("[%s]ã®å¼·æ•µ", "You are a bitter enemy of %s."), v_name);
+			fprintf(OutFile, _("[%s]¤Î¶¯Å¨", "You are a bitter enemy of %s."), v_name);
 		else if (tester < -40)
-			fprintf(OutFile, _("[%s]ã®æ•µ", "You are an enemy of %s."), v_name);
+			fprintf(OutFile, _("[%s]¤ÎÅ¨", "You are an enemy of %s."), v_name);
 		else if (tester < -20)
-			fprintf(OutFile, _("[%s]ã®ç½ªè€…", "You have sinned against %s."), v_name);
+			fprintf(OutFile, _("[%s]¤Îºá¼Ô", "You have sinned against %s."), v_name);
 		else if (tester < 0)
-			fprintf(OutFile, _("[%s]ã®è¿·é“è€…", "You have strayed from the path of %s."), v_name);
+			fprintf(OutFile, _("[%s]¤ÎÌÂÆ»¼Ô", "You have strayed from the path of %s."), v_name);
 		else if (tester == 0)
-			fprintf(OutFile,_("[%s]ã®ä¸­ç«‹è€…", "You are neutral to %s."), v_name);
+			fprintf(OutFile,_("[%s]¤ÎÃæÎ©¼Ô", "You are neutral to %s."), v_name);
 		else if (tester < 20)
-			fprintf(OutFile,_("[%s]ã®å°å¾³è€…", "You are somewhat virtuous in %s."), v_name);
+			fprintf(OutFile,_("[%s]¤Î¾®ÆÁ¼Ô", "You are somewhat virtuous in %s."), v_name);
 		else if (tester < 40)
-			fprintf(OutFile,_("[%s]ã®ä¸­å¾³è€…", "You are virtuous in %s."), v_name);
+			fprintf(OutFile,_("[%s]¤ÎÃæÆÁ¼Ô", "You are virtuous in %s."), v_name);
 		else if (tester < 60)
-			fprintf(OutFile,_("[%s]ã®é«˜å¾³è€…", "You are very virtuous in %s."), v_name);
+			fprintf(OutFile,_("[%s]¤Î¹âÆÁ¼Ô", "You are very virtuous in %s."), v_name);
 		else if (tester < 80)
-			fprintf(OutFile,_("[%s]ã®è¦‡è€…", "You are a champion of %s."), v_name);
+			fprintf(OutFile,_("[%s]¤ÎÇÆ¼Ô", "You are a champion of %s."), v_name);
 		else if (tester < 100)
-			fprintf(OutFile,_("[%s]ã®å‰å¤§ãªè¦‡è€…", "You are a great champion of %s."), v_name);
+			fprintf(OutFile,_("[%s]¤Î°ÎÂç¤ÊÇÆ¼Ô", "You are a great champion of %s."), v_name);
 		else
-			fprintf(OutFile,_("[%s]ã®å…·ç¾è€…", "You are the living embodiment of %s."), v_name);
+			fprintf(OutFile,_("[%s]¤Î¶ñ¸½¼Ô", "You are the living embodiment of %s."), v_name);
 
 	    fprintf(OutFile, "\n");
 	}

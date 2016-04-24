@@ -1,6 +1,6 @@
-ï»¿/*!
+/*!
  *  @file cmd3.c
- *  @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¢ã‚¤ãƒ†ãƒ ã«é–¢ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿè£…1 / Inventory commands
+ *  @brief ¥×¥ì¥¤¥ä¡¼¤Î¥¢¥¤¥Æ¥à¤Ë´Ø¤¹¤ë¥³¥Ş¥ó¥É¤Î¼ÂÁõ1 / Inventory commands
  *  @date 2014/01/02
  *  @author
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -16,8 +16,8 @@
 
 
 /*!
- * @brief æŒã¡ç‰©ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Display inventory
- * @return ãªã— 
+ * @brief »ı¤ÁÊª°ìÍ÷¤òÉ½¼¨¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Display inventory
+ * @return ¤Ê¤· 
  */
 void do_cmd_inven(void)
 {
@@ -47,7 +47,7 @@ void do_cmd_inven(void)
 	item_tester_full = FALSE;
 
 #ifdef JP
-	sprintf(out_val, "æŒã¡ç‰©ï¼š åˆè¨ˆ %3d.%1d kg (é™ç•Œã®%ld%%) ã‚³ãƒãƒ³ãƒ‰: ",
+	sprintf(out_val, "»ı¤ÁÊª¡§ ¹ç·× %3d.%1d kg (¸Â³¦¤Î%ld%%) ¥³¥Ş¥ó¥É: ",
 	    (int)lbtokg1(p_ptr->total_weight) , (int)lbtokg2(p_ptr->total_weight) ,
 	    (long int)((p_ptr->total_weight * 100) / weight_limit()));
 #else
@@ -90,8 +90,8 @@ void do_cmd_inven(void)
 
 
 /*!
- * @brief è£…å‚™ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Display equipment
- * @return ãªã— 
+ * @brief ÁõÈ÷°ìÍ÷¤òÉ½¼¨¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Display equipment
+ * @return ¤Ê¤· 
  */
 void do_cmd_equip(void)
 {
@@ -122,7 +122,7 @@ void do_cmd_equip(void)
 
 	/* Build a prompt */
 #ifdef JP
-	sprintf(out_val, "è£…å‚™ï¼š åˆè¨ˆ %3d.%1d kg (é™ç•Œã®%ld%%) ã‚³ãƒãƒ³ãƒ‰: ",
+	sprintf(out_val, "ÁõÈ÷¡§ ¹ç·× %3d.%1d kg (¸Â³¦¤Î%ld%%) ¥³¥Ş¥ó¥É: ",
 	    (int)lbtokg1(p_ptr->total_weight) , (int)lbtokg2(p_ptr->total_weight) ,
 	    (long int)((p_ptr->total_weight * 100) / weight_limit()));
 #else
@@ -165,9 +165,9 @@ void do_cmd_equip(void)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’é˜²å…·ã¨ã—ã¦è£…å‚™ã§ãã‚‹ã‹ã®åˆ¤å®š / The "wearable" tester
- * @param o_ptr åˆ¤å®šã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé˜²å…·ã¨ã—ã¦è£…å‚™ã§ãã‚‹ãªã‚‰TRUEã‚’è¿”ã™ã€‚
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤òËÉ¶ñ¤È¤·¤ÆÁõÈ÷¤Ç¤­¤ë¤«¤ÎÈ½Äê / The "wearable" tester
+ * @param o_ptr È½Äê¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬ËÉ¶ñ¤È¤·¤ÆÁõÈ÷¤Ç¤­¤ë¤Ê¤éTRUE¤òÊÖ¤¹¡£
  */
 static bool item_tester_hook_wear(object_type *o_ptr)
 {
@@ -183,9 +183,9 @@ static bool item_tester_hook_wear(object_type *o_ptr)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã©ã¡ã‚‰ã®æ‰‹ã«ã‚‚è£…å‚™ã§ãã‚‹æ­¦å™¨ã‹ã©ã†ã‹ã®åˆ¤å®š
- * @param o_ptr åˆ¤å®šã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return å·¦å³ä¸¡æ–¹ã®æ‰‹ã§è£…å‚™ã§ãã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬¤É¤Á¤é¤Î¼ê¤Ë¤âÁõÈ÷¤Ç¤­¤ëÉğ´ï¤«¤É¤¦¤«¤ÎÈ½Äê
+ * @param o_ptr È½Äê¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return º¸±¦Î¾Êı¤Î¼ê¤ÇÁõÈ÷¤Ç¤­¤ë¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  */
 static bool item_tester_hook_mochikae(object_type *o_ptr)
 {
@@ -199,9 +199,9 @@ static bool item_tester_hook_mochikae(object_type *o_ptr)
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå³æ‰‹ã‹å·¦æ‰‹ã«è£…å‚™ã§ãã‚‹æ­¦å™¨ã‹ã©ã†ã‹ã®åˆ¤å®š
- * @param o_ptr åˆ¤å®šã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return å³æ‰‹ã‹å·¦æ‰‹ã®æ­¦å™¨ã¨ã—ã¦è£…å‚™ã§ãã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬±¦¼ê¤«º¸¼ê¤ËÁõÈ÷¤Ç¤­¤ëÉğ´ï¤«¤É¤¦¤«¤ÎÈ½Äê
+ * @param o_ptr È½Äê¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ±¦¼ê¤«º¸¼ê¤ÎÉğ´ï¤È¤·¤ÆÁõÈ÷¤Ç¤­¤ë¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  */
 static bool item_tester_hook_melee_weapon(object_type *o_ptr)
 {
@@ -216,8 +216,8 @@ static bool item_tester_hook_melee_weapon(object_type *o_ptr)
 bool select_ring_slot = FALSE;
 
 /*!
- * @brief è£…å‚™ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Wield or wear a single item from the pack or floor
- * @return ãªã— 
+ * @brief ÁõÈ÷¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Wield or wear a single item from the pack or floor
+ * @return ¤Ê¤· 
  */
 void do_cmd_wield(void)
 {
@@ -245,8 +245,8 @@ void do_cmd_wield(void)
 	item_tester_hook = item_tester_hook_wear;
 
 	/* Get an item */
-	q = _("ã©ã‚Œã‚’è£…å‚™ã—ã¾ã™ã‹? ", "Wear/Wield which item? ");
-	s = _("è£…å‚™å¯èƒ½ãªã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing you can wear or wield.");
+	q = _("¤É¤ì¤òÁõÈ÷¤·¤Ş¤¹¤«? ", "Wear/Wield which item? ");
+	s = _("ÁõÈ÷²ÄÇ½¤Ê¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£", "You have nothing you can wear or wield.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return;
 
@@ -280,8 +280,8 @@ void do_cmd_wield(void)
 			item_tester_no_ryoute = TRUE;
 
 			/* Choose a weapon from the equipment only */
-			q = _("ã©ã¡ã‚‰ã®æ­¦å™¨ã¨å–ã‚Šæ›¿ãˆã¾ã™ã‹?", "Replace which weapon? ");
-			s = _("ãŠã£ã¨ã€‚", "Oops.");
+			q = _("¤É¤Á¤é¤ÎÉğ´ï¤È¼è¤êÂØ¤¨¤Ş¤¹¤«?", "Replace which weapon? ");
+			s = _("¤ª¤Ã¤È¡£", "Oops.");
 			if (!get_item(&slot, q, s, (USE_EQUIP))) return;
 			if (slot == INVEN_RARM) need_switch_wielding = INVEN_LARM;
 		}
@@ -296,8 +296,8 @@ void do_cmd_wield(void)
 			item_tester_hook = item_tester_hook_mochikae;
 
 			/* Choose a hand */
-			q = _("ã©ã¡ã‚‰ã®æ‰‹ã«è£…å‚™ã—ã¾ã™ã‹?", "Equip which hand? ");
-			s = _("ãŠã£ã¨ã€‚", "Oops.");
+			q = _("¤É¤Á¤é¤Î¼ê¤ËÁõÈ÷¤·¤Ş¤¹¤«?", "Equip which hand? ");
+			s = _("¤ª¤Ã¤È¡£", "Oops.");
 			if (!get_item(&slot, q, s, (USE_EQUIP))) return;
 		}
 		break;
@@ -310,12 +310,12 @@ void do_cmd_wield(void)
 		/* Asking for dual wielding */
 		if (slot == INVEN_LARM)
 		{
-			if (!get_check(_("äºŒåˆ€æµã§æˆ¦ã„ã¾ã™ã‹ï¼Ÿ", "Dual wielding? "))) slot = INVEN_RARM;
+			if (!get_check(_("ÆóÅáÎ®¤ÇÀï¤¤¤Ş¤¹¤«¡©", "Dual wielding? "))) slot = INVEN_RARM;
 		}
 
 		else if (!inventory[INVEN_RARM].k_idx && buki_motteruka(INVEN_LARM))
 		{
-			if (!get_check(_("äºŒåˆ€æµã§æˆ¦ã„ã¾ã™ã‹ï¼Ÿ", "Dual wielding? "))) slot = INVEN_LARM;
+			if (!get_check(_("ÆóÅáÎ®¤ÇÀï¤¤¤Ş¤¹¤«¡©", "Dual wielding? "))) slot = INVEN_LARM;
 		}
 
 		/* Both arms are already used */
@@ -325,8 +325,8 @@ void do_cmd_wield(void)
 			item_tester_hook = item_tester_hook_mochikae;
 
 			/* Choose a hand */
-			q = _("ã©ã¡ã‚‰ã®æ‰‹ã«è£…å‚™ã—ã¾ã™ã‹?", "Equip which hand? ");
-			s = _("ãŠã£ã¨ã€‚", "Oops.");
+			q = _("¤É¤Á¤é¤Î¼ê¤ËÁõÈ÷¤·¤Ş¤¹¤«?", "Equip which hand? ");
+			s = _("¤ª¤Ã¤È¡£", "Oops.");
 			
 			if (!get_item(&slot, q, s, (USE_EQUIP))) return;
 			if ((slot == INVEN_LARM) && !buki_motteruka(INVEN_RARM))
@@ -339,13 +339,13 @@ void do_cmd_wield(void)
 		/* Choose a ring slot */
 		if (inventory[INVEN_LEFT].k_idx && inventory[INVEN_RIGHT].k_idx)
 		{
-			q = _("ã©ã¡ã‚‰ã®æŒ‡è¼ªã¨å–ã‚Šæ›¿ãˆã¾ã™ã‹?", "Replace which ring? ");
+			q = _("¤É¤Á¤é¤Î»ØÎØ¤È¼è¤êÂØ¤¨¤Ş¤¹¤«?", "Replace which ring? ");
 		}
 		else
 		{
-			q = _("ã©ã¡ã‚‰ã®æ‰‹ã«è£…å‚™ã—ã¾ã™ã‹?", "Equip which hand? ");
+			q = _("¤É¤Á¤é¤Î¼ê¤ËÁõÈ÷¤·¤Ş¤¹¤«?", "Equip which hand? ");
 		}
-		s = _("ãŠã£ã¨ã€‚", "Oops.");
+		s = _("¤ª¤Ã¤È¡£", "Oops.");
 
 		/* Restrict the choices */
 		select_ring_slot = TRUE;
@@ -368,7 +368,7 @@ void do_cmd_wield(void)
 
 		/* Message */
 #ifdef JP
-		msg_format("%s%sã¯å‘ªã‚ã‚Œã¦ã„ã‚‹ã‚ˆã†ã ã€‚",
+		msg_format("%s%s¤Ï¼ö¤ï¤ì¤Æ¤¤¤ë¤è¤¦¤À¡£",
 			   describe_use(slot) , o_name );
 #else
 		msg_format("The %s you are %s appears to be cursed.",
@@ -388,7 +388,7 @@ void do_cmd_wield(void)
 
 		/* Describe it */
 		object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
-		sprintf(dummy, _("æœ¬å½“ã«%s{å‘ªã‚ã‚Œã¦ã„ã‚‹}ã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "Really use the %s {cursed}? "), o_name);
+		sprintf(dummy, _("ËÜÅö¤Ë%s{¼ö¤ï¤ì¤Æ¤¤¤ë}¤ò»È¤¤¤Ş¤¹¤«¡©", "Really use the %s {cursed}? "), o_name);
 
 		if (!get_check(dummy)) return;
 	}
@@ -401,7 +401,7 @@ void do_cmd_wield(void)
 		object_desc(o_name, o_ptr, (OD_OMIT_PREFIX | OD_NAME_ONLY));
 
 #ifdef JP
-		sprintf(dummy, "%sã‚’è£…å‚™ã™ã‚‹ã¨å¸è¡€é¬¼ã«ãªã‚Šã¾ã™ã€‚ã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", o_name);
+		sprintf(dummy, "%s¤òÁõÈ÷¤¹¤ë¤ÈµÛ·ìµ´¤Ë¤Ê¤ê¤Ş¤¹¡£¤è¤í¤·¤¤¤Ç¤¹¤«¡©", o_name);
 #else
 		msg_format("%s will transforms you into a vampire permanently when equiped.", o_name);
 		sprintf(dummy, "Do you become a vampire?");
@@ -424,9 +424,9 @@ void do_cmd_wield(void)
 		object_copy(switch_o_ptr, slot_o_ptr);
 		object_copy(slot_o_ptr, otmp_ptr);
 		
-		msg_format(_("%sã‚’%sã«æ§‹ãˆãªãŠã—ãŸã€‚", "You wield %s at %s hand."), switch_name, 
-					(slot == INVEN_RARM) ? (left_hander ? _("å·¦æ‰‹", "left") : _("å³æ‰‹", "right")) : 
-										   (left_hander ? _("å³æ‰‹", "right") : _("å·¦æ‰‹", "left")));
+		msg_format(_("%s¤ò%s¤Ë¹½¤¨¤Ê¤ª¤·¤¿¡£", "You wield %s at %s hand."), switch_name, 
+					(slot == INVEN_RARM) ? (left_hander ? _("º¸¼ê", "left") : _("±¦¼ê", "right")) : 
+										   (left_hander ? _("±¦¼ê", "right") : _("º¸¼ê", "left")));
 		slot = need_switch_wielding;
 	}
 
@@ -489,9 +489,9 @@ void do_cmd_wield(void)
 	equip_cnt++;
 
 #ifdef JP
-#define STR_WIELD_RARM "%s(%c)ã‚’å³æ‰‹ã«è£…å‚™ã—ãŸã€‚"
-#define STR_WIELD_LARM "%s(%c)ã‚’å·¦æ‰‹ã«è£…å‚™ã—ãŸã€‚"
-#define STR_WIELD_ARMS "%s(%c)ã‚’ä¸¡æ‰‹ã§æ§‹ãˆãŸã€‚"
+#define STR_WIELD_RARM "%s(%c)¤ò±¦¼ê¤ËÁõÈ÷¤·¤¿¡£"
+#define STR_WIELD_LARM "%s(%c)¤òº¸¼ê¤ËÁõÈ÷¤·¤¿¡£"
+#define STR_WIELD_ARMS "%s(%c)¤òÎ¾¼ê¤Ç¹½¤¨¤¿¡£"
 #else
 #define STR_WIELD_RARM "You are wielding %s (%c) in your right hand."
 #define STR_WIELD_LARM "You are wielding %s (%c) in your left hand."
@@ -516,15 +516,15 @@ void do_cmd_wield(void)
 		break;
 
 	case INVEN_BOW:
-		act = _("%s(%c)ã‚’å°„æ’ƒç”¨ã«è£…å‚™ã—ãŸã€‚", "You are shooting with %s (%c).");
+		act = _("%s(%c)¤ò¼Í·âÍÑ¤ËÁõÈ÷¤·¤¿¡£", "You are shooting with %s (%c).");
 		break;
 
 	case INVEN_LITE:
-		act = _("%s(%c)ã‚’å…‰æºã«ã—ãŸã€‚", "Your light source is %s (%c).");
+		act = _("%s(%c)¤ò¸÷¸»¤Ë¤·¤¿¡£", "Your light source is %s (%c).");
 		break;
 
 	default:
-		act = _("%s(%c)ã‚’è£…å‚™ã—ãŸã€‚", "You are wearing %s (%c).");
+		act = _("%s(%c)¤òÁõÈ÷¤·¤¿¡£", "You are wearing %s (%c).");
 		break;
 	}
 
@@ -539,7 +539,7 @@ void do_cmd_wield(void)
 	if (object_is_cursed(o_ptr))
 	{
 		/* Warn the player */
-		msg_print(_("ã†ã‚ï¼ ã™ã•ã¾ã˜ãå†·ãŸã„ï¼", "Oops! It feels deathly cold!"));
+		msg_print(_("¤¦¤ï¡ª ¤¹¤µ¤Ş¤¸¤¯Îä¤¿¤¤¡ª", "Oops! It feels deathly cold!"));
 		chg_virtue(V_HARMONY, -1);
 
 		/* Note the curse */
@@ -571,9 +571,9 @@ void do_cmd_wield(void)
 }
 
 /*!
- * @brief æŒã¡æ›¿ãˆå‡¦ç†
- * @param item æŒã¡æ›¿ãˆã‚’è¡Œã„ãŸã„è£…å‚™éƒ¨ä½ID
- * @return ãªã—
+ * @brief »ı¤ÁÂØ¤¨½èÍı
+ * @param item »ı¤ÁÂØ¤¨¤ò¹Ô¤¤¤¿¤¤ÁõÈ÷Éô°ÌID
+ * @return ¤Ê¤·
  */
 void kamaenaoshi(int item)
 {
@@ -595,15 +595,15 @@ void kamaenaoshi(int item)
 				inven_item_increase(INVEN_LARM, -((int)o_ptr->number));
 				inven_item_optimize(INVEN_LARM);
 				if (object_allow_two_hands_wielding(o_ptr) && CAN_TWO_HANDS_WIELDING())
-					msg_format(_("%sã‚’ä¸¡æ‰‹ã§æ§‹ãˆãŸã€‚", "You are wielding %s with both hands."), o_name);
+					msg_format(_("%s¤òÎ¾¼ê¤Ç¹½¤¨¤¿¡£", "You are wielding %s with both hands."), o_name);
 				 else
-				msg_format(_("%sã‚’%sã§æ§‹ãˆãŸã€‚", "You are wielding %s in your %s hand."), o_name, 
-							(left_hander ? _("å·¦æ‰‹", "left") : _("å³æ‰‹", "right")));
+				msg_format(_("%s¤ò%s¤Ç¹½¤¨¤¿¡£", "You are wielding %s in your %s hand."), o_name, 
+							(left_hander ? _("º¸¼ê", "left") : _("±¦¼ê", "right")));
 			}
 			else
 			{
 				if (object_allow_two_hands_wielding(o_ptr) && CAN_TWO_HANDS_WIELDING())
-					msg_format(_("%sã‚’ä¸¡æ‰‹ã§æ§‹ãˆãŸã€‚", "You are wielding %s with both hands."), o_name);
+					msg_format(_("%s¤òÎ¾¼ê¤Ç¹½¤¨¤¿¡£", "You are wielding %s with both hands."), o_name);
 			}
 		}
 	}
@@ -615,7 +615,7 @@ void kamaenaoshi(int item)
 		if (buki_motteruka(INVEN_RARM))
 		{
 			if (object_allow_two_hands_wielding(o_ptr) && CAN_TWO_HANDS_WIELDING())
-				msg_format(_("%sã‚’ä¸¡æ‰‹ã§æ§‹ãˆãŸã€‚", "You are wielding %s with both hands."), o_name);
+				msg_format(_("%s¤òÎ¾¼ê¤Ç¹½¤¨¤¿¡£", "You are wielding %s with both hands."), o_name);
 		}
 		else if (!(empty_hands(FALSE) & EMPTY_HAND_RARM) && !object_is_cursed(o_ptr))
 		{
@@ -624,15 +624,15 @@ void kamaenaoshi(int item)
 			p_ptr->total_weight += o_ptr->weight;
 			inven_item_increase(INVEN_RARM, -((int)o_ptr->number));
 			inven_item_optimize(INVEN_RARM);
-			msg_format(_("%sã‚’æŒã¡æ›¿ãˆãŸã€‚", "You switched hand of %s."), o_name);
+			msg_format(_("%s¤ò»ı¤ÁÂØ¤¨¤¿¡£", "You switched hand of %s."), o_name);
 		}
 	}
 }
 
 
 /*!
- * @brief è£…å‚™ã‚’å¤–ã™ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Take off an item
- * @return ãªã—
+ * @brief ÁõÈ÷¤ò³°¤¹¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Take off an item
+ * @return ¤Ê¤·
  */
 void do_cmd_takeoff(void)
 {
@@ -650,8 +650,8 @@ void do_cmd_takeoff(void)
 	item_tester_no_ryoute = TRUE;
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã‚Œã‚’è£…å‚™ã‹ã‚‰ã¯ãšã—ã¾ã™ã‹? ";
-	s = "ã¯ãšã›ã‚‹è£…å‚™ãŒãªã„ã€‚";
+	q = "¤É¤ì¤òÁõÈ÷¤«¤é¤Ï¤º¤·¤Ş¤¹¤«? ";
+	s = "¤Ï¤º¤»¤ëÁõÈ÷¤¬¤Ê¤¤¡£";
 #else
 	q = "Take off which item? ";
 	s = "You are not wearing anything to take off.";
@@ -678,7 +678,7 @@ void do_cmd_takeoff(void)
 		if ((o_ptr->curse_flags & TRC_PERMA_CURSE) || (p_ptr->pclass != CLASS_BERSERKER))
 		{
 			/* Oops */
-			msg_print(_("ãµãƒ¼ã‚€ã€ã©ã†ã‚„ã‚‰å‘ªã‚ã‚Œã¦ã„ã‚‹ã‚ˆã†ã ã€‚", "Hmmm, it seems to be cursed."));
+			msg_print(_("¤Õ¡¼¤à¡¢¤É¤¦¤ä¤é¼ö¤ï¤ì¤Æ¤¤¤ë¤è¤¦¤À¡£", "Hmmm, it seems to be cursed."));
 
 			/* Nope */
 			return;
@@ -686,7 +686,7 @@ void do_cmd_takeoff(void)
 
 		if (((o_ptr->curse_flags & TRC_HEAVY_CURSE) && one_in_(7)) || one_in_(4))
 		{
-			msg_print(_("å‘ªã‚ã‚ŒãŸè£…å‚™ã‚’åŠ›ã¥ãã§å‰¥ãŒã—ãŸï¼", "You teared a cursed equipment off by sheer strength!"));
+			msg_print(_("¼ö¤ï¤ì¤¿ÁõÈ÷¤òÎÏ¤Å¤¯¤ÇÇí¤¬¤·¤¿¡ª", "You teared a cursed equipment off by sheer strength!"));
 
 			/* Hack -- Assume felt */
 			o_ptr->ident |= (IDENT_SENSE);
@@ -702,11 +702,11 @@ void do_cmd_takeoff(void)
 			/* Window stuff */
 			p_ptr->window |= (PW_EQUIP);
 
-			msg_print(_("å‘ªã„ã‚’æ‰“ã¡ç ´ã£ãŸã€‚", "You break the curse."));
+			msg_print(_("¼ö¤¤¤òÂÇ¤ÁÇË¤Ã¤¿¡£", "You break the curse."));
 		}
 		else
 		{
-			msg_print(_("è£…å‚™ã‚’å¤–ã›ãªã‹ã£ãŸã€‚", "You couldn't remove the equipment."));
+			msg_print(_("ÁõÈ÷¤ò³°¤»¤Ê¤«¤Ã¤¿¡£", "You couldn't remove the equipment."));
 			energy_use = 50;
 			return;
 		}
@@ -727,8 +727,8 @@ void do_cmd_takeoff(void)
 
 
 /*!
- * @brief ã‚¢ã‚¤ãƒ†ãƒ ã‚’è½ã¨ã™ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Drop an item
- * @return ãªã—
+ * @brief ¥¢¥¤¥Æ¥à¤òÍî¤È¤¹¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Drop an item
+ * @return ¤Ê¤·
  */
 void do_cmd_drop(void)
 {
@@ -746,8 +746,8 @@ void do_cmd_drop(void)
 	item_tester_no_ryoute = TRUE;
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’è½ã¨ã—ã¾ã™ã‹? ";
-	s = "è½ã¨ã›ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‚’æŒã£ã¦ã„ãªã„ã€‚";
+	q = "¤É¤Î¥¢¥¤¥Æ¥à¤òÍî¤È¤·¤Ş¤¹¤«? ";
+	s = "Íî¤È¤»¤ë¥¢¥¤¥Æ¥à¤ò»ı¤Ã¤Æ¤¤¤Ê¤¤¡£";
 #else
 	q = "Drop which item? ";
 	s = "You have nothing to drop.";
@@ -772,7 +772,7 @@ void do_cmd_drop(void)
 	if ((item >= INVEN_RARM) && object_is_cursed(o_ptr))
 	{
 		/* Oops */
-		msg_print(_("ãµãƒ¼ã‚€ã€ã©ã†ã‚„ã‚‰å‘ªã‚ã‚Œã¦ã„ã‚‹ã‚ˆã†ã ã€‚", "Hmmm, it seems to be cursed."));
+		msg_print(_("¤Õ¡¼¤à¡¢¤É¤¦¤ä¤é¼ö¤ï¤ì¤Æ¤¤¤ë¤è¤¦¤À¡£", "Hmmm, it seems to be cursed."));
 		/* Nope */
 		return;
 	}
@@ -805,9 +805,9 @@ void do_cmd_drop(void)
 }
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé«˜ä½ã®é­”æ³•æ›¸ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹
- * @param o_ptr åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé«˜ä½ã®é­”æ³•æ›¸ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬¹â°Ì¤ÎËâË¡½ñ¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë
+ * @param o_ptr È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬¹â°Ì¤ÎËâË¡½ñ¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool high_level_book(object_type *o_ptr)
 {
@@ -834,8 +834,8 @@ static bool high_level_book(object_type *o_ptr)
 
 
 /*!
- * @brief ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç ´å£Šã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Destroy an item
- * @return ãªã—
+ * @brief ¥¢¥¤¥Æ¥à¤òÇË²õ¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Destroy an item
+ * @return ¤Ê¤·
  */
 void do_cmd_destroy(void)
 {
@@ -865,8 +865,8 @@ void do_cmd_destroy(void)
 
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’å£Šã—ã¾ã™ã‹? ";
-	s = "å£Šã›ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‚’æŒã£ã¦ã„ãªã„ã€‚";
+	q = "¤É¤Î¥¢¥¤¥Æ¥à¤ò²õ¤·¤Ş¤¹¤«? ";
+	s = "²õ¤»¤ë¥¢¥¤¥Æ¥à¤ò»ı¤Ã¤Æ¤¤¤Ê¤¤¡£";
 #else
 	q = "Destroy which item? ";
 	s = "You have nothing to destroy.";
@@ -892,7 +892,7 @@ void do_cmd_destroy(void)
 		object_desc(o_name, o_ptr, OD_OMIT_PREFIX);
 
 		/* Make a verification */
-		sprintf(out_val, _("æœ¬å½“ã«%sã‚’å£Šã—ã¾ã™ã‹? [y/n/Auto]", "Really destroy %s? [y/n/Auto]"), o_name);
+		sprintf(out_val, _("ËÜÅö¤Ë%s¤ò²õ¤·¤Ş¤¹¤«? [y/n/Auto]", "Really destroy %s? [y/n/Auto]"), o_name);
 		msg_print(NULL);
 
 		/* HACK : Add the line to message buffer */
@@ -964,7 +964,7 @@ void do_cmd_destroy(void)
 		energy_use = 0;
 
 		/* Message */
-		msg_format(_("%sã¯ç ´å£Šä¸å¯èƒ½ã ã€‚", "You cannot destroy %s."), o_name);
+		msg_format(_("%s¤ÏÇË²õÉÔ²ÄÇ½¤À¡£", "You cannot destroy %s."), o_name);
 		/* Done */
 		return;
 	}
@@ -972,7 +972,7 @@ void do_cmd_destroy(void)
 	object_copy(q_ptr, o_ptr);
 
 	/* Message */
-	msg_format(_("%sã‚’å£Šã—ãŸã€‚", "You destroy %s."), o_name);
+	msg_format(_("%s¤ò²õ¤·¤¿¡£", "You destroy %s."), o_name);
 	sound(SOUND_DESTITEM);
 
 	/* Reduce the charges of rods/wands */
@@ -1024,7 +1024,7 @@ void do_cmd_destroy(void)
 			if (q_ptr->sval < 3) tester_exp /= 4;
 			if (tester_exp<1) tester_exp = 1;
 
-			msg_print(_("æ›´ã«çµŒé¨“ã‚’ç©ã‚“ã ã‚ˆã†ãªæ°—ãŒã™ã‚‹ã€‚", "You feel more experienced."));
+			msg_print(_("¹¹¤Ë·Ğ¸³¤òÀÑ¤ó¤À¤è¤¦¤Êµ¤¤¬¤¹¤ë¡£", "You feel more experienced."));
 			gain_exp(tester_exp * amt);
 		}
 		if (high_level_book(q_ptr) && q_ptr->tval == TV_LIFE_BOOK)
@@ -1056,8 +1056,8 @@ void do_cmd_destroy(void)
 
 
 /*!
- * @brief ã‚¢ã‚¤ãƒ†ãƒ ã‚’èª¿æŸ»ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ / Observe an item which has been *identify*-ed
- * @return ãªã—
+ * @brief ¥¢¥¤¥Æ¥à¤òÄ´ºº¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó / Observe an item which has been *identify*-ed
+ * @return ¤Ê¤·
  */
 void do_cmd_observe(void)
 {
@@ -1072,8 +1072,8 @@ void do_cmd_observe(void)
 	item_tester_no_ryoute = TRUE;
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’èª¿ã¹ã¾ã™ã‹? ";
-	s = "èª¿ã¹ã‚‰ã‚Œã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚";
+	q = "¤É¤Î¥¢¥¤¥Æ¥à¤òÄ´¤Ù¤Ş¤¹¤«? ";
+	s = "Ä´¤Ù¤é¤ì¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
 #else
 	q = "Examine which item? ";
 	s = "You have nothing to examine.";
@@ -1097,7 +1097,7 @@ void do_cmd_observe(void)
 	/* Require full knowledge */
 	if (!(o_ptr->ident & IDENT_MENTAL))
 	{
-		msg_print(_("ã“ã®ã‚¢ã‚¤ãƒ†ãƒ ã«ã¤ã„ã¦ç‰¹ã«çŸ¥ã£ã¦ã„ã‚‹ã“ã¨ã¯ãªã„ã€‚", "You have no special knowledge about that item."));
+		msg_print(_("¤³¤Î¥¢¥¤¥Æ¥à¤Ë¤Ä¤¤¤ÆÆÃ¤ËÃÎ¤Ã¤Æ¤¤¤ë¤³¤È¤Ï¤Ê¤¤¡£", "You have no special knowledge about that item."));
 		return;
 	}
 
@@ -1106,17 +1106,17 @@ void do_cmd_observe(void)
 	object_desc(o_name, o_ptr, 0);
 
 	/* Describe */
-	msg_format(_("%sã‚’èª¿ã¹ã¦ã„ã‚‹...", "Examining %s..."), o_name);
+	msg_format(_("%s¤òÄ´¤Ù¤Æ¤¤¤ë...", "Examining %s..."), o_name);
 	/* Describe it fully */
-	if (!screen_object(o_ptr, SCROBJ_FORCE_DETAIL)) msg_print(_("ç‰¹ã«å¤‰ã‚ã£ãŸã¨ã“ã‚ã¯ãªã„ã‚ˆã†ã ã€‚", "You see nothing special."));
+	if (!screen_object(o_ptr, SCROBJ_FORCE_DETAIL)) msg_print(_("ÆÃ¤ËÊÑ¤ï¤Ã¤¿¤È¤³¤í¤Ï¤Ê¤¤¤è¤¦¤À¡£", "You see nothing special."));
 }
 
 
 
 /*!
- * @brief ã‚¢ã‚¤ãƒ†ãƒ ã®éŠ˜ã‚’æ¶ˆã™ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¥¢¥¤¥Æ¥à¤ÎÌÃ¤ò¾Ã¤¹¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Remove the inscription from an object XXX Mention item (when done)?
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void do_cmd_uninscribe(void)
 {
@@ -1129,8 +1129,8 @@ void do_cmd_uninscribe(void)
 	item_tester_no_ryoute = TRUE;
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã®éŠ˜ã‚’æ¶ˆã—ã¾ã™ã‹? ";
-	s = "éŠ˜ã‚’æ¶ˆã›ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚";
+	q = "¤É¤Î¥¢¥¤¥Æ¥à¤ÎÌÃ¤ò¾Ã¤·¤Ş¤¹¤«? ";
+	s = "ÌÃ¤ò¾Ã¤»¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
 #else
 	q = "Un-inscribe which item? ";
 	s = "You have nothing to un-inscribe.";
@@ -1153,12 +1153,12 @@ void do_cmd_uninscribe(void)
 	/* Nothing to remove */
 	if (!o_ptr->inscription)
 	{
-		msg_print(_("ã“ã®ã‚¢ã‚¤ãƒ†ãƒ ã«ã¯æ¶ˆã™ã¹ãéŠ˜ãŒãªã„ã€‚", "That item had no inscription to remove."));
+		msg_print(_("¤³¤Î¥¢¥¤¥Æ¥à¤Ë¤Ï¾Ã¤¹¤Ù¤­ÌÃ¤¬¤Ê¤¤¡£", "That item had no inscription to remove."));
 		return;
 	}
 
 	/* Message */
-	msg_print(_("éŠ˜ã‚’æ¶ˆã—ãŸã€‚", "Inscription removed."));
+	msg_print(_("ÌÃ¤ò¾Ã¤·¤¿¡£", "Inscription removed."));
 
 	/* Remove the incription */
 	o_ptr->inscription = 0;
@@ -1169,16 +1169,16 @@ void do_cmd_uninscribe(void)
 	/* Window stuff */
 	p_ptr->window |= (PW_INVEN | PW_EQUIP);
 
-	/* .ã‚„$ã®é–¢ä¿‚ã§, å†è¨ˆç®—ãŒå¿…è¦ãªã¯ãš -- henkma */
+	/* .¤ä$¤Î´Ø·¸¤Ç, ºÆ·×»»¤¬É¬Í×¤Ê¤Ï¤º -- henkma */
 	p_ptr->update |= (PU_BONUS);
 
 }
 
 
 /*!
- * @brief ã‚¢ã‚¤ãƒ†ãƒ ã®éŠ˜ã‚’åˆ»ã‚€ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¥¢¥¤¥Æ¥à¤ÎÌÃ¤ò¹ï¤à¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Inscribe an object with a comment
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void do_cmd_inscribe(void)
 {
@@ -1195,8 +1195,8 @@ void do_cmd_inscribe(void)
 	item_tester_no_ryoute = TRUE;
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã«éŠ˜ã‚’åˆ»ã¿ã¾ã™ã‹? ";
-	s = "éŠ˜ã‚’åˆ»ã‚ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚";
+	q = "¤É¤Î¥¢¥¤¥Æ¥à¤ËÌÃ¤ò¹ï¤ß¤Ş¤¹¤«? ";
+	s = "ÌÃ¤ò¹ï¤á¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£";
 #else
 	q = "Inscribe which item? ";
 	s = "You have nothing to inscribe.";
@@ -1220,7 +1220,7 @@ void do_cmd_inscribe(void)
 	object_desc(o_name, o_ptr, OD_OMIT_INSCRIPTION);
 
 	/* Message */
-	msg_format(_("%sã«éŠ˜ã‚’åˆ»ã‚€ã€‚", "Inscribing %s."), o_name);
+	msg_format(_("%s¤ËÌÃ¤ò¹ï¤à¡£", "Inscribing %s."), o_name);
 	msg_print(NULL);
 
 	/* Start with nothing */
@@ -1234,7 +1234,7 @@ void do_cmd_inscribe(void)
 	}
 
 	/* Get a new inscription (possibly empty) */
-	if (get_string(_("éŠ˜: ", "Inscription: "), out_val, 80))
+	if (get_string(_("ÌÃ: ", "Inscription: "), out_val, 80))
 	{
 		/* Save the inscription */
 		o_ptr->inscription = quark_add(out_val);
@@ -1245,7 +1245,7 @@ void do_cmd_inscribe(void)
 		/* Window stuff */
 		p_ptr->window |= (PW_INVEN | PW_EQUIP);
 
-		/* .ã‚„$ã®é–¢ä¿‚ã§, å†è¨ˆç®—ãŒå¿…è¦ãªã¯ãš -- henkma */
+		/* .¤ä$¤Î´Ø·¸¤Ç, ºÆ·×»»¤¬É¬Í×¤Ê¤Ï¤º -- henkma */
 		p_ptr->update |= (PU_BONUS);
 	}
 }
@@ -1253,10 +1253,10 @@ void do_cmd_inscribe(void)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãƒ©ãƒ³ã‚¿ãƒ³ã®ç‡ƒæ–™ã«ãªã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬¥é¥ó¥¿¥ó¤ÎÇ³ÎÁ¤Ë¤Ê¤ë¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë
  * An "item_tester_hook" for refilling lanterns
- * @param o_ptr åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãƒ©ãƒ³ã‚¿ãƒ³ã®ç‡ƒæ–™ã«ãªã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param o_ptr È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬¥é¥ó¥¿¥ó¤ÎÇ³ÎÁ¤Ë¤Ê¤ë¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool item_tester_refill_lantern(object_type *o_ptr)
 {
@@ -1273,9 +1273,9 @@ static bool item_tester_refill_lantern(object_type *o_ptr)
 
 
 /*!
- * @brief ãƒ©ãƒ³ã‚¿ãƒ³ã«ç‡ƒæ–™ã‚’åŠ ãˆã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¥é¥ó¥¿¥ó¤ËÇ³ÎÁ¤ò²Ã¤¨¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Refill the players lamp (from the pack or floor)
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 static void do_cmd_refill_lamp(void)
 {
@@ -1292,8 +1292,8 @@ static void do_cmd_refill_lamp(void)
 
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®æ²¹ã¤ã¼ã‹ã‚‰æ³¨ãã¾ã™ã‹? ";
-	s = "æ²¹ã¤ã¼ãŒãªã„ã€‚";
+	q = "¤É¤ÎÌı¤Ä¤Ü¤«¤éÃí¤®¤Ş¤¹¤«? ";
+	s = "Ìı¤Ä¤Ü¤¬¤Ê¤¤¡£";
 #else
 	q = "Refill with which flask? ";
 	s = "You have no flasks of oil.";
@@ -1324,23 +1324,23 @@ static void do_cmd_refill_lamp(void)
 	j_ptr->xtra4 += o_ptr->xtra4;
 
 	/* Message */
-	msg_print(_("ãƒ©ãƒ³ãƒ—ã«æ²¹ã‚’æ³¨ã„ã ã€‚", "You fuel your lamp."));
+	msg_print(_("¥é¥ó¥×¤ËÌı¤òÃí¤¤¤À¡£", "You fuel your lamp."));
 
 	/* Comment */
 	if ((o_ptr->name2 == EGO_LITE_DARKNESS) && (j_ptr->xtra4 > 0))
 	{
 		j_ptr->xtra4 = 0;
-		msg_print(_("ãƒ©ãƒ³ãƒ—ãŒæ¶ˆãˆã¦ã—ã¾ã£ãŸï¼", "Your lamp has gone out!"));
+		msg_print(_("¥é¥ó¥×¤¬¾Ã¤¨¤Æ¤·¤Ş¤Ã¤¿¡ª", "Your lamp has gone out!"));
 	}
 	else if ((o_ptr->name2 == EGO_LITE_DARKNESS) || (j_ptr->name2 == EGO_LITE_DARKNESS))
 	{
 		j_ptr->xtra4 = 0;
-		msg_print(_("ã—ã‹ã—ãƒ©ãƒ³ãƒ—ã¯å…¨ãå…‰ã‚‰ãªã„ã€‚", "Curiously, your lamp doesn't light."));
+		msg_print(_("¤·¤«¤·¥é¥ó¥×¤ÏÁ´¤¯¸÷¤é¤Ê¤¤¡£", "Curiously, your lamp doesn't light."));
 	}
 	else if (j_ptr->xtra4 >= FUEL_LAMP)
 	{
 		j_ptr->xtra4 = FUEL_LAMP;
-		msg_print(_("ãƒ©ãƒ³ãƒ—ã®æ²¹ã¯ä¸€æ¯ã ã€‚", "Your lamp is full."));
+		msg_print(_("¥é¥ó¥×¤ÎÌı¤Ï°ìÇÕ¤À¡£", "Your lamp is full."));
 	}
 
 	/* Decrease the item (from the pack) */
@@ -1365,10 +1365,10 @@ static void do_cmd_refill_lamp(void)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ¾æ˜ã«æŸã­ã‚‰ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬¾¾ÌÀ¤ËÂ«¤Í¤é¤ì¤ë¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë
  * An "item_tester_hook" for refilling torches
- * @param o_ptr åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ¾æ˜ã«æŸã­ã‚‰ã‚Œã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param o_ptr È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬¾¾ÌÀ¤ËÂ«¤Í¤é¤ì¤ë¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool item_tester_refill_torch(object_type *o_ptr)
 {
@@ -1382,9 +1382,9 @@ static bool item_tester_refill_torch(object_type *o_ptr)
 
 
 /*!
- * @brief æ¾æ˜ã‚’æŸã­ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¾¾ÌÀ¤òÂ«¤Í¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Refuel the players torch (from the pack or floor)
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 static void do_cmd_refill_torch(void)
 {
@@ -1401,8 +1401,8 @@ static void do_cmd_refill_torch(void)
 
 	/* Get an item */
 #ifdef JP
-	q = "ã©ã®æ¾æ˜ã§æ˜ã‹ã‚Šã‚’å¼·ã‚ã¾ã™ã‹? ";
-	s = "ä»–ã«æ¾æ˜ãŒãªã„ã€‚";
+	q = "¤É¤Î¾¾ÌÀ¤ÇÌÀ¤«¤ê¤ò¶¯¤á¤Ş¤¹¤«? ";
+	s = "Â¾¤Ë¾¾ÌÀ¤¬¤Ê¤¤¡£";
 #else
 	q = "Refuel with which torch? ";
 	s = "You have no extra torches.";
@@ -1433,30 +1433,30 @@ static void do_cmd_refill_torch(void)
 	j_ptr->xtra4 += o_ptr->xtra4 + 5;
 
 	/* Message */
-	msg_print(_("æ¾æ˜ã‚’çµåˆã—ãŸã€‚", "You combine the torches."));
+	msg_print(_("¾¾ÌÀ¤ò·ë¹ç¤·¤¿¡£", "You combine the torches."));
 
 	/* Comment */
 	if ((o_ptr->name2 == EGO_LITE_DARKNESS) && (j_ptr->xtra4 > 0))
 	{
 		j_ptr->xtra4 = 0;
-		msg_print(_("æ¾æ˜ãŒæ¶ˆãˆã¦ã—ã¾ã£ãŸï¼", "Your torch has gone out!"));
+		msg_print(_("¾¾ÌÀ¤¬¾Ã¤¨¤Æ¤·¤Ş¤Ã¤¿¡ª", "Your torch has gone out!"));
 	}
 	else if ((o_ptr->name2 == EGO_LITE_DARKNESS) || (j_ptr->name2 == EGO_LITE_DARKNESS))
 	{
 		j_ptr->xtra4 = 0;
-		msg_print(_("ã—ã‹ã—æ¾æ˜ã¯å…¨ãå…‰ã‚‰ãªã„ã€‚", "Curiously, your torche don't light."));
+		msg_print(_("¤·¤«¤·¾¾ÌÀ¤ÏÁ´¤¯¸÷¤é¤Ê¤¤¡£", "Curiously, your torche don't light."));
 	}
 	/* Over-fuel message */
 	else if (j_ptr->xtra4 >= FUEL_TORCH)
 	{
 		j_ptr->xtra4 = FUEL_TORCH;
-		msg_print(_("æ¾æ˜ã®å¯¿å‘½ã¯ååˆ†ã ã€‚", "Your torch is fully fueled."));
+		msg_print(_("¾¾ÌÀ¤Î¼÷Ì¿¤Ï½½Ê¬¤À¡£", "Your torch is fully fueled."));
 	}
 
 	/* Refuel message */
 	else
 	{
-		msg_print(_("æ¾æ˜ã¯ã„ã£ãã†æ˜ã‚‹ãè¼ã„ãŸã€‚", "Your torch glows more brightly."));
+		msg_print(_("¾¾ÌÀ¤Ï¤¤¤Ã¤½¤¦ÌÀ¤ë¤¯µ±¤¤¤¿¡£", "Your torch glows more brightly."));
 	}
 
 	/* Decrease the item (from the pack) */
@@ -1481,9 +1481,9 @@ static void do_cmd_refill_torch(void)
 
 
 /*!
- * @brief ç‡ƒæ–™ã‚’è£œå……ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief Ç³ÎÁ¤òÊä½¼¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Refill the players lamp, or restock his torches
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void do_cmd_refill(void)
 {
@@ -1500,7 +1500,7 @@ void do_cmd_refill(void)
 	/* It is nothing */
 	if (o_ptr->tval != TV_LITE)
 	{
-		msg_print(_("å…‰æºã‚’è£…å‚™ã—ã¦ã„ãªã„ã€‚", "You are not wielding a light."));
+		msg_print(_("¸÷¸»¤òÁõÈ÷¤·¤Æ¤¤¤Ê¤¤¡£", "You are not wielding a light."));
 	}
 
 	/* It's a lamp */
@@ -1518,37 +1518,37 @@ void do_cmd_refill(void)
 	/* No torch to refill */
 	else
 	{
-		msg_print(_("ã“ã®å…‰æºã¯å¯¿å‘½ã‚’å»¶ã°ã›ãªã„ã€‚", "Your light cannot be refilled."));
+		msg_print(_("¤³¤Î¸÷¸»¤Ï¼÷Ì¿¤ò±ä¤Ğ¤»¤Ê¤¤¡£", "Your light cannot be refilled."));
 	}
 }
 
 
 /*!
- * @brief ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’è¨­å®šã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¥¿¡¼¥²¥Ã¥È¤òÀßÄê¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Target command
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void do_cmd_target(void)
 {
 	/* Target set */
 	if (target_set(TARGET_KILL))
 	{
-		msg_print(_("ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæ±ºå®šã€‚", "Target Selected."));
+		msg_print(_("¥¿¡¼¥²¥Ã¥È·èÄê¡£", "Target Selected."));
 	}
 
 	/* Target aborted */
 	else
 	{
-		msg_print(_("ã‚¿ãƒ¼ã‚²ãƒƒãƒˆè§£é™¤ã€‚", "Target Aborted."));
+		msg_print(_("¥¿¡¼¥²¥Ã¥È²ò½ü¡£", "Target Aborted."));
 	}
 }
 
 
 
 /*!
- * @brief å‘¨å›²ã‚’è¦‹æ¸¡ã™ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¼ş°Ï¤ò¸«ÅÏ¤¹¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Look command
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void do_cmd_look(void)
 {
@@ -1560,15 +1560,15 @@ void do_cmd_look(void)
 	/* Look around */
 	if (target_set(TARGET_LOOK))
 	{
-		msg_print(_("ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæ±ºå®šã€‚", "Target Selected."));
+		msg_print(_("¥¿¡¼¥²¥Ã¥È·èÄê¡£", "Target Selected."));
 	}
 }
 
 
 /*!
- * @brief ä½ç½®ã‚’ç¢ºèªã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief °ÌÃÖ¤ò³ÎÇ§¤¹¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Allow the player to examine other sectors on the map
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void do_cmd_locate(void)
 {
@@ -1595,7 +1595,7 @@ void do_cmd_locate(void)
 		if ((y2 == y1) && (x2 == x1))
 		{
 #ifdef JP
-			strcpy(tmp_val, "çœŸä¸Š");
+			strcpy(tmp_val, "¿¿¾å");
 #else
 			tmp_val[0] = '\0';
 #endif
@@ -1605,8 +1605,8 @@ void do_cmd_locate(void)
 		{
 #ifdef JP
 			sprintf(tmp_val, "%s%s",
-				((y2 < y1) ? "åŒ—" : (y2 > y1) ? "å—" : ""),
-				((x2 < x1) ? "è¥¿" : (x2 > x1) ? "æ±" : ""));
+				((y2 < y1) ? "ËÌ" : (y2 > y1) ? "Æî" : ""),
+				((x2 < x1) ? "À¾" : (x2 > x1) ? "Åì" : ""));
 #else
 			sprintf(tmp_val, "%s%s of",
 				((y2 < y1) ? " North" : (y2 > y1) ? " South" : ""),
@@ -1616,7 +1616,7 @@ void do_cmd_locate(void)
 		}
 
 		/* Prepare to ask which way to look */
-		sprintf(out_val, _("ãƒãƒƒãƒ—ä½ç½® [%d(%02d),%d(%02d)] (ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®%s)  æ–¹å‘?", 
+		sprintf(out_val, _("¥Ş¥Ã¥×°ÌÃÖ [%d(%02d),%d(%02d)] (¥×¥ì¥¤¥ä¡¼¤Î%s)  Êı¸ş?", 
 					       "Map sector [%d(%02d),%d(%02d)], which is%s your sector.  Direction?"),
 			y2 / (hgt / 2), y2 % (hgt / 2),
 			x2 / (wid / 2), x2 % (wid / 2), tmp_val);
@@ -1670,13 +1670,13 @@ void do_cmd_locate(void)
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—æƒ…å ±ã‚’ç‰¹å®šã®åŸºæº–ã«ã‚ˆã‚Šã‚½ãƒ¼ãƒˆã™ã‚‹ãŸã‚ã®æ¯”è¼ƒå‡¦ç†
+ * @brief ¥â¥ó¥¹¥¿¡¼¼ïÂ²¾ğÊó¤òÆÃÄê¤Î´ğ½à¤Ë¤è¤ê¥½¡¼¥È¤¹¤ë¤¿¤á¤ÎÈæ³Ó½èÍı
  * Sorting hook -- Comp function -- see below
- * @param u ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—æƒ…å ±ã®å…¥ã‚Œã‚‹ãƒã‚¤ãƒ³ã‚¿
- * @param v æ¡ä»¶åŸºæº–ID
- * @param a æ¯”è¼ƒã™ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—ã®ID1
- * @param b æ¯”è¼ƒã™ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—ã®ID2
- * @return 2ã®æ–¹ãŒå¤§ãã‘ã‚Œã°TRUEã‚’è¿”ã™
+ * @param u ¥â¥ó¥¹¥¿¡¼¼ïÂ²¾ğÊó¤ÎÆş¤ì¤ë¥İ¥¤¥ó¥¿
+ * @param v ¾ò·ï´ğ½àID
+ * @param a Èæ³Ó¤¹¤ë¥â¥ó¥¹¥¿¡¼¼ïÂ²¤ÎID1
+ * @param b Èæ³Ó¤¹¤ë¥â¥ó¥¹¥¿¡¼¼ïÂ²¤ÎID2
+ * @return 2¤ÎÊı¤¬Âç¤­¤±¤ì¤ĞTRUE¤òÊÖ¤¹
  * We use "u" to point to array of monster indexes,
  * and "v" to select the type of sorting to perform on "u".
  */
@@ -1749,13 +1749,13 @@ bool ang_sort_comp_hook(vptr u, vptr v, int a, int b)
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—æƒ…å ±ã‚’ç‰¹å®šã®åŸºæº–ã«ã‚ˆã‚Šã‚½ãƒ¼ãƒˆã™ã‚‹ãŸã‚ã®ã‚¹ãƒ¯ãƒƒãƒ—å‡¦ç†
+ * @brief ¥â¥ó¥¹¥¿¡¼¼ïÂ²¾ğÊó¤òÆÃÄê¤Î´ğ½à¤Ë¤è¤ê¥½¡¼¥È¤¹¤ë¤¿¤á¤Î¥¹¥ï¥Ã¥×½èÍı
  * Sorting hook -- Swap function -- see below
- * @param u ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—æƒ…å ±ã®å…¥ã‚Œã‚‹ãƒã‚¤ãƒ³ã‚¿
- * @param v æœªä½¿ç”¨
- * @param a ã‚¹ãƒ¯ãƒƒãƒ—ã™ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—ã®ID1
- * @param b ã‚¹ãƒ¯ãƒƒãƒ—ã™ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ç¨®æ—ã®ID2
- * @return ãªã—
+ * @param u ¥â¥ó¥¹¥¿¡¼¼ïÂ²¾ğÊó¤ÎÆş¤ì¤ë¥İ¥¤¥ó¥¿
+ * @param v Ì¤»ÈÍÑ
+ * @param a ¥¹¥ï¥Ã¥×¤¹¤ë¥â¥ó¥¹¥¿¡¼¼ïÂ²¤ÎID1
+ * @param b ¥¹¥ï¥Ã¥×¤¹¤ë¥â¥ó¥¹¥¿¡¼¼ïÂ²¤ÎID2
+ * @return ¤Ê¤·
  * @details
  * We use "u" to point to array of monster indexes,
  * and "v" to select the type of sorting to perform.
@@ -1778,9 +1778,9 @@ void ang_sort_swap_hook(vptr u, vptr v, int a, int b)
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ€ã„å‡ºã‚’è¦‹ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
+ * @brief ¥â¥ó¥¹¥¿¡¼¤Î»×¤¤½Ğ¤ò¸«¤ë¥³¥Ş¥ó¥É¤Î¥á¥¤¥ó¥ë¡¼¥Á¥ó
  * Identify a character, allow recall of monsters
- * @return ãªã—
+ * @return ¤Ê¤·
  * @details
  * <pre>
  * Several "special" responses recall "multiple" monsters:
@@ -1811,7 +1811,7 @@ void do_cmd_query_symbol(void)
 	u16b	*who;
 
 	/* Get a character, or abort */
-	if (!get_com(_("çŸ¥ã‚ŠãŸã„æ–‡å­—ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„(è¨˜å· or ^Aå…¨,^Uãƒ¦,^Néãƒ¦,^Rä¹—é¦¬,^Måå‰): ", 
+	if (!get_com(_("ÃÎ¤ê¤¿¤¤Ê¸»ú¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤(µ­¹æ or ^AÁ´,^U¥æ,^NÈó¥æ,^R¾èÇÏ,^MÌ¾Á°): ", 
 				   "Enter character to be identified(^A:All,^U:Uniqs,^N:Non uniqs,^M:Name): "), &sym, FALSE)) return;
 
 	/* Find that character info, and describe it */
@@ -1824,33 +1824,33 @@ void do_cmd_query_symbol(void)
 	if (sym == KTRL('A'))
 	{
 		all = TRUE;
-		strcpy(buf, _("å…¨ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ãƒªã‚¹ãƒˆ", "Full monster list."));
+		strcpy(buf, _("Á´¥â¥ó¥¹¥¿¡¼¤Î¥ê¥¹¥È", "Full monster list."));
 	}
 	else if (sym == KTRL('U'))
 	{
 		all = uniq = TRUE;
-		strcpy(buf, _("ãƒ¦ãƒ‹ãƒ¼ã‚¯ãƒ»ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ãƒªã‚¹ãƒˆ", "Unique monster list."));
+		strcpy(buf, _("¥æ¥Ë¡¼¥¯¡¦¥â¥ó¥¹¥¿¡¼¤Î¥ê¥¹¥È", "Unique monster list."));
 	}
 	else if (sym == KTRL('N'))
 	{
 		all = norm = TRUE;
-		strcpy(buf, _("ãƒ¦ãƒ‹ãƒ¼ã‚¯å¤–ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ãƒªã‚¹ãƒˆ", "Non-unique monster list."));
+		strcpy(buf, _("¥æ¥Ë¡¼¥¯³°¥â¥ó¥¹¥¿¡¼¤Î¥ê¥¹¥È", "Non-unique monster list."));
 	}
 	else if (sym == KTRL('R'))
 	{
 		all = ride = TRUE;
-		strcpy(buf, _("ä¹—é¦¬å¯èƒ½ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ãƒªã‚¹ãƒˆ", "Ridable monster list."));
+		strcpy(buf, _("¾èÇÏ²ÄÇ½¥â¥ó¥¹¥¿¡¼¤Î¥ê¥¹¥È", "Ridable monster list."));
 	}
 	/* XTRA HACK WHATSEARCH */
 	else if (sym == KTRL('M'))
 	{
 		all = TRUE;
-		if (!get_string(_("åå‰(è‹±èªã®å ´åˆå°æ–‡å­—ã§å¯)", "Enter name:"),temp, 70))
+		if (!get_string(_("Ì¾Á°(±Ñ¸ì¤Î¾ì¹ç¾®Ê¸»ú¤Ç²Ä)", "Enter name:"),temp, 70))
 		{
 			temp[0]=0;
 			return;
 		}
-		sprintf(buf, _("åå‰:%sã«ãƒãƒƒãƒ", "Monsters with a name \"%s\""),temp);
+		sprintf(buf, _("Ì¾Á°:%s¤Ë¥Ş¥Ã¥Á", "Monsters with a name \"%s\""),temp);
 	}
 	else if (ident_info[i])
 	{
@@ -1858,7 +1858,7 @@ void do_cmd_query_symbol(void)
 	}
 	else
 	{
-		sprintf(buf, "%c - %s", sym, _("ç„¡åŠ¹ãªæ–‡å­—", "Unknown Symbol"));
+		sprintf(buf, "%c - %s", sym, _("Ìµ¸ú¤ÊÊ¸»ú", "Unknown Symbol"));
 	}
 
 	/* Display the result */
@@ -1929,7 +1929,7 @@ void do_cmd_query_symbol(void)
 
 
 	/* Prompt XXX XXX XXX */
-	put_str(_("æ€ã„å‡ºã‚’è¦‹ã¾ã™ã‹? (k:æ®ºå®³é †/y/n): ", "Recall details? (k/y/n): "), 0, _(36, 40));
+	put_str(_("»×¤¤½Ğ¤ò¸«¤Ş¤¹¤«? (k:»¦³²½ç/y/n): ", "Recall details? (k/y/n): "), 0, _(36, 40));
 
 
 	/* Query */
@@ -2007,7 +2007,7 @@ void do_cmd_query_symbol(void)
 			roff_top(r_idx);
 
 			/* Hack -- Complete the prompt */
-			Term_addstr(-1, TERM_WHITE, _(" ['r'æ€ã„å‡º, ESC]", " [(r)ecall, ESC]"));
+			Term_addstr(-1, TERM_WHITE, _(" ['r'»×¤¤½Ğ, ESC]", " [(r)ecall, ESC]"));
 
 			/* Command */
 			query = inkey();

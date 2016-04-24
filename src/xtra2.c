@@ -1,6 +1,6 @@
-ï»¿/*!
+/*!
  * @file xtra2.c
- * @brief é›‘å¤šãªãã®ä»–ã®å‡¦ç†2 / effects of various "objects"
+ * @brief »¨Â¿¤Ê¤½¤ÎÂ¾¤Î½èÍı2 / effects of various "objects"
  * @date 2014/02/06
  * @author
  * Copyright (c) 1989 James E. Wilson, Robert A. Koeneke\n
@@ -17,9 +17,9 @@
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çµŒé¨“å€¤ã«ã¤ã„ã¦æ•´åˆæ€§ã®ãŸã‚ã®ãƒã‚§ãƒƒã‚¯ã¨èª¿æ•´ã‚’è¡Œã† /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Î·Ğ¸³ÃÍ¤Ë¤Ä¤¤¤ÆÀ°¹çÀ­¤Î¤¿¤á¤Î¥Á¥§¥Ã¥¯¤ÈÄ´À°¤ò¹Ô¤¦ /
  * Advance experience levels and print experience
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void check_experience(void)
 {
@@ -104,7 +104,7 @@ void check_experience(void)
 
 		/* Message */
 #ifdef JP
-msg_format("ãƒ¬ãƒ™ãƒ« %d ã«ã‚ˆã†ã“ãã€‚", p_ptr->lev);
+msg_format("¥ì¥Ù¥ë %d ¤Ë¤è¤¦¤³¤½¡£", p_ptr->lev);
 #else
 		msg_format("Welcome to level %d.", p_ptr->lev);
 
@@ -119,7 +119,7 @@ msg_format("ãƒ¬ãƒ™ãƒ« %d ã«ã‚ˆã†ã“ãã€‚", p_ptr->lev);
 		/* Window stuff */
 		p_ptr->window |= (PW_PLAYER | PW_SPELL | PW_INVEN);
 
-		/* HPã¨MPã®ä¸Šæ˜‡é‡ã‚’è¡¨ç¤º */
+		/* HP¤ÈMP¤Î¾å¾ºÎÌ¤òÉ½¼¨ */
 		level_up = 1;
 
 		/* Handle stuff */
@@ -140,19 +140,19 @@ msg_format("ãƒ¬ãƒ™ãƒ« %d ã«ã‚ˆã†ã“ãã€‚", p_ptr->lev);
 
 #ifdef JP
 					cnv_stat(p_ptr->stat_max[0], tmp);
-					prt(format("        a) è…•åŠ› (ç¾åœ¨å€¤ %s)", tmp), 2, 14);
+					prt(format("        a) ÏÓÎÏ (¸½ºßÃÍ %s)", tmp), 2, 14);
 					cnv_stat(p_ptr->stat_max[1], tmp);
-					prt(format("        b) çŸ¥èƒ½ (ç¾åœ¨å€¤ %s)", tmp), 3, 14);
+					prt(format("        b) ÃÎÇ½ (¸½ºßÃÍ %s)", tmp), 3, 14);
 					cnv_stat(p_ptr->stat_max[2], tmp);
-					prt(format("        c) è³¢ã• (ç¾åœ¨å€¤ %s)", tmp), 4, 14);
+					prt(format("        c) ¸­¤µ (¸½ºßÃÍ %s)", tmp), 4, 14);
 					cnv_stat(p_ptr->stat_max[3], tmp);
-					prt(format("        d) å™¨ç”¨ (ç¾åœ¨å€¤ %s)", tmp), 5, 14);
+					prt(format("        d) ´ïÍÑ (¸½ºßÃÍ %s)", tmp), 5, 14);
 					cnv_stat(p_ptr->stat_max[4], tmp);
-					prt(format("        e) è€ä¹… (ç¾åœ¨å€¤ %s)", tmp), 6, 14);
+					prt(format("        e) ÂÑµ× (¸½ºßÃÍ %s)", tmp), 6, 14);
 					cnv_stat(p_ptr->stat_max[5], tmp);
-					prt(format("        f) é­…åŠ› (ç¾åœ¨å€¤ %s)", tmp), 7, 14);
+					prt(format("        f) Ì¥ÎÏ (¸½ºßÃÍ %s)", tmp), 7, 14);
 					prt("", 8, 14);
-					prt("        ã©ã®èƒ½åŠ›å€¤ã‚’ä¸Šã’ã¾ã™ã‹ï¼Ÿ", 1, 14);
+					prt("        ¤É¤ÎÇ½ÎÏÃÍ¤ò¾å¤²¤Ş¤¹¤«¡©", 1, 14);
 #else
 					cnv_stat(p_ptr->stat_max[0], tmp);
 					prt(format("        a) Str (cur %s)", tmp), 2, 14);
@@ -177,7 +177,7 @@ msg_format("ãƒ¬ãƒ™ãƒ« %d ã«ã‚ˆã†ã“ãã€‚", p_ptr->lev);
 					for(n = 0; n < 6; n++)
 						if (n != choice - 'a')
 							prt("",n+2,14);
-					if (get_check(_("ã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "Are you sure? "))) break;
+					if (get_check(_("¤è¤í¤·¤¤¤Ç¤¹¤«¡©", "Are you sure? "))) break;
 				}
 				do_inc_stat(choice - 'a');
 				screen_load();
@@ -188,14 +188,14 @@ msg_format("ãƒ¬ãƒ™ãƒ« %d ã«ã‚ˆã†ã“ãã€‚", p_ptr->lev);
 
 		if (level_mutation)
 		{
-			msg_print(_("ã‚ãªãŸã¯å¤‰ã‚ã£ãŸæ°—ãŒã™ã‚‹...", "You feel different..."));
+			msg_print(_("¤¢¤Ê¤¿¤ÏÊÑ¤ï¤Ã¤¿µ¤¤¬¤¹¤ë...", "You feel different..."));
 			(void)gain_random_mutation(0);
 			level_mutation = FALSE;
 		}
 
 		/*
-		 * å ±é…¬ã§ãƒ¬ãƒ™ãƒ«ãŒä¸Šã‚‹ã¨å†å¸°çš„ã« check_experience() ãŒ
-		 * å‘¼ã°ã‚Œã‚‹ã®ã§é †ç•ªã‚’æœ€å¾Œã«ã™ã‚‹ã€‚
+		 * Êó½·¤Ç¥ì¥Ù¥ë¤¬¾å¤ë¤ÈºÆµ¢Åª¤Ë check_experience() ¤¬
+		 * ¸Æ¤Ğ¤ì¤ë¤Î¤Ç½çÈÖ¤òºÇ¸å¤Ë¤¹¤ë¡£
 		 */
 		if (level_reward)
 		{
@@ -222,9 +222,9 @@ msg_format("ãƒ¬ãƒ™ãƒ« %d ã«ã‚ˆã†ã“ãã€‚", p_ptr->lev);
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å€’ã—ãŸéš›ã®è²¡å®svalã‚’è¿”ã™
- * @param r_idx å€’ã—ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ç¨®æ—ID
- * @return è²¡å®ã®sval
+ * @brief ¥â¥ó¥¹¥¿¡¼¤òÅİ¤·¤¿ºİ¤ÎºâÊõsval¤òÊÖ¤¹
+ * @param r_idx Åİ¤·¤¿¥â¥ó¥¹¥¿¡¼¤Î¼ïÂ²ID
+ * @return ºâÊõ¤Îsval
  * @details
  * Hack -- Return the "automatic coin type" of a monster race
  * Used to allocate proper treasure when "Creeping coins" die
@@ -249,10 +249,10 @@ static int get_coin_type(int r_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚¯ãƒ­ãƒ¼ã‚¯ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬¥¯¥í¡¼¥¯¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is Cloak
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚¯ãƒ­ãƒ¼ã‚¯ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬¥¯¥í¡¼¥¯¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_cloak(int k_idx)
 {
@@ -270,10 +270,10 @@ static bool kind_is_cloak(int k_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç«¿çŠ¶æ­¦å™¨ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬´È¾õÉğ´ï¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is Polearm
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç«¿çŠ¶æ­¦å™¨ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬´È¾õÉğ´ï¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_polearm(int k_idx)
 {
@@ -291,10 +291,10 @@ static bool kind_is_polearm(int k_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå‰£ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬·õ¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is Sword
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå‰£ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬·õ¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_sword(int k_idx)
 {
@@ -312,10 +312,10 @@ static bool kind_is_sword(int k_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé­”æ³•æ›¸ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬ËâË¡½ñ¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is Book
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé­”æ³•æ›¸ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬ËâË¡½ñ¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_book(int k_idx)
 {
@@ -333,10 +333,10 @@ static bool kind_is_book(int k_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ æ™‚ç‚¹ã§GOODã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬¥Ù¡¼¥¹¥¢¥¤¥Æ¥à»şÅÀ¤ÇGOOD¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is Good book
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ æ™‚ç‚¹ã§GOODãªã‚¢ã‚¤ãƒ†ãƒ ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬¥Ù¡¼¥¹¥¢¥¤¥Æ¥à»şÅÀ¤ÇGOOD¤Ê¥¢¥¤¥Æ¥à¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_good_book(int k_idx)
 {
@@ -354,10 +354,10 @@ static bool kind_is_good_book(int k_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé§ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬³»¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is Armor
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé§ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬³»¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_armor(int k_idx)
 {
@@ -375,10 +375,10 @@ static bool kind_is_armor(int k_idx)
 
 
 /*!
- * @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ‰“æ’ƒæ­¦å™¨ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥ª¥Ö¥¸¥§¥¯¥È¤¬ÂÇ·âÉğ´ï¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- determine if a template is hafted weapon
- * @param k_idx åˆ¤å®šã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¤ãƒ†ãƒ ID
- * @return ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæ‰“æ’ƒæ­¦å™¨ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @param k_idx È½Äê¤·¤¿¤¤¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ù¡¼¥¹¥¢¥¤¥Æ¥àID
+ * @return ¥ª¥Ö¥¸¥§¥¯¥È¤¬ÂÇ·âÉğ´ï¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 static bool kind_is_hafted(int k_idx)
 {
@@ -395,9 +395,9 @@ static bool kind_is_hafted(int k_idx)
 }
 
 /*!
- * @brief ã‚¯ã‚¨ã‚¹ãƒˆã‚’é”æˆçŠ¶æ…‹ã«ã™ã‚‹ /
- * @param quest_num é”æˆçŠ¶æ…‹ã«ã—ãŸã„ã‚¯ã‚¨ã‚¹ãƒˆã®ID
- * @return ãªã—
+ * @brief ¥¯¥¨¥¹¥È¤òÃ£À®¾õÂÖ¤Ë¤¹¤ë /
+ * @param quest_num Ã£À®¾õÂÖ¤Ë¤·¤¿¤¤¥¯¥¨¥¹¥È¤ÎID
+ * @return ¤Ê¤·
  */
 void complete_quest(int quest_num)
 {
@@ -420,14 +420,14 @@ void complete_quest(int quest_num)
 
 	if (!(q_ptr->flags & QUEST_FLAG_SILENT))
 	{
-		msg_print(_("ã‚¯ã‚¨ã‚¹ãƒˆã‚’é”æˆã—ãŸï¼", "You just completed your quest!"));
+		msg_print(_("¥¯¥¨¥¹¥È¤òÃ£À®¤·¤¿¡ª", "You just completed your quest!"));
 		msg_print(NULL);
 	}
 }
 
 /*!
- * @brief ç¾åœ¨ãƒ•ãƒ­ã‚¢ã«æ®‹ã£ã¦ã„ã‚‹æ•µãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ•°ã‚’è¿”ã™ /
- * @return ç¾åœ¨ã®æ•µãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ•°
+ * @brief ¸½ºß¥Õ¥í¥¢¤Ë»Ä¤Ã¤Æ¤¤¤ëÅ¨¥â¥ó¥¹¥¿¡¼¤Î¿ô¤òÊÖ¤¹ /
+ * @return ¸½ºß¤ÎÅ¨¥â¥ó¥¹¥¿¡¼¤Î¿ô
  */
 static int count_all_hostile_monsters(void)
 {
@@ -451,10 +451,10 @@ static int count_all_hostile_monsters(void)
 }
 
 /*!
- * @brief ç‰¹å®šã®æ•µã‚’å€’ã—ãŸéš›ã«ã‚¯ã‚¨ã‚¹ãƒˆé”æˆå‡¦ç† /
+ * @brief ÆÃÄê¤ÎÅ¨¤òÅİ¤·¤¿ºİ¤Ë¥¯¥¨¥¹¥ÈÃ£À®½èÍı /
  * Check for "Quest" completion when a quest monster is killed or charmed.
- * @param m_ptr æ’ƒç ´ã—ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ãªã—
+ * @param m_ptr ·âÇË¤·¤¿¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¤Ê¤·
  */
 void check_quest_completion(monster_type *m_ptr)
 {
@@ -636,7 +636,7 @@ void check_quest_completion(monster_type *m_ptr)
 		}
 
 		/* Explain the staircase */
-		msg_print(_("é­”æ³•ã®éšæ®µãŒç¾ã‚ŒãŸ...", "A magical staircase appears..."));
+		msg_print(_("ËâË¡¤Î³¬ÃÊ¤¬¸½¤ì¤¿...", "A magical staircase appears..."));
 
 		/* Create stairs down */
 		cave_set_feat(y, x, feat_down_stair);
@@ -670,10 +670,10 @@ void check_quest_completion(monster_type *m_ptr)
 }
 
 /*!
- * @brief ç‰¹å®šã®ã‚¢ãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¯ãƒˆã‚’å…¥æ‰‹ã—ãŸéš›ã®ã‚¯ã‚¨ã‚¹ãƒˆé”æˆå‡¦ç† /
+ * @brief ÆÃÄê¤Î¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤òÆş¼ê¤·¤¿ºİ¤Î¥¯¥¨¥¹¥ÈÃ£À®½èÍı /
  * Check for "Quest" completion when a quest monster is killed or charmed.
- * @param o_ptr å…¥æ‰‹ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ãªã—
+ * @param o_ptr Æş¼ê¤·¤¿¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¤Ê¤·
  */
 void check_find_art_quest_completion(object_type *o_ptr)
 {
@@ -692,10 +692,10 @@ void check_find_art_quest_completion(object_type *o_ptr)
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’æ’ƒç ´ã—ãŸéš›ã®è¿°èªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™ /
+ * @brief ¥â¥ó¥¹¥¿¡¼¤ò·âÇË¤·¤¿ºİ¤Î½Ò¸ì¥á¥Ã¥»¡¼¥¸¤òÊÖ¤¹ /
  * Return monster death string
- * @param r_ptr æ’ƒç ´ã•ã‚ŒãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ç¨®æ—æƒ…å ±ã‚’æŒã¤æ§‹é€ ä½“ã®å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return æ’ƒç ´ã•ã‚ŒãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®è¿°èª
+ * @param r_ptr ·âÇË¤µ¤ì¤¿¥â¥ó¥¹¥¿¡¼¤Î¼ïÂ²¾ğÊó¤ò»ı¤Ä¹½Â¤ÂÎ¤Î»²¾È¥İ¥¤¥ó¥¿
+ * @return ·âÇË¤µ¤ì¤¿¥â¥ó¥¹¥¿¡¼¤Î½Ò¸ì
  */
 cptr extract_note_dies(monster_race *r_ptr)
 {
@@ -708,23 +708,23 @@ cptr extract_note_dies(monster_race *r_ptr)
 		{
 			if (r_ptr->blow[i].method == RBM_EXPLODE)
 			{
-				return _("ã¯çˆ†ç™ºã—ã¦ç²‰ã€…ã«ãªã£ãŸã€‚", " explodes into tiny shreds.");
+				return _("¤ÏÇúÈ¯¤·¤ÆÊ´¡¹¤Ë¤Ê¤Ã¤¿¡£", " explodes into tiny shreds.");
 			}
 		}
-		return _("ã‚’å€’ã—ãŸã€‚", " is destroyed.");
+		return _("¤òÅİ¤·¤¿¡£", " is destroyed.");
 	}
 
 	/* Assume a default death */
-	return _("ã¯æ­»ã‚“ã ã€‚", " dies.");
+	return _("¤Ï»à¤ó¤À¡£", " dies.");
 }
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒæ­»äº¡ã—ãŸæ™‚ã®å‡¦ç† /
+ * @brief ¥â¥ó¥¹¥¿¡¼¤¬»àË´¤·¤¿»ş¤Î½èÍı /
  * Handle the "death" of a monster.
- * @param m_idx æ­»äº¡ã—ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ID
- * @param drop_item TRUEãªã‚‰ã°ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ãƒ‰ãƒ­ãƒƒãƒ—å‡¦ç†ã‚’è¡Œã†
- * @return æ’ƒç ´ã•ã‚ŒãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®è¿°èª
+ * @param m_idx »àË´¤·¤¿¥â¥ó¥¹¥¿¡¼¤ÎID
+ * @param drop_item TRUE¤Ê¤é¤Ğ¥â¥ó¥¹¥¿¡¼¤Î¥É¥í¥Ã¥×½èÍı¤ò¹Ô¤¦
+ * @return ·âÇË¤µ¤ì¤¿¥â¥ó¥¹¥¿¡¼¤Î½Ò¸ì
  * @details
  * <pre>
  * Disperse treasures centered at the monster location based on the
@@ -818,11 +818,11 @@ void monster_death(int m_idx, bool drop_item)
 
 		if (p_ptr->arena_number > MAX_ARENA_MONS)
 		{
-			msg_print(_("ç´ æ™´ã‚‰ã—ã„ï¼å›ã“ãçœŸã®å‹åˆ©è€…ã ã€‚", "You are a Genuine Champion!"));
+			msg_print(_("ÁÇÀ²¤é¤·¤¤¡ª·¯¤³¤½¿¿¤Î¾¡Íø¼Ô¤À¡£", "You are a Genuine Champion!"));
 		}
 		else
 		{
-			msg_print(_("å‹åˆ©ï¼ãƒãƒ£ãƒ³ãƒ”ã‚ªãƒ³ã¸ã®é“ã‚’é€²ã‚“ã§ã„ã‚‹ã€‚", "Victorious! You're on your way to becoming Champion."));
+			msg_print(_("¾¡Íø¡ª¥Á¥ã¥ó¥Ô¥ª¥ó¤Ø¤ÎÆ»¤ò¿Ê¤ó¤Ç¤¤¤ë¡£", "Victorious! You're on your way to becoming Champion."));
 		}
 
 		if (arena_info[p_ptr->arena_number].tval)
@@ -856,7 +856,7 @@ void monster_death(int m_idx, bool drop_item)
 	{
 		if (rakuba(-1, FALSE))
 		{
-			msg_print(_("åœ°é¢ã«è½ã¨ã•ã‚ŒãŸã€‚", "You have fallen from your riding pet."));
+			msg_print(_("ÃÏÌÌ¤ËÍî¤È¤µ¤ì¤¿¡£", "You have fallen from your riding pet."));
 		}
 	}
 
@@ -935,7 +935,7 @@ void monster_death(int m_idx, bool drop_item)
 			}
 
 			if (notice)
-				msg_print(_("ãƒ”ãƒ³ã‚¯ãƒ»ãƒ›ãƒ©ãƒ¼ã¯åˆ†è£‚ã—ãŸï¼", "The Pink horror divides!"));
+				msg_print(_("¥Ô¥ó¥¯¡¦¥Û¥é¡¼¤ÏÊ¬Îö¤·¤¿¡ª", "The Pink horror divides!"));
 		}
 		break;
 
@@ -1006,7 +1006,7 @@ void monster_death(int m_idx, bool drop_item)
 					if (summon_specific((pet ? -1 : m_idx), wy, wx, 100, SUMMON_DAWN, mode))
 					{
 						if (player_can_see_bold(wy, wx))
-							msg_print(_("æ–°ãŸãªæˆ¦å£«ãŒç¾ã‚ŒãŸï¼", "A new warrior steps forth!"));
+							msg_print(_("¿·¤¿¤ÊÀï»Î¤¬¸½¤ì¤¿¡ª", "A new warrior steps forth!"));
 					}
 				}
 			}
@@ -1497,7 +1497,7 @@ void monster_death(int m_idx, bool drop_item)
 				/* Drop it in the dungeon */
 				(void)drop_near(q_ptr, -1, y, x);
 			}
-			msg_format(_("ã‚ãªãŸã¯%sã‚’åˆ¶è¦‡ã—ãŸï¼", "You have conquered %s!"),d_name+d_info[dungeon_type].name);
+			msg_format(_("¤¢¤Ê¤¿¤Ï%s¤òÀ©ÇÆ¤·¤¿¡ª", "You have conquered %s!"),d_name+d_info[dungeon_type].name);
 		}
 	}
 
@@ -1585,28 +1585,28 @@ void monster_death(int m_idx, bool drop_item)
 		/* Redraw the "title" */
 		p_ptr->redraw |= (PR_TITLE);
 
-		do_cmd_write_nikki(NIKKI_BUNSHOU, 0, _("è¦‹äº‹ã«å¤‰æ„šè›®æ€’ã®å‹åˆ©è€…ã¨ãªã£ãŸï¼", "become *WINNER* of Hengband finely!"));
+		do_cmd_write_nikki(NIKKI_BUNSHOU, 0, _("¸«»ö¤ËÊÑ¶òÈÚÅÜ¤Î¾¡Íø¼Ô¤È¤Ê¤Ã¤¿¡ª", "become *WINNER* of Hengband finely!"));
 
 		if ((p_ptr->pclass == CLASS_CHAOS_WARRIOR) || (p_ptr->muta2 & MUT2_CHAOS_GIFT))
 		{
-			msg_format(_("%sã‹ã‚‰ã®å£°ãŒéŸ¿ã„ãŸã€‚", "The voice of %s booms out:"), chaos_patrons[p_ptr->chaos_patron]);
-			msg_print(_("ã€ã‚ˆãã‚„ã£ãŸã€å®šå‘½ã®è€…ã‚ˆï¼ã€", "'Thou art donst well, mortal!'"));
+			msg_format(_("%s¤«¤é¤ÎÀ¼¤¬¶Á¤¤¤¿¡£", "The voice of %s booms out:"), chaos_patrons[p_ptr->chaos_patron]);
+			msg_print(_("¡Ø¤è¤¯¤ä¤Ã¤¿¡¢ÄêÌ¿¤Î¼Ô¤è¡ª¡Ù", "'Thou art donst well, mortal!'"));
 		}
 
 		/* Congratulations */
-		msg_print(_("*** ãŠã‚ã§ã¨ã† ***", "*** CONGRATULATIONS ***"));
-		msg_print(_("ã‚ãªãŸã¯ã‚²ãƒ¼ãƒ ã‚’ã‚³ãƒ³ãƒ—ãƒªãƒ¼ãƒˆã—ã¾ã—ãŸã€‚", "You have won the game!"));
-		msg_print(_("æº–å‚™ãŒæ•´ã£ãŸã‚‰å¼•é€€(è‡ªæ®ºã‚³ãƒãƒ³ãƒ‰)ã—ã¦ã‚‚çµæ§‹ã§ã™ã€‚", "You may retire (commit suicide) when you are ready."));
+		msg_print(_("*** ¤ª¤á¤Ç¤È¤¦ ***", "*** CONGRATULATIONS ***"));
+		msg_print(_("¤¢¤Ê¤¿¤Ï¥²¡¼¥à¤ò¥³¥ó¥×¥ê¡¼¥È¤·¤Ş¤·¤¿¡£", "You have won the game!"));
+		msg_print(_("½àÈ÷¤¬À°¤Ã¤¿¤é°úÂà(¼«»¦¥³¥Ş¥ó¥É)¤·¤Æ¤â·ë¹½¤Ç¤¹¡£", "You may retire (commit suicide) when you are ready."));
 	}
 }
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«ä¸ãˆãŸãƒ€ãƒ¡ãƒ¼ã‚¸ã®ä¿®æ­£å‡¦ç† /
+ * @brief ¥â¥ó¥¹¥¿¡¼¤ËÍ¿¤¨¤¿¥À¥á¡¼¥¸¤Î½¤Àµ½èÍı /
  * Modify the physical damage done to the monster.
- * @param m_ptr ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã‚‹ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param dam ãƒ€ãƒ¡ãƒ¼ã‚¸åŸºæœ¬å€¤
- * @param is_psy_spear æ”»æ’ƒæ‰‹æ®µãŒå…‰ã®å‰£ãªã‚‰ã°TRUE
- * @return ä¿®æ­£ã‚’è¡Œã£ãŸçµæœã®ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+ * @param m_ptr ¥À¥á¡¼¥¸¤ò¼õ¤±¤ë¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @param dam ¥À¥á¡¼¥¸´ğËÜÃÍ
+ * @param is_psy_spear ¹¶·â¼êÃÊ¤¬¸÷¤Î·õ¤Ê¤é¤ĞTRUE
+ * @return ½¤Àµ¤ò¹Ô¤Ã¤¿·ë²Ì¤Î¥À¥á¡¼¥¸ÎÌ
  * @details
  * <pre>
  * (for example when it's invulnerable or shielded)
@@ -1631,7 +1631,7 @@ int mon_damage_mod(monster_type *m_ptr, int dam, bool is_psy_spear)
 		{
 			if (!p_ptr->blind && is_seen(m_ptr))
 			{
-				msg_print(_("ãƒãƒªã‚¢ã‚’åˆ‡ã‚Šè£‚ã„ãŸï¼", "The barrier is penetrated!"));
+				msg_print(_("¥Ğ¥ê¥¢¤òÀÚ¤êÎö¤¤¤¿¡ª", "The barrier is penetrated!"));
 			}
 		}
 		else if (!one_in_(PENETRATE_INVULNERABILITY))
@@ -1644,11 +1644,11 @@ int mon_damage_mod(monster_type *m_ptr, int dam, bool is_psy_spear)
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã«ä¸ãˆãŸãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å…ƒã«çµŒé¨“å€¤ã‚’åŠ ç®—ã™ã‚‹ /
+ * @brief ¥â¥ó¥¹¥¿¡¼¤ËÍ¿¤¨¤¿¥À¥á¡¼¥¸¤ò¸µ¤Ë·Ğ¸³ÃÍ¤ò²Ã»»¤¹¤ë /
  * Calculate experience point to be get
- * @param dam ä¸ãˆãŸãƒ€ãƒ¡ãƒ¼ã‚¸é‡
- * @param m_ptr ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ãªã—
+ * @param dam Í¿¤¨¤¿¥À¥á¡¼¥¸ÎÌ
+ * @param m_ptr ¥À¥á¡¼¥¸¤òÍ¿¤¨¤¿¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¤Ê¤·
  * @details
  * <pre>
  * Even the 64 bit operation is not big enough to avoid overflaw
@@ -1728,13 +1728,13 @@ static void get_exp_from_mon(int dam, monster_type *m_ptr)
 
 
 /*!
- * @brief ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®HPã‚’ãƒ€ãƒ¡ãƒ¼ã‚¸ã«å¿œã˜ã¦æ¸›ç®—ã™ã‚‹ /
+ * @brief ¥â¥ó¥¹¥¿¡¼¤ÎHP¤ò¥À¥á¡¼¥¸¤Ë±ş¤¸¤Æ¸º»»¤¹¤ë /
  * Decreases monsters hit points, handling monster death.
- * @param dam ä¸ãˆãŸãƒ€ãƒ¡ãƒ¼ã‚¸é‡
- * @param m_idx ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®ID
- * @param fear ãƒ€ãƒ¡ãƒ¼ã‚¸ã«ã‚ˆã£ã¦ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒææ…ŒçŠ¶æ…‹ã«é™¥ã£ãŸãªã‚‰ã°TRUEã‚’è¿”ã™
- * @param note ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒå€’ã•ã‚ŒãŸéš›ã®ç‰¹åˆ¥ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¿°èª
- * @return ãªã—
+ * @param dam Í¿¤¨¤¿¥À¥á¡¼¥¸ÎÌ
+ * @param m_idx ¥À¥á¡¼¥¸¤òÍ¿¤¨¤¿¥â¥ó¥¹¥¿¡¼¤ÎID
+ * @param fear ¥À¥á¡¼¥¸¤Ë¤è¤Ã¤Æ¥â¥ó¥¹¥¿¡¼¤¬¶²¹²¾õÂÖ¤Ë´Ù¤Ã¤¿¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
+ * @param note ¥â¥ó¥¹¥¿¡¼¤¬Åİ¤µ¤ì¤¿ºİ¤ÎÆÃÊÌ¤Ê¥á¥Ã¥»¡¼¥¸½Ò¸ì
+ * @return ¤Ê¤·
  * @details
  * <pre>
  * We return TRUE if the monster has been killed (and deleted).
@@ -1804,7 +1804,7 @@ bool mon_take_hit(int m_idx, int dam, bool *fear, cptr note)
 	if(m_ptr->dealt_damage > (u32b)m_ptr->max_maxhp * 100) m_ptr->dealt_damage = m_ptr->max_maxhp * 100;
 	if (p_ptr->wizard)
 	{
-		msg_format( _("åˆè¨ˆ%d/%dã®ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸã€‚","You do %d (out of %d) damage."),
+		msg_format( _("¹ç·×%d/%d¤Î¥À¥á¡¼¥¸¤òÍ¿¤¨¤¿¡£","You do %d (out of %d) damage."),
 					m_ptr->dealt_damage, m_ptr->maxhp);
 	}
 
@@ -1888,7 +1888,7 @@ bool mon_take_hit(int m_idx, int dam, bool *fear, cptr note)
 			bool stop_ty = FALSE;
 			int count = 0;
 
-			msg_format(_("%^sã¯æã‚ã—ã„è¡€ã®å‘ªã„ã‚’ã‚ãªãŸã«ã‹ã‘ãŸï¼", "%^s puts a terrible blood curse on you!"), m_name);
+			msg_format(_("%^s¤Ï¶²¤í¤·¤¤·ì¤Î¼ö¤¤¤ò¤¢¤Ê¤¿¤Ë¤«¤±¤¿¡ª", "%^s puts a terrible blood curse on you!"), m_name);
 			curse_equipment(100, 50);
 
 			do
@@ -2029,7 +2029,7 @@ bool mon_take_hit(int m_idx, int dam, bool *fear, cptr note)
 		{
 			char note_buf[160];
 #ifdef JP
-			sprintf(note_buf, "%s%s", r_name + r_ptr->name, (m_ptr->smart & SM_CLONED) ? "(ã‚¯ãƒ­ãƒ¼ãƒ³)" : "");
+			sprintf(note_buf, "%s%s", r_name + r_ptr->name, (m_ptr->smart & SM_CLONED) ? "(¥¯¥í¡¼¥ó)" : "");
 #else
 			sprintf(note_buf, "%s%s", r_name + r_ptr->name, (m_ptr->smart & SM_CLONED) ? "(Clone)" : "");
 #endif
@@ -2050,9 +2050,9 @@ bool mon_take_hit(int m_idx, int dam, bool *fear, cptr note)
 		{
 #ifdef JP
 			if ((p_ptr->pseikaku == SEIKAKU_COMBAT) || (inventory[INVEN_BOW].name1 == ART_CRIMSON))
-				msg_format("ã›ã£ã‹ãã ã‹ã‚‰%sã‚’æ®ºã—ãŸã€‚", m_name);
+				msg_format("¤»¤Ã¤«¤¯¤À¤«¤é%s¤ò»¦¤·¤¿¡£", m_name);
 			else
-msg_format("%sã‚’æ®ºã—ãŸã€‚", m_name);
+msg_format("%s¤ò»¦¤·¤¿¡£", m_name);
 #else
 				msg_format("You have killed %s.", m_name);
 #endif
@@ -2072,14 +2072,14 @@ msg_format("%sã‚’æ®ºã—ãŸã€‚", m_name);
 
 			/* Special note at death */
 			if (explode)
-				msg_format(_("%sã¯çˆ†ç™ºã—ã¦ç²‰ã€…ã«ãªã£ãŸã€‚", "%^s explodes into tiny shreds."), m_name);
+				msg_format(_("%s¤ÏÇúÈ¯¤·¤ÆÊ´¡¹¤Ë¤Ê¤Ã¤¿¡£", "%^s explodes into tiny shreds."), m_name);
 			else
 			{
 #ifdef JP
 				if ((p_ptr->pseikaku == SEIKAKU_COMBAT) || (inventory[INVEN_BOW].name1 == ART_CRIMSON))
-					msg_format("ã›ã£ã‹ãã ã‹ã‚‰%sã‚’å€’ã—ãŸã€‚", m_name);
+					msg_format("¤»¤Ã¤«¤¯¤À¤«¤é%s¤òÅİ¤·¤¿¡£", m_name);
 				else
-msg_format("%sã‚’å€’ã—ãŸã€‚", m_name);
+msg_format("%s¤òÅİ¤·¤¿¡£", m_name);
 #else
 				msg_format("You have destroyed %s.", m_name);
 #endif
@@ -2091,9 +2091,9 @@ msg_format("%sã‚’å€’ã—ãŸã€‚", m_name);
 		{
 #ifdef JP
 			if ((p_ptr->pseikaku == SEIKAKU_COMBAT) || (inventory[INVEN_BOW].name1 == ART_CRIMSON))
-				msg_format("ã›ã£ã‹ãã ã‹ã‚‰%sã‚’è‘¬ã‚Šå»ã£ãŸã€‚", m_name);
+				msg_format("¤»¤Ã¤«¤¯¤À¤«¤é%s¤òÁò¤êµî¤Ã¤¿¡£", m_name);
 			else
-msg_format("%sã‚’è‘¬ã‚Šå»ã£ãŸã€‚", m_name);
+msg_format("%s¤òÁò¤êµî¤Ã¤¿¡£", m_name);
 #else
 				msg_format("You have slain %s.", m_name);
 #endif
@@ -2105,7 +2105,7 @@ msg_format("%sã‚’è‘¬ã‚Šå»ã£ãŸã€‚", m_name);
 			{
 				if ((kubi_r_idx[i] == m_ptr->r_idx) && !(m_ptr->mflag2 & MFLAG2_CHAMELEON))
 				{
-					msg_format(_("%sã®é¦–ã«ã¯è³é‡‘ãŒã‹ã‹ã£ã¦ã„ã‚‹ã€‚", "There is a price on %s's head."), m_name);
+					msg_format(_("%s¤Î¼ó¤Ë¤Ï¾Ş¶â¤¬¤«¤«¤Ã¤Æ¤¤¤ë¡£", "There is a price on %s's head."), m_name);
 					break;
 				}
 			}
@@ -2129,7 +2129,7 @@ msg_format("%sã‚’è‘¬ã‚Šå»ã£ãŸã€‚", m_name);
 
 			if (summon_named_creature(0, dummy_y, dummy_x, MON_BIKETAL, mode))
 			{
-				msg_print(_("ã€Œãƒã‚¡ãƒƒãƒãƒƒãƒãƒƒãƒï¼ï¼ç§ãŒãƒã‚¤ã‚±ã‚¿ãƒ«ã ï¼ï¼ã€", "Uwa-hahaha!  *I* am Biketal!"));
+				msg_print(_("¡Ö¥Ï¥¡¥Ã¥Ï¥Ã¥Ï¥Ã¥Ï¡ª¡ª»ä¤¬¥Ğ¥¤¥±¥¿¥ë¤À¡ª¡ª¡×", "Uwa-hahaha!  *I* am Biketal!"));
 			}
 		}
 		else
@@ -2197,7 +2197,7 @@ msg_format("%sã‚’è‘¬ã‚Šå»ã£ãŸã€‚", m_name);
 		if (m_ptr->hp > m_ptr->maxhp/3) dam = (dam + 1) / 2;
 		if (rakuba((dam > 200) ? 200 : dam, FALSE))
 		{
-		msg_format(_("%^sã«æŒ¯ã‚Šè½ã¨ã•ã‚ŒãŸï¼", "%^s has thrown you off!"), m_name);
+		msg_format(_("%^s¤Ë¿¶¤êÍî¤È¤µ¤ì¤¿¡ª", "%^s has thrown you off!"), m_name);
 		}
 	}
 #endif
@@ -2208,11 +2208,11 @@ msg_format("%sã‚’è‘¬ã‚Šå»ã£ãŸã€‚", m_name);
 
 
 /*!
- * @brief ç¾åœ¨ã®ã‚³ãƒ³ã‚½ãƒ¼ãƒ«è¡¨ç¤ºã®ç¸¦æ¨ªã‚’è¿”ã™ã€‚ /
+ * @brief ¸½ºß¤Î¥³¥ó¥½¡¼¥ëÉ½¼¨¤Î½Ä²£¤òÊÖ¤¹¡£ /
  * Get term size and calculate screen size
- * @param wid_p ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤ºå¹…æ–‡å­—æ•°ã‚’è¿”ã™
- * @param hgt_p ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤ºè¡Œæ•°ã‚’è¿”ã™
- * @return ãªã—
+ * @param wid_p ¥³¥ó¥½¡¼¥ë¤ÎÉ½¼¨ÉıÊ¸»ú¿ô¤òÊÖ¤¹
+ * @param hgt_p ¥³¥ó¥½¡¼¥ë¤ÎÉ½¼¨¹Ô¿ô¤òÊÖ¤¹
+ * @return ¤Ê¤·
  */
 void get_screen_size(int *wid_p, int *hgt_p)
 {
@@ -2224,9 +2224,9 @@ void get_screen_size(int *wid_p, int *hgt_p)
 
 
 /*!
- * @brief ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ä¸Šã«ãŠã‘ã‚‹ãƒãƒƒãƒ—è¡¨ç¤ºã®å·¦ä¸Šä½ç½®ã‚’è¿”ã™ /
+ * @brief ¥³¥ó¥½¡¼¥ë¾å¤Ë¤ª¤±¤ë¥Ş¥Ã¥×É½¼¨¤Îº¸¾å°ÌÃÖ¤òÊÖ¤¹ /
  * Calculates current boundaries Called below and from "do_cmd_locate()".
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void panel_bounds_center(void)
 {
@@ -2243,9 +2243,9 @@ void panel_bounds_center(void)
 
 
 /*!
- * @brief ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®ãƒªã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒãƒƒãƒ—ã‚’å†æç”»ã™ã‚‹ /
+ * @brief ¥³¥ó¥½¡¼¥ë¤Î¥ê¥µ¥¤¥º¤Ë¹ç¤ï¤»¤Æ¥Ş¥Ã¥×¤òºÆÉÁ²è¤¹¤ë /
  * Map resizing whenever the main term changes size
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void resize_map(void)
 {
@@ -2294,9 +2294,9 @@ void resize_map(void)
 }
 
 /*!
- * @brief ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚’å†æç”»ã™ã‚‹ /
+ * @brief ¥³¥ó¥½¡¼¥ë¤òºÆÉÁ²è¤¹¤ë /
  * Redraw a term when it is resized
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void redraw_window(void)
 {
@@ -2318,13 +2318,13 @@ void redraw_window(void)
 
 
 /*!
- * @brief ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å½“ã¦ã‚‹ã¹ããƒãƒƒãƒ—æç”»ã®åŸºæº–åº§æ¨™ã‚’æŒ‡å®šã™ã‚‹ï¼ˆã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ï¼‰
- * @param dy å¤‰æ›´å…ˆã®ãƒ•ãƒ­ã‚¢Yåº§æ¨™
- * @param dx å¤‰æ›´å…ˆã®ãƒ•ãƒ­ã‚¢Xåº§æ¨™
+ * @brief ¥Õ¥©¡¼¥«¥¹¤òÅö¤Æ¤ë¤Ù¤­¥Ş¥Ã¥×ÉÁ²è¤Î´ğ½àºÂÉ¸¤ò»ØÄê¤¹¤ë¡Ê¥µ¥Ö¥ë¡¼¥Á¥ó¡Ë
+ * @param dy ÊÑ¹¹Àè¤Î¥Õ¥í¥¢YºÂÉ¸
+ * @param dx ÊÑ¹¹Àè¤Î¥Õ¥í¥¢XºÂÉ¸
  * Handle a request to change the current panel
  * Return TRUE if the panel was changed.
  * Also used in do_cmd_locate
- * @return å®Ÿéš›ã«å†æç”»ãŒå¿…è¦ã ã£ãŸå ´åˆTRUEã‚’è¿”ã™
+ * @return ¼Âºİ¤ËºÆÉÁ²è¤¬É¬Í×¤À¤Ã¤¿¾ì¹çTRUE¤òÊÖ¤¹
  */
 bool change_panel(int dy, int dx)
 {
@@ -2374,14 +2374,14 @@ bool change_panel(int dy, int dx)
 }
 
 /*!
- * @brief ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å½“ã¦ã‚‹ã¹ããƒãƒƒãƒ—æç”»ã®åŸºæº–åº§æ¨™ã‚’æŒ‡å®šã™ã‚‹
- * @param y å¤‰æ›´å…ˆã®ãƒ•ãƒ­ã‚¢Yåº§æ¨™
- * @param x å¤‰æ›´å…ˆã®ãƒ•ãƒ­ã‚¢Xåº§æ¨™
+ * @brief ¥Õ¥©¡¼¥«¥¹¤òÅö¤Æ¤ë¤Ù¤­¥Ş¥Ã¥×ÉÁ²è¤Î´ğ½àºÂÉ¸¤ò»ØÄê¤¹¤ë
+ * @param y ÊÑ¹¹Àè¤Î¥Õ¥í¥¢YºÂÉ¸
+ * @param x ÊÑ¹¹Àè¤Î¥Õ¥í¥¢XºÂÉ¸
  * @details
  * Handle a request to change the current panel
  * Return TRUE if the panel was changed.
  * Also used in do_cmd_locate
- * @return å®Ÿéš›ã«å†æç”»ãŒå¿…è¦ã ã£ãŸå ´åˆTRUEã‚’è¿”ã™
+ * @return ¼Âºİ¤ËºÆÉÁ²è¤¬É¬Í×¤À¤Ã¤¿¾ì¹çTRUE¤òÊÖ¤¹
  */
 bool change_panel_xy(int y, int x)
 {
@@ -2403,13 +2403,13 @@ bool change_panel_xy(int y, int x)
 
 
 /*!
- * @brief ãƒãƒƒãƒ—æç”»ã®ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å½“ã¦ã‚‹ã¹ãåº§æ¨™ã‚’æ›´æ–°ã™ã‚‹
+ * @brief ¥Ş¥Ã¥×ÉÁ²è¤Î¥Õ¥©¡¼¥«¥¹¤òÅö¤Æ¤ë¤Ù¤­ºÂÉ¸¤ò¹¹¿·¤¹¤ë
  * @details
  * Given an row (y) and col (x), this routine detects when a move
  * off the screen has occurred and figures new borders. -RAK-
  * "Update" forces a "full update" to take place.
  * The map is reprinted if necessary, and "TRUE" is returned.
- * @return å®Ÿéš›ã«å†æç”»ãŒå¿…è¦ã ã£ãŸå ´åˆTRUEã‚’è¿”ã™
+ * @return ¼Âºİ¤ËºÆÉÁ²è¤¬É¬Í×¤À¤Ã¤¿¾ì¹çTRUE¤òÊÖ¤¹
  */
 void verify_panel(void)
 {
@@ -2538,7 +2538,7 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	{
 		/* No damage */
 #ifdef JP
-		desc = living ? "ç„¡å‚·" : "ç„¡ãƒ€ãƒ¡ãƒ¼ã‚¸";
+		desc = living ? "Ìµ½ı" : "Ìµ¥À¥á¡¼¥¸";
 #else
 		desc = living ? "unhurt" : "undamaged";
 #endif
@@ -2548,7 +2548,7 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	else if (perc >= 60)
 	{
 #ifdef JP
-		desc = living ? "è»½å‚·" : "å°ãƒ€ãƒ¡ãƒ¼ã‚¸";
+		desc = living ? "·Ú½ı" : "¾®¥À¥á¡¼¥¸";
 #else
 		desc = living ? "somewhat wounded" : "somewhat damaged";
 #endif
@@ -2558,7 +2558,7 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	else if (perc >= 25)
 	{
 #ifdef JP
-		desc = living ? "è² å‚·" : "ä¸­ãƒ€ãƒ¡ãƒ¼ã‚¸";
+		desc = living ? "Éé½ı" : "Ãæ¥À¥á¡¼¥¸";
 #else
 		desc = living ? "wounded" : "damaged";
 #endif
@@ -2568,7 +2568,7 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	else if (perc >= 10)
 	{
 #ifdef JP
-		desc = living ? "é‡å‚·" : "å¤§ãƒ€ãƒ¡ãƒ¼ã‚¸";
+		desc = living ? "½Å½ı" : "Âç¥À¥á¡¼¥¸";
 #else
 		desc = living ? "badly wounded" : "badly damaged";
 #endif
@@ -2578,7 +2578,7 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	else 
 	{
 #ifdef JP
-		desc = living ? "åŠæ­»åŠç”Ÿ" : "å€’ã‚Œã‹ã‘";
+		desc = living ? "È¾»àÈ¾À¸" : "Åİ¤ì¤«¤±";
 #else
 		desc = living ? "almost dead" : "almost destroyed";
 #endif
@@ -2593,11 +2593,11 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	}
 	else if (is_pet(m_ptr))
 	{
-		attitude = _(", ãƒšãƒƒãƒˆ", ", pet");
+		attitude = _(", ¥Ú¥Ã¥È", ", pet");
 	}
 	else if (is_friendly(m_ptr))
 	{
-		attitude = _(", å‹å¥½çš„", ", friendly");
+		attitude = _(", Í§¹¥Åª", ", friendly");
 	}
 	else
 	{
@@ -2618,11 +2618,11 @@ cptr look_mon_desc(monster_type *m_ptr, u32b mode)
 	/* Display monster's level --- idea borrowed from ToME */
 	if (ap_r_ptr->r_tkills && !(m_ptr->mflag2 & MFLAG2_KAGE))
 	{
-		return format(_("ãƒ¬ãƒ™ãƒ«%d, %s%s%s", "Level %d, %s%s%s"), ap_r_ptr->level, desc, attitude, clone);
+		return format(_("¥ì¥Ù¥ë%d, %s%s%s", "Level %d, %s%s%s"), ap_r_ptr->level, desc, attitude, clone);
 	}
 	else 
 	{
-		return format(_("ãƒ¬ãƒ™ãƒ«???, %s%s%s", "Level ???, %s%s%s"), desc, attitude, clone);
+		return format(_("¥ì¥Ù¥ë???, %s%s%s", "Level ???, %s%s%s"), desc, attitude, clone);
 	}
 }
 
@@ -2838,7 +2838,7 @@ static bool ang_sort_comp_importance(vptr u, vptr v, int a, int b)
 		if ((ap_ra_ptr->flags1 & RF1_UNIQUE) && !(ap_rb_ptr->flags1 & RF1_UNIQUE)) return TRUE;
 		if (!(ap_ra_ptr->flags1 & RF1_UNIQUE) && (ap_rb_ptr->flags1 & RF1_UNIQUE)) return FALSE;
 
-		/* Shadowers first (ã‚ã‚„ã—ã„å½±) */
+		/* Shadowers first (¤¢¤ä¤·¤¤±Æ) */
 		if ((ma_ptr->mflag2 & MFLAG2_KAGE) && !(mb_ptr->mflag2 & MFLAG2_KAGE)) return TRUE;
 		if (!(ma_ptr->mflag2 & MFLAG2_KAGE) && (mb_ptr->mflag2 & MFLAG2_KAGE)) return FALSE;
 
@@ -3198,7 +3198,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 
 		if (floor_num)
 		{
-			x_info = _("xç‰© ", "x,");
+			x_info = _("xÊª ", "x,");
 		}
 	}
 
@@ -3209,9 +3209,9 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 	{
 		/* Description */
 #ifdef JP
-		s1 = "ã‚ãªãŸã¯";
-		s2 = "ã®ä¸Š";
-		s3 = "ã«ã„ã‚‹";
+		s1 = "¤¢¤Ê¤¿¤Ï";
+		s2 = "¤Î¾å";
+		s3 = "¤Ë¤¤¤ë";
 #else
 		s1 = "You are ";
 
@@ -3221,13 +3221,13 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 	}
 	else
 	{
-		s1 = _("ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ:", "Target:");
+		s1 = _("¥¿¡¼¥²¥Ã¥È:", "Target:");
 	}
 
 	/* Hack -- hallucination */
 	if (p_ptr->image)
 	{
-		cptr name = _("ä½•ã‹å¥‡å¦™ãªç‰©", "something strange");
+		cptr name = _("²¿¤«´ñÌ¯¤ÊÊª", "something strange");
 
 		/* Display a message */
 #ifdef JP
@@ -3286,7 +3286,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 				screen_roff(m_ptr->ap_r_idx, 0);
 
 				/* Hack -- Complete the prompt (again) */
-				Term_addstr(-1, TERM_WHITE, format(_("  [ræ€ %s%s]", "  [r,%s%s]"), x_info, info));
+				Term_addstr(-1, TERM_WHITE, format(_("  [r»× %s%s]", "  [r,%s%s]"), x_info, info));
 
 				/* Command */
 				query = inkey();
@@ -3310,7 +3310,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 			evaluate_monster_exp(acount, m_ptr);
 
 #ifdef JP
-			sprintf(out_val, "[%s]%s%s(%s)%s%s [ræ€ %s%s]", acount, s1, m_name, look_mon_desc(m_ptr, 0x01), s2, s3, x_info, info);
+			sprintf(out_val, "[%s]%s%s(%s)%s%s [r»× %s%s]", acount, s1, m_name, look_mon_desc(m_ptr, 0x01), s2, s3, x_info, info);
 #else
 			sprintf(out_val, "[%s]%s%s%s%s(%s) [r, %s%s]", acount, s1, s2, s3, m_name, look_mon_desc(m_ptr, 0x01), x_info, info);
 #endif
@@ -3337,16 +3337,16 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 		if ((query == ' ') && !(mode & (TARGET_LOOK))) return query;
 
 		/* Change the intro */
-		s1 = _("ãã‚Œã¯", "It is ");
+		s1 = _("¤½¤ì¤Ï", "It is ");
 
 		/* Hack -- take account of gender */
-		if (ap_r_ptr->flags1 & (RF1_FEMALE)) s1 = _("å½¼å¥³ã¯", "She is ");
-		else if (ap_r_ptr->flags1 & (RF1_MALE)) s1 = _("å½¼ã¯", "He is ");
+		if (ap_r_ptr->flags1 & (RF1_FEMALE)) s1 = _("Èà½÷¤Ï", "She is ");
+		else if (ap_r_ptr->flags1 & (RF1_MALE)) s1 = _("Èà¤Ï", "He is ");
 
 		/* Use a preposition */
 #ifdef JP
-		s2 = "ã‚’";
-		s3 = "æŒã£ã¦ã„ã‚‹";
+		s2 = "¤ò";
+		s3 = "»ı¤Ã¤Æ¤¤¤ë";
 #else
 		s2 = "carrying ";
 #endif
@@ -3386,13 +3386,13 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 			if ((query == ' ') && !(mode & (TARGET_LOOK))) return query;
 
 			/* Change the intro */
-			s2 = _("ã‚’ã¾ãŸ", "also carrying ");
+			s2 = _("¤ò¤Ş¤¿", "also carrying ");
 		}
 
 		/* Use a preposition */
 #ifdef JP
-		s2 = "ã®ä¸Š";
-		s3 = "ã«ã„ã‚‹";
+		s2 = "¤Î¾å";
+		s3 = "¤Ë¤¤¤ë";
 #else
 		s2 = "on ";
 #endif
@@ -3442,7 +3442,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 			{
 				/* Display rough information about items */
 #ifdef JP
-				sprintf(out_val, "%s %då€‹ã®ã‚¢ã‚¤ãƒ†ãƒ %s%s ['x'ã§ä¸€è¦§, %s]",
+				sprintf(out_val, "%s %d¸Ä¤Î¥¢¥¤¥Æ¥à%s%s ['x'¤Ç°ìÍ÷, %s]",
 					s1, floor_num, s2, s3, info);
 #else
 				sprintf(out_val, "%s%s%sa pile of %d items [x,%s]",
@@ -3477,7 +3477,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 
 				/* Prompt */
 #ifdef JP
-				sprintf(out_val, "%s %då€‹ã®ã‚¢ã‚¤ãƒ†ãƒ %s%s [Enterã§æ¬¡ã¸, %s]",
+				sprintf(out_val, "%s %d¸Ä¤Î¥¢¥¤¥Æ¥à%s%s [Enter¤Ç¼¡¤Ø, %s]",
 					s1, floor_num, s2, s3, info);
 #else
 				sprintf(out_val, "%s%s%sa pile of %d items [Enter,%s]",
@@ -3564,15 +3564,15 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 			if ((query == ' ') && !(mode & TARGET_LOOK)) return query;
 
 			/* Change the intro */
-			s1 = _("ãã‚Œã¯", "It is ");
+			s1 = _("¤½¤ì¤Ï", "It is ");
 
 			/* Plurals */
-			if (o_ptr->number != 1) s1 = _("ãã‚Œã‚‰ã¯", "They are ");
+			if (o_ptr->number != 1) s1 = _("¤½¤ì¤é¤Ï", "They are ");
 
 			/* Preposition */
 #ifdef JP
-			s2 = "ã®ä¸Š";
-			s3 = "ã«è¦‹ãˆã‚‹";
+			s2 = "¤Î¾å";
+			s3 = "¤Ë¸«¤¨¤ë";
 #else
 			s2 = "on ";
 #endif
@@ -3616,7 +3616,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 
 			process_dungeon_file("q_info.txt", 0, 0, 0, 0);
 
-			name = format(_("ã‚¯ã‚¨ã‚¹ãƒˆã€Œ%sã€(%déšç›¸å½“)", "the entrance to the quest '%s'(level %d)"), 
+			name = format(_("¥¯¥¨¥¹¥È¡Ö%s¡×(%d³¬ÁêÅö)", "the entrance to the quest '%s'(level %d)"), 
 						quest[c_ptr->special].name, quest[c_ptr->special].level);
 
 			/* Reset the old quest number */
@@ -3630,7 +3630,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 		}
 		else if (have_flag(f_ptr->flags, FF_ENTRANCE))
 		{
-			name = format(_("%s(%déšç›¸å½“)", "%s(level %d)"), d_text + d_info[c_ptr->special].text, d_info[c_ptr->special].mindepth);
+			name = format(_("%s(%d³¬ÁêÅö)", "%s(level %d)"), d_text + d_info[c_ptr->special].text, d_info[c_ptr->special].mindepth);
 		}
 		else if (have_flag(f_ptr->flags, FF_TOWN))
 		{
@@ -3638,7 +3638,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 		}
 		else if (p_ptr->wild_mode && (feat == feat_floor))
 		{
-			name = _("é“", "road");
+			name = _("Æ»", "road");
 		}
 		else
 		{
@@ -3652,7 +3652,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 		     (!have_flag(f_ptr->flags, FF_LOS) && !have_flag(f_ptr->flags, FF_TREE)) ||
 		     have_flag(f_ptr->flags, FF_TOWN)))
 		{
-			s2 = _("ã®ä¸­", "in ");
+			s2 = _("¤ÎÃæ", "in ");
 		}
 
 		/* Hack -- special introduction for store & building doors -KMW- */
@@ -3662,7 +3662,7 @@ static int target_set_aux(int y, int x, int mode, cptr info)
 		    have_flag(f_ptr->flags, FF_ENTRANCE))
 		{
 #ifdef JP
-			s2 = "ã®å…¥å£";
+			s2 = "¤ÎÆş¸ı";
 #else
 			s3 = "";
 #endif
@@ -3813,13 +3813,13 @@ bool target_set(int mode)
 			/* Allow target */
 			if (target_able(c_ptr->m_idx))
 			{
-				strcpy(info, _("qæ­¢ tæ±º pè‡ª oç¾ +æ¬¡ -å‰", "q,t,p,o,+,-,<dir>"));
+				strcpy(info, _("q»ß t·è p¼« o¸½ +¼¡ -Á°", "q,t,p,o,+,-,<dir>"));
 			}
 
 			/* Dis-allow target */
 			else
 			{
-				strcpy(info, _("qæ­¢ pè‡ª oç¾ +æ¬¡ -å‰", "q,p,o,+,-,<dir>"));
+				strcpy(info, _("q»ß p¼« o¸½ +¼¡ -Á°", "q,p,o,+,-,<dir>"));
 			}
 			
 			/* Describe and Prompt */
@@ -4048,7 +4048,7 @@ bool target_set(int mode)
 			c_ptr = &cave[y][x];
 
 			/* Default prompt */
-			strcpy(info, _("qæ­¢ tæ±º pè‡ª mè¿‘ +æ¬¡ -å‰", "q,t,p,m,+,-,<dir>"));
+			strcpy(info, _("q»ß t·è p¼« m¶á +¼¡ -Á°", "q,t,p,m,+,-,<dir>"));
 
 			/* Describe and Prompt (enable "TARGET_LOOK") */
 			while (!(query = target_set_aux(y, x, mode | TARGET_LOOK, info)));
@@ -4288,11 +4288,11 @@ bool get_aim_dir(int *dp)
 		/* Choose a prompt */
 		if (!target_okay())
 		{
-			p = _("æ–¹å‘ ('*'ã§ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠ, ESCã§ä¸­æ–­)? ", "Direction ('*' to choose a target, Escape to cancel)? ");
+			p = _("Êı¸ş ('*'¤Ç¥¿¡¼¥²¥Ã¥ÈÁªÂò, ESC¤ÇÃæÃÇ)? ", "Direction ('*' to choose a target, Escape to cancel)? ");
 		}
 		else
 		{
-			p = _("æ–¹å‘ ('5'ã§ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¸, '*'ã§ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå†é¸æŠ, ESCã§ä¸­æ–­)? ", "Direction ('5' for target, '*' to re-target, Escape to cancel)? ");
+			p = _("Êı¸ş ('5'¤Ç¥¿¡¼¥²¥Ã¥È¤Ø, '*'¤Ç¥¿¡¼¥²¥Ã¥ÈºÆÁªÂò, ESC¤ÇÃæÃÇ)? ", "Direction ('5' for target, '*' to re-target, Escape to cancel)? ");
 		}
 
 		/* Get a command (or Cancel) */
@@ -4364,7 +4364,7 @@ bool get_aim_dir(int *dp)
 	if (command_dir != dir)
 	{
 		/* Warn the user */
-		msg_print(_("ã‚ãªãŸã¯æ··ä¹±ã—ã¦ã„ã‚‹ã€‚", "You are confused."));
+		msg_print(_("¤¢¤Ê¤¿¤Ïº®Íğ¤·¤Æ¤¤¤ë¡£", "You are confused."));
 	}
 
 	/* Save direction */
@@ -4422,11 +4422,11 @@ bool get_rep_dir(int *dp, bool under)
 
 	if (under)
 	{
-		prompt = _("æ–¹å‘ ('.'è¶³å…ƒ, ESCã§ä¸­æ–­)? ", "Direction ('.' at feet, Escape to cancel)? ");
+		prompt = _("Êı¸ş ('.'Â­¸µ, ESC¤ÇÃæÃÇ)? ", "Direction ('.' at feet, Escape to cancel)? ");
 	}
 	else
 	{
-		prompt = _("æ–¹å‘ (ESCã§ä¸­æ–­)? ", "Direction (Escape to cancel)? ");
+		prompt = _("Êı¸ş (ESC¤ÇÃæÃÇ)? ", "Direction (Escape to cancel)? ");
 	}
 	
 	/* Get a direction */
@@ -4503,7 +4503,7 @@ bool get_rep_dir(int *dp, bool under)
 		if (p_ptr->confused)
 		{
 			/* Warn the user */
-			msg_print(_("ã‚ãªãŸã¯æ··ä¹±ã—ã¦ã„ã‚‹ã€‚", "You are confused."));
+			msg_print(_("¤¢¤Ê¤¿¤Ïº®Íğ¤·¤Æ¤¤¤ë¡£", "You are confused."));
 		}
 		else
 		{
@@ -4513,11 +4513,11 @@ bool get_rep_dir(int *dp, bool under)
 			monster_desc(m_name, m_ptr, 0);
 			if (MON_CONFUSED(m_ptr))
 			{
-				msg_format(_("%sã¯æ··ä¹±ã—ã¦ã„ã‚‹ã€‚", "%^s is confusing."), m_name);
+				msg_format(_("%s¤Ïº®Íğ¤·¤Æ¤¤¤ë¡£", "%^s is confusing."), m_name);
 			}
 			else
 			{
-				msg_format(_("%sã¯æ€ã„é€šã‚Šã«å‹•ã„ã¦ãã‚Œãªã„ã€‚", "You cannot control %s."), m_name);
+				msg_format(_("%s¤Ï»×¤¤ÄÌ¤ê¤ËÆ°¤¤¤Æ¤¯¤ì¤Ê¤¤¡£", "You cannot control %s."), m_name);
 			}
 		}
 	}
@@ -4563,7 +4563,7 @@ bool get_rep_dir2(int *dp)
 		char ch;
 
 		/* Get a command (or Cancel) */
-		if (!get_com(_("æ–¹å‘ (ESCã§ä¸­æ–­)? ", "Direction (Escape to cancel)? "), &ch, TRUE)) break;
+		if (!get_com(_("Êı¸ş (ESC¤ÇÃæÃÇ)? ", "Direction (Escape to cancel)? "), &ch, TRUE)) break;
 
 		/* Look up the direction */
 		dir = get_keymap_dir(ch);
@@ -4596,7 +4596,7 @@ bool get_rep_dir2(int *dp)
 	if (command_dir != dir)
 	{
 		/* Warn the user */
-		msg_print(_("ã‚ãªãŸã¯æ··ä¹±ã—ã¦ã„ã‚‹ã€‚", "You are confused."));
+		msg_print(_("¤¢¤Ê¤¿¤Ïº®Íğ¤·¤Æ¤¤¤ë¡£", "You are confused."));
 	}
 
 	/* Save direction */
@@ -4648,7 +4648,7 @@ void gain_level_reward(int chosen_reward)
 
 
 #ifdef JP
-sprintf(wrath_reason, "%sã®æ€’ã‚Š",
+sprintf(wrath_reason, "%s¤ÎÅÜ¤ê",
 		chaos_patrons[p_ptr->chaos_patron]);
 #else
 	sprintf(wrath_reason, "the Wrath of %s",
@@ -4661,7 +4661,7 @@ sprintf(wrath_reason, "%sã®æ€’ã‚Š",
 	if (one_in_(6) && !chosen_reward)
 	{
 #ifdef JP
-msg_format("%^sã¯è¤’ç¾ã¨ã—ã¦ã‚ãªãŸã‚’çªç„¶å¤‰ç•°ã•ã›ãŸã€‚",
+msg_format("%^s¤ÏË«Èş¤È¤·¤Æ¤¢¤Ê¤¿¤òÆÍÁ³ÊÑ°Û¤µ¤»¤¿¡£",
 			chaos_patrons[p_ptr->chaos_patron]);
 #else
 		msg_format("%^s rewards you with a mutation!",
@@ -4669,7 +4669,7 @@ msg_format("%^sã¯è¤’ç¾ã¨ã—ã¦ã‚ãªãŸã‚’çªç„¶å¤‰ç•°ã•ã›ãŸã€‚",
 #endif
 
 		(void)gain_random_mutation(0);
-		reward = _("å¤‰ç•°ã—ãŸã€‚", "mutation");
+		reward = _("ÊÑ°Û¤·¤¿¡£", "mutation");
 	}
 	else
 	{
@@ -4677,102 +4677,102 @@ msg_format("%^sã¯è¤’ç¾ã¨ã—ã¦ã‚ãªãŸã‚’çªç„¶å¤‰ç•°ã•ã›ãŸã€‚",
 	{
 		case REW_POLY_SLF:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã€æ–°ãŸãªã‚‹å§¿ã‚’å¿…è¦ã¨ã›ã‚Šï¼ã€", "'Thou needst a new form, mortal!'"));
+			msg_print(_("¡ÖÆò¡¢¿·¤¿¤Ê¤ë»Ñ¤òÉ¬Í×¤È¤»¤ê¡ª¡×", "'Thou needst a new form, mortal!'"));
 
 			do_poly_self();
-			reward = _("å¤‰ç•°ã—ãŸã€‚", "polymorphing");
+			reward = _("ÊÑ°Û¤·¤¿¡£", "polymorphing");
 			break;
 		case REW_GAIN_EXP:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã¯è‰¯ãè¡Œã„ãŸã‚Šï¼ç¶šã‘ã‚ˆï¼ã€", "'Well done, mortal! Lead on!'"));
+			msg_print(_("¡ÖÆò¤ÏÎÉ¤¯¹Ô¤¤¤¿¤ê¡ªÂ³¤±¤è¡ª¡×", "'Well done, mortal! Lead on!'"));
 
 			if (p_ptr->prace == RACE_ANDROID)
 			{
-				msg_print(_("ã—ã‹ã—ä½•ã‚‚èµ·ã“ã‚‰ãªã‹ã£ãŸã€‚", "But, nothing happen."));
+				msg_print(_("¤·¤«¤·²¿¤âµ¯¤³¤é¤Ê¤«¤Ã¤¿¡£", "But, nothing happen."));
 			}
 			else if (p_ptr->exp < PY_MAX_EXP)
 			{
 				s32b ee = (p_ptr->exp / 2) + 10;
 				if (ee > 100000L) ee = 100000L;
-				msg_print(_("æ›´ã«çµŒé¨“ã‚’ç©ã‚“ã ã‚ˆã†ãªæ°—ãŒã™ã‚‹ã€‚", "You feel more experienced."));
+				msg_print(_("¹¹¤Ë·Ğ¸³¤òÀÑ¤ó¤À¤è¤¦¤Êµ¤¤¬¤¹¤ë¡£", "You feel more experienced."));
 
 				gain_exp(ee);
-				reward = _("çµŒé¨“å€¤ã‚’å¾—ãŸ", "experience");
+				reward = _("·Ğ¸³ÃÍ¤òÆÀ¤¿", "experience");
 			}
 			break;
 		case REW_LOSE_EXP:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œä¸‹åƒ•ã‚ˆã€æ±ãã‚Œã«å€¤ã›ãšã€‚ã€", "'Thou didst not deserve that, slave.'"));
+			msg_print(_("¡Ö²¼ËÍ¤è¡¢Æò¤½¤ì¤ËÃÍ¤»¤º¡£¡×", "'Thou didst not deserve that, slave.'"));
 
 			if (p_ptr->prace == RACE_ANDROID)
 			{
-				msg_print(_("ã—ã‹ã—ä½•ã‚‚èµ·ã“ã‚‰ãªã‹ã£ãŸã€‚", "But, nothing happen."));
+				msg_print(_("¤·¤«¤·²¿¤âµ¯¤³¤é¤Ê¤«¤Ã¤¿¡£", "But, nothing happen."));
 			}
 			else
 			{
 				lose_exp(p_ptr->exp / 6);
-				reward = _("çµŒé¨“å€¤ã‚’å¤±ã£ãŸã€‚", "losing experience");
+				reward = _("·Ğ¸³ÃÍ¤ò¼º¤Ã¤¿¡£", "losing experience");
 			}
 			break;
 		case REW_GOOD_OBJ:
 #ifdef JP
-msg_format("%sã®å£°ãŒã•ã•ã‚„ã„ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¤µ¤µ¤ä¤¤¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s whispers:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ãŒä¸ãˆã—ç‰©ã‚’è³¢æ˜ã«ä½¿ã†ã¹ã—ã€‚ã€", "'Use my gift wisely.'"));
+			msg_print(_("¡Ö²æ¤¬Í¿¤¨¤·Êª¤ò¸­ÌÀ¤Ë»È¤¦¤Ù¤·¡£¡×", "'Use my gift wisely.'"));
 
 			acquirement(py, px, 1, FALSE, FALSE, FALSE);
-			reward = _("ä¸Šè³ªãªã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‰‹ã«å…¥ã‚ŒãŸã€‚", "a good item");
+			reward = _("¾å¼Á¤Ê¥¢¥¤¥Æ¥à¤ò¼ê¤ËÆş¤ì¤¿¡£", "a good item");
 			break;
 		case REW_GREA_OBJ:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ãŒä¸ãˆã—ç‰©ã‚’è³¢æ˜ã«ä½¿ã†ã¹ã—ã€‚ã€", "'Use my gift wisely.'"));
+			msg_print(_("¡Ö²æ¤¬Í¿¤¨¤·Êª¤ò¸­ÌÀ¤Ë»È¤¦¤Ù¤·¡£¡×", "'Use my gift wisely.'"));
 
 			acquirement(py, px, 1, TRUE, FALSE, FALSE);
-			reward = _("é«˜ç´šå“ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‰‹ã«å…¥ã‚ŒãŸã€‚", "an excellent item");
+			reward = _("¹âµéÉÊ¤Î¥¢¥¤¥Æ¥à¤ò¼ê¤ËÆş¤ì¤¿¡£", "an excellent item");
 			break;
 		case REW_CHAOS_WP:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã®è¡Œã„ã¯è²´ãå‰£ã«å€¤ã›ã‚Šã€‚ã€", "'Thy deed hath earned thee a worthy blade.'"));
+			msg_print(_("¡ÖÆò¤Î¹Ô¤¤¤Ïµ®¤­·õ¤ËÃÍ¤»¤ê¡£¡×", "'Thy deed hath earned thee a worthy blade.'"));
 
 			/* Get local object */
 			q_ptr = &forge;
@@ -4872,196 +4872,196 @@ msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
 
 			/* Drop it in the dungeon */
 			(void)drop_near(q_ptr, -1, py, px);
-			reward = _("(æ··æ²Œ)ã®æ­¦å™¨ã‚’æ‰‹ã«å…¥ã‚ŒãŸã€‚", "chaos weapon");
+			reward = _("(º®ÆÙ)¤ÎÉğ´ï¤ò¼ê¤ËÆş¤ì¤¿¡£", "chaos weapon");
 			break;
 		case REW_GOOD_OBS:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã®è¡Œã„ã¯è²´ãå ±ã„ã«å€¤ã›ã‚Šã€‚ã€", "'Thy deed hath earned thee a worthy reward.'"));
+			msg_print(_("¡ÖÆò¤Î¹Ô¤¤¤Ïµ®¤­Êó¤¤¤ËÃÍ¤»¤ê¡£¡×", "'Thy deed hath earned thee a worthy reward.'"));
 
 			acquirement(py, px, randint1(2) + 1, FALSE, FALSE, FALSE);
-			reward = _("ä¸Šè³ªãªã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‰‹ã«å…¥ã‚ŒãŸã€‚", "good items");
+			reward = _("¾å¼Á¤Ê¥¢¥¤¥Æ¥à¤ò¼ê¤ËÆş¤ì¤¿¡£", "good items");
 			break;
 		case REW_GREA_OBS:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œä¸‹åƒ•ã‚ˆã€æ±ã®çŒ®èº«ã¸ã®æˆ‘ãŒæƒœã—ã¿ç„¡ãå ±ã„ã‚’è¦‹ã‚‹ãŒã‚ˆã„ã€‚ã€", "'Behold, mortal, how generously I reward thy loyalty.'"));
+			msg_print(_("¡Ö²¼ËÍ¤è¡¢Æò¤Î¸¥¿È¤Ø¤Î²æ¤¬ÀË¤·¤ßÌµ¤­Êó¤¤¤ò¸«¤ë¤¬¤è¤¤¡£¡×", "'Behold, mortal, how generously I reward thy loyalty.'"));
 
 			acquirement(py, px, randint1(2) + 1, TRUE, FALSE, FALSE);
-			reward = _("é«˜ç´šå“ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‰‹ã«å…¥ã‚ŒãŸã€‚", "excellent items");
+			reward = _("¹âµéÉÊ¤Î¥¢¥¤¥Æ¥à¤ò¼ê¤ËÆş¤ì¤¿¡£", "excellent items");
 			break;
 		case REW_TY_CURSE:
 #ifdef JP
-msg_format("%sã®å£°ãŒè½Ÿãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¹ì¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s thunders:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œä¸‹åƒ•ã‚ˆã€æ±å‚²æ…¢ãªã‚Šã€‚ã€", "'Thou art growing arrogant, mortal.'"));
+			msg_print(_("¡Ö²¼ËÍ¤è¡¢ÆòĞşËı¤Ê¤ê¡£¡×", "'Thou art growing arrogant, mortal.'"));
 
 			(void)activate_ty_curse(FALSE, &count);
-			reward = _("ç¦ã€…ã—ã„å‘ªã„ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã€‚", "cursing");
+			reward = _("²Ò¡¹¤·¤¤¼ö¤¤¤ò¤«¤±¤é¤ì¤¿¡£", "cursing");
 			break;
 		case REW_SUMMON_M:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ãŒä¸‹åƒ•ãŸã¡ã‚ˆã€ã‹ã®å‚²æ…¢ãªã‚‹è€…ã‚’å€’ã™ã¹ã—ï¼ã€", "'My pets, destroy the arrogant mortal!'"));
+			msg_print(_("¡Ö²æ¤¬²¼ËÍ¤¿¤Á¤è¡¢¤«¤ÎĞşËı¤Ê¤ë¼Ô¤òÅİ¤¹¤Ù¤·¡ª¡×", "'My pets, destroy the arrogant mortal!'"));
 
 			for (dummy = 0; dummy < randint1(5) + 1; dummy++)
 			{
 				(void)summon_specific(0, py, px, dun_level, 0, (PM_ALLOW_GROUP | PM_ALLOW_UNIQUE | PM_NO_PET));
 			}
-			reward = _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å¬å–šã•ã‚ŒãŸã€‚", "summoning hostile monsters");
+			reward = _("¥â¥ó¥¹¥¿¡¼¤ò¾¤´­¤µ¤ì¤¿¡£", "summoning hostile monsters");
 			break;
 		case REW_H_SUMMON:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã€ã‚ˆã‚Šå¼·ãæ•µã‚’å¿…è¦ã¨ã›ã‚Šï¼ã€", "'Thou needst worthier opponents!'"));
+			msg_print(_("¡ÖÆò¡¢¤è¤ê¶¯¤­Å¨¤òÉ¬Í×¤È¤»¤ê¡ª¡×", "'Thou needst worthier opponents!'"));
 
 			activate_hi_summon(py, px, FALSE);
-			reward = _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å¬å–šã•ã‚ŒãŸã€‚", "summoning many hostile monsters");
+			reward = _("¥â¥ó¥¹¥¿¡¼¤ò¾¤´­¤µ¤ì¤¿¡£", "summoning many hostile monsters");
 			break;
 		case REW_DO_HAVOC:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ­»ã¨ç ´å£Šã“ãæˆ‘ãŒå–œã³ãªã‚Šï¼ã€", "'Death and destruction! This pleaseth me!'"));
+			msg_print(_("¡Ö»à¤ÈÇË²õ¤³¤½²æ¤¬´î¤Ó¤Ê¤ê¡ª¡×", "'Death and destruction! This pleaseth me!'"));
 
 			call_chaos();
-			reward = _("ã‚«ã‚ªã‚¹ã®åŠ›ãŒæ¸¦å·»ã„ãŸã€‚", "calling chaos");
+			reward = _("¥«¥ª¥¹¤ÎÎÏ¤¬±²´¬¤¤¤¿¡£", "calling chaos");
 			break;
 		case REW_GAIN_ABL:
 #ifdef JP
-msg_format("%sã®å£°ãŒé³´ã‚ŠéŸ¿ã„ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬ÌÄ¤ê¶Á¤¤¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s rings out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œç•™ã¾ã‚‹ã®ã ã€ä¸‹åƒ•ã‚ˆã€‚ä½™ãŒæ±ã®è‚‰ä½“ã‚’é›ãˆã‚“ã€‚ã€", "'Stay, mortal, and let me mold thee.'"));
+			msg_print(_("¡ÖÎ±¤Ş¤ë¤Î¤À¡¢²¼ËÍ¤è¡£Í¾¤¬Æò¤ÎÆùÂÎ¤òÃÃ¤¨¤ó¡£¡×", "'Stay, mortal, and let me mold thee.'"));
 
 			if (one_in_(3) && !(chaos_stats[p_ptr->chaos_patron] < 0))
 				do_inc_stat(chaos_stats[p_ptr->chaos_patron]);
 			else
 				do_inc_stat(randint0(6));
-			reward = _("èƒ½åŠ›å€¤ãŒä¸ŠãŒã£ãŸã€‚", "increasing a stat");
+			reward = _("Ç½ÎÏÃÍ¤¬¾å¤¬¤Ã¤¿¡£", "increasing a stat");
 			break;
 		case REW_LOSE_ABL:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œä¸‹åƒ•ã‚ˆã€ä½™ã¯æ±ã«é£½ã¿ãŸã‚Šã€‚ã€", "'I grow tired of thee, mortal.'"));
+			msg_print(_("¡Ö²¼ËÍ¤è¡¢Í¾¤ÏÆò¤ËË°¤ß¤¿¤ê¡£¡×", "'I grow tired of thee, mortal.'"));
 
 			if (one_in_(3) && !(chaos_stats[p_ptr->chaos_patron] < 0))
 				do_dec_stat(chaos_stats[p_ptr->chaos_patron]);
 			else
 				(void)do_dec_stat(randint0(6));
-			reward = _("èƒ½åŠ›å€¤ãŒä¸‹ãŒã£ãŸã€‚", "decreasing a stat");
+			reward = _("Ç½ÎÏÃÍ¤¬²¼¤¬¤Ã¤¿¡£", "decreasing a stat");
 			break;
 		case REW_RUIN_ABL:
 #ifdef JP
-msg_format("%sã®å£°ãŒè½Ÿãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¹ì¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s thunders:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã€è¬™è™šãŸã‚‹ã“ã¨ã‚’å­¦ã¶ã¹ã—ï¼ã€", "'Thou needst a lesson in humility, mortal!'"));
-			msg_print(_("ã‚ãªãŸã¯ä»¥å‰ã‚ˆã‚Šå¼±ããªã£ãŸï¼", "You feel less powerful!"));
+			msg_print(_("¡ÖÆò¡¢¸¬µõ¤¿¤ë¤³¤È¤ò³Ø¤Ö¤Ù¤·¡ª¡×", "'Thou needst a lesson in humility, mortal!'"));
+			msg_print(_("¤¢¤Ê¤¿¤Ï°ÊÁ°¤è¤ê¼å¤¯¤Ê¤Ã¤¿¡ª", "You feel less powerful!"));
 
 			for (dummy = 0; dummy < 6; dummy++)
 			{
 				(void)dec_stat(dummy, 10 + randint1(15), TRUE);
 			}
-			reward = _("å…¨èƒ½åŠ›å€¤ãŒä¸‹ãŒã£ãŸã€‚", "decreasing all stats");
+			reward = _("Á´Ç½ÎÏÃÍ¤¬²¼¤¬¤Ã¤¿¡£", "decreasing all stats");
 			break;
 		case REW_POLY_WND:
-			msg_format(_("%sã®åŠ›ãŒè§¦ã‚Œã‚‹ã®ã‚’æ„Ÿã˜ãŸã€‚", "You feel the power of %s touch you."),
+			msg_format(_("%s¤ÎÎÏ¤¬¿¨¤ì¤ë¤Î¤ò´¶¤¸¤¿¡£", "You feel the power of %s touch you."),
 
 				chaos_patrons[p_ptr->chaos_patron]);
 			do_poly_wounds();
-			reward = _("å‚·ãŒå¤‰åŒ–ã—ãŸã€‚", "polymorphing wounds");
+			reward = _("½ı¤¬ÊÑ²½¤·¤¿¡£", "polymorphing wounds");
 			break;
 		case REW_AUGM_ABL:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ãŒã•ã•ã‚„ã‹ãªã‚‹è³œç‰©ã‚’å—ã‘ã¨ã‚‹ãŒã‚ˆã„ï¼ã€", "'Receive this modest gift from me!'"));
+			msg_print(_("¡Ö²æ¤¬¤µ¤µ¤ä¤«¤Ê¤ë»òÊª¤ò¼õ¤±¤È¤ë¤¬¤è¤¤¡ª¡×", "'Receive this modest gift from me!'"));
 
 			for (dummy = 0; dummy < 6; dummy++)
 			{
 				(void)do_inc_stat(dummy);
 			}
-			reward = _("å…¨èƒ½åŠ›å€¤ãŒä¸ŠãŒã£ãŸã€‚", "increasing all stats");
+			reward = _("Á´Ç½ÎÏÃÍ¤¬¾å¤¬¤Ã¤¿¡£", "increasing all stats");
 			break;
 		case REW_HURT_LOT:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œè‹¦ã—ã‚€ãŒã‚ˆã„ã€ç„¡èƒ½ãªæ„šã‹è€…ã‚ˆï¼ã€", "'Suffer, pathetic fool!'"));
+			msg_print(_("¡Ö¶ì¤·¤à¤¬¤è¤¤¡¢ÌµÇ½¤Ê¶ò¤«¼Ô¤è¡ª¡×", "'Suffer, pathetic fool!'"));
 
 			fire_ball(GF_DISINTEGRATE, 0, p_ptr->lev * 4, 4);
 			take_hit(DAMAGE_NOESCAPE, p_ptr->lev * 4, wrath_reason, -1);
-			reward = _("åˆ†è§£ã®çƒãŒç™ºç”Ÿã—ãŸã€‚", "generating disintegration ball");
+			reward = _("Ê¬²ò¤Îµå¤¬È¯À¸¤·¤¿¡£", "generating disintegration ball");
 			break;
 	   case REW_HEAL_FUL:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œç”¦ã‚‹ãŒã‚ˆã„ã€æˆ‘ãŒä¸‹åƒ•ã‚ˆï¼ã€", "'Rise, my servant!'"));
+			msg_print(_("¡Öá´¤ë¤¬¤è¤¤¡¢²æ¤¬²¼ËÍ¤è¡ª¡×", "'Rise, my servant!'"));
 
 			restore_level();
 			(void)set_poisoned(0);
@@ -5075,19 +5075,19 @@ msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
 			{
 				(void)do_res_stat(dummy);
 			}
-			reward = _("ä½“åŠ›ãŒå›å¾©ã—ãŸã€‚", "healing");
+			reward = _("ÂÎÎÏ¤¬²óÉü¤·¤¿¡£", "healing");
 			break;
 		case REW_CURSE_WP:
 			if (!buki_motteruka(INVEN_RARM) && !buki_motteruka(INVEN_LARM)) break;
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã€æ­¦å™¨ã«é ¼ã‚‹ã“ã¨ãªã‹ã‚Œã€‚ã€", "'Thou reliest too much on thy weapon.'"));
+			msg_print(_("¡ÖÆò¡¢Éğ´ï¤ËÍê¤ë¤³¤È¤Ê¤«¤ì¡£¡×", "'Thou reliest too much on thy weapon.'"));
 
 			dummy = INVEN_RARM;
 			if (buki_motteruka(INVEN_LARM))
@@ -5097,44 +5097,44 @@ msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
 			}
 			object_desc(o_name, &inventory[dummy], OD_NAME_ONLY);
 			(void)curse_weapon(FALSE, dummy);
-			reward = format(_("%sãŒç ´å£Šã•ã‚ŒãŸã€‚", "destroying %s"), o_name);
+			reward = format(_("%s¤¬ÇË²õ¤µ¤ì¤¿¡£", "destroying %s"), o_name);
 			break;
 		case REW_CURSE_AR:
 			if (!inventory[INVEN_BODY].k_idx) break;
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ±ã€é˜²å…·ã«é ¼ã‚‹ã“ã¨ãªã‹ã‚Œã€‚ã€", "'Thou reliest too much on thine equipment.'"));
+			msg_print(_("¡ÖÆò¡¢ËÉ¶ñ¤ËÍê¤ë¤³¤È¤Ê¤«¤ì¡£¡×", "'Thou reliest too much on thine equipment.'"));
 
 			object_desc(o_name, &inventory[INVEN_BODY], OD_NAME_ONLY);
 			(void)curse_armor();
-			reward = format(_("%sãŒç ´å£Šã•ã‚ŒãŸã€‚", "destroying %s"), o_name);
+			reward = format(_("%s¤¬ÇË²õ¤µ¤ì¤¿¡£", "destroying %s"), o_name);
 			break;
 		case REW_PISS_OFF:
 #ifdef JP
-msg_format("%sã®å£°ãŒã•ã•ã‚„ã„ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¤µ¤µ¤ä¤¤¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s whispers:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ã‚’æ€’ã‚Šã—ã‚ãŸç½ªã‚’å„Ÿã†ã¹ã—ã€‚ã€", "'Now thou shalt pay for annoying me.'"));
+			msg_print(_("¡Ö²æ¤òÅÜ¤ê¤·¤á¤¿ºá¤ò½ş¤¦¤Ù¤·¡£¡×", "'Now thou shalt pay for annoying me.'"));
 
 			switch (randint1(4))
 			{
 				case 1:
 					(void)activate_ty_curse(FALSE, &count);
-					reward = _("ç¦ã€…ã—ã„å‘ªã„ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã€‚", "cursing");
+					reward = _("²Ò¡¹¤·¤¤¼ö¤¤¤ò¤«¤±¤é¤ì¤¿¡£", "cursing");
 					break;
 				case 2:
 					activate_hi_summon(py, px, FALSE);
-					reward = _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã‚’å¬å–šã•ã‚ŒãŸã€‚", "summoning hostile monsters");
+					reward = _("¥â¥ó¥¹¥¿¡¼¤ò¾¤´­¤µ¤ì¤¿¡£", "summoning hostile monsters");
 					break;
 				case 3:
 					if (one_in_(2))
@@ -5148,14 +5148,14 @@ msg_format("%sã®å£°ãŒã•ã•ã‚„ã„ãŸ:",
 						}
 						object_desc(o_name, &inventory[dummy], OD_NAME_ONLY);
 						(void)curse_weapon(FALSE, dummy);
-						reward = format(_("%sãŒç ´å£Šã•ã‚ŒãŸã€‚", "destroying %s"), o_name);
+						reward = format(_("%s¤¬ÇË²õ¤µ¤ì¤¿¡£", "destroying %s"), o_name);
 					}
 					else
 					{
 						if (!inventory[INVEN_BODY].k_idx) break;
 						object_desc(o_name, &inventory[INVEN_BODY], OD_NAME_ONLY);
 						(void)curse_armor();
-						reward = format(_("%sãŒç ´å£Šã•ã‚ŒãŸã€‚", "destroying %s"), o_name);
+						reward = format(_("%s¤¬ÇË²õ¤µ¤ì¤¿¡£", "destroying %s"), o_name);
 					}
 					break;
 				default:
@@ -5163,15 +5163,15 @@ msg_format("%sã®å£°ãŒã•ã•ã‚„ã„ãŸ:",
 					{
 						(void)dec_stat(dummy, 10 + randint1(15), TRUE);
 					}
-					reward = _("å…¨èƒ½åŠ›å€¤ãŒä¸‹ãŒã£ãŸã€‚", "decreasing all stats");
+					reward = _("Á´Ç½ÎÏÃÍ¤¬²¼¤¬¤Ã¤¿¡£", "decreasing all stats");
 					break;
 			}
 			break;
 		case REW_WRATH:
-			msg_format(_("%sã®å£°ãŒè½Ÿãæ¸¡ã£ãŸ:", "The voice of %s thunders:"),
+			msg_format(_("%s¤ÎÀ¼¤¬¹ì¤­ÅÏ¤Ã¤¿:", "The voice of %s thunders:"),
 
 				chaos_patrons[p_ptr->chaos_patron]);
-			msg_print(_("ã€Œæ­»ã¬ãŒã‚ˆã„ã€ä¸‹åƒ•ã‚ˆï¼ã€", "'Die, mortal!'"));
+			msg_print(_("¡Ö»à¤Ì¤¬¤è¤¤¡¢²¼ËÍ¤è¡ª¡×", "'Die, mortal!'"));
 
 			take_hit(DAMAGE_LOSELIFE, p_ptr->lev * 4, wrath_reason, -1);
 			for (dummy = 0; dummy < 6; dummy++)
@@ -5197,49 +5197,49 @@ msg_format("%sã®å£°ãŒã•ã•ã‚„ã„ãŸ:",
 			break;
 		case REW_DESTRUCT:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæ­»ã¨ç ´å£Šã“ãæˆ‘ãŒå–œã³ãªã‚Šï¼ã€", "'Death and destruction! This pleaseth me!'"));
+			msg_print(_("¡Ö»à¤ÈÇË²õ¤³¤½²æ¤¬´î¤Ó¤Ê¤ê¡ª¡×", "'Death and destruction! This pleaseth me!'"));
 
 			(void)destroy_area(py, px, 25, FALSE);
-			reward = _("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ãŒ*ç ´å£Š*ã•ã‚ŒãŸã€‚", "*destruct*ing dungeon");
+			reward = _("¥À¥ó¥¸¥ç¥ó¤¬*ÇË²õ*¤µ¤ì¤¿¡£", "*destruct*ing dungeon");
 			break;
 		case REW_GENOCIDE:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ã€æ±ã®æ•µã‚’æŠ¹æ®ºã›ã‚“ï¼ã€", "'Let me relieve thee of thine oppressors!'"));
+			msg_print(_("¡Ö²æ¡¢Æò¤ÎÅ¨¤òËõ»¦¤»¤ó¡ª¡×", "'Let me relieve thee of thine oppressors!'"));
 
 			(void)symbol_genocide(0, FALSE);
-			reward = _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒæŠ¹æ®ºã•ã‚ŒãŸã€‚", "genociding monsters");
+			reward = _("¥â¥ó¥¹¥¿¡¼¤¬Ëõ»¦¤µ¤ì¤¿¡£", "genociding monsters");
 			break;
 		case REW_MASS_GEN:
 #ifdef JP
-msg_format("%sã®å£°ãŒéŸ¿ãæ¸¡ã£ãŸ:",
+msg_format("%s¤ÎÀ¼¤¬¶Á¤­ÅÏ¤Ã¤¿:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("The voice of %s booms out:",
 				chaos_patrons[p_ptr->chaos_patron]);
 #endif
 
-			msg_print(_("ã€Œæˆ‘ã€æ±ã®æ•µã‚’æŠ¹æ®ºã›ã‚“ï¼ã€", "'Let me relieve thee of thine oppressors!'"));
+			msg_print(_("¡Ö²æ¡¢Æò¤ÎÅ¨¤òËõ»¦¤»¤ó¡ª¡×", "'Let me relieve thee of thine oppressors!'"));
 
 			(void)mass_genocide(0, FALSE);
-			reward = _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒæŠ¹æ®ºã•ã‚ŒãŸã€‚", "genociding nearby monsters");
+			reward = _("¥â¥ó¥¹¥¿¡¼¤¬Ëõ»¦¤µ¤ì¤¿¡£", "genociding nearby monsters");
 			break;
 		case REW_DISPEL_C:
 #ifdef JP
-msg_format("%sã®åŠ›ãŒæ•µã‚’æ”»æ’ƒã™ã‚‹ã®ã‚’æ„Ÿã˜ãŸï¼",
+msg_format("%s¤ÎÎÏ¤¬Å¨¤ò¹¶·â¤¹¤ë¤Î¤ò´¶¤¸¤¿¡ª",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("You can feel the power of %s assault your enemies!",
@@ -5250,7 +5250,7 @@ msg_format("%sã®åŠ›ãŒæ•µã‚’æ”»æ’ƒã™ã‚‹ã®ã‚’æ„Ÿã˜ãŸï¼",
 			break;
 		case REW_IGNORE:
 #ifdef JP
-msg_format("%sã¯ã‚ãªãŸã‚’ç„¡è¦–ã—ãŸã€‚",
+msg_format("%s¤Ï¤¢¤Ê¤¿¤òÌµ»ë¤·¤¿¡£",
 				chaos_patrons[p_ptr->chaos_patron]);
 #else
 			msg_format("%s ignores you.",
@@ -5259,43 +5259,43 @@ msg_format("%sã¯ã‚ãªãŸã‚’ç„¡è¦–ã—ãŸã€‚",
 
 			break;
 		case REW_SER_DEMO:
-			msg_format(_("%sã¯è¤’ç¾ã¨ã—ã¦æ‚ªé­”ã®ä½¿ã„ã‚’ã‚ˆã“ã—ãŸï¼", "%s rewards you with a demonic servant!"),chaos_patrons[p_ptr->chaos_patron]);
+			msg_format(_("%s¤ÏË«Èş¤È¤·¤Æ°­Ëâ¤Î»È¤¤¤ò¤è¤³¤·¤¿¡ª", "%s rewards you with a demonic servant!"),chaos_patrons[p_ptr->chaos_patron]);
 
 			if (!summon_specific(-1, py, px, dun_level, SUMMON_DEMON, PM_FORCE_PET))
-				msg_print(_("ä½•ã‚‚ç¾ã‚Œãªã‹ã£ãŸ...", "Nobody ever turns up..."));
+				msg_print(_("²¿¤â¸½¤ì¤Ê¤«¤Ã¤¿...", "Nobody ever turns up..."));
 			else
-				reward = _("æ‚ªé­”ãŒãƒšãƒƒãƒˆã«ãªã£ãŸã€‚", "a demonic servant");
+				reward = _("°­Ëâ¤¬¥Ú¥Ã¥È¤Ë¤Ê¤Ã¤¿¡£", "a demonic servant");
 
 			break;
 		case REW_SER_MONS:
-			msg_format(_("%sã¯è¤’ç¾ã¨ã—ã¦ä½¿ã„ã‚’ã‚ˆã“ã—ãŸï¼", "%s rewards you with a servant!"),chaos_patrons[p_ptr->chaos_patron]);
+			msg_format(_("%s¤ÏË«Èş¤È¤·¤Æ»È¤¤¤ò¤è¤³¤·¤¿¡ª", "%s rewards you with a servant!"),chaos_patrons[p_ptr->chaos_patron]);
 
 			if (!summon_specific(-1, py, px, dun_level, 0, PM_FORCE_PET))
-				msg_print(_("ä½•ã‚‚ç¾ã‚Œãªã‹ã£ãŸ...", "Nobody ever turns up..."));
+				msg_print(_("²¿¤â¸½¤ì¤Ê¤«¤Ã¤¿...", "Nobody ever turns up..."));
 			else
-				reward = _("ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒãƒšãƒƒãƒˆã«ãªã£ãŸã€‚", "a servant");
+				reward = _("¥â¥ó¥¹¥¿¡¼¤¬¥Ú¥Ã¥È¤Ë¤Ê¤Ã¤¿¡£", "a servant");
 
 			break;
 		case REW_SER_UNDE:
-			msg_format(_("%sã¯è¤’ç¾ã¨ã—ã¦ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ã®ä½¿ã„ã‚’ã‚ˆã“ã—ãŸã€‚", "%s rewards you with an undead servant!"),chaos_patrons[p_ptr->chaos_patron]);
+			msg_format(_("%s¤ÏË«Èş¤È¤·¤Æ¥¢¥ó¥Ç¥Ã¥É¤Î»È¤¤¤ò¤è¤³¤·¤¿¡£", "%s rewards you with an undead servant!"),chaos_patrons[p_ptr->chaos_patron]);
 
 			if (!summon_specific(-1, py, px, dun_level, SUMMON_UNDEAD, PM_FORCE_PET))
-				msg_print(_("ä½•ã‚‚ç¾ã‚Œãªã‹ã£ãŸ...", "Nobody ever turns up..."));
+				msg_print(_("²¿¤â¸½¤ì¤Ê¤«¤Ã¤¿...", "Nobody ever turns up..."));
 			else
-				reward = _("ã‚¢ãƒ³ãƒ‡ãƒƒãƒ‰ãŒãƒšãƒƒãƒˆã«ãªã£ãŸã€‚", "an undead servant");
+				reward = _("¥¢¥ó¥Ç¥Ã¥É¤¬¥Ú¥Ã¥È¤Ë¤Ê¤Ã¤¿¡£", "an undead servant");
 
 			break;
 		default:
-			msg_format(_("%sã®å£°ãŒã©ã‚‚ã£ãŸ:", "The voice of %s stammers:"),
+			msg_format(_("%s¤ÎÀ¼¤¬¤É¤â¤Ã¤¿:", "The voice of %s stammers:"),
 
 				chaos_patrons[p_ptr->chaos_patron]);
-			msg_format(_("ã€Œã‚ãƒ¼ã€ã‚ãƒ¼ã€ç­”ãˆã¯ %d/%dã€‚è³ªå•ã¯ä½•ï¼Ÿã€", "'Uh... uh... the answer's %d/%d, what's the question?'"), type, effect);
+			msg_format(_("¡Ö¤¢¡¼¡¢¤¢¡¼¡¢Åú¤¨¤Ï %d/%d¡£¼ÁÌä¤Ï²¿¡©¡×", "'Uh... uh... the answer's %d/%d, what's the question?'"), type, effect);
 
 	}
 	}
 	if (reward)
 	{
-		do_cmd_write_nikki(NIKKI_BUNSHOU, 0, format(_("ãƒ‘ãƒˆãƒ­ãƒ³ã®å ±é…¬ã§%s", "The patron rewards you with %s."), reward));
+		do_cmd_write_nikki(NIKKI_BUNSHOU, 0, format(_("¥Ñ¥È¥í¥ó¤ÎÊó½·¤Ç%s", "The patron rewards you with %s."), reward));
 	}
 }
 
@@ -5396,7 +5396,7 @@ bool tgt_pt(int *x_ptr, int *y_ptr)
 		n = 0;
 	}
 
-	msg_print(_("å ´æ‰€ã‚’é¸ã‚“ã§ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ä¸‹ã•ã„ã€‚", "Select a point and press space."));
+	msg_print(_("¾ì½ê¤òÁª¤ó¤Ç¥¹¥Ú¡¼¥¹¥­¡¼¤ò²¡¤·¤Æ²¼¤µ¤¤¡£", "Select a point and press space."));
 	msg_flag = FALSE; /* prevents "-more-" message. */
 
 	while ((ch != ESCAPE) && !success)
@@ -5583,11 +5583,11 @@ bool get_hack_dir(int *dp)
 		/* Choose a prompt */
 		if (!target_okay())
 		{
-			p = _("æ–¹å‘ ('*'ã§ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé¸æŠ, ESCã§ä¸­æ–­)? ", "Direction ('*' to choose a target, Escape to cancel)? ");
+			p = _("Êı¸ş ('*'¤Ç¥¿¡¼¥²¥Ã¥ÈÁªÂò, ESC¤ÇÃæÃÇ)? ", "Direction ('*' to choose a target, Escape to cancel)? ");
 		}
 		else
 		{
-			p = _("æ–¹å‘ ('5'ã§ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¸, '*'ã§ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå†é¸æŠ, ESCã§ä¸­æ–­)? ", "Direction ('5' for target, '*' to re-target, Escape to cancel)? ");
+			p = _("Êı¸ş ('5'¤Ç¥¿¡¼¥²¥Ã¥È¤Ø, '*'¤Ç¥¿¡¼¥²¥Ã¥ÈºÆÁªÂò, ESC¤ÇÃæÃÇ)? ", "Direction ('5' for target, '*' to re-target, Escape to cancel)? ");
 		}
 
 		/* Get a command (or Cancel) */
@@ -5655,7 +5655,7 @@ bool get_hack_dir(int *dp)
 	if (command_dir != dir)
 	{
 		/* Warn the user */
-		msg_print(_("ã‚ãªãŸã¯æ··ä¹±ã—ã¦ã„ã‚‹ã€‚", "You are confused."));
+		msg_print(_("¤¢¤Ê¤¿¤Ïº®Íğ¤·¤Æ¤¤¤ë¡£", "You are confused."));
 	}
 
 	/* Save direction */
@@ -5667,7 +5667,7 @@ bool get_hack_dir(int *dp)
 
 
 /*
- * ã‚¨ãƒãƒ«ã‚®ãƒ¼ã®å¢—åŠ é‡10d5ã‚’é€Ÿãè¨ˆç®—ã™ã‚‹ãŸã‚ã®é–¢æ•°
+ * ¥¨¥Í¥ë¥®¡¼¤ÎÁı²ÃÎÌ10d5¤òÂ®¤¯·×»»¤¹¤ë¤¿¤á¤Î´Ø¿ô
  */
 
 #define Go_no_JuuJou 5*5*5*5*5*5*5*5*5*5
@@ -5808,13 +5808,13 @@ int bow_tmul(int sval)
 cptr your_alignment(void)
 {
 #ifdef JP
-	if (p_ptr->align > 150) return "å¤§å–„";
-	else if (p_ptr->align > 50) return "ä¸­å–„";
-	else if (p_ptr->align > 10) return "å°å–„";
-	else if (p_ptr->align > -11) return "ä¸­ç«‹";
-	else if (p_ptr->align > -51) return "å°æ‚ª";
-	else if (p_ptr->align > -151) return "ä¸­æ‚ª";
-	else return "å¤§æ‚ª";
+	if (p_ptr->align > 150) return "ÂçÁ±";
+	else if (p_ptr->align > 50) return "ÃæÁ±";
+	else if (p_ptr->align > 10) return "¾®Á±";
+	else if (p_ptr->align > -11) return "ÃæÎ©";
+	else if (p_ptr->align > -51) return "¾®°­";
+	else if (p_ptr->align > -151) return "Ãæ°­";
+	else return "Âç°­";
 #else
 	if (p_ptr->align > 150) return "Lawful";
 	else if (p_ptr->align > 50) return "Good";
@@ -5907,7 +5907,7 @@ void display_rumor(bool ex)
 
 	err = _(get_rnd_line_jonly("rumors_j.txt", section, Rumor, 10),
 			get_rnd_line("rumors.txt", section, Rumor));
-	if (err) strcpy(Rumor, _("å˜˜ã®å™‚ã‚‚ã‚ã‚‹ã€‚", "Some rumors are wrong."));
+	if (err) strcpy(Rumor, _("±³¤Î±½¤â¤¢¤ë¡£", "Some rumors are wrong."));
 
 	err = TRUE;
 
@@ -5978,7 +5978,7 @@ void display_rumor(bool ex)
 				if (!max_dlv[d_idx])
 				{
 					max_dlv[d_idx] = d_ptr->mindepth;
-					rumor_eff_format = _("%sã«å¸°é‚„ã§ãã‚‹ã‚ˆã†ã«ãªã£ãŸã€‚", "You can recall to %s.");
+					rumor_eff_format = _("%s¤Ëµ¢´Ô¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤Ã¤¿¡£", "You can recall to %s.");
 				}
 			}
 			else if  (strcmp(zz[0], "TOWN") == 0)
@@ -5998,7 +5998,7 @@ void display_rumor(bool ex)
 				if ((t_idx != SECRET_TOWN) && !(p_ptr->visit & visit))
 				{
 					p_ptr->visit |= visit;
-					rumor_eff_format = _("%sã«è¡Œã£ãŸã“ã¨ãŒã‚ã‚‹æ°—ãŒã™ã‚‹ã€‚", "You feel you have been to %s.");
+					rumor_eff_format = _("%s¤Ë¹Ô¤Ã¤¿¤³¤È¤¬¤¢¤ëµ¤¤¬¤¹¤ë¡£", "You feel you have been to %s.");
 				}
 			}
 
@@ -6012,7 +6012,7 @@ void display_rumor(bool ex)
 			err = FALSE;
 		}
 	/* error */
-	if (err) msg_print(_("ã“ã®æƒ…å ±ã¯é–“é•ã£ã¦ã„ã‚‹ã€‚", "This information is wrong."));
+	if (err) msg_print(_("¤³¤Î¾ğÊó¤Ï´Ö°ã¤Ã¤Æ¤¤¤ë¡£", "This information is wrong."));
 	}
 			else
 	{

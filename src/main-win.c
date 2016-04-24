@@ -1,4 +1,4 @@
-ï»¿/* File: main-win.c */
+/* File: main-win.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, Skirmantas Kligys, and others
@@ -774,7 +774,7 @@ static int init_bg(void)
 
 	hBG = LoadImage(NULL, bmfile,  IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (!hBG) {
-		plog_fmt(_("å£ç´™ç”¨ãƒ“ãƒƒãƒˆãƒãƒƒãƒ— '%s' ã‚’èª­ã¿è¾¼ã‚ã¾ã›ã‚“ã€‚", "Can't load the bitmap file '%s'."), bmfile);
+		plog_fmt(_("ÊÉ»æÍÑ¥Ó¥Ã¥È¥Ş¥Ã¥× '%s' ¤òÆÉ¤ß¹ş¤á¤Ş¤»¤ó¡£", "Can't load the bitmap file '%s'."), bmfile);
 		use_bg = 0;
 		return 0;
 	}
@@ -790,7 +790,7 @@ static int init_bg(void)
 	dcbg = CreateCompatibleDC(wnddc);
 
 	bmimage = LoadImage(NULL, "bg.bmp", LR_LOADFROMFILE, 0, 0, 0);
-	if (!bmimage) quit("bg.bmpãŒèª­ã¿ã“ã‚ãªã„ï¼");
+	if (!bmimage) quit("bg.bmp¤¬ÆÉ¤ß¤³¤á¤Ê¤¤¡ª");
 	bmimage_old = SelectObject(dcimage, bmimage);
 
 	CreateCompatibleBitmap();
@@ -1017,7 +1017,7 @@ static void validate_file(cptr s)
 	/* Verify or fail */
 	if (!check_file(s))
 	{
-		quit_fmt(_("å¿…è¦ãªãƒ•ã‚¡ã‚¤ãƒ«[%s]ãŒè¦‹ã‚ãŸã‚Šã¾ã›ã‚“ã€‚", "Cannot find required file:\n%s"), s);
+		quit_fmt(_("É¬Í×¤Ê¥Õ¥¡¥¤¥ë[%s]¤¬¸«¤¢¤¿¤ê¤Ş¤»¤ó¡£", "Cannot find required file:\n%s"), s);
 	}
 }
 
@@ -1033,7 +1033,7 @@ static void validate_dir(cptr s, bool vital)
 		/* This directory contains needed data */
 		if (vital)
 		{
-			quit_fmt(_("å¿…è¦ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª[%s]ãŒè¦‹ã‚ãŸã‚Šã¾ã›ã‚“ã€‚", "Cannot find required directory:\n%s"), s);
+			quit_fmt(_("É¬Í×¤Ê¥Ç¥£¥ì¥¯¥È¥ê[%s]¤¬¸«¤¢¤¿¤ê¤Ş¤»¤ó¡£", "Cannot find required directory:\n%s"), s);
 		}
 		/* Attempt to create this directory */
 		else if (mkdir(s))
@@ -1117,7 +1117,7 @@ static void save_prefs_aux(int i)
 
 	/* Font */
 #ifdef JP
-	strcpy(buf, td->lf.lfFaceName[0]!='\0' ? td->lf.lfFaceName : "ï¼­ï¼³ ã‚´ã‚·ãƒƒã‚¯");
+	strcpy(buf, td->lf.lfFaceName[0]!='\0' ? td->lf.lfFaceName : "£Í£Ó ¥´¥·¥Ã¥¯");
 #else
 #if 0
 	strcpy(buf, td->font_file ? td->font_file : "8X13.FON");
@@ -1262,7 +1262,7 @@ static void load_prefs_aux(int i)
 
 	/* Desired font, with default */
 #ifdef JP
-	GetPrivateProfileString(sec_name, "Font", "ï¼­ï¼³ ã‚´ã‚·ãƒƒã‚¯", tmp, 127, ini_file);
+	GetPrivateProfileString(sec_name, "Font", "£Í£Ó ¥´¥·¥Ã¥¯", tmp, 127, ini_file);
 #else
 #if 0
 	GetPrivateProfileString(sec_name, "Font", "8X13.FON", tmp, 127, ini_file);
@@ -1493,7 +1493,7 @@ static void load_music_prefs(void)
 		}
 	}
 
-	for (i = 0; i < 1000; i++) /*!< @todo ã‚¯ã‚¨ã‚¹ãƒˆæœ€å¤§æ•°æŒ‡å®š */
+	for (i = 0; i < 1000; i++) /*!< @todo ¥¯¥¨¥¹¥ÈºÇÂç¿ô»ØÄê */
 	{
 		sprintf(key, "quest%03d", i);
 		GetPrivateProfileString("Quest", key, "", tmp, 1024, ini_path);
@@ -1511,7 +1511,7 @@ static void load_music_prefs(void)
 		}
 	}
 
-	for (i = 0; i < 1000; i++) /*!< @todo ç”ºæœ€å¤§æ•°æŒ‡å®š */
+	for (i = 0; i < 1000; i++) /*!< @todo Ä®ºÇÂç¿ô»ØÄê */
 	{
 		sprintf(key, "town%03d", i);
 		GetPrivateProfileString("Town", key, "", tmp, 1024, ini_path);
@@ -1583,7 +1583,7 @@ static int new_palette(void)
 		if ((nEntries == 0) || (nEntries > 220))
 		{
 			/* Warn the user */
-			plog(_("ç”»é¢ã‚’16ãƒ“ãƒƒãƒˆã‹24ãƒ“ãƒƒãƒˆã‚«ãƒ©ãƒ¼ãƒ¢ãƒ¼ãƒ‰ã«ã—ã¦ä¸‹ã•ã„ã€‚", "Please switch to high- or true-color mode."));
+			plog(_("²èÌÌ¤ò16¥Ó¥Ã¥È¤«24¥Ó¥Ã¥È¥«¥é¡¼¥â¡¼¥É¤Ë¤·¤Æ²¼¤µ¤¤¡£", "Please switch to high- or true-color mode."));
 
 			/* Cleanup */
 			rnfree(lppe, lppeSize);
@@ -1635,7 +1635,7 @@ static int new_palette(void)
 
 	/* Create a new palette, or fail */
 	hNewPal = CreatePalette(pLogPal);
-	if (!hNewPal) quit(_("ãƒ‘ãƒ¬ãƒƒãƒˆã‚’ä½œæˆã§ãã¾ã›ã‚“ï¼", "Cannot create palette!"));
+	if (!hNewPal) quit(_("¥Ñ¥ì¥Ã¥È¤òºîÀ®¤Ç¤­¤Ş¤»¤ó¡ª", "Cannot create palette!"));
 
 	/* Free the palette */
 	rnfree(pLogPal, pLogPalSize);
@@ -1648,7 +1648,7 @@ static int new_palette(void)
 	SelectPalette(hdc, hNewPal, 0);
 	i = RealizePalette(hdc);
 	ReleaseDC(td->w, hdc);
-	if (i == 0) quit(_("ãƒ‘ãƒ¬ãƒƒãƒˆã‚’ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ³ãƒˆãƒªã«ãƒãƒƒãƒ—ã§ãã¾ã›ã‚“ï¼", "Cannot realize palette!"));
+	if (i == 0) quit(_("¥Ñ¥ì¥Ã¥È¤ò¥·¥¹¥Æ¥à¥¨¥ó¥È¥ê¤Ë¥Ş¥Ã¥×¤Ç¤­¤Ş¤»¤ó¡ª", "Cannot realize palette!"));
 
 
 	/* Sub-windows */
@@ -1737,7 +1737,7 @@ static bool init_graphics(void)
 		/* Load the bitmap or quit */
 		if (!ReadDIB(data[0].w, buf, &infGraph))
 		{
-			plog_fmt(_("ãƒ“ãƒƒãƒˆãƒãƒƒãƒ— '%s' ã‚’èª­ã¿è¾¼ã‚ã¾ã›ã‚“ã€‚", "Cannot read bitmap file '%s'"), name);
+			plog_fmt(_("¥Ó¥Ã¥È¥Ş¥Ã¥× '%s' ¤òÆÉ¤ß¹ş¤á¤Ş¤»¤ó¡£", "Cannot read bitmap file '%s'"), name);
 			return (FALSE);
 		}
 
@@ -1780,7 +1780,7 @@ static bool init_graphics(void)
 			/* Free bitmap XXX XXX XXX */
 
 			/* Oops */
-			plog(_("ãƒ‘ãƒ¬ãƒƒãƒˆã‚’å®Ÿç¾ã§ãã¾ã›ã‚“ï¼", "Cannot activate palette!"));
+			plog(_("¥Ñ¥ì¥Ã¥È¤ò¼Â¸½¤Ç¤­¤Ş¤»¤ó¡ª", "Cannot activate palette!"));
 			return (FALSE);
 		}
 
@@ -2231,7 +2231,7 @@ static errr Term_xtra_win_react(void)
 		if (arg_sound && !init_sound())
 		{
 			/* Warning */
-			plog(_("ã‚µã‚¦ãƒ³ãƒ‰ã‚’åˆæœŸåŒ–ã§ãã¾ã›ã‚“ï¼", "Cannot initialize sound!"));
+			plog(_("¥µ¥¦¥ó¥É¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó¡ª", "Cannot initialize sound!"));
 
 			/* Cannot enable */
 			arg_sound = FALSE;
@@ -2252,7 +2252,7 @@ static errr Term_xtra_win_react(void)
 		if (arg_music && !init_music())
 		{
 			/* Warning */
-			plog(_("BGMã‚’åˆæœŸåŒ–ã§ãã¾ã›ã‚“ï¼", "Cannot initialize BGM!"));
+			plog(_("BGM¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó¡ª", "Cannot initialize BGM!"));
 			/* Cannot enable */
 			arg_music = FALSE;
 		}
@@ -2277,7 +2277,7 @@ static errr Term_xtra_win_react(void)
 		if (arg_graphics && !init_graphics())
 		{
 			/* Warning */
-			plog(_("ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã‚’åˆæœŸåŒ–ã§ãã¾ã›ã‚“!", "Cannot initialize graphics!"));
+			plog(_("¥°¥é¥Õ¥£¥Ã¥¯¥¹¤ò½é´ü²½¤Ç¤­¤Ş¤»¤ó!", "Cannot initialize graphics!"));
 
 			/* Cannot enable */
 			arg_graphics = GRAPHICS_NONE;
@@ -2893,7 +2893,7 @@ static errr Term_text_win(int x, int y, int n, byte a, const char *s)
 		for (i = 0; i < n; i++)
 		{
 #ifdef JP
-			if (use_bigtile && *(s+i)=="â– "[0] && *(s+i+1)=="â– "[1])
+			if (use_bigtile && *(s+i)=="¢£"[0] && *(s+i+1)=="¢£"[1])
 			{
 				rc.right += td->font_wid;
 
@@ -2912,7 +2912,7 @@ static errr Term_text_win(int x, int y, int n, byte a, const char *s)
 				rc.left += 2 * td->tile_wid;
 				rc.right += 2 * td->tile_wid;
 			}
-			else if ( iskanji(*(s+i)) )  /*  ï¼’ãƒã‚¤ãƒˆæ–‡å­—  */
+			else if ( iskanji(*(s+i)) )  /*  £²¥Ğ¥¤¥ÈÊ¸»ú  */
 			{
 				rc.right += td->font_wid;
 				/* Dump the text */
@@ -3302,7 +3302,7 @@ static void init_windows(void)
 	td = &data[0];
 	WIPE(td, term_data);
 #ifdef JP
-	td->s = "å¤‰æ„šè›®æ€’";
+	td->s = "ÊÑ¶òÈÚÅÜ";
 #else
 	td->s = angband_term_name[0];
 #endif
@@ -3421,7 +3421,7 @@ static void init_windows(void)
 				       td->size_wid, td->size_hgt,
 				       HWND_DESKTOP, NULL, hInstance, NULL);
 		my_td = NULL;
-		if (!td->w) quit(_("ã‚µãƒ–ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ", "Failed to create sub-window"));
+		if (!td->w) quit(_("¥µ¥Ö¥¦¥£¥ó¥É¥¦¤ËºîÀ®¤Ë¼ºÇÔ¤·¤Ş¤·¤¿", "Failed to create sub-window"));
 
 		if (td->visible)
 		{
@@ -3461,7 +3461,7 @@ static void init_windows(void)
 			       td->size_wid, td->size_hgt,
 			       HWND_DESKTOP, NULL, hInstance, NULL);
 	my_td = NULL;
-	if (!td->w) quit(_("ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ", "Failed to create Angband window"));
+	if (!td->w) quit(_("¥á¥¤¥ó¥¦¥£¥ó¥É¥¦¤ÎºîÀ®¤Ë¼ºÇÔ¤·¤Ş¤·¤¿", "Failed to create Angband window"));
 
 	term_data_link(td);
 	angband_term[0] = &td->t;
@@ -3773,11 +3773,11 @@ static void process_menus(WORD wCmd)
 		{
 			if (!initialized)
 			{
-				plog(_("ã¾ã åˆæœŸåŒ–ä¸­ã§ã™...", "You cannot do that yet..."));
+				plog(_("¤Ş¤À½é´ü²½Ãæ¤Ç¤¹...", "You cannot do that yet..."));
 			}
 			else if (game_in_progress)
 			{
-				plog(_("ãƒ—ãƒ¬ã‚¤ä¸­ã¯æ–°ã—ã„ã‚²ãƒ¼ãƒ ã‚’å§‹ã‚ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ï¼", "You can't start a new game while you're still playing!"));
+				plog(_("¥×¥ì¥¤Ãæ¤Ï¿·¤·¤¤¥²¡¼¥à¤ò»Ï¤á¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡ª", "You can't start a new game while you're still playing!"));
 			}
 			else
 			{
@@ -3794,11 +3794,11 @@ static void process_menus(WORD wCmd)
 		{
 			if (!initialized)
 			{
-				plog(_("ã¾ã åˆæœŸåŒ–ä¸­ã§ã™...", "You cannot do that yet..."));
+				plog(_("¤Ş¤À½é´ü²½Ãæ¤Ç¤¹...", "You cannot do that yet..."));
 			}
 			else if (game_in_progress)
 			{
-				plog(_("ãƒ—ãƒ¬ã‚¤ä¸­ã¯ã‚²ãƒ¼ãƒ ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ï¼", "You can't open a new game while you're still playing!"));
+				plog(_("¥×¥ì¥¤Ãæ¤Ï¥²¡¼¥à¤ò¥í¡¼¥É¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡ª", "You can't open a new game while you're still playing!"));
 			}
 			else
 			{
@@ -3833,7 +3833,7 @@ static void process_menus(WORD wCmd)
 				/* Paranoia */
 				if (!can_save)
 				{
-					plog(_("ä»Šã¯ã‚»ãƒ¼ãƒ–ã™ã‚‹ã“ã¨ã¯å‡ºæ¥ã¾ã›ã‚“ã€‚", "You may not do that right now."));
+					plog(_("º£¤Ï¥»¡¼¥Ö¤¹¤ë¤³¤È¤Ï½ĞÍè¤Ş¤»¤ó¡£", "You may not do that right now."));
 					break;
 				}
 
@@ -3849,7 +3849,7 @@ static void process_menus(WORD wCmd)
 			}
 			else
 			{
-				plog(_("ä»Šã€ã‚»ãƒ¼ãƒ–ã™ã‚‹ã“ã¨ã¯å‡ºæ¥ã¾ã›ã‚“ã€‚", "You may not do that right now."));
+				plog(_("º£¡¢¥»¡¼¥Ö¤¹¤ë¤³¤È¤Ï½ĞÍè¤Ş¤»¤ó¡£", "You may not do that right now."));
 			}
 			break;
 		}
@@ -3862,7 +3862,7 @@ static void process_menus(WORD wCmd)
 				/* Paranoia */
 				if (!can_save)
 				{
-					plog(_("ä»Šã¯çµ‚äº†ã§ãã¾ã›ã‚“ã€‚", "You may not do that right now."));
+					plog(_("º£¤Ï½ªÎ»¤Ç¤­¤Ş¤»¤ó¡£", "You may not do that right now."));
 					break;
 				}
 
@@ -3934,11 +3934,11 @@ static void process_menus(WORD wCmd)
 		{
 			if (!initialized)
 			{
-				plog(_("ã¾ã åˆæœŸåŒ–ä¸­ã§ã™...", "You cannot do that yet..."));
+				plog(_("¤Ş¤À½é´ü²½Ãæ¤Ç¤¹...", "You cannot do that yet..."));
 			}
 			else if (game_in_progress)
 			{
-				plog(_("ãƒ—ãƒ¬ã‚¤ä¸­ã¯ãƒ ãƒ¼ãƒ“ãƒ¼ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ï¼", "You can't open a movie while you're playing!"));
+				plog(_("¥×¥ì¥¤Ãæ¤Ï¥à¡¼¥Ó¡¼¤ò¥í¡¼¥É¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡ª", "You can't open a movie while you're playing!"));
 			}
 			else
 			{
@@ -3967,7 +3967,7 @@ static void process_menus(WORD wCmd)
 
 		case IDM_WINDOW_VIS_0:
 		{
-			plog(_("ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¯éè¡¨ç¤ºã«ã§ãã¾ã›ã‚“ï¼", "You are not allowed to do that!"));
+			plog(_("¥á¥¤¥ó¥¦¥£¥ó¥É¥¦¤ÏÈóÉ½¼¨¤Ë¤Ç¤­¤Ş¤»¤ó¡ª", "You are not allowed to do that!"));
 			break;
 		}
 
@@ -4384,7 +4384,7 @@ static void process_menus(WORD wCmd)
 				ofn.lpstrFile = bg_bitmap_file;
 				ofn.nMaxFile = 1023;
 				ofn.lpstrInitialDir = NULL;
-				ofn.lpstrTitle = _("å£ç´™ã‚’é¸ã‚“ã§ã­ã€‚", "Choose wall paper.");
+				ofn.lpstrTitle = _("ÊÉ»æ¤òÁª¤ó¤Ç¤Í¡£", "Choose wall paper.");
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 
 				if (GetOpenFileName(&ofn))
@@ -4415,7 +4415,7 @@ static void process_menus(WORD wCmd)
 			ofn.nMaxFile = 1023;
 			ofn.lpstrDefExt = "html";
 			ofn.lpstrInitialDir = NULL;
-			ofn.lpstrTitle = _("HTMLã§ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒ€ãƒ³ãƒ—ã‚’ä¿å­˜", "Save screen dump as HTML.");
+			ofn.lpstrTitle = _("HTML¤Ç¥¹¥¯¥ê¡¼¥ó¥À¥ó¥×¤òÊİÂ¸", "Save screen dump as HTML.");
 			ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
 
 			if (GetSaveFileName(&ofn))
@@ -4451,7 +4451,7 @@ static void process_menus(WORD wCmd)
 				}
 				else
 				{
-					plog(_("ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆå‡ºæ¥ã¾ã›ã‚“", "Failed to create saver window"));
+					plog(_("¥¦¥£¥ó¥É¥¦¤òºîÀ®½ĞÍè¤Ş¤»¤ó", "Failed to create saver window"));
 				}
 			}
 			break;
@@ -4477,8 +4477,8 @@ static void process_menus(WORD wCmd)
 			else
 			{
 #ifdef JP
-				plog_fmt("ãƒ˜ãƒ«ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«[%s]ãŒè¦‹ä»˜ã‹ã‚Šã¾ã›ã‚“ã€‚", tmp);
-				plog("ä»£ã‚ã‚Šã«ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒ˜ãƒ«ãƒ—ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚");
+				plog_fmt("¥Ø¥ë¥×¥Õ¥¡¥¤¥ë[%s]¤¬¸«ÉÕ¤«¤ê¤Ş¤»¤ó¡£", tmp);
+				plog("Âå¤ï¤ê¤Ë¥ª¥ó¥é¥¤¥ó¥Ø¥ë¥×¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£");
 #else
 				plog_fmt("Cannot find help file: %s", tmp);
 				plog("Use the online help files instead.");
@@ -4498,8 +4498,8 @@ static void process_menus(WORD wCmd)
 			else
 			{
 #ifdef JP
-				plog_fmt("ãƒ˜ãƒ«ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«[%s]ãŒè¦‹ä»˜ã‹ã‚Šã¾ã›ã‚“ã€‚", tmp);
-				plog("ä»£ã‚ã‚Šã«ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒ˜ãƒ«ãƒ—ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚");
+				plog_fmt("¥Ø¥ë¥×¥Õ¥¡¥¤¥ë[%s]¤¬¸«ÉÕ¤«¤ê¤Ş¤»¤ó¡£", tmp);
+				plog("Âå¤ï¤ê¤Ë¥ª¥ó¥é¥¤¥ó¥Ø¥ë¥×¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£");
 #else
 				plog_fmt("Cannot find help file: %s", tmp);
 				plog("Use the online help files instead.");
@@ -4837,7 +4837,7 @@ LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 			{
 				if (!can_save)
 				{
-					plog(_("ä»Šã¯çµ‚äº†ã§ãã¾ã›ã‚“ã€‚", "You may not do that right now."));
+					plog(_("º£¤Ï½ªÎ»¤Ç¤­¤Ş¤»¤ó¡£", "You may not do that right now."));
 					return 0;
 				}
 
@@ -4870,7 +4870,7 @@ LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 
 				/* Mega-Hack -- Delay death */
 				if (p_ptr->chp < 0) p_ptr->is_dead = FALSE;
-				do_cmd_write_nikki(NIKKI_GAMESTART, 0, _("----ã‚²ãƒ¼ãƒ ä¸­æ–­----", "---- Save and Exit Game ----"));
+				do_cmd_write_nikki(NIKKI_GAMESTART, 0, _("----¥²¡¼¥àÃæÃÇ----", "---- Save and Exit Game ----"));
 
 				/* Hardcode panic save */
 				p_ptr->panic_save = 1;
@@ -4879,7 +4879,7 @@ LRESULT FAR PASCAL AngbandWndProc(HWND hWnd, UINT uMsg,
 				signals_ignore_tstp();
 
 				/* Indicate panic save */
-				(void)strcpy(p_ptr->died_from, _("(ç·Šæ€¥ã‚»ãƒ¼ãƒ–)", "(panic save)"));
+				(void)strcpy(p_ptr->died_from, _("(¶ÛµŞ¥»¡¼¥Ö)", "(panic save)"));
 
 				/* Panic save */
 				(void)save_player();
@@ -5333,7 +5333,7 @@ static void hack_plog(cptr str)
 	if (str)
 	{
 #ifdef JP
-		MessageBox(NULL, str, "è­¦å‘Šï¼",
+		MessageBox(NULL, str, "·Ù¹ğ¡ª",
 			   MB_ICONEXCLAMATION | MB_OK);
 #else
 		MessageBox(NULL, str, "Warning",
@@ -5353,7 +5353,7 @@ static void hack_quit(cptr str)
 	if (str)
 	{
 #ifdef JP
-		MessageBox(NULL, str, "ã‚¨ãƒ©ãƒ¼ï¼",
+		MessageBox(NULL, str, "¥¨¥é¡¼¡ª",
 			   MB_ICONEXCLAMATION | MB_OK | MB_ICONSTOP);
 #else
 		MessageBox(NULL, str, "Error",
@@ -5386,7 +5386,7 @@ static void hook_plog(cptr str)
 	if (str)
 	{
 #ifdef JP
-		MessageBox(data[0].w, str, "è­¦å‘Šï¼",
+		MessageBox(data[0].w, str, "·Ù¹ğ¡ª",
 			   MB_ICONEXCLAMATION | MB_OK);
 #else
 		MessageBox(data[0].w, str, "Warning",
@@ -5409,7 +5409,7 @@ static void hook_quit(cptr str)
 	if (str)
 	{
 #ifdef JP
-		MessageBox(data[0].w, str, "ã‚¨ãƒ©ãƒ¼ï¼",
+		MessageBox(data[0].w, str, "¥¨¥é¡¼¡ª",
 			   MB_ICONEXCLAMATION | MB_OK | MB_ICONSTOP);
 #else
 		MessageBox(data[0].w, str, "Error",
@@ -5644,8 +5644,8 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 	if (is_already_running())
 	{
 		MessageBox(NULL,
-				_("å¤‰æ„šè›®æ€’ã¯ã™ã§ã«èµ·å‹•ã—ã¦ã„ã¾ã™ã€‚", "Hengband is already running."), 
-				_("ã‚¨ãƒ©ãƒ¼ï¼", "Error") ,
+				_("ÊÑ¶òÈÚÅÜ¤Ï¤¹¤Ç¤Ëµ¯Æ°¤·¤Æ¤¤¤Ş¤¹¡£", "Hengband is already running."), 
+				_("¥¨¥é¡¼¡ª", "Error") ,
 				MB_ICONEXCLAMATION | MB_OK | MB_ICONSTOP);
 		return FALSE;
 	}
@@ -5820,7 +5820,7 @@ int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,
 #endif
 
 	/* Prompt the user */
-	prt(_("[ãƒ•ã‚¡ã‚¤ãƒ«] ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã® [æ–°è¦] ã¾ãŸã¯ [é–‹ã] ã‚’é¸æŠã—ã¦ãã ã•ã„ã€‚", "[Choose 'New' or 'Open' from the 'File' menu]"), 23, _(8, 17));
+	prt(_("[¥Õ¥¡¥¤¥ë] ¥á¥Ë¥å¡¼¤Î [¿·µ¬] ¤Ş¤¿¤Ï [³«¤¯] ¤òÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£", "[Choose 'New' or 'Open' from the 'File' menu]"), 23, _(8, 17));
 
 	Term_fresh();
 

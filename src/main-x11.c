@@ -1,4 +1,4 @@
-﻿/* File: main-x11.c */
+/* File: main-x11.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, and others
@@ -11,15 +11,15 @@
 
 #ifdef USE_JP_FONTSTRUCT
 /*
- * 日本語(EUC-JAPAN)対応 (-DJP)
- *    ・漢字フォントの扱いを追加
- *    ・日本語を含む文字列の表示ルーチン XDrawMultiString() の追加
- *    ・日本語の表示幅は，フォントの情報によらすASCIIフォントの2倍に固定
+ * ���ܸ�(EUC-JAPAN)�б� (-DJP)
+ *    �������ե���Ȥΰ������ɲ�
+ *    �����ܸ��ޤ�ʸ�����ɽ���롼���� XDrawMultiString() ���ɲ�
+ *    �����ܸ��ɽ�����ϡ��ե���Ȥξ���ˤ�餹ASCII�ե���Ȥ�2�ܤ˸���
  *
- * 未対応
- *      EUC半角の扱い
+ * ̤�б�
+ *      EUCȾ�Ѥΰ���
  *
- * 1996/6/7  李 晃伸 (ri@kuis.kyoto-u.ac.jp)
+ * 1996/6/7  �� ���� (ri@kuis.kyoto-u.ac.jp)
  */
 #endif
 /*
@@ -1310,7 +1310,7 @@ static errr Infofnt_prepare(XFontStruct *info)
 		if(ascent < (*fontinfo)->ascent) ascent = (*fontinfo)->ascent;
 		if(descent < (*fontinfo)->descent) descent = (*fontinfo)->descent;
 		if(((*fontinfo)->max_byte1) > 0){
-			/* 多バイト文字の場合は幅半分(端数切り上げ)で評価する */
+			/* ¿�Х���ʸ���ξ�����Ⱦʬ(ü���ڤ�夲)��ɾ������ */
 			if(width < (cs->width+1)/2) width = (cs->width+1)/2;
 		}else{
 			if(width < cs->width) width = cs->width;
@@ -1507,7 +1507,7 @@ static void Infofnt_init_data(cptr name)
 
 #ifdef USE_JP_FONTSTRUCT
 /*
- * EUC日本語コードを含む文字列を表示する (Xlib)
+ * EUC���ܸ쥳���ɤ�ޤ�ʸ�����ɽ������ (Xlib)
  */
 static void
 XDrawMultiString(display,d,gc, x, y, string, len, afont, 
@@ -1536,48 +1536,48 @@ XDrawMultiString(display,d,gc, x, y, string, len, afont,
 #ifdef TOFU      
       if ( (*str) == 0x7f ) {
 	  
-	  /* 0x7Fは■で決め打ち */
+	  /* 0x7F�Ϣ��Ƿ���Ǥ� */
 	  
-	  /* 連続する0x7Fの長さを検出 */
+	  /* Ϣ³����0x7F��Ĺ���򸡽� */
 	  slen = 0;
 	  while ( str < endp && (*str) == 0x7f ) {
 	      slen++; 
 	      str++;
 	  }
 	  
-	  /* 描画 */
+	  /* ���� */
 	  XFillRectangle( display, d, gc, x, y-afont_ascent, 
 			  slen * afont_width, afont_height);
  
-	  /* ポインタを進める */
+	  /* �ݥ��󥿤�ʤ�� */
 	  x += afont_width * slen;
       } 
       else  
 #endif
       if ( iskanji(*str) ) {
 	  
-	  /* UJISの始まり */
+	  /* UJIS�λϤޤ� */
 	  
-	  /* 連続するUJIS文字の長さを検出 */
+	  /* Ϣ³����UJISʸ����Ĺ���򸡽� */
 	  slen = 0;
 	  while ( str < endp && *str && iskanji(*str) ) {
 	      kanji[slen].byte1 = *str++ & 0x7f;
 	      kanji[slen++].byte2 = *str++ & 0x7f;
 	  }
 	  
-	  /* 描画 */
+	  /* ���� */
 	  XSetFont( display, gc, kfont->fid );
 	  XDrawImageString16( display, d, gc, x, y, kanji, slen );
 
  
-	  /* ポインタを進める */
+	  /* �ݥ��󥿤�ʤ�� */
 	  x += kfont_width * slen;
 	  
       } else {
 	  
-	  /* 非漢字(=ASCIIと仮定)の始まり */
+	  /* �����(=ASCII�Ȳ���)�λϤޤ� */
 	  
-	  /* 連続するASCII文字を検出 */
+	  /* Ϣ³����ASCIIʸ���򸡽� */
 	  p = str;
 	  slen = 0;
 	  while ( str < endp && *str && !iskanji(*str) ) {
@@ -1588,11 +1588,11 @@ XDrawMultiString(display,d,gc, x, y, string, len, afont,
 	      slen++;
 	  }
 	  
-	  /* 描画 */
+	  /* ���� */
 	  XSetFont( display, gc, afont->fid );
 	  XDrawImageString( display, d, gc, x, y, p, slen );
 	  
-	  /* ポインタを進める */
+	  /* �ݥ��󥿤�ʤ�� */
 	  x += afont_width * slen;
       }
     }
@@ -1657,7 +1657,7 @@ static errr Infofnt_text_std(int x, int y, cptr str, int len)
 	{
 		/* Note that the Infoclr is set up to contain the Infofnt */
 #ifdef USE_JP_FONTSTRUCT
-		/* 漢字フォントの表示幅は ASCIIフォントの2倍に固定 */
+		/* �����ե���Ȥ�ɽ������ ASCII�ե���Ȥ�2�ܤ˸��� */
 		XDrawMultiString(Metadpy->dpy, Infowin->win, Infoclr->gc,
 				 x, y, str, len,
 				 Infofnt->info, Infofnt->wid, Infofnt->hgt,

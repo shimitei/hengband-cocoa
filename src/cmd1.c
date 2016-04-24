@@ -1,6 +1,6 @@
-ï»¿/*!
+/*!
  *  @file cmd1.c
- *  @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ãƒãƒ³ãƒ‰å‡¦ç†1 / Movement commands (part 1)
+ *  @brief ¥×¥ì¥¤¥ä¡¼¤Î¥³¥Ş¥ó¥É½èÍı1 / Movement commands (part 1)
  *  @date 2014/01/02
  *  @author
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -141,17 +141,17 @@
 
 
 #include "angband.h"
-#define MAX_VAMPIRIC_DRAIN 50 /*!< å¸è¡€å‡¦ç†ã®æœ€å¤§å›å¾©HP */
+#define MAX_VAMPIRIC_DRAIN 50 /*!< µÛ·ì½èÍı¤ÎºÇÂç²óÉüHP */
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¸ã®å°„æ’ƒå‘½ä¸­åˆ¤å®š /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤«¤é¥â¥ó¥¹¥¿¡¼¤Ø¤Î¼Í·âÌ¿ÃæÈ½Äê /
  * Determine if the player "hits" a monster (normal combat).
- * @param chance åŸºæœ¬å‘½ä¸­å€¤
- * @param m_ptr ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param vis ç›®æ¨™ã‚’è¦–ç•Œã«æ•ã‚‰ãˆã¦ã„ã‚‹ãªã‚‰ã°TRUEã‚’æŒ‡å®š
- * @param o_name ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤ºæ™‚ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼å
- * @return å‘½ä¸­ã¨åˆ¤å®šã•ã‚ŒãŸå ´åˆTRUEã‚’è¿”ã™
+ * @param chance ´ğËÜÌ¿ÃæÃÍ
+ * @param m_ptr ¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @param vis ÌÜÉ¸¤ò»ë³¦¤ËÊá¤é¤¨¤Æ¤¤¤ë¤Ê¤é¤ĞTRUE¤ò»ØÄê
+ * @param o_name ¥á¥Ã¥»¡¼¥¸É½¼¨»ş¤Î¥â¥ó¥¹¥¿¡¼Ì¾
+ * @return Ì¿Ãæ¤ÈÈ½Äê¤µ¤ì¤¿¾ì¹çTRUE¤òÊÖ¤¹
  * @note Always miss 5%, always hit 5%, otherwise random.
  */
 bool test_hit_fire(int chance, monster_type *m_ptr, int vis, char* o_name)
@@ -189,7 +189,7 @@ bool test_hit_fire(int chance, monster_type *m_ptr, int vis, char* o_name)
 			
 			/* Extract monster name */
 			monster_desc(m_name, m_ptr, 0);
-			msg_format(_("%sã¯%sã‚’æ–¬ã‚Šæ¨ã¦ãŸï¼", "%s cuts down %s!"), m_name, o_name);
+			msg_format(_("%s¤Ï%s¤ò»Â¤ê¼Î¤Æ¤¿¡ª", "%s cuts down %s!"), m_name, o_name);
 		}
 		return (FALSE);
 	}
@@ -201,12 +201,12 @@ bool test_hit_fire(int chance, monster_type *m_ptr, int vis, char* o_name)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¸ã®æ‰“æ’ƒå‘½ä¸­åˆ¤å®š /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤«¤é¥â¥ó¥¹¥¿¡¼¤Ø¤ÎÂÇ·âÌ¿ÃæÈ½Äê /
  * Determine if the player "hits" a monster (normal combat).
- * @param chance åŸºæœ¬å‘½ä¸­å€¤
- * @param ac ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®AC
- * @param vis ç›®æ¨™ã‚’è¦–ç•Œã«æ•ã‚‰ãˆã¦ã„ã‚‹ãªã‚‰ã°TRUEã‚’æŒ‡å®š
- * @return å‘½ä¸­ã¨åˆ¤å®šã•ã‚ŒãŸå ´åˆTRUEã‚’è¿”ã™
+ * @param chance ´ğËÜÌ¿ÃæÃÍ
+ * @param ac ¥â¥ó¥¹¥¿¡¼¤ÎAC
+ * @param vis ÌÜÉ¸¤ò»ë³¦¤ËÊá¤é¤¨¤Æ¤¤¤ë¤Ê¤é¤ĞTRUE¤ò»ØÄê
+ * @return Ì¿Ãæ¤ÈÈ½Äê¤µ¤ì¤¿¾ì¹çTRUE¤òÊÖ¤¹
  * @note Always miss 5%, always hit 5%, otherwise random.
  */
 bool test_hit_norm(int chance, int ac, int vis)
@@ -238,13 +238,13 @@ bool test_hit_norm(int chance, int ac, int vis)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¸ã®å°„æ’ƒã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«åˆ¤å®š /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤«¤é¥â¥ó¥¹¥¿¡¼¤Ø¤Î¼Í·â¥¯¥ê¥Æ¥£¥«¥ëÈ½Äê /
  * Critical hits (from objects thrown by player) Factor in item weight, total plusses, and player level.
- * @param weight çŸ¢å¼¾ã®é‡é‡
- * @param plus_ammo çŸ¢å¼¾ã®å‘½ä¸­ä¿®æ­£
- * @param plus_bow å¼“ã®å‘½ä¸­ä¿®æ­£
- * @param dam ç¾åœ¨ç®—å‡ºä¸­ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
- * @return ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ä¿®æ­£ãŒå…¥ã£ãŸãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
+ * @param weight ÌğÃÆ¤Î½ÅÎÌ
+ * @param plus_ammo ÌğÃÆ¤ÎÌ¿Ãæ½¤Àµ
+ * @param plus_bow µİ¤ÎÌ¿Ãæ½¤Àµ
+ * @param dam ¸½ºß»»½ĞÃæ¤Î¥À¥á¡¼¥¸ÃÍ
+ * @return ¥¯¥ê¥Æ¥£¥«¥ë½¤Àµ¤¬Æş¤Ã¤¿¥À¥á¡¼¥¸ÃÍ
  */
 s16b critical_shot(int weight, int plus_ammo, int plus_bow, int dam)
 {
@@ -274,17 +274,17 @@ s16b critical_shot(int weight, int plus_ammo, int plus_bow, int dam)
 
 		if (k < 900)
 		{
-			msg_print(_("æ‰‹ã”ãŸãˆãŒã‚ã£ãŸï¼", "It was a good hit!"));
+			msg_print(_("¼ê¤´¤¿¤¨¤¬¤¢¤Ã¤¿¡ª", "It was a good hit!"));
 			dam += (dam / 2);
 		}
 		else if (k < 1350)
 		{
-			msg_print(_("ã‹ãªã‚Šã®æ‰‹ã”ãŸãˆãŒã‚ã£ãŸï¼", "It was a great hit!"));
+			msg_print(_("¤«¤Ê¤ê¤Î¼ê¤´¤¿¤¨¤¬¤¢¤Ã¤¿¡ª", "It was a great hit!"));
 			dam *= 2;
 		}
 		else
 		{
-			msg_print(_("ä¼šå¿ƒã®ä¸€æ’ƒã ï¼", "It was a superb hit!"));
+			msg_print(_("²ñ¿´¤Î°ì·â¤À¡ª", "It was a superb hit!"));
 			dam *= 3;
 		}
 	}
@@ -295,14 +295,14 @@ s16b critical_shot(int weight, int plus_ammo, int plus_bow, int dam)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã¸ã®æ‰“æ’ƒã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«åˆ¤å®š /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤«¤é¥â¥ó¥¹¥¿¡¼¤Ø¤ÎÂÇ·â¥¯¥ê¥Æ¥£¥«¥ëÈ½Äê /
  * Critical hits (by player) Factor in weapon weight, total plusses, player melee bonus
- * @param weight çŸ¢å¼¾ã®é‡é‡
- * @param plus æ­¦å™¨ã®å‘½ä¸­ä¿®æ­£
- * @param dam ç¾åœ¨ç®—å‡ºä¸­ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
- * @param meichuu æ‰“æ’ƒã®åŸºæœ¬å‘½ä¸­åŠ›
- * @param mode ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
- * @return ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ä¿®æ­£ãŒå…¥ã£ãŸãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
+ * @param weight ÌğÃÆ¤Î½ÅÎÌ
+ * @param plus Éğ´ï¤ÎÌ¿Ãæ½¤Àµ
+ * @param dam ¸½ºß»»½ĞÃæ¤Î¥À¥á¡¼¥¸ÃÍ
+ * @param meichuu ÂÇ·â¤Î´ğËÜÌ¿ÃæÎÏ
+ * @param mode ¥ª¥×¥·¥ç¥ó¥Õ¥é¥°
+ * @return ¥¯¥ê¥Æ¥£¥«¥ë½¤Àµ¤¬Æş¤Ã¤¿¥À¥á¡¼¥¸ÃÍ
  */
 s16b critical_norm(int weight, int plus, int dam, s16b meichuu, int mode)
 {
@@ -319,28 +319,28 @@ s16b critical_norm(int weight, int plus, int dam, s16b meichuu, int mode)
 
 		if (k < 400)
 		{
-			msg_print(_("æ‰‹ã”ãŸãˆãŒã‚ã£ãŸï¼", "It was a good hit!"));
+			msg_print(_("¼ê¤´¤¿¤¨¤¬¤¢¤Ã¤¿¡ª", "It was a good hit!"));
 
 			dam = 2 * dam + 5;
 		}
 		else if (k < 700)
 		{
-			msg_print(_("ã‹ãªã‚Šã®æ‰‹ã”ãŸãˆãŒã‚ã£ãŸï¼", "It was a great hit!"));
+			msg_print(_("¤«¤Ê¤ê¤Î¼ê¤´¤¿¤¨¤¬¤¢¤Ã¤¿¡ª", "It was a great hit!"));
 			dam = 2 * dam + 10;
 		}
 		else if (k < 900)
 		{
-			msg_print(_("ä¼šå¿ƒã®ä¸€æ’ƒã ï¼", "It was a superb hit!"));
+			msg_print(_("²ñ¿´¤Î°ì·â¤À¡ª", "It was a superb hit!"));
 			dam = 3 * dam + 15;
 		}
 		else if (k < 1300)
 		{
-			msg_print(_("æœ€é«˜ã®ä¼šå¿ƒã®ä¸€æ’ƒã ï¼", "It was a *GREAT* hit!"));
+			msg_print(_("ºÇ¹â¤Î²ñ¿´¤Î°ì·â¤À¡ª", "It was a *GREAT* hit!"));
 			dam = 3 * dam + 20;
 		}
 		else
 		{
-			msg_print(_("æ¯”é¡ãªãæœ€é«˜ã®ä¼šå¿ƒã®ä¸€æ’ƒã ï¼", "It was a *SUPERB* hit!"));
+			msg_print(_("ÈæÎà¤Ê¤­ºÇ¹â¤Î²ñ¿´¤Î°ì·â¤À¡ª", "It was a *SUPERB* hit!"));
 			dam = ((7 * dam) / 2) + 25;
 		}
 	}
@@ -351,11 +351,11 @@ s16b critical_norm(int weight, int plus, int dam, s16b meichuu, int mode)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ”»æ’ƒã®ç¨®æ—ã‚¹ãƒ¬ã‚¤ãƒ³ã‚°å€ç‡è¨ˆç®—
- * @param mult ç®—å‡ºå‰ã®åŸºæœ¬å€ç‡(/10å€)
- * @param flgs ã‚¹ãƒ¬ã‚¤ãƒ•ãƒ©ã‚°é…åˆ—
- * @param m_ptr ç›®æ¨™ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚¹ãƒ¬ã‚¤ãƒ³ã‚°åŠ å‘³å¾Œã®å€ç‡(/10å€)
+ * @brief ¥×¥ì¥¤¥ä¡¼¹¶·â¤Î¼ïÂ²¥¹¥ì¥¤¥ó¥°ÇÜÎ¨·×»»
+ * @param mult »»½ĞÁ°¤Î´ğËÜÇÜÎ¨(/10ÇÜ)
+ * @param flgs ¥¹¥ì¥¤¥Õ¥é¥°ÇÛÎó
+ * @param m_ptr ÌÜÉ¸¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥¹¥ì¥¤¥ó¥°²ÃÌ£¸å¤ÎÇÜÎ¨(/10ÇÜ)
  */
 static int mult_slaying(int mult, const u32b* flgs, const monster_type* m_ptr)
 {
@@ -412,11 +412,11 @@ static int mult_slaying(int mult, const u32b* flgs, const monster_type* m_ptr)
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ”»æ’ƒã®å±æ€§ã‚¹ãƒ¬ã‚¤ãƒ³ã‚°å€ç‡è¨ˆç®—
- * @param mult ç®—å‡ºå‰ã®åŸºæœ¬å€ç‡(/10å€)
- * @param flgs ã‚¹ãƒ¬ã‚¤ãƒ•ãƒ©ã‚°é…åˆ—
- * @param m_ptr ç›®æ¨™ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ã‚¹ãƒ¬ã‚¤ãƒ³ã‚°åŠ å‘³å¾Œã®å€ç‡(/10å€)
+ * @brief ¥×¥ì¥¤¥ä¡¼¹¶·â¤ÎÂ°À­¥¹¥ì¥¤¥ó¥°ÇÜÎ¨·×»»
+ * @param mult »»½ĞÁ°¤Î´ğËÜÇÜÎ¨(/10ÇÜ)
+ * @param flgs ¥¹¥ì¥¤¥Õ¥é¥°ÇÛÎó
+ * @param m_ptr ÌÜÉ¸¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¥¹¥ì¥¤¥ó¥°²ÃÌ£¸å¤ÎÇÜÎ¨(/10ÇÜ)
  */
 static int mult_brand(int mult, const u32b* flgs, const monster_type* m_ptr)
 {
@@ -470,14 +470,14 @@ static int mult_brand(int mult, const u32b* flgs, const monster_type* m_ptr)
 }
 
 /*!
- * @brief ãƒ€ãƒ¡ãƒ¼ã‚¸ã«ã‚¹ãƒ¬ã‚¤è¦ç´ ã‚’åŠ ãˆã‚‹ç·åˆå‡¦ç†ãƒ«ãƒ¼ãƒãƒ³ /
+ * @brief ¥À¥á¡¼¥¸¤Ë¥¹¥ì¥¤Í×ÁÇ¤ò²Ã¤¨¤ëÁí¹ç½èÍı¥ë¡¼¥Á¥ó /
  * Extract the "total damage" from a given object hitting a given monster.
- * @param o_ptr ä½¿ç”¨æ­¦å™¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param tdam ç¾åœ¨ç®—å‡ºé€”ä¸­ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
- * @param m_ptr ç›®æ¨™ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param mode å‰£è¡“ã®ID
- * @param thrown å°„æ’ƒå‡¦ç†ãªã‚‰ã°TRUEã‚’æŒ‡å®šã™ã‚‹
- * @return ç·åˆçš„ãªã‚¹ãƒ¬ã‚¤ã‚’åŠ å‘³ã—ãŸãƒ€ãƒ¡ãƒ¼ã‚¸å€¤
+ * @param o_ptr »ÈÍÑÉğ´ï¥ª¥Ö¥¸¥§¥¯¥È¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @param tdam ¸½ºß»»½ĞÅÓÃæ¤Î¥À¥á¡¼¥¸ÃÍ
+ * @param m_ptr ÌÜÉ¸¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @param mode ·õ½Ñ¤ÎID
+ * @param thrown ¼Í·â½èÍı¤Ê¤é¤ĞTRUE¤ò»ØÄê¤¹¤ë
+ * @return Áí¹çÅª¤Ê¥¹¥ì¥¤¤ò²ÃÌ£¤·¤¿¥À¥á¡¼¥¸ÃÍ
  * @note
  * Note that "flasks of oil" do NOT do fire damage, although they\n
  * certainly could be made to do so.  XXX XXX\n
@@ -554,11 +554,11 @@ s16b tot_dam_aux(object_type *o_ptr, int tdam, monster_type *m_ptr, int mode, bo
 
 
 /*!
- * @brief åœ°å½¢ã‚„ãã®ä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ã®éš ã•ã‚ŒãŸè¦ç´ ã‚’æ˜ã‹ã™ /
+ * @brief ÃÏ·Á¤ä¤½¤Î¾å¤Î¥¢¥¤¥Æ¥à¤Î±£¤µ¤ì¤¿Í×ÁÇ¤òÌÀ¤«¤¹ /
  * Search for hidden things
- * @param y å¯¾è±¡ã¨ãªã‚‹ãƒã‚¹ã®Yåº§æ¨™
- * @param x å¯¾è±¡ã¨ãªã‚‹ãƒã‚¹ã®Xåº§æ¨™
- * @return ãªã—
+ * @param y ÂĞ¾İ¤È¤Ê¤ë¥Ş¥¹¤ÎYºÂÉ¸
+ * @param x ÂĞ¾İ¤È¤Ê¤ë¥Ş¥¹¤ÎXºÂÉ¸
+ * @return ¤Ê¤·
  */
 static void discover_hidden_things(int y, int x)
 {
@@ -576,7 +576,7 @@ static void discover_hidden_things(int y, int x)
 		disclose_grid(y, x);
 
 		/* Message */
-		msg_print(_("ãƒˆãƒ©ãƒƒãƒ—ã‚’ç™ºè¦‹ã—ãŸã€‚", "You have found a trap."));
+		msg_print(_("¥È¥é¥Ã¥×¤òÈ¯¸«¤·¤¿¡£", "You have found a trap."));
 
 		/* Disturb */
 		disturb(0, 1);
@@ -586,7 +586,7 @@ static void discover_hidden_things(int y, int x)
 	if (is_hidden_door(c_ptr))
 	{
 		/* Message */
-		msg_print(_("éš ã—ãƒ‰ã‚¢ã‚’ç™ºè¦‹ã—ãŸã€‚", "You have found a secret door."));
+		msg_print(_("±£¤·¥É¥¢¤òÈ¯¸«¤·¤¿¡£", "You have found a secret door."));
 
 		/* Disclose */
 		disclose_grid(y, x);
@@ -616,7 +616,7 @@ static void discover_hidden_things(int y, int x)
 		if (!object_is_known(o_ptr))
 		{
 			/* Message */
-			msg_print(_("ç®±ã«ä»•æ›ã‘ã‚‰ã‚ŒãŸãƒˆãƒ©ãƒƒãƒ—ã‚’ç™ºè¦‹ã—ãŸï¼", "You have discovered a trap on the chest!"));
+			msg_print(_("È¢¤Ë»Å³İ¤±¤é¤ì¤¿¥È¥é¥Ã¥×¤òÈ¯¸«¤·¤¿¡ª", "You have discovered a trap on the chest!"));
 
 			/* Know the trap */
 			object_known(o_ptr);
@@ -628,8 +628,8 @@ static void discover_hidden_things(int y, int x)
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ¢ç´¢å‡¦ç†åˆ¤å®š
- * @return ãªã—
+ * @brief ¥×¥ì¥¤¥ä¡¼¤ÎÃµº÷½èÍıÈ½Äê
+ * @return ¤Ê¤·
  */
 void search(void)
 {
@@ -655,16 +655,16 @@ void search(void)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ‹¾ã£ãŸéš›ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤ºå‡¦ç† /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤¬¥ª¥Ö¥¸¥§¥¯¥È¤ò½¦¤Ã¤¿ºİ¤Î¥á¥Ã¥»¡¼¥¸É½¼¨½èÍı /
  * Helper routine for py_pickup() and py_pickup_floor().
- * @param o_idx å–å¾—ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‚ç…§ID
- * @return ãªã—
+ * @param o_idx ¼èÆÀ¤·¤¿¥ª¥Ö¥¸¥§¥¯¥È¤Î»²¾ÈID
+ * @return ¤Ê¤·
  * @details
- * ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã£ãŸéš›ã«ã€Œï¼’ã¤ã®ã‚±ãƒ¼ã‚­ã‚’æŒã£ã¦ã„ã‚‹ã€\n
- * "You have two cakes." ã¨ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã£ãŸå¾Œã®åˆè¨ˆã®ã¿ã®è¡¨ç¤ºãŒã‚ªãƒªã‚¸ãƒŠãƒ«\n
- * ã ãŒã€é•å’Œæ„ŸãŒ\n
- * ã‚ã‚‹ã¨ã„ã†æŒ‡æ‘˜ã‚’ã†ã‘ãŸã®ã§ã€ã€Œï½ã‚’æ‹¾ã£ãŸã€ï½ã‚’æŒã£ã¦ã„ã‚‹ã€ã¨ã„ã†è¡¨ç¤º\n
- * ã«ã‹ãˆã¦ã‚ã‚‹ã€‚ãã®ãŸã‚ã®é…åˆ—ã€‚\n
+ * ¥¢¥¤¥Æ¥à¤ò½¦¤Ã¤¿ºİ¤Ë¡Ö£²¤Ä¤Î¥±¡¼¥­¤ò»ı¤Ã¤Æ¤¤¤ë¡×\n
+ * "You have two cakes." ¤È¥¢¥¤¥Æ¥à¤ò½¦¤Ã¤¿¸å¤Î¹ç·×¤Î¤ß¤ÎÉ½¼¨¤¬¥ª¥ê¥¸¥Ê¥ë\n
+ * ¤À¤¬¡¢°ãÏÂ´¶¤¬\n
+ * ¤¢¤ë¤È¤¤¤¦»ØÅ¦¤ò¤¦¤±¤¿¤Î¤Ç¡¢¡Ö¡Á¤ò½¦¤Ã¤¿¡¢¡Á¤ò»ı¤Ã¤Æ¤¤¤ë¡×¤È¤¤¤¦É½¼¨\n
+ * ¤Ë¤«¤¨¤Æ¤¢¤ë¡£¤½¤Î¤¿¤á¤ÎÇÛÎó¡£\n
  * Add the given dungeon object to the character's inventory.\n
  * Delete the object afterwards.\n
  */
@@ -718,23 +718,23 @@ void py_pickup_aux(int o_idx)
 #ifdef JP
 	if ((o_ptr->name1 == ART_CRIMSON) && (p_ptr->pseikaku == SEIKAKU_COMBAT))
 	{
-		msg_format("ã“ã†ã—ã¦ã€%sã¯ã€ã‚¯ãƒªãƒ ã‚¾ãƒ³ã€ã‚’æ‰‹ã«å…¥ã‚ŒãŸã€‚", player_name);
-		msg_print("ã—ã‹ã—ä»Šã€ã€æ··æ²Œã®ã‚µãƒ¼ãƒšãƒ³ãƒˆã€ã®æ”¾ã£ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒã€");
-		msg_format("%sã«è¥²ã„ã‹ã‹ã‚‹ï¼ï¼ï¼", player_name);
+		msg_format("¤³¤¦¤·¤Æ¡¢%s¤Ï¡Ø¥¯¥ê¥à¥¾¥ó¡Ù¤ò¼ê¤ËÆş¤ì¤¿¡£", player_name);
+		msg_print("¤·¤«¤·º£¡¢¡Øº®ÆÙ¤Î¥µ¡¼¥Ú¥ó¥È¡Ù¤ÎÊü¤Ã¤¿¥â¥ó¥¹¥¿¡¼¤¬¡¢");
+		msg_format("%s¤Ë½±¤¤¤«¤«¤ë¡¥¡¥¡¥", player_name);
 	}
 	else
 	{
 		if (plain_pickup)
 		{
-			msg_format("%s(%c)ã‚’æŒã£ã¦ã„ã‚‹ã€‚",o_name, index_to_label(slot));
+			msg_format("%s(%c)¤ò»ı¤Ã¤Æ¤¤¤ë¡£",o_name, index_to_label(slot));
 		}
 		else
 		{
 			if (o_ptr->number > hirottakazu) {
-			    msg_format("%sæ‹¾ã£ã¦ã€%s(%c)ã‚’æŒã£ã¦ã„ã‚‹ã€‚",
+			    msg_format("%s½¦¤Ã¤Æ¡¢%s(%c)¤ò»ı¤Ã¤Æ¤¤¤ë¡£",
 			       kazu_str, o_name, index_to_label(slot));
 			} else {
-				msg_format("%s(%c)ã‚’æ‹¾ã£ãŸã€‚", o_name, index_to_label(slot));
+				msg_format("%s(%c)¤ò½¦¤Ã¤¿¡£", o_name, index_to_label(slot));
 			}
 		}
 	}
@@ -751,9 +751,9 @@ void py_pickup_aux(int o_idx)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä¸Šã«ä¹—ã£ãŸéš›ã®è¡¨ç¤ºå‡¦ç†
- * @param pickup è‡ªå‹•æ‹¾ã„å‡¦ç†ã‚’è¡Œã†ãªã‚‰ã°TRUEã¨ã™ã‚‹
- * @return ãªã—
+ * @brief ¥×¥ì¥¤¥ä¡¼¤¬¥ª¥Ö¥¸¥§¥¯¥È¾å¤Ë¾è¤Ã¤¿ºİ¤ÎÉ½¼¨½èÍı
+ * @param pickup ¼«Æ°½¦¤¤½èÍı¤ò¹Ô¤¦¤Ê¤é¤ĞTRUE¤È¤¹¤ë
+ * @return ¤Ê¤·
  * @details
  * Player "wants" to pick up an object or gold.
  * Note that we ONLY handle things that can be picked up.
@@ -834,7 +834,7 @@ void carry(bool pickup)
 
 			/* Message */
 #ifdef JP
-		msg_format(" $%ld ã®ä¾¡å€¤ãŒã‚ã‚‹%sã‚’è¦‹ã¤ã‘ãŸã€‚",
+		msg_format(" $%ld ¤Î²ÁÃÍ¤¬¤¢¤ë%s¤ò¸«¤Ä¤±¤¿¡£",
 			   (long)value, o_name);
 #else
 			msg_format("You collect %ld gold pieces worth of %s.",
@@ -866,13 +866,13 @@ void carry(bool pickup)
 			/* Describe the object */
 			else if (!pickup)
 			{
-				msg_format(_("%sãŒã‚ã‚‹ã€‚", "You see %s."), o_name);
+				msg_format(_("%s¤¬¤¢¤ë¡£", "You see %s."), o_name);
 			}
 
 			/* Note that the pack is too full */
 			else if (!inven_carry_okay(o_ptr))
 			{
-				msg_format(_("ã‚¶ãƒƒã‚¯ã«ã¯%sã‚’å…¥ã‚Œã‚‹éš™é–“ãŒãªã„ã€‚", "You have no room for %s."), o_name);
+				msg_format(_("¥¶¥Ã¥¯¤Ë¤Ï%s¤òÆş¤ì¤ë·ä´Ö¤¬¤Ê¤¤¡£", "You have no room for %s."), o_name);
 			}
 
 			/* Pick up the item (if requested and allowed) */
@@ -884,7 +884,7 @@ void carry(bool pickup)
 				if (carry_query_flag)
 				{
 					char out_val[MAX_NLEN+20];
-					sprintf(out_val, _("%sã‚’æ‹¾ã„ã¾ã™ã‹? ", "Pick up %s? "), o_name);
+					sprintf(out_val, _("%s¤ò½¦¤¤¤Ş¤¹¤«? ", "Pick up %s? "), o_name);
 					okay = get_check(out_val);
 				}
 
@@ -901,10 +901,10 @@ void carry(bool pickup)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®ãƒˆãƒ©ãƒƒãƒ—å‘½ä¸­åˆ¤å®š /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Ø¤Î¥È¥é¥Ã¥×Ì¿ÃæÈ½Äê /
  * Determine if a trap affects the player.
- * @param power åŸºæœ¬å›é¿é›£åº¦
- * @return ãƒˆãƒ©ãƒƒãƒ—ãŒå‘½ä¸­ã—ãŸå ´åˆTRUEã‚’è¿”ã™ã€‚
+ * @param power ´ğËÜ²óÈòÆñÅÙ
+ * @return ¥È¥é¥Ã¥×¤¬Ì¿Ãæ¤·¤¿¾ì¹çTRUE¤òÊÖ¤¹¡£
  * @details
  * Always miss 5% of the time, Always hit 5% of the time.
  * Otherwise, match trap power against player armor.
@@ -937,9 +937,9 @@ static int check_hit(int power)
 
 
 /*!
- * @brief è½ã¨ã—ç©´ç³»ãƒˆãƒ©ãƒƒãƒ—ã®åˆ¤å®šã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¢«å®³å‡¦ç†
- * @param trap_feat_type ãƒˆãƒ©ãƒƒãƒ—ã®ç¨®åˆ¥ID
- * @return ãªã—
+ * @brief Íî¤È¤··ê·Ï¥È¥é¥Ã¥×¤ÎÈ½Äê¤È¥×¥ì¥¤¥ä¡¼¤ÎÈï³²½èÍı
+ * @param trap_feat_type ¥È¥é¥Ã¥×¤Î¼ïÊÌID
+ * @return ¤Ê¤·
  */
 static void hit_trap_pit(int trap_feat_type)
 {
@@ -950,15 +950,15 @@ static void hit_trap_pit(int trap_feat_type)
 	switch (trap_feat_type)
 	{
 	case TRAP_PIT:
-		trap_name = _("è½ã¨ã—ç©´", "a pit trap");
+		trap_name = _("Íî¤È¤··ê", "a pit trap");
 		break;
 	case TRAP_SPIKED_PIT:
-		trap_name = _("ã‚¹ãƒ‘ã‚¤ã‚¯ãŒæ•·ã‹ã‚ŒãŸè½ã¨ã—ç©´", "a spiked pit");
-		spike_name = _("ã‚¹ãƒ‘ã‚¤ã‚¯", "spikes");
+		trap_name = _("¥¹¥Ñ¥¤¥¯¤¬Éß¤«¤ì¤¿Íî¤È¤··ê", "a spiked pit");
+		spike_name = _("¥¹¥Ñ¥¤¥¯", "spikes");
 		break;
 	case TRAP_POISON_PIT:
-		trap_name = _("ã‚¹ãƒ‘ã‚¤ã‚¯ãŒæ•·ã‹ã‚ŒãŸè½ã¨ã—ç©´", "a spiked pit");
-		spike_name = _("æ¯’ã‚’å¡—ã‚‰ã‚ŒãŸã‚¹ãƒ‘ã‚¤ã‚¯", "poisonous spikes");
+		trap_name = _("¥¹¥Ñ¥¤¥¯¤¬Éß¤«¤ì¤¿Íî¤È¤··ê", "a spiked pit");
+		spike_name = _("ÆÇ¤òÅÉ¤é¤ì¤¿¥¹¥Ñ¥¤¥¯", "poisonous spikes");
 		break;
 	default:
 		return;
@@ -966,11 +966,11 @@ static void hit_trap_pit(int trap_feat_type)
 
 	if (p_ptr->levitation)
 	{
-		msg_format(_("%sã‚’é£›ã³è¶ŠãˆãŸã€‚", "You fly over %s."), trap_name);
+		msg_format(_("%s¤òÈô¤Ó±Û¤¨¤¿¡£", "You fly over %s."), trap_name);
 		return;
 	}
 
-	msg_format(_("%sã«è½ã¡ã¦ã—ã¾ã£ãŸï¼", "You have fallen into %s!"), trap_name);
+	msg_format(_("%s¤ËÍî¤Á¤Æ¤·¤Ş¤Ã¤¿¡ª", "You have fallen into %s!"), trap_name);
 
 	/* Base damage */
 	dam = damroll(2, 6);
@@ -979,7 +979,7 @@ static void hit_trap_pit(int trap_feat_type)
 	if ((trap_feat_type == TRAP_SPIKED_PIT || trap_feat_type == TRAP_POISON_PIT) &&
 	    one_in_(2))
 	{
-		msg_format(_("%sãŒåˆºã•ã£ãŸï¼", "You are impaled on %s!"), spike_name);
+		msg_format(_("%s¤¬»É¤µ¤Ã¤¿¡ª", "You are impaled on %s!"), spike_name);
 
 		dam = dam * 2;
 		(void)set_cut(p_ptr->cut + randint1(dam));
@@ -987,7 +987,7 @@ static void hit_trap_pit(int trap_feat_type)
 		if (trap_feat_type == TRAP_POISON_PIT) {
 			if (p_ptr->resist_pois || IS_OPPOSE_POIS())
 			{
-				msg_print(_("ã—ã‹ã—æ¯’ã®å½±éŸ¿ã¯ãªã‹ã£ãŸï¼", "The poison does not affect you!"));
+				msg_print(_("¤·¤«¤·ÆÇ¤Î±Æ¶Á¤Ï¤Ê¤«¤Ã¤¿¡ª", "The poison does not affect you!"));
 			}
 			else
 			{
@@ -1002,8 +1002,8 @@ static void hit_trap_pit(int trap_feat_type)
 }
 
 /*!
- * @brief ãƒ€ãƒ¼ãƒ„ç³»ãƒˆãƒ©ãƒƒãƒ—ï¼ˆé€šå¸¸ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼‰ã®åˆ¤å®šã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¢«å®³å‡¦ç†
- * @return ãƒ€ãƒ¼ãƒ„ãŒå‘½ä¸­ã—ãŸå ´åˆTRUEã‚’è¿”ã™
+ * @brief ¥À¡¼¥Ä·Ï¥È¥é¥Ã¥×¡ÊÄÌ¾ï¥À¥á¡¼¥¸¡Ë¤ÎÈ½Äê¤È¥×¥ì¥¤¥ä¡¼¤ÎÈï³²½èÍı
+ * @return ¥À¡¼¥Ä¤¬Ì¿Ãæ¤·¤¿¾ì¹çTRUE¤òÊÖ¤¹
  */
 static bool hit_trap_dart(void)
 {
@@ -1011,24 +1011,24 @@ static bool hit_trap_dart(void)
 
 	if (check_hit(125))
 	{
-		msg_print(_("å°ã•ãªãƒ€ãƒ¼ãƒ„ãŒé£›ã‚“ã§ãã¦åˆºã•ã£ãŸï¼", "A small dart hits you!"));
+		msg_print(_("¾®¤µ¤Ê¥À¡¼¥Ä¤¬Èô¤ó¤Ç¤­¤Æ»É¤µ¤Ã¤¿¡ª", "A small dart hits you!"));
 
-		take_hit(DAMAGE_ATTACK, damroll(1, 4), _("ãƒ€ãƒ¼ãƒ„ã®ç½ ", "a dart trap"), -1);
+		take_hit(DAMAGE_ATTACK, damroll(1, 4), _("¥À¡¼¥Ä¤Îæ«", "a dart trap"), -1);
 
 		if (!CHECK_MULTISHADOW()) hit = TRUE;
 	}
 	else
 	{
-		msg_print(_("å°ã•ãªãƒ€ãƒ¼ãƒ„ãŒé£›ã‚“ã§ããŸï¼ãŒã€é‹è‰¯ãå½“ãŸã‚‰ãªã‹ã£ãŸã€‚", "A small dart barely misses you."));
+		msg_print(_("¾®¤µ¤Ê¥À¡¼¥Ä¤¬Èô¤ó¤Ç¤­¤¿¡ª¤¬¡¢±¿ÎÉ¤¯Åö¤¿¤é¤Ê¤«¤Ã¤¿¡£", "A small dart barely misses you."));
 	}
 
 	return hit;
 }
 
 /*!
- * @brief ãƒ€ãƒ¼ãƒ„ç³»ãƒˆãƒ©ãƒƒãƒ—ï¼ˆé€šå¸¸ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼‹èƒ½åŠ›å€¤æ¸›å°‘ï¼‰ã®åˆ¤å®šã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¢«å®³å‡¦ç†
- * @param stat ä½ä¸‹ã™ã‚‹èƒ½åŠ›å€¤ID
- * @return ãªã—
+ * @brief ¥À¡¼¥Ä·Ï¥È¥é¥Ã¥×¡ÊÄÌ¾ï¥À¥á¡¼¥¸¡ÜÇ½ÎÏÃÍ¸º¾¯¡Ë¤ÎÈ½Äê¤È¥×¥ì¥¤¥ä¡¼¤ÎÈï³²½èÍı
+ * @param stat Äã²¼¤¹¤ëÇ½ÎÏÃÍID
+ * @return ¤Ê¤·
  */
 static void hit_trap_lose_stat(int stat)
 {
@@ -1039,8 +1039,8 @@ static void hit_trap_lose_stat(int stat)
 }
 
 /*!
- * @brief ãƒ€ãƒ¼ãƒ„ç³»ãƒˆãƒ©ãƒƒãƒ—ï¼ˆé€šå¸¸ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼‹æ¸›é€Ÿï¼‰ã®åˆ¤å®šã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¢«å®³å‡¦ç†
- * @return ãªã—
+ * @brief ¥À¡¼¥Ä·Ï¥È¥é¥Ã¥×¡ÊÄÌ¾ï¥À¥á¡¼¥¸¡Ü¸ºÂ®¡Ë¤ÎÈ½Äê¤È¥×¥ì¥¤¥ä¡¼¤ÎÈï³²½èÍı
+ * @return ¤Ê¤·
  */
 static void hit_trap_slow(void)
 {
@@ -1051,12 +1051,12 @@ static void hit_trap_slow(void)
 }
 
 /*!
- * @brief ãƒ€ãƒ¼ãƒ„ç³»ãƒˆãƒ©ãƒƒãƒ—ï¼ˆé€šå¸¸ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼‹çŠ¶æ…‹ç•°å¸¸ï¼‰ã®åˆ¤å®šã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¢«å®³å‡¦ç†
- * @param trap_message ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è£œå®Œæ–‡å­—åˆ—
- * @param resist çŠ¶æ…‹ç•°å¸¸ã«æŠµæŠ—ã™ã‚‹åˆ¤å®šãŒå‡ºãŸãªã‚‰TRUE
- * @param set_status çŠ¶æ…‹ç•°å¸¸ã‚’æŒ‡å®šã™ã‚‹é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
- * @param turn çŠ¶æ…‹ç•°å¸¸ã®è¿½åŠ ã‚¿ãƒ¼ãƒ³é‡
- * @return ãªã—
+ * @brief ¥À¡¼¥Ä·Ï¥È¥é¥Ã¥×¡ÊÄÌ¾ï¥À¥á¡¼¥¸¡Ü¾õÂÖ°Û¾ï¡Ë¤ÎÈ½Äê¤È¥×¥ì¥¤¥ä¡¼¤ÎÈï³²½èÍı
+ * @param trap_message ¥á¥Ã¥»¡¼¥¸¤ÎÊä´°Ê¸»úÎó
+ * @param resist ¾õÂÖ°Û¾ï¤ËÄñ¹³¤¹¤ëÈ½Äê¤¬½Ğ¤¿¤Ê¤éTRUE
+ * @param set_status ¾õÂÖ°Û¾ï¤ò»ØÄê¤¹¤ë´Ø¿ô¥İ¥¤¥ó¥¿
+ * @param turn ¾õÂÖ°Û¾ï¤ÎÄÉ²Ã¥¿¡¼¥óÎÌ
+ * @return ¤Ê¤·
  */
 static void hit_trap_set_abnormal_status(cptr trap_message, bool resist, bool (*set_status)(int turn), int turn)
 {
@@ -1069,10 +1069,10 @@ static void hit_trap_set_abnormal_status(cptr trap_message, bool resist, bool (*
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®ãƒˆãƒ©ãƒƒãƒ—ä½œå‹•å‡¦ç†ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³ /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤Ø¤Î¥È¥é¥Ã¥×ºîÆ°½èÍı¥á¥¤¥ó¥ë¡¼¥Á¥ó /
  * Handle player hitting a real trap
- * @param break_trap ä½œå‹•å¾Œã®ãƒˆãƒ©ãƒƒãƒ—ç ´å£ŠãŒç¢ºå®šã—ã¦ã„ã‚‹ãªã‚‰ã°TRUE
- * @return ãªã—
+ * @param break_trap ºîÆ°¸å¤Î¥È¥é¥Ã¥×ÇË²õ¤¬³ÎÄê¤·¤Æ¤¤¤ë¤Ê¤é¤ĞTRUE
+ * @return ¤Ê¤·
  */
 static void hit_trap(bool break_trap)
 {
@@ -1083,7 +1083,7 @@ static void hit_trap(bool break_trap)
 	cave_type *c_ptr = &cave[y][x];
 	feature_type *f_ptr = &f_info[c_ptr->feat];
 	int trap_feat_type = have_flag(f_ptr->flags, FF_TRAP) ? f_ptr->subtype : NOT_TRAP;
-	cptr name = _("ãƒˆãƒ©ãƒƒãƒ—", "a trap");
+	cptr name = _("¥È¥é¥Ã¥×", "a trap");
 
 	/* Disturb the player */
 	disturb(0, 1);
@@ -1097,17 +1097,17 @@ static void hit_trap(bool break_trap)
 		{
 			if (p_ptr->levitation)
 			{
-				msg_print(_("è½ã¨ã—æˆ¸ã‚’é£›ã³è¶ŠãˆãŸã€‚", "You fly over a trap door."));
+				msg_print(_("Íî¤È¤·¸Í¤òÈô¤Ó±Û¤¨¤¿¡£", "You fly over a trap door."));
 			}
 			else
 			{
-				msg_print(_("è½ã¨ã—æˆ¸ã«è½ã¡ãŸï¼", "You have fallen through a trap door!"));
+				msg_print(_("Íî¤È¤·¸Í¤ËÍî¤Á¤¿¡ª", "You have fallen through a trap door!"));
 				if ((p_ptr->pseikaku == SEIKAKU_COMBAT) || (inventory[INVEN_BOW].name1 == ART_CRIMSON))
-					msg_print(_("ãã£ãï½ï¼", ""));
+					msg_print(_("¤¯¤Ã¤½¡Á¡ª", ""));
 
 				sound(SOUND_FALL);
 				dam = damroll(2, 8);
-				name = _("è½ã¨ã—æˆ¸", "a trap door");
+				name = _("Íî¤È¤·¸Í", "a trap door");
 
 				take_hit(DAMAGE_NOESCAPE, dam, name, -1);
 
@@ -1115,7 +1115,7 @@ static void hit_trap(bool break_trap)
 				if (autosave_l && (p_ptr->chp >= 0))
 					do_cmd_save_game(TRUE);
 
-				do_cmd_write_nikki(NIKKI_BUNSHOU, 0, _("è½ã¨ã—æˆ¸ã«è½ã¡ãŸ", "You have fallen through a trap door!"));
+				do_cmd_write_nikki(NIKKI_BUNSHOU, 0, _("Íî¤È¤·¸Í¤ËÍî¤Á¤¿", "You have fallen through a trap door!"));
 				prepare_change_floor_mode(CFM_SAVE_FLOORS | CFM_DOWN | CFM_RAND_PLACE | CFM_RAND_CONNECT);
 
 				/* Leaving */
@@ -1134,7 +1134,7 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_TY_CURSE:
 		{
-			msg_print(_("ä½•ã‹ãŒãƒ”ã‚«ãƒƒã¨å…‰ã£ãŸï¼", "There is a flash of shimmering light!"));
+			msg_print(_("²¿¤«¤¬¥Ô¥«¥Ã¤È¸÷¤Ã¤¿¡ª", "There is a flash of shimmering light!"));
 			num = 2 + randint1(3);
 			for (i = 0; i < num; i++)
 			{
@@ -1157,24 +1157,24 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_TELEPORT:
 		{
-			msg_print(_("ãƒ†ãƒ¬ãƒãƒ¼ãƒˆãƒ»ãƒˆãƒ©ãƒƒãƒ—ã«ã²ã£ã‹ã‹ã£ãŸï¼", "You hit a teleport trap!"));
+			msg_print(_("¥Æ¥ì¥İ¡¼¥È¡¦¥È¥é¥Ã¥×¤Ë¤Ò¤Ã¤«¤«¤Ã¤¿¡ª", "You hit a teleport trap!"));
 			teleport_player(100, TELEPORT_PASSIVE);
 			break;
 		}
 
 		case TRAP_FIRE:
 		{
-			msg_print(_("ç‚ã«åŒ…ã¾ã‚ŒãŸï¼", "You are enveloped in flames!"));
+			msg_print(_("±ê¤ËÊñ¤Ş¤ì¤¿¡ª", "You are enveloped in flames!"));
 			dam = damroll(4, 6);
-			(void)fire_dam(dam, _("ç‚ã®ãƒˆãƒ©ãƒƒãƒ—", "a fire trap"), -1, FALSE);
+			(void)fire_dam(dam, _("±ê¤Î¥È¥é¥Ã¥×", "a fire trap"), -1, FALSE);
 			break;
 		}
 
 		case TRAP_ACID:
 		{
-			msg_print(_("é…¸ãŒå¹ãã‹ã‘ã‚‰ã‚ŒãŸï¼", "You are splashed with acid!"));
+			msg_print(_("»À¤¬¿á¤­¤«¤±¤é¤ì¤¿¡ª", "You are splashed with acid!"));
 			dam = damroll(4, 6);
-			(void)acid_dam(dam, _("é…¸ã®ãƒˆãƒ©ãƒƒãƒ—", "an acid trap"), -1, FALSE);
+			(void)acid_dam(dam, _("»À¤Î¥È¥é¥Ã¥×", "an acid trap"), -1, FALSE);
 			break;
 		}
 
@@ -1205,7 +1205,7 @@ static void hit_trap(bool break_trap)
 		case TRAP_BLIND:
 		{
 			hit_trap_set_abnormal_status(
-				_("é»’ã„ã‚¬ã‚¹ã«åŒ…ã¿è¾¼ã¾ã‚ŒãŸï¼", "A black gas surrounds you!"),
+				_("¹õ¤¤¥¬¥¹¤ËÊñ¤ß¹ş¤Ş¤ì¤¿¡ª", "A black gas surrounds you!"),
 				p_ptr->resist_blind,
 				set_blind, p_ptr->blind + randint0(50) + 25);
 			break;
@@ -1214,7 +1214,7 @@ static void hit_trap(bool break_trap)
 		case TRAP_CONFUSE:
 		{
 			hit_trap_set_abnormal_status(
-				_("ãã‚‰ã‚ãã‚¬ã‚¹ã«åŒ…ã¿è¾¼ã¾ã‚ŒãŸï¼", "A gas of scintillating colors surrounds you!"),
+				_("¤­¤é¤á¤¯¥¬¥¹¤ËÊñ¤ß¹ş¤Ş¤ì¤¿¡ª", "A gas of scintillating colors surrounds you!"),
 				p_ptr->resist_conf,
 				set_confused, p_ptr->confused + randint0(20) + 10);
 			break;
@@ -1223,7 +1223,7 @@ static void hit_trap(bool break_trap)
 		case TRAP_POISON:
 		{
 			hit_trap_set_abnormal_status(
-				_("åˆºæ¿€çš„ãªç·‘è‰²ã®ã‚¬ã‚¹ã«åŒ…ã¿è¾¼ã¾ã‚ŒãŸï¼", "A pungent green gas surrounds you!"),
+				_("»É·ãÅª¤ÊÎĞ¿§¤Î¥¬¥¹¤ËÊñ¤ß¹ş¤Ş¤ì¤¿¡ª", "A pungent green gas surrounds you!"),
 				p_ptr->resist_pois || IS_OPPOSE_POIS(),
 				set_poisoned, p_ptr->poisoned + randint0(20) + 10);
 			break;
@@ -1231,14 +1231,14 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_SLEEP:
 		{
-			msg_print(_("å¥‡å¦™ãªç™½ã„éœ§ã«åŒ…ã¾ã‚ŒãŸï¼", "A strange white mist surrounds you!"));
+			msg_print(_("´ñÌ¯¤ÊÇò¤¤Ì¸¤ËÊñ¤Ş¤ì¤¿¡ª", "A strange white mist surrounds you!"));
 			if (!p_ptr->free_act)
 			{
-				msg_print(_("ã‚ãªãŸã¯çœ ã‚Šã«å°±ã„ãŸã€‚", "You fall asleep."));
+				msg_print(_("¤¢¤Ê¤¿¤ÏÌ²¤ê¤Ë½¢¤¤¤¿¡£", "You fall asleep."));
 
 				if (ironman_nightmare)
 				{
-					msg_print(_("èº«ã®æ¯›ã‚‚ã‚ˆã ã¤å…‰æ™¯ãŒé ­ã«æµ®ã‹ã‚“ã ã€‚", "A horrible vision enters your mind."));
+					msg_print(_("¿È¤ÎÌÓ¤â¤è¤À¤Ä¸÷·Ê¤¬Æ¬¤ËÉâ¤«¤ó¤À¡£", "A horrible vision enters your mind."));
 
 					/* Pick a nightmare */
 					get_mon_num_prep(get_nightmare, NULL);
@@ -1256,7 +1256,7 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_TRAPS:
 		{
-			msg_print(_("ã¾ã°ã‚†ã„é–ƒå…‰ãŒèµ°ã£ãŸï¼", "There is a bright flash of light!"));
+			msg_print(_("¤Ş¤Ğ¤æ¤¤Á®¸÷¤¬Áö¤Ã¤¿¡ª", "There is a bright flash of light!"));
 			/* Make some new traps */
 			project(0, 1, y, x, 0, GF_MAKE_TRAP, PROJECT_HIDE | PROJECT_JUMP | PROJECT_GRID, -1);
 
@@ -1265,7 +1265,7 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_ALARM:
 		{
-			msg_print(_("ã‘ãŸãŸã¾ã—ã„éŸ³ãŒé³´ã‚ŠéŸ¿ã„ãŸï¼", "An alarm sounds!"));
+			msg_print(_("¤±¤¿¤¿¤Ş¤·¤¤²»¤¬ÌÄ¤ê¶Á¤¤¤¿¡ª", "An alarm sounds!"));
 
 			aggravate_monsters(0);
 
@@ -1274,7 +1274,7 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_OPEN:
 		{
-			msg_print(_("å¤§éŸ³éŸ¿ã¨å…±ã«ã¾ã‚ã‚Šã®å£ãŒå´©ã‚ŒãŸï¼", "Suddenly, surrounding walls are opened!"));
+			msg_print(_("Âç²»¶Á¤È¶¦¤Ë¤Ş¤ï¤ê¤ÎÊÉ¤¬Êø¤ì¤¿¡ª", "Suddenly, surrounding walls are opened!"));
 			(void)project(0, 3, y, x, 0, GF_DISINTEGRATE, PROJECT_GRID | PROJECT_HIDE, -1);
 			(void)project(0, 3, y, x - 4, 0, GF_DISINTEGRATE, PROJECT_GRID | PROJECT_HIDE, -1);
 			(void)project(0, 3, y, x + 4, 0, GF_DISINTEGRATE, PROJECT_GRID | PROJECT_HIDE, -1);
@@ -1289,7 +1289,7 @@ static void hit_trap(bool break_trap)
 			int evil_idx = 0, good_idx = 0;
 
 			int lev;
-			msg_print(_("çªç„¶å¤©ç•Œã®æˆ¦äº‰ã«å·»ãè¾¼ã¾ã‚ŒãŸï¼", "Suddenly, you are surrounded by immotal beings!"));
+			msg_print(_("ÆÍÁ³Å·³¦¤ÎÀïÁè¤Ë´¬¤­¹ş¤Ş¤ì¤¿¡ª", "Suddenly, you are surrounded by immotal beings!"));
 
 			/* Summon Demons and Angels */
 			for (lev = dun_level; lev >= 20; lev -= 1 + lev/16)
@@ -1331,7 +1331,7 @@ static void hit_trap(bool break_trap)
 
 		case TRAP_PIRANHA:
 		{
-			msg_print(_("çªç„¶å£ã‹ã‚‰æ°´ãŒæº¢ã‚Œå‡ºã—ãŸï¼ãƒ”ãƒ©ãƒ‹ã‚¢ãŒã„ã‚‹ï¼", "Suddenly, the room is filled with water with piranhas!"));
+			msg_print(_("ÆÍÁ³ÊÉ¤«¤é¿å¤¬°î¤ì½Ğ¤·¤¿¡ª¥Ô¥é¥Ë¥¢¤¬¤¤¤ë¡ª", "Suddenly, the room is filled with water with piranhas!"));
 
 			/* Water fills room */
 			fire_ball_hide(GF_WATER_FLOW, 0, 1, 10);
@@ -1349,21 +1349,21 @@ static void hit_trap(bool break_trap)
 	if (break_trap && is_trap(c_ptr->feat))
 	{
 		cave_alter_feat(y, x, FF_DISARM);
-		msg_print(_("ãƒˆãƒ©ãƒƒãƒ—ã‚’ç²‰ç •ã—ãŸã€‚", "You destroyed the trap."));
+		msg_print(_("¥È¥é¥Ã¥×¤òÊ´ºÕ¤·¤¿¡£", "You destroyed the trap."));
 	}
 }
 
 
 /*!
- * @brief æ•µã‚ªãƒ¼ãƒ©ã«ã‚ˆã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å‡¦ç†ï¼ˆè£œåŠ©ï¼‰
- * @param m_ptr ã‚ªãƒ¼ãƒ©ã‚’æŒã¤ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param immune ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å›é¿ã§ãã‚‹å…ç–«ãƒ•ãƒ©ã‚°
- * @param flags_offset ã‚ªãƒ¼ãƒ©ãƒ•ãƒ©ã‚°é…åˆ—ã®å‚ç…§ã‚ªãƒ•ã‚»ãƒƒãƒˆ
- * @param r_flags_offset ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®è€æ€§é…åˆ—ã®å‚ç…§ã‚ªãƒ•ã‚»ãƒƒãƒˆ
- * @param aura_flag ã‚ªãƒ¼ãƒ©ãƒ•ãƒ©ã‚°é…åˆ—
- * @param dam_func ãƒ€ãƒ¡ãƒ¼ã‚¸å‡¦ç†ã‚’è¡Œã†é–¢æ•°ã®å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param message ã‚ªãƒ¼ãƒ©ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸéš›ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
- * @return ãªã—
+ * @brief Å¨¥ª¡¼¥é¤Ë¤è¤ë¥×¥ì¥¤¥ä¡¼¤Î¥À¥á¡¼¥¸½èÍı¡ÊÊä½õ¡Ë
+ * @param m_ptr ¥ª¡¼¥é¤ò»ı¤Ä¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @param immune ¥À¥á¡¼¥¸¤ò²óÈò¤Ç¤­¤ëÌÈ±Ö¥Õ¥é¥°
+ * @param flags_offset ¥ª¡¼¥é¥Õ¥é¥°ÇÛÎó¤Î»²¾È¥ª¥Õ¥»¥Ã¥È
+ * @param r_flags_offset ¥â¥ó¥¹¥¿¡¼¤ÎÂÑÀ­ÇÛÎó¤Î»²¾È¥ª¥Õ¥»¥Ã¥È
+ * @param aura_flag ¥ª¡¼¥é¥Õ¥é¥°ÇÛÎó
+ * @param dam_func ¥À¥á¡¼¥¸½èÍı¤ò¹Ô¤¦´Ø¿ô¤Î»²¾È¥İ¥¤¥ó¥¿
+ * @param message ¥ª¡¼¥é¥À¥á¡¼¥¸¤ò¼õ¤±¤¿ºİ¤Î¥á¥Ã¥»¡¼¥¸
+ * @return ¤Ê¤·
  */
 static void touch_zap_player_aux(monster_type *m_ptr, bool immune, int flags_offset, int r_flags_offset, u32b aura_flag,
 				 int (*dam_func)(int dam, cptr kb_str, int monspell, bool aura), cptr message)
@@ -1392,28 +1392,28 @@ static void touch_zap_player_aux(monster_type *m_ptr, bool immune, int flags_off
 }
 
 /*!
- * @brief æ•µã‚ªãƒ¼ãƒ©ã«ã‚ˆã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å‡¦ç†ï¼ˆãƒ¡ã‚¤ãƒ³ï¼‰
- * @param m_ptr ã‚ªãƒ¼ãƒ©ã‚’æŒã¤ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®æ§‹é€ ä½“å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ãªã—
+ * @brief Å¨¥ª¡¼¥é¤Ë¤è¤ë¥×¥ì¥¤¥ä¡¼¤Î¥À¥á¡¼¥¸½èÍı¡Ê¥á¥¤¥ó¡Ë
+ * @param m_ptr ¥ª¡¼¥é¤ò»ı¤Ä¥â¥ó¥¹¥¿¡¼¤Î¹½Â¤ÂÎ»²¾È¥İ¥¤¥ó¥¿
+ * @return ¤Ê¤·
  */
 static void touch_zap_player(monster_type *m_ptr)
 {
 	touch_zap_player_aux(m_ptr, p_ptr->immune_fire, offsetof(monster_race, flags2), offsetof(monster_race, r_flags2), RF2_AURA_FIRE,
-			     fire_dam, _("çªç„¶ã¨ã¦ã‚‚ç†±ããªã£ãŸï¼", "You are suddenly very hot!"));
+			     fire_dam, _("ÆÍÁ³¤È¤Æ¤âÇ®¤¯¤Ê¤Ã¤¿¡ª", "You are suddenly very hot!"));
 	touch_zap_player_aux(m_ptr, p_ptr->immune_cold, offsetof(monster_race, flags3), offsetof(monster_race, r_flags3), RF3_AURA_COLD,
-			     cold_dam, _("çªç„¶ã¨ã¦ã‚‚å¯’ããªã£ãŸï¼", "You are suddenly very cold!"));
+			     cold_dam, _("ÆÍÁ³¤È¤Æ¤â´¨¤¯¤Ê¤Ã¤¿¡ª", "You are suddenly very cold!"));
 	touch_zap_player_aux(m_ptr, p_ptr->immune_elec, offsetof(monster_race, flags2), offsetof(monster_race, r_flags2), RF2_AURA_ELEC,
-			     elec_dam, _("é›»æ’ƒã‚’ãã‚‰ã£ãŸï¼", "You get zapped!"));
+			     elec_dam, _("ÅÅ·â¤ò¤¯¤é¤Ã¤¿¡ª", "You get zapped!"));
 }
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¤‰ç•°è¦ç´ ã«ã‚ˆã‚‹æ‰“æ’ƒå‡¦ç†
- * @param m_idx æ”»æ’ƒç›®æ¨™ã¨ãªã£ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ã®å‚ç…§ID
- * @param attack å¤‰ç•°è¦ç´ ã«ã‚ˆã‚‹æ”»æ’ƒè¦ç´ ã®ç¨®é¡
- * @param fear æ”»æ’ƒã‚’å—ã‘ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒææ…ŒçŠ¶æ…‹ã«é™¥ã£ãŸã‹ã‚’è¿”ã™å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param mdeath æ”»æ’ƒã‚’å—ã‘ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒæ­»äº¡ã—ãŸã‹ã‚’è¿”ã™å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @return ãªã—
+ * @brief ¥×¥ì¥¤¥ä¡¼¤ÎÊÑ°ÛÍ×ÁÇ¤Ë¤è¤ëÂÇ·â½èÍı
+ * @param m_idx ¹¶·âÌÜÉ¸¤È¤Ê¤Ã¤¿¥â¥ó¥¹¥¿¡¼¤Î»²¾ÈID
+ * @param attack ÊÑ°ÛÍ×ÁÇ¤Ë¤è¤ë¹¶·âÍ×ÁÇ¤Î¼ïÎà
+ * @param fear ¹¶·â¤ò¼õ¤±¤¿¥â¥ó¥¹¥¿¡¼¤¬¶²¹²¾õÂÖ¤Ë´Ù¤Ã¤¿¤«¤òÊÖ¤¹»²¾È¥İ¥¤¥ó¥¿
+ * @param mdeath ¹¶·â¤ò¼õ¤±¤¿¥â¥ó¥¹¥¿¡¼¤¬»àË´¤·¤¿¤«¤òÊÖ¤¹»²¾È¥İ¥¤¥ó¥¿
+ * @return ¤Ê¤·
  */
 static void natural_attack(s16b m_idx, int attack, bool *fear, bool *mdeath)
 {
@@ -1433,40 +1433,40 @@ static void natural_attack(s16b m_idx, int attack, bool *fear, bool *mdeath)
 			dss = 3;
 			ddd = 7;
 			n_weight = 5;
-			atk_desc = _("å°»å°¾", "tail");
+			atk_desc = _("¿¬Èø", "tail");
 
 			break;
 		case MUT2_HORNS:
 			dss = 2;
 			ddd = 6;
 			n_weight = 15;
-			atk_desc = _("è§’", "horns");
+			atk_desc = _("³Ñ", "horns");
 
 			break;
 		case MUT2_BEAK:
 			dss = 2;
 			ddd = 4;
 			n_weight = 5;
-			atk_desc = _("ã‚¯ãƒãƒã‚·", "beak");
+			atk_desc = _("¥¯¥Á¥Ğ¥·", "beak");
 
 			break;
 		case MUT2_TRUNK:
 			dss = 1;
 			ddd = 4;
 			n_weight = 35;
-			atk_desc = _("è±¡ã®é¼»", "trunk");
+			atk_desc = _("¾İ¤ÎÉ¡", "trunk");
 
 			break;
 		case MUT2_TENTACLES:
 			dss = 2;
 			ddd = 5;
 			n_weight = 5;
-			atk_desc = _("è§¦æ‰‹", "tentacles");
+			atk_desc = _("¿¨¼ê", "tentacles");
 
 			break;
 		default:
 			dss = ddd = n_weight = 1;
-			atk_desc = _("æœªå®šç¾©ã®éƒ¨ä½", "undefined body part");
+			atk_desc = _("Ì¤ÄêµÁ¤ÎÉô°Ì", "undefined body part");
 
 	}
 
@@ -1484,7 +1484,7 @@ static void natural_attack(s16b m_idx, int attack, bool *fear, bool *mdeath)
 	{
 		/* Sound */
 		sound(SOUND_HIT);
-		msg_format(_("%sã‚’%sã§æ”»æ’ƒã—ãŸã€‚", "You hit %s with your %s."), m_name, atk_desc);
+		msg_format(_("%s¤ò%s¤Ç¹¶·â¤·¤¿¡£", "You hit %s with your %s."), m_name, atk_desc);
 
 		k = damroll(ddd, dss);
 		k = critical_norm(n_weight, bonus, k, (s16b)bonus, 0);
@@ -1501,7 +1501,7 @@ static void natural_attack(s16b m_idx, int attack, bool *fear, bool *mdeath)
 		/* Complex message */
 		if (p_ptr->wizard)
 		{
-			msg_format(_("%d/%d ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸã€‚", "You do %d (out of %d) damage."), k, m_ptr->hp);
+			msg_format(_("%d/%d ¤Î¥À¥á¡¼¥¸¤òÍ¿¤¨¤¿¡£", "You do %d (out of %d) damage."), k, m_ptr->hp);
 		}
 
 		/* Anger the monster */
@@ -1539,21 +1539,21 @@ static void natural_attack(s16b m_idx, int attack, bool *fear, bool *mdeath)
 		sound(SOUND_MISS);
 
 		/* Message */
-		msg_format(_("ãƒŸã‚¹ï¼ %sã«ã‹ã‚ã•ã‚ŒãŸã€‚", "You miss %s."), m_name);
+		msg_format(_("¥ß¥¹¡ª %s¤Ë¤«¤ï¤µ¤ì¤¿¡£", "You miss %s."), m_name);
 	}
 }
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰“æ’ƒå‡¦ç†ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ /
+ * @brief ¥×¥ì¥¤¥ä¡¼¤ÎÂÇ·â½èÍı¥µ¥Ö¥ë¡¼¥Á¥ó /
  * Player attacks a (poor, defenseless) creature        -RAK-
- * @param y æ”»æ’ƒç›®æ¨™ã®Yåº§æ¨™
- * @param x æ”»æ’ƒç›®æ¨™ã®Xåº§æ¨™
- * @param fear æ”»æ’ƒã‚’å—ã‘ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒææ…ŒçŠ¶æ…‹ã«é™¥ã£ãŸã‹ã‚’è¿”ã™å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param mdeath æ”»æ’ƒã‚’å—ã‘ãŸãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼ãŒæ­»äº¡ã—ãŸã‹ã‚’è¿”ã™å‚ç…§ãƒã‚¤ãƒ³ã‚¿
- * @param hand æ”»æ’ƒã‚’è¡Œã†ãŸã‚ã®æ­¦å™¨ã‚’æŒã¤æ‰‹
- * @param mode ç™ºå‹•ä¸­ã®å‰£è¡“ID
- * @return ãªã—
+ * @param y ¹¶·âÌÜÉ¸¤ÎYºÂÉ¸
+ * @param x ¹¶·âÌÜÉ¸¤ÎXºÂÉ¸
+ * @param fear ¹¶·â¤ò¼õ¤±¤¿¥â¥ó¥¹¥¿¡¼¤¬¶²¹²¾õÂÖ¤Ë´Ù¤Ã¤¿¤«¤òÊÖ¤¹»²¾È¥İ¥¤¥ó¥¿
+ * @param mdeath ¹¶·â¤ò¼õ¤±¤¿¥â¥ó¥¹¥¿¡¼¤¬»àË´¤·¤¿¤«¤òÊÖ¤¹»²¾È¥İ¥¤¥ó¥¿
+ * @param hand ¹¶·â¤ò¹Ô¤¦¤¿¤á¤ÎÉğ´ï¤ò»ı¤Ä¼ê
+ * @param mode È¯Æ°Ãæ¤Î·õ½ÑID
+ * @return ¤Ê¤·
  * @details
  * If no "weapon" is available, then "punch" the monster one time.
  */
@@ -1728,10 +1728,10 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 			/* Message */
 #ifdef JP
-			if (backstab) msg_format("ã‚ãªãŸã¯å†·é…·ã«ã‚‚çœ ã£ã¦ã„ã‚‹ç„¡åŠ›ãª%sã‚’çªãåˆºã—ãŸï¼", m_name);
-			else if (fuiuchi) msg_format("ä¸æ„ã‚’çªã„ã¦%sã«å¼·çƒˆãªä¸€æ’ƒã‚’å–°ã‚‰ã‚ã›ãŸï¼", m_name);
-			else if (stab_fleeing) msg_format("é€ƒã’ã‚‹%sã‚’èƒŒä¸­ã‹ã‚‰çªãåˆºã—ãŸï¼", m_name);
-			else if (!monk_attack) msg_format("%sã‚’æ”»æ’ƒã—ãŸã€‚", m_name);
+			if (backstab) msg_format("¤¢¤Ê¤¿¤ÏÎä¹ó¤Ë¤âÌ²¤Ã¤Æ¤¤¤ëÌµÎÏ¤Ê%s¤òÆÍ¤­»É¤·¤¿¡ª", m_name);
+			else if (fuiuchi) msg_format("ÉÔ°Õ¤òÆÍ¤¤¤Æ%s¤Ë¶¯Îõ¤Ê°ì·â¤ò¶ô¤é¤ï¤»¤¿¡ª", m_name);
+			else if (stab_fleeing) msg_format("Æ¨¤²¤ë%s¤òÇØÃæ¤«¤éÆÍ¤­»É¤·¤¿¡ª", m_name);
+			else if (!monk_attack) msg_format("%s¤ò¹¶·â¤·¤¿¡£", m_name);
 #else
 			if (backstab) msg_format("You cruelly stab the helpless, sleeping %s!", m_name);
 			else if (fuiuchi) msg_format("You make surprise attack, and hit %s with a powerful blow!", m_name);
@@ -1834,7 +1834,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 						if (p_ptr->wizard && cheat_xtra)
 						{
-							msg_print(_("æ”»æ’ƒã‚’å†é¸æŠã—ã¾ã—ãŸã€‚", "Attack re-selected."));
+							msg_print(_("¹¶·â¤òºÆÁªÂò¤·¤Ş¤·¤¿¡£", "Attack re-selected."));
 						}
 					}
 					else
@@ -1852,7 +1852,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				{
 					if (r_ptr->flags1 & RF1_MALE)
 					{
-						msg_format(_("%sã«é‡‘çš„è†è¹´ã‚Šã‚’ãã‚‰ã‚ã—ãŸï¼", "You hit %s in the groin with your knee!"), m_name);
+						msg_format(_("%s¤Ë¶âÅªÉ¨½³¤ê¤ò¤¯¤é¤ï¤·¤¿¡ª", "You hit %s in the groin with your knee!"), m_name);
 						sound(SOUND_PAIN);
 						special_effect = MA_KNEE;
 					}
@@ -1865,7 +1865,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					if (!((r_ptr->flags1 & RF1_NEVER_MOVE) ||
 					    my_strchr("~#{}.UjmeEv$,DdsbBFIJQSXclnw!=?", r_ptr->d_char)))
 					{
-						msg_format(_("%sã®è¶³é¦–ã«é–¢ç¯€è¹´ã‚Šã‚’ãã‚‰ã‚ã—ãŸï¼", "You kick %s in the ankle."), m_name);
+						msg_format(_("%s¤ÎÂ­¼ó¤Ë´ØÀá½³¤ê¤ò¤¯¤é¤ï¤·¤¿¡ª", "You kick %s in the ankle."), m_name);
 						special_effect = MA_SLOW;
 					}
 					else msg_format(ma_ptr->desc, m_name);
@@ -1891,7 +1891,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 				if ((special_effect == MA_KNEE) && ((k + p_ptr->to_d[hand]) < m_ptr->hp))
 				{
-					msg_format(_("%^sã¯è‹¦ç—›ã«ã†ã‚ã„ã¦ã„ã‚‹ï¼", "%^s moans in agony!"), m_name);
+					msg_format(_("%^s¤Ï¶ìÄË¤Ë¤¦¤á¤¤¤Æ¤¤¤ë¡ª", "%^s moans in agony!"), m_name);
 					stun_effect = 7 + randint1(13);
 					resist_stun /= 3;
 				}
@@ -1902,7 +1902,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					    (randint1(p_ptr->lev) > r_ptr->level) &&
 					    m_ptr->mspeed > 60)
 					{
-						msg_format(_("%^sã¯è¶³ã‚’ã²ããšã‚Šå§‹ã‚ãŸã€‚", "%^s starts limping slower."), m_name);
+						msg_format(_("%^s¤ÏÂ­¤ò¤Ò¤­¤º¤ê»Ï¤á¤¿¡£", "%^s starts limping slower."), m_name);
 						m_ptr->mspeed -= 10;
 					}
 				}
@@ -1913,11 +1913,11 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					{
 						if (set_monster_stunned(c_ptr->m_idx, stun_effect + MON_STUNNED(m_ptr)))
 						{
-							msg_format(_("%^sã¯ãƒ•ãƒ©ãƒ•ãƒ©ã«ãªã£ãŸã€‚", "%^s is stunned."), m_name);
+							msg_format(_("%^s¤Ï¥Õ¥é¥Õ¥é¤Ë¤Ê¤Ã¤¿¡£", "%^s is stunned."), m_name);
 						}
 						else
 						{
-							msg_format(_("%^sã¯ã•ã‚‰ã«ãƒ•ãƒ©ãƒ•ãƒ©ã«ãªã£ãŸã€‚", "%^s is more stunned."), m_name);
+							msg_format(_("%^s¤Ï¤µ¤é¤Ë¥Õ¥é¥Õ¥é¤Ë¤Ê¤Ã¤¿¡£", "%^s is more stunned."), m_name);
 						}
 					}
 				}
@@ -1968,11 +1968,11 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 					if (o_ptr->name1 == ART_VORPAL_BLADE)
 					{
-						msg_print(_("ç›®ã«ã‚‚æ­¢ã¾ã‚‰ã¬ãƒ´ã‚©ãƒ¼ãƒ‘ãƒ«ãƒ–ãƒ¬ãƒ¼ãƒ‰ã€æ‰‹éŒ¬ã®æ—©æ¥­ï¼", "Your Vorpal Blade goes snicker-snack!"));
+						msg_print(_("ÌÜ¤Ë¤â»ß¤Ş¤é¤Ì¥ô¥©¡¼¥Ñ¥ë¥Ö¥ì¡¼¥É¡¢¼êÏ£¤ÎÁá¶È¡ª", "Your Vorpal Blade goes snicker-snack!"));
 					}
 					else
 					{
-						msg_format(_("%sã‚’ã‚°ãƒƒã‚µãƒªåˆ‡ã‚Šè£‚ã„ãŸï¼", "Your weapon cuts deep into %s!"), m_name);
+						msg_format(_("%s¤ò¥°¥Ã¥µ¥êÀÚ¤êÎö¤¤¤¿¡ª", "Your weapon cuts deep into %s!"), m_name);
 					}
 
 					/* Try to increase the damage */
@@ -1986,19 +1986,19 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					/* Ouch! */
 					if (((r_ptr->flagsr & RFR_RES_ALL) ? k/100 : k) > m_ptr->hp)
 					{
-						msg_format(_("%sã‚’çœŸã£äºŒã¤ã«ã—ãŸï¼", "You cut %s in half!"), m_name);
+						msg_format(_("%s¤ò¿¿¤ÃÆó¤Ä¤Ë¤·¤¿¡ª", "You cut %s in half!"), m_name);
 					}
 					else
 					{
 						switch (mult)
 						{
-						case 2: msg_format(_("%sã‚’æ–¬ã£ãŸï¼", "You gouge %s!"), m_name); break;
-						case 3: msg_format(_("%sã‚’ã¶ã£ãŸæ–¬ã£ãŸï¼", "You maim %s!"), m_name); break;
-						case 4: msg_format(_("%sã‚’ãƒ¡ãƒƒã‚¿æ–¬ã‚Šã«ã—ãŸï¼", "You carve %s!"), m_name); break;
-						case 5: msg_format(_("%sã‚’ãƒ¡ãƒƒã‚¿ãƒ¡ã‚¿ã«æ–¬ã£ãŸï¼", "You cleave %s!"), m_name); break;
-						case 6: msg_format(_("%sã‚’åˆºèº«ã«ã—ãŸï¼", "You smite %s!"), m_name); break;
-						case 7: msg_format(_("%sã‚’æ–¬ã£ã¦æ–¬ã£ã¦æ–¬ã‚Šã¾ãã£ãŸï¼", "You eviscerate %s!"), m_name); break;
-						default: msg_format(_("%sã‚’ç´°åˆ‡ã‚Œã«ã—ãŸï¼", "You shred %s!"), m_name); break;
+						case 2: msg_format(_("%s¤ò»Â¤Ã¤¿¡ª", "You gouge %s!"), m_name); break;
+						case 3: msg_format(_("%s¤ò¤Ö¤Ã¤¿»Â¤Ã¤¿¡ª", "You maim %s!"), m_name); break;
+						case 4: msg_format(_("%s¤ò¥á¥Ã¥¿»Â¤ê¤Ë¤·¤¿¡ª", "You carve %s!"), m_name); break;
+						case 5: msg_format(_("%s¤ò¥á¥Ã¥¿¥á¥¿¤Ë»Â¤Ã¤¿¡ª", "You cleave %s!"), m_name); break;
+						case 6: msg_format(_("%s¤ò»É¿È¤Ë¤·¤¿¡ª", "You smite %s!"), m_name); break;
+						case 7: msg_format(_("%s¤ò»Â¤Ã¤Æ»Â¤Ã¤Æ»Â¤ê¤Ş¤¯¤Ã¤¿¡ª", "You eviscerate %s!"), m_name); break;
+						default: msg_format(_("%s¤òºÙÀÚ¤ì¤Ë¤·¤¿¡ª", "You shred %s!"), m_name); break;
 						}
 					}
 					drain_result = drain_result * 3 / 2;
@@ -2026,13 +2026,13 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 			if (zantetsu_mukou)
 			{
-				msg_print(_("ã“ã‚“ãªè»Ÿã‚‰ã‹ã„ã‚‚ã®ã¯åˆ‡ã‚Œã‚“ï¼", "You cannot cut such a elastic thing!"));
+				msg_print(_("¤³¤ó¤ÊÆğ¤é¤«¤¤¤â¤Î¤ÏÀÚ¤ì¤ó¡ª", "You cannot cut such a elastic thing!"));
 				k = 0;
 			}
 
 			if (e_j_mukou)
 			{
-				msg_print(_("èœ˜è››ã¯è‹¦æ‰‹ã ï¼", "Spiders are difficult for you to deal with!"));
+				msg_print(_("ÃØéá¤Ï¶ì¼ê¤À¡ª", "Spiders are difficult for you to deal with!"));
 				k /= 2;
 			}
 
@@ -2048,12 +2048,12 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					/* Get stunned */
 					if (MON_STUNNED(m_ptr))
 					{
-						msg_format(_("%sã¯ã²ã©ãã‚‚ã†ã‚ã†ã¨ã—ãŸã€‚", "%s is more dazed."), m_name);
+						msg_format(_("%s¤Ï¤Ò¤É¤¯¤â¤¦¤í¤¦¤È¤·¤¿¡£", "%s is more dazed."), m_name);
 						tmp /= 2;
 					}
 					else
 					{
-						msg_format(_("%s ã¯ã‚‚ã†ã‚ã†ã¨ã—ãŸã€‚", "%s is dazed."), m_name);
+						msg_format(_("%s ¤Ï¤â¤¦¤í¤¦¤È¤·¤¿¡£", "%s is dazed."), m_name);
 					}
 
 					/* Apply stun */
@@ -2061,7 +2061,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				}
 				else
 				{
-					msg_format(_("%s ã«ã¯åŠ¹æœãŒãªã‹ã£ãŸã€‚", "%s is not effected."), m_name);
+					msg_format(_("%s ¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡£", "%s is not effected."), m_name);
 				}
 			}
 
@@ -2072,7 +2072,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				if ((randint1(randint1(r_ptr->level/7)+5) == 1) && !(r_ptr->flags1 & RF1_UNIQUE) && !(r_ptr->flags7 & RF7_UNIQUE2))
 				{
 					k = m_ptr->hp + 1;
-					msg_format(_("%sã®æ€¥æ‰€ã‚’çªãåˆºã—ãŸï¼", "You hit %s on a fatal spot!"), m_name);
+					msg_format(_("%s¤ÎµŞ½ê¤òÆÍ¤­»É¤·¤¿¡ª", "You hit %s on a fatal spot!"), m_name);
 				}
 				else k = 1;
 			}
@@ -2083,7 +2083,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				{
 					k *= 5;
 					drain_result *= 2;
-					msg_format(_("åˆƒãŒ%sã«æ·±ã€…ã¨çªãåˆºã•ã£ãŸï¼", "You critically injured %s!"), m_name);
+					msg_format(_("¿Ï¤¬%s¤Ë¿¼¡¹¤ÈÆÍ¤­»É¤µ¤Ã¤¿¡ª", "You critically injured %s!"), m_name);
 				}
 				else if (((m_ptr->hp < maxhp/2) && one_in_((p_ptr->num_blow[0]+p_ptr->num_blow[1]+1)*10)) || ((one_in_(666) || ((backstab || fuiuchi) && one_in_(11))) && !(r_ptr->flags1 & RF1_UNIQUE) && !(r_ptr->flags7 & RF7_UNIQUE2)))
 				{
@@ -2091,12 +2091,12 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					{
 						k = MAX(k*5, m_ptr->hp/2);
 						drain_result *= 2;
-						msg_format(_("%sã«è‡´å‘½å‚·ã‚’è² ã‚ã›ãŸï¼", "You fatally injured %s!"), m_name);
+						msg_format(_("%s¤ËÃ×Ì¿½ı¤òÉé¤ï¤»¤¿¡ª", "You fatally injured %s!"), m_name);
 					}
 					else
 					{
 						k = m_ptr->hp + 1;
-						msg_format(_("åˆƒãŒ%sã®æ€¥æ‰€ã‚’è²«ã„ãŸï¼", "You hit %s on a fatal spot!"), m_name);
+						msg_format(_("¿Ï¤¬%s¤ÎµŞ½ê¤ò´Ó¤¤¤¿¡ª", "You hit %s on a fatal spot!"), m_name);
 					}
 				}
 			}
@@ -2104,7 +2104,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 			/* Complex message */
 			if (p_ptr->wizard || cheat_xtra)
 			{
-				msg_format(_("%d/%d ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸã€‚", "You do %d (out of %d) damage."), k, m_ptr->hp);
+				msg_format(_("%d/%d ¤Î¥À¥á¡¼¥¸¤òÍ¿¤¨¤¿¡£", "You do %d (out of %d) damage."), k, m_ptr->hp);
 			}
 
 			if (k <= 0) can_drain = FALSE;
@@ -2129,7 +2129,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					}
 				}
 				if ((o_ptr->name1 == ART_ZANTETSU) && is_lowlevel)
-					msg_print(_("ã¾ãŸã¤ã¾ã‚‰ã¬ã‚‚ã®ã‚’æ–¬ã£ã¦ã—ã¾ã£ãŸï¼ï¼ï¼", "Sigh... Another trifling thing I've cut...."));
+					msg_print(_("¤Ş¤¿¤Ä¤Ş¤é¤Ì¤â¤Î¤ò»Â¤Ã¤Æ¤·¤Ş¤Ã¤¿¡¥¡¥¡¥", "Sigh... Another trifling thing I've cut...."));
 				break;
 			}
 
@@ -2161,7 +2161,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 						if (o_ptr->to_h != to_h || o_ptr->to_d != to_d)
 						{
-							msg_print(_("å¦–åˆ€ã¯è¡€ã‚’å¸ã£ã¦å¼·ããªã£ãŸï¼", "Muramasa sucked blood, and became more powerful!"));
+							msg_print(_("ÍÅÅá¤Ï·ì¤òµÛ¤Ã¤Æ¶¯¤¯¤Ê¤Ã¤¿¡ª", "Muramasa sucked blood, and became more powerful!"));
 							o_ptr->to_h = to_h;
 							o_ptr->to_d = to_d;
 						}
@@ -2195,7 +2195,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 							if (drain_msg)
 							{
-								msg_format(_("åˆƒãŒ%sã‹ã‚‰ç”Ÿå‘½åŠ›ã‚’å¸ã„å–ã£ãŸï¼", "Your weapon drains life from %s!"), m_name);
+								msg_format(_("¿Ï¤¬%s¤«¤éÀ¸Ì¿ÎÏ¤òµÛ¤¤¼è¤Ã¤¿¡ª", "Your weapon drains life from %s!"), m_name);
 								drain_msg = FALSE;
 							}
 
@@ -2221,7 +2221,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				if (p_ptr->special_attack & ATTACK_CONFUSE)
 				{
 					p_ptr->special_attack &= ~(ATTACK_CONFUSE);
-					msg_print(_("æ‰‹ã®è¼ããŒãªããªã£ãŸã€‚", "Your hands stop glowing."));
+					msg_print(_("¼ê¤Îµ±¤­¤¬¤Ê¤¯¤Ê¤Ã¤¿¡£", "Your hands stop glowing."));
 					p_ptr->redraw |= (PR_STATUS);
 
 				}
@@ -2230,16 +2230,16 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				if (r_ptr->flags3 & RF3_NO_CONF)
 				{
 					if (is_original_ap_and_seen(m_ptr)) r_ptr->r_flags3 |= RF3_NO_CONF;
-					msg_format(_("%^sã«ã¯åŠ¹æœãŒãªã‹ã£ãŸã€‚", "%^s is unaffected."), m_name);
+					msg_format(_("%^s¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡£", "%^s is unaffected."), m_name);
 
 				}
 				else if (randint0(100) < r_ptr->level)
 				{
-					msg_format(_("%^sã«ã¯åŠ¹æœãŒãªã‹ã£ãŸã€‚", "%^s is unaffected."), m_name);
+					msg_format(_("%^s¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡£", "%^s is unaffected."), m_name);
 				}
 				else
 				{
-					msg_format(_("%^sã¯æ··ä¹±ã—ãŸã‚ˆã†ã ã€‚", "%^s appears confused."), m_name);
+					msg_format(_("%^s¤Ïº®Íğ¤·¤¿¤è¤¦¤À¡£", "%^s appears confused."), m_name);
 					(void)set_monster_confused(c_ptr->m_idx, MON_CONFUSED(m_ptr) + 10 + randint0(p_ptr->lev) / 5);
 				}
 			}
@@ -2253,20 +2253,20 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					if (r_ptr->flags1 & RF1_UNIQUE)
 					{
 						if (is_original_ap_and_seen(m_ptr)) r_ptr->r_flagsr |= RFR_RES_TELE;
-						msg_format(_("%^sã«ã¯åŠ¹æœãŒãªã‹ã£ãŸã€‚", "%^s is unaffected!"), m_name);
+						msg_format(_("%^s¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡£", "%^s is unaffected!"), m_name);
 						resists_tele = TRUE;
 					}
 					else if (r_ptr->level > randint1(100))
 					{
 						if (is_original_ap_and_seen(m_ptr)) r_ptr->r_flagsr |= RFR_RES_TELE;
-						msg_format(_("%^sã¯æŠµæŠ—åŠ›ã‚’æŒã£ã¦ã„ã‚‹ï¼", "%^s resists!"), m_name);
+						msg_format(_("%^s¤ÏÄñ¹³ÎÏ¤ò»ı¤Ã¤Æ¤¤¤ë¡ª", "%^s resists!"), m_name);
 						resists_tele = TRUE;
 					}
 				}
 
 				if (!resists_tele)
 				{
-					msg_format(_("%^sã¯æ¶ˆãˆãŸï¼", "%^s disappears!"), m_name);
+					msg_format(_("%^s¤Ï¾Ã¤¨¤¿¡ª", "%^s disappears!"), m_name);
 					teleport_away(c_ptr->m_idx, 50, TELEPORT_PASSIVE);
 					num = num_blow + 1; /* Can't hit it anymore! */
 					*mdeath = TRUE;
@@ -2280,13 +2280,13 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				{
 					if (polymorph_monster(y, x))
 					{
-						msg_format(_("%^sã¯å¤‰åŒ–ã—ãŸï¼", "%^s changes!"), m_name);
+						msg_format(_("%^s¤ÏÊÑ²½¤·¤¿¡ª", "%^s changes!"), m_name);
 						*fear = FALSE;
 						weak = FALSE;
 					}
 					else
 					{
-						msg_format(_("%^sã«ã¯åŠ¹æœãŒãªã‹ã£ãŸã€‚", "%^s is unaffected."), m_name);
+						msg_format(_("%^s¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡£", "%^s is unaffected."), m_name);
 					}
 
 					/* Hack -- Get new monster */
@@ -2313,7 +2313,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 					q_ptr->marked = OM_TOUCHED;
 					m_ptr->hold_o_idx = q_ptr->next_o_idx;
 					q_ptr->next_o_idx = 0;
-					msg_format(_("%sã‚’å¥ªã£ãŸã€‚", "You snatched %s."), o_name);
+					msg_format(_("%s¤òÃ¥¤Ã¤¿¡£", "You snatched %s."), o_name);
 					inven_carry(q_ptr);
 				}
 			}
@@ -2333,9 +2333,9 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				sound(SOUND_HIT);
 
 				/* Message */
-				msg_format(_("ãƒŸã‚¹ï¼ %sã«ã‹ã‚ã•ã‚ŒãŸã€‚", "You miss %s."), m_name);
+				msg_format(_("¥ß¥¹¡ª %s¤Ë¤«¤ï¤µ¤ì¤¿¡£", "You miss %s."), m_name);
 				/* Message */
-				msg_print(_("æŒ¯ã‚Šå›ã—ãŸå¤§éŒãŒè‡ªåˆ†è‡ªèº«ã«è¿”ã£ã¦ããŸï¼", "Your scythe returns to you!"));
+				msg_print(_("¿¶¤ê²ó¤·¤¿Âç³ù¤¬¼«Ê¬¼«¿È¤ËÊÖ¤Ã¤Æ¤­¤¿¡ª", "Your scythe returns to you!"));
 
 				/* Extract the flags */
 				object_flags(o_ptr, flgs);
@@ -2409,7 +2409,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				if (one_in_(6))
 				{
 					int mult = 2;
-					msg_format(_("ã‚°ãƒƒã‚µãƒªåˆ‡ã‚Šè£‚ã‹ã‚ŒãŸï¼", "Your weapon cuts deep into yourself!"));
+					msg_format(_("¥°¥Ã¥µ¥êÀÚ¤êÎö¤«¤ì¤¿¡ª", "Your weapon cuts deep into yourself!"));
 					/* Try to increase the damage */
 					while (one_in_(4))
 					{
@@ -2421,7 +2421,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				k += (p_ptr->to_d[hand] + o_ptr->to_d);
 				if (k < 0) k = 0;
 
-				take_hit(DAMAGE_FORCE, k, _("æ­»ã®å¤§éŒ", "Death scythe"), -1);
+				take_hit(DAMAGE_FORCE, k, _("»à¤ÎÂç³ù", "Death scythe"), -1);
 				redraw_stuff();
 			}
 			else
@@ -2430,7 +2430,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 				sound(SOUND_MISS);
 
 				/* Message */
-				msg_format(_("ãƒŸã‚¹ï¼ %sã«ã‹ã‚ã•ã‚ŒãŸã€‚", "You miss %s."), m_name);
+				msg_format(_("¥ß¥¹¡ª %s¤Ë¤«¤ï¤µ¤ì¤¿¡£", "You miss %s."), m_name);
 			}
 		}
 		backstab = FALSE;
@@ -2440,7 +2440,7 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 
 	if (weak && !(*mdeath))
 	{
-		msg_format(_("%sã¯å¼±ããªã£ãŸã‚ˆã†ã ã€‚", "%^s seems weakened."), m_name);
+		msg_format(_("%s¤Ï¼å¤¯¤Ê¤Ã¤¿¤è¤¦¤À¡£", "%^s seems weakened."), m_name);
 	}
 	if (drain_left != MAX_VAMPIRIC_DRAIN)
 	{
@@ -2458,11 +2458,11 @@ static void py_attack_aux(int y, int x, bool *fear, bool *mdeath, s16b hand, int
 }
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰“æ’ƒå‡¦ç†ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
- * @param y æ”»æ’ƒç›®æ¨™ã®Yåº§æ¨™
- * @param x æ”»æ’ƒç›®æ¨™ã®Xåº§æ¨™
- * @param mode ç™ºå‹•ä¸­ã®å‰£è¡“ID
- * @return å®Ÿéš›ã«æ”»æ’ƒå‡¦ç†ãŒè¡Œã‚ã‚ŒãŸå ´åˆTRUEã‚’è¿”ã™ã€‚
+ * @brief ¥×¥ì¥¤¥ä¡¼¤ÎÂÇ·â½èÍı¥á¥¤¥ó¥ë¡¼¥Á¥ó
+ * @param y ¹¶·âÌÜÉ¸¤ÎYºÂÉ¸
+ * @param x ¹¶·âÌÜÉ¸¤ÎXºÂÉ¸
+ * @param mode È¯Æ°Ãæ¤Î·õ½ÑID
+ * @return ¼Âºİ¤Ë¹¶·â½èÍı¤¬¹Ô¤ï¤ì¤¿¾ì¹çTRUE¤òÊÖ¤¹¡£
  * @details
  * If no "weapon" is available, then "punch" the monster one time.
  */
@@ -2485,8 +2485,8 @@ bool py_attack(int y, int x, int mode)
 	if (!p_ptr->migite && !p_ptr->hidarite &&
 	    !(p_ptr->muta2 & (MUT2_HORNS | MUT2_BEAK | MUT2_SCOR_TAIL | MUT2_TRUNK | MUT2_TENTACLES)))
 	{
-		msg_format(_("%sæ”»æ’ƒã§ããªã„ã€‚", "You cannot do attacking."), 
-					(empty_hands(FALSE) == EMPTY_HAND_NONE) ? _("ä¸¡æ‰‹ãŒãµã•ãŒã£ã¦", "") : "");
+		msg_format(_("%s¹¶·â¤Ç¤­¤Ê¤¤¡£", "You cannot do attacking."), 
+					(empty_hands(FALSE) == EMPTY_HAND_NONE) ? _("Î¾¼ê¤¬¤Õ¤µ¤¬¤Ã¤Æ", "") : "");
 		return FALSE;
 	}
 
@@ -2507,14 +2507,14 @@ bool py_attack(int y, int x, int mode)
 	{
 		if ((inventory[INVEN_RARM].name1 == ART_ZANTETSU) || (inventory[INVEN_LARM].name1 == ART_ZANTETSU))
 		{
-			msg_print(_("æ‹™è€…ã€ãŠãªã”ã¯æ–¬ã‚Œã¬ï¼", "I can not attack women!"));
+			msg_print(_("ÀÛ¼Ô¡¢¤ª¤Ê¤´¤Ï»Â¤ì¤Ì¡ª", "I can not attack women!"));
 			return FALSE;
 		}
 	}
 
 	if (d_info[dungeon_type].flags1 & DF1_NO_MELEE)
 	{
-		msg_print(_("ãªãœã‹æ”»æ’ƒã™ã‚‹ã“ã¨ãŒã§ããªã„ã€‚", "Something prevent you from attacking."));
+		msg_print(_("¤Ê¤¼¤«¹¶·â¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ê¤¤¡£", "Something prevent you from attacking."));
 		return FALSE;
 	}
 
@@ -2527,7 +2527,7 @@ bool py_attack(int y, int x, int mode)
 		if (inventory[INVEN_LARM].name1 == ART_STORMBRINGER) stormbringer = TRUE;
 		if (stormbringer)
 		{
-			msg_format(_("é»’ã„åˆƒã¯å¼·æ¬²ã«%sã‚’æ”»æ’ƒã—ãŸï¼", "Your black blade greedily attacks %s!"), m_name);
+			msg_format(_("¹õ¤¤¿Ï¤Ï¶¯Íß¤Ë%s¤ò¹¶·â¤·¤¿¡ª", "Your black blade greedily attacks %s!"), m_name);
 			chg_virtue(V_INDIVIDUALISM, 1);
 			chg_virtue(V_HONOUR, -1);
 			chg_virtue(V_JUSTICE, -1);
@@ -2535,7 +2535,7 @@ bool py_attack(int y, int x, int mode)
 		}
 		else if (p_ptr->pclass != CLASS_BERSERKER)
 		{
-			if (get_check(_("æœ¬å½“ã«æ”»æ’ƒã—ã¾ã™ã‹ï¼Ÿ", "Really hit it? ")))
+			if (get_check(_("ËÜÅö¤Ë¹¶·â¤·¤Ş¤¹¤«¡©", "Really hit it? ")))
 			{
 				chg_virtue(V_INDIVIDUALISM, 1);
 				chg_virtue(V_HONOUR, -1);
@@ -2544,7 +2544,7 @@ bool py_attack(int y, int x, int mode)
 			}
 			else
 			{
-				msg_format(_("%sã‚’æ”»æ’ƒã™ã‚‹ã®ã‚’æ­¢ã‚ãŸã€‚", "You stop to avoid hitting %s."), m_name);
+				msg_format(_("%s¤ò¹¶·â¤¹¤ë¤Î¤ò»ß¤á¤¿¡£", "You stop to avoid hitting %s."), m_name);
 				return FALSE;
 			}
 		}
@@ -2556,9 +2556,9 @@ bool py_attack(int y, int x, int mode)
 	{
 		/* Message */
 		if (m_ptr->ml)
-			msg_format(_("æãã¦%sã‚’æ”»æ’ƒã§ããªã„ï¼", "You are too afraid to attack %s!"), m_name);
+			msg_format(_("¶²¤¯¤Æ%s¤ò¹¶·â¤Ç¤­¤Ê¤¤¡ª", "You are too afraid to attack %s!"), m_name);
 		else
-			msg_format (_("ãã£ã¡ã«ã¯ä½•ã‹æã„ã‚‚ã®ãŒã„ã‚‹ï¼", "There is something scary in your way!"));
+			msg_format (_("¤½¤Ã¤Á¤Ë¤Ï²¿¤«¶²¤¤¤â¤Î¤¬¤¤¤ë¡ª", "There is something scary in your way!"));
 
 		/* Disturb the monster */
 		(void)set_monster_csleep(c_ptr->m_idx, 0);
@@ -2645,7 +2645,7 @@ bool py_attack(int y, int x, int mode)
 		sound(SOUND_FLEE);
 
 		/* Message */
-		msg_format(_("%^sã¯ææ€–ã—ã¦é€ƒã’å‡ºã—ãŸï¼", "%^s flees in terror!"), m_name);
+		msg_format(_("%^s¤Ï¶²Éİ¤·¤ÆÆ¨¤²½Ğ¤·¤¿¡ª", "%^s flees in terror!"), m_name);
 	}
 
 	if ((p_ptr->special_defense & KATA_IAI) && ((mode != HISSATSU_IAI) || mdeath))
@@ -2658,12 +2658,12 @@ bool py_attack(int y, int x, int mode)
 
 
 /*!
- * @brief ãƒ‘ã‚¿ãƒ¼ãƒ³ã«ã‚ˆã‚‹ç§»å‹•åˆ¶é™å‡¦ç†
- * @param c_y ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å…ƒYåº§æ¨™
- * @param c_x ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å…ƒXåº§æ¨™
- * @param n_y ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å…ˆYåº§æ¨™
- * @param n_x ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å…ˆXåº§æ¨™
- * @return ç§»å‹•å‡¦ç†ãŒå¯èƒ½ã§ã‚ã‚‹å ´åˆï¼ˆå¯èƒ½ãªå ´åˆã«é¸æŠã—ãŸå ´åˆï¼‰TRUEã‚’è¿”ã™ã€‚
+ * @brief ¥Ñ¥¿¡¼¥ó¤Ë¤è¤ë°ÜÆ°À©¸Â½èÍı
+ * @param c_y ¥×¥ì¥¤¥ä¡¼¤Î°ÜÆ°¸µYºÂÉ¸
+ * @param c_x ¥×¥ì¥¤¥ä¡¼¤Î°ÜÆ°¸µXºÂÉ¸
+ * @param n_y ¥×¥ì¥¤¥ä¡¼¤Î°ÜÆ°ÀèYºÂÉ¸
+ * @param n_x ¥×¥ì¥¤¥ä¡¼¤Î°ÜÆ°ÀèXºÂÉ¸
+ * @return °ÜÆ°½èÍı¤¬²ÄÇ½¤Ç¤¢¤ë¾ì¹ç¡Ê²ÄÇ½¤Ê¾ì¹ç¤ËÁªÂò¤·¤¿¾ì¹ç¡ËTRUE¤òÊÖ¤¹¡£
  */
 bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 {
@@ -2682,7 +2682,7 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 	{
 		if (!is_pattern_tile_cur && !p_ptr->confused && !p_ptr->stun && !p_ptr->image)
 		{
-			if (get_check(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ä¸Šã‚’æ­©ãå§‹ã‚ã‚‹ã¨ã€å…¨ã¦ã‚’æ­©ã‹ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚ã„ã„ã§ã™ã‹ï¼Ÿ", 
+			if (get_check(_("¥Ñ¥¿¡¼¥ó¤Î¾å¤òÊâ¤­»Ï¤á¤ë¤È¡¢Á´¤Æ¤òÊâ¤«¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£¤¤¤¤¤Ç¤¹¤«¡©", 
 							"If you start walking the Pattern, you must walk the whole way. Ok? ")))
 				return TRUE;
 			else
@@ -2701,7 +2701,7 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 		}
 		else
 		{
-			msg_print(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ä¸Šã‚’æ­©ãã«ã¯ã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹ã‹ã‚‰æ­©ãå§‹ã‚ãªãã¦ã¯ãªã‚Šã¾ã›ã‚“ã€‚",
+			msg_print(_("¥Ñ¥¿¡¼¥ó¤Î¾å¤òÊâ¤¯¤Ë¤Ï¥¹¥¿¡¼¥ÈÃÏÅÀ¤«¤éÊâ¤­»Ï¤á¤Ê¤¯¤Æ¤Ï¤Ê¤ê¤Ş¤»¤ó¡£",
 						"You must start walking the Pattern from the startpoint."));
 
 			return FALSE;
@@ -2718,7 +2718,7 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 			return TRUE;
 		else
 		{
-			msg_print(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ä¸Šã¯æ­£ã—ã„é †åºã§æ­©ã‹ã­ã°ãªã‚Šã¾ã›ã‚“ã€‚", "You must walk the Pattern in correct order."));
+			msg_print(_("¥Ñ¥¿¡¼¥ó¤Î¾å¤ÏÀµ¤·¤¤½ç½ø¤ÇÊâ¤«¤Í¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£", "You must walk the Pattern in correct order."));
 			return FALSE;
 		}
 	}
@@ -2728,7 +2728,7 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 	{
 		if (!is_pattern_tile_new)
 		{
-			msg_print(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¸ã¿å¤–ã—ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚", "You may not step off from the Pattern."));
+			msg_print(_("¥Ñ¥¿¡¼¥ó¤òÆ§¤ß³°¤·¤Æ¤Ï¤¤¤±¤Ş¤»¤ó¡£", "You may not step off from the Pattern."));
 			return FALSE;
 		}
 		else
@@ -2740,7 +2740,7 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 	{
 		if (!is_pattern_tile_cur)
 		{
-			msg_print(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ä¸Šã‚’æ­©ãã«ã¯ã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹ã‹ã‚‰æ­©ãå§‹ã‚ãªãã¦ã¯ãªã‚Šã¾ã›ã‚“ã€‚",
+			msg_print(_("¥Ñ¥¿¡¼¥ó¤Î¾å¤òÊâ¤¯¤Ë¤Ï¥¹¥¿¡¼¥ÈÃÏÅÀ¤«¤éÊâ¤­»Ï¤á¤Ê¤¯¤Æ¤Ï¤Ê¤ê¤Ş¤»¤ó¡£",
 						"You must start walking the Pattern from the startpoint."));
 
 			return FALSE;
@@ -2764,7 +2764,7 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 					break;
 				default:
 					if (p_ptr->wizard)
-						msg_format(_("ãŠã‹ã—ãªãƒ‘ã‚¿ãƒ¼ãƒ³æ­©è¡Œã€%dã€‚", "Funny Pattern walking, %d."), pattern_type_cur);
+						msg_format(_("¤ª¤«¤·¤Ê¥Ñ¥¿¡¼¥óÊâ¹Ô¡¢%d¡£", "Funny Pattern walking, %d."), pattern_type_cur);
 
 					return TRUE; /* Goof-up */
 			}
@@ -2775,9 +2775,9 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 			else
 			{
 				if (!is_pattern_tile_new)
-					msg_print(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¸ã¿å¤–ã—ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚", "You may not step off from the Pattern."));
+					msg_print(_("¥Ñ¥¿¡¼¥ó¤òÆ§¤ß³°¤·¤Æ¤Ï¤¤¤±¤Ş¤»¤ó¡£", "You may not step off from the Pattern."));
 				else
-					msg_print(_("ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ä¸Šã¯æ­£ã—ã„é †åºã§æ­©ã‹ã­ã°ãªã‚Šã¾ã›ã‚“ã€‚", "You must walk the Pattern in correct order."));
+					msg_print(_("¥Ñ¥¿¡¼¥ó¤Î¾å¤ÏÀµ¤·¤¤½ç½ø¤ÇÊâ¤«¤Í¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£", "You must walk the Pattern in correct order."));
 
 				return FALSE;
 			}
@@ -2787,10 +2787,10 @@ bool pattern_seq(int c_y, int c_x, int n_y, int n_x)
 
 
 /*!
- * @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒåœ°å½¢è¸ç ´å¯èƒ½ã‹ã‚’è¿”ã™
- * @param feature åˆ¤å®šã—ãŸã„åœ°å½¢ID
- * @param mode ç§»å‹•ã«é–¢ã™ã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
- * @return ç§»å‹•å¯èƒ½ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @brief ¥×¥ì¥¤¥ä¡¼¤¬ÃÏ·ÁÆ§ÇË²ÄÇ½¤«¤òÊÖ¤¹
+ * @param feature È½Äê¤·¤¿¤¤ÃÏ·ÁID
+ * @param mode °ÜÆ°¤Ë´Ø¤¹¤ë¥ª¥×¥·¥ç¥ó¥Õ¥é¥°
+ * @return °ÜÆ°²ÄÇ½¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 bool player_can_enter(s16b feature, u16b mode)
 {
@@ -2816,11 +2816,11 @@ bool player_can_enter(s16b feature, u16b mode)
 
 
 /*!
- * @brief ç§»å‹•ã«ä¼´ã†ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å¤‰åŒ–å‡¦ç†
- * @param ny ç§»å‹•å…ˆYåº§æ¨™
- * @param nx ç§»å‹•å…ˆXåº§æ¨™
- * @param mpe_mode ç§»å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ãƒ©ã‚°
- * @return ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­»äº¡ã‚„ãƒ•ãƒ­ã‚¢é›¢è„±ã‚’è¡Œã‚ãšã€å®Ÿéš›ã«ç§»å‹•ãŒå¯èƒ½ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @brief °ÜÆ°¤ËÈ¼¤¦¥×¥ì¥¤¥ä¡¼¤Î¥¹¥Æ¡¼¥¿¥¹ÊÑ²½½èÍı
+ * @param ny °ÜÆ°ÀèYºÂÉ¸
+ * @param nx °ÜÆ°ÀèXºÂÉ¸
+ * @param mpe_mode °ÜÆ°¥ª¥×¥·¥ç¥ó¥Õ¥é¥°
+ * @return ¥×¥ì¥¤¥ä¡¼¤¬»àË´¤ä¥Õ¥í¥¢Î¥Ã¦¤ò¹Ô¤ï¤º¡¢¼Âºİ¤Ë°ÜÆ°¤¬²ÄÇ½¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  */
 bool move_player_effect(int ny, int nx, u32b mpe_mode)
 {
@@ -2908,7 +2908,7 @@ bool move_player_effect(int ny, int nx, u32b mpe_mode)
 		    (!have_flag(f_ptr->flags, FF_PROJECT) ||
 		     (!p_ptr->levitation && have_flag(f_ptr->flags, FF_DEEP))))
 		{
-			msg_print(_("ã“ã“ã§ã¯ç´ æ—©ãå‹•ã‘ãªã„ã€‚", "You cannot run in here."));
+			msg_print(_("¤³¤³¤Ç¤ÏÁÇÁá¤¯Æ°¤±¤Ê¤¤¡£", "You cannot run in here."));
 			set_action(ACTION_NONE);
 		}
 	}
@@ -3002,7 +3002,7 @@ bool move_player_effect(int ny, int nx, u32b mpe_mode)
 		if (c_ptr->mimic || have_flag(f_ptr->flags, FF_SECRET))
 		{
 			/* Message */
-			msg_print(_("ãƒˆãƒ©ãƒƒãƒ—ã ï¼", "You found a trap!"));
+			msg_print(_("¥È¥é¥Ã¥×¤À¡ª", "You found a trap!"));
 
 			/* Pick a trap */
 			disclose_grid(py, px);
@@ -3026,7 +3026,7 @@ bool move_player_effect(int ny, int nx, u32b mpe_mode)
 		{
 			if (alert_trap_detect)
 			{
-				msg_print(_("* æ³¨æ„:ã“ã®å…ˆã¯ãƒˆãƒ©ãƒƒãƒ—ã®æ„ŸçŸ¥ç¯„å›²å¤–ã§ã™ï¼ *", "*Leaving trap detect region!*"));
+				msg_print(_("* Ãí°Õ:¤³¤ÎÀè¤Ï¥È¥é¥Ã¥×¤Î´¶ÃÎÈÏ°Ï³°¤Ç¤¹¡ª *", "*Leaving trap detect region!*"));
 			}
 
 			if (disturb_trap_detect) disturb(0, 1);
@@ -3037,9 +3037,9 @@ bool move_player_effect(int ny, int nx, u32b mpe_mode)
 }
 
 /*!
- * @brief è©²å½“åœ°å½¢ã®ãƒˆãƒ©ãƒƒãƒ—ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã¨ã£ã¦ç„¡åŠ¹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¦è¿”ã™
- * @param feat åœ°å½¢ID
- * @return ãƒˆãƒ©ãƒƒãƒ—ãŒè‡ªå‹•çš„ã«ç„¡åŠ¹ãªã‚‰ã°TRUEã‚’è¿”ã™
+ * @brief ³ºÅöÃÏ·Á¤Î¥È¥é¥Ã¥×¤¬¥×¥ì¥¤¥ä¡¼¤Ë¤È¤Ã¤ÆÌµ¸ú¤«¤É¤¦¤«¤òÈ½Äê¤·¤ÆÊÖ¤¹
+ * @param feat ÃÏ·ÁID
+ * @return ¥È¥é¥Ã¥×¤¬¼«Æ°Åª¤ËÌµ¸ú¤Ê¤é¤ĞTRUE¤òÊÖ¤¹
  */
 bool trap_can_be_ignored(int feat)
 {
@@ -3093,12 +3093,12 @@ bool trap_can_be_ignored(int feat)
 
 
 /*!
- * @brief è©²å½“åœ°å½¢ã®ãƒˆãƒ©ãƒƒãƒ—ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã¨ã£ã¦ç„¡åŠ¹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¦è¿”ã™ /
+ * @brief ³ºÅöÃÏ·Á¤Î¥È¥é¥Ã¥×¤¬¥×¥ì¥¤¥ä¡¼¤Ë¤È¤Ã¤ÆÌµ¸ú¤«¤É¤¦¤«¤òÈ½Äê¤·¤ÆÊÖ¤¹ /
  * Move player in the given direction, with the given "pickup" flag.
- * @param dir ç§»å‹•æ–¹å‘ID
- * @param do_pickup ç½ è§£é™¤ã‚’è©¦ã¿ãªãŒã‚‰ã®ç§»å‹•ãªã‚‰ã°TRUE
- * @param break_trap ãƒˆãƒ©ãƒƒãƒ—ç²‰ç •å‡¦ç†ã‚’è¡Œã†ãªã‚‰ã°TRUE
- * @return å®Ÿéš›ã«ç§»å‹•ãŒè¡Œã‚ã‚ŒãŸãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * @param dir °ÜÆ°Êı¸şID
+ * @param do_pickup æ«²ò½ü¤ò»î¤ß¤Ê¤¬¤é¤Î°ÜÆ°¤Ê¤é¤ĞTRUE
+ * @param break_trap ¥È¥é¥Ã¥×Ê´ºÕ½èÍı¤ò¹Ô¤¦¤Ê¤é¤ĞTRUE
+ * @return ¼Âºİ¤Ë°ÜÆ°¤¬¹Ô¤ï¤ì¤¿¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  * @note
  * This routine should (probably) always induce energy expenditure.\n
  * @details
@@ -3270,7 +3270,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 			}
 			else
 			{
-				msg_format(_("%^sãŒé‚ªé­”ã ï¼", "%^s is in your way!"), m_name);
+				msg_format(_("%^s¤¬¼ÙËâ¤À¡ª", "%^s is in your way!"), m_name);
 				energy_use = 0;
 				oktomove = FALSE;
 			}
@@ -3288,7 +3288,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 	{
 		if (riding_r_ptr->flags1 & RF1_NEVER_MOVE)
 		{
-			msg_print(_("å‹•ã‘ãªã„ï¼", "Can't move!"));
+			msg_print(_("Æ°¤±¤Ê¤¤¡ª", "Can't move!"));
 			energy_use = 0;
 			oktomove = FALSE;
 			disturb(0, 1);
@@ -3301,7 +3301,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 			monster_desc(m_name, riding_m_ptr, 0);
 
 			/* Dump a message */
-			msg_format(_("%sãŒææ€–ã—ã¦ã„ã¦åˆ¶å¾¡ã§ããªã„ã€‚", "%^s is too scared to control."), m_name);
+			msg_format(_("%s¤¬¶²Éİ¤·¤Æ¤¤¤ÆÀ©¸æ¤Ç¤­¤Ê¤¤¡£", "%^s is too scared to control."), m_name);
 			oktomove = FALSE;
 			disturb(0, 1);
 		}
@@ -3322,21 +3322,21 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 			!(riding_r_ptr->flags7 & RF7_AQUATIC) &&
 			(have_flag(f_ptr->flags, FF_DEEP) || (riding_r_ptr->flags2 & RF2_AURA_FIRE)))
 		{
-			msg_format(_("%sã®ä¸Šã«è¡Œã‘ãªã„ã€‚", "Can't swim."), f_name + f_info[get_feat_mimic(c_ptr)].name);
+			msg_format(_("%s¤Î¾å¤Ë¹Ô¤±¤Ê¤¤¡£", "Can't swim."), f_name + f_info[get_feat_mimic(c_ptr)].name);
 			energy_use = 0;
 			oktomove = FALSE;
 			disturb(0, 1);
 		}
 		else if (!have_flag(f_ptr->flags, FF_WATER) && (riding_r_ptr->flags7 & RF7_AQUATIC))
 		{
-			msg_format(_("%sã‹ã‚‰ä¸ŠãŒã‚Œãªã„ã€‚", "Can't land."), f_name + f_info[get_feat_mimic(&cave[py][px])].name);
+			msg_format(_("%s¤«¤é¾å¤¬¤ì¤Ê¤¤¡£", "Can't land."), f_name + f_info[get_feat_mimic(&cave[py][px])].name);
 			energy_use = 0;
 			oktomove = FALSE;
 			disturb(0, 1);
 		}
 		else if (have_flag(f_ptr->flags, FF_LAVA) && !(riding_r_ptr->flagsr & RFR_EFF_IM_FIRE_MASK))
 		{
-			msg_format(_("%sã®ä¸Šã«è¡Œã‘ãªã„ã€‚", "Too hot to go through."), f_name + f_info[get_feat_mimic(c_ptr)].name);
+			msg_format(_("%s¤Î¾å¤Ë¹Ô¤±¤Ê¤¤¡£", "Too hot to go through."), f_name + f_info[get_feat_mimic(c_ptr)].name);
 			energy_use = 0;
 			oktomove = FALSE;
 			disturb(0, 1);
@@ -3346,7 +3346,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 		{
 			char m_name[80];
 			monster_desc(m_name, riding_m_ptr, 0);
-			msg_format(_("%sãŒæœ¦æœ§ã¨ã—ã¦ã„ã¦ã†ã¾ãå‹•ã‘ãªã„ï¼", "You cannot control stunned %s!"),m_name);
+			msg_format(_("%s¤¬Û¯Û°¤È¤·¤Æ¤¤¤Æ¤¦¤Ş¤¯Æ°¤±¤Ê¤¤¡ª", "You cannot control stunned %s!"),m_name);
 			oktomove = FALSE;
 			disturb(0, 1);
 		}
@@ -3358,7 +3358,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 
 	else if (!have_flag(f_ptr->flags, FF_MOVE) && have_flag(f_ptr->flags, FF_CAN_FLY) && !p_ptr->levitation)
 	{
-		msg_format(_("ç©ºã‚’é£›ã°ãªã„ã¨%sã®ä¸Šã«ã¯è¡Œã‘ãªã„ã€‚", "You need to fly to go through the %s."), f_name + f_info[get_feat_mimic(c_ptr)].name);
+		msg_format(_("¶õ¤òÈô¤Ğ¤Ê¤¤¤È%s¤Î¾å¤Ë¤Ï¹Ô¤±¤Ê¤¤¡£", "You need to fly to go through the %s."), f_name + f_info[get_feat_mimic(c_ptr)].name);
 		energy_use = 0;
 		running = 0;
 		oktomove = FALSE;
@@ -3404,14 +3404,14 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 			/* Boundary floor mimic */
 			if (boundary_floor(c_ptr, f_ptr, mimic_f_ptr))
 			{
-				msg_print(_("ãã‚Œä»¥ä¸Šå…ˆã«ã¯é€²ã‚ãªã„ã‚ˆã†ã ã€‚", "You feel you cannot go any more."));
+				msg_print(_("¤½¤ì°Ê¾åÀè¤Ë¤Ï¿Ê¤á¤Ê¤¤¤è¤¦¤À¡£", "You feel you cannot go any more."));
 			}
 
 			/* Wall (or secret door) */
 			else
 			{
 #ifdef JP
-				msg_format("%sãŒè¡Œãæ‰‹ã‚’ã¯ã°ã‚“ã§ã„ã‚‹ã‚ˆã†ã ã€‚", name);
+				msg_format("%s¤¬¹Ô¤¯¼ê¤ò¤Ï¤Ğ¤ó¤Ç¤¤¤ë¤è¤¦¤À¡£", name);
 #else
 				msg_format("You feel %s %s blocking your way.",
 					is_a_vowel(name[0]) ? "an" : "a", name);
@@ -3428,7 +3428,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 			/* Boundary floor mimic */
 			if (boundary_floor(c_ptr, f_ptr, mimic_f_ptr))
 			{
-				msg_print(_("ãã‚Œä»¥ä¸Šå…ˆã«ã¯é€²ã‚ãªã„ã€‚", "You cannot go any more."));
+				msg_print(_("¤½¤ì°Ê¾åÀè¤Ë¤Ï¿Ê¤á¤Ê¤¤¡£", "You cannot go any more."));
 				if (!(p_ptr->confused || p_ptr->stun || p_ptr->image))
 					energy_use = 0;
 			}
@@ -3442,7 +3442,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 #endif /* ALLOW_EASY_OPEN */
 
 #ifdef JP
-				msg_format("%sãŒè¡Œãæ‰‹ã‚’ã¯ã°ã‚“ã§ã„ã‚‹ã€‚", name);
+				msg_format("%s¤¬¹Ô¤¯¼ê¤ò¤Ï¤Ğ¤ó¤Ç¤¤¤ë¡£", name);
 #else
 				msg_format("There is %s %s blocking your way.",
 					is_a_vowel(name[0]) ? "an" : "a", name);
@@ -3495,7 +3495,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 
 		if (do_past)
 		{
-			msg_format(_("%sã‚’æŠ¼ã—é€€ã‘ãŸã€‚", "You push past %s."), m_name);
+			msg_format(_("%s¤ò²¡¤·Âà¤±¤¿¡£", "You push past %s."), m_name);
 		}
 
 		/* Change oldpx and oldpy to place the player well when going back to big mode */
@@ -3541,12 +3541,12 @@ void move_player(int dir, bool do_pickup, bool break_trap)
 static bool ignore_avoid_run;
 
 /*!
- * @brief ãƒ€ãƒƒã‚·ãƒ¥ç§»å‹•å‡¦ç†ä¸­ã€ç§»å‹•å…ˆã®ãƒã‚¹ãŒæ—¢çŸ¥ã®å£ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥À¥Ã¥·¥å°ÜÆ°½èÍıÃæ¡¢°ÜÆ°Àè¤Î¥Ş¥¹¤¬´ûÃÎ¤ÎÊÉ¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- Check for a "known wall" (see below)
- * @param dir æƒ³å®šã™ã‚‹ç§»å‹•æ–¹å‘ID
- * @param y ç§»å‹•å…ƒã®Yåº§æ¨™
- * @param x ç§»å‹•å…ƒã®Xåº§æ¨™
- * @return ç§»å‹•å…ˆãŒæ—¢çŸ¥ã®å£ãªã‚‰ã°TRUE
+ * @param dir ÁÛÄê¤¹¤ë°ÜÆ°Êı¸şID
+ * @param y °ÜÆ°¸µ¤ÎYºÂÉ¸
+ * @param x °ÜÆ°¸µ¤ÎXºÂÉ¸
+ * @return °ÜÆ°Àè¤¬´ûÃÎ¤ÎÊÉ¤Ê¤é¤ĞTRUE
  */
 static int see_wall(int dir, int y, int x)
 {
@@ -3586,12 +3586,12 @@ static int see_wall(int dir, int y, int x)
 
 
 /*!
- * @brief ãƒ€ãƒƒã‚·ãƒ¥ç§»å‹•å‡¦ç†ä¸­ã€ç§»å‹•å…ˆã®ãƒã‚¹ã‹æœªçŸ¥ã®åœ°å½¢ã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹ /
+ * @brief ¥À¥Ã¥·¥å°ÜÆ°½èÍıÃæ¡¢°ÜÆ°Àè¤Î¥Ş¥¹¤«Ì¤ÃÎ¤ÎÃÏ·Á¤«¤É¤¦¤«¤òÈ½Äê¤¹¤ë /
  * Hack -- Check for an "unknown corner" (see below)
- * @param dir æƒ³å®šã™ã‚‹ç§»å‹•æ–¹å‘ID
- * @param y ç§»å‹•å…ƒã®Yåº§æ¨™
- * @param x ç§»å‹•å…ƒã®Xåº§æ¨™
- * @return ç§»å‹•å…ˆãŒæœªçŸ¥ã®åœ°å½¢ãªã‚‰ã°TRUE
+ * @param dir ÁÛÄê¤¹¤ë°ÜÆ°Êı¸şID
+ * @param y °ÜÆ°¸µ¤ÎYºÂÉ¸
+ * @param x °ÜÆ°¸µ¤ÎXºÂÉ¸
+ * @return °ÜÆ°Àè¤¬Ì¤ÃÎ¤ÎÃÏ·Á¤Ê¤é¤ĞTRUE
  */
 static int see_nothing(int dir, int y, int x)
 {
@@ -3653,9 +3653,9 @@ static bool find_breakleft;
 
 
 /*!
- * @brief ãƒ€ãƒƒã‚·ãƒ¥å‡¦ç†ã®å°å…¥ /
+ * @brief ¥À¥Ã¥·¥å½èÍı¤ÎÆ³Æş /
  * Initialize the running algorithm for a new direction.
- * @param dir å°å…¥ã®ç§»å‹•å…ˆ
+ * @param dir Æ³Æş¤Î°ÜÆ°Àè
  * @details
  * Diagonal Corridor -- allow diaginal entry into corridors.\n
  *\n
@@ -3762,10 +3762,10 @@ static void run_init(int dir)
 
 
 /*!
- * @brief ãƒ€ãƒƒã‚·ãƒ¥ç§»å‹•ãŒç¶™ç¶šã§ãã‚‹ã‹ã©ã†ã‹ã®åˆ¤å®š /
+ * @brief ¥À¥Ã¥·¥å°ÜÆ°¤¬·ÑÂ³¤Ç¤­¤ë¤«¤É¤¦¤«¤ÎÈ½Äê /
  * Update the current "run" path
  * @return
- * ãƒ€ãƒƒã‚·ãƒ¥ç§»å‹•ãŒç¶™ç¶šã§ãã‚‹ãªã‚‰ã°TRUEã‚’è¿”ã™ã€‚
+ * ¥À¥Ã¥·¥å°ÜÆ°¤¬·ÑÂ³¤Ç¤­¤ë¤Ê¤é¤ĞTRUE¤òÊÖ¤¹¡£
  * Return TRUE if the running should be stopped
  */
 static bool run_test(void)
@@ -3797,7 +3797,7 @@ static bool run_test(void)
 		{
 			if (alert_trap_detect)
 			{
-				msg_print(_("* æ³¨æ„:ã“ã®å…ˆã¯ãƒˆãƒ©ãƒƒãƒ—ã®æ„ŸçŸ¥ç¯„å›²å¤–ã§ã™ï¼ *", "*Leaving trap detect region!*"));
+				msg_print(_("* Ãí°Õ:¤³¤ÎÀè¤Ï¥È¥é¥Ã¥×¤Î´¶ÃÎÈÏ°Ï³°¤Ç¤¹¡ª *", "*Leaving trap detect region!*"));
 			}
 
 			if (disturb_trap_detect)
@@ -4100,10 +4100,10 @@ static bool run_test(void)
 
 
 /*!
- * @brief ç¶™ç¶šçš„ãªãƒ€ãƒƒã‚·ãƒ¥å‡¦ç† /
+ * @brief ·ÑÂ³Åª¤Ê¥À¥Ã¥·¥å½èÍı /
  * Take one step along the current "run" path
- * @param dir ç§»å‹•ã‚’è©¦ã¿ã‚‹æ–¹å‘ID
- * @return ãªã—
+ * @param dir °ÜÆ°¤ò»î¤ß¤ëÊı¸şID
+ * @return ¤Ê¤·
  */
 void run_step(int dir)
 {
@@ -4117,7 +4117,7 @@ void run_step(int dir)
 		if (see_wall(dir, py, px))
 		{
 			/* Message */
-			msg_print(_("ãã®æ–¹å‘ã«ã¯èµ°ã‚Œã¾ã›ã‚“ã€‚", "You cannot run in that direction."));
+			msg_print(_("¤½¤ÎÊı¸ş¤Ë¤ÏÁö¤ì¤Ş¤»¤ó¡£", "You cannot run in that direction."));
 
 			/* Disturb */
 			disturb(0, 0);
@@ -4173,10 +4173,10 @@ void run_step(int dir)
 #ifdef TRAVEL
 
 /*!
- * @brief ãƒˆãƒ©ãƒ™ãƒ«æ©Ÿèƒ½ã®åˆ¤å®šå‡¦ç† /
+ * @brief ¥È¥é¥Ù¥ëµ¡Ç½¤ÎÈ½Äê½èÍı /
  * Test for traveling
- * @param prev_dir å‰å›ç§»å‹•ã‚’è¡Œã£ãŸå…ƒã®æ–¹è§’ID
- * @return ãªã—
+ * @param prev_dir Á°²ó°ÜÆ°¤ò¹Ô¤Ã¤¿¸µ¤ÎÊı³ÑID
+ * @return ¤Ê¤·
  */
 static int travel_test(int prev_dir)
 {
@@ -4188,7 +4188,7 @@ static int travel_test(int prev_dir)
 	/* Cannot travel when blind */
 	if (p_ptr->blind || no_lite())
 	{
-		msg_print(_("ç›®ãŒè¦‹ãˆãªã„ï¼", "You cannot see!"));
+		msg_print(_("ÌÜ¤¬¸«¤¨¤Ê¤¤¡ª", "You cannot see!"));
 		return (0);
 	}
 
@@ -4204,7 +4204,7 @@ static int travel_test(int prev_dir)
 		{
 			if (alert_trap_detect)
 			{
-				msg_print(_("* æ³¨æ„:ã“ã®å…ˆã¯ãƒˆãƒ©ãƒƒãƒ—ã®æ„ŸçŸ¥ç¯„å›²å¤–ã§ã™ï¼ *", "*Leaving trap detect region!*"));
+				msg_print(_("* Ãí°Õ:¤³¤ÎÀè¤Ï¥È¥é¥Ã¥×¤Î´¶ÃÎÈÏ°Ï³°¤Ç¤¹¡ª *", "*Leaving trap detect region!*"));
 			}
 
 			if (disturb_trap_detect)
@@ -4273,9 +4273,9 @@ static int travel_test(int prev_dir)
 
 
 /*!
- * @brief ãƒˆãƒ©ãƒ™ãƒ«æ©Ÿèƒ½ã®å®Ÿè£… /
+ * @brief ¥È¥é¥Ù¥ëµ¡Ç½¤Î¼ÂÁõ /
  * Travel command
- * @return ãªã—
+ * @return ¤Ê¤·
  */
 void travel_step(void)
 {
@@ -4287,7 +4287,7 @@ void travel_step(void)
 	{
 		if (travel.run == 255)
 		{
-			msg_print(_("é“ç­‹ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼", "No route is found!"));
+			msg_print(_("Æ»¶Ú¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¡ª", "No route is found!"));
 			travel.y = travel.x = 0;
 		}
 		disturb(0, 1);

@@ -1,4 +1,4 @@
-ï»¿/* File: spells3.c */
+/* File: spells3.c */
 
 /*
  * Copyright (c) 1997 Ben Harrison, James E. Wilson, Robert A. Koeneke
@@ -328,7 +328,7 @@ bool teleport_player_aux(int dis, u32b mode)
 
 	if (p_ptr->anti_tele && !(mode & TELEPORT_NONMAGICAL))
 	{
-		msg_print(_("ä¸æ€è­°ãªåŠ›ãŒãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’é˜²ã„ã ï¼", "A mysterious force prevents you from teleporting!"));
+		msg_print(_("ÉÔ»×µÄ¤ÊÎÏ¤¬¥Æ¥ì¥İ¡¼¥È¤òËÉ¤¤¤À¡ª", "A mysterious force prevents you from teleporting!"));
 		return FALSE;
 	}
 
@@ -414,7 +414,7 @@ bool teleport_player_aux(int dis, u32b mode)
 
 #ifdef JP
 	if ((p_ptr->pseikaku == SEIKAKU_COMBAT) || (inventory[INVEN_BOW].name1 == ART_CRIMSON))
-		msg_format("ã€ã“ã£ã¡ã ãã€%sã€", player_name);
+		msg_format("¡Ø¤³¤Ã¤Á¤À¤¡¡¢%s¡Ù", player_name);
 #endif
 
 	/* Move the player */
@@ -511,7 +511,7 @@ void teleport_player_to(int ny, int nx, u32b mode)
 
 	if (p_ptr->anti_tele && !(mode & TELEPORT_NONMAGICAL))
 	{
-		msg_print(_("ä¸æ€è­°ãªåŠ›ãŒãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’é˜²ã„ã ï¼", "A mysterious force prevents you from teleporting!"));
+		msg_print(_("ÉÔ»×µÄ¤ÊÎÏ¤¬¥Æ¥ì¥İ¡¼¥È¤òËÉ¤¤¤À¡ª", "A mysterious force prevents you from teleporting!"));
 		return;
 	}
 
@@ -586,12 +586,12 @@ void teleport_away_followable(int m_idx)
 
 		if (follow)
 		{
-			if (get_check_strict(_("ã¤ã„ã¦ã„ãã¾ã™ã‹ï¼Ÿ", "Do you follow it? "), CHECK_OKAY_CANCEL))
+			if (get_check_strict(_("¤Ä¤¤¤Æ¤¤¤­¤Ş¤¹¤«¡©", "Do you follow it? "), CHECK_OKAY_CANCEL))
 			{
 				if (one_in_(3))
 				{
 					teleport_player(200, TELEPORT_PASSIVE);
-					msg_print(_("å¤±æ•—ï¼", "Failed!"));
+					msg_print(_("¼ºÇÔ¡ª", "Failed!"));
 				}
 				else teleport_player_to(m_ptr->fy, m_ptr->fx, 0L);
 				p_ptr->energy_need += ENERGY_NEED();
@@ -613,7 +613,7 @@ void teleport_level(int m_idx)
 
 	if (m_idx <= 0) /* To player */
 	{
-		strcpy(m_name, _("ã‚ãªãŸ", "you"));
+		strcpy(m_name, _("¤¢¤Ê¤¿", "you"));
 	}
 	else /* To monster */
 	{
@@ -628,13 +628,13 @@ void teleport_level(int m_idx)
 	/* No effect in some case */
 	if (TELE_LEVEL_IS_INEFF(m_idx))
 	{
-		if (see_m) msg_print(_("åŠ¹æœãŒãªã‹ã£ãŸã€‚", "There is no effect."));
+		if (see_m) msg_print(_("¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡£", "There is no effect."));
 		return;
 	}
 
 	if ((m_idx <= 0) && p_ptr->anti_tele) /* To player */
 	{
-		msg_print(_("ä¸æ€è­°ãªåŠ›ãŒãƒ†ãƒ¬ãƒãƒ¼ãƒˆã‚’é˜²ã„ã ï¼", "A mysterious force prevents you from teleporting!"));
+		msg_print(_("ÉÔ»×µÄ¤ÊÎÏ¤¬¥Æ¥ì¥İ¡¼¥È¤òËÉ¤¤¤À¡ª", "A mysterious force prevents you from teleporting!"));
 		return;
 	}
 
@@ -652,7 +652,7 @@ void teleport_level(int m_idx)
 	if ((ironman_downward && (m_idx <= 0)) || (dun_level <= d_info[dungeon_type].mindepth))
 	{
 #ifdef JP
-		if (see_m) msg_format("%^sã¯åºŠã‚’çªãç ´ã£ã¦æ²ˆã‚“ã§ã„ãã€‚", m_name);
+		if (see_m) msg_format("%^s¤Ï¾²¤òÆÍ¤­ÇË¤Ã¤ÆÄÀ¤ó¤Ç¤¤¤¯¡£", m_name);
 #else
 		if (see_m) msg_format("%^s sink%s through the floor.", m_name, (m_idx <= 0) ? "" : "s");
 #endif
@@ -688,7 +688,7 @@ void teleport_level(int m_idx)
 	else if (quest_number(dun_level) || (dun_level >= d_info[dungeon_type].maxdepth))
 	{
 #ifdef JP
-		if (see_m) msg_format("%^sã¯å¤©äº•ã‚’çªãç ´ã£ã¦å®™ã¸æµ®ã„ã¦ã„ãã€‚", m_name);
+		if (see_m) msg_format("%^s¤ÏÅ·°æ¤òÆÍ¤­ÇË¤Ã¤ÆÃè¤ØÉâ¤¤¤Æ¤¤¤¯¡£", m_name);
 #else
 		if (see_m) msg_format("%^s rise%s up through the ceiling.", m_name, (m_idx <= 0) ? "" : "s");
 #endif
@@ -712,7 +712,7 @@ void teleport_level(int m_idx)
 	else if (go_up)
 	{
 #ifdef JP
-		if (see_m) msg_format("%^sã¯å¤©äº•ã‚’çªãç ´ã£ã¦å®™ã¸æµ®ã„ã¦ã„ãã€‚", m_name);
+		if (see_m) msg_format("%^s¤ÏÅ·°æ¤òÆÍ¤­ÇË¤Ã¤ÆÃè¤ØÉâ¤¤¤Æ¤¤¤¯¡£", m_name);
 #else
 		if (see_m) msg_format("%^s rise%s up through the ceiling.", m_name, (m_idx <= 0) ? "" : "s");
 #endif
@@ -733,7 +733,7 @@ void teleport_level(int m_idx)
 	else
 	{
 #ifdef JP
-		if (see_m) msg_format("%^sã¯åºŠã‚’çªãç ´ã£ã¦æ²ˆã‚“ã§ã„ãã€‚", m_name);
+		if (see_m) msg_format("%^s¤Ï¾²¤òÆÍ¤­ÇË¤Ã¤ÆÄÀ¤ó¤Ç¤¤¤¯¡£", m_name);
 #else
 		if (see_m) msg_format("%^s sink%s through the floor.", m_name, (m_idx <= 0) ? "" : "s");
 #endif
@@ -791,7 +791,7 @@ int choose_dungeon(cptr note, int y, int x)
 		if (max_dlv[DUNGEON_ANGBAND]) return DUNGEON_ANGBAND;
 		else
 		{
-			msg_format(_("ã¾ã %sã«å…¥ã£ãŸã“ã¨ã¯ãªã„ã€‚", "You haven't entered %s yet."), d_name + d_info[DUNGEON_ANGBAND].name);
+			msg_format(_("¤Ş¤À%s¤ËÆş¤Ã¤¿¤³¤È¤Ï¤Ê¤¤¡£", "You haven't entered %s yet."), d_name + d_info[DUNGEON_ANGBAND].name);
 			msg_print(NULL);
 			return 0;
 		}
@@ -814,7 +814,7 @@ int choose_dungeon(cptr note, int y, int x)
 		}
 		else if (max_dlv[i] == d_info[i].maxdepth) seiha = TRUE;
 
-		sprintf(buf,_("      %c) %c%-12s : æœ€å¤§ %d éš", "      %c) %c%-16s : Max level %d"), 
+		sprintf(buf,_("      %c) %c%-12s : ºÇÂç %d ³¬", "      %c) %c%-16s : Max level %d"), 
 					'a'+num, seiha ? '!' : ' ', d_name + d_info[i].name, max_dlv[i]);
 		prt(buf, y + num, x);
 		dun[num++] = i;
@@ -822,10 +822,10 @@ int choose_dungeon(cptr note, int y, int x)
 
 	if (!num)
 	{
-		prt(_("      é¸ã¹ã‚‹ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ãŒãªã„ã€‚", "      No dungeon is available."), y, x);
+		prt(_("      Áª¤Ù¤ë¥À¥ó¥¸¥ç¥ó¤¬¤Ê¤¤¡£", "      No dungeon is available."), y, x);
 	}
 
-	prt(format(_("ã©ã®ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³%sã—ã¾ã™ã‹:", "Which dungeon do you %s?: "), note), 0, 0);
+	prt(format(_("¤É¤Î¥À¥ó¥¸¥ç¥ó%s¤·¤Ş¤¹¤«:", "Which dungeon do you %s?: "), note), 0, 0);
 	while(1)
 	{
 		i = inkey();
@@ -866,17 +866,17 @@ bool recall_player(int turns)
 	/* Ironman option */
 	if (p_ptr->inside_arena || ironman_downward)
 	{
-		msg_print(_("ä½•ã‚‚èµ·ã“ã‚‰ãªã‹ã£ãŸã€‚", "Nothing happens."));
+		msg_print(_("²¿¤âµ¯¤³¤é¤Ê¤«¤Ã¤¿¡£", "Nothing happens."));
 		return TRUE;
 	}
 
 	if (dun_level && (max_dlv[dungeon_type] > dun_level) && !p_ptr->inside_quest && !p_ptr->word_recall)
 	{
-		if (get_check(_("ã“ã“ã¯æœ€æ·±åˆ°é”éšã‚ˆã‚Šæµ…ã„éšã§ã™ã€‚ã“ã®éšã«æˆ»ã£ã¦æ¥ã¾ã™ã‹ï¼Ÿ ", "Reset recall depth? ")))
+		if (get_check(_("¤³¤³¤ÏºÇ¿¼ÅşÃ£³¬¤è¤êÀõ¤¤³¬¤Ç¤¹¡£¤³¤Î³¬¤ËÌá¤Ã¤ÆÍè¤Ş¤¹¤«¡© ", "Reset recall depth? ")))
 		{
 			max_dlv[dungeon_type] = dun_level;
 			if (record_maxdepth)
-				do_cmd_write_nikki(NIKKI_TRUMP, dungeon_type, _("å¸°é‚„ã®ã¨ãã«", "when recall from dungeon"));
+				do_cmd_write_nikki(NIKKI_TRUMP, dungeon_type, _("µ¢´Ô¤Î¤È¤­¤Ë", "when recall from dungeon"));
 		}
 
 	}
@@ -885,18 +885,18 @@ bool recall_player(int turns)
 		if (!dun_level)
 		{
 			int select_dungeon;
-			select_dungeon = choose_dungeon(_("ã«å¸°é‚„", "recall"), 2, 14);
+			select_dungeon = choose_dungeon(_("¤Ëµ¢´Ô", "recall"), 2, 14);
 			if (!select_dungeon) return FALSE;
 			p_ptr->recall_dungeon = select_dungeon;
 		}
 		p_ptr->word_recall = turns;
-		msg_print(_("å›ã‚Šã®å¤§æ°—ãŒå¼µã‚Šã¤ã‚ã¦ããŸ...", "The air about you becomes charged..."));
+		msg_print(_("²ó¤ê¤ÎÂçµ¤¤¬Ä¥¤ê¤Ä¤á¤Æ¤­¤¿...", "The air about you becomes charged..."));
 		p_ptr->redraw |= (PR_STATUS);
 	}
 	else
 	{
 		p_ptr->word_recall = 0;
-		msg_print(_("å¼µã‚Šã¤ã‚ãŸå¤§æ°—ãŒæµã‚Œå»ã£ãŸ...", "A tension leaves the air around you..."));
+		msg_print(_("Ä¥¤ê¤Ä¤á¤¿Âçµ¤¤¬Î®¤ìµî¤Ã¤¿...", "A tension leaves the air around you..."));
 		p_ptr->redraw |= (PR_STATUS);
 	}
 	return TRUE;
@@ -915,18 +915,18 @@ bool reset_recall(void)
 	char ppp[80];
 	char tmp_val[160];
 
-	select_dungeon = choose_dungeon(_("ã‚’ã‚»ãƒƒãƒˆ", "reset"), 2, 14);
+	select_dungeon = choose_dungeon(_("¤ò¥»¥Ã¥È", "reset"), 2, 14);
 
 	/* Ironman option */
 	if (ironman_downward)
 	{
-		msg_print(_("ä½•ã‚‚èµ·ã“ã‚‰ãªã‹ã£ãŸã€‚", "Nothing happens."));
+		msg_print(_("²¿¤âµ¯¤³¤é¤Ê¤«¤Ã¤¿¡£", "Nothing happens."));
 		return TRUE;
 	}
 
 	if (!select_dungeon) return FALSE;
 	/* Prompt */
-	sprintf(ppp, _("ä½•éšã«ã‚»ãƒƒãƒˆã—ã¾ã™ã‹ (%d-%d):", "Reset to which level (%d-%d): "), d_info[select_dungeon].mindepth, max_dlv[select_dungeon]);
+	sprintf(ppp, _("²¿³¬¤Ë¥»¥Ã¥È¤·¤Ş¤¹¤« (%d-%d):", "Reset to which level (%d-%d): "), d_info[select_dungeon].mindepth, max_dlv[select_dungeon]);
 
 	/* Default */
 	sprintf(tmp_val, "%d", MAX(dun_level, 1));
@@ -947,10 +947,10 @@ bool reset_recall(void)
 		max_dlv[select_dungeon] = dummy;
 
 		if (record_maxdepth)
-			do_cmd_write_nikki(NIKKI_TRUMP, select_dungeon, _("ãƒ•ãƒ­ã‚¢ãƒ»ãƒªã‚»ãƒƒãƒˆã§", "using a scroll of reset recall"));
+			do_cmd_write_nikki(NIKKI_TRUMP, select_dungeon, _("¥Õ¥í¥¢¡¦¥ê¥»¥Ã¥È¤Ç", "using a scroll of reset recall"));
 					/* Accept request */
 #ifdef JP
-msg_format("%sã®å¸°é‚„ãƒ¬ãƒ™ãƒ«ã‚’ %d éšã«ã‚»ãƒƒãƒˆã€‚", d_name+d_info[select_dungeon].name, dummy, dummy * 50);
+msg_format("%s¤Îµ¢´Ô¥ì¥Ù¥ë¤ò %d ³¬¤Ë¥»¥Ã¥È¡£", d_name+d_info[select_dungeon].name, dummy, dummy * 50);
 #else
 		msg_format("Recall depth set to level %d (%d').", dummy, dummy * 50);
 #endif
@@ -1018,7 +1018,7 @@ bool apply_disenchant(int mode)
 	{
 		/* Message */
 #ifdef JP
-msg_format("%s(%c)ã¯åŠ£åŒ–ã‚’è·³ã­è¿”ã—ãŸï¼",o_name, index_to_label(t) );
+msg_format("%s(%c)¤ÏÎô²½¤òÄ·¤ÍÊÖ¤·¤¿¡ª",o_name, index_to_label(t) );
 #else
 		msg_format("Your %s (%c) resist%s disenchantment!",
 			   o_name, index_to_label(t),
@@ -1058,7 +1058,7 @@ msg_format("%s(%c)ã¯åŠ£åŒ–ã‚’è·³ã­è¿”ã—ãŸï¼",o_name, index_to_label(t) );
 	{
 		/* Message */
 #ifdef JP
-		msg_format("%s(%c)ã¯åŠ£åŒ–ã—ã¦ã—ã¾ã£ãŸï¼",
+		msg_format("%s(%c)¤ÏÎô²½¤·¤Æ¤·¤Ş¤Ã¤¿¡ª",
 			   o_name, index_to_label(t) );
 #else
 		msg_format("Your %s (%c) %s disenchanted!",
@@ -1134,7 +1134,7 @@ void apply_nexus(monster_type *m_ptr)
 		{
 			if (randint0(100) < p_ptr->skill_sav)
 			{
-				msg_print(_("ã—ã‹ã—åŠ¹åŠ›ã‚’è·³ã­è¿”ã—ãŸï¼", "You resist the effects!"));
+				msg_print(_("¤·¤«¤·¸úÎÏ¤òÄ·¤ÍÊÖ¤·¤¿¡ª", "You resist the effects!"));
 				break;
 			}
 
@@ -1147,11 +1147,11 @@ void apply_nexus(monster_type *m_ptr)
 		{
 			if (randint0(100) < p_ptr->skill_sav)
 			{
-				msg_print(_("ã—ã‹ã—åŠ¹åŠ›ã‚’è·³ã­è¿”ã—ãŸï¼", "You resist the effects!"));
+				msg_print(_("¤·¤«¤·¸úÎÏ¤òÄ·¤ÍÊÖ¤·¤¿¡ª", "You resist the effects!"));
 				break;
 			}
 
-			msg_print(_("ä½“ãŒã­ã˜ã‚Œå§‹ã‚ãŸ...", "Your body starts to scramble..."));
+			msg_print(_("ÂÎ¤¬¤Í¤¸¤ì»Ï¤á¤¿...", "Your body starts to scramble..."));
 			mutate_player();
 			break;
 		}
@@ -1182,13 +1182,13 @@ void phlogiston(void)
 	/* No torch to refill */
 	else
 	{
-		msg_print(_("ç‡ƒç´ ã‚’æ¶ˆè²»ã™ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‚’è£…å‚™ã—ã¦ã„ã¾ã›ã‚“ã€‚", "You are not wielding anything which uses phlogiston."));
+		msg_print(_("Ç³ÁÇ¤ò¾ÃÈñ¤¹¤ë¥¢¥¤¥Æ¥à¤òÁõÈ÷¤·¤Æ¤¤¤Ş¤»¤ó¡£", "You are not wielding anything which uses phlogiston."));
 		return;
 	}
 
 	if (o_ptr->xtra4 >= max_flog)
 	{
-		msg_print(_("ã“ã®ã‚¢ã‚¤ãƒ†ãƒ ã«ã¯ã“ã‚Œä»¥ä¸Šç‡ƒç´ ã‚’è£œå……ã§ãã¾ã›ã‚“ã€‚", "No more phlogiston can be put in this item."));
+		msg_print(_("¤³¤Î¥¢¥¤¥Æ¥à¤Ë¤Ï¤³¤ì°Ê¾åÇ³ÁÇ¤òÊä½¼¤Ç¤­¤Ş¤»¤ó¡£", "No more phlogiston can be put in this item."));
 		return;
 	}
 
@@ -1196,13 +1196,13 @@ void phlogiston(void)
 	o_ptr->xtra4 += (max_flog / 2);
 
 	/* Message */
-	msg_print(_("ç…§æ˜ç”¨ã‚¢ã‚¤ãƒ†ãƒ ã«ç‡ƒç´ ã‚’è£œå……ã—ãŸã€‚", "You add phlogiston to your light item."));
+	msg_print(_("¾ÈÌÀÍÑ¥¢¥¤¥Æ¥à¤ËÇ³ÁÇ¤òÊä½¼¤·¤¿¡£", "You add phlogiston to your light item."));
 
 	/* Comment */
 	if (o_ptr->xtra4 >= max_flog)
 	{
 		o_ptr->xtra4 = max_flog;
-		msg_print(_("ç…§æ˜ç”¨ã‚¢ã‚¤ãƒ†ãƒ ã¯æº€ã‚¿ãƒ³ã«ãªã£ãŸã€‚", "Your light item is full."));
+		msg_print(_("¾ÈÌÀÍÑ¥¢¥¤¥Æ¥à¤ÏËş¥¿¥ó¤Ë¤Ê¤Ã¤¿¡£", "Your light item is full."));
 	}
 
 	/* Recalculate torch */
@@ -1225,8 +1225,8 @@ void brand_weapon(int brand_type)
 	item_tester_no_ryoute = TRUE;
 
 	/* Get an item */
-	q = _("ã©ã®æ­¦å™¨ã‚’å¼·åŒ–ã—ã¾ã™ã‹? ", "Enchant which weapon? ");
-	s = _("å¼·åŒ–ã§ãã‚‹æ­¦å™¨ãŒãªã„ã€‚", "You have nothing to enchant.");
+	q = _("¤É¤ÎÉğ´ï¤ò¶¯²½¤·¤Ş¤¹¤«? ", "Enchant which weapon? ");
+	s = _("¶¯²½¤Ç¤­¤ëÉğ´ï¤¬¤Ê¤¤¡£", "You have nothing to enchant.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP))) return;
 
@@ -1263,7 +1263,7 @@ void brand_weapon(int brand_type)
 		case 17:
 			if (o_ptr->tval == TV_SWORD)
 			{
-				act = _("ã¯é‹­ã•ã‚’å¢—ã—ãŸï¼", "becomes very sharp!");
+				act = _("¤Ï±Ô¤µ¤òÁı¤·¤¿¡ª", "becomes very sharp!");
 
 				o_ptr->name2 = EGO_SHARPNESS;
 				o_ptr->pval = m_bonus(5, dun_level) + 1;
@@ -1273,83 +1273,83 @@ void brand_weapon(int brand_type)
 			}
 			else
 			{
-				act = _("ã¯ç ´å£ŠåŠ›ã‚’å¢—ã—ãŸï¼", "seems very powerful.");
+				act = _("¤ÏÇË²õÎÏ¤òÁı¤·¤¿¡ª", "seems very powerful.");
 				o_ptr->name2 = EGO_EARTHQUAKES;
 				o_ptr->pval = m_bonus(3, dun_level);
 			}
 			break;
 		case 16:
-			act = _("ã¯äººé–“ã®è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for humans!");
+			act = _("¤Ï¿Í´Ö¤Î·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for humans!");
 			o_ptr->name2 = EGO_KILL_HUMAN;
 			break;
 		case 15:
-			act = _("ã¯é›»æ’ƒã«è¦†ã‚ã‚ŒãŸï¼", "covered with lightning!");
+			act = _("¤ÏÅÅ·â¤ËÊ¤¤ï¤ì¤¿¡ª", "covered with lightning!");
 			o_ptr->name2 = EGO_BRAND_ELEC;
 			break;
 		case 14:
-			act = _("ã¯é…¸ã«è¦†ã‚ã‚ŒãŸï¼", "coated with acid!");
+			act = _("¤Ï»À¤ËÊ¤¤ï¤ì¤¿¡ª", "coated with acid!");
 			o_ptr->name2 = EGO_BRAND_ACID;
 			break;
 		case 13:
-			act = _("ã¯é‚ªæ‚ªãªã‚‹æ€ªç‰©ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for evil monsters!");
+			act = _("¤Ï¼Ù°­¤Ê¤ë²øÊª¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for evil monsters!");
 			o_ptr->name2 = EGO_KILL_EVIL;
 			break;
 		case 12:
-			act = _("ã¯ç•°ä¸–ç•Œã®ä½äººã®è‚‰ä½“ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for demons!");
+			act = _("¤Ï°ÛÀ¤³¦¤Î½»¿Í¤ÎÆùÂÎ¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for demons!");
 			o_ptr->name2 = EGO_KILL_DEMON;
 			break;
 		case 11:
-			act = _("ã¯å±ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for undead!");
+			act = _("¤Ï»Ó¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for undead!");
 			o_ptr->name2 = EGO_KILL_UNDEAD;
 			break;
 		case 10:
-			act = _("ã¯å‹•ç‰©ã®è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for animals!");
+			act = _("¤ÏÆ°Êª¤Î·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for animals!");
 			o_ptr->name2 = EGO_KILL_ANIMAL;
 			break;
 		case 9:
-			act = _("ã¯ãƒ‰ãƒ©ã‚´ãƒ³ã®è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for dragons!");
+			act = _("¤Ï¥É¥é¥´¥ó¤Î·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for dragons!");
 			o_ptr->name2 = EGO_KILL_DRAGON;
 			break;
 		case 8:
-			act = _("ã¯ãƒˆãƒ­ãƒ«ã®è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for troll!s");
+			act = _("¤Ï¥È¥í¥ë¤Î·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for troll!s");
 			o_ptr->name2 = EGO_KILL_TROLL;
 			break;
 		case 7:
-			act = _("ã¯ã‚ªãƒ¼ã‚¯ã®è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for orcs!");
+			act = _("¤Ï¥ª¡¼¥¯¤Î·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for orcs!");
 			o_ptr->name2 = EGO_KILL_ORC;
 			break;
 		case 6:
-			act = _("ã¯å·¨äººã®è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "seems to be looking for giants!");
+			act = _("¤Ïµğ¿Í¤Î·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "seems to be looking for giants!");
 			o_ptr->name2 = EGO_KILL_GIANT;
 			break;
 		case 5:
-			act = _("ã¯éå¸¸ã«ä¸å®‰å®šã«ãªã£ãŸã‚ˆã†ã ã€‚", "seems very unstable now.");
+			act = _("¤ÏÈó¾ï¤ËÉÔ°ÂÄê¤Ë¤Ê¤Ã¤¿¤è¤¦¤À¡£", "seems very unstable now.");
 			o_ptr->name2 = EGO_TRUMP;
 			o_ptr->pval = randint1(2);
 			break;
 		case 4:
-			act = _("ã¯è¡€ã‚’æ±‚ã‚ã¦ã„ã‚‹ï¼", "thirsts for blood!");
+			act = _("¤Ï·ì¤òµá¤á¤Æ¤¤¤ë¡ª", "thirsts for blood!");
 			o_ptr->name2 = EGO_VAMPIRIC;
 			break;
 		case 3:
-			act = _("ã¯æ¯’ã«è¦†ã‚ã‚ŒãŸã€‚", "is coated with poison.");
+			act = _("¤ÏÆÇ¤ËÊ¤¤ï¤ì¤¿¡£", "is coated with poison.");
 			o_ptr->name2 = EGO_BRAND_POIS;
 			break;
 		case 2:
-			act = _("ã¯ç´”ãƒ­ã‚°ãƒ«ã‚¹ã«é£²ã¿è¾¼ã¾ã‚ŒãŸã€‚", "is engulfed in raw Logrus!");
+			act = _("¤Ï½ã¥í¥°¥ë¥¹¤Ë°û¤ß¹ş¤Ş¤ì¤¿¡£", "is engulfed in raw Logrus!");
 			o_ptr->name2 = EGO_CHAOTIC;
 			break;
 		case 1:
-			act = _("ã¯ç‚ã®ã‚·ãƒ¼ãƒ«ãƒ‰ã«è¦†ã‚ã‚ŒãŸï¼", "is covered in a fiery shield!");
+			act = _("¤Ï±ê¤Î¥·¡¼¥ë¥É¤ËÊ¤¤ï¤ì¤¿¡ª", "is covered in a fiery shield!");
 			o_ptr->name2 = EGO_BRAND_FIRE;
 			break;
 		default:
-			act = _("ã¯æ·±ãå†·ãŸã„ãƒ–ãƒ«ãƒ¼ã«è¼ã„ãŸï¼", "glows deep, icy blue!");
+			act = _("¤Ï¿¼¤¯Îä¤¿¤¤¥Ö¥ë¡¼¤Ëµ±¤¤¤¿¡ª", "glows deep, icy blue!");
 			o_ptr->name2 = EGO_BRAND_COLD;
 			break;
 		}
 
-		msg_format(_("ã‚ãªãŸã®%s%s", "Your %s %s"), o_name, act);
+		msg_format(_("¤¢¤Ê¤¿¤Î%s%s", "Your %s %s"), o_name, act);
 		enchant(o_ptr, randint0(3) + 4, ENCH_TOHIT | ENCH_TODAM);
 
 		o_ptr->discount = 99;
@@ -1359,7 +1359,7 @@ void brand_weapon(int brand_type)
 	{
 		if (flush_failure) flush();
 
-		msg_print(_("å±æ€§ä»˜åŠ ã«å¤±æ•—ã—ãŸã€‚", "The Branding failed."));
+		msg_print(_("Â°À­ÉÕ²Ã¤Ë¼ºÇÔ¤·¤¿¡£", "The Branding failed."));
 		chg_virtue(V_ENCHANT, -2);
 	}
 	calc_android_exp();
@@ -1411,7 +1411,7 @@ static bool vanish_dungeon(void)
 					monster_desc(m_name, m_ptr, 0);
 
 					/* Dump a message */
-					msg_format(_("%^sãŒç›®ã‚’è¦šã¾ã—ãŸã€‚", "%^s wakes up."), m_name);
+					msg_format(_("%^s¤¬ÌÜ¤ò³Ğ¤Ş¤·¤¿¡£", "%^s wakes up."), m_name);
 				}
 			}
 
@@ -1549,15 +1549,15 @@ void call_the_(void)
 	/* Prevent destruction of quest levels and town */
 	else if ((p_ptr->inside_quest && is_fixed_quest_idx(p_ptr->inside_quest)) || !dun_level)
 	{
-		msg_print(_("åœ°é¢ãŒæºã‚ŒãŸã€‚", "The ground trembles."));
+		msg_print(_("ÃÏÌÌ¤¬ÍÉ¤ì¤¿¡£", "The ground trembles."));
 	}
 
 	else
 	{
 #ifdef JP
-		msg_format("ã‚ãªãŸã¯%sã‚’å£ã«è¿‘ã™ãã‚‹å ´æ‰€ã§å”±ãˆã¦ã—ã¾ã£ãŸï¼",
-			((mp_ptr->spell_book == TV_LIFE_BOOK) ? "ç¥ˆã‚Š" : "å‘ªæ–‡"));
-		msg_print("å¤§ããªçˆ†ç™ºéŸ³ãŒã‚ã£ãŸï¼");
+		msg_format("¤¢¤Ê¤¿¤Ï%s¤òÊÉ¤Ë¶á¤¹¤®¤ë¾ì½ê¤Ç¾§¤¨¤Æ¤·¤Ş¤Ã¤¿¡ª",
+			((mp_ptr->spell_book == TV_LIFE_BOOK) ? "µ§¤ê" : "¼öÊ¸"));
+		msg_print("Âç¤­¤ÊÇúÈ¯²»¤¬¤¢¤Ã¤¿¡ª");
 #else
 		msg_format("You %s the %s too close to a wall!",
 			((mp_ptr->spell_book == TV_LIFE_BOOK) ? "recite" : "cast"),
@@ -1567,17 +1567,17 @@ void call_the_(void)
 
 		if (one_in_(666))
 		{
-			if (!vanish_dungeon()) msg_print(_("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ã¯ä¸€ç¬é™ã¾ã‚Šè¿”ã£ãŸã€‚", "The dungeon silences a moment."));
+			if (!vanish_dungeon()) msg_print(_("¥À¥ó¥¸¥ç¥ó¤Ï°ì½ÖÀÅ¤Ş¤êÊÖ¤Ã¤¿¡£", "The dungeon silences a moment."));
 		}
 		else
 		{
 			if (destroy_area(py, px, 15 + p_ptr->lev + randint0(11), FALSE))
-				msg_print(_("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ãŒå´©å£Šã—ãŸ...", "The dungeon collapses..."));
+				msg_print(_("¥À¥ó¥¸¥ç¥ó¤¬Êø²õ¤·¤¿...", "The dungeon collapses..."));
 			else
-				msg_print(_("ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³ã¯å¤§ããæºã‚ŒãŸã€‚", "The dungeon trembles."));
+				msg_print(_("¥À¥ó¥¸¥ç¥ó¤ÏÂç¤­¤¯ÍÉ¤ì¤¿¡£", "The dungeon trembles."));
 		}
 
-		take_hit(DAMAGE_NOESCAPE, 100 + randint1(150), _("è‡ªæ®ºçš„ãªè™šç„¡æ‹›æ¥", "a suicidal Call the Void"), -1);
+		take_hit(DAMAGE_NOESCAPE, 100 + randint1(150), _("¼«»¦Åª¤ÊµõÌµ¾·Íè", "a suicidal Call the Void"), -1);
 	}
 }
 
@@ -1595,7 +1595,7 @@ void fetch(int dir, int wgt, bool require_los)
 	/* Check to see if an object is already there */
 	if (cave[py][px].o_idx)
 	{
-		msg_print(_("è‡ªåˆ†ã®è¶³ã®ä¸‹ã«ã‚ã‚‹ç‰©ã¯å–ã‚Œã¾ã›ã‚“ã€‚", "You can't fetch when you're already standing on something."));
+		msg_print(_("¼«Ê¬¤ÎÂ­¤Î²¼¤Ë¤¢¤ëÊª¤Ï¼è¤ì¤Ş¤»¤ó¡£", "You can't fetch when you're already standing on something."));
 		return;
 	}
 
@@ -1607,7 +1607,7 @@ void fetch(int dir, int wgt, bool require_los)
 
 		if (distance(py, px, ty, tx) > MAX_RANGE)
 		{
-			msg_print(_("ãã‚“ãªã«é ãã«ã‚ã‚‹ç‰©ã¯å–ã‚Œã¾ã›ã‚“ï¼", "You can't fetch something that far away!"));
+			msg_print(_("¤½¤ó¤Ê¤Ë±ó¤¯¤Ë¤¢¤ëÊª¤Ï¼è¤ì¤Ş¤»¤ó¡ª", "You can't fetch something that far away!"));
 			return;
 		}
 
@@ -1616,14 +1616,14 @@ void fetch(int dir, int wgt, bool require_los)
 		/* We need an item to fetch */
 		if (!c_ptr->o_idx)
 		{
-			msg_print(_("ãã“ã«ã¯ä½•ã‚‚ã‚ã‚Šã¾ã›ã‚“ã€‚", "There is no object at this place."));
+			msg_print(_("¤½¤³¤Ë¤Ï²¿¤â¤¢¤ê¤Ş¤»¤ó¡£", "There is no object at this place."));
 			return;
 		}
 
 		/* No fetching from vault */
 		if (c_ptr->info & CAVE_ICKY)
 		{
-			msg_print(_("ã‚¢ã‚¤ãƒ†ãƒ ãŒã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚’å¤–ã‚Œã¦è½ã¡ãŸã€‚", "The item slips from your control."));
+			msg_print(_("¥¢¥¤¥Æ¥à¤¬¥³¥ó¥È¥í¡¼¥ë¤ò³°¤ì¤ÆÍî¤Á¤¿¡£", "The item slips from your control."));
 			return;
 		}
 
@@ -1632,12 +1632,12 @@ void fetch(int dir, int wgt, bool require_los)
 		{
 			if (!player_has_los_bold(ty, tx))
 			{
-				msg_print(_("ãã“ã¯ã‚ãªãŸã®è¦–ç•Œã«å…¥ã£ã¦ã„ã¾ã›ã‚“ã€‚", "You have no direct line of sight to that location."));
+				msg_print(_("¤½¤³¤Ï¤¢¤Ê¤¿¤Î»ë³¦¤ËÆş¤Ã¤Æ¤¤¤Ş¤»¤ó¡£", "You have no direct line of sight to that location."));
 				return;
 			}
 			else if (!projectable(py, px, ty, tx))
 			{
-				msg_print(_("ãã“ã¯å£ã®å‘ã“ã†ã§ã™ã€‚", "You have no direct line of sight to that location."));
+				msg_print(_("¤½¤³¤ÏÊÉ¤Î¸ş¤³¤¦¤Ç¤¹¡£", "You have no direct line of sight to that location."));
 				return;
 			}
 		}
@@ -1665,7 +1665,7 @@ void fetch(int dir, int wgt, bool require_los)
 	if (o_ptr->weight > wgt)
 	{
 		/* Too heavy to 'fetch' */
-		msg_print(_("ãã®ã‚¢ã‚¤ãƒ†ãƒ ã¯é‡éãã¾ã™ã€‚", "The object is too heavy."));
+		msg_print(_("¤½¤Î¥¢¥¤¥Æ¥à¤Ï½Å²á¤®¤Ş¤¹¡£", "The object is too heavy."));
 		return;
 	}
 
@@ -1677,7 +1677,7 @@ void fetch(int dir, int wgt, bool require_los)
 	o_ptr->ix = (byte)px;
 
 	object_desc(o_name, o_ptr, OD_NAME_ONLY);
-	msg_format(_("%^sãŒã‚ãªãŸã®è¶³å…ƒã«é£›ã‚“ã§ããŸã€‚", "%^s flies through the air to your feet."), o_name);
+	msg_format(_("%^s¤¬¤¢¤Ê¤¿¤ÎÂ­¸µ¤ËÈô¤ó¤Ç¤­¤¿¡£", "%^s flies through the air to your feet."), o_name);
 
 	note_spot(py, px);
 	p_ptr->redraw |= PR_MAP;
@@ -1689,7 +1689,7 @@ void alter_reality(void)
 	/* Ironman option */
 	if (p_ptr->inside_arena || ironman_downward)
 	{
-		msg_print(_("ä½•ã‚‚èµ·ã“ã‚‰ãªã‹ã£ãŸã€‚", "Nothing happens."));
+		msg_print(_("²¿¤âµ¯¤³¤é¤Ê¤«¤Ã¤¿¡£", "Nothing happens."));
 		return;
 	}
 
@@ -1698,14 +1698,14 @@ void alter_reality(void)
 		int turns = randint0(21) + 15;
 
 		p_ptr->alter_reality = turns;
-		msg_print(_("å›ã‚Šã®æ™¯è‰²ãŒå¤‰ã‚ã‚Šå§‹ã‚ãŸ...", "The view around you begins to change..."));
+		msg_print(_("²ó¤ê¤Î·Ê¿§¤¬ÊÑ¤ï¤ê»Ï¤á¤¿...", "The view around you begins to change..."));
 
 		p_ptr->redraw |= (PR_STATUS);
 	}
 	else
 	{
 		p_ptr->alter_reality = 0;
-		msg_print(_("æ™¯è‰²ãŒå…ƒã«æˆ»ã£ãŸ...", "The view around you got back..."));
+		msg_print(_("·Ê¿§¤¬¸µ¤ËÌá¤Ã¤¿...", "The view around you got back..."));
 		p_ptr->redraw |= (PR_STATUS);
 	}
 	return;
@@ -1720,7 +1720,7 @@ bool warding_glyph(void)
 	/* XXX XXX XXX */
 	if (!cave_clean_bold(py, px))
 	{
-		msg_print(_("åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ãŒå‘ªæ–‡ã‚’è·³ã­è¿”ã—ãŸã€‚", "The object resists the spell."));
+		msg_print(_("¾²¾å¤Î¥¢¥¤¥Æ¥à¤¬¼öÊ¸¤òÄ·¤ÍÊÖ¤·¤¿¡£", "The object resists the spell."));
 		return FALSE;
 	}
 
@@ -1742,7 +1742,7 @@ bool place_mirror(void)
 	/* XXX XXX XXX */
 	if (!cave_clean_bold(py, px))
 	{
-		msg_print(_("åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ãŒå‘ªæ–‡ã‚’è·³ã­è¿”ã—ãŸã€‚", "The object resists the spell."));
+		msg_print(_("¾²¾å¤Î¥¢¥¤¥Æ¥à¤¬¼öÊ¸¤òÄ·¤ÍÊÖ¤·¤¿¡£", "The object resists the spell."));
 		return FALSE;
 	}
 
@@ -1773,7 +1773,7 @@ bool explosive_rune(void)
 	/* XXX XXX XXX */
 	if (!cave_clean_bold(py, px))
 	{
-		msg_print(_("åºŠä¸Šã®ã‚¢ã‚¤ãƒ†ãƒ ãŒå‘ªæ–‡ã‚’è·³ã­è¿”ã—ãŸã€‚", "The object resists the spell."));
+		msg_print(_("¾²¾å¤Î¥¢¥¤¥Æ¥à¤¬¼öÊ¸¤òÄ·¤ÍÊÖ¤·¤¿¡£", "The object resists the spell."));
 		return FALSE;
 	}
 
@@ -1925,8 +1925,8 @@ bool alchemy(void)
 	if (command_arg > 0) force = TRUE;
 
 	/* Get an item */
-	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’é‡‘ã«å¤‰ãˆã¾ã™ã‹ï¼Ÿ", "Turn which item to gold? ");
-	s = _("é‡‘ã«å¤‰ãˆã‚‰ã‚Œã‚‹ç‰©ãŒã‚ã‚Šã¾ã›ã‚“ã€‚", "You have nothing to turn to gold.");
+	q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ò¶â¤ËÊÑ¤¨¤Ş¤¹¤«¡©", "Turn which item to gold? ");
+	s = _("¶â¤ËÊÑ¤¨¤é¤ì¤ëÊª¤¬¤¢¤ê¤Ş¤»¤ó¡£", "You have nothing to turn to gold.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -1966,7 +1966,7 @@ bool alchemy(void)
 		if (confirm_destroy || (object_value(o_ptr) > 0))
 		{
 			/* Make a verification */
-			sprintf(out_val, _("æœ¬å½“ã«%sã‚’é‡‘ã«å¤‰ãˆã¾ã™ã‹ï¼Ÿ", "Really turn %s to gold? "), o_name);
+			sprintf(out_val, _("ËÜÅö¤Ë%s¤ò¶â¤ËÊÑ¤¨¤Ş¤¹¤«¡©", "Really turn %s to gold? "), o_name);
 			if (!get_check(out_val)) return FALSE;
 		}
 	}
@@ -1975,7 +1975,7 @@ bool alchemy(void)
 	if (!can_player_destroy_object(o_ptr))
 	{
 		/* Message */
-		msg_format(_("%sã‚’é‡‘ã«å¤‰ãˆã‚‹ã“ã¨ã«å¤±æ•—ã—ãŸã€‚", "You fail to turn %s to gold!"), o_name);
+		msg_format(_("%s¤ò¶â¤ËÊÑ¤¨¤ë¤³¤È¤Ë¼ºÇÔ¤·¤¿¡£", "You fail to turn %s to gold!"), o_name);
 
 		/* Done */
 		return FALSE;
@@ -1986,7 +1986,7 @@ bool alchemy(void)
 	if (price <= 0)
 	{
 		/* Message */
-		msg_format(_("%sã‚’ãƒ‹ã‚»ã®é‡‘ã«å¤‰ãˆãŸã€‚", "You turn %s to fool's gold."), o_name);
+		msg_format(_("%s¤ò¥Ë¥»¤Î¶â¤ËÊÑ¤¨¤¿¡£", "You turn %s to fool's gold."), o_name);
 	}
 	else
 	{
@@ -1995,7 +1995,7 @@ bool alchemy(void)
 		if (amt > 1) price *= amt;
 
 		if (price > 30000) price = 30000;
-		msg_format(_("%sã‚’ï¼„%d ã®é‡‘ã«å¤‰ãˆãŸã€‚", "You turn %s to %ld coins worth of gold."), o_name, price);
+		msg_format(_("%s¤ò¡ğ%d ¤Î¶â¤ËÊÑ¤¨¤¿¡£", "You turn %s to %ld coins worth of gold."), o_name, price);
 
 		p_ptr->au += price;
 
@@ -2034,7 +2034,7 @@ static void break_curse(object_type *o_ptr)
 {
 	if (object_is_cursed(o_ptr) && !(o_ptr->curse_flags & TRC_PERMA_CURSE) && !(o_ptr->curse_flags & TRC_HEAVY_CURSE) && (randint0(100) < 25))
 	{
-		msg_print(_("ã‹ã‘ã‚‰ã‚Œã¦ã„ãŸå‘ªã„ãŒæ‰“ã¡ç ´ã‚‰ã‚ŒãŸï¼", "The curse is broken!"));
+		msg_print(_("¤«¤±¤é¤ì¤Æ¤¤¤¿¼ö¤¤¤¬ÂÇ¤ÁÇË¤é¤ì¤¿¡ª", "The curse is broken!"));
 
 		o_ptr->curse_flags = 0L;
 		o_ptr->ident |= (IDENT_SENSE);
@@ -2180,8 +2180,8 @@ bool enchant_spell(int num_hit, int num_dam, int num_ac)
 	if (num_ac) item_tester_hook = object_is_armour;
 
 	/* Get an item */
-	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’å¼·åŒ–ã—ã¾ã™ã‹? ", "Enchant which item? ");
-	s = _("å¼·åŒ–ã§ãã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing to enchant.");
+	q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ò¶¯²½¤·¤Ş¤¹¤«? ", "Enchant which item? ");
+	s = _("¶¯²½¤Ç¤­¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£", "You have nothing to enchant.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -2203,7 +2203,7 @@ bool enchant_spell(int num_hit, int num_dam, int num_ac)
 
 	/* Describe */
 #ifdef JP
-msg_format("%s ã¯æ˜ã‚‹ãè¼ã„ãŸï¼",
+msg_format("%s ¤ÏÌÀ¤ë¤¯µ±¤¤¤¿¡ª",
     o_name);
 #else
 	msg_format("%s %s glow%s brightly!",
@@ -2224,7 +2224,7 @@ msg_format("%s ã¯æ˜ã‚‹ãè¼ã„ãŸï¼",
 		if (flush_failure) flush();
 
 		/* Message */
-		msg_print(_("å¼·åŒ–ã«å¤±æ•—ã—ãŸã€‚", "The enchantment failed."));
+		msg_print(_("¶¯²½¤Ë¼ºÇÔ¤·¤¿¡£", "The enchantment failed."));
 
 		if (one_in_(3)) chg_virtue(V_ENCHANT, -1);
 	}
@@ -2269,8 +2269,8 @@ bool artifact_scroll(void)
 	item_tester_hook = item_tester_hook_nameless_weapon_armour;
 
 	/* Get an item */
-	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’å¼·åŒ–ã—ã¾ã™ã‹? ", "Enchant which item? ");
-	s = _("å¼·åŒ–ã§ãã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing to enchant.");
+	q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ò¶¯²½¤·¤Ş¤¹¤«? ", "Enchant which item? ");
+	s = _("¶¯²½¤Ç¤­¤ë¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£", "You have nothing to enchant.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -2292,7 +2292,7 @@ bool artifact_scroll(void)
 
 	/* Describe */
 #ifdef JP
-	msg_format("%s ã¯çœ©ã„å…‰ã‚’ç™ºã—ãŸï¼",o_name);
+	msg_format("%s ¤ÏâÁ¤¤¸÷¤òÈ¯¤·¤¿¡ª",o_name);
 #else
 	msg_format("%s %s radiate%s a blinding light!",
 		  ((item >= 0) ? "Your" : "The"), o_name,
@@ -2302,7 +2302,7 @@ bool artifact_scroll(void)
 	if (object_is_artifact(o_ptr))
 	{
 #ifdef JP
-		msg_format("%sã¯æ—¢ã«ä¼èª¬ã®ã‚¢ã‚¤ãƒ†ãƒ ã§ã™ï¼", o_name  );
+		msg_format("%s¤Ï´û¤ËÅÁÀâ¤Î¥¢¥¤¥Æ¥à¤Ç¤¹¡ª", o_name  );
 #else
 		msg_format("The %s %s already %s!",
 		    o_name, ((o_ptr->number > 1) ? "are" : "is"),
@@ -2315,7 +2315,7 @@ bool artifact_scroll(void)
 	else if (object_is_ego(o_ptr))
 	{
 #ifdef JP
-		msg_format("%sã¯æ—¢ã«åã®ã‚ã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã§ã™ï¼", o_name );
+		msg_format("%s¤Ï´û¤ËÌ¾¤Î¤¢¤ë¥¢¥¤¥Æ¥à¤Ç¤¹¡ª", o_name );
 #else
 		msg_format("The %s %s already %s!",
 		    o_name, ((o_ptr->number > 1) ? "are" : "is"),
@@ -2328,7 +2328,7 @@ bool artifact_scroll(void)
 	else if (o_ptr->xtra3)
 	{
 #ifdef JP
-		msg_format("%sã¯æ—¢ã«å¼·åŒ–ã•ã‚Œã¦ã„ã¾ã™ï¼", o_name );
+		msg_format("%s¤Ï´û¤Ë¶¯²½¤µ¤ì¤Æ¤¤¤Ş¤¹¡ª", o_name );
 #else
 		msg_format("The %s %s already %s!",
 		    o_name, ((o_ptr->number > 1) ? "are" : "is"),
@@ -2341,8 +2341,8 @@ bool artifact_scroll(void)
 		if (o_ptr->number > 1)
 		{
 #ifdef JP
-			msg_print("è¤‡æ•°ã®ã‚¢ã‚¤ãƒ†ãƒ ã«é­”æ³•ã‚’ã‹ã‘ã‚‹ã ã‘ã®ã‚¨ãƒãƒ«ã‚®ãƒ¼ã¯ã‚ã‚Šã¾ã›ã‚“ï¼");
-			msg_format("%d å€‹ã®%sãŒå£Šã‚ŒãŸï¼",(o_ptr->number)-1, o_name);
+			msg_print("Ê£¿ô¤Î¥¢¥¤¥Æ¥à¤ËËâË¡¤ò¤«¤±¤ë¤À¤±¤Î¥¨¥Í¥ë¥®¡¼¤Ï¤¢¤ê¤Ş¤»¤ó¡ª");
+			msg_format("%d ¸Ä¤Î%s¤¬²õ¤ì¤¿¡ª",(o_ptr->number)-1, o_name);
 #else
 			msg_print("Not enough enough energy to enchant more than one object!");
 			msg_format("%d of your %s %s destroyed!",(o_ptr->number)-1, o_name, (o_ptr->number>2?"were":"was"));
@@ -2367,7 +2367,7 @@ bool artifact_scroll(void)
 		if (flush_failure) flush();
 
 		/* Message */
-		msg_print(_("å¼·åŒ–ã«å¤±æ•—ã—ãŸã€‚", "The enchantment failed."));
+		msg_print(_("¶¯²½¤Ë¼ºÇÔ¤·¤¿¡£", "The enchantment failed."));
 
 		if (one_in_(3)) chg_virtue(V_ENCHANT, -1);
 	}
@@ -2466,7 +2466,7 @@ bool ident_spell(bool only_equip)
 
 	if (can_get_item())
 	{
-		q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’é‘‘å®šã—ã¾ã™ã‹? ", "Identify which item? ");
+		q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ò´ÕÄê¤·¤Ş¤¹¤«? ", "Identify which item? ");
 	}
 	else
 	{
@@ -2475,11 +2475,11 @@ bool ident_spell(bool only_equip)
 		else
 			item_tester_hook = NULL;
 
-		q = _("ã™ã¹ã¦é‘‘å®šæ¸ˆã¿ã§ã™ã€‚ ", "All items are identified. ");
+		q = _("¤¹¤Ù¤Æ´ÕÄêºÑ¤ß¤Ç¤¹¡£ ", "All items are identified. ");
 	}
 
 	/* Get an item */
-	s = _("é‘‘å®šã™ã‚‹ã¹ãã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing to identify.");
+	s = _("´ÕÄê¤¹¤ë¤Ù¤­¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£", "You have nothing to identify.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -2504,15 +2504,15 @@ bool ident_spell(bool only_equip)
 	/* Describe */
 	if (item >= INVEN_RARM)
 	{
-		msg_format(_("%^s: %s(%c)ã€‚", "%^s: %s (%c)."), describe_use(item), o_name, index_to_label(item));
+		msg_format(_("%^s: %s(%c)¡£", "%^s: %s (%c)."), describe_use(item), o_name, index_to_label(item));
 	}
 	else if (item >= 0)
 	{
-		msg_format(_("ã‚¶ãƒƒã‚¯ä¸­: %s(%c)ã€‚", "In your pack: %s (%c)."), o_name, index_to_label(item));
+		msg_format(_("¥¶¥Ã¥¯Ãæ: %s(%c)¡£", "In your pack: %s (%c)."), o_name, index_to_label(item));
 	}
 	else
 	{
-		msg_format(_("åºŠä¸Š: %sã€‚", "On the ground: %s."), o_name);
+		msg_format(_("¾²¾å: %s¡£", "On the ground: %s."), o_name);
 	}
 
 	/* Auto-inscription/destroy */
@@ -2538,8 +2538,8 @@ bool mundane_spell(bool only_equip)
 	item_tester_no_ryoute = TRUE;
 
 	/* Get an item */
-	q = _("ã©ã‚Œã‚’ä½¿ã„ã¾ã™ã‹ï¼Ÿ", "Use which item? ");
-	s = _("ä½¿ãˆã‚‹ã‚‚ã®ãŒã‚ã‚Šã¾ã›ã‚“ã€‚", "You have nothing you can use.");
+	q = _("¤É¤ì¤ò»È¤¤¤Ş¤¹¤«¡©", "Use which item? ");
+	s = _("»È¤¨¤ë¤â¤Î¤¬¤¢¤ê¤Ş¤»¤ó¡£", "You have nothing you can use.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -2556,7 +2556,7 @@ bool mundane_spell(bool only_equip)
 	}
 
 	/* Oops */
-	msg_print(_("ã¾ã°ã‚†ã„é–ƒå…‰ãŒèµ°ã£ãŸï¼", "There is a bright flash of light!"));
+	msg_print(_("¤Ş¤Ğ¤æ¤¤Á®¸÷¤¬Áö¤Ã¤¿¡ª", "There is a bright flash of light!"));
 	{
 		byte iy = o_ptr->iy;                 /* Y-position on map, or zero */
 		byte ix = o_ptr->ix;                 /* X-position on map, or zero */
@@ -2615,7 +2615,7 @@ bool identify_fully(bool only_equip)
 
 	if (can_get_item())
 	{
-		q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’*é‘‘å®š*ã—ã¾ã™ã‹? ", "*Identify* which item? ");
+		q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ò*´ÕÄê*¤·¤Ş¤¹¤«? ", "*Identify* which item? ");
 	}
 	else
 	{
@@ -2624,11 +2624,11 @@ bool identify_fully(bool only_equip)
 		else
 			item_tester_hook = NULL;
 
-		q = _("ã™ã¹ã¦*é‘‘å®š*æ¸ˆã¿ã§ã™ã€‚ ", "All items are *identified*. ");
+		q = _("¤¹¤Ù¤Æ*´ÕÄê*ºÑ¤ß¤Ç¤¹¡£ ", "All items are *identified*. ");
 	}
 
 	/* Get an item */
-	s = _("*é‘‘å®š*ã™ã‚‹ã¹ãã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing to *identify*.");
+	s = _("*´ÕÄê*¤¹¤ë¤Ù¤­¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£", "You have nothing to *identify*.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -2659,15 +2659,15 @@ bool identify_fully(bool only_equip)
 	/* Describe */
 	if (item >= INVEN_RARM)
 	{
-		msg_format(_("%^s: %s(%c)ã€‚", "%^s: %s (%c)."), describe_use(item), o_name, index_to_label(item));
+		msg_format(_("%^s: %s(%c)¡£", "%^s: %s (%c)."), describe_use(item), o_name, index_to_label(item));
 	}
 	else if (item >= 0)
 	{
-		msg_format(_("ã‚¶ãƒƒã‚¯ä¸­: %s(%c)ã€‚", "In your pack: %s (%c)."), o_name, index_to_label(item));
+		msg_format(_("¥¶¥Ã¥¯Ãæ: %s(%c)¡£", "In your pack: %s (%c)."), o_name, index_to_label(item));
 	}
 	else
 	{
-		msg_format(_("åºŠä¸Š: %sã€‚", "On the ground: %s."), o_name);
+		msg_format(_("¾²¾å: %s¡£", "On the ground: %s."), o_name);
 	}
 
 	/* Describe it fully */
@@ -2737,8 +2737,8 @@ bool recharge(int power)
 	item_tester_hook = item_tester_hook_recharge;
 
 	/* Get an item */
-	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã«é­”åŠ›ã‚’å……å¡«ã—ã¾ã™ã‹? ", "Recharge which item? ");
-	s = _("é­”åŠ›ã‚’å……å¡«ã™ã¹ãã‚¢ã‚¤ãƒ†ãƒ ãŒãªã„ã€‚", "You have nothing to recharge.");
+	q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ËËâÎÏ¤ò½¼Å¶¤·¤Ş¤¹¤«? ", "Recharge which item? ");
+	s = _("ËâÎÏ¤ò½¼Å¶¤¹¤Ù¤­¥¢¥¤¥Æ¥à¤¬¤Ê¤¤¡£", "You have nothing to recharge.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return (FALSE);
 
@@ -2858,7 +2858,7 @@ bool recharge(int power)
 		if (object_is_fixed_artifact(o_ptr))
 		{
 			object_desc(o_name, o_ptr, OD_NAME_ONLY);
-			msg_format(_("é­”åŠ›ãŒé€†æµã—ãŸï¼%sã¯å®Œå…¨ã«é­”åŠ›ã‚’å¤±ã£ãŸã€‚", "The recharging backfires - %s is completely drained!"), o_name);
+			msg_format(_("ËâÎÏ¤¬µÕÎ®¤·¤¿¡ª%s¤Ï´°Á´¤ËËâÎÏ¤ò¼º¤Ã¤¿¡£", "The recharging backfires - %s is completely drained!"), o_name);
 
 			/* Artifact rods. */
 			if ((o_ptr->tval == TV_ROD) && (o_ptr->timeout < 10000))
@@ -2927,14 +2927,14 @@ bool recharge(int power)
 			{
 				if (o_ptr->tval == TV_ROD)
 				{
-					msg_print(_("é­”åŠ›ãŒé€†å™´å°„ã—ã¦ã€ãƒ­ãƒƒãƒ‰ã‹ã‚‰ã•ã‚‰ã«é­”åŠ›ã‚’å¸ã„å–ã£ã¦ã—ã¾ã£ãŸï¼", "The recharge backfires, draining the rod further!"));
+					msg_print(_("ËâÎÏ¤¬µÕÊ®¼Í¤·¤Æ¡¢¥í¥Ã¥É¤«¤é¤µ¤é¤ËËâÎÏ¤òµÛ¤¤¼è¤Ã¤Æ¤·¤Ş¤Ã¤¿¡ª", "The recharge backfires, draining the rod further!"));
 
 					if (o_ptr->timeout < 10000)
 						o_ptr->timeout = (o_ptr->timeout + 100) * 2;
 				}
 				else if (o_ptr->tval == TV_WAND)
 				{
-					msg_format(_("%sã¯ç ´æã‚’å…ã‚ŒãŸãŒã€é­”åŠ›ãŒå…¨ã¦å¤±ã‚ã‚ŒãŸã€‚", "You save your %s from destruction, but all charges are lost."), o_name);
+					msg_format(_("%s¤ÏÇËÂ»¤òÌÈ¤ì¤¿¤¬¡¢ËâÎÏ¤¬Á´¤Æ¼º¤ï¤ì¤¿¡£", "You save your %s from destruction, but all charges are lost."), o_name);
 					o_ptr->pval = 0;
 				}
 				/* Staffs aren't drained. */
@@ -2944,9 +2944,9 @@ bool recharge(int power)
 			if (fail_type == 2)
 			{
 				if (o_ptr->number > 1)
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒä¸€æœ¬å£Šã‚ŒãŸï¼", "Wild magic consumes one of your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬°ìËÜ²õ¤ì¤¿¡ª", "Wild magic consumes one of your %s!"), o_name);
 				else
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒå£Šã‚ŒãŸï¼", "Wild magic consumes your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬²õ¤ì¤¿¡ª", "Wild magic consumes your %s!"), o_name);
 
 				/* Reduce rod stack maximum timeout, drain wands. */
 				if (o_ptr->tval == TV_ROD) o_ptr->timeout = (o_ptr->number - 1) * k_ptr->pval;
@@ -2973,9 +2973,9 @@ bool recharge(int power)
 			if (fail_type == 3)
 			{
 				if (o_ptr->number > 1)
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒå…¨ã¦å£Šã‚ŒãŸï¼", "Wild magic consumes all your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬Á´¤Æ²õ¤ì¤¿¡ª", "Wild magic consumes all your %s!"), o_name);
 				else
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒå£Šã‚ŒãŸï¼", "Wild magic consumes your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬²õ¤ì¤¿¡ª", "Wild magic consumes your %s!"), o_name);
 
 				/* Reduce and describe inventory */
 				if (item >= 0)
@@ -3024,8 +3024,8 @@ bool bless_weapon(void)
 	item_tester_hook = object_is_weapon;
 
 	/* Get an item */
-	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç¥ç¦ã—ã¾ã™ã‹ï¼Ÿ", "Bless which weapon? ");
-	s = _("ç¥ç¦ã§ãã‚‹æ­¦å™¨ãŒã‚ã‚Šã¾ã›ã‚“ã€‚", "You have weapon to bless.");
+	q = _("¤É¤Î¥¢¥¤¥Æ¥à¤ò½ËÊ¡¤·¤Ş¤¹¤«¡©", "Bless which weapon? ");
+	s = _("½ËÊ¡¤Ç¤­¤ëÉğ´ï¤¬¤¢¤ê¤Ş¤»¤ó¡£", "You have weapon to bless.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR)))
 		return FALSE;
@@ -3057,7 +3057,7 @@ bool bless_weapon(void)
 		    (o_ptr->curse_flags & TRC_PERMA_CURSE))
 		{
 #ifdef JP
-msg_format("%sã‚’è¦†ã†é»’ã„ã‚ªãƒ¼ãƒ©ã¯ç¥ç¦ã‚’è·³ã­è¿”ã—ãŸï¼",
+msg_format("%s¤òÊ¤¤¦¹õ¤¤¥ª¡¼¥é¤Ï½ËÊ¡¤òÄ·¤ÍÊÖ¤·¤¿¡ª",
     o_name);
 #else
 			msg_format("The black aura on %s %s disrupts the blessing!",
@@ -3068,7 +3068,7 @@ msg_format("%sã‚’è¦†ã†é»’ã„ã‚ªãƒ¼ãƒ©ã¯ç¥ç¦ã‚’è·³ã­è¿”ã—ãŸï¼",
 		}
 
 #ifdef JP
-msg_format("%s ã‹ã‚‰é‚ªæ‚ªãªã‚ªãƒ¼ãƒ©ãŒæ¶ˆãˆãŸã€‚",
+msg_format("%s ¤«¤é¼Ù°­¤Ê¥ª¡¼¥é¤¬¾Ã¤¨¤¿¡£",
     o_name);
 #else
 		msg_format("A malignant aura leaves %s %s.",
@@ -3103,7 +3103,7 @@ msg_format("%s ã‹ã‚‰é‚ªæ‚ªãªã‚ªãƒ¼ãƒ©ãŒæ¶ˆãˆãŸã€‚",
 	if (have_flag(flgs, TR_BLESSED))
 	{
 #ifdef JP
-msg_format("%s ã¯æ—¢ã«ç¥ç¦ã•ã‚Œã¦ã„ã‚‹ã€‚",
+msg_format("%s ¤Ï´û¤Ë½ËÊ¡¤µ¤ì¤Æ¤¤¤ë¡£",
     o_name    );
 #else
 		msg_format("%s %s %s blessed already.",
@@ -3118,7 +3118,7 @@ msg_format("%s ã¯æ—¢ã«ç¥ç¦ã•ã‚Œã¦ã„ã‚‹ã€‚",
 	{
 		/* Describe */
 #ifdef JP
-msg_format("%sã¯è¼ã„ãŸï¼",
+msg_format("%s¤Ïµ±¤¤¤¿¡ª",
      o_name);
 #else
 		msg_format("%s %s shine%s!",
@@ -3132,7 +3132,7 @@ msg_format("%sã¯è¼ã„ãŸï¼",
 	else
 	{
 		bool dis_happened = FALSE;
-		msg_print(_("ãã®æ­¦å™¨ã¯ç¥ç¦ã‚’å«Œã£ã¦ã„ã‚‹ï¼", "The weapon resists your blessing!"));
+		msg_print(_("¤½¤ÎÉğ´ï¤Ï½ËÊ¡¤ò·ù¤Ã¤Æ¤¤¤ë¡ª", "The weapon resists your blessing!"));
 
 		/* Disenchant tohit */
 		if (o_ptr->to_h > 0)
@@ -3163,10 +3163,10 @@ msg_format("%sã¯è¼ã„ãŸï¼",
 
 		if (dis_happened)
 		{
-			msg_print(_("å‘¨å›²ãŒå‡¡åº¸ãªé›°å›²æ°—ã§æº€ã¡ãŸ...", "There is a static feeling in the air..."));
+			msg_print(_("¼ş°Ï¤¬ËŞÍÇ¤ÊÊ·°Ïµ¤¤ÇËş¤Á¤¿...", "There is a static feeling in the air..."));
 
 #ifdef JP
-msg_format("%s ã¯åŠ£åŒ–ã—ãŸï¼",
+msg_format("%s ¤ÏÎô²½¤·¤¿¡ª",
      o_name    );
 #else
 			msg_format("%s %s %s disenchanted!",
@@ -3205,8 +3205,8 @@ bool pulish_shield(void)
 	item_tester_tval = TV_SHIELD;
 
 	/* Get an item */
-	q = _("ã©ã®ç›¾ã‚’ç£¨ãã¾ã™ã‹ï¼Ÿ", "Pulish which weapon? ");
-	s = _("ç£¨ãç›¾ãŒã‚ã‚Šã¾ã›ã‚“ã€‚", "You have weapon to pulish.");
+	q = _("¤É¤Î½â¤òËá¤­¤Ş¤¹¤«¡©", "Pulish which weapon? ");
+	s = _("Ëá¤¯½â¤¬¤¢¤ê¤Ş¤»¤ó¡£", "You have weapon to pulish.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR)))
 		return FALSE;
@@ -3234,7 +3234,7 @@ bool pulish_shield(void)
 	    !object_is_cursed(o_ptr) && (o_ptr->sval != SV_MIRROR_SHIELD))
 	{
 #ifdef JP
-msg_format("%sã¯è¼ã„ãŸï¼", o_name);
+msg_format("%s¤Ïµ±¤¤¤¿¡ª", o_name);
 #else
 		msg_format("%s %s shine%s!",
 		    ((item >= 0) ? "Your" : "The"), o_name,
@@ -3252,7 +3252,7 @@ msg_format("%sã¯è¼ã„ãŸï¼", o_name);
 	{
 		if (flush_failure) flush();
 
-		msg_print(_("å¤±æ•—ã—ãŸã€‚", "Failed."));
+		msg_print(_("¼ºÇÔ¤·¤¿¡£", "Failed."));
 		chg_virtue(V_ENCHANT, -2);
 	}
 	calc_android_exp();
@@ -3472,8 +3472,8 @@ void display_spell_list(void)
 
 		/* Display a list of spells */
 		prt("", y, x);
-		put_str(_("åå‰", "Name"), y, x + 5);
-		put_str(_("Lv   MP å¤±ç‡ åŠ¹æœ", "Lv Mana Fail Info"), y, x + 35);
+		put_str(_("Ì¾Á°", "Name"), y, x + 5);
+		put_str(_("Lv   MP ¼ºÎ¨ ¸ú²Ì", "Lv Mana Fail Info"), y, x + 35);
 
 		switch(p_ptr->pclass)
 		{
@@ -3588,7 +3588,7 @@ void display_spell_list(void)
 			if (s_ptr->slevel >= 99)
 			{
 				/* Illegible */
-				strcpy(name, _("(åˆ¤èª­ä¸èƒ½)", "(illegible)"));
+				strcpy(name, _("(È½ÆÉÉÔÇ½)", "(illegible)"));
 
 				/* Unusable */
 				a = TERM_L_DARK;
@@ -3891,16 +3891,16 @@ void print_spells(int target_spell, byte *spells, int num, int y, int x, int use
 
 
 	if (((use_realm <= REALM_NONE) || (use_realm > MAX_REALM)) && p_ptr->wizard)
-	msg_print(_("è­¦å‘Šï¼ print_spell ãŒé ˜åŸŸãªã—ã«å‘¼ã°ã‚ŒãŸ", "Warning! print_spells called with null realm"));
+	msg_print(_("·Ù¹ğ¡ª print_spell ¤¬ÎÎ°è¤Ê¤·¤Ë¸Æ¤Ğ¤ì¤¿", "Warning! print_spells called with null realm"));
 
 	/* Title the list */
 	prt("", y, x);
 	if (use_realm == REALM_HISSATSU)
 		strcpy(buf,_("  Lv   MP", "  Lv   SP"));
 	else
-		strcpy(buf,_("ç†Ÿç·´åº¦ Lv   MP å¤±ç‡ åŠ¹æœ", "Profic Lv   SP Fail Effect"));
+		strcpy(buf,_("½ÏÎıÅÙ Lv   MP ¼ºÎ¨ ¸ú²Ì", "Profic Lv   SP Fail Effect"));
 
-	put_str(_("åå‰", "Name"), y, x + 5);
+	put_str(_("Ì¾Á°", "Name"), y, x + 5);
 	put_str(buf, y, x + 29);
 
 	if ((p_ptr->pclass == CLASS_SORCERER) || (p_ptr->pclass == CLASS_RED_MAGE)) increment = 0;
@@ -3949,7 +3949,7 @@ void print_spells(int target_spell, byte *spells, int num, int y, int x, int use
 		if (use_menu && target_spell)
 		{
 			if (i == (target_spell-1))
-				strcpy(out_val, _("  ã€‹ ", "  >  "));
+				strcpy(out_val, _("  ¡Õ ", "  >  "));
 			else
 				strcpy(out_val, "     ");
 		}
@@ -3957,7 +3957,7 @@ void print_spells(int target_spell, byte *spells, int num, int y, int x, int use
 		/* Skip illegible spells */
 		if (s_ptr->slevel >= 99)
 		{
-			strcat(out_val, format("%-30s", _("(åˆ¤èª­ä¸èƒ½)", "(illegible)")));
+			strcat(out_val, format("%-30s", _("(È½ÆÉÉÔÇ½)", "(illegible)")));
 			c_prt(TERM_L_DARK, out_val, y + i + 1, x);
 			continue;
 		}
@@ -3978,39 +3978,39 @@ void print_spells(int target_spell, byte *spells, int num, int y, int x, int use
 		{
 			if (s_ptr->slevel > p_ptr->max_plv)
 			{
-				comment = _("æœªçŸ¥", "unknown");
+				comment = _("Ì¤ÃÎ", "unknown");
 				line_attr = TERM_L_BLUE;
 			}
 			else if (s_ptr->slevel > p_ptr->lev)
 			{
-				comment = _("å¿˜å´", "forgotten");
+				comment = _("ËºµÑ", "forgotten");
 				line_attr = TERM_YELLOW;
 			}
 		}
 		else if ((use_realm != p_ptr->realm1) && (use_realm != p_ptr->realm2))
 		{
-			comment = _("æœªçŸ¥", "unknown");
+			comment = _("Ì¤ÃÎ", "unknown");
 			line_attr = TERM_L_BLUE;
 		}
 		else if ((use_realm == p_ptr->realm1) ?
 		    ((p_ptr->spell_forgotten1 & (1L << spell))) :
 		    ((p_ptr->spell_forgotten2 & (1L << spell))))
 		{
-			comment = _("å¿˜å´", "forgotten");
+			comment = _("ËºµÑ", "forgotten");
 			line_attr = TERM_YELLOW;
 		}
 		else if (!((use_realm == p_ptr->realm1) ?
 		    (p_ptr->spell_learned1 & (1L << spell)) :
 		    (p_ptr->spell_learned2 & (1L << spell))))
 		{
-			comment = _("æœªçŸ¥", "unknown");
+			comment = _("Ì¤ÃÎ", "unknown");
 			line_attr = TERM_L_BLUE;
 		}
 		else if (!((use_realm == p_ptr->realm1) ?
 		    (p_ptr->spell_worked1 & (1L << spell)) :
 		    (p_ptr->spell_worked2 & (1L << spell))))
 		{
-			comment = _("æœªçµŒé¨“", "untried");
+			comment = _("Ì¤·Ğ¸³", "untried");
 			line_attr = TERM_L_GREEN;
 		}
 
@@ -4293,13 +4293,13 @@ int inven_damage(inven_func typ, int perc)
 				object_desc(o_name, o_ptr, OD_OMIT_PREFIX);
 
 				/* Message */
-				msg_format(_("%s(%c)ãŒ%så£Šã‚Œã¦ã—ã¾ã£ãŸï¼", "%sour %s (%c) %s destroyed!"),
+				msg_format(_("%s(%c)¤¬%s²õ¤ì¤Æ¤·¤Ş¤Ã¤¿¡ª", "%sour %s (%c) %s destroyed!"),
 
 #ifdef JP
 o_name, index_to_label(i),
     ((o_ptr->number > 1) ?
-    ((amt == o_ptr->number) ? "å…¨éƒ¨" :
-    (amt > 1 ? "ä½•å€‹ã‹" : "ä¸€å€‹")) : "")    );
+    ((amt == o_ptr->number) ? "Á´Éô" :
+    (amt > 1 ? "²¿¸Ä¤«" : "°ì¸Ä")) : "")    );
 #else
 				    ((o_ptr->number > 1) ?
 				    ((amt == o_ptr->number) ? "All of y" :
@@ -4310,7 +4310,7 @@ o_name, index_to_label(i),
 
 #ifdef JP
 				if ((p_ptr->pseikaku == SEIKAKU_COMBAT) || (inventory[INVEN_BOW].name1 == ART_CRIMSON))
-					msg_print("ã‚„ã‚Šã‚„ãŒã£ãŸãªï¼");
+					msg_print("¤ä¤ê¤ä¤¬¤Ã¤¿¤Ê¡ª");
 #endif
 
 				/* Potions smash open */
@@ -4381,12 +4381,12 @@ static int minus_ac(void)
 	/* Object resists */
 	if (have_flag(flgs, TR_IGNORE_ACID))
 	{
-		msg_format(_("ã—ã‹ã—%sã«ã¯åŠ¹æœãŒãªã‹ã£ãŸï¼", "Your %s is unaffected!"), o_name);
+		msg_format(_("¤·¤«¤·%s¤Ë¤Ï¸ú²Ì¤¬¤Ê¤«¤Ã¤¿¡ª", "Your %s is unaffected!"), o_name);
 		return (TRUE);
 	}
 
 	/* Message */
-	msg_format(_("%sãŒãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸï¼", "Your %s is damaged!"), o_name);
+	msg_format(_("%s¤¬¥À¥á¡¼¥¸¤ò¼õ¤±¤¿¡ª", "Your %s is damaged!"), o_name);
 
 	/* Damage the item */
 	o_ptr->to_a--;
@@ -4588,8 +4588,8 @@ bool rustproof(void)
 	item_tester_hook = object_is_armour;
 
 	/* Get an item */
-	q = _("ã©ã®é˜²å…·ã«éŒ†æ­¢ã‚ã‚’ã—ã¾ã™ã‹ï¼Ÿ", "Rustproof which piece of armour? ");
-	s = _("éŒ†æ­¢ã‚ã§ãã‚‹ã‚‚ã®ãŒã‚ã‚Šã¾ã›ã‚“ã€‚", "You have nothing to rustproof.");
+	q = _("¤É¤ÎËÉ¶ñ¤Ë»¬»ß¤á¤ò¤·¤Ş¤¹¤«¡©", "Rustproof which piece of armour? ");
+	s = _("»¬»ß¤á¤Ç¤­¤ë¤â¤Î¤¬¤¢¤ê¤Ş¤»¤ó¡£", "You have nothing to rustproof.");
 
 	if (!get_item(&item, q, s, (USE_EQUIP | USE_INVEN | USE_FLOOR))) return FALSE;
 
@@ -4614,7 +4614,7 @@ bool rustproof(void)
 	if ((o_ptr->to_a < 0) && !object_is_cursed(o_ptr))
 	{
 #ifdef JP
-msg_format("%sã¯æ–°å“åŒæ§˜ã«ãªã£ãŸï¼",o_name);
+msg_format("%s¤Ï¿·ÉÊÆ±ÍÍ¤Ë¤Ê¤Ã¤¿¡ª",o_name);
 #else
 		msg_format("%s %s look%s as good as new!",
 			((item >= 0) ? "Your" : "The"), o_name,
@@ -4625,7 +4625,7 @@ msg_format("%sã¯æ–°å“åŒæ§˜ã«ãªã£ãŸï¼",o_name);
 	}
 
 #ifdef JP
-msg_format("%sã¯è…é£Ÿã—ãªããªã£ãŸã€‚", o_name);
+msg_format("%s¤ÏÉå¿©¤·¤Ê¤¯¤Ê¤Ã¤¿¡£", o_name);
 #else
 	msg_format("%s %s %s now protected against corrosion.",
 		((item >= 0) ? "Your" : "The"), o_name,
@@ -4665,8 +4665,8 @@ bool curse_armor(void)
 	{
 		/* Cool */
 #ifdef JP
-msg_format("%sãŒ%sã‚’åŒ…ã¿è¾¼ã‚‚ã†ã¨ã—ãŸãŒã€%sã¯ãã‚Œã‚’è·³ã­è¿”ã—ãŸï¼",
-"ææ€–ã®æš—é»’ã‚ªãƒ¼ãƒ©", "é˜²å…·", o_name);
+msg_format("%s¤¬%s¤òÊñ¤ß¹ş¤â¤¦¤È¤·¤¿¤¬¡¢%s¤Ï¤½¤ì¤òÄ·¤ÍÊÖ¤·¤¿¡ª",
+"¶²Éİ¤Î°Å¹õ¥ª¡¼¥é", "ËÉ¶ñ", o_name);
 #else
 		msg_format("A %s tries to %s, but your %s resists the effects!",
 			   "terrible black aura", "surround your armor", o_name);
@@ -4678,7 +4678,7 @@ msg_format("%sãŒ%sã‚’åŒ…ã¿è¾¼ã‚‚ã†ã¨ã—ãŸãŒã€%sã¯ãã‚Œã‚’è·³ã­è¿”ã—ã
 	else
 	{
 		/* Oops */
-		msg_format(_("ææ€–ã®æš—é»’ã‚ªãƒ¼ãƒ©ãŒã‚ãªãŸã®%sã‚’åŒ…ã¿è¾¼ã‚“ã ï¼", "A terrible black aura blasts your %s!"), o_name);
+		msg_format(_("¶²Éİ¤Î°Å¹õ¥ª¡¼¥é¤¬¤¢¤Ê¤¿¤Î%s¤òÊñ¤ß¹ş¤ó¤À¡ª", "A terrible black aura blasts your %s!"), o_name);
 		chg_virtue(V_ENCHANT, -5);
 
 		/* Blast the armor */
@@ -4733,8 +4733,8 @@ bool curse_weapon_object(bool force, object_type *o_ptr)
 	{
 		/* Cool */
 #ifdef JP
-		msg_format("%sãŒ%sã‚’åŒ…ã¿è¾¼ã‚‚ã†ã¨ã—ãŸãŒã€%sã¯ãã‚Œã‚’è·³ã­è¿”ã—ãŸï¼",
-				"ææ€–ã®æš—é»’ã‚ªãƒ¼ãƒ©", "æ­¦å™¨", o_name);
+		msg_format("%s¤¬%s¤òÊñ¤ß¹ş¤â¤¦¤È¤·¤¿¤¬¡¢%s¤Ï¤½¤ì¤òÄ·¤ÍÊÖ¤·¤¿¡ª",
+				"¶²Éİ¤Î°Å¹õ¥ª¡¼¥é", "Éğ´ï", o_name);
 #else
 		msg_format("A %s tries to %s, but your %s resists the effects!",
 				"terrible black aura", "surround your weapon", o_name);
@@ -4745,7 +4745,7 @@ bool curse_weapon_object(bool force, object_type *o_ptr)
 	else
 	{
 		/* Oops */
-		if (!force) msg_format(_("ææ€–ã®æš—é»’ã‚ªãƒ¼ãƒ©ãŒã‚ãªãŸã®%sã‚’åŒ…ã¿è¾¼ã‚“ã ï¼", "A terrible black aura blasts your %s!"), o_name);
+		if (!force) msg_format(_("¶²Éİ¤Î°Å¹õ¥ª¡¼¥é¤¬¤¢¤Ê¤¿¤Î%s¤òÊñ¤ß¹ş¤ó¤À¡ª", "A terrible black aura blasts your %s!"), o_name);
 		chg_virtue(V_ENCHANT, -5);
 
 		/* Shatter the weapon */
@@ -4814,7 +4814,7 @@ bool brand_bolts(void)
 		if (randint0(100) < 75) continue;
 
 		/* Message */
-		msg_print(_("ã‚¯ãƒ­ã‚¹ãƒœã‚¦ã®çŸ¢ãŒç‚ã®ã‚ªãƒ¼ãƒ©ã«åŒ…ã¾ã‚ŒãŸï¼", "Your bolts are covered in a fiery aura!"));
+		msg_print(_("¥¯¥í¥¹¥Ü¥¦¤ÎÌğ¤¬±ê¤Î¥ª¡¼¥é¤ËÊñ¤Ş¤ì¤¿¡ª", "Your bolts are covered in a fiery aura!"));
 
 		/* Ego-item */
 		o_ptr->name2 = EGO_FLAME;
@@ -4830,7 +4830,7 @@ bool brand_bolts(void)
 	if (flush_failure) flush();
 
 	/* Fail */
-	msg_print(_("ç‚ã§å¼·åŒ–ã™ã‚‹ã®ã«å¤±æ•—ã—ãŸã€‚", "The fiery enchantment failed."));
+	msg_print(_("±ê¤Ç¶¯²½¤¹¤ë¤Î¤Ë¼ºÇÔ¤·¤¿¡£", "The fiery enchantment failed."));
 
 	/* Notice */
 	return (TRUE);
@@ -5026,7 +5026,7 @@ bool dimension_door(void)
 
 	if (dimension_door_aux(x, y)) return TRUE;
 
-	msg_print(_("ç²¾éœŠç•Œã‹ã‚‰ç‰©è³ªç•Œã«æˆ»ã‚‹æ™‚ã†ã¾ãã„ã‹ãªã‹ã£ãŸï¼", "You fail to exit the astral plane correctly!"));
+	msg_print(_("ÀºÎî³¦¤«¤éÊª¼Á³¦¤ËÌá¤ë»ş¤¦¤Ş¤¯¤¤¤«¤Ê¤«¤Ã¤¿¡ª", "You fail to exit the astral plane correctly!"));
 
 	return TRUE;
 }
@@ -5044,7 +5044,7 @@ bool mirror_tunnel(void)
 
 	if (dimension_door_aux(x, y)) return TRUE;
 
-	msg_print(_("é¡ã®ä¸–ç•Œã‚’ã†ã¾ãé€šã‚Œãªã‹ã£ãŸï¼", "You fail to pass the mirror plane correctly!"));
+	msg_print(_("¶À¤ÎÀ¤³¦¤ò¤¦¤Ş¤¯ÄÌ¤ì¤Ê¤«¤Ã¤¿¡ª", "You fail to pass the mirror plane correctly!"));
 
 	return TRUE;
 }
@@ -5066,8 +5066,8 @@ bool eat_magic(int power)
 	item_tester_hook = item_tester_hook_recharge;
 
 	/* Get an item */
-	q = _("ã©ã®ã‚¢ã‚¤ãƒ†ãƒ ã‹ã‚‰é­”åŠ›ã‚’å¸åã—ã¾ã™ã‹ï¼Ÿ", "Drain which item? ");
-	s = _("é­”åŠ›ã‚’å¸åã§ãã‚‹ã‚¢ã‚¤ãƒ†ãƒ ãŒã‚ã‚Šã¾ã›ã‚“ã€‚", "You have nothing to drain.");
+	q = _("¤É¤Î¥¢¥¤¥Æ¥à¤«¤éËâÎÏ¤òµÛ¼ı¤·¤Ş¤¹¤«¡©", "Drain which item? ");
+	s = _("ËâÎÏ¤òµÛ¼ı¤Ç¤­¤ë¥¢¥¤¥Æ¥à¤¬¤¢¤ê¤Ş¤»¤ó¡£", "You have nothing to drain.");
 
 	if (!get_item(&item, q, s, (USE_INVEN | USE_FLOOR))) return FALSE;
 
@@ -5097,7 +5097,7 @@ bool eat_magic(int power)
 		{
 			if (o_ptr->timeout > (o_ptr->number - 1) * k_ptr->pval)
 			{
-				msg_print(_("å……å¡«ä¸­ã®ãƒ­ãƒƒãƒ‰ã‹ã‚‰é­”åŠ›ã‚’å¸åã™ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚", "You can't absorb energy from a discharged rod."));
+				msg_print(_("½¼Å¶Ãæ¤Î¥í¥Ã¥É¤«¤éËâÎÏ¤òµÛ¼ı¤¹¤ë¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£", "You can't absorb energy from a discharged rod."));
 			}
 			else
 			{
@@ -5151,12 +5151,12 @@ bool eat_magic(int power)
 					item = inven_carry(q_ptr);
 
 					/* Message */
-					msg_print(_("æ–ã‚’ã¾ã¨ã‚ãªãŠã—ãŸã€‚", "You unstack your staff."));
+					msg_print(_("¾ó¤ò¤Ş¤È¤á¤Ê¤ª¤·¤¿¡£", "You unstack your staff."));
 				}
 			}
 			else
 			{
-				msg_print(_("å¸åã§ãã‚‹é­”åŠ›ãŒã‚ã‚Šã¾ã›ã‚“ï¼", "There's no energy there to absorb!"));
+				msg_print(_("µÛ¼ı¤Ç¤­¤ëËâÎÏ¤¬¤¢¤ê¤Ş¤»¤ó¡ª", "There's no energy there to absorb!"));
 			}
 			if (!o_ptr->pval) o_ptr->ident |= IDENT_EMPTY;
 		}
@@ -5169,7 +5169,7 @@ bool eat_magic(int power)
 		if (object_is_fixed_artifact(o_ptr))
 		{
 			object_desc(o_name, o_ptr, OD_NAME_ONLY);
-			msg_format(_("é­”åŠ›ãŒé€†æµã—ãŸï¼%sã¯å®Œå…¨ã«é­”åŠ›ã‚’å¤±ã£ãŸã€‚", "The recharging backfires - %s is completely drained!"), o_name);
+			msg_format(_("ËâÎÏ¤¬µÕÎ®¤·¤¿¡ª%s¤Ï´°Á´¤ËËâÎÏ¤ò¼º¤Ã¤¿¡£", "The recharging backfires - %s is completely drained!"), o_name);
 
 			/* Artifact rods. */
 			if (o_ptr->tval == TV_ROD)
@@ -5238,13 +5238,13 @@ bool eat_magic(int power)
 			{
 				if (o_ptr->tval == TV_ROD)
 				{
-					msg_format(_("ãƒ­ãƒƒãƒ‰ã¯ç ´æã‚’å…ã‚ŒãŸãŒã€é­”åŠ›ã¯å…¨ã¦å¤±ãªã‚ã‚ŒãŸã€‚",
+					msg_format(_("¥í¥Ã¥É¤ÏÇËÂ»¤òÌÈ¤ì¤¿¤¬¡¢ËâÎÏ¤ÏÁ´¤Æ¼º¤Ê¤ï¤ì¤¿¡£",
 								 "You save your rod from destruction, but all charges are lost."), o_name);
 					o_ptr->timeout = k_ptr->pval * o_ptr->number;
 				}
 				else if (o_ptr->tval == TV_WAND)
 				{
-					msg_format(_("%sã¯ç ´æã‚’å…ã‚ŒãŸãŒã€é­”åŠ›ãŒå…¨ã¦å¤±ã‚ã‚ŒãŸã€‚", "You save your %s from destruction, but all charges are lost."), o_name);
+					msg_format(_("%s¤ÏÇËÂ»¤òÌÈ¤ì¤¿¤¬¡¢ËâÎÏ¤¬Á´¤Æ¼º¤ï¤ì¤¿¡£", "You save your %s from destruction, but all charges are lost."), o_name);
 					o_ptr->pval = 0;
 				}
 				/* Staffs aren't drained. */
@@ -5255,14 +5255,14 @@ bool eat_magic(int power)
 			{
 				if (o_ptr->number > 1)
 				{
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒä¸€æœ¬å£Šã‚ŒãŸï¼", "Wild magic consumes one of your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬°ìËÜ²õ¤ì¤¿¡ª", "Wild magic consumes one of your %s!"), o_name);
 					/* Reduce rod stack maximum timeout, drain wands. */
 					if (o_ptr->tval == TV_ROD) o_ptr->timeout = MIN(o_ptr->timeout, k_ptr->pval * (o_ptr->number - 1));
 					else if (o_ptr->tval == TV_WAND) o_ptr->pval = o_ptr->pval * (o_ptr->number - 1) / o_ptr->number;
 				}
 				else
 				{
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒä½•æœ¬ã‹å£Šã‚ŒãŸï¼", "Wild magic consumes your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬²¿ËÜ¤«²õ¤ì¤¿¡ª", "Wild magic consumes your %s!"), o_name);
 				}
 				
 				/* Reduce and describe inventory */
@@ -5286,9 +5286,9 @@ bool eat_magic(int power)
 			if (fail_type == 3)
 			{
 				if (o_ptr->number > 1)
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒå…¨ã¦å£Šã‚ŒãŸï¼", "Wild magic consumes all your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬Á´¤Æ²õ¤ì¤¿¡ª", "Wild magic consumes all your %s!"), o_name);
 				else
-					msg_format(_("ä¹±æš´ãªé­”æ³•ã®ãŸã‚ã«%sãŒå£Šã‚ŒãŸï¼", "Wild magic consumes your %s!"), o_name);
+					msg_format(_("ÍğË½¤ÊËâË¡¤Î¤¿¤á¤Ë%s¤¬²õ¤ì¤¿¡ª", "Wild magic consumes your %s!"), o_name);
 
 				/* Reduce and describe inventory */
 				if (item >= 0)

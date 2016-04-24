@@ -1,4 +1,4 @@
-ï»¿/* File: inet.c */
+/* File: inet.c */
 
 #include "angband.h"
 
@@ -35,7 +35,7 @@ static InetSvcRef inet_services = nil;
 static EndpointRef ep 		= kOTInvalidEndpointRef;
 #endif
 
-#if 0 /* ã¨ã‚Šã‚ãˆãšç¾åœ¨ã¯ä½¿ã‚ãªã„ã€‚by Habu*/
+#if 0 /* ¤È¤ê¤¢¤¨¤º¸½ºß¤Ï»È¤ï¤Ê¤¤¡£by Habu*/
 static char	*homeurl;
 
 void
@@ -99,7 +99,7 @@ int soc_read(int sd, char *buf, size_t sz)
 
 #endif /* if 0 */
 
-/* ãƒ—ãƒ­ã‚­ã‚·ã‚µãƒ¼ãƒã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã‚“ã§è¨­å®šã™ã‚‹ */
+/* ¥×¥í¥­¥·¥µ¡¼¥Ğ¤Î¥¢¥É¥ì¥¹¤ò¤ò¥Õ¥¡¥¤¥ë¤«¤éÆÉ¤ó¤ÇÀßÄê¤¹¤ë */
 void set_proxy(char *default_url, int default_port)
 {
 	char buf[1024];
@@ -114,12 +114,12 @@ void set_proxy(char *default_url, int default_port)
 
 	path_build(buf, sizeof(buf), ANGBAND_DIR_PREF, "proxy.prf");
 
-	/* ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰è¨­å®šã‚’èª­ã‚€ã€‚ */
+	/* ¥Õ¥¡¥¤¥ë¤«¤éÀßÄê¤òÆÉ¤à¡£ */
 	fp = my_fopen(buf, "r");
 
 	if (!fp)
 	{
-		/* ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’è¨­å®š */
+		/* ¥Õ¥¡¥¤¥ë¤¬Â¸ºß¤·¤Ê¤¤¾ì¹ç¤Ï¥Ç¥Õ¥©¥ë¥È¤òÀßÄê */
 		proxy = default_url;
 		proxy_port = default_port;
 		return;
@@ -132,10 +132,10 @@ void set_proxy(char *default_url, int default_port)
 
 	my_fclose(fp);
 
-	/* ãƒã‚¤ãƒ³ã‚¿ã‚’ç”¨æ„ã€‚ */
+	/* ¥İ¥¤¥ó¥¿¤òÍÑ°Õ¡£ */
 	s = buf;
 
-	/* "http://" ã‹ã‚‰å§‹ã¾ã£ã¦ã„ã‚‹å ´åˆã¯ãã®éƒ¨åˆ†ã‚’ã‚«ãƒƒãƒˆã™ã‚‹ã€‚ */
+	/* "http://" ¤«¤é»Ï¤Ş¤Ã¤Æ¤¤¤ë¾ì¹ç¤Ï¤½¤ÎÉôÊ¬¤ò¥«¥Ã¥È¤¹¤ë¡£ */
 #if defined(WINDOWS)
 	if (!strnicmp(s, "http://", 7))
 	{
@@ -159,11 +159,11 @@ void set_proxy(char *default_url, int default_port)
 	}
 #endif
 
-	/* æ–‡å­—åˆ—ã®é•·ã•ã‚’èª¿ã¹ã€å¿…è¦ãªãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ */
+	/* Ê¸»úÎó¤ÎÄ¹¤µ¤òÄ´¤Ù¡¢É¬Í×¤Ê¥á¥â¥ê¤ò³ÎÊİ */
 	len = strlen(s);
 	proxy = malloc(len + 1);
 
-	/* ãƒãƒ¼ãƒˆç•ªå·ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã€ã‚ã‚Œã°proxy_portã«è¨­å®šã€‚ */
+	/* ¥İ¡¼¥ÈÈÖ¹æ¤¬¤¢¤ë¤«¤É¤¦¤«¤òÄ´¤Ù¡¢¤¢¤ì¤Ğproxy_port¤ËÀßÄê¡£ */
 	--len;
 	while (len > 0 && isdigit(s[len]))
 		--len;
@@ -179,14 +179,14 @@ void set_proxy(char *default_url, int default_port)
 		proxy_port = default_port;
 	}
 
-	/* ãƒ—ãƒ­ã‚­ã‚·ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’proxyã«ã‚³ãƒ”ãƒ¼ */
+	/* ¥×¥í¥­¥·¤Î¥¢¥É¥ì¥¹¤òproxy¤Ë¥³¥Ô¡¼ */
 	strcpy(proxy, s);
 
 	if (proxy_port == 0)
 		proxy_port = 80;
 }
 
-/* ã‚½ã‚±ãƒƒãƒˆã«ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’æ›¸ãè¾¼ã‚€ */
+/* ¥½¥±¥Ã¥È¤Ë¥Ğ¥Ã¥Õ¥¡¤ÎÆâÍÆ¤ò½ñ¤­¹ş¤à */
 int soc_write(int sd, char *buf, size_t sz)
 {
 #ifndef MACINTOSH
@@ -211,7 +211,7 @@ int soc_write(int sd, char *buf, size_t sz)
 	return sz;
 }
 
-#if 0 /* ãŠãã‚‰ãä½¿ã‚ãªã„ */
+#if 0 /* ¤ª¤½¤é¤¯»È¤ï¤Ê¤¤ */
 int soc_write_str(int sd, char *buf)
 {
 	return soc_write(sd, buf, strlen(buf));
@@ -229,13 +229,13 @@ static void restore_signal(void)
 #if !defined(WINDOWS) && !defined(MACINTOSH)
 	struct itimerval	val0;
 
-	/* itimerãƒªã‚»ãƒƒãƒˆç”¨ */
+	/* itimer¥ê¥»¥Ã¥ÈÍÑ */
 	val0.it_interval.tv_sec = 0;
 	val0.it_interval.tv_usec = 0;
 	val0.it_value.tv_sec = 0;
 	val0.it_value.tv_usec = 0;
 
-	/* ã‚¢ãƒ©ãƒ¼ãƒ è§£é™¤ */
+	/* ¥¢¥é¡¼¥à²ò½ü */
 	setitimer(ITIMER_REAL, &val0, NULL);
 	signal(SIGALRM, sig_alm_saved);
 	signal(SIGINT, sig_int_saved);
@@ -252,7 +252,7 @@ static void interrupt_report(int sig)
 #endif
 
 
-/* ã‚µãƒ¼ãƒã«ã‚³ãƒã‚¯ãƒˆã™ã‚‹é–¢æ•°ã€‚ */
+/* ¥µ¡¼¥Ğ¤Ë¥³¥Í¥¯¥È¤¹¤ë´Ø¿ô¡£ */
 int connect_server(int timeout, const char *host, int port)
 #ifndef MACINTOSH
 {
@@ -264,20 +264,20 @@ int connect_server(int timeout, const char *host, int port)
 	struct itimerval	val;
 	int			ret;
 
-	/* itimerè¨­å®šç”¨ */
+	/* itimerÀßÄêÍÑ */
 	val.it_interval.tv_sec = 0;
 	val.it_interval.tv_usec = 0;
 	val.it_value.tv_sec = timeout;
 	val.it_value.tv_usec = 0;
 
-	/* ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã€ã‚‚ã—ãã¯ä¸­æ–­ã—ãŸæ™‚ã®å‡¦ç†ã€‚ */
+	/* ¥¿¥¤¥à¥¢¥¦¥È¡¢¤â¤·¤¯¤ÏÃæÃÇ¤·¤¿»ş¤Î½èÍı¡£ */
 	if ((ret = sigsetjmp(env,1)) != 0)
 	{
 #ifdef JP
 		if (ret == SIGALRM)
-			errstr = "ã‚¨ãƒ©ãƒ¼: ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ";
+			errstr = "¥¨¥é¡¼: ¥¿¥¤¥à¥¢¥¦¥È";
 		else
-			errstr = "ã‚¨ãƒ©ãƒ¼: ã‚¤ãƒ³ã‚¿ãƒ©ãƒ—ãƒˆ";
+			errstr = "¥¨¥é¡¼: ¥¤¥ó¥¿¥é¥×¥È";
 #else
 		if (ret == SIGALRM)
 			errstr = "Error : time out";
@@ -289,20 +289,20 @@ int connect_server(int timeout, const char *host, int port)
 	sig_int_saved = signal(SIGINT, interrupt_report);
 	sig_alm_saved = signal(SIGALRM, interrupt_report);
 
-	/* ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã®æ™‚é–“ã‚’è¨­å®š */
+	/* ¥¿¥¤¥à¥¢¥¦¥È¤Î»ş´Ö¤òÀßÄê */
 	setitimer(ITIMER_REAL, &val, NULL);
 #else
 	/* Unused in Windows */
 	(void)timeout;
 #endif
 
-	/* ãƒ—ãƒ­ã‚­ã‚·ãŒè¨­å®šã•ã‚Œã¦ã„ã‚Œã°ãƒ—ãƒ­ã‚­ã‚·ã«ç¹‹ã */
+	/* ¥×¥í¥­¥·¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ì¤Ğ¥×¥í¥­¥·¤Ë·Ò¤° */
 	if (proxy && proxy[0])
 	{
 		if ((hp = gethostbyname(proxy)) == NULL)
 		{
 #ifdef JP
-			errstr = "ã‚¨ãƒ©ãƒ¼: ãƒ—ãƒ­ã‚­ã‚·ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒä¸æ­£ã§ã™";
+			errstr = "¥¨¥é¡¼: ¥×¥í¥­¥·¤Î¥¢¥É¥ì¥¹¤¬ÉÔÀµ¤Ç¤¹";
 #else
 			errstr = "Error : wrong proxy addres";
 #endif
@@ -315,7 +315,7 @@ int connect_server(int timeout, const char *host, int port)
 	else if ((hp = gethostbyname(host)) == NULL)
 	{
 #ifdef JP
-		errstr = "ã‚¨ãƒ©ãƒ¼: ã‚µãƒ¼ãƒã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒä¸æ­£ã§ã™";
+		errstr = "¥¨¥é¡¼: ¥µ¡¼¥Ğ¤Î¥¢¥É¥ì¥¹¤¬ÉÔÀµ¤Ç¤¹";
 #else
 		errstr = "Error : wrong server adress";
 #endif
@@ -342,7 +342,7 @@ int connect_server(int timeout, const char *host, int port)
 #endif
 	{
 #ifdef JP
-		errstr = "ã‚¨ãƒ©ãƒ¼: ã‚½ã‚±ãƒƒãƒˆã‚’ç”Ÿæˆã§ãã¾ã›ã‚“";
+		errstr = "¥¨¥é¡¼: ¥½¥±¥Ã¥È¤òÀ¸À®¤Ç¤­¤Ş¤»¤ó";
 #else
 		errstr = "Error : cannot create socket.";
 #endif
@@ -353,7 +353,7 @@ int connect_server(int timeout, const char *host, int port)
 	if (connect(sd, (struct sockaddr *)&to, sizeof(to)) < 0)
 	{
 #ifdef JP
-		errstr = "ã‚¨ãƒ©ãƒ¼: ã‚µãƒ¼ãƒã«æ¥ç¶šã§ãã¾ã›ã‚“";
+		errstr = "¥¨¥é¡¼: ¥µ¡¼¥Ğ¤ËÀÜÂ³¤Ç¤­¤Ş¤»¤ó";
 #else
 		errstr = "Error : failed to connect server";
 #endif
@@ -373,7 +373,7 @@ int connect_server(int timeout, const char *host, int port)
 
 #else /* !MACINTOSH */
 
-        /* ã‚µãƒ¼ãƒã«ã‚³ãƒã‚¯ãƒˆã™ã‚‹é–¢æ•°ã€‚ Mac */
+        /* ¥µ¡¼¥Ğ¤Ë¥³¥Í¥¯¥È¤¹¤ë´Ø¿ô¡£ Mac */
 {
 	OSStatus err;
 	InetHostInfo 	response;
