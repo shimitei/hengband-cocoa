@@ -25,8 +25,8 @@ lib/pref/pref-mac.prf （上書き）
 
 ターミナルで src/ に cd し、
 ソースコードをEUCに変換
-n/f -e -—overwrite *.c
-n/f -e -—overwrite *.h
+nkf -e -—overwrite *.c
+nkf -e -—overwrite *.h
 メイク
 make -f makefile.osx
 するとツリートップにビルドされます。（要 Xcode）
@@ -39,8 +39,6 @@ make -f makefile.osx
 
 ・グラフィックタイル
 ・サウンド
-・ムービー再生 -> a5664f7c にて対応
-・中継 -> a9ede3dd にて対応
 
 ・保存ディレクトリの変更
 ・小さい文字でアンチエイリアスが見づらい
@@ -51,7 +49,7 @@ make -f makefile.osx
 
 4. 履歴
 
-変愚蛮怒 2.0.0のフロントエンドは vanilla Angband 3.3.0 から移植されました。
+変愚蛮怒 2.0.0 の Mac OS X フロントエンドは vanilla Angband 3.3.0 から移植されました。
 https://github.com/oddstr/hengband-cocoa
 
 変愚蛮怒 2.1.4以降対応
