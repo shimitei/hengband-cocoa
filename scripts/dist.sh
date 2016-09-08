@@ -43,7 +43,7 @@ fetch_git () {(
         git clone --bare $1
     else
         cd $2
-        git fetch
+        git fetch origin 'refs/heads/*:refs/heads/*'
     fi
 )}
 fetch_git $remote_repo_hengband $repo_hengband
