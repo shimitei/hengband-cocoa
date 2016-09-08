@@ -62,7 +62,7 @@ checkout_git () {(
 checkout_hengband () {(
     cd $work_dir
     checkout_git $repo_hengband $revision hengband || return 1
-    checkout_git $repo_hengband_cocoa master hengband-cocoa
+    checkout_git $repo_hengband_cocoa v2.1.5 hengband-cocoa
 )}
 checkout_hengband || exit 1
 
