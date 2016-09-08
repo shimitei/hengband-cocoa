@@ -10,7 +10,7 @@ Angband sorce tree.
 
 ----
 
-# 変愚蛮怒 Mac OS X
+# 変愚蛮怒 macOS
 
 ローグライクゲーム、変愚蛮怒 の Mac フロントエンドです。  
 
